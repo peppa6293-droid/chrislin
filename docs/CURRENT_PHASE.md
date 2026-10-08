@@ -12,6 +12,14 @@ Phase 3: APPROVED.
 
 V0.1 Status: `PERSONAL_FINANCE_CONSOLE_V01_PRODUCTION_ACTIVE`.
 
+## Authoritative Owner Closure — Old-Runtime Protection
+
+- On 2026-10-08, Owner closed `RB-V4-OLD-RUNTIME-01` based on the independent final re-audit `PF_V012_V4_OLD_RUNTIME_GATE_ENTRY_P1_REAUDIT_PASS_WITH_P2` of commit `06bd72291f148ed768f59ee06e3fe9398a75cb6e`.
+- Final audit: P0 = 0; P1 = 0. `P1-OLD-GATE-ENTRY-01` is CLOSED. Previously closed old-runtime P1 findings remain CLOSED; old-runtime-related P2 findings are CLOSED. The six pre-existing non-blocking P2 items remain OPEN / DEFERRED.
+- Owner closure record: [V012_V4_OLD_RUNTIME_PROTECTION_OWNER_CLOSURE.md](../V012_V4_OLD_RUNTIME_PROTECTION_OWNER_CLOSURE.md). Independent audit report reference: `V012_V4_OLD_RUNTIME_PROTECTION_GATE_ENTRY_P1_INDEPENDENT_REAUDIT.md` (preserved as independent evidence).
+- This closure closes only the old-runtime protection release blocker. Production remains Schema V3 with migrations `[1,2,3]`; Production V4 migration remains NOT AUTHORIZED.
+- This closure does not authorize Production App replacement, old App retirement, Production backup creation, Production runtime launch, Production data write, or V3→V4 migration. Each requires separate Owner authorization.
+
 V0.1.2 Phase 1: `OWNER_PHASE1_APPROVED_AND_CLOSED` (Owner closure date: 2026-10-07).
 
 Independent final audit: `PF_V012_PHASE1_F0_EXCEPTION_REAUDIT_PASS_WITH_P2` — P0 = 0; P1 = 0. P1-F0-01, P1-MONEY-01, P1-LANGUAGE-01, and P2-EVIDENCE-01 are CLOSED. Four accepted P2 items remain OPEN / DEFERRED: P2-F0-02, P2-DISCOVERY-01, P2-CSS-01, and P2-TEXT-01.
@@ -20,7 +28,7 @@ Accepted V0.1.2 Phase 1 scope: F0 single-domain save / persistence-truth foundat
 
 Protected baseline remains Financial Model V1.0, existing V3 data and semantics, debt precedence, Planning / Actual separation, Safety formulas, `cashFloorMet`, Gate logic, asset revision semantics, Stage 3 visual baseline, responsive money behavior, and consumer-language hierarchy. Production remains Schema V3 and RC2 remains unchanged. Owner has separately authorized only the V4 additive migration foundation; no UI stage is authorized by that work.
 
-V0.1.2 V4 Additive Migration Foundation: `OWNER_V4_FOUNDATION_ACCEPTED` (Owner acceptance date: 2026-10-07). Independent final audit: `PF_V012_V4_ACTUAL02_REAUDIT_PASS_WITH_RELEASE_BLOCKER`. P0 = 0; P1 = 0. P1-V4-PLANNING-01, P1-V4-ACTUAL-01, P1-V4-ACTUAL-02, and P1-V4-PERSISTENCE-01 are CLOSED. Six P2 items remain OPEN / DEFERRED. `RB-V4-OLD-RUNTIME-01` remains OPEN. Production V4 migration is NOT AUTHORIZED. Evidence: [V012_V4_ACTUAL02_INDEPENDENT_FINAL_REAUDIT.md](../V012_V4_ACTUAL02_INDEPENDENT_FINAL_REAUDIT.md) and [V012_V4_ACTUAL02_FINAL_CORRECTION_REPORT.md](../V012_V4_ACTUAL02_FINAL_CORRECTION_REPORT.md).
+V0.1.2 V4 Additive Migration Foundation: `OWNER_V4_FOUNDATION_ACCEPTED` (Owner acceptance date: 2026-10-07). Independent final audit: `PF_V012_V4_ACTUAL02_REAUDIT_PASS_WITH_RELEASE_BLOCKER`. P0 = 0; P1 = 0. P1-V4-PLANNING-01, P1-V4-ACTUAL-01, P1-V4-ACTUAL-02, and P1-V4-PERSISTENCE-01 are CLOSED. Six P2 items remain OPEN / DEFERRED. **Historical at Foundation acceptance:** `RB-V4-OLD-RUNTIME-01` remained OPEN and Production V4 migration was NOT AUTHORIZED. The subsequent final gate-entry re-audit and Owner closure are recorded above. Evidence: [V012_V4_ACTUAL02_INDEPENDENT_FINAL_REAUDIT.md](../V012_V4_ACTUAL02_INDEPENDENT_FINAL_REAUDIT.md) and [V012_V4_ACTUAL02_FINAL_CORRECTION_REPORT.md](../V012_V4_ACTUAL02_FINAL_CORRECTION_REPORT.md).
 
 V0.1 BASE FRAMEWORK FROZEN. Production Owner Bootstrap Final Audit: PASS. P0 = 0; P1 = 0; six accepted P2 items = DEFERRED. Owner Production data = ACTIVE. Production runtime = ACTIVE / authoritative. V0.2 = NOT STARTED. No bootstrap, import, or final-audit action remains pending.
 
@@ -47,7 +55,7 @@ V0.1 BASE FRAMEWORK FROZEN. Production Owner Bootstrap Final Audit: PASS. P0 = 0
 - Owner accepted the isolated Schema V4 Additive Foundation on 2026-10-07: `OWNER_V4_FOUNDATION_ACCEPTED`.
 - Independent final audit: `PF_V012_V4_ACTUAL02_REAUDIT_PASS_WITH_RELEASE_BLOCKER`; V4 Foundation Technical Audit = PASS; P0 = 0; P1 = 0. All four V4 P1 findings are CLOSED.
 - Six P2 findings remain OPEN / DEFERRED: P2-F0-02, P2-DISCOVERY-01, P2-CSS-01, P2-TEXT-01, P2-V4-ACTUAL-NOCHANGE-01, and P2-V4-TARGET-01.
-- `RB-V4-OLD-RUNTIME-01` remains OPEN and mandatory before release / Production migration. Production remains Schema V3 with migrations [1,2,3]; Production V4 migration is NOT AUTHORIZED.
+- At the time of V4 Foundation acceptance, `RB-V4-OLD-RUNTIME-01` remained OPEN and mandatory before release / Production migration. This is a historical status superseded by the Owner closure recorded above. Production V4 migration remains NOT AUTHORIZED.
 - Financial Model V1.0 remains frozen. No Planning UI, Stage 4–7, Production migration, old-runtime protection, or P2 cleanup is authorized by this acceptance.
 - The earlier `PF_V012_V4_MIGRATION_READY_FOR_AUDIT` status was a completed prior stage and is superseded by Owner acceptance and the independent final audit.
 
@@ -159,4 +167,4 @@ Remaining P2 follow-ups: incomplete maintenance income rows; investment-capacity
 
 ## Next Action
 
-V0.1.2 Phase 1 and the V4 Foundation are formally accepted by Owner. Production remains active on Schema V3. `RB-V4-OLD-RUNTIME-01` remains open; Production migration is not authorized. Do not automatically begin Planning UI, Stage 4–7, old-runtime protection, Production migration, or deferred P2 work.
+V0.1.2 Phase 1 and the V4 Foundation are formally accepted by Owner. The old-runtime release blocker is CLOSED by Owner. Production remains active on Schema V3 with migrations `[1,2,3]`; Production V4 migration is NOT AUTHORIZED. Any future Production App replacement, old App retirement, Production backup, Production launch/write, or V3→V4 migration requires separate Owner authorization. Do not automatically begin V0.2, Stage 4–7, or deferred P2 work.
