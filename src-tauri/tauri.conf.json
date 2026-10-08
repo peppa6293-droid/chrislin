@@ -1,0 +1,26 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Personal Finance Console",
+  "version": "0.1.0",
+  "identifier": "com.personalfinance.console",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "npm run build:web",
+    "frontendDist": "../web-dist"
+  },
+  "app": {
+    "windows": [
+      { "title": "Personal Finance Console", "width": 840, "height": 580, "minWidth": 640, "minHeight": 420 }
+    ]
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["app", "dmg"],
+    "category": "Finance",
+    "shortDescription": "Local-first personal finance model",
+    "macOS": {
+      "minimumSystemVersion": "11.0"
+    }
+  }
+}

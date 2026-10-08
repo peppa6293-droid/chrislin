@@ -1,0 +1,22 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "小钱家 V4 验收版",
+  "version": "0.1.0",
+  "identifier": "com.personalfinance.console.v4acceptance",
+  "build": {
+    "beforeBuildCommand": "npm run build:v4acceptance",
+    "frontendDist": "../artifacts/v012-v4-owner-acceptance-sandbox-20261007/web-dist"
+  },
+  "app": {
+    "windows": [
+      { "title": "小钱家 V4 验收版", "width": 1040, "height": 900, "minWidth": 720, "minHeight": 560, "center": true }
+    ]
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["app"],
+    "category": "Finance",
+    "shortDescription": "V4 isolated owner acceptance sandbox",
+    "macOS": { "minimumSystemVersion": "11.0" }
+  }
+}

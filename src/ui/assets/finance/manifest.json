@@ -1,0 +1,36 @@
+{
+  "title": "小钱家软 3D 财务插图",
+  "format": "PNG with transparency",
+  "source": "Locally bundled static presentation assets for V0.1.1 Owner Visual Fidelity revisions.",
+  "businessDataEmbedded": false,
+  "assets": [
+    {
+      "file": "brand-wallet-sprout.svg",
+      "use": "小钱家 page header mark: green wallet and sprout; decorative only."
+    },
+    {
+      "file": "finance-income-green-coins.svg",
+      "use": "Home cash-flow income end of the visual flow; decorative only."
+    },
+    { "file": "finance-spending-wallet@2x.png", "use": "Home 本月可变消费 module." },
+    {
+      "file": "finance-income-coins@2x.png",
+      "use": "Home cash-flow context, Income Planning amount, and Hub income category."
+    },
+    {
+      "file": "finance-cash-wallet@2x.png",
+      "use": "Hub cash category and read-only cash summary/rows."
+    },
+    {
+      "file": "finance-assets-plant@2x.png",
+      "use": "Hub asset category and current effective asset summary/rows."
+    },
+    { "file": "finance-safety-sprout@2x.png", "use": "Home Safety Pad module." },
+    {
+      "file": "finance-debt-cards@2x.png",
+      "use": "Home debt module and Hub/read-only debt summary/rows."
+    },
+    { "file": "finance-plan-house@2x.png", "use": "Subordinate 生活支出与计划 entry." },
+    { "file": "finance-income-empty@2x.png", "use": "Actual income empty state." }
+  ]
+}
