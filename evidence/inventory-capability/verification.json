@@ -1,0 +1,37 @@
+{
+  "result": "PHASE_A_EVIDENCE_RECONCILED_NOT_GATE_PASS",
+  "final_status": "PF_V012_V4_CUTOVER_INVENTORY_CAPABILITY_BLOCKED",
+  "r_counterexamples_rechecked": true,
+  "h_raw_output_rechecked": true,
+  "graph_reachability_independently_recomputed": true,
+  "production_fingerprints_unchanged": true,
+  "preexisting_reports_unchanged": true,
+  "tracked_changes": [
+    "docs/CURRENT_PHASE.md"
+  ],
+  "authorization_sha256": "10ce794c2b972ef7a230be32cf6a9aa8b62b3799bd061b46834951fe28e59013",
+  "sha256": {
+    "V012_V4_CUTOVER_INVENTORY_CAPABILITY_REPORT.md": "af8776fdaeb0642ac8cfd441c3662302b675f188141b2ef85a8d91aae861966b",
+    "V012_V4_CUTOVER_INVENTORY_GATE_DESIGN_REVIEW.md": "6ff6fc1a2fe48de20cd4aecd05a55c66acba6239ee206f44e7053dc7bf78999d",
+    "docs/CURRENT_PHASE.md": "2b26542d252e2daa15bb4eb0ccba2db0dafc7bd77e70dec7471205fa34e9cbd3",
+    "evidence/inventory-capability/graph_README.md": "5e3a7f0b42ed8dd841ad8675180e3b7d7a2d7030311c5678e24c24a1a4dcfc05",
+    "evidence/inventory-capability/graph_capability.json": "4b91f7badad850f883931e965703db39b34ba905f445cedb872ebe04413b88d0",
+    "evidence/inventory-capability/graph_independent_result.json": "9da0402540340206cd9c2d9144928f7dd9ca96a9fb6259fda8ca3d319c41305a",
+    "evidence/inventory-capability/h_preservation_after.json": "2da335a8964823c3a885134293f5f5fbf33020cf3f0d7d39e2177e7cb9dd7599",
+    "evidence/inventory-capability/h_preservation_before.json": "1a97f2c7ae76ac015a3adedce524025e24c1e660c821207b7c28e35eb2e47279",
+    "evidence/inventory-capability/h_results.json": "d5814226f1cfd3f54b2eaaad72d9de71ab082b342e1f0eb9a8b4e4f456959806",
+    "evidence/inventory-capability/h_results_corrected.json": "0d4328bba721160dae3c0f34dd5992850df364a0eced3b6ebac7b6a4666c561d",
+    "evidence/inventory-capability/r_independent_result.json": "a17398687e594185488165b4560ff3b2707f5f371259412ff3ff61e67e164fe4",
+    "evidence/inventory-capability/r_readme.md": "953998ff4c5faadf5721e789494fb7286894c39bfc7b6a5a25048af751ad5c69",
+    "evidence/inventory-capability/r_result.json": "b25392c2158e02feffa436597383f8180a22ffe25e2ba47ad79bb4f89aaf5b6a",
+    "scripts/inventory_capability/graph_fixtures.py": "4d51bebfaebee4d6c741d29f18a36fee9dcbd9a51729a8fb3d5299e7404d0224",
+    "scripts/inventory_capability/graph_prototype.py": "093bf1ff6711b2cb5c36b0e53d5d16418bcf4a7ca667c269c295ef890169fdce",
+    "scripts/inventory_capability/h_native.c": "e5f5ec387fcd76a1f4e262b5f8f1093af7aecfc7e84705b1a741e3af5bac8634",
+    "scripts/inventory_capability/h_preservation.py": "df00b9627c87fcb48edaeed224d72996f37ee6cf3b186605d796b11089e46487",
+    "scripts/inventory_capability/h_probe.py": "c35a48e114b0605f6873938d2fe0e736ffeb796cfcb289057ebe01088bf76e6f",
+    "scripts/inventory_capability/h_verify.py": "ecc86439ea30286c6b52f908d1cdd321ceb83b6fff0a579783efeb1429f0520d",
+    "scripts/inventory_capability/r_fixture.c": "ff7c08eed5a1439121ed9e71d9993a2cb7353d4ee386beadf37666f258ee4b58",
+    "scripts/inventory_capability/r_native.c": "c878e24c3c61423821753189473c68b0516493dd9d45ef5522c7ac7ff8d93584",
+    "scripts/inventory_capability/r_run.py": "1f3841aea68376565a19e2bd8a03d65b4673dcb58ce5292b011fb3b0a8046828"
+  }
+}

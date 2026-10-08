@@ -1,0 +1,1179 @@
+{
+  "schema": "phase-a-h-evidence-v1",
+  "uid": 501,
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "start_ns": 1791469647343901000,
+  "cases": {
+    "H1": {
+      "ready": {
+        "ready": true,
+        "pid": 51343,
+        "uid": 501,
+        "mode": "sqlite"
+      },
+      "identity": {
+        "dev": 16777232,
+        "ino": 22928670,
+        "size": 8192
+      },
+      "held": {
+        "native": {
+          "argv": [
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/h-native",
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/synthetic.sqlite3",
+            "51343",
+            "16777232",
+            "22928670"
+          ],
+          "exit": 0,
+          "stdout": "{\"path_query\":{\"bytes\":8,\"errno\":22,\"capacity\":262144,\"pids\":[51335,51343]},\"pid\":51343,\"bsd\":{\"bytes\":136,\"errno\":0,\"uid\":501,\"start_sec\":1791469647,\"start_usec\":418145},\"fds\":{\"bytes\":40,\"errno\":0,\"capacity\":524288,\"vnodes\":2,\"detail_errors\":0,\"target_identity_matches\":1},\"regions\":{\"count\":146,\"terminal_return\":0,\"terminal_errno\":22,\"limit\":100000,\"target_identity_matches\":0},\"fileports\":{\"bytes\":0,\"errno\":0,\"details_not_implemented\":true},\"absence_proven\":false}\n",
+          "stderr": "",
+          "start_ns": 1791469647459910000,
+          "end_ns": 1791469648667099000,
+          "parsed": {
+            "path_query": {
+              "bytes": 8,
+              "errno": 22,
+              "capacity": 262144,
+              "pids": [
+                51335,
+                51343
+              ]
+            },
+            "pid": 51343,
+            "bsd": {
+              "bytes": 136,
+              "errno": 0,
+              "uid": 501,
+              "start_sec": 1791469647,
+              "start_usec": 418145
+            },
+            "fds": {
+              "bytes": 40,
+              "errno": 0,
+              "capacity": 524288,
+              "vnodes": 2,
+              "detail_errors": 0,
+              "target_identity_matches": 1
+            },
+            "regions": {
+              "count": 146,
+              "terminal_return": 0,
+              "terminal_errno": 22,
+              "limit": 100000,
+              "target_identity_matches": 0
+            },
+            "fileports": {
+              "bytes": 0,
+              "errno": 0,
+              "details_not_implemented": true
+            },
+            "absence_proven": false
+          }
+        },
+        "lsof": {
+          "argv": [
+            "/usr/sbin/lsof",
+            "-nP",
+            "+w",
+            "-F0pcfDins",
+            "--",
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/synthetic.sqlite3"
+          ],
+          "exit": 0,
+          "stdout": "p51335\u0000cPython\u0000\nf4\u0000D0x1000010\u0000s8192\u0000i22928670\u0000n/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/synthetic.sqlite3\u0000\np51343\u0000cPython\u0000\nf4\u0000D0x1000010\u0000s8192\u0000i22928670\u0000n/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/synthetic.sqlite3\u0000\n",
+          "stderr": "",
+          "start_ns": 1791469648667169000,
+          "end_ns": 1791469648978521000
+        },
+        "lsof_fact": "PRESENT",
+        "global_absence": "UNKNOWN"
+      },
+      "truth": {
+        "sqlite_alive": true
+      }
+    },
+    "H2": {
+      "closed": {
+        "closed": true
+      },
+      "observation": {
+        "native": {
+          "argv": [
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/h-native",
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/synthetic.sqlite3",
+            "51335",
+            "16777232",
+            "22928670"
+          ],
+          "exit": 0,
+          "stdout": "{\"path_query\":{\"bytes\":4,\"errno\":22,\"capacity\":262144,\"pids\":[51335]},\"pid\":51335,\"bsd\":{\"bytes\":136,\"errno\":0,\"uid\":501,\"start_sec\":1791469647,\"start_usec\":263424},\"fds\":{\"bytes\":80,\"errno\":0,\"capacity\":524288,\"vnodes\":3,\"detail_errors\":0,\"target_identity_matches\":1},\"regions\":{\"count\":158,\"terminal_return\":0,\"terminal_errno\":22,\"limit\":100000,\"target_identity_matches\":0},\"fileports\":{\"bytes\":0,\"errno\":0,\"details_not_implemented\":true},\"absence_proven\":false}\n",
+          "stderr": "",
+          "start_ns": 1791469648987619000,
+          "end_ns": 1791469649270317000,
+          "parsed": {
+            "path_query": {
+              "bytes": 4,
+              "errno": 22,
+              "capacity": 262144,
+              "pids": [
+                51335
+              ]
+            },
+            "pid": 51335,
+            "bsd": {
+              "bytes": 136,
+              "errno": 0,
+              "uid": 501,
+              "start_sec": 1791469647,
+              "start_usec": 263424
+            },
+            "fds": {
+              "bytes": 80,
+              "errno": 0,
+              "capacity": 524288,
+              "vnodes": 3,
+              "detail_errors": 0,
+              "target_identity_matches": 1
+            },
+            "regions": {
+              "count": 158,
+              "terminal_return": 0,
+              "terminal_errno": 22,
+              "limit": 100000,
+              "target_identity_matches": 0
+            },
+            "fileports": {
+              "bytes": 0,
+              "errno": 0,
+              "details_not_implemented": true
+            },
+            "absence_proven": false
+          }
+        },
+        "lsof": {
+          "argv": [
+            "/usr/sbin/lsof",
+            "-nP",
+            "+w",
+            "-F0pcfDins",
+            "--",
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/synthetic.sqlite3"
+          ],
+          "exit": 0,
+          "stdout": "p51335\u0000cPython\u0000\nf4\u0000D0x1000010\u0000s8192\u0000i22928670\u0000n/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/synthetic.sqlite3\u0000\n",
+          "stderr": "",
+          "start_ns": 1791469649270408000,
+          "end_ns": 1791469649577369000
+        },
+        "lsof_fact": "PRESENT",
+        "global_absence": "UNKNOWN"
+      },
+      "fact": "UNKNOWN",
+      "scope_note": "controlled holder closed; no whole-host absence proof"
+    },
+    "H3": {
+      "ready": {
+        "ready": true,
+        "pid": 51387,
+        "uid": 501,
+        "mode": "fd"
+      },
+      "identity": {
+        "dev": 16777232,
+        "ino": 22928685,
+        "size": 6656
+      },
+      "held": {
+        "native": {
+          "argv": [
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/h-native",
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/synthetic.sqlite3-wal",
+            "51387",
+            "16777232",
+            "22928685"
+          ],
+          "exit": 0,
+          "stdout": "{\"path_query\":{\"bytes\":4,\"errno\":22,\"capacity\":262144,\"pids\":[51387]},\"pid\":51387,\"bsd\":{\"bytes\":136,\"errno\":0,\"uid\":501,\"start_sec\":1791469649,\"start_usec\":578044},\"fds\":{\"bytes\":40,\"errno\":0,\"capacity\":524288,\"vnodes\":2,\"detail_errors\":0,\"target_identity_matches\":1},\"regions\":{\"count\":142,\"terminal_return\":0,\"terminal_errno\":22,\"limit\":100000,\"target_identity_matches\":0},\"fileports\":{\"bytes\":0,\"errno\":0,\"details_not_implemented\":true},\"absence_proven\":false}\n",
+          "stderr": "",
+          "start_ns": 1791469649626789000,
+          "end_ns": 1791469649901353000,
+          "parsed": {
+            "path_query": {
+              "bytes": 4,
+              "errno": 22,
+              "capacity": 262144,
+              "pids": [
+                51387
+              ]
+            },
+            "pid": 51387,
+            "bsd": {
+              "bytes": 136,
+              "errno": 0,
+              "uid": 501,
+              "start_sec": 1791469649,
+              "start_usec": 578044
+            },
+            "fds": {
+              "bytes": 40,
+              "errno": 0,
+              "capacity": 524288,
+              "vnodes": 2,
+              "detail_errors": 0,
+              "target_identity_matches": 1
+            },
+            "regions": {
+              "count": 142,
+              "terminal_return": 0,
+              "terminal_errno": 22,
+              "limit": 100000,
+              "target_identity_matches": 0
+            },
+            "fileports": {
+              "bytes": 0,
+              "errno": 0,
+              "details_not_implemented": true
+            },
+            "absence_proven": false
+          }
+        },
+        "lsof": {
+          "argv": [
+            "/usr/sbin/lsof",
+            "-nP",
+            "+w",
+            "-F0pcfDins",
+            "--",
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/synthetic.sqlite3-wal"
+          ],
+          "exit": 0,
+          "stdout": "p51387\u0000cPython\u0000\nf4\u0000D0x1000010\u0000s6656\u0000i22928685\u0000n/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/synthetic.sqlite3-wal\u0000\n",
+          "stderr": "",
+          "start_ns": 1791469649901419000,
+          "end_ns": 1791469650224018000
+        },
+        "lsof_fact": "PRESENT",
+        "global_absence": "UNKNOWN"
+      },
+      "truth": {
+        "fd_alive": true,
+        "dev": 16777232,
+        "ino": 22928685
+      }
+    },
+    "H4": {
+      "ready": {
+        "ready": true,
+        "pid": 51394,
+        "uid": 501,
+        "mode": "fd"
+      },
+      "identity": {
+        "dev": 16777232,
+        "ino": 22928686,
+        "size": 6656
+      },
+      "held": {
+        "native": {
+          "argv": [
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/h-native",
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/synthetic.sqlite3-shm",
+            "51394",
+            "16777232",
+            "22928686"
+          ],
+          "exit": 0,
+          "stdout": "{\"path_query\":{\"bytes\":4,\"errno\":22,\"capacity\":262144,\"pids\":[51394]},\"pid\":51394,\"bsd\":{\"bytes\":136,\"errno\":0,\"uid\":501,\"start_sec\":1791469650,\"start_usec\":233824},\"fds\":{\"bytes\":40,\"errno\":0,\"capacity\":524288,\"vnodes\":2,\"detail_errors\":0,\"target_identity_matches\":1},\"regions\":{\"count\":142,\"terminal_return\":0,\"terminal_errno\":22,\"limit\":100000,\"target_identity_matches\":0},\"fileports\":{\"bytes\":0,\"errno\":0,\"details_not_implemented\":true},\"absence_proven\":false}\n",
+          "stderr": "",
+          "start_ns": 1791469650284333000,
+          "end_ns": 1791469650554684000,
+          "parsed": {
+            "path_query": {
+              "bytes": 4,
+              "errno": 22,
+              "capacity": 262144,
+              "pids": [
+                51394
+              ]
+            },
+            "pid": 51394,
+            "bsd": {
+              "bytes": 136,
+              "errno": 0,
+              "uid": 501,
+              "start_sec": 1791469650,
+              "start_usec": 233824
+            },
+            "fds": {
+              "bytes": 40,
+              "errno": 0,
+              "capacity": 524288,
+              "vnodes": 2,
+              "detail_errors": 0,
+              "target_identity_matches": 1
+            },
+            "regions": {
+              "count": 142,
+              "terminal_return": 0,
+              "terminal_errno": 22,
+              "limit": 100000,
+              "target_identity_matches": 0
+            },
+            "fileports": {
+              "bytes": 0,
+              "errno": 0,
+              "details_not_implemented": true
+            },
+            "absence_proven": false
+          }
+        },
+        "lsof": {
+          "argv": [
+            "/usr/sbin/lsof",
+            "-nP",
+            "+w",
+            "-F0pcfDins",
+            "--",
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/synthetic.sqlite3-shm"
+          ],
+          "exit": 0,
+          "stdout": "p51394\u0000cPython\u0000\nf4\u0000D0x1000010\u0000s6656\u0000i22928686\u0000n/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/synthetic.sqlite3-shm\u0000\n",
+          "stderr": "",
+          "start_ns": 1791469650554745000,
+          "end_ns": 1791469650839896000
+        },
+        "lsof_fact": "PRESENT",
+        "global_absence": "UNKNOWN"
+      },
+      "truth": {
+        "fd_alive": true,
+        "dev": 16777232,
+        "ino": 22928686
+      }
+    },
+    "H5": {
+      "ready": {
+        "ready": true,
+        "pid": 51401,
+        "uid": 501,
+        "mode": "fd"
+      },
+      "identity": {
+        "dev": 16777232,
+        "ino": 22928687,
+        "size": 6656
+      },
+      "held": {
+        "native": {
+          "argv": [
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/h-native",
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/synthetic.sqlite3-journal",
+            "51401",
+            "16777232",
+            "22928687"
+          ],
+          "exit": 0,
+          "stdout": "{\"path_query\":{\"bytes\":4,\"errno\":22,\"capacity\":262144,\"pids\":[51401]},\"pid\":51401,\"bsd\":{\"bytes\":136,\"errno\":0,\"uid\":501,\"start_sec\":1791469650,\"start_usec\":849638},\"fds\":{\"bytes\":40,\"errno\":0,\"capacity\":524288,\"vnodes\":2,\"detail_errors\":0,\"target_identity_matches\":1},\"regions\":{\"count\":143,\"terminal_return\":0,\"terminal_errno\":22,\"limit\":100000,\"target_identity_matches\":0},\"fileports\":{\"bytes\":0,\"errno\":0,\"details_not_implemented\":true},\"absence_proven\":false}\n",
+          "stderr": "",
+          "start_ns": 1791469650893769000,
+          "end_ns": 1791469651148006000,
+          "parsed": {
+            "path_query": {
+              "bytes": 4,
+              "errno": 22,
+              "capacity": 262144,
+              "pids": [
+                51401
+              ]
+            },
+            "pid": 51401,
+            "bsd": {
+              "bytes": 136,
+              "errno": 0,
+              "uid": 501,
+              "start_sec": 1791469650,
+              "start_usec": 849638
+            },
+            "fds": {
+              "bytes": 40,
+              "errno": 0,
+              "capacity": 524288,
+              "vnodes": 2,
+              "detail_errors": 0,
+              "target_identity_matches": 1
+            },
+            "regions": {
+              "count": 143,
+              "terminal_return": 0,
+              "terminal_errno": 22,
+              "limit": 100000,
+              "target_identity_matches": 0
+            },
+            "fileports": {
+              "bytes": 0,
+              "errno": 0,
+              "details_not_implemented": true
+            },
+            "absence_proven": false
+          }
+        },
+        "lsof": {
+          "argv": [
+            "/usr/sbin/lsof",
+            "-nP",
+            "+w",
+            "-F0pcfDins",
+            "--",
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/synthetic.sqlite3-journal"
+          ],
+          "exit": 0,
+          "stdout": "p51401\u0000cPython\u0000\nf4\u0000D0x1000010\u0000s6656\u0000i22928687\u0000n/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/synthetic.sqlite3-journal\u0000\n",
+          "stderr": "",
+          "start_ns": 1791469651148067000,
+          "end_ns": 1791469651438459000
+        },
+        "lsof_fact": "PRESENT",
+        "global_absence": "UNKNOWN"
+      },
+      "truth": {
+        "fd_alive": true,
+        "dev": 16777232,
+        "ino": 22928687
+      }
+    },
+    "H6": {
+      "ready": {
+        "ready": true,
+        "pid": 51414,
+        "uid": 501,
+        "mode": "fd"
+      },
+      "prior_identity": {
+        "dev": 16777232,
+        "ino": 22928689,
+        "size": 17408
+      },
+      "current_identity": {
+        "dev": 16777232,
+        "ino": 22928689,
+        "size": 17408
+      },
+      "observation": {
+        "native": {
+          "argv": [
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/h-native",
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/H6.sqlite3",
+            "51414",
+            "16777232",
+            "22928689"
+          ],
+          "exit": 0,
+          "stdout": "{\"path_query\":{\"bytes\":4,\"errno\":22,\"capacity\":262144,\"pids\":[51414]},\"pid\":51414,\"bsd\":{\"bytes\":136,\"errno\":0,\"uid\":501,\"start_sec\":1791469651,\"start_usec\":448686},\"fds\":{\"bytes\":40,\"errno\":0,\"capacity\":524288,\"vnodes\":2,\"detail_errors\":0,\"target_identity_matches\":1},\"regions\":{\"count\":142,\"terminal_return\":0,\"terminal_errno\":22,\"limit\":100000,\"target_identity_matches\":0},\"fileports\":{\"bytes\":0,\"errno\":0,\"details_not_implemented\":true},\"absence_proven\":false}\n",
+          "stderr": "",
+          "start_ns": 1791469651494651000,
+          "end_ns": 1791469651744540000,
+          "parsed": {
+            "path_query": {
+              "bytes": 4,
+              "errno": 22,
+              "capacity": 262144,
+              "pids": [
+                51414
+              ]
+            },
+            "pid": 51414,
+            "bsd": {
+              "bytes": 136,
+              "errno": 0,
+              "uid": 501,
+              "start_sec": 1791469651,
+              "start_usec": 448686
+            },
+            "fds": {
+              "bytes": 40,
+              "errno": 0,
+              "capacity": 524288,
+              "vnodes": 2,
+              "detail_errors": 0,
+              "target_identity_matches": 1
+            },
+            "regions": {
+              "count": 142,
+              "terminal_return": 0,
+              "terminal_errno": 22,
+              "limit": 100000,
+              "target_identity_matches": 0
+            },
+            "fileports": {
+              "bytes": 0,
+              "errno": 0,
+              "details_not_implemented": true
+            },
+            "absence_proven": false
+          }
+        },
+        "lsof": {
+          "argv": [
+            "/usr/sbin/lsof",
+            "-nP",
+            "+w",
+            "-F0pcfDins",
+            "--",
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/H6.sqlite3"
+          ],
+          "exit": 0,
+          "stdout": "p51414\u0000cPython\u0000\nf4\u0000D0x1000010\u0000s17408\u0000i22928689\u0000n/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/H6.sqlite3\u0000\n",
+          "stderr": "",
+          "start_ns": 1791469651744602000,
+          "end_ns": 1791469652013278000
+        },
+        "lsof_fact": "PRESENT",
+        "global_absence": "UNKNOWN"
+      },
+      "truth": {
+        "fd_alive": true,
+        "dev": 16777232,
+        "ino": 22928689
+      }
+    },
+    "H6_symlink": {
+      "ready": {
+        "ready": true,
+        "pid": 51427,
+        "uid": 501,
+        "mode": "fd"
+      },
+      "prior_identity": {
+        "dev": 16777232,
+        "ino": 22928692,
+        "size": 17408
+      },
+      "current_identity": {
+        "dev": 16777232,
+        "ino": 22928692,
+        "size": 17408
+      },
+      "observation": {
+        "native": {
+          "argv": [
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/h-native",
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/H6_symlink.sqlite3",
+            "51427",
+            "16777232",
+            "22928692"
+          ],
+          "exit": 0,
+          "stdout": "{\"path_query\":{\"bytes\":4,\"errno\":22,\"capacity\":262144,\"pids\":[51427]},\"pid\":51427,\"bsd\":{\"bytes\":136,\"errno\":0,\"uid\":501,\"start_sec\":1791469652,\"start_usec\":17974},\"fds\":{\"bytes\":40,\"errno\":0,\"capacity\":524288,\"vnodes\":2,\"detail_errors\":0,\"target_identity_matches\":1},\"regions\":{\"count\":142,\"terminal_return\":0,\"terminal_errno\":22,\"limit\":100000,\"target_identity_matches\":0},\"fileports\":{\"bytes\":0,\"errno\":0,\"details_not_implemented\":true},\"absence_proven\":false}\n",
+          "stderr": "",
+          "start_ns": 1791469652062190000,
+          "end_ns": 1791469652313225000,
+          "parsed": {
+            "path_query": {
+              "bytes": 4,
+              "errno": 22,
+              "capacity": 262144,
+              "pids": [
+                51427
+              ]
+            },
+            "pid": 51427,
+            "bsd": {
+              "bytes": 136,
+              "errno": 0,
+              "uid": 501,
+              "start_sec": 1791469652,
+              "start_usec": 17974
+            },
+            "fds": {
+              "bytes": 40,
+              "errno": 0,
+              "capacity": 524288,
+              "vnodes": 2,
+              "detail_errors": 0,
+              "target_identity_matches": 1
+            },
+            "regions": {
+              "count": 142,
+              "terminal_return": 0,
+              "terminal_errno": 22,
+              "limit": 100000,
+              "target_identity_matches": 0
+            },
+            "fileports": {
+              "bytes": 0,
+              "errno": 0,
+              "details_not_implemented": true
+            },
+            "absence_proven": false
+          }
+        },
+        "lsof": {
+          "argv": [
+            "/usr/sbin/lsof",
+            "-nP",
+            "+w",
+            "-F0pcfDins",
+            "--",
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/H6_symlink.sqlite3"
+          ],
+          "exit": 0,
+          "stdout": "p51427\u0000cPython\u0000\nf4\u0000D0x1000010\u0000s17408\u0000i22928692\u0000n/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/H6_symlink.sqlite3\u0000\n",
+          "stderr": "",
+          "start_ns": 1791469652313307000,
+          "end_ns": 1791469652588653000
+        },
+        "lsof_fact": "PRESENT",
+        "global_absence": "UNKNOWN"
+      },
+      "truth": {
+        "fd_alive": true,
+        "dev": 16777232,
+        "ino": 22928692
+      }
+    },
+    "H7": {
+      "ready": {
+        "ready": true,
+        "pid": 51434,
+        "uid": 501,
+        "mode": "fd"
+      },
+      "prior_identity": {
+        "dev": 16777232,
+        "ino": 22928696,
+        "size": 17408
+      },
+      "current_identity": {
+        "dev": 16777232,
+        "ino": 22928697,
+        "size": 19456
+      },
+      "observation": {
+        "native": {
+          "argv": [
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/h-native",
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/H7.sqlite3",
+            "51434",
+            "16777232",
+            "22928696"
+          ],
+          "exit": 0,
+          "stdout": "{\"path_query\":{\"bytes\":0,\"errno\":22,\"capacity\":262144,\"pids\":[]},\"pid\":51434,\"bsd\":{\"bytes\":136,\"errno\":0,\"uid\":501,\"start_sec\":1791469652,\"start_usec\":597790},\"fds\":{\"bytes\":40,\"errno\":0,\"capacity\":524288,\"vnodes\":2,\"detail_errors\":0,\"target_identity_matches\":1},\"regions\":{\"count\":142,\"terminal_return\":0,\"terminal_errno\":22,\"limit\":100000,\"target_identity_matches\":0},\"fileports\":{\"bytes\":0,\"errno\":0,\"details_not_implemented\":true},\"absence_proven\":false}\n",
+          "stderr": "",
+          "start_ns": 1791469652641335000,
+          "end_ns": 1791469652899876000,
+          "parsed": {
+            "path_query": {
+              "bytes": 0,
+              "errno": 22,
+              "capacity": 262144,
+              "pids": []
+            },
+            "pid": 51434,
+            "bsd": {
+              "bytes": 136,
+              "errno": 0,
+              "uid": 501,
+              "start_sec": 1791469652,
+              "start_usec": 597790
+            },
+            "fds": {
+              "bytes": 40,
+              "errno": 0,
+              "capacity": 524288,
+              "vnodes": 2,
+              "detail_errors": 0,
+              "target_identity_matches": 1
+            },
+            "regions": {
+              "count": 142,
+              "terminal_return": 0,
+              "terminal_errno": 22,
+              "limit": 100000,
+              "target_identity_matches": 0
+            },
+            "fileports": {
+              "bytes": 0,
+              "errno": 0,
+              "details_not_implemented": true
+            },
+            "absence_proven": false
+          }
+        },
+        "lsof": {
+          "argv": [
+            "/usr/sbin/lsof",
+            "-nP",
+            "+w",
+            "-F0pcfDins",
+            "--",
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/H7.sqlite3"
+          ],
+          "exit": 1,
+          "stdout": "",
+          "stderr": "",
+          "start_ns": 1791469652899941000,
+          "end_ns": 1791469653179978000
+        },
+        "lsof_fact": "UNKNOWN",
+        "global_absence": "UNKNOWN"
+      },
+      "truth": {
+        "fd_alive": true,
+        "dev": 16777232,
+        "ino": 22928696
+      },
+      "known_renamed_path_query": {
+        "native": {
+          "argv": [
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/h-native",
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/H7-alias",
+            "51434",
+            "16777232",
+            "22928696"
+          ],
+          "exit": 0,
+          "stdout": "{\"path_query\":{\"bytes\":4,\"errno\":22,\"capacity\":262144,\"pids\":[51434]},\"pid\":51434,\"bsd\":{\"bytes\":136,\"errno\":0,\"uid\":501,\"start_sec\":1791469652,\"start_usec\":597790},\"fds\":{\"bytes\":40,\"errno\":0,\"capacity\":524288,\"vnodes\":2,\"detail_errors\":0,\"target_identity_matches\":1},\"regions\":{\"count\":142,\"terminal_return\":0,\"terminal_errno\":22,\"limit\":100000,\"target_identity_matches\":0},\"fileports\":{\"bytes\":0,\"errno\":0,\"details_not_implemented\":true},\"absence_proven\":false}\n",
+          "stderr": "",
+          "start_ns": 1791469653180264000,
+          "end_ns": 1791469653448928000,
+          "parsed": {
+            "path_query": {
+              "bytes": 4,
+              "errno": 22,
+              "capacity": 262144,
+              "pids": [
+                51434
+              ]
+            },
+            "pid": 51434,
+            "bsd": {
+              "bytes": 136,
+              "errno": 0,
+              "uid": 501,
+              "start_sec": 1791469652,
+              "start_usec": 597790
+            },
+            "fds": {
+              "bytes": 40,
+              "errno": 0,
+              "capacity": 524288,
+              "vnodes": 2,
+              "detail_errors": 0,
+              "target_identity_matches": 1
+            },
+            "regions": {
+              "count": 142,
+              "terminal_return": 0,
+              "terminal_errno": 22,
+              "limit": 100000,
+              "target_identity_matches": 0
+            },
+            "fileports": {
+              "bytes": 0,
+              "errno": 0,
+              "details_not_implemented": true
+            },
+            "absence_proven": false
+          }
+        },
+        "lsof": {
+          "argv": [
+            "/usr/sbin/lsof",
+            "-nP",
+            "+w",
+            "-F0pcfDins",
+            "--",
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/H7-alias"
+          ],
+          "exit": 0,
+          "stdout": "p51434\u0000cPython\u0000\nf4\u0000D0x1000010\u0000s17408\u0000i22928696\u0000n/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/H7-alias\u0000\n",
+          "stderr": "",
+          "start_ns": 1791469653448998000,
+          "end_ns": 1791469653714922000
+        },
+        "lsof_fact": "PRESENT",
+        "global_absence": "UNKNOWN"
+      },
+      "first_observation_lineage_fact": "UNKNOWN: oracle old identity comes from fixture creator, not first-time collector"
+    },
+    "H8": {
+      "ready": {
+        "ready": true,
+        "pid": 51446,
+        "uid": 501,
+        "mode": "fd"
+      },
+      "prior_identity": {
+        "dev": 16777232,
+        "ino": 22928700,
+        "size": 17408
+      },
+      "current_identity": {
+        "dev": 16777232,
+        "ino": 22928701,
+        "size": 19456
+      },
+      "observation": {
+        "native": {
+          "argv": [
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/h-native",
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/H8.sqlite3",
+            "51446",
+            "16777232",
+            "22928700"
+          ],
+          "exit": 0,
+          "stdout": "{\"path_query\":{\"bytes\":0,\"errno\":22,\"capacity\":262144,\"pids\":[]},\"pid\":51446,\"bsd\":{\"bytes\":136,\"errno\":0,\"uid\":501,\"start_sec\":1791469653,\"start_usec\":724032},\"fds\":{\"bytes\":40,\"errno\":0,\"capacity\":524288,\"vnodes\":2,\"detail_errors\":0,\"target_identity_matches\":1},\"regions\":{\"count\":143,\"terminal_return\":0,\"terminal_errno\":22,\"limit\":100000,\"target_identity_matches\":0},\"fileports\":{\"bytes\":0,\"errno\":0,\"details_not_implemented\":true},\"absence_proven\":false}\n",
+          "stderr": "",
+          "start_ns": 1791469653767103000,
+          "end_ns": 1791469654023777000,
+          "parsed": {
+            "path_query": {
+              "bytes": 0,
+              "errno": 22,
+              "capacity": 262144,
+              "pids": []
+            },
+            "pid": 51446,
+            "bsd": {
+              "bytes": 136,
+              "errno": 0,
+              "uid": 501,
+              "start_sec": 1791469653,
+              "start_usec": 724032
+            },
+            "fds": {
+              "bytes": 40,
+              "errno": 0,
+              "capacity": 524288,
+              "vnodes": 2,
+              "detail_errors": 0,
+              "target_identity_matches": 1
+            },
+            "regions": {
+              "count": 143,
+              "terminal_return": 0,
+              "terminal_errno": 22,
+              "limit": 100000,
+              "target_identity_matches": 0
+            },
+            "fileports": {
+              "bytes": 0,
+              "errno": 0,
+              "details_not_implemented": true
+            },
+            "absence_proven": false
+          }
+        },
+        "lsof": {
+          "argv": [
+            "/usr/sbin/lsof",
+            "-nP",
+            "+w",
+            "-F0pcfDins",
+            "--",
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/H8.sqlite3"
+          ],
+          "exit": 1,
+          "stdout": "",
+          "stderr": "",
+          "start_ns": 1791469654023869000,
+          "end_ns": 1791469654314752000
+        },
+        "lsof_fact": "UNKNOWN",
+        "global_absence": "UNKNOWN"
+      },
+      "truth": {
+        "fd_alive": true,
+        "dev": 16777232,
+        "ino": 22928700
+      },
+      "first_observation_lineage_fact": "UNKNOWN: oracle old identity comes from fixture creator, not first-time collector"
+    },
+    "H9": {
+      "ready": {
+        "ready": true,
+        "pid": 51453,
+        "uid": 501,
+        "mode": "mmap"
+      },
+      "identity": {
+        "dev": 16777232,
+        "ino": 22928703,
+        "size": 8192
+      },
+      "held": {
+        "native": {
+          "argv": [
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/h-native",
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/mmap.sqlite3",
+            "51453",
+            "16777232",
+            "22928703"
+          ],
+          "exit": 0,
+          "stdout": "{\"path_query\":{\"bytes\":8,\"errno\":22,\"capacity\":262144,\"pids\":[51453,51453]},\"pid\":51453,\"bsd\":{\"bytes\":136,\"errno\":0,\"uid\":501,\"start_sec\":1791469654,\"start_usec\":323867},\"fds\":{\"bytes\":40,\"errno\":0,\"capacity\":524288,\"vnodes\":2,\"detail_errors\":0,\"target_identity_matches\":1},\"regions\":{\"count\":143,\"terminal_return\":0,\"terminal_errno\":22,\"limit\":100000,\"target_identity_matches\":1},\"fileports\":{\"bytes\":0,\"errno\":0,\"details_not_implemented\":true},\"absence_proven\":false}\n",
+          "stderr": "",
+          "start_ns": 1791469654373438000,
+          "end_ns": 1791469654628809000,
+          "parsed": {
+            "path_query": {
+              "bytes": 8,
+              "errno": 22,
+              "capacity": 262144,
+              "pids": [
+                51453,
+                51453
+              ]
+            },
+            "pid": 51453,
+            "bsd": {
+              "bytes": 136,
+              "errno": 0,
+              "uid": 501,
+              "start_sec": 1791469654,
+              "start_usec": 323867
+            },
+            "fds": {
+              "bytes": 40,
+              "errno": 0,
+              "capacity": 524288,
+              "vnodes": 2,
+              "detail_errors": 0,
+              "target_identity_matches": 1
+            },
+            "regions": {
+              "count": 143,
+              "terminal_return": 0,
+              "terminal_errno": 22,
+              "limit": 100000,
+              "target_identity_matches": 1
+            },
+            "fileports": {
+              "bytes": 0,
+              "errno": 0,
+              "details_not_implemented": true
+            },
+            "absence_proven": false
+          }
+        },
+        "lsof": {
+          "argv": [
+            "/usr/sbin/lsof",
+            "-nP",
+            "+w",
+            "-F0pcfDins",
+            "--",
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/mmap.sqlite3"
+          ],
+          "exit": 0,
+          "stdout": "p51453\u0000cPython\u0000\nftxt\u0000D0x1000010\u0000s8192\u0000i22928703\u0000n/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/mmap.sqlite3\u0000\nf5\u0000D0x1000010\u0000s8192\u0000i22928703\u0000n/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/mmap.sqlite3\u0000\n",
+          "stderr": "",
+          "start_ns": 1791469654628863000,
+          "end_ns": 1791469654897872000
+        },
+        "lsof_fact": "PRESENT",
+        "global_absence": "UNKNOWN"
+      },
+      "truth": {
+        "mapping_alive": true,
+        "first_byte": 77
+      },
+      "fileport_reference_coverage": "NOT_PROVEN"
+    },
+    "H10": {
+      "different_process_same_ordinary_uid": "TESTED by all positive holder cases",
+      "different_uid": "NOT_TESTED: no account switch/elevation authorized or performed"
+    },
+    "H11": {
+      "protected_pid": 1,
+      "observation": {
+        "native": {
+          "argv": [
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/h-native",
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/synthetic.sqlite3",
+            "1",
+            "16777232",
+            "22928670"
+          ],
+          "exit": 0,
+          "stdout": "{\"path_query\":{\"bytes\":4,\"errno\":22,\"capacity\":262144,\"pids\":[51335]},\"pid\":1,\"bsd\":{\"bytes\":0,\"errno\":1,\"uid\":0,\"start_sec\":0,\"start_usec\":0},\"fds\":{\"bytes\":0,\"errno\":1,\"capacity\":524288,\"vnodes\":0,\"detail_errors\":0,\"target_identity_matches\":0},\"regions\":{\"count\":0,\"terminal_return\":0,\"terminal_errno\":1,\"limit\":100000,\"target_identity_matches\":0},\"fileports\":{\"bytes\":0,\"errno\":1,\"details_not_implemented\":true},\"absence_proven\":false}\n",
+          "stderr": "",
+          "start_ns": 1791469654906456000,
+          "end_ns": 1791469655172017000,
+          "parsed": {
+            "path_query": {
+              "bytes": 4,
+              "errno": 22,
+              "capacity": 262144,
+              "pids": [
+                51335
+              ]
+            },
+            "pid": 1,
+            "bsd": {
+              "bytes": 0,
+              "errno": 1,
+              "uid": 0,
+              "start_sec": 0,
+              "start_usec": 0
+            },
+            "fds": {
+              "bytes": 0,
+              "errno": 1,
+              "capacity": 524288,
+              "vnodes": 0,
+              "detail_errors": 0,
+              "target_identity_matches": 0
+            },
+            "regions": {
+              "count": 0,
+              "terminal_return": 0,
+              "terminal_errno": 1,
+              "limit": 100000,
+              "target_identity_matches": 0
+            },
+            "fileports": {
+              "bytes": 0,
+              "errno": 1,
+              "details_not_implemented": true
+            },
+            "absence_proven": false
+          }
+        },
+        "lsof": {
+          "argv": [
+            "/usr/sbin/lsof",
+            "-nP",
+            "+w",
+            "-F0pcfDins",
+            "--",
+            "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/synthetic.sqlite3"
+          ],
+          "exit": 0,
+          "stdout": "p51335\u0000cPython\u0000\nf4\u0000D0x1000010\u0000s8192\u0000i22928670\u0000n/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/synthetic.sqlite3\u0000\n",
+          "stderr": "",
+          "start_ns": 1791469655172091000,
+          "end_ns": 1791469655496616000
+        },
+        "lsof_fact": "PRESENT",
+        "global_absence": "UNKNOWN"
+      },
+      "fact": "UNKNOWN",
+      "root_holder_fixture": "NOT_CREATED"
+    },
+    "H12": {
+      "injected_not_host_failures": [
+        {
+          "input": {
+            "exit": 0,
+            "stdout": "p123\u0000i456\u0000",
+            "stderr": "injected warning"
+          },
+          "fact": "UNKNOWN"
+        },
+        {
+          "input": {
+            "exit": 2,
+            "stdout": "",
+            "stderr": "injected error"
+          },
+          "fact": "UNKNOWN"
+        },
+        {
+          "input": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          "fact": "UNKNOWN"
+        },
+        {
+          "input": {
+            "exit": 0,
+            "stdout": "p123\u0000n/truncated",
+            "stderr": ""
+          },
+          "fact": "UNKNOWN"
+        }
+      ],
+      "real_tool_timeout": {
+        "argv": [
+          "/Library/Developer/CommandLineTools/usr/bin/python3",
+          "-c",
+          "import time; time.sleep(2)"
+        ],
+        "timeout": true,
+        "stdout": "",
+        "stderr": "",
+        "start_ns": 1791469655496637000,
+        "end_ns": 1791469655549693000
+      },
+      "timeout_fact": "UNKNOWN"
+    },
+    "H13": {
+      "observation": {
+        "argv": [
+          "/usr/sbin/lsof",
+          "-nP",
+          "+w",
+          "-F0pcfDins",
+          "--",
+          "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/synthetic.sqlite3"
+        ],
+        "exit": 0,
+        "stdout": "p51335\u0000cPython\u0000\nf4\u0000D0x1000010\u0000s8192\u0000i22928670\u0000n/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/synthetic.sqlite3\u0000\n",
+        "stderr": "",
+        "start_ns": 1791469655549736000,
+        "end_ns": 1791469655861471000
+      },
+      "fact": "PRESENT"
+    }
+  },
+  "production_access": false,
+  "compile": {
+    "argv": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-o",
+      "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-inventory-h-j6jg8dop/h-native",
+      "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/scripts/inventory_capability/h_native.c"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": "",
+    "start_ns": 1791469647345084000,
+    "end_ns": 1791469647413522000
+  },
+  "fixture_assertions": {
+    "H1_holder_seen": true,
+    "H3_holder_seen": true,
+    "H4_holder_seen": true,
+    "H5_holder_seen": true,
+    "H6_identity_seen": true,
+    "H6_symlink_identity_seen": true,
+    "H7_old_vnode_held": true,
+    "H7_current_namespace_misses_holder": true,
+    "H8_old_vnode_held": true,
+    "H8_current_namespace_misses_holder": true,
+    "H9_mapping_truth": true,
+    "H12_all_unknown": true,
+    "H13_never_absence": false
+  },
+  "fixture_assertions_pass": false,
+  "end_ns": 1791469655862732000,
+  "capability": "H_CAPABILITY_NOT_PROVABLE_WITH_CURRENT_APPROACH",
+  "blockers": [
+    "BLOCKED_TARGET_LINEAGE_UNKNOWN",
+    "PROTECTED_PID_REFERENCE_COVERAGE_UNKNOWN",
+    "FILEPORT_REFERENCE_COVERAGE_NOT_PROVEN",
+    "SNAPSHOT_RACE_PROTECTION_NOT_IMPLEMENTED"
+  ],
+  "source_sha256": {
+    "h_probe.py": "42ec33de4e511c91fed2023348561bcf312ca31fb7015584bbae1c2cc4fc38f9",
+    "h_native.c": "e5f5ec387fcd76a1f4e262b5f8f1093af7aecfc7e84705b1a741e3af5bac8634"
+  }
+}

@@ -12,6 +12,15 @@ Phase 3: APPROVED.
 
 V0.1 Status: `PERSONAL_FINANCE_CONSOLE_V01_PRODUCTION_ACTIVE`.
 
+## V0.1.2 V4 Cutover Inventory — Phase A Capability Blocked
+
+- On 2026-10-08, Owner authorized ordinary-user isolated inventory capability proof and only conditionally full implementation. Result: `PF_V012_V4_CUTOVER_INVENTORY_CAPABILITY_BLOCKED`.
+- `RB-V4-CUTOVER-INVENTORY-01 = OPEN`: the audited inventory contract is being changed for real macOS cutover compatibility; ordinary-user R/H capability was not proven. `RB-V4-OLD-RUNTIME-01 = CLOSED` remains the historical Owner decision below.
+- R: `R_CAPABILITY_INSUFFICIENT`; H: `H_CAPABILITY_NOT_PROVABLE_WITH_CURRENT_APPROACH`; graph: `APP_GRAPH_CAPABILITY_PROVEN` only for isolated A–G graph behavior, not the complete App contract. Exact-current-path queries miss held old vnodes after rename/unlink; protected-PID visibility and snapshot/race protection remain unresolved.
+- Full gate implementation / Phase B did not start. No production runtime, gate source, database, permit, migration authorization, or release receipt was changed or generated. No Production launch, backup, replacement, retirement or migration occurred.
+- Preserve `PF_V012_V4_OWNER_SANDBOX_ACCEPTED`; only `OWNER_ACCEPTANCE_RECORD_NOT_PRESENT_IN_CURRENT_PROJECT_EVIDENCE` remains, not pending Owner acceptance. The ¥13.10 expense remains `OWNER_RECOGNIZED_NORMAL_USE_EXPENSE`.
+- Evidence and next Owner decision: [Inventory Capability Report](../V012_V4_CUTOVER_INVENTORY_CAPABILITY_REPORT.md). Review missing image/lineage/permission/race mechanisms before any separately authorized continuation. No automatic sudo or weakened contract. Production V4 migration remains NOT AUTHORIZED; Stage 4–7 and V0.2 remain unstarted.
+
 ## Authoritative Owner Closure — Old-Runtime Protection
 
 - On 2026-10-08, Owner closed `RB-V4-OLD-RUNTIME-01` based on the independent final re-audit `PF_V012_V4_OLD_RUNTIME_GATE_ENTRY_P1_REAUDIT_PASS_WITH_P2` of commit `06bd72291f148ed768f59ee06e3fe9398a75cb6e`.

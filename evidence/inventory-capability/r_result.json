@@ -1,0 +1,722 @@
+{
+  "contract": "PKG-R-1008",
+  "uid": 501,
+  "os": "macOS-26.6.2-arm64-arm-64bit",
+  "started_ns": 1791469645920466000,
+  "cases": [
+    {
+      "id": "R1",
+      "description": "expected executable",
+      "launched_path": "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/target",
+      "handshake": "target-fixture pid=51328 argv0=/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/target",
+      "launch_file": {
+        "realpath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/target",
+        "dev": 16777232,
+        "ino": 22928655,
+        "sha256": "4a50eb06424be0733711a66bd21313ddf94a2aaabbd835e93ec7c9f0755c956f",
+        "running_image_binding": "NOT_PROVEN_BY_PATH_HASH"
+      },
+      "sample": {
+        "pid": 51328,
+        "bsd_expected_size": 136,
+        "before": {
+          "bytes": 136,
+          "errno": 0,
+          "pid": 51328,
+          "uid": 501,
+          "start_sec": 1791469646,
+          "start_usec": 235717
+        },
+        "path_result": 88,
+        "path_errno": 0,
+        "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/target",
+        "after": {
+          "bytes": 136,
+          "errno": 0,
+          "pid": 51328,
+          "uid": 501,
+          "start_sec": 1791469646,
+          "start_usec": 235717
+        },
+        "observed_ns": 1791469647263124000,
+        "path_file": {
+          "realpath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/target",
+          "dev": 16777232,
+          "ino": 22928655,
+          "sha256": "4a50eb06424be0733711a66bd21313ddf94a2aaabbd835e93ec7c9f0755c956f",
+          "running_image_binding": "NOT_PROVEN_BY_PATH_HASH"
+        },
+        "start_stable_within_sample": true
+      }
+    },
+    {
+      "id": "R2",
+      "description": "rename after launch",
+      "launched_path": "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/innocent-renamed",
+      "handshake": "target-fixture pid=51336 argv0=/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/innocent-renamed",
+      "launch_file": {
+        "realpath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/innocent-renamed",
+        "dev": 16777232,
+        "ino": 22928664,
+        "sha256": "4a50eb06424be0733711a66bd21313ddf94a2aaabbd835e93ec7c9f0755c956f",
+        "running_image_binding": "NOT_PROVEN_BY_PATH_HASH"
+      },
+      "sample": {
+        "pid": 51336,
+        "bsd_expected_size": 136,
+        "before": {
+          "bytes": 136,
+          "errno": 0,
+          "pid": 51336,
+          "uid": 501,
+          "start_sec": 1791469647,
+          "start_usec": 264922
+        },
+        "path_result": 98,
+        "path_errno": 0,
+        "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/innocent-renamed",
+        "after": {
+          "bytes": 136,
+          "errno": 0,
+          "pid": 51336,
+          "uid": 501,
+          "start_sec": 1791469647,
+          "start_usec": 264922
+        },
+        "observed_ns": 1791469647545055000,
+        "path_file": {
+          "realpath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/innocent-renamed",
+          "dev": 16777232,
+          "ino": 22928664,
+          "sha256": "4a50eb06424be0733711a66bd21313ddf94a2aaabbd835e93ec7c9f0755c956f",
+          "running_image_binding": "NOT_PROVEN_BY_PATH_HASH"
+        },
+        "start_stable_within_sample": true
+      },
+      "after_rename": {
+        "pid": 51336,
+        "bsd_expected_size": 136,
+        "before": {
+          "bytes": 136,
+          "errno": 0,
+          "pid": 51336,
+          "uid": 501,
+          "start_sec": 1791469647,
+          "start_usec": 264922
+        },
+        "path_result": 100,
+        "path_errno": 0,
+        "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/moved-after-launch",
+        "after": {
+          "bytes": 136,
+          "errno": 0,
+          "pid": 51336,
+          "uid": 501,
+          "start_sec": 1791469647,
+          "start_usec": 264922
+        },
+        "observed_ns": 1791469647548286000,
+        "path_file": {
+          "realpath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/moved-after-launch",
+          "dev": 16777232,
+          "ino": 22928664,
+          "sha256": "4a50eb06424be0733711a66bd21313ddf94a2aaabbd835e93ec7c9f0755c956f",
+          "running_image_binding": "NOT_PROVEN_BY_PATH_HASH"
+        },
+        "start_stable_within_sample": true
+      }
+    },
+    {
+      "id": "R3",
+      "description": "symlink launch",
+      "launched_path": "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/symbolic-launch",
+      "handshake": "target-fixture pid=51348 argv0=/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/symbolic-launch",
+      "launch_file": {
+        "realpath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/target",
+        "dev": 16777232,
+        "ino": 22928655,
+        "sha256": "4a50eb06424be0733711a66bd21313ddf94a2aaabbd835e93ec7c9f0755c956f",
+        "running_image_binding": "NOT_PROVEN_BY_PATH_HASH"
+      },
+      "sample": {
+        "pid": 51348,
+        "bsd_expected_size": 136,
+        "before": {
+          "bytes": 136,
+          "errno": 0,
+          "pid": 51348,
+          "uid": 501,
+          "start_sec": 1791469647,
+          "start_usec": 548666
+        },
+        "path_result": 88,
+        "path_errno": 0,
+        "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/target",
+        "after": {
+          "bytes": 136,
+          "errno": 0,
+          "pid": 51348,
+          "uid": 501,
+          "start_sec": 1791469647,
+          "start_usec": 548666
+        },
+        "observed_ns": 1791469647554567000,
+        "path_file": {
+          "realpath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/target",
+          "dev": 16777232,
+          "ino": 22928655,
+          "sha256": "4a50eb06424be0733711a66bd21313ddf94a2aaabbd835e93ec7c9f0755c956f",
+          "running_image_binding": "NOT_PROVEN_BY_PATH_HASH"
+        },
+        "start_stable_within_sample": true
+      }
+    },
+    {
+      "id": "R4",
+      "description": "hardlink launch",
+      "launched_path": "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/hardlink-launch",
+      "handshake": "target-fixture pid=51350 argv0=/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/hardlink-launch",
+      "launch_file": {
+        "realpath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/hardlink-launch",
+        "dev": 16777232,
+        "ino": 22928655,
+        "sha256": "4a50eb06424be0733711a66bd21313ddf94a2aaabbd835e93ec7c9f0755c956f",
+        "running_image_binding": "NOT_PROVEN_BY_PATH_HASH"
+      },
+      "sample": {
+        "pid": 51350,
+        "bsd_expected_size": 136,
+        "before": {
+          "bytes": 136,
+          "errno": 0,
+          "pid": 51350,
+          "uid": 501,
+          "start_sec": 1791469647,
+          "start_usec": 555312
+        },
+        "path_result": 97,
+        "path_errno": 0,
+        "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/hardlink-launch",
+        "after": {
+          "bytes": 136,
+          "errno": 0,
+          "pid": 51350,
+          "uid": 501,
+          "start_sec": 1791469647,
+          "start_usec": 555312
+        },
+        "observed_ns": 1791469647562055000,
+        "path_file": {
+          "realpath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/hardlink-launch",
+          "dev": 16777232,
+          "ino": 22928655,
+          "sha256": "4a50eb06424be0733711a66bd21313ddf94a2aaabbd835e93ec7c9f0755c956f",
+          "running_image_binding": "NOT_PROVEN_BY_PATH_HASH"
+        },
+        "start_stable_within_sample": true
+      }
+    },
+    {
+      "id": "R5",
+      "description": "same-hash different inode",
+      "launched_path": "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/copied-launch",
+      "handshake": "target-fixture pid=51352 argv0=/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/copied-launch",
+      "launch_file": {
+        "realpath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/copied-launch",
+        "dev": 16777232,
+        "ino": 22928677,
+        "sha256": "4a50eb06424be0733711a66bd21313ddf94a2aaabbd835e93ec7c9f0755c956f",
+        "running_image_binding": "NOT_PROVEN_BY_PATH_HASH"
+      },
+      "sample": {
+        "pid": 51352,
+        "bsd_expected_size": 136,
+        "before": {
+          "bytes": 136,
+          "errno": 0,
+          "pid": 51352,
+          "uid": 501,
+          "start_sec": 1791469647,
+          "start_usec": 562812
+        },
+        "path_result": 95,
+        "path_errno": 0,
+        "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/copied-launch",
+        "after": {
+          "bytes": 136,
+          "errno": 0,
+          "pid": 51352,
+          "uid": 501,
+          "start_sec": 1791469647,
+          "start_usec": 562812
+        },
+        "observed_ns": 1791469648336284000,
+        "path_file": {
+          "realpath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/copied-launch",
+          "dev": 16777232,
+          "ino": 22928677,
+          "sha256": "4a50eb06424be0733711a66bd21313ddf94a2aaabbd835e93ec7c9f0755c956f",
+          "running_image_binding": "NOT_PROVEN_BY_PATH_HASH"
+        },
+        "start_stable_within_sample": true
+      }
+    },
+    {
+      "id": "R6",
+      "description": "target with benign argv0",
+      "launched_path": "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/target",
+      "handshake": "target-fixture pid=51359 argv0=ordinary-benign-name",
+      "launch_file": {
+        "realpath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/target",
+        "dev": 16777232,
+        "ino": 22928655,
+        "sha256": "4a50eb06424be0733711a66bd21313ddf94a2aaabbd835e93ec7c9f0755c956f",
+        "running_image_binding": "NOT_PROVEN_BY_PATH_HASH"
+      },
+      "sample": {
+        "pid": 51359,
+        "bsd_expected_size": 136,
+        "before": {
+          "bytes": 136,
+          "errno": 0,
+          "pid": 51359,
+          "uid": 501,
+          "start_sec": 1791469648,
+          "start_usec": 336811
+        },
+        "path_result": 88,
+        "path_errno": 0,
+        "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/target",
+        "after": {
+          "bytes": 136,
+          "errno": 0,
+          "pid": 51359,
+          "uid": 501,
+          "start_sec": 1791469648,
+          "start_usec": 336811
+        },
+        "observed_ns": 1791469648343497000,
+        "path_file": {
+          "realpath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/target",
+          "dev": 16777232,
+          "ino": 22928655,
+          "sha256": "4a50eb06424be0733711a66bd21313ddf94a2aaabbd835e93ec7c9f0755c956f",
+          "running_image_binding": "NOT_PROVEN_BY_PATH_HASH"
+        },
+        "start_stable_within_sample": true
+      }
+    },
+    {
+      "id": "R6_inverse",
+      "description": "non-target with target-like argv0",
+      "launched_path": "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/other",
+      "handshake": "non-target-fixture pid=51361 argv0=personal-finance-console",
+      "launch_file": {
+        "realpath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/other",
+        "dev": 16777232,
+        "ino": 22928658,
+        "sha256": "46cd0569512048784ae155fad11eca39ad940d33ed9e30b6e7eaf2440ddec72e",
+        "running_image_binding": "NOT_PROVEN_BY_PATH_HASH"
+      },
+      "sample": {
+        "pid": 51361,
+        "bsd_expected_size": 136,
+        "before": {
+          "bytes": 136,
+          "errno": 0,
+          "pid": 51361,
+          "uid": 501,
+          "start_sec": 1791469648,
+          "start_usec": 343850
+        },
+        "path_result": 87,
+        "path_errno": 0,
+        "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/other",
+        "after": {
+          "bytes": 136,
+          "errno": 0,
+          "pid": 51361,
+          "uid": 501,
+          "start_sec": 1791469648,
+          "start_usec": 343850
+        },
+        "observed_ns": 1791469648671677000,
+        "path_file": {
+          "realpath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/other",
+          "dev": 16777232,
+          "ino": 22928658,
+          "sha256": "46cd0569512048784ae155fad11eca39ad940d33ed9e30b6e7eaf2440ddec72e",
+          "running_image_binding": "NOT_PROVEN_BY_PATH_HASH"
+        },
+        "start_stable_within_sample": true
+      }
+    },
+    {
+      "id": "R7_unlink",
+      "description": "unlink executable while process alive",
+      "launched_path": "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/deleted-image",
+      "handshake": "target-fixture pid=51365 argv0=/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/deleted-image",
+      "launch_file": {
+        "realpath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/deleted-image",
+        "dev": 16777232,
+        "ino": 22928681,
+        "sha256": "4a50eb06424be0733711a66bd21313ddf94a2aaabbd835e93ec7c9f0755c956f",
+        "running_image_binding": "NOT_PROVEN_BY_PATH_HASH"
+      },
+      "sample": {
+        "pid": 51365,
+        "bsd_expected_size": 136,
+        "before": {
+          "bytes": 136,
+          "errno": 0,
+          "pid": 51365,
+          "uid": 501,
+          "start_sec": 1791469648,
+          "start_usec": 672771
+        },
+        "path_result": 95,
+        "path_errno": 0,
+        "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/deleted-image",
+        "after": {
+          "bytes": 136,
+          "errno": 0,
+          "pid": 51365,
+          "uid": 501,
+          "start_sec": 1791469648,
+          "start_usec": 672771
+        },
+        "observed_ns": 1791469649021195000,
+        "path_file": {
+          "realpath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/deleted-image",
+          "dev": 16777232,
+          "ino": 22928681,
+          "sha256": "4a50eb06424be0733711a66bd21313ddf94a2aaabbd835e93ec7c9f0755c956f",
+          "running_image_binding": "NOT_PROVEN_BY_PATH_HASH"
+        },
+        "start_stable_within_sample": true
+      },
+      "after_unlink": {
+        "pid": 51365,
+        "bsd_expected_size": 136,
+        "before": {
+          "bytes": 136,
+          "errno": 0,
+          "pid": 51365,
+          "uid": 501,
+          "start_sec": 1791469648,
+          "start_usec": 672771
+        },
+        "path_result": 0,
+        "path_errno": 2,
+        "path": "",
+        "after": {
+          "bytes": 136,
+          "errno": 0,
+          "pid": 51365,
+          "uid": 501,
+          "start_sec": 1791469648,
+          "start_usec": 672771
+        },
+        "observed_ns": 1791469649025474000,
+        "path_file": null,
+        "start_stable_within_sample": true
+      },
+      "still_running": "target-fixture pid=51365"
+    },
+    {
+      "id": "R7_replace",
+      "description": "replace pathname with non-target while old process alive",
+      "launched_path": "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/replaced-image",
+      "handshake": "target-fixture pid=51372 argv0=/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/replaced-image",
+      "launch_file": {
+        "realpath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/replaced-image",
+        "dev": 16777232,
+        "ino": 22928682,
+        "sha256": "4a50eb06424be0733711a66bd21313ddf94a2aaabbd835e93ec7c9f0755c956f",
+        "running_image_binding": "NOT_PROVEN_BY_PATH_HASH"
+      },
+      "sample": {
+        "pid": 51372,
+        "bsd_expected_size": 136,
+        "before": {
+          "bytes": 136,
+          "errno": 0,
+          "pid": 51372,
+          "uid": 501,
+          "start_sec": 1791469649,
+          "start_usec": 26345
+        },
+        "path_result": 96,
+        "path_errno": 0,
+        "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/replaced-image",
+        "after": {
+          "bytes": 136,
+          "errno": 0,
+          "pid": 51372,
+          "uid": 501,
+          "start_sec": 1791469649,
+          "start_usec": 26345
+        },
+        "observed_ns": 1791469649290706000,
+        "path_file": {
+          "realpath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/replaced-image",
+          "dev": 16777232,
+          "ino": 22928682,
+          "sha256": "4a50eb06424be0733711a66bd21313ddf94a2aaabbd835e93ec7c9f0755c956f",
+          "running_image_binding": "NOT_PROVEN_BY_PATH_HASH"
+        },
+        "start_stable_within_sample": true
+      },
+      "after_replace": {
+        "pid": 51372,
+        "bsd_expected_size": 136,
+        "before": {
+          "bytes": 136,
+          "errno": 0,
+          "pid": 51372,
+          "uid": 501,
+          "start_sec": 1791469649,
+          "start_usec": 26345
+        },
+        "path_result": 96,
+        "path_errno": 0,
+        "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/replaced-image",
+        "after": {
+          "bytes": 136,
+          "errno": 0,
+          "pid": 51372,
+          "uid": 501,
+          "start_sec": 1791469649,
+          "start_usec": 26345
+        },
+        "observed_ns": 1791469649295661000,
+        "path_file": {
+          "realpath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/replaced-image",
+          "dev": 16777232,
+          "ino": 22928684,
+          "sha256": "46cd0569512048784ae155fad11eca39ad940d33ed9e30b6e7eaf2440ddec72e",
+          "running_image_binding": "NOT_PROVEN_BY_PATH_HASH"
+        },
+        "start_stable_within_sample": true
+      },
+      "still_running": "target-fixture pid=51372"
+    },
+    {
+      "id": "R8",
+      "description": "stable PID/start across exec demonstrates exec-blind identity",
+      "launched_path": "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/target",
+      "handshake": "target-fixture pid=51378 argv0=/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/target",
+      "launch_file": {
+        "realpath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/target",
+        "dev": 16777232,
+        "ino": 22928655,
+        "sha256": "4a50eb06424be0733711a66bd21313ddf94a2aaabbd835e93ec7c9f0755c956f",
+        "running_image_binding": "NOT_PROVEN_BY_PATH_HASH"
+      },
+      "sample": {
+        "pid": 51378,
+        "bsd_expected_size": 136,
+        "before": {
+          "bytes": 136,
+          "errno": 0,
+          "pid": 51378,
+          "uid": 501,
+          "start_sec": 1791469649,
+          "start_usec": 296171
+        },
+        "path_result": 88,
+        "path_errno": 0,
+        "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/target",
+        "after": {
+          "bytes": 136,
+          "errno": 0,
+          "pid": 51378,
+          "uid": 501,
+          "start_sec": 1791469649,
+          "start_usec": 296171
+        },
+        "observed_ns": 1791469649303316000,
+        "path_file": {
+          "realpath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/target",
+          "dev": 16777232,
+          "ino": 22928655,
+          "sha256": "4a50eb06424be0733711a66bd21313ddf94a2aaabbd835e93ec7c9f0755c956f",
+          "running_image_binding": "NOT_PROVEN_BY_PATH_HASH"
+        },
+        "start_stable_within_sample": true
+      },
+      "repeat": {
+        "pid": 51378,
+        "bsd_expected_size": 136,
+        "before": {
+          "bytes": 136,
+          "errno": 0,
+          "pid": 51378,
+          "uid": 501,
+          "start_sec": 1791469649,
+          "start_usec": 296171
+        },
+        "path_result": 88,
+        "path_errno": 0,
+        "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/target",
+        "after": {
+          "bytes": 136,
+          "errno": 0,
+          "pid": 51378,
+          "uid": 501,
+          "start_sec": 1791469649,
+          "start_usec": 296171
+        },
+        "observed_ns": 1791469649307557000,
+        "path_file": {
+          "realpath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/target",
+          "dev": 16777232,
+          "ino": 22928655,
+          "sha256": "4a50eb06424be0733711a66bd21313ddf94a2aaabbd835e93ec7c9f0755c956f",
+          "running_image_binding": "NOT_PROVEN_BY_PATH_HASH"
+        },
+        "start_stable_within_sample": true
+      },
+      "after_exec_handshake": "non-target-fixture pid=51378 argv0=spoofed-exec-name",
+      "after_exec": {
+        "pid": 51378,
+        "bsd_expected_size": 136,
+        "before": {
+          "bytes": 136,
+          "errno": 0,
+          "pid": 51378,
+          "uid": 501,
+          "start_sec": 1791469649,
+          "start_usec": 296171
+        },
+        "path_result": 87,
+        "path_errno": 0,
+        "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/other",
+        "after": {
+          "bytes": 136,
+          "errno": 0,
+          "pid": 51378,
+          "uid": 501,
+          "start_sec": 1791469649,
+          "start_usec": 296171
+        },
+        "observed_ns": 1791469649314068000,
+        "path_file": {
+          "realpath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pf-r-capability-_db590o7/other",
+          "dev": 16777232,
+          "ino": 22928658,
+          "sha256": "46cd0569512048784ae155fad11eca39ad940d33ed9e30b6e7eaf2440ddec72e",
+          "running_image_binding": "NOT_PROVEN_BY_PATH_HASH"
+        },
+        "start_stable_within_sample": true
+      },
+      "start_identity_unchanged_across_exec": true,
+      "pid_reuse": "NOT_FORCED: start tuple helps reuse detection, no reuse coverage claimed"
+    }
+  ],
+  "no_production_access": true,
+  "build": {
+    "target_sha256": "4a50eb06424be0733711a66bd21313ddf94a2aaabbd835e93ec7c9f0755c956f",
+    "other_sha256": "46cd0569512048784ae155fad11eca39ad940d33ed9e30b6e7eaf2440ddec72e",
+    "source_sha256": {
+      "r_native.c": "c878e24c3c61423821753189473c68b0516493dd9d45ef5522c7ac7ff8d93584",
+      "r_fixture.c": "ff7c08eed5a1439121ed9e71d9993a2cb7353d4ee386beadf37666f258ee4b58",
+      "r_run.py": "1f3841aea68376565a19e2bd8a03d65b4673dcb58ce5292b011fb3b0a8046828"
+    }
+  },
+  "pid1_readonly_boundary": {
+    "pid": 1,
+    "bsd_expected_size": 136,
+    "before": {
+      "bytes": 0,
+      "errno": 1,
+      "pid": 0,
+      "uid": 0,
+      "start_sec": 0,
+      "start_usec": 0
+    },
+    "path_result": 13,
+    "path_errno": 0,
+    "path": "/sbin/launchd",
+    "after": {
+      "bytes": 0,
+      "errno": 1,
+      "pid": 0,
+      "uid": 0,
+      "start_sec": 0,
+      "start_usec": 0
+    },
+    "observed_ns": 1791469649317702000,
+    "path_file": {
+      "realpath": "/sbin/launchd",
+      "dev": 16777232,
+      "ino": 1152921500312571473,
+      "sha256": "7b636e967e77705d88aad9ad9ea9af627852d83686cd19ab4d94c6010cd67b09",
+      "running_image_binding": "NOT_PROVEN_BY_PATH_HASH"
+    },
+    "start_stable_within_sample": false
+  },
+  "observed_checks": {
+    "R1_expected_path_hash_matches": true,
+    "R2_rename_path_updates": true,
+    "R3_symlink_resolves": true,
+    "R4_hardlink_same_inode": true,
+    "R5_copy_same_hash_different_inode": true,
+    "R6_argv0_does_not_spoof_native_path": true,
+    "R7_unlinked_path_unavailable_while_alive": true,
+    "R7_replacement_path_hash_is_wrong_running_image": true,
+    "R8_exec_preserves_start": true,
+    "R8_stable_repeat_before_exec": true
+  },
+  "fixture_expected_behavior_observed": true,
+  "conclusion": "R_CAPABILITY_INSUFFICIENT",
+  "missing_facts": [
+    "Kernel-bound main running-image vnode/bytes identity not established by proc_pidpath + BSD info + path stat/hash.",
+    "PID/start survives exec on tested host; neither double sampling nor stable PID/start provides an exec generation or continuous race guarantee.",
+    "All-PID coverage and protected/other-user executable identity not established by same-user fixtures or PID1 path observation."
+  ],
+  "scope": "Controlled ordinary-user fixtures plus PID1 read-only path/start observation; no lsof txt, no installed-app scan.",
+  "cleanup": [
+    {
+      "pid": 51328,
+      "returncode": 0
+    },
+    {
+      "pid": 51336,
+      "returncode": 0
+    },
+    {
+      "pid": 51348,
+      "returncode": 0
+    },
+    {
+      "pid": 51350,
+      "returncode": 0
+    },
+    {
+      "pid": 51352,
+      "returncode": 0
+    },
+    {
+      "pid": 51359,
+      "returncode": 0
+    },
+    {
+      "pid": 51361,
+      "returncode": 0
+    },
+    {
+      "pid": 51365,
+      "returncode": 0
+    },
+    {
+      "pid": 51372,
+      "returncode": 0
+    },
+    {
+      "pid": 51378,
+      "returncode": 0
+    }
+  ],
+  "ended_ns": 1791469649332769000
+}
