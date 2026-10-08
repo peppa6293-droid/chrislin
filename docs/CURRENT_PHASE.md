@@ -12,10 +12,18 @@ Phase 3: APPROVED.
 
 V0.1 Status: `PERSONAL_FINANCE_CONSOLE_V01_PRODUCTION_ACTIVE`.
 
-## V0.1.2 V4 Cutover Inventory — Phase A Capability Blocked
+## V0.1.2 V4 Cutover Quiescence — Approved for Isolated Implementation
+
+- On 2026-10-08, Owner approved `V012_V4_CUTOVER_QUIESCENCE_CONTRACT_REDESIGN.md`, OD-01–OD-08, for isolated implementation and synthetic verification only. SQLite built-in recovery and mode-probe infrastructure effects are authorized only against synthetic fixtures in this task.
+- `RB-V4-CUTOVER-INVENTORY-01 = SUPERSEDED_BY_RB-V4-CUTOVER-QUIESCENCE-01`. SUPERSEDED is not CLOSED. The historical capability failure below remains unchanged evidence.
+- `RB-V4-CUTOVER-QUIESCENCE-01 = OPEN`. `RB-V4-OLD-RUNTIME-01 = CLOSED` remains the historical Owner closure.
+- Production remains Schema V3; Production V4 migration is NOT AUTHORIZED. No candidate freeze, Production replacement/retirement/backup/launch/write/recovery/checkpoint, real permit or release receipt, Stage 4–7, V0.2, financial-model changes, or deferred P2 cleanup is authorized.
+- Implementation and experiments must be independently re-audited; implementation reports do not close this blocker or authorize Production cutover.
+
+## Historical — V0.1.2 V4 Cutover Inventory — Phase A Capability Blocked
 
 - On 2026-10-08, Owner authorized ordinary-user isolated inventory capability proof and only conditionally full implementation. Result: `PF_V012_V4_CUTOVER_INVENTORY_CAPABILITY_BLOCKED`.
-- `RB-V4-CUTOVER-INVENTORY-01 = OPEN`: the audited inventory contract is being changed for real macOS cutover compatibility; ordinary-user R/H capability was not proven. `RB-V4-OLD-RUNTIME-01 = CLOSED` remains the historical Owner decision below.
+- At that time, `RB-V4-CUTOVER-INVENTORY-01 = OPEN`: the audited inventory contract was being changed for real macOS cutover compatibility; ordinary-user R/H capability was not proven. Its current supersession is recorded above. `RB-V4-OLD-RUNTIME-01 = CLOSED` remains the historical Owner decision below.
 - R: `R_CAPABILITY_INSUFFICIENT`; H: `H_CAPABILITY_NOT_PROVABLE_WITH_CURRENT_APPROACH`; graph: `APP_GRAPH_CAPABILITY_PROVEN` only for isolated A–G graph behavior, not the complete App contract. Exact-current-path queries miss held old vnodes after rename/unlink; protected-PID visibility and snapshot/race protection remain unresolved.
 - Full gate implementation / Phase B did not start. No production runtime, gate source, database, permit, migration authorization, or release receipt was changed or generated. No Production launch, backup, replacement, retirement or migration occurred.
 - Preserve `PF_V012_V4_OWNER_SANDBOX_ACCEPTED`; only `OWNER_ACCEPTANCE_RECORD_NOT_PRESENT_IN_CURRENT_PROJECT_EVIDENCE` remains, not pending Owner acceptance. The ¥13.10 expense remains `OWNER_RECOGNIZED_NORMAL_USE_EXPENSE`.

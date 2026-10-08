@@ -17,6 +17,20 @@ const CONSUMED_AUTHORIZATION_LEDGER: &str = "production-v4-consumed-authorizatio
 const PRODUCTION_APP_BUNDLE: &str = "/Applications/Personal Finance Console.app";
 const PRODUCTION_EXECUTABLE: &str = "personal-finance-console";
 
+fn ensure_no_unresolved_cutover(app_data: &Path) -> Result<(), String> {
+    // No Production handoff/recovery is authorized by the isolated contract.
+    // Presence (including a dangling link), unreadability or any outcome needs
+    // the separately authorized recovery path; schema=4 cannot override it.
+    for name in ["outcome.json", "outcome.json.pending", "permit.claimed.json", "consumed.json", "consumed.json.pending", "cutover-state.json", "cutover-outcome.json", "quiescence-state.json"] {
+        match std::fs::symlink_metadata(app_data.join(name)) {
+            Ok(_) => return Err("CUTOVER_STATE_REQUIRES_AUTHORIZED_HANDOFF: ordinary startup is blocked before SQLite access.".into()),
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => (),
+            Err(_) => return Err("CUTOVER_STATE_UNKNOWN: ordinary startup is blocked before SQLite access.".into()),
+        }
+    }
+    Ok(())
+}
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 struct DatabaseSchemaVersion { user_version: i64, migration_version: i64 }
 
@@ -600,6 +614,45 @@ mod tests {
         std::env::temp_dir().join(format!("personal-finance-transaction-{}-{nonce}.sqlite3", std::process::id()))
     }
 
+    #[test]
+    fn cutover_outcome_blocks_startup_before_any_database_access() {
+        let root = temp_db_path().with_extension("cutover-startup-test");
+        fs::create_dir(&root).unwrap();
+        assert!(ensure_no_unresolved_cutover(&root).is_ok());
+        for name in ["outcome.json", "outcome.json.pending", "permit.claimed.json", "consumed.json", "consumed.json.pending", "cutover-state.json", "cutover-outcome.json", "quiescence-state.json"] {
+            for payload in ["corrupt", r#"{"state":"COMMIT_OUTCOME_UNKNOWN"}"#, r#"{"state":"V4_VERIFIED"}"#] {
+                fs::write(root.join(name), payload).unwrap();
+                assert!(ensure_no_unresolved_cutover(&root).is_err());
+                assert!(!root.join(PRODUCTION_DATABASE).exists());
+                fs::remove_file(root.join(name)).unwrap();
+            }
+        }
+        #[cfg(unix)] {
+            std::os::unix::fs::symlink(root.join("absent"), root.join("cutover-state.json")).unwrap();
+            assert!(ensure_no_unresolved_cutover(&root).is_err());
+            fs::remove_file(root.join("cutover-state.json")).unwrap();
+        }
+        fs::remove_dir(root).unwrap();
+    }
+
+    #[test]
+    fn native_schema_artifacts_match_accepted_migration_source() {
+        let connection = Connection::open_in_memory().unwrap();
+        connection.execute_batch(include_str!("../../migrations/003-bootstrap.sql")).unwrap();
+        for (expected, migration) in [
+            (include_str!("../../migrations/v3-schema.json"), ""),
+            (include_str!("../../migrations/v4-schema.json"), include_str!("../../migrations/004.sql")),
+        ] {
+            connection.execute_batch(migration).unwrap();
+            let mut statement = connection.prepare("SELECT type,name,tbl_name,sql FROM sqlite_master WHERE sql IS NOT NULL ORDER BY type,name").unwrap();
+            let actual = statement.query_map([], |row| Ok(serde_json::json!({
+                "type": row.get::<_, String>(0)?, "name": row.get::<_, String>(1)?,
+                "tbl_name": row.get::<_, String>(2)?, "sql": row.get::<_, String>(3)?
+            }))).unwrap().collect::<Result<Vec<_>, _>>().unwrap();
+            assert_eq!(JsonValue::Array(actual), serde_json::from_str::<JsonValue>(expected).unwrap());
+        }
+    }
+
     fn count(db: &DatabaseState, table: &str) -> i64 {
         db.select(&format!("SELECT COUNT(*) AS count FROM {table}"), vec![], None).unwrap()[0]["count"].as_i64().unwrap()
     }
@@ -961,24 +1014,23 @@ pub fn run() {
                 ensure_smoke_data_dir_isolated(&app.config().identifier, &app_data, &home).map_err(std::io::Error::other)?;
             }
             let database_path = if acceptance_runtime { app_data.join(ACCEPTANCE_DATABASE) } else { app_data.join("personal-finance-console.sqlite3") };
-            let mut migration_permitted = false;
-            let mut schema_ready = true;
+            let migration_permitted = false;
+            let schema_ready = true;
             if production_runtime {
                 if app_data != home.join("Library/Application Support").join(PRODUCTION_IDENTIFIER) {
                     return Err(std::io::Error::other("Production runtime refused an unexpected application-data path.").into());
                 }
+                ensure_no_unresolved_cutover(&app_data).map_err(std::io::Error::other)?;
                 let executable = std::env::current_exe()?;
                 let expected_executable = Path::new(PRODUCTION_APP_BUNDLE).join("Contents/MacOS").join(PRODUCTION_EXECUTABLE);
                 if executable != expected_executable {
                     return Err(std::io::Error::other("Production identity may run only from the verified normal installed app path.").into());
                 }
-                let (_, manifest_hash) = validate_runtime_compatibility_manifest(&executable).map_err(std::io::Error::other)?;
+                validate_runtime_compatibility_manifest(&executable).map_err(std::io::Error::other)?;
                 let schema = schema_version_from_path(&database_path).map_err(std::io::Error::other)?;
                 ensure_supported_schema(schema).map_err(std::io::Error::other)?;
                 if schema.user_version > 0 && schema.user_version < CURRENT_SCHEMA_VERSION {
-                    consume_production_migration_authorization(&app_data, &database_path, &home, schema, &executable, &manifest_hash).map_err(std::io::Error::other)?;
-                    migration_permitted = true;
-                    schema_ready = false;
+                    return Err(std::io::Error::other("QUIESCENCE_IMPLEMENTATION_NOT_PRODUCTION_AUTHORIZED: legacy TS-driven Production migration is disabled; isolated verification is not Production cutover authority.").into());
                 } else if schema.user_version == 0 {
                     return Err(std::io::Error::other("Production runtime refuses an uninitialized database; use an approved, separately gated bootstrap.").into());
                 }

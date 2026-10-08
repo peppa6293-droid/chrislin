@@ -1,0 +1,199 @@
+CREATE TABLE IF NOT EXISTS schema_migrations (version INTEGER PRIMARY KEY, applied_at TEXT NOT NULL);
+
+CREATE TABLE IF NOT EXISTS profiles (
+  id TEXT PRIMARY KEY,
+  singleton_id INTEGER NOT NULL DEFAULT 1 UNIQUE CHECK (singleton_id = 1),
+  display_name TEXT,
+  created_at TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS financial_settings (
+  profile_id TEXT PRIMARY KEY REFERENCES profiles(id) ON DELETE RESTRICT,
+  safety_coverage_target_months REAL NOT NULL CHECK (safety_coverage_target_months >= 0),
+  minimum_cash_coverage_months REAL NOT NULL CHECK (minimum_cash_coverage_months >= 0),
+  safety_recovery_horizon_months REAL CHECK (safety_recovery_horizon_months IS NULL OR safety_recovery_horizon_months > 0),
+  desired_monthly_discretionary_spending TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS essential_expense_items (
+  id TEXT PRIMARY KEY,
+  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,
+  category TEXT NOT NULL CHECK (category IN ('HOUSING','BASIC_FOOD','TRANSPORT','UTILITIES_COMMUNICATIONS','INSURANCE','FAMILY_FIXED_RESPONSIBILITY','OTHER_ESSENTIAL')),
+  name TEXT NOT NULL,
+  monthly_amount TEXT NOT NULL,
+  active INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0,1)),
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS essential_expense_snapshots (
+  id TEXT PRIMARY KEY,
+  item_id TEXT NOT NULL REFERENCES essential_expense_items(id) ON DELETE RESTRICT,
+  as_of_date TEXT NOT NULL,
+  monthly_amount TEXT NOT NULL,
+  created_at TEXT NOT NULL,
+  UNIQUE(item_id, as_of_date)
+);
+CREATE INDEX IF NOT EXISTS essential_snapshot_date ON essential_expense_snapshots(item_id, as_of_date);
+CREATE TABLE IF NOT EXISTS income_records (
+  id TEXT PRIMARY KEY,
+  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,
+  kind TEXT NOT NULL CHECK (kind IN ('PLANNING','ACTUAL')),
+  status TEXT NOT NULL CHECK (status IN ('EXPECTED','PENDING','RECEIVED')),
+  amount TEXT NOT NULL,
+  date TEXT NOT NULL,
+  period_month TEXT CHECK (period_month IS NULL OR (length(period_month)=7 AND substr(period_month,5,1)='-' AND substr(period_month,6,2) BETWEEN '01' AND '12' AND substr(period_month,1,4) NOT GLOB '*[^0-9]*')),
+  created_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS income_profile_month ON income_records(profile_id, period_month, kind, date);
+CREATE TABLE IF NOT EXISTS expense_records (
+  id TEXT PRIMARY KEY,
+  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,
+  amount TEXT NOT NULL,
+  occurred_at TEXT NOT NULL,
+  kind TEXT NOT NULL CHECK (kind IN ('ESSENTIAL','VARIABLE')),
+  category TEXT CHECK (category IS NULL OR category IN ('HOUSING','BASIC_FOOD','TRANSPORT','UTILITIES_COMMUNICATIONS','INSURANCE','FAMILY_FIXED_RESPONSIBILITY','OTHER_ESSENTIAL','FOOD','SHOPPING','ENTERTAINMENT','HOUSEHOLD','OTHER_VARIABLE')),
+  note TEXT,
+  created_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS expenses_profile_date ON expense_records(profile_id, occurred_at);
+CREATE TABLE IF NOT EXISTS cash_accounts (
+  id TEXT PRIMARY KEY,
+  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,
+  name TEXT NOT NULL,
+  include_in_safety_resources INTEGER NOT NULL CHECK (include_in_safety_resources IN (0,1)),
+  active INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0,1)),
+  created_at TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS cash_balance_snapshots (
+  id TEXT PRIMARY KEY,
+  account_id TEXT NOT NULL REFERENCES cash_accounts(id) ON DELETE RESTRICT,
+  as_of_date TEXT NOT NULL,
+  balance TEXT NOT NULL,
+  created_at TEXT NOT NULL,
+  UNIQUE(account_id, as_of_date)
+);
+CREATE INDEX IF NOT EXISTS cash_snapshot_date ON cash_balance_snapshots(account_id, as_of_date);
+CREATE TABLE IF NOT EXISTS assets (
+  id TEXT PRIMARY KEY,
+  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,
+  name TEXT NOT NULL,
+  kind TEXT NOT NULL CHECK (kind IN ('LIQUID_INVESTMENT','OTHER')),
+  include_in_safety_resources INTEGER NOT NULL CHECK (include_in_safety_resources IN (0,1)),
+  active INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0,1)),
+  created_at TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS asset_value_snapshots (
+  id TEXT PRIMARY KEY,
+  asset_id TEXT NOT NULL REFERENCES assets(id) ON DELETE RESTRICT,
+  as_of_date TEXT NOT NULL,
+  value TEXT NOT NULL,
+  created_at TEXT NOT NULL,
+  UNIQUE(asset_id, as_of_date)
+);
+CREATE INDEX IF NOT EXISTS asset_snapshot_date ON asset_value_snapshots(asset_id, as_of_date);
+CREATE TABLE IF NOT EXISTS debts (
+  id TEXT PRIMARY KEY,
+  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,
+  name TEXT NOT NULL,
+  fixed_monthly_payment TEXT,
+  active INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0,1)),
+  created_at TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS debt_period_facts (
+  id TEXT PRIMARY KEY,
+  debt_id TEXT NOT NULL REFERENCES debts(id) ON DELETE RESTRICT,
+  period_month TEXT NOT NULL CHECK (length(period_month)=7 AND substr(period_month,5,1)='-' AND substr(period_month,6,2) BETWEEN '01' AND '12' AND substr(period_month,1,4) NOT GLOB '*[^0-9]*'),
+  as_of_date TEXT NOT NULL,
+  current_balance TEXT NOT NULL,
+  current_month_due TEXT,
+  created_at TEXT NOT NULL,
+  UNIQUE(debt_id, period_month)
+);
+CREATE INDEX IF NOT EXISTS debt_period_lookup ON debt_period_facts(debt_id, period_month, as_of_date);
+CREATE TABLE IF NOT EXISTS app_metadata (
+  key TEXT PRIMARY KEY,
+  value TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS schema_migrations (
+  version INTEGER PRIMARY KEY,
+  applied_at TEXT NOT NULL
+);
+PRAGMA user_version = 1;
+
+INSERT INTO schema_migrations(version, applied_at) VALUES(1, '2000-01-01T00:00:00.000Z');
+
+CREATE TABLE IF NOT EXISTS essential_expense_revisions (
+  revision_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  item_id TEXT NOT NULL REFERENCES essential_expense_items(id) ON DELETE RESTRICT,
+  as_of_date TEXT NOT NULL,
+  name TEXT NOT NULL,
+  category TEXT NOT NULL,
+  monthly_amount TEXT NOT NULL,
+  active INTEGER NOT NULL CHECK(active IN (0,1)),
+  created_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS essential_revision_lookup ON essential_expense_revisions(item_id,as_of_date,revision_id);
+CREATE TABLE IF NOT EXISTS cash_account_revisions (
+  revision_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  account_id TEXT NOT NULL REFERENCES cash_accounts(id) ON DELETE RESTRICT,
+  as_of_date TEXT NOT NULL,
+  name TEXT NOT NULL,
+  include_in_safety_resources INTEGER NOT NULL CHECK(include_in_safety_resources IN (0,1)),
+  balance TEXT NOT NULL,
+  created_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS cash_revision_lookup ON cash_account_revisions(account_id,as_of_date,revision_id);
+CREATE TABLE IF NOT EXISTS asset_revisions (
+  revision_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  asset_id TEXT NOT NULL REFERENCES assets(id) ON DELETE RESTRICT,
+  as_of_date TEXT NOT NULL,
+  name TEXT NOT NULL,
+  kind TEXT NOT NULL CHECK(kind IN ('LIQUID_INVESTMENT','OTHER')),
+  include_in_safety_resources INTEGER NOT NULL CHECK(include_in_safety_resources IN (0,1)),
+  current_value TEXT NOT NULL,
+  active INTEGER NOT NULL CHECK(active IN (0,1)),
+  created_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS asset_revision_lookup ON asset_revisions(asset_id,as_of_date,revision_id);
+CREATE TABLE IF NOT EXISTS debt_revisions (
+  revision_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  debt_id TEXT NOT NULL REFERENCES debts(id) ON DELETE RESTRICT,
+  period_month TEXT NOT NULL,
+  as_of_date TEXT NOT NULL,
+  name TEXT NOT NULL,
+  current_balance TEXT NOT NULL,
+  current_month_due TEXT,
+  fixed_monthly_payment TEXT,
+  active INTEGER NOT NULL CHECK(active IN (0,1)),
+  created_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS debt_revision_lookup ON debt_revisions(debt_id,period_month,as_of_date,revision_id);
+CREATE TABLE IF NOT EXISTS planning_income_revisions (
+  revision_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,
+  effective_month TEXT NOT NULL,
+  as_of_date TEXT NOT NULL,
+  amount TEXT NOT NULL,
+  created_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS planning_income_revision_lookup ON planning_income_revisions(profile_id,effective_month,as_of_date,revision_id);
+CREATE TABLE IF NOT EXISTS settings_revisions (
+  revision_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,
+  effective_month TEXT NOT NULL,
+  as_of_date TEXT NOT NULL,
+  safety_coverage_target_months REAL NOT NULL,
+  minimum_cash_coverage_months REAL NOT NULL,
+  safety_recovery_horizon_months REAL,
+  desired_monthly_discretionary_spending TEXT NOT NULL,
+  created_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS settings_revision_lookup ON settings_revisions(profile_id,effective_month,as_of_date,revision_id);
+PRAGMA user_version = 2;
+
+INSERT INTO schema_migrations(version, applied_at) VALUES(2, '2000-01-01T00:00:00.000Z');
+
+ALTER TABLE expense_records ADD COLUMN business_date TEXT;
+UPDATE expense_records SET business_date=date(occurred_at,'localtime') WHERE business_date IS NULL;
+CREATE INDEX IF NOT EXISTS expenses_profile_business_date ON expense_records(profile_id,business_date,occurred_at);
+PRAGMA user_version = 3;
+
+INSERT INTO schema_migrations(version, applied_at) VALUES(3, '2000-01-01T00:00:00.000Z');

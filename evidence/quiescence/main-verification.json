@@ -1,0 +1,666 @@
+{
+  "verified": true,
+  "production_access": false,
+  "archive_members": 276,
+  "archive_sha256": "6603884edf2937c715b1e0d73e2fb955129c3dc08786fa650e64a400c0203666",
+  "experiment_sha256": "0fa42cf72ef9e1a0d5990f0a4915077a60b2236f4e831e2f43002df3a449592c",
+  "q_status_counts": {
+    "PARTIAL": 15,
+    "NOT_RUN": 1,
+    "PASS": 2
+  },
+  "main_task_exact_schema_and_all_legacy_tables_equal": true,
+  "legacy_tables": [
+    "app_metadata",
+    "asset_revisions",
+    "asset_value_snapshots",
+    "assets",
+    "cash_account_revisions",
+    "cash_accounts",
+    "cash_balance_snapshots",
+    "debt_period_facts",
+    "debt_revisions",
+    "debts",
+    "essential_expense_items",
+    "essential_expense_revisions",
+    "essential_expense_snapshots",
+    "expense_records",
+    "financial_settings",
+    "income_records",
+    "planning_income_revisions",
+    "profiles",
+    "settings_revisions"
+  ],
+  "peer_metadata": {
+    "arch": "aarch64",
+    "compile_options": [
+      "ATOMIC_INTRINSICS=1",
+      "COMPILER=clang-21.0.0",
+      "DEFAULT_AUTOVACUUM",
+      "DEFAULT_CACHE_SIZE=-2000",
+      "DEFAULT_FILE_FORMAT=4",
+      "DEFAULT_FOREIGN_KEYS",
+      "DEFAULT_JOURNAL_SIZE_LIMIT=-1",
+      "DEFAULT_MMAP_SIZE=0",
+      "DEFAULT_PAGE_SIZE=4096",
+      "DEFAULT_PCACHE_INITSZ=20",
+      "DEFAULT_RECURSIVE_TRIGGERS",
+      "DEFAULT_SECTOR_SIZE=4096",
+      "DEFAULT_SYNCHRONOUS=2",
+      "DEFAULT_WAL_AUTOCHECKPOINT=1000",
+      "DEFAULT_WAL_SYNCHRONOUS=2",
+      "DEFAULT_WORKER_THREADS=0",
+      "DIRECT_OVERFLOW_READ",
+      "ENABLE_API_ARMOR",
+      "ENABLE_COLUMN_METADATA",
+      "ENABLE_DBSTAT_VTAB",
+      "ENABLE_FTS3",
+      "ENABLE_FTS3_PARENTHESIS",
+      "ENABLE_FTS5",
+      "ENABLE_LOAD_EXTENSION",
+      "ENABLE_MEMORY_MANAGEMENT",
+      "ENABLE_RTREE",
+      "ENABLE_STAT4",
+      "HAVE_ISNAN",
+      "MALLOC_SOFT_LIMIT=1024",
+      "MAX_ATTACHED=10",
+      "MAX_COLUMN=2000",
+      "MAX_COMPOUND_SELECT=500",
+      "MAX_DEFAULT_PAGE_SIZE=8192",
+      "MAX_EXPR_DEPTH=1000",
+      "MAX_FUNCTION_ARG=1000",
+      "MAX_LENGTH=1000000000",
+      "MAX_LIKE_PATTERN_LENGTH=50000",
+      "MAX_MMAP_SIZE=0x7fff0000",
+      "MAX_PAGE_COUNT=0xfffffffe",
+      "MAX_PAGE_SIZE=65536",
+      "MAX_SQL_LENGTH=1000000000",
+      "MAX_TRIGGER_DEPTH=1000",
+      "MAX_VARIABLE_NUMBER=32766",
+      "MAX_VDBE_OP=250000000",
+      "MAX_WORKER_THREADS=8",
+      "MUTEX_PTHREADS",
+      "SOUNDEX",
+      "SYSTEM_MALLOC",
+      "TEMP_STORE=1",
+      "THREADSAFE=1",
+      "USE_URI"
+    ],
+    "default_vfs": "unix",
+    "event": "opened",
+    "no_checkpoint_on_close": true,
+    "os": "macos",
+    "pid": 86640,
+    "source_id": "2025-06-28 14:00:48 2af157d77fb1304a74176eaee7fbc7c7e932d946bf25325e9c26c91db19e3079",
+    "sqlite_version": "3.50.2",
+    "wal_autocheckpoint": 0
+  },
+  "readback": [
+    {
+      "arch": "aarch64",
+      "compile_options": [
+        "ATOMIC_INTRINSICS=1",
+        "COMPILER=clang-21.0.0",
+        "DEFAULT_AUTOVACUUM",
+        "DEFAULT_CACHE_SIZE=-2000",
+        "DEFAULT_FILE_FORMAT=4",
+        "DEFAULT_FOREIGN_KEYS",
+        "DEFAULT_JOURNAL_SIZE_LIMIT=-1",
+        "DEFAULT_MMAP_SIZE=0",
+        "DEFAULT_PAGE_SIZE=4096",
+        "DEFAULT_PCACHE_INITSZ=20",
+        "DEFAULT_RECURSIVE_TRIGGERS",
+        "DEFAULT_SECTOR_SIZE=4096",
+        "DEFAULT_SYNCHRONOUS=2",
+        "DEFAULT_WAL_AUTOCHECKPOINT=1000",
+        "DEFAULT_WAL_SYNCHRONOUS=2",
+        "DEFAULT_WORKER_THREADS=0",
+        "DIRECT_OVERFLOW_READ",
+        "ENABLE_API_ARMOR",
+        "ENABLE_COLUMN_METADATA",
+        "ENABLE_DBSTAT_VTAB",
+        "ENABLE_FTS3",
+        "ENABLE_FTS3_PARENTHESIS",
+        "ENABLE_FTS5",
+        "ENABLE_LOAD_EXTENSION",
+        "ENABLE_MEMORY_MANAGEMENT",
+        "ENABLE_RTREE",
+        "ENABLE_STAT4",
+        "HAVE_ISNAN",
+        "MALLOC_SOFT_LIMIT=1024",
+        "MAX_ATTACHED=10",
+        "MAX_COLUMN=2000",
+        "MAX_COMPOUND_SELECT=500",
+        "MAX_DEFAULT_PAGE_SIZE=8192",
+        "MAX_EXPR_DEPTH=1000",
+        "MAX_FUNCTION_ARG=1000",
+        "MAX_LENGTH=1000000000",
+        "MAX_LIKE_PATTERN_LENGTH=50000",
+        "MAX_MMAP_SIZE=0x7fff0000",
+        "MAX_PAGE_COUNT=0xfffffffe",
+        "MAX_PAGE_SIZE=65536",
+        "MAX_SQL_LENGTH=1000000000",
+        "MAX_TRIGGER_DEPTH=1000",
+        "MAX_VARIABLE_NUMBER=32766",
+        "MAX_VDBE_OP=250000000",
+        "MAX_WORKER_THREADS=8",
+        "MUTEX_PTHREADS",
+        "SOUNDEX",
+        "SYSTEM_MALLOC",
+        "TEMP_STORE=1",
+        "THREADSAFE=1",
+        "USE_URI"
+      ],
+      "default_vfs": "unix",
+      "event": "opened",
+      "no_checkpoint_on_close": true,
+      "os": "macos",
+      "pid": 86640,
+      "source_id": "2025-06-28 14:00:48 2af157d77fb1304a74176eaee7fbc7c7e932d946bf25325e9c26c91db19e3079",
+      "sqlite_version": "3.50.2",
+      "wal_autocheckpoint": 0
+    },
+    {
+      "autocommit": true,
+      "elapsed_us": 25,
+      "event": "sql",
+      "ok": true,
+      "pid": 86640,
+      "rows": [
+        {
+          "user_version": 4
+        }
+      ],
+      "sql": "PRAGMA user_version"
+    },
+    {
+      "autocommit": true,
+      "elapsed_us": 339,
+      "event": "sql",
+      "ok": true,
+      "pid": 86640,
+      "rows": [
+        {
+          "version": 1
+        },
+        {
+          "version": 2
+        },
+        {
+          "version": 3
+        },
+        {
+          "version": 4
+        }
+      ],
+      "sql": "SELECT version FROM schema_migrations ORDER BY version"
+    },
+    {
+      "autocommit": true,
+      "elapsed_us": 247,
+      "event": "sql",
+      "ok": true,
+      "pid": 86640,
+      "rows": [
+        {
+          "integrity_check": "ok"
+        }
+      ],
+      "sql": "PRAGMA integrity_check"
+    },
+    {
+      "autocommit": true,
+      "elapsed_us": 26,
+      "event": "sql",
+      "ok": true,
+      "pid": 86640,
+      "rows": [],
+      "sql": "PRAGMA foreign_key_check"
+    },
+    {
+      "autocommit": true,
+      "elapsed_us": 339,
+      "event": "sql",
+      "ok": true,
+      "pid": 86640,
+      "rows": [
+        {
+          "name": "actual_income_revision_lookup",
+          "sql": "CREATE INDEX actual_income_revision_lookup ON actual_income_revisions(income_id,as_of_date,revision_id)",
+          "tbl_name": "actual_income_revisions",
+          "type": "index"
+        },
+        {
+          "name": "asset_revision_lookup",
+          "sql": "CREATE INDEX asset_revision_lookup ON asset_revisions(asset_id,as_of_date,revision_id)",
+          "tbl_name": "asset_revisions",
+          "type": "index"
+        },
+        {
+          "name": "asset_snapshot_date",
+          "sql": "CREATE INDEX asset_snapshot_date ON asset_value_snapshots(asset_id, as_of_date)",
+          "tbl_name": "asset_value_snapshots",
+          "type": "index"
+        },
+        {
+          "name": "cash_account_lifecycle_lookup",
+          "sql": "CREATE INDEX cash_account_lifecycle_lookup ON cash_account_lifecycle_revisions(account_id,as_of_date,revision_id)",
+          "tbl_name": "cash_account_lifecycle_revisions",
+          "type": "index"
+        },
+        {
+          "name": "cash_revision_lookup",
+          "sql": "CREATE INDEX cash_revision_lookup ON cash_account_revisions(account_id,as_of_date,revision_id)",
+          "tbl_name": "cash_account_revisions",
+          "type": "index"
+        },
+        {
+          "name": "cash_snapshot_date",
+          "sql": "CREATE INDEX cash_snapshot_date ON cash_balance_snapshots(account_id, as_of_date)",
+          "tbl_name": "cash_balance_snapshots",
+          "type": "index"
+        },
+        {
+          "name": "debt_period_lookup",
+          "sql": "CREATE INDEX debt_period_lookup ON debt_period_facts(debt_id, period_month, as_of_date)",
+          "tbl_name": "debt_period_facts",
+          "type": "index"
+        },
+        {
+          "name": "debt_revision_lookup",
+          "sql": "CREATE INDEX debt_revision_lookup ON debt_revisions(debt_id,period_month,as_of_date,revision_id)",
+          "tbl_name": "debt_revisions",
+          "type": "index"
+        },
+        {
+          "name": "essential_revision_lookup",
+          "sql": "CREATE INDEX essential_revision_lookup ON essential_expense_revisions(item_id,as_of_date,revision_id)",
+          "tbl_name": "essential_expense_revisions",
+          "type": "index"
+        },
+        {
+          "name": "essential_snapshot_date",
+          "sql": "CREATE INDEX essential_snapshot_date ON essential_expense_snapshots(item_id, as_of_date)",
+          "tbl_name": "essential_expense_snapshots",
+          "type": "index"
+        },
+        {
+          "name": "expenses_profile_business_date",
+          "sql": "CREATE INDEX expenses_profile_business_date ON expense_records(profile_id,business_date,occurred_at)",
+          "tbl_name": "expense_records",
+          "type": "index"
+        },
+        {
+          "name": "expenses_profile_date",
+          "sql": "CREATE INDEX expenses_profile_date ON expense_records(profile_id, occurred_at)",
+          "tbl_name": "expense_records",
+          "type": "index"
+        },
+        {
+          "name": "income_profile_month",
+          "sql": "CREATE INDEX income_profile_month ON income_records(profile_id, period_month, kind, date)",
+          "tbl_name": "income_records",
+          "type": "index"
+        },
+        {
+          "name": "planning_income_month_revision_lookup",
+          "sql": "CREATE INDEX planning_income_month_revision_lookup ON planning_income_month_revisions(profile_id,period_month,as_of_date,revision_id)",
+          "tbl_name": "planning_income_month_revisions",
+          "type": "index"
+        },
+        {
+          "name": "planning_income_revision_lookup",
+          "sql": "CREATE INDEX planning_income_revision_lookup ON planning_income_revisions(profile_id,effective_month,as_of_date,revision_id)",
+          "tbl_name": "planning_income_revisions",
+          "type": "index"
+        },
+        {
+          "name": "settings_revision_lookup",
+          "sql": "CREATE INDEX settings_revision_lookup ON settings_revisions(profile_id,effective_month,as_of_date,revision_id)",
+          "tbl_name": "settings_revisions",
+          "type": "index"
+        },
+        {
+          "name": "actual_income_revisions",
+          "sql": "CREATE TABLE actual_income_revisions (\n  revision_id INTEGER PRIMARY KEY AUTOINCREMENT,\n  income_id TEXT NOT NULL REFERENCES income_records(id) ON DELETE RESTRICT,\n  as_of_date TEXT NOT NULL,\n  amount TEXT NOT NULL,\n  status TEXT NOT NULL CHECK (status IN ('EXPECTED','PENDING','RECEIVED')),\n  date TEXT NOT NULL,\n  active INTEGER NOT NULL CHECK (active IN (0,1)),\n  created_at TEXT NOT NULL\n)",
+          "tbl_name": "actual_income_revisions",
+          "type": "table"
+        },
+        {
+          "name": "app_metadata",
+          "sql": "CREATE TABLE app_metadata (\n  key TEXT PRIMARY KEY,\n  value TEXT NOT NULL\n)",
+          "tbl_name": "app_metadata",
+          "type": "table"
+        },
+        {
+          "name": "asset_revisions",
+          "sql": "CREATE TABLE asset_revisions (\n  revision_id INTEGER PRIMARY KEY AUTOINCREMENT,\n  asset_id TEXT NOT NULL REFERENCES assets(id) ON DELETE RESTRICT,\n  as_of_date TEXT NOT NULL,\n  name TEXT NOT NULL,\n  kind TEXT NOT NULL CHECK(kind IN ('LIQUID_INVESTMENT','OTHER')),\n  include_in_safety_resources INTEGER NOT NULL CHECK(include_in_safety_resources IN (0,1)),\n  current_value TEXT NOT NULL,\n  active INTEGER NOT NULL CHECK(active IN (0,1)),\n  created_at TEXT NOT NULL\n)",
+          "tbl_name": "asset_revisions",
+          "type": "table"
+        },
+        {
+          "name": "asset_value_snapshots",
+          "sql": "CREATE TABLE asset_value_snapshots (\n  id TEXT PRIMARY KEY,\n  asset_id TEXT NOT NULL REFERENCES assets(id) ON DELETE RESTRICT,\n  as_of_date TEXT NOT NULL,\n  value TEXT NOT NULL,\n  created_at TEXT NOT NULL,\n  UNIQUE(asset_id, as_of_date)\n)",
+          "tbl_name": "asset_value_snapshots",
+          "type": "table"
+        },
+        {
+          "name": "assets",
+          "sql": "CREATE TABLE assets (\n  id TEXT PRIMARY KEY,\n  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,\n  name TEXT NOT NULL,\n  kind TEXT NOT NULL CHECK (kind IN ('LIQUID_INVESTMENT','OTHER')),\n  include_in_safety_resources INTEGER NOT NULL CHECK (include_in_safety_resources IN (0,1)),\n  active INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0,1)),\n  created_at TEXT NOT NULL\n)",
+          "tbl_name": "assets",
+          "type": "table"
+        },
+        {
+          "name": "cash_account_lifecycle_revisions",
+          "sql": "CREATE TABLE cash_account_lifecycle_revisions (\n  revision_id INTEGER PRIMARY KEY AUTOINCREMENT,\n  account_id TEXT NOT NULL REFERENCES cash_accounts(id) ON DELETE RESTRICT,\n  as_of_date TEXT NOT NULL,\n  active INTEGER NOT NULL CHECK (active IN (0,1)),\n  created_at TEXT NOT NULL\n)",
+          "tbl_name": "cash_account_lifecycle_revisions",
+          "type": "table"
+        },
+        {
+          "name": "cash_account_revisions",
+          "sql": "CREATE TABLE cash_account_revisions (\n  revision_id INTEGER PRIMARY KEY AUTOINCREMENT,\n  account_id TEXT NOT NULL REFERENCES cash_accounts(id) ON DELETE RESTRICT,\n  as_of_date TEXT NOT NULL,\n  name TEXT NOT NULL,\n  include_in_safety_resources INTEGER NOT NULL CHECK(include_in_safety_resources IN (0,1)),\n  balance TEXT NOT NULL,\n  created_at TEXT NOT NULL\n)",
+          "tbl_name": "cash_account_revisions",
+          "type": "table"
+        },
+        {
+          "name": "cash_accounts",
+          "sql": "CREATE TABLE cash_accounts (\n  id TEXT PRIMARY KEY,\n  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,\n  name TEXT NOT NULL,\n  include_in_safety_resources INTEGER NOT NULL CHECK (include_in_safety_resources IN (0,1)),\n  active INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0,1)),\n  created_at TEXT NOT NULL\n)",
+          "tbl_name": "cash_accounts",
+          "type": "table"
+        },
+        {
+          "name": "cash_balance_snapshots",
+          "sql": "CREATE TABLE cash_balance_snapshots (\n  id TEXT PRIMARY KEY,\n  account_id TEXT NOT NULL REFERENCES cash_accounts(id) ON DELETE RESTRICT,\n  as_of_date TEXT NOT NULL,\n  balance TEXT NOT NULL,\n  created_at TEXT NOT NULL,\n  UNIQUE(account_id, as_of_date)\n)",
+          "tbl_name": "cash_balance_snapshots",
+          "type": "table"
+        },
+        {
+          "name": "debt_period_facts",
+          "sql": "CREATE TABLE debt_period_facts (\n  id TEXT PRIMARY KEY,\n  debt_id TEXT NOT NULL REFERENCES debts(id) ON DELETE RESTRICT,\n  period_month TEXT NOT NULL CHECK (length(period_month)=7 AND substr(period_month,5,1)='-' AND substr(period_month,6,2) BETWEEN '01' AND '12' AND substr(period_month,1,4) NOT GLOB '*[^0-9]*'),\n  as_of_date TEXT NOT NULL,\n  current_balance TEXT NOT NULL,\n  current_month_due TEXT,\n  created_at TEXT NOT NULL,\n  UNIQUE(debt_id, period_month)\n)",
+          "tbl_name": "debt_period_facts",
+          "type": "table"
+        },
+        {
+          "name": "debt_revisions",
+          "sql": "CREATE TABLE debt_revisions (\n  revision_id INTEGER PRIMARY KEY AUTOINCREMENT,\n  debt_id TEXT NOT NULL REFERENCES debts(id) ON DELETE RESTRICT,\n  period_month TEXT NOT NULL,\n  as_of_date TEXT NOT NULL,\n  name TEXT NOT NULL,\n  current_balance TEXT NOT NULL,\n  current_month_due TEXT,\n  fixed_monthly_payment TEXT,\n  active INTEGER NOT NULL CHECK(active IN (0,1)),\n  created_at TEXT NOT NULL\n)",
+          "tbl_name": "debt_revisions",
+          "type": "table"
+        },
+        {
+          "name": "debts",
+          "sql": "CREATE TABLE debts (\n  id TEXT PRIMARY KEY,\n  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,\n  name TEXT NOT NULL,\n  fixed_monthly_payment TEXT,\n  active INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0,1)),\n  created_at TEXT NOT NULL\n)",
+          "tbl_name": "debts",
+          "type": "table"
+        },
+        {
+          "name": "essential_expense_items",
+          "sql": "CREATE TABLE essential_expense_items (\n  id TEXT PRIMARY KEY,\n  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,\n  category TEXT NOT NULL CHECK (category IN ('HOUSING','BASIC_FOOD','TRANSPORT','UTILITIES_COMMUNICATIONS','INSURANCE','FAMILY_FIXED_RESPONSIBILITY','OTHER_ESSENTIAL')),\n  name TEXT NOT NULL,\n  monthly_amount TEXT NOT NULL,\n  active INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0,1)),\n  created_at TEXT NOT NULL,\n  updated_at TEXT NOT NULL\n)",
+          "tbl_name": "essential_expense_items",
+          "type": "table"
+        },
+        {
+          "name": "essential_expense_revisions",
+          "sql": "CREATE TABLE essential_expense_revisions (\n  revision_id INTEGER PRIMARY KEY AUTOINCREMENT,\n  item_id TEXT NOT NULL REFERENCES essential_expense_items(id) ON DELETE RESTRICT,\n  as_of_date TEXT NOT NULL,\n  name TEXT NOT NULL,\n  category TEXT NOT NULL,\n  monthly_amount TEXT NOT NULL,\n  active INTEGER NOT NULL CHECK(active IN (0,1)),\n  created_at TEXT NOT NULL\n)",
+          "tbl_name": "essential_expense_revisions",
+          "type": "table"
+        },
+        {
+          "name": "essential_expense_snapshots",
+          "sql": "CREATE TABLE essential_expense_snapshots (\n  id TEXT PRIMARY KEY,\n  item_id TEXT NOT NULL REFERENCES essential_expense_items(id) ON DELETE RESTRICT,\n  as_of_date TEXT NOT NULL,\n  monthly_amount TEXT NOT NULL,\n  created_at TEXT NOT NULL,\n  UNIQUE(item_id, as_of_date)\n)",
+          "tbl_name": "essential_expense_snapshots",
+          "type": "table"
+        },
+        {
+          "name": "expense_records",
+          "sql": "CREATE TABLE expense_records (\n  id TEXT PRIMARY KEY,\n  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,\n  amount TEXT NOT NULL,\n  occurred_at TEXT NOT NULL,\n  kind TEXT NOT NULL CHECK (kind IN ('ESSENTIAL','VARIABLE')),\n  category TEXT CHECK (category IS NULL OR category IN ('HOUSING','BASIC_FOOD','TRANSPORT','UTILITIES_COMMUNICATIONS','INSURANCE','FAMILY_FIXED_RESPONSIBILITY','OTHER_ESSENTIAL','FOOD','SHOPPING','ENTERTAINMENT','HOUSEHOLD','OTHER_VARIABLE')),\n  note TEXT,\n  created_at TEXT NOT NULL\n, business_date TEXT)",
+          "tbl_name": "expense_records",
+          "type": "table"
+        },
+        {
+          "name": "financial_settings",
+          "sql": "CREATE TABLE financial_settings (\n  profile_id TEXT PRIMARY KEY REFERENCES profiles(id) ON DELETE RESTRICT,\n  safety_coverage_target_months REAL NOT NULL CHECK (safety_coverage_target_months >= 0),\n  minimum_cash_coverage_months REAL NOT NULL CHECK (minimum_cash_coverage_months >= 0),\n  safety_recovery_horizon_months REAL CHECK (safety_recovery_horizon_months IS NULL OR safety_recovery_horizon_months > 0),\n  desired_monthly_discretionary_spending TEXT NOT NULL\n)",
+          "tbl_name": "financial_settings",
+          "type": "table"
+        },
+        {
+          "name": "income_records",
+          "sql": "CREATE TABLE income_records (\n  id TEXT PRIMARY KEY,\n  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,\n  kind TEXT NOT NULL CHECK (kind IN ('PLANNING','ACTUAL')),\n  status TEXT NOT NULL CHECK (status IN ('EXPECTED','PENDING','RECEIVED')),\n  amount TEXT NOT NULL,\n  date TEXT NOT NULL,\n  period_month TEXT CHECK (period_month IS NULL OR (length(period_month)=7 AND substr(period_month,5,1)='-' AND substr(period_month,6,2) BETWEEN '01' AND '12' AND substr(period_month,1,4) NOT GLOB '*[^0-9]*')),\n  created_at TEXT NOT NULL\n)",
+          "tbl_name": "income_records",
+          "type": "table"
+        },
+        {
+          "name": "planning_income_month_revisions",
+          "sql": "CREATE TABLE planning_income_month_revisions (\n  revision_id INTEGER PRIMARY KEY AUTOINCREMENT,\n  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,\n  period_month TEXT NOT NULL CHECK (length(period_month)=7 AND substr(period_month,5,1)='-' AND substr(period_month,6,2) BETWEEN '01' AND '12' AND substr(period_month,1,4) NOT GLOB '*[^0-9]*'),\n  as_of_date TEXT NOT NULL,\n  decision TEXT NOT NULL CHECK (decision IN ('OVERRIDE','INHERIT')),\n  amount TEXT,\n  created_at TEXT NOT NULL,\n  CHECK ((decision='OVERRIDE' AND amount IS NOT NULL) OR (decision='INHERIT' AND amount IS NULL))\n)",
+          "tbl_name": "planning_income_month_revisions",
+          "type": "table"
+        },
+        {
+          "name": "planning_income_revisions",
+          "sql": "CREATE TABLE planning_income_revisions (\n  revision_id INTEGER PRIMARY KEY AUTOINCREMENT,\n  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,\n  effective_month TEXT NOT NULL,\n  as_of_date TEXT NOT NULL,\n  amount TEXT NOT NULL,\n  created_at TEXT NOT NULL\n)",
+          "tbl_name": "planning_income_revisions",
+          "type": "table"
+        },
+        {
+          "name": "profiles",
+          "sql": "CREATE TABLE profiles (\n  id TEXT PRIMARY KEY,\n  singleton_id INTEGER NOT NULL DEFAULT 1 UNIQUE CHECK (singleton_id = 1),\n  display_name TEXT,\n  created_at TEXT NOT NULL\n)",
+          "tbl_name": "profiles",
+          "type": "table"
+        },
+        {
+          "name": "schema_migrations",
+          "sql": "CREATE TABLE schema_migrations (version INTEGER PRIMARY KEY, applied_at TEXT NOT NULL)",
+          "tbl_name": "schema_migrations",
+          "type": "table"
+        },
+        {
+          "name": "settings_revisions",
+          "sql": "CREATE TABLE settings_revisions (\n  revision_id INTEGER PRIMARY KEY AUTOINCREMENT,\n  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,\n  effective_month TEXT NOT NULL,\n  as_of_date TEXT NOT NULL,\n  safety_coverage_target_months REAL NOT NULL,\n  minimum_cash_coverage_months REAL NOT NULL,\n  safety_recovery_horizon_months REAL,\n  desired_monthly_discretionary_spending TEXT NOT NULL,\n  created_at TEXT NOT NULL\n)",
+          "tbl_name": "settings_revisions",
+          "type": "table"
+        },
+        {
+          "name": "sqlite_sequence",
+          "sql": "CREATE TABLE sqlite_sequence(name,seq)",
+          "tbl_name": "sqlite_sequence",
+          "type": "table"
+        }
+      ],
+      "sql": "SELECT type,name,tbl_name,sql FROM sqlite_master WHERE sql IS NOT NULL ORDER BY type,name"
+    },
+    {
+      "autocommit": true,
+      "elapsed_us": 19,
+      "event": "sql",
+      "ok": true,
+      "pid": 86640,
+      "rows": [
+        {
+          "key": "quiescence-sentinel",
+          "value": "unchanged"
+        }
+      ],
+      "sql": "SELECT * FROM \"app_metadata\""
+    },
+    {
+      "autocommit": true,
+      "elapsed_us": 16,
+      "event": "sql",
+      "ok": true,
+      "pid": 86640,
+      "rows": [],
+      "sql": "SELECT * FROM \"asset_revisions\""
+    },
+    {
+      "autocommit": true,
+      "elapsed_us": 13,
+      "event": "sql",
+      "ok": true,
+      "pid": 86640,
+      "rows": [],
+      "sql": "SELECT * FROM \"asset_value_snapshots\""
+    },
+    {
+      "autocommit": true,
+      "elapsed_us": 13,
+      "event": "sql",
+      "ok": true,
+      "pid": 86640,
+      "rows": [],
+      "sql": "SELECT * FROM \"assets\""
+    },
+    {
+      "autocommit": true,
+      "elapsed_us": 14,
+      "event": "sql",
+      "ok": true,
+      "pid": 86640,
+      "rows": [],
+      "sql": "SELECT * FROM \"cash_account_revisions\""
+    },
+    {
+      "autocommit": true,
+      "elapsed_us": 12,
+      "event": "sql",
+      "ok": true,
+      "pid": 86640,
+      "rows": [],
+      "sql": "SELECT * FROM \"cash_accounts\""
+    },
+    {
+      "autocommit": true,
+      "elapsed_us": 9,
+      "event": "sql",
+      "ok": true,
+      "pid": 86640,
+      "rows": [],
+      "sql": "SELECT * FROM \"cash_balance_snapshots\""
+    },
+    {
+      "autocommit": true,
+      "elapsed_us": 12,
+      "event": "sql",
+      "ok": true,
+      "pid": 86640,
+      "rows": [],
+      "sql": "SELECT * FROM \"debt_period_facts\""
+    },
+    {
+      "autocommit": true,
+      "elapsed_us": 11,
+      "event": "sql",
+      "ok": true,
+      "pid": 86640,
+      "rows": [],
+      "sql": "SELECT * FROM \"debt_revisions\""
+    },
+    {
+      "autocommit": true,
+      "elapsed_us": 11,
+      "event": "sql",
+      "ok": true,
+      "pid": 86640,
+      "rows": [],
+      "sql": "SELECT * FROM \"debts\""
+    },
+    {
+      "autocommit": true,
+      "elapsed_us": 10,
+      "event": "sql",
+      "ok": true,
+      "pid": 86640,
+      "rows": [],
+      "sql": "SELECT * FROM \"essential_expense_items\""
+    },
+    {
+      "autocommit": true,
+      "elapsed_us": 12,
+      "event": "sql",
+      "ok": true,
+      "pid": 86640,
+      "rows": [],
+      "sql": "SELECT * FROM \"essential_expense_revisions\""
+    },
+    {
+      "autocommit": true,
+      "elapsed_us": 11,
+      "event": "sql",
+      "ok": true,
+      "pid": 86640,
+      "rows": [],
+      "sql": "SELECT * FROM \"essential_expense_snapshots\""
+    },
+    {
+      "autocommit": true,
+      "elapsed_us": 10,
+      "event": "sql",
+      "ok": true,
+      "pid": 86640,
+      "rows": [],
+      "sql": "SELECT * FROM \"expense_records\""
+    },
+    {
+      "autocommit": true,
+      "elapsed_us": 12,
+      "event": "sql",
+      "ok": true,
+      "pid": 86640,
+      "rows": [],
+      "sql": "SELECT * FROM \"financial_settings\""
+    },
+    {
+      "autocommit": true,
+      "elapsed_us": 10,
+      "event": "sql",
+      "ok": true,
+      "pid": 86640,
+      "rows": [],
+      "sql": "SELECT * FROM \"income_records\""
+    },
+    {
+      "autocommit": true,
+      "elapsed_us": 11,
+      "event": "sql",
+      "ok": true,
+      "pid": 86640,
+      "rows": [],
+      "sql": "SELECT * FROM \"planning_income_revisions\""
+    },
+    {
+      "autocommit": true,
+      "elapsed_us": 12,
+      "event": "sql",
+      "ok": true,
+      "pid": 86640,
+      "rows": [
+        {
+          "created_at": "synthetic",
+          "display_name": "Synthetic",
+          "id": "fixture",
+          "singleton_id": 1
+        }
+      ],
+      "sql": "SELECT * FROM \"profiles\""
+    },
+    {
+      "autocommit": true,
+      "elapsed_us": 13,
+      "event": "sql",
+      "ok": true,
+      "pid": 86640,
+      "rows": [],
+      "sql": "SELECT * FROM \"settings_revisions\""
+    },
+    {
+      "event": "closed",
+      "pid": 86640
+    }
+  ],
+  "source_sha256_at_readback": {
+    "scripts/quiescence_experiments.py": "a31562f8a43cec3966ad6a2c9c20482df0f2a664b2a9f530f4a65693fc3fa8bc",
+    "src-tauri/src/bin/quiescence_competitor.rs": "5845bf112936c2c63403d0321f9fed4787c6c919a66d4ddbcc791e995fca3625",
+    "src-tauri/src/quiescence.rs": "2ac06a5c28df1e916832fb04e209bae56ea1960454df57fd372c782e748000e8",
+    "migrations/004.sql": "5e6bdb826475b7a066541937a232e6b903d9d94b2782fc0f09d6d1adf7a9b7c5",
+    "migrations/v3-schema.json": "38567bdeb44d720d2a858a571830b0eeb992789be78f66b4c987a0c0a74b881c",
+    "migrations/v4-schema.json": "d279076947e15b2de49d1222257cd90bd1f45ee725d1eb38eb5ec02a5c889601"
+  }
+}

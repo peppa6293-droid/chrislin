@@ -1,0 +1,93 @@
+{
+  "synthetic_only": true,
+  "production_launched": false,
+  "source_hashes": {
+    "src-tauri/src/lib.rs": "6927cc953d27010bd21ed0354160a231b48bdf3e71a8cb7feff3a1753b6bd20d",
+    "src-tauri/src/quiescence.rs": "bc37f4aef0a5a7c0bafc6341de8eaa13c0c3cd93ffe4f70c8c064a50bf7580aa",
+    "src-tauri/src/bin/quiescence_fixture.rs": "eca35f31eb913cc5ef8c6ae03e9891cd10bd0546d6ae9b78c7bcb546729ced75",
+    "src-tauri/src/bin/quiescence_competitor.rs": "5845bf112936c2c63403d0321f9fed4787c6c919a66d4ddbcc791e995fca3625",
+    "src-tauri/build.rs": "b2d2640ef3405c1e4d5f219b0e10ecf7f9bad27640f94df68bda6a0702046c81",
+    "src-tauri/Cargo.toml": "813cb05f551ae92148cb9c8471c4d9525b1b0c943948aaf6ee1113572a954582",
+    "src-tauri/Cargo.lock": "b24e2a625ab445887f82f2e4b5f1f2d1497203eb40843f5e1381af462952b556",
+    "src/persistence/migrations.ts": "98ea510a13fdf8e6334fcd2f0c2f5de938e62306b3f7413d93326ea098808b8a",
+    "scripts/production_v4_release_gate.py": "0073d9a516ed64d9dd56bcb05280ea9e4136a0afb544379f1db49ec70c0a9f7e",
+    "scripts/quiescence_gate.py": "f3858d088018e07e3682b0854b0d4f2216d2c3631bb2e4b05dcd1849d3ab7d6d"
+  },
+  "results": [
+    {
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exit_code": 0,
+      "stdout": "\n> personal-finance-console@0.1.0 typecheck\n> tsc --noEmit\n\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "npm",
+        "test"
+      ],
+      "exit_code": 0,
+      "stdout": "\n> personal-finance-console@0.1.0 test\n> vitest run\n\n\n RUN  v5.0.3 /Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1\n\n\n Test Files  16 passed (16)\n      Tests  287 passed (287)\n   Start at  23:46:41\n   Duration  6.11s (tests 61%, transform 19%, import 10%, environment 10%)\n\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "-m",
+        "unittest",
+        "scripts/test_production_v4_release_gate.py",
+        "scripts/test_quiescence_entry_boundary.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "test_actual_run_gate_migrate_reaches_only_mocked_permit_and_launcher_boundary (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_actual_run_gate_missing_authorization_file_blocks_before_receipt (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_actual_run_gate_negative_preflight_matrix_blocks_in_gate_logic (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_actual_run_gate_preflight_persists_receipt_without_permit_or_launch (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_all_safe_facts_produce_pre_migration_receipt (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_app_process_bundle_missing_or_nonstring_bundle_id_blocks (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_clean_inventory_continues_and_optional_missing_root_is_absent (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_clean_process_inventory_is_known_empty (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_incomplete_process_snapshot_matrix_is_never_empty_success (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_installed_plist_identity_or_executable_mutation_rolls_back (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_inventory_fails_closed_for_hidden_subtree_and_traversal_error (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_malformed_app_metadata_produces_structured_block (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_malformed_candidate_metadata_persists_precheck_receipt (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_missing_authorization_id_equal_backup_path_and_wrong_executable_name_block (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_nested_production_bundle_blocks_and_nested_neutral_helper_is_scanned (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_nested_production_metadata_failure_blocks (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_persistent_receipt_is_written_once_and_readable (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_postinstall_failures_each_restore_old_app (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_precheck_failure_is_persisted_as_structured_blocked_receipt (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_preflight_requires_process_inventory_completeness_contract (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_process_inventory_uses_actual_path_and_blocks_inspector_failure (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_process_snapshot_blocks_unknown_bundle_identity_and_malformed_fields (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_read_bundle_rejects_executable_symlink_escaping_bundle (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_rejects_candidate_without_compatibility_manifest (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_rejects_installed_old_production_app (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_rejects_missing_or_mismatched_backup (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_rejects_running_old_production_process (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_rejects_unknown_executable_hash (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_rejects_unsupported_database_schema (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_rejects_wrong_bundle_and_acceptance_bundle (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_retirement_archives_disables_and_installs_candidate (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_retirement_failure_restores_old_app_and_executable_mode (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_rollback_failure_is_hard_blocked_and_persisted (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_source_manifest_byte_mismatch_rejects_before_removal (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_wal_sidecar_blocks_even_with_matching_main_file_backup (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_walker_that_returns_no_root_entry_is_unknown (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok\ntest_imported_legacy_mutations_reject_fixed_production_targets (scripts.test_quiescence_entry_boundary.EntryBoundary) ... ok\ntest_mutating_production_commands_fail_before_input_or_receipt_access (scripts.test_quiescence_entry_boundary.EntryBoundary) ... ok\n\n----------------------------------------------------------------------\nRan 38 tests in 0.821s\n\nOK\n"
+    },
+    {
+      "command": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts",
+        "-p",
+        "test_quiescence_gate.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "test_actual_child_exit_after_disable_uses_retained_waitpid (test_quiescence_gate.ManagedGateTests) ... ok\ntest_archive_role_does_not_whitelist_launch_route (test_quiescence_gate.ManagedGateTests) ... ok\ntest_bare_production_copy_not_hidden_by_nonapp_suffix (test_quiescence_gate.ManagedGateTests) ... ok\ntest_disable_precedes_exit_check_and_never_renames_live_target (test_quiescence_gate.ManagedGateTests) ... ok\ntest_disabled_copy_born_without_exec_bits (test_quiescence_gate.ManagedGateTests) ... ok\ntest_exact_inventory (test_quiescence_gate.ManagedGateTests) ... ok\ntest_external_symlink (test_quiescence_gate.ManagedGateTests) ... ok\ntest_fixture_rejects_non_temp_and_bad_marker (test_quiescence_gate.ManagedGateTests) ... ok\ntest_flat_production_is_not_silently_ignored (test_quiescence_gate.ManagedGateTests) ... ok\ntest_gapless_inherited_lease_survives_gate_close (test_quiescence_gate.ManagedGateTests) ... ok\ntest_hardlink_identity_rejected (test_quiescence_gate.ManagedGateTests) ... ok\ntest_incomplete_target_enumeration_blocks (test_quiescence_gate.ManagedGateTests) ... ok\ntest_internal_production_alias (test_quiescence_gate.ManagedGateTests) ... ok\ntest_internal_unrelated_framework_alias_reuses_coverage (test_quiescence_gate.ManagedGateTests) ... ok\ntest_known_target_cannot_disappear_or_change_identity (test_quiescence_gate.ManagedGateTests) ... ok\ntest_lease_handoff_failure_retains_parent_ownership (test_quiescence_gate.ManagedGateTests) ... ok\ntest_lease_inode_replacement_detected (test_quiescence_gate.ManagedGateTests) ... ok\ntest_manifest_semantically_same_bytes_different (test_quiescence_gate.ManagedGateTests) ... ok\ntest_nested_helper_executable_blocks (test_quiescence_gate.ManagedGateTests) ... ok\ntest_nested_under_unrelated_outer_resources (test_quiescence_gate.ManagedGateTests) ... ok\ntest_old_runtime_idle_still_blocked (test_quiescence_gate.ManagedGateTests) ... ok\ntest_os_lease_serializes_supported_entrypoints (test_quiescence_gate.ManagedGateTests) ... ok\ntest_unknown_bookmark (test_quiescence_gate.ManagedGateTests) ... ok\ntest_unrelated_protected_pid_not_absence_proof (test_quiescence_gate.ManagedGateTests) ... ok\n\n----------------------------------------------------------------------\nRan 24 tests in 0.196s\n\nOK\n"
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "src-tauri/Cargo.toml",
+        "--lib"
+      ],
+      "exit_code": 0,
+      "stdout": "\nrunning 22 tests\ntest tests::i_acceptance_database_name_is_distinct_from_production_database_name ... ok\ntest tests::g_production_fresh_data_directory_is_allowed ... ok\ntest tests::h_acceptance_identity_is_bound_to_its_separate_app_data_path ... ok\ntest tests::f_smoke_identity_and_data_path_are_separate_from_production ... ok\ntest tests::k_forward_schema_guard_rejects_newer_and_mismatched_versions ... ok\ntest tests::e_foreign_key_violation_and_rollback_remove_preceding_write ... ok\ntest tests::d_invalid_and_expired_tokens_return_explicit_errors ... ok\ntest tests::o_direct_database_open_refuses_the_production_identity_path_before_opening_it ... ok\ntest tests::c_token_cannot_commit_or_rollback_another_transaction ... ok\ntest tests::b_second_operation_failure_then_rollback_removes_first_write ... ok\ntest tests::r_consumed_ledger_persistence_failure_is_fail_closed ... ok\ntest tests::m_authorized_production_migration_window_is_single_use_and_requires_exact_v4 ... ok\ntest tests::replay_consumer_child_process ... ok\ntest tests::n_production_migration_window_cannot_mark_an_incomplete_migration_ready ... ok\ntest tests::l_production_authorizer_blocks_schema_and_metadata_mutations_outside_gate ... ok\ntest tests::a_begin_write_commit_persists_after_reopen ... ok\ntest tests::native_schema_artifacts_match_accepted_migration_source ... ok\ntest tests::cutover_outcome_blocks_startup_before_any_database_access ... ok\ntest tests::j_acceptance_reset_clears_only_business_rows_and_keeps_migrations ... ok\ntest tests::s_only_new_authorization_id_and_nonce_can_extend_consumed_ledger ... ok\ntest tests::q_native_permit_consumer_rejects_sidecar_added_after_python_preflight ... ok\ntest tests::p_python_gate_native_permit_consume_replay_and_real_migration4_chain ... ok\n\ntest result: ok. 22 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.25s\n\n",
+      "stderr": "   Compiling personal-finance-console v0.1.0 (/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/src-tauri)\nwarning: function `consume_production_migration_authorization` is never used\n   --> src/lib.rs:153:4\n    |\n153 | fn consume_production_migration_authorization(\n    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    |\n    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default\n\nwarning: `personal-finance-console` (lib test) generated 1 warning\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.03s\n     Running unittests src/lib.rs (src-tauri/target/debug/deps/personal_finance_console_lib-5a42bdca7617054d)\n"
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "src-tauri/Cargo.toml",
+        "--features",
+        "quiescence-fixture",
+        "--bin",
+        "quiescence-fixture"
+      ],
+      "exit_code": 101,
+      "stdout": "\nrunning 7 tests\ntest quiescence::tests::unbound_verified_string_is_not_a_handoff ... FAILED\ntest quiescence::tests::pending_claim_blocks_before_any_db_open ... FAILED\ntest quiescence::tests::dangling_pending_symlink_blocks_startup ... ok\ntest quiescence::tests::empty_synthetic_state_is_not_started ... ok\ntest quiescence::tests::claimed_without_outcome_blocks_startup ... ok\ntest quiescence::tests::corrupt_outcome_blocks_startup ... ok\ntest quiescence::tests::symlink_marker_is_not_synthetic_authority ... ok\n\nfailures:\n\n---- quiescence::tests::unbound_verified_string_is_not_a_handoff stdout ----\n\nthread 'quiescence::tests::unbound_verified_string_is_not_a_handoff' (34462068) panicked at src/bin/../quiescence.rs:314:35:\ncalled `Result::unwrap()` on an `Err` value: Os { code: 17, kind: AlreadyExists, message: \"File exists\" }\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n\n---- quiescence::tests::pending_claim_blocks_before_any_db_open stdout ----\n\nthread 'quiescence::tests::pending_claim_blocks_before_any_db_open' (34462066) panicked at src/bin/../quiescence.rs:314:35:\ncalled `Result::unwrap()` on an `Err` value: Os { code: 17, kind: AlreadyExists, message: \"File exists\" }\n\n\nfailures:\n    quiescence::tests::pending_claim_blocks_before_any_db_open\n    quiescence::tests::unbound_verified_string_is_not_a_handoff\n\ntest result: FAILED. 5 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n",
+      "stderr": "warning: constant `PRODUCTION_MIGRATION_AUTHORIZATION` is never used\n  --> src/lib.rs:15:7\n   |\n15 | const PRODUCTION_MIGRATION_AUTHORIZATION: &str = \"production-v4-migration-authorization.json\";\n   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n   |\n   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default\n\nwarning: constant `CONSUMED_AUTHORIZATION_LEDGER` is never used\n  --> src/lib.rs:16:7\n   |\n16 | const CONSUMED_AUTHORIZATION_LEDGER: &str = \"production-v4-consumed-authorizations.json\";\n   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\nwarning: struct `ProductionMigrationAuthorization` is never constructed\n  --> src/lib.rs:39:8\n   |\n39 | struct ProductionMigrationAuthorization {\n   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\nwarning: struct `ConsumedAuthorization` is never constructed\n  --> src/lib.rs:62:8\n   |\n62 | struct ConsumedAuthorization {\n   |        ^^^^^^^^^^^^^^^^^^^^^\n\nwarning: struct `ProductionSchemaVersion` is never constructed\n  --> src/lib.rs:72:8\n   |\n72 | struct ProductionSchemaVersion { user_version: i64, migration_version: i64 }\n   |        ^^^^^^^^^^^^^^^^^^^^^^^\n\nwarning: function `consume_production_migration_authorization` is never used\n   --> src/lib.rs:153:4\n    |\n153 | fn consume_production_migration_authorization(\n    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\nwarning: function `persist_consumed_authorization` is never used\n   --> src/lib.rs:170:4\n    |\n170 | fn persist_consumed_authorization(ledger_path: &Path, consumed: ConsumedAuthorization) -> Result<(), String> {\n    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\nwarning: function `consume_production_migration_authorization_at` is never used\n   --> src/lib.rs:217:4\n    |\n217 | fn consume_production_migration_authorization_at(\n    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\nwarning: `personal-finance-console` (lib) generated 8 warnings\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.21s\n     Running unittests src/bin/quiescence_fixture.rs (src-tauri/target/debug/deps/quiescence_fixture-6aae21c907705b8d)\nerror: test failed, to rerun pass `--bin quiescence-fixture`\n"
+    }
+  ]
+}

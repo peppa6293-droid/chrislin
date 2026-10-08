@@ -14,6 +14,7 @@ import sqlite3
 import stat
 import subprocess
 import sys
+import tempfile
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -37,6 +38,14 @@ class GateBlocked(RuntimeError):
     def __init__(self, reasons: list[str]):
         self.reasons = reasons
         super().__init__("Production V4 release gate blocked: " + "; ".join(reasons))
+
+
+def _require_legacy_fixture_path(path: Path) -> None:
+    """Retain audited helper regressions, never enable the superseded live path."""
+    target = path.resolve(strict=False)
+    temporary = Path(tempfile.gettempdir()).resolve()
+    if target == temporary or not target.is_relative_to(temporary):
+        raise GateBlocked(["QUIESCENCE_IMPLEMENTATION_NOT_PRODUCTION_AUTHORIZED: legacy mutating helpers are restricted to isolated temporary fixtures."])
 
 
 def sha256_file(path: Path) -> str:
@@ -586,6 +595,7 @@ def collect_real_facts(candidate_approval_path: Path, migration_authorization_pa
 
 
 def write_migration_permit(receipt: dict[str, Any], approval: dict[str, Any], permit_path: Path = GATE_AUTH_PATH) -> tuple[Path, str]:
+    _require_legacy_fixture_path(permit_path)
     if receipt.get("sidecarsAbsent") is not True:
         raise GateBlocked(["SQLite sidecar absence was not bound into the release receipt."])
     nonce = secrets.token_urlsafe(32)
@@ -623,6 +633,8 @@ def run_gate(
     migration_authorization_path: Path,
     receipt_path: Path | None = None,
 ) -> dict[str, Any]:
+    if mode == "migrate":
+        _require_legacy_fixture_path(APP_DATA)
     if sys.platform != "darwin":
         raise GateBlocked(["Production release gate requires macOS."])
     if receipt_path is None:
@@ -672,6 +684,8 @@ def retirement_replace(
     production_app_inventory: list[dict[str, Any]],
     expected_old_sha256: str = LEGACY_EXECUTABLE_SHA256,
 ) -> dict[str, Any]:
+    for path in (old_app, candidate_source, normal_app_path, archive_root):
+        _require_legacy_fixture_path(path)
     if authorization.get("status") != "OWNER_AUTHORIZED_RUNTIME_REPLACEMENT":
         raise GateBlocked(["A separate Owner authorization for runtime replacement is required."])
     required_string_fields = (
@@ -794,6 +808,7 @@ def retirement_replace(
 
 
 def run_retirement(candidate_path: Path, authorization_path: Path) -> dict[str, Any]:
+    _require_legacy_fixture_path(APP_DATA)
     if sys.platform != "darwin":
         raise GateBlocked(["Production runtime retirement is supported only on macOS."])
     observed: dict[str, Any] = {
@@ -976,6 +991,11 @@ def main() -> int:
     rehearse.add_argument("--fixture-root", type=Path, required=True)
     args = parser.parse_args()
     try:
+        if args.command in {"migrate", "retire"}:
+            # Historical helpers remain available for their isolated regression
+            # fixtures, but the supported Production CLI must not use the
+            # superseded split-connection/runtime-restoration contract.
+            raise GateBlocked(["QUIESCENCE_IMPLEMENTATION_NOT_PRODUCTION_AUTHORIZED: legacy migration/retirement entry is disabled pending audited quiescence integration and a new Owner authorization."])
         if args.command == "retire":
             result = run_retirement(args.candidate_app, args.replacement_authorization)
         elif args.command == "rehearse-synthetic":

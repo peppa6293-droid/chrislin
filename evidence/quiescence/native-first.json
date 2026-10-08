@@ -1,0 +1,109 @@
+{
+  "fixture_root": "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-quiescence-1o_m8pvv",
+  "q_matrix": {
+    "Q01": {
+      "status": "NOT_RUN",
+      "reason": "full approved scenario not yet verified"
+    },
+    "Q02": {
+      "status": "NOT_RUN",
+      "reason": "full approved scenario not yet verified"
+    },
+    "Q03": {
+      "status": "NOT_RUN",
+      "reason": "full approved scenario not yet verified"
+    },
+    "Q04": {
+      "status": "NOT_RUN",
+      "reason": "full approved scenario not yet verified"
+    },
+    "Q05": {
+      "status": "NOT_RUN",
+      "reason": "full approved scenario not yet verified"
+    },
+    "Q06": {
+      "status": "NOT_RUN",
+      "reason": "full approved scenario not yet verified"
+    },
+    "Q07": {
+      "status": "NOT_RUN",
+      "reason": "full approved scenario not yet verified"
+    },
+    "Q08": {
+      "status": "NOT_RUN",
+      "reason": "full approved scenario not yet verified"
+    },
+    "Q09": {
+      "status": "NOT_RUN",
+      "reason": "full approved scenario not yet verified"
+    },
+    "Q10": {
+      "status": "NOT_RUN",
+      "reason": "full approved scenario not yet verified"
+    },
+    "Q11": {
+      "status": "NOT_RUN",
+      "reason": "full approved scenario not yet verified"
+    },
+    "Q12": {
+      "status": "NOT_RUN",
+      "reason": "full approved scenario not yet verified"
+    },
+    "Q13": {
+      "status": "NOT_RUN",
+      "reason": "full approved scenario not yet verified"
+    },
+    "Q14": {
+      "status": "NOT_RUN",
+      "reason": "full approved scenario not yet verified"
+    },
+    "Q15": {
+      "status": "NOT_RUN",
+      "reason": "full approved scenario not yet verified"
+    },
+    "Q16": {
+      "status": "NOT_RUN",
+      "reason": "full approved scenario not yet verified"
+    },
+    "Q17": {
+      "status": "NOT_RUN",
+      "reason": "full approved scenario not yet verified"
+    },
+    "Q18": {
+      "status": "NOT_RUN",
+      "reason": "full approved scenario not yet verified"
+    }
+  },
+  "controller_error": "RuntimeError('EOF pid=79123: \\nthread \\'main\\' (34439787) panicked at src/bin/quiescence_competitor.rs:13:2:\\nassertion `left == right` failed: canonical root required\\n  left: \"/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-quiescence-1o_m8pvv/controls-locks\"\\n right: \"/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-quiescence-1o_m8pvv/controls-locks\"\\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\\n')",
+  "events": [
+    {
+      "sequence": 1,
+      "controller_monotonic_ns": 91165333,
+      "kind": "environment",
+      "platform": "macOS-26.6.2-arm64-arm-64bit",
+      "uname": [
+        "Darwin",
+        "192.168.0.102",
+        "25.6.0",
+        "Darwin Kernel Version 25.6.0: Fri Jul 31 19:16:20 PDT 2026; root:xnu-12377.161.14~5/RELEASE_ARM64_T8142",
+        "arm64",
+        "arm"
+      ],
+      "controller_pid": 79118,
+      "peer_sha256": "2e1999a30c850b89ae4b277071debf68de607b47bba76a0bf906aadd0d14f4be",
+      "synthetic_root": "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-quiescence-1o_m8pvv",
+      "scope": "synthetic fixtures only; no Production access"
+    },
+    {
+      "sequence": 2,
+      "controller_monotonic_ns": 93660500,
+      "kind": "spawn",
+      "pid": 79123,
+      "command": [
+        "/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/debug/quiescence_competitor",
+        "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-quiescence-1o_m8pvv/controls-locks",
+        "--create"
+      ]
+    }
+  ]
+}
