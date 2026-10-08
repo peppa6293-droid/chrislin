@@ -30,7 +30,7 @@ class ReleaseGateTests(unittest.TestCase):
         self.executable = self.app / "Contents/MacOS/personal-finance-console"
         self.manifest = self.app / gate.MANIFEST_RELATIVE_PATH
         self._make_app(self.app, gate.PRODUCTION_BUNDLE_ID)
-        self.db = self.root / gate.PRODUCTION_BUNDLE_ID / gate.DATABASE_NAME
+        self.db = self.root / "Library/Application Support" / gate.PRODUCTION_BUNDLE_ID / gate.DATABASE_NAME
         self.backup = self.db.parent / "production-v4-backups" / gate.DATABASE_NAME
         self.backup.parent.mkdir(parents=True)
         with sqlite3.connect(self.db) as connection:
@@ -43,6 +43,12 @@ class ReleaseGateTests(unittest.TestCase):
 
     def tearDown(self) -> None:
         self.temp.cleanup()
+
+    def validate_facts(self, facts: dict) -> list[str]:
+        return gate.validate_preflight(facts, synthetic_fixture_root=self.root)
+
+    def make_receipt(self, facts: dict) -> dict:
+        return gate.make_release_receipt(facts, synthetic_fixture_root=self.root)
 
     def _make_app(self, path: Path, bundle_id: str, with_manifest: bool = True) -> None:
         executable = path / "Contents/MacOS/personal-finance-console"
@@ -118,7 +124,7 @@ class ReleaseGateTests(unittest.TestCase):
     def assert_blocked(self, mutate) -> None:
         facts = self._safe_facts()
         mutate(facts)
-        self.assertTrue(gate.validate_preflight(facts))
+        self.assertTrue(self.validate_facts(facts))
 
     def test_rejects_running_old_production_process(self) -> None:
         self.assert_blocked(lambda facts: facts.update(running_production_processes=[{"pid": 42, "executable_sha256": gate.LEGACY_EXECUTABLE_SHA256}]))
@@ -176,35 +182,153 @@ class ReleaseGateTests(unittest.TestCase):
             result = gate.inventory_production_apps([self.app.parent, optional_home_root])
         self.assertEqual([item["bundle_id"] for item in result], [gate.PRODUCTION_BUNDLE_ID])
 
+    def test_nested_production_bundle_blocks_and_nested_neutral_helper_is_scanned(self) -> None:
+        scan = self.root / "Applications"
+        production_candidate = scan / gate.APP_NAME
+        neutral = scan / "Neutral.app"
+        self._make_app(production_candidate, gate.PRODUCTION_BUNDLE_ID)
+        self._make_app(neutral, "org.example.neutral", with_manifest=False)
+        nested_production = neutral / "Contents/Helpers/Hidden Old.app"
+        self._make_app(nested_production, gate.PRODUCTION_BUNDLE_ID, with_manifest=False)
+        found = gate.inventory_production_apps([scan])
+        self.assertEqual(len(found), 2)
+        facts = self._safe_facts()
+        candidate = gate.read_bundle(production_candidate)
+        facts["expected_installed_app"] = str(production_candidate.resolve())
+        facts["candidate"] = candidate
+        facts["production_apps"] = found
+        facts["candidate_approval"].update(candidateExecutableSha256=candidate["executable_sha256"], compatibilityManifestSha256=candidate["manifest_sha256"])
+        facts["migration_authorization"].update(candidateExecutableSha256=candidate["executable_sha256"])
+        self.assertTrue(self.validate_facts(facts))
+        with self.assertRaises(gate.GateBlocked):
+            gate.make_release_receipt(facts, synthetic_fixture_root=self.root)
+        self.assertFalse((self.root / "evidence" / "preflight-receipt.json").exists())
+        self.assertFalse((self.root / "Library/Application Support" / gate.PRODUCTION_BUNDLE_ID / gate.PRODUCTION_MIGRATION_AUTHORIZATION).exists())
+
+        nested_helper = neutral / "Contents/Helpers/Neutral Helper.app"
+        self._make_app(nested_helper, "org.example.helper", with_manifest=False)
+        found_with_helper = gate.inventory_production_apps([scan])
+        self.assertEqual([item["bundle_path"] for item in found_with_helper], [str(production_candidate.resolve()), str(nested_production.resolve())])
+
+    def test_nested_production_metadata_failure_blocks(self) -> None:
+        outer = self.root / "nested-bad" / "Neutral.app" / "Contents/Helpers/Hidden.app" / "Contents"
+        outer.mkdir(parents=True)
+        (outer / "Info.plist").write_bytes(b"malformed hidden nested plist")
+        with self.assertRaises(gate.GateBlocked):
+            gate.inventory_production_apps([self.root / "nested-bad"])
+
+    def test_walker_that_returns_no_root_entry_is_unknown(self) -> None:
+        with self.assertRaises(gate.GateBlocked):
+            gate.inventory_production_apps([self.app.parent], walk=lambda *_args, **_kwargs: iter(()))
+
     def test_process_inventory_uses_actual_path_and_blocks_inspector_failure(self) -> None:
         executable = self.app / "Contents/MacOS/personal-finance-console"
         def renamed_runner(command, **_kwargs):
             if command[0] == "/bin/ps": return subprocess.CompletedProcess(command, 0, "123 renamed --custom\n", "")
             return subprocess.CompletedProcess(command, 0, f"p123\nn{executable}\n", "")
         with patch.object(gate.sys, "platform", "darwin"):
-            processes = gate.inventory_production_processes(renamed_runner, [gate.read_bundle(self.app)])
+            inventory = gate.inventory_production_processes(renamed_runner, [gate.read_bundle(self.app)])
+        self.assertTrue(inventory["complete"])
+        processes = inventory["processes"]
         self.assertEqual(processes[0]["pid"], 123)
         facts = self._safe_facts()
         facts["running_production_processes"] = processes
-        self.assertTrue(gate.validate_preflight(facts))
+        facts["process_inventory"] = inventory
+        self.assertTrue(self.validate_facts(facts))
         def denied_runner(command, **_kwargs):
             if command[0] == "/bin/ps": return subprocess.CompletedProcess(command, 0, "123 random\n", "")
             return subprocess.CompletedProcess(command, 1, "", "Permission denied")
         with patch.object(gate.sys, "platform", "darwin"):
-            with self.assertRaises(gate.GateBlocked):
-                gate.inventory_production_processes(denied_runner, [])
+            incomplete = gate.inventory_production_processes(denied_runner, [])
+        self.assertFalse(incomplete["complete"])
+        facts = self._safe_facts()
+        facts["process_inventory"] = incomplete
+        facts["process_inventory_complete"] = False
+        facts["running_production_processes"] = None
+        self.assertTrue(self.validate_facts(facts))
 
     def test_clean_process_inventory_is_known_empty(self) -> None:
         executable = self.root / "other-process"
         executable.write_text("fixture")
         def runner(command, **_kwargs):
-            if command[0] == "/bin/ps": return subprocess.CompletedProcess(command, 0, "12 other-process\n", "")
+            if command[0] == "/bin/ps": return subprocess.CompletedProcess(command, 0, "12 other-process other-process --service\n", "")
             return subprocess.CompletedProcess(command, 0, f"p12\nn{executable}\n", "")
         with patch.object(gate.sys, "platform", "darwin"):
             clean = gate.inventory_production_processes(runner)
-        self.assertEqual(clean, [])
+        self.assertTrue(clean["complete"])
+        self.assertEqual(clean["processes"], [])
         facts = self._safe_facts()
-        self.assertEqual(gate.validate_preflight(facts), [])
+        facts["process_inventory"] = clean
+        facts["running_production_processes"] = clean["processes"]
+        self.assertEqual(self.validate_facts(facts), [])
+
+    def _process_probe(self, ps_stdout: str, executable_fields: str, open_fields: str, known_apps=None):
+        def runner(command, **_kwargs):
+            if command[0] == "/bin/ps": return subprocess.CompletedProcess(command, 0, ps_stdout, "")
+            if "-d" in command: return subprocess.CompletedProcess(command, 0, executable_fields, "")
+            return subprocess.CompletedProcess(command, 0, open_fields, "")
+        with patch.object(gate.sys, "platform", "darwin"):
+            return gate.inventory_production_processes(runner, known_apps or [])
+
+    def test_incomplete_process_snapshot_matrix_is_never_empty_success(self) -> None:
+        cases = [
+            ("empty ps", "", "", ""),
+            ("blank process row", "\n", "", ""),
+            ("malformed ps", "not-a-pid proc args\n", "", ""),
+            ("missing fields", "123\n", "", ""),
+            ("empty executable lsof", "123 proc args\n", "", "p123\nn/tmp/open\n"),
+            ("malformed executable lsof", "123 proc args\n", "bad-field\n", "p123\nn/tmp/open\n"),
+            ("empty open-file lsof", "123 proc args\n", "p123\nn/tmp/proc\n", ""),
+            ("malformed open-file lsof", "123 proc args\n", "p123\nn/tmp/proc\n", "p123\nnot-a-path\n"),
+            ("ambiguous executable", "123 proc args\n", "p123\nn/tmp/one\nn/tmp/two\n", "p123\nn/tmp/open\n"),
+            ("nonexistent executable", "123 missing args\n", f"p123\nn{self.root / 'not-created'}\n", "p123\nn/tmp/open\n"),
+        ]
+        for label, ps, text_fds, open_fds in cases:
+            with self.subTest(label=label):
+                inventory = self._process_probe(ps, text_fds, open_fds)
+                self.assertFalse(inventory["complete"])
+                facts = self._safe_facts()
+                facts["process_inventory"] = inventory
+                facts["process_inventory_complete"] = inventory["complete"]
+                facts["running_production_processes"] = inventory["processes"]
+                self.assertTrue(self.validate_facts(facts))
+
+    def test_process_snapshot_blocks_unknown_bundle_identity_and_malformed_fields(self) -> None:
+        for label, bundle_id in (("missing", None), ("wrong-type", 9)):
+            with self.subTest(label=label):
+                app = self.root / f"unknown-id-{label}.app"
+                executable = app / "Contents/MacOS/proc"
+                executable.parent.mkdir(parents=True)
+                executable.write_text("process")
+                metadata = {"CFBundleExecutable": "proc"}
+                if bundle_id is not None:
+                    metadata["CFBundleIdentifier"] = bundle_id
+                with (app / "Contents/Info.plist").open("wb") as stream:
+                    plistlib.dump(metadata, stream)
+                inventory = self._process_probe("123 proc args\n", f"p123\nn{executable}\n", f"p123\nn{executable}\n")
+                self.assertFalse(inventory["complete"])
+
+    def test_preflight_requires_process_inventory_completeness_contract(self) -> None:
+        facts = self._safe_facts()
+        facts["process_inventory"] = {"complete": False, "processes": None, "diagnostics": ["unknown"]}
+        facts["process_inventory_complete"] = True
+        facts["running_production_processes"] = []
+        self.assertTrue(self.validate_facts(facts))
+
+    def test_app_process_bundle_missing_or_nonstring_bundle_id_blocks(self) -> None:
+        for label, info in (
+            ("missing", {"CFBundleExecutable": "proc"}),
+            ("wrong type", {"CFBundleIdentifier": 42, "CFBundleExecutable": "proc"}),
+        ):
+            with self.subTest(label=label):
+                bundle = self.root / f"process-{label}.app"
+                executable = bundle / "Contents/MacOS/proc"
+                executable.parent.mkdir(parents=True)
+                executable.write_text("synthetic process")
+                with (bundle / "Contents/Info.plist").open("wb") as stream:
+                    plistlib.dump(info, stream)
+                inventory = self._process_probe("123 proc args\n", f"p123\nn{executable}\n", f"p123\nn{executable}\n")
+                self.assertFalse(inventory["complete"])
 
     def test_precheck_failure_is_persisted_as_structured_blocked_receipt(self) -> None:
         auth = self.root / "runtime-replacement.json"
@@ -219,42 +343,99 @@ class ReleaseGateTests(unittest.TestCase):
         self.assertFalse(facts["appInventoryComplete"])
         self.assertFalse(facts["processInventory"]["complete"])
 
+    def test_malformed_candidate_metadata_persists_precheck_receipt(self) -> None:
+        for defect in ("manifest-json", "plist", "null-auth-id"):
+            with self.subTest(defect=defect):
+                old, candidate, normal, old_executable, authorization = self._retirement_case(f"receipt-{defect}")
+                if defect == "manifest-json":
+                    self.manifest_path(candidate).write_text("{ malformed manifest", encoding="utf-8")
+                elif defect == "plist":
+                    (candidate / "Contents/Info.plist").write_bytes(b"malformed plist")
+                else:
+                    authorization["authorizationId"] = None
+                authorization_path = self.root / f"{defect}-authorization.json"
+                authorization_path.write_text(json.dumps(authorization), encoding="utf-8")
+                runtime_data = self.root / f"runtime-data-{defect}"
+                with patch.object(gate.sys, "platform", "darwin"), patch.object(gate, "APP_PATH", normal), patch.object(gate, "APP_DATA", runtime_data), patch.object(gate, "LEGACY_EXECUTABLE_SHA256", authorization["oldExecutableSha256"]), patch.object(gate, "inventory_production_apps", return_value=[gate.read_bundle(normal)]), patch.object(gate, "inventory_production_processes", return_value={"complete": True, "processes": [], "diagnostics": []}):
+                    with self.assertRaises(gate.GateBlocked):
+                        gate.run_retirement(candidate, authorization_path)
+                receipt_path = next((runtime_data / "runtime-replacement-receipts").glob("precheck-blocked-*.json"))
+                receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+                self.assertEqual(receipt["status"], "PRECHECK_BLOCKED")
+                self.assertFalse(receipt["destructiveActionPerformed"])
+                self.assertEqual(receipt["candidatePath"], str(candidate))
+                self.assertEqual(receipt["oldAppPath"], str(normal))
+                self.assertTrue(receipt["exceptionCategory"])
+                self.assertTrue(receipt["exceptionMessage"])
+                self.assertEqual(gate.sha256_file(normal / "Contents/MacOS" / gate.EXECUTABLE_NAME), gate.sha256_file(old_executable))
+
     def test_wal_sidecar_blocks_even_with_matching_main_file_backup(self) -> None:
-        db_path = self.root / "wal.sqlite3"
+        wal_root = self.root / "wal-fixture"
+        db_path = wal_root / "Library/Application Support" / gate.PRODUCTION_BUNDLE_ID / gate.DATABASE_NAME
+        db_path.parent.mkdir(parents=True)
         connection = sqlite3.connect(db_path)
         connection.execute("PRAGMA journal_mode=WAL")
         connection.execute("PRAGMA wal_autocheckpoint=0")
         connection.executescript("CREATE TABLE schema_migrations(version INTEGER PRIMARY KEY); INSERT INTO schema_migrations VALUES(1),(2),(3); PRAGMA user_version=3; CREATE TABLE wal_only(value TEXT);")
         connection.execute("INSERT INTO wal_only VALUES('committed in WAL')")
         connection.commit()
-        backup = self.root / "wal-backup.sqlite3"
+        backup = db_path.parent / "production-v4-backups" / gate.DATABASE_NAME
+        backup.parent.mkdir(parents=True)
         shutil.copyfile(db_path, backup)
         self.assertEqual(gate.sha256_file(db_path), gate.sha256_file(backup))
         self.assertEqual(connection.execute("SELECT COUNT(*) FROM wal_only").fetchone()[0], 1)
         facts = self._safe_facts()
+        wal_app = wal_root / "Applications" / gate.APP_NAME
+        wal_app.parent.mkdir(parents=True)
+        shutil.copytree(self.app, wal_app)
+        candidate = gate.read_bundle(wal_app)
         wal_facts = gate.inspect_database(db_path)
         self.assertIn(str(db_path) + "-wal", wal_facts["sidecars"])
         facts["expected_database_path"] = str(db_path.resolve())
+        facts["expected_installed_app"] = str(wal_app.resolve())
+        facts["candidate"] = candidate
+        facts["production_apps"] = [candidate]
+        facts["candidate_approval"].update(candidateExecutableSha256=candidate["executable_sha256"], compatibilityManifestSha256=candidate["manifest_sha256"])
         facts["production_database"] = wal_facts
         facts["backup"] = {"path": str(backup.resolve()), "exists": True, "sha256": gate.sha256_file(backup)}
         facts["migration_authorization"]["productionDbPreMigrationSha256"] = wal_facts["sha256"]
         facts["migration_authorization"]["backupPath"] = str(backup.resolve())
+        facts["migration_authorization"]["candidateExecutableSha256"] = candidate["executable_sha256"]
         facts["sidecars_absent"] = False
-        reasons = gate.validate_preflight(facts)
+        reasons = gate.validate_preflight(facts, synthetic_fixture_root=wal_root)
         self.assertTrue(any("sidecar" in reason.lower() for reason in reasons), reasons)
         with self.assertRaises(gate.GateBlocked):
-            gate.make_release_receipt(facts)
+            gate.make_release_receipt(facts, synthetic_fixture_root=wal_root)
         connection.close()
 
     def test_missing_authorization_id_equal_backup_path_and_wrong_executable_name_block(self) -> None:
-        self.assert_blocked(lambda facts: facts["migration_authorization"].update(authorizationId=""))
-        self.assert_blocked(lambda facts: facts["candidate_approval"].update(authorizationId=""))
+        for invalid_id in (None, 1, [], {}, True, "", "   "):
+            with self.subTest(invalid_id=invalid_id):
+                self.assert_blocked(lambda facts, value=invalid_id: facts["migration_authorization"].update(authorizationId=value))
+                self.assert_blocked(lambda facts, value=invalid_id: facts["candidate_approval"].update(authorizationId=value))
         self.assert_blocked(lambda facts: facts["backup"].update(path=facts["production_database"]["path"]))
         self.assert_blocked(lambda facts: facts["candidate"].update(executable_name="renamed-console"))
+        outside = self.root / "outside" / gate.EXECUTABLE_NAME
+        outside.parent.mkdir()
+        outside.write_text("same-name wrong directory")
+        self.assert_blocked(lambda facts: facts["candidate"].update(executable_path=str(outside)))
+        wrong_directory = self.app / "Contents/Helpers" / gate.EXECUTABLE_NAME
+        wrong_directory.parent.mkdir()
+        wrong_directory.write_text("same-name wrong bundle directory")
+        self.assert_blocked(lambda facts: facts["candidate"].update(executable_path=str(wrong_directory)))
+
+    def test_read_bundle_rejects_executable_symlink_escaping_bundle(self) -> None:
+        external = self.root / "external-executable"
+        external.write_text("outside bundle")
+        original = self.app / "Contents/MacOS" / gate.EXECUTABLE_NAME
+        original.unlink()
+        original.symlink_to(external)
+        with self.assertRaises(ValueError):
+            gate.read_bundle(self.app)
 
     def test_all_safe_facts_produce_pre_migration_receipt(self) -> None:
         facts = self._safe_facts()
-        receipt = gate.make_release_receipt(facts)
+        receipt = self.make_receipt(facts)
         self.assertEqual(receipt["status"], "PREFLIGHT_PASS_READY_FOR_SEPARATELY_AUTHORIZED_MIGRATION")
         self.assertEqual(receipt["candidateExecutableSha256"], facts["candidate"]["executable_sha256"])
         self.assertEqual(receipt["productionDatabasePreMigrationSha256"], facts["production_database"]["sha256"])
@@ -262,7 +443,7 @@ class ReleaseGateTests(unittest.TestCase):
 
     def test_persistent_receipt_is_written_once_and_readable(self) -> None:
         receipt_path = self.root / "evidence/release-receipt.json"
-        receipt = gate.make_release_receipt(self._safe_facts())
+        receipt = self.make_receipt(self._safe_facts())
         gate._persist_receipt(receipt_path, receipt, create=True)
         self.assertEqual(json.loads(receipt_path.read_text(encoding="utf-8")), receipt)
         with self.assertRaises(FileExistsError):
@@ -287,7 +468,12 @@ class ReleaseGateTests(unittest.TestCase):
         archive_exe = Path(result["archivePath"]) / "Contents/MacOS/personal-finance-console"
         self.assertEqual(result["status"], "CANDIDATE_INSTALLED_AND_VERIFIED")
         self.assertFalse(archive_exe.stat().st_mode & 0o111)
-        self.assertEqual(gate.read_bundle(normal)["executable_sha256"], gate.sha256_file(candidate / "Contents/MacOS/personal-finance-console"))
+        installed = gate.read_bundle(normal)
+        self.assertEqual(installed["bundle_id"], gate.PRODUCTION_BUNDLE_ID)
+        self.assertEqual(installed["executable_name"], gate.EXECUTABLE_NAME)
+        self.assertEqual(installed["executable_path"], str(normal.resolve() / "Contents/MacOS" / gate.EXECUTABLE_NAME))
+        self.assertEqual(installed["executable_sha256"], gate.sha256_file(candidate / "Contents/MacOS/personal-finance-console"))
+        self.assertEqual(installed["manifest_sha256"], gate.sha256_file(self.manifest_path(candidate)))
 
     def test_retirement_failure_restores_old_app_and_executable_mode(self) -> None:
         old = self.root / "old" / gate.APP_NAME
@@ -382,6 +568,11 @@ class ReleaseGateTests(unittest.TestCase):
                     with self.assertRaises(gate.GateBlocked):
                         gate.retirement_replace(normal, candidate, normal, archive_root, authorization, [], [gate.read_bundle(normal)], expected_old_sha256=authorization["oldExecutableSha256"])
                 self._assert_rollback(old, normal, old_executable, archive_root)
+                restored = gate.read_bundle(normal)
+                self.assertTrue(gate.validate_manifest(restored))
+                restored = gate.read_bundle(normal)
+                self.assertEqual(restored["bundle_id"], gate.PRODUCTION_BUNDLE_ID)
+                self.assertEqual(restored["executable_sha256"], gate.sha256_file(old_executable))
 
     def test_source_manifest_byte_mismatch_rejects_before_removal(self) -> None:
         old, candidate, normal, old_executable, authorization = self._retirement_case("source-manifest")
@@ -390,6 +581,39 @@ class ReleaseGateTests(unittest.TestCase):
         with self.assertRaises(gate.GateBlocked):
             gate.retirement_replace(normal, candidate, normal, self.root / "archive-source-manifest", authorization, [], [gate.read_bundle(normal)], expected_old_sha256=authorization["oldExecutableSha256"])
         self.assertEqual(gate.sha256_file(normal / "Contents/MacOS/personal-finance-console"), gate.sha256_file(old_executable))
+
+    def test_installed_plist_identity_or_executable_mutation_rolls_back(self) -> None:
+        original_replace = gate.os.replace
+        for mutation in ("bundle-id", "executable-name", "symlink-escape", "manifest-correct-plist-wrong"):
+            with self.subTest(mutation=mutation):
+                old, candidate, normal, old_executable, authorization = self._retirement_case(mutation)
+                archive_root = self.root / f"archive-{mutation}"
+                outside_executable = self.root / f"outside-{mutation}" / gate.EXECUTABLE_NAME
+                outside_executable.parent.mkdir(parents=True)
+                outside_executable.write_text("outside executable")
+                def mutate_after_install(source, destination):
+                    result = original_replace(source, destination)
+                    if Path(destination) == normal:
+                        exe = normal / "Contents/MacOS" / gate.EXECUTABLE_NAME
+                        if mutation == "symlink-escape":
+                            exe.unlink()
+                            exe.symlink_to(outside_executable)
+                        else:
+                            info_path = normal / "Contents/Info.plist"
+                            with info_path.open("rb") as stream:
+                                info = plistlib.load(stream)
+                            if mutation in ("bundle-id", "manifest-correct-plist-wrong"):
+                                info["CFBundleIdentifier"] = "com.independent.wrong"
+                            elif mutation == "executable-name":
+                                info["CFBundleExecutable"] = "renamed-executable"
+                            with info_path.open("wb") as stream:
+                                plistlib.dump(info, stream)
+                    return result
+                with patch.object(gate.os, "replace", side_effect=mutate_after_install):
+                    with self.assertRaises(gate.GateBlocked):
+                        gate.retirement_replace(normal, candidate, normal, archive_root, authorization, [], [gate.read_bundle(normal)], expected_old_sha256=authorization["oldExecutableSha256"])
+                self._assert_rollback(old, normal, old_executable, archive_root)
+                self.assertTrue(gate.validate_manifest(gate.read_bundle(normal)))
 
     def test_rollback_failure_is_hard_blocked_and_persisted(self) -> None:
         old, candidate, normal, old_executable, authorization = self._retirement_case("rollback-failure")
