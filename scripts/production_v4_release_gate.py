@@ -631,7 +631,9 @@ def run_gate(
     if migration_authorization.get("status") != "OWNER_AUTHORIZED_PRODUCTION_V4_MIGRATION":
         raise GateBlocked(["A separate explicit Owner Production V4 migration authorization is required."])
     facts = collect_real_facts(candidate_approval_path, migration_authorization_path)
-    receipt = make_release_receipt(facts, synthetic_fixture_root=root)
+    # The supported entrypoint always validates the fixed Production paths.
+    # Synthetic validation is available only in create_synthetic_rehearsal.
+    receipt = make_release_receipt(facts)
     if mode == "preflight":
         _persist_receipt(receipt_path, receipt, create=True)
         return receipt

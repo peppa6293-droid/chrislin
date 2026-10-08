@@ -10,6 +10,7 @@ import sys
 import subprocess
 import tempfile
 import unittest
+from types import SimpleNamespace
 from pathlib import Path
 from unittest.mock import patch
 
@@ -49,6 +50,24 @@ class ReleaseGateTests(unittest.TestCase):
 
     def make_receipt(self, facts: dict) -> dict:
         return gate.make_release_receipt(facts, synthetic_fixture_root=self.root)
+
+    def _normal_entrypoint_facts(self) -> dict:
+        return self._safe_facts()
+
+    def _patch_entrypoint_paths(self):
+        return (
+            patch.object(gate, "APP_PATH", self.app),
+            patch.object(gate, "DATABASE_PATH", self.db),
+            patch.object(gate, "APP_DATA", self.db.parent),
+        )
+
+    def _write_entrypoint_inputs(self, facts: dict, root: Path) -> tuple[Path, Path]:
+        root.mkdir(parents=True, exist_ok=True)
+        approval = root / "candidate-approval.json"
+        authorization = root / "migration-authorization.json"
+        approval.write_text(json.dumps(facts["candidate_approval"]), encoding="utf-8")
+        authorization.write_text(json.dumps(facts["migration_authorization"]), encoding="utf-8")
+        return approval, authorization
 
     def _make_app(self, path: Path, bundle_id: str, with_manifest: bool = True) -> None:
         executable = path / "Contents/MacOS/personal-finance-console"
@@ -448,6 +467,88 @@ class ReleaseGateTests(unittest.TestCase):
         self.assertEqual(json.loads(receipt_path.read_text(encoding="utf-8")), receipt)
         with self.assertRaises(FileExistsError):
             gate._persist_receipt(receipt_path, receipt, create=True)
+
+    def test_actual_run_gate_preflight_persists_receipt_without_permit_or_launch(self) -> None:
+        facts = self._normal_entrypoint_facts()
+        approval, authorization = self._write_entrypoint_inputs(facts, self.root)
+        receipt_path = self.root / "actual-run-gate-preflight.json"
+        with patch.object(gate.sys, "platform", "darwin"), patch.object(gate, "APP_PATH", self.app), patch.object(gate, "DATABASE_PATH", self.db), patch.object(gate, "APP_DATA", self.db.parent), patch.object(gate, "collect_real_facts", return_value=facts), patch.object(gate, "write_migration_permit") as permit_writer, patch.object(gate.subprocess, "Popen") as launcher:
+            result = gate.run_gate("preflight", approval, authorization, receipt_path)
+        self.assertEqual(result["status"], "PREFLIGHT_PASS_READY_FOR_SEPARATELY_AUTHORIZED_MIGRATION")
+        persisted = json.loads(receipt_path.read_text(encoding="utf-8"))
+        self.assertEqual(persisted["candidateExecutableSha256"], facts["candidate"]["executable_sha256"])
+        self.assertEqual(persisted["productionDatabasePreMigrationSha256"], facts["production_database"]["sha256"])
+        self.assertEqual(persisted["backupPath"], str(Path(facts["backup"]["path"]).resolve()))
+        self.assertEqual(persisted["ownerAuthorizationId"], facts["migration_authorization"]["authorizationId"])
+        self.assertFalse((self.root / "production-v4-migration-authorization.json").exists())
+        permit_writer.assert_not_called()
+        launcher.assert_not_called()
+
+    def test_actual_run_gate_migrate_reaches_only_mocked_permit_and_launcher_boundary(self) -> None:
+        facts = self._normal_entrypoint_facts()
+        approval, authorization = self._write_entrypoint_inputs(facts, self.root)
+        receipt_path = self.root / "actual-run-gate-migrate.json"
+        permit_path = self.root / "isolated-migration-permit.json"
+        order: list[str] = []
+        def fake_permit(receipt, auth):
+            order.append("permit")
+            self.assertTrue(receipt_path.is_file())
+            self.assertEqual(json.loads(receipt_path.read_text(encoding="utf-8"))["status"], "GATE_PASSED_MIGRATION_PERMITTED")
+            self.assertEqual(auth["authorizationId"], facts["migration_authorization"]["authorizationId"])
+            permit_path.write_text("synthetic permit", encoding="utf-8")
+            return permit_path, "test-only-nonce"
+        def fake_launch(command, **_kwargs):
+            order.append("launch")
+            self.assertEqual(Path(command[0]), Path(facts["candidate"]["executable_path"]))
+            self.assertTrue(permit_path.is_file())
+            return SimpleNamespace(pid=51515)
+        with patch.object(gate.sys, "platform", "darwin"), patch.object(gate, "APP_PATH", self.app), patch.object(gate, "DATABASE_PATH", self.db), patch.object(gate, "APP_DATA", self.db.parent), patch.object(gate, "collect_real_facts", return_value=facts), patch.object(gate, "write_migration_permit", side_effect=fake_permit), patch.object(gate.subprocess, "Popen", side_effect=fake_launch):
+            result = gate.run_gate("migrate", approval, authorization, receipt_path)
+        self.assertEqual(order, ["permit", "launch"])
+        self.assertEqual(result["status"], "GATE_PASSED_CANDIDATE_LAUNCHED_MIGRATION_PENDING")
+        self.assertEqual(result["launchPid"], 51515)
+        self.assertEqual(json.loads(receipt_path.read_text(encoding="utf-8"))["status"], "GATE_PASSED_CANDIDATE_LAUNCHED_MIGRATION_PENDING")
+
+    def test_actual_run_gate_negative_preflight_matrix_blocks_in_gate_logic(self) -> None:
+        cases = [
+            ("nested-old-app", lambda f: f["production_apps"].append({**f["candidate"], "bundle_path": f["expected_installed_app"] + "/Contents/Helpers/Hidden.app"}), "exactly one Production-identity app"),
+            ("incomplete-app-inventory", lambda f: f.update(app_inventory_complete=False), "inventory is incomplete"),
+            ("incomplete-process-inventory", lambda f: (f.update(process_inventory_complete=False, running_production_processes=None), f["process_inventory"].update(complete=False, processes=None)), "process inventory is unknown"),
+            ("invalid-candidate-identity", lambda f: f["candidate"].update(bundle_id="com.example.wrong"), "Candidate bundle ID"),
+            ("wal-present", lambda f: (f["production_database"].update(sidecars=["fixture-wal"]), f.update(sidecars_absent=False)), "WAL/SHM/journal"),
+            ("shm-present", lambda f: (f["production_database"].update(sidecars=["fixture-shm"]), f.update(sidecars_absent=False)), "WAL/SHM/journal"),
+            ("journal-present", lambda f: (f["production_database"].update(sidecars=["fixture-journal"]), f.update(sidecars_absent=False)), "WAL/SHM/journal"),
+            ("backup-missing", lambda f: f["backup"].update(exists=False), "backup is missing"),
+            ("backup-mismatched", lambda f: f["backup"].update(sha256="stale-backup"), "backup hash does not match"),
+            ("stale-db-approval", lambda f: f["migration_authorization"].update(productionDbPreMigrationSha256="stale-db"), "not bound to the verified Production pre-migration hash"),
+        ]
+        for name, mutate, reason in cases:
+            with self.subTest(name=name):
+                facts = self._normal_entrypoint_facts()
+                mutate(facts)
+                approval, authorization = self._write_entrypoint_inputs(facts, self.root / name)
+                receipt_path = self.root / f"{name}-receipt.json"
+                with patch.object(gate.sys, "platform", "darwin"), patch.object(gate, "APP_PATH", self.app), patch.object(gate, "DATABASE_PATH", self.db), patch.object(gate, "APP_DATA", self.db.parent), patch.object(gate, "collect_real_facts", return_value=facts), patch.object(gate, "write_migration_permit") as permit_writer, patch.object(gate.subprocess, "Popen") as launcher:
+                    with self.assertRaises(gate.GateBlocked) as caught:
+                        gate.run_gate("preflight", approval, authorization, receipt_path)
+                self.assertIn(reason.lower(), str(caught.exception).lower())
+                self.assertFalse(receipt_path.exists())
+                permit_writer.assert_not_called()
+                launcher.assert_not_called()
+
+    def test_actual_run_gate_missing_authorization_file_blocks_before_receipt(self) -> None:
+        facts = self._normal_entrypoint_facts()
+        approval, _authorization = self._write_entrypoint_inputs(facts, self.root)
+        missing_authorization = self.root / "missing-authorization.json"
+        receipt_path = self.root / "missing-auth-receipt.json"
+        with patch.object(gate.sys, "platform", "darwin"), patch.object(gate, "APP_PATH", self.app), patch.object(gate, "DATABASE_PATH", self.db), patch.object(gate, "APP_DATA", self.db.parent), patch.object(gate, "collect_real_facts") as collect, patch.object(gate, "write_migration_permit") as permit_writer, patch.object(gate.subprocess, "Popen") as launcher:
+            with self.assertRaises(gate.GateBlocked) as caught:
+                gate.run_gate("preflight", approval, missing_authorization, receipt_path)
+        self.assertIn("authorization is missing or unreadable", str(caught.exception).lower())
+        self.assertFalse(receipt_path.exists())
+        collect.assert_not_called()
+        permit_writer.assert_not_called()
+        launcher.assert_not_called()
 
     def test_retirement_archives_disables_and_installs_candidate(self) -> None:
         old = self.root / "old" / gate.APP_NAME
