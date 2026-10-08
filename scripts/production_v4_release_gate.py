@@ -22,14 +22,15 @@ from typing import Any
 PRODUCTION_BUNDLE_ID = "com.personalfinance.console"
 ACCEPTANCE_BUNDLE_ID = "com.personalfinance.console.v4acceptance"
 DATABASE_NAME = "personal-finance-console.sqlite3"
+PRODUCTION_MIGRATION_AUTHORIZATION = "production-v4-migration-authorization.json"
 APP_NAME = "Personal Finance Console.app"
+EXECUTABLE_NAME = "personal-finance-console"
 APP_PATH = Path("/Applications") / APP_NAME
 APP_DATA = Path.home() / "Library/Application Support" / PRODUCTION_BUNDLE_ID
 DATABASE_PATH = APP_DATA / DATABASE_NAME
-GATE_AUTH_PATH = APP_DATA / "production-v4-migration-authorization.json"
+GATE_AUTH_PATH = APP_DATA / PRODUCTION_MIGRATION_AUTHORIZATION
 LEGACY_EXECUTABLE_SHA256 = "0e6dcb261de20eb96fcb2f85eaa7fe78fc3cd8c72a96bee78856ac081153911f"
 MANIFEST_RELATIVE_PATH = Path("Contents/Resources/runtime-compatibility.json")
-MIGRATION_AUTH_ENV = "PF_V4_RELEASE_GATE_NONCE"
 
 
 class GateBlocked(RuntimeError):
@@ -66,8 +67,8 @@ def read_bundle(app_path: Path) -> dict[str, Any]:
     with info_path.open("rb") as stream:
         info = plistlib.load(stream)
     executable_name = info.get("CFBundleExecutable")
-    if not isinstance(executable_name, str) or not executable_name or Path(executable_name).name != executable_name:
-        raise ValueError(f"Invalid CFBundleExecutable in {info_path}")
+    if executable_name != EXECUTABLE_NAME:
+        raise ValueError(f"CFBundleExecutable must be the supported executable {EXECUTABLE_NAME!r} in {info_path}")
     executable = app_path / "Contents/MacOS" / executable_name
     if not executable.is_file():
         raise ValueError(f"Bundle executable is missing: {executable}")
@@ -92,94 +93,133 @@ def read_bundle(app_path: Path) -> dict[str, Any]:
     }
 
 
-def inventory_production_apps(roots: list[Path]) -> list[dict[str, Any]]:
+def inventory_production_apps(roots: list[Path], walk: Any = os.walk) -> list[dict[str, Any]]:
     apps: list[dict[str, Any]] = []
     visited: set[str] = set()
+    errors: list[dict[str, str]] = []
     for root in roots:
-        if not root.exists():
+        if root.is_symlink():
+            errors.append({"path": str(root), "error": "scan root is a symbolic link; inventory target is unknown"})
             continue
-        for current, dirs, _files in os.walk(root, followlinks=False):
-            for name in list(dirs):
-                if not name.endswith(".app"):
-                    continue
-                path = Path(current) / name
-                dirs.remove(name)
-                try:
+        if not root.exists() and root == Path.home() / "Applications":
+            continue
+        if not root.exists():
+            errors.append({"path": str(root), "error": "required scan root is missing"})
+            continue
+
+        def onerror(error: OSError) -> None:
+            errors.append({"path": str(getattr(error, "filename", root)), "error": f"{type(error).__name__}: {error}"})
+
+        try:
+            for current, dirs, _files in walk(root, followlinks=False, onerror=onerror):
+                for name in list(dirs):
+                    child = Path(current) / name
+                    if child.is_symlink() and not name.endswith(".app"):
+                        errors.append({"path": str(child), "error": "symbolic directory was not traversed; contained app identities are unknown"})
+                        dirs.remove(name)
+                for name in list(dirs):
+                    if not name.endswith(".app"):
+                        continue
+                    path = Path(current) / name
+                    dirs.remove(name)
                     info_path = path / "Contents/Info.plist"
-                    if not info_path.is_file():
-                        if name == APP_NAME:
-                            apps.append({"bundle_path": str(path), "unreadable": True})
-                        continue
-                    with info_path.open("rb") as stream:
-                        info = plistlib.load(stream)
-                    if info.get("CFBundleIdentifier") != PRODUCTION_BUNDLE_ID:
-                        continue
-                    canonical = str(path.resolve())
-                    if canonical in visited:
-                        apps.append({"bundle_path": str(path), "canonical_path": canonical, "duplicate_alias": True})
-                    else:
-                        visited.add(canonical)
-                        item = read_bundle(path)
-                        item["symlink"] = path.is_symlink()
-                        apps.append(item)
-                except (OSError, ValueError, plistlib.InvalidFileException, json.JSONDecodeError) as error:
-                    apps.append({"bundle_path": str(path), "unreadable": str(error)})
+                    try:
+                        if not info_path.is_file():
+                            raise ValueError("app bundle Info.plist is missing; identity is unknown")
+                        with info_path.open("rb") as stream:
+                            info = plistlib.load(stream)
+                        if not isinstance(info, dict) or not isinstance(info.get("CFBundleIdentifier"), str):
+                            raise ValueError("app bundle identity metadata is malformed")
+                        if info.get("CFBundleIdentifier") != PRODUCTION_BUNDLE_ID:
+                            continue
+                        canonical = str(path.resolve())
+                        if canonical in visited:
+                            apps.append({"bundle_path": str(path), "canonical_path": canonical, "duplicate_alias": True})
+                        else:
+                            visited.add(canonical)
+                            item = read_bundle(path)
+                            item["symlink"] = path.is_symlink()
+                            apps.append(item)
+                    except Exception as error:  # malformed/read failures make identity unknown
+                        errors.append({"path": str(info_path), "error": f"{type(error).__name__}: {error}"})
+        except Exception as error:
+            errors.append({"path": str(root), "error": f"{type(error).__name__}: {error}"})
+    if errors:
+        raise GateBlocked([f"App inventory incomplete at {item['path']}: {item['error']}" for item in errors])
     return apps
 
 
-def inventory_production_processes() -> list[dict[str, Any]]:
+def inventory_production_processes(runner: Any = subprocess.run, known_apps: list[dict[str, Any]] | None = None) -> list[dict[str, Any]]:
     if sys.platform != "darwin":
         raise GateBlocked(["Process and bundle inventory is supported only on macOS."])
-    result = subprocess.run(["/bin/ps", "-axo", "pid=,comm="], check=True, capture_output=True, text=True)
+    try:
+        result = runner(["/bin/ps", "-axo", "pid=,comm=,args="], capture_output=True, text=True)
+    except Exception as error:
+        raise GateBlocked([f"Process snapshot is unknown: {type(error).__name__}: {error}"]) from error
+    if result.returncode != 0:
+        raise GateBlocked([f"Process snapshot failed (exit {result.returncode}): {result.stderr.strip()}"])
     matches: list[dict[str, Any]] = []
+    expected_executables = {str(Path(item["executable_path"]).resolve()) for item in (known_apps or []) if item.get("executable_path")}
+    expected_db_names = {DATABASE_NAME, DATABASE_NAME + "-wal", DATABASE_NAME + "-shm", DATABASE_NAME + "-journal"}
     for line in result.stdout.splitlines():
-        parts = line.strip().split(None, 1)
+        parts = line.strip().split(None, 2)
         if not parts:
             continue
-        pid = int(parts[0])
+        try:
+            pid = int(parts[0])
+        except ValueError as error:
+            raise GateBlocked([f"Process snapshot contains an invalid PID row: {line!r}"]) from error
         comm = parts[1] if len(parts) > 1 else ""
-        if "personal-finance-console" not in comm.lower():
-            continue
-        opened = subprocess.run(
-            ["/usr/sbin/lsof", "-a", "-p", str(pid), "-d", "txt", "-Fn"],
-            capture_output=True,
-            text=True,
-        )
-        executable_paths = [Path(item[1:]) for item in opened.stdout.splitlines() if item.startswith("n")]
-        for executable in executable_paths:
-            if executable.name != "personal-finance-console" or not executable.exists():
-                continue
-            bundle_path: Path | None = None
-            bundle_id: str | None = None
-            parent = executable.parent
-            while parent != parent.parent:
-                if parent.suffix == ".app":
-                    bundle_path = parent
-                    try:
-                        with (parent / "Contents/Info.plist").open("rb") as stream:
-                            bundle_id = plistlib.load(stream).get("CFBundleIdentifier")
-                    except (OSError, plistlib.InvalidFileException):
-                        pass
-                    break
-                parent = parent.parent
-            digest = sha256_file(executable)
-            if bundle_id == PRODUCTION_BUNDLE_ID or digest == LEGACY_EXECUTABLE_SHA256 or bundle_path is None:
-                matches.append(
-                    {
-                        "pid": pid,
-                        "executable_path": str(executable),
-                        "executable_sha256": digest,
-                        "bundle_path": str(bundle_path) if bundle_path else None,
-                        "bundle_id": bundle_id,
-                        "ps_comm": comm,
-                    }
-                )
+        try:
+            text_opened = runner(["/usr/sbin/lsof", "-a", "-p", str(pid), "-d", "txt", "-Fn"], capture_output=True, text=True)
+        except Exception as error:
+            raise GateBlocked([f"Process {pid} inspection is unknown: {type(error).__name__}: {error}"]) from error
+        if text_opened.returncode != 0:
+            raise GateBlocked([f"Process {pid} executable inspection failed (exit {text_opened.returncode}): {text_opened.stderr.strip()}"])
+        executable_paths = [Path(item[1:]) for item in text_opened.stdout.splitlines() if item.startswith("n")]
+        if not executable_paths:
+            raise GateBlocked([f"Process {pid} executable identity is unknown; no text executable path was returned."])
+        resolved_known = [path for path in executable_paths if str(path.resolve()) in expected_executables]
+        named_paths = [path for path in executable_paths if path.name == comm]
+        if len(resolved_known) == 1:
+            executable = resolved_known[0]
+        elif len(named_paths) == 1:
+            executable = named_paths[0]
+        elif len(executable_paths) == 1:
+            executable = executable_paths[0]
+        else:
+            raise GateBlocked([f"Process {pid} has an ambiguous executable inventory; command={comm!r}."])
+        try:
+            opened = runner(["/usr/sbin/lsof", "-a", "-p", str(pid), "-Fn"], capture_output=True, text=True)
+        except Exception as error:
+            raise GateBlocked([f"Process {pid} open-file inspection is unknown: {type(error).__name__}: {error}"]) from error
+        if opened.returncode != 0:
+            raise GateBlocked([f"Process {pid} open-file inspection failed (exit {opened.returncode}): {opened.stderr.strip()}"])
+        paths = [Path(item[1:]) for item in opened.stdout.splitlines() if item.startswith("n")]
+        has_db_handle = any(path.name in expected_db_names and path.parent == DATABASE_PATH.parent for path in paths)
+        bundle_path: Path | None = None
+        bundle_id: str | None = None
+        parent = executable.parent
+        while parent != parent.parent:
+            if parent.suffix == ".app":
+                bundle_path = parent
+                try:
+                    with (parent / "Contents/Info.plist").open("rb") as stream:
+                        bundle_id = plistlib.load(stream).get("CFBundleIdentifier")
+                except Exception as error:
+                    raise GateBlocked([f"Process {pid} executable bundle metadata is unknown: {type(error).__name__}: {error}"]) from error
+                break
+            parent = parent.parent
+        digest = sha256_file(executable)
+        if bundle_id == PRODUCTION_BUNDLE_ID or str(executable.resolve()) in expected_executables or has_db_handle or digest == LEGACY_EXECUTABLE_SHA256:
+            matches.append({"pid": pid,"executable_path": str(executable),"executable_sha256": digest,"bundle_path": str(bundle_path) if bundle_path else None,"bundle_id": bundle_id,"ps_comm": comm,"database_handle": has_db_handle})
     return matches
 
 
 def inspect_database(path: Path) -> dict[str, Any]:
     if not path.is_file():
         raise ValueError(f"Production database is missing: {path}")
+    sidecars = [str(Path(str(path) + suffix)) for suffix in ("-wal", "-shm", "-journal") if Path(str(path) + suffix).exists()]
     uri = f"file:{path.resolve()}?mode=ro"
     connection = sqlite3.connect(uri, uri=True)
     try:
@@ -201,6 +241,7 @@ def inspect_database(path: Path) -> dict[str, Any]:
             "migration_version": migration_version,
             "integrity": integrity,
             "foreign_key_violations": foreign_keys,
+            "sidecars": sidecars,
         }
     finally:
         connection.close()
@@ -221,6 +262,8 @@ def validate_manifest(bundle: dict[str, Any]) -> list[str]:
     for key, value in expected.items():
         if manifest.get(key) != value:
             errors.append(f"Candidate compatibility manifest field {key} must be {value!r}.")
+    if bundle.get("executable_name") != EXECUTABLE_NAME or manifest.get("executable") != f"Contents/MacOS/{EXECUTABLE_NAME}":
+        errors.append("Candidate executable identity/path is not the fixed Production executable.")
     minimum = manifest.get("minSupportedSchemaVersion")
     if not isinstance(minimum, int) or minimum < 1 or minimum > 3:
         errors.append("Candidate compatibility manifest must declare support for schema V3 and migration from an earlier version.")
@@ -242,6 +285,10 @@ def validate_preflight(facts: dict[str, Any]) -> list[str]:
     if not isinstance(apps, list):
         errors.append("Installed Production bundle inventory is unknown.")
         apps = []
+    if facts.get("app_inventory_complete") is not True:
+        errors.append("Installed Production bundle inventory is incomplete or unknown.")
+    if facts.get("process_inventory_complete") is not True:
+        errors.append("Production process inventory is incomplete or unknown.")
     if len(apps) != 1:
         errors.append("Normal launch locations must contain exactly one Production-identity app bundle.")
     candidate = facts.get("candidate")
@@ -279,6 +326,8 @@ def validate_preflight(facts: dict[str, Any]) -> list[str]:
     else:
         if approval.get("status") != "OWNER_APPROVED_V4_PRODUCTION_CANDIDATE":
             errors.append("Candidate approval status is not Owner-approved for Production V4.")
+        if not str(approval.get("authorizationId", "")).strip():
+            errors.append("Candidate approval ID is missing.")
         if candidate and approval.get("candidateExecutableSha256") != candidate.get("executable_sha256"):
             errors.append("Candidate executable hash does not match the Owner-approved hash.")
         if candidate and approval.get("compatibilityManifestSha256") != candidate.get("manifest_sha256"):
@@ -292,10 +341,16 @@ def validate_preflight(facts: dict[str, Any]) -> list[str]:
         database = {}
     if Path(str(database.get("path", ""))) != Path(str(facts.get("expected_database_path", ""))).resolve():
         errors.append("Production database path does not match the authorized identity and basename.")
+    if Path(str(database.get("path", ""))).name != DATABASE_NAME:
+        errors.append("Production database basename does not match the fixed Production SQLite identity.")
     if database.get("user_version") != 3 or database.get("migration_version") != 3:
         errors.append("Production migration source must be consistent Schema V3.")
     if database.get("integrity") != ["ok"] or database.get("foreign_key_violations") != []:
         errors.append("Production database integrity or foreign-key preflight failed.")
+    if database.get("sidecars") != []:
+        errors.append("Production SQLite state is not quiescent; WAL/SHM/journal sidecars must be absent.")
+    if facts.get("sidecars_absent") is not True:
+        errors.append("Production sidecar absence was not established.")
 
     backup = facts.get("backup")
     if not isinstance(backup, dict) or not backup.get("exists"):
@@ -313,6 +368,19 @@ def validate_preflight(facts: dict[str, Any]) -> list[str]:
         errors.append("Verified backup path does not match the migration approval.")
     if migration_authorization and candidate and migration_authorization.get("candidateExecutableSha256") != candidate.get("executable_sha256"):
         errors.append("Migration approval candidate hash does not match the installed candidate.")
+    if not str((migration_authorization or {}).get("authorizationId", "")).strip():
+        errors.append("Production migration authorization ID is missing.")
+    if backup and Path(str(backup.get("path", ""))).resolve() == Path(str(database.get("path", ""))).resolve():
+        errors.append("Production byte-for-byte backup path must differ from the source database path.")
+    if backup and database:
+        backup_path = Path(str(backup.get("path", ""))).resolve()
+        required_backup_root = Path(str(database.get("path", ""))).resolve().parent / "production-v4-backups"
+        try:
+            backup_path.relative_to(required_backup_root)
+        except ValueError:
+            errors.append("Production backup path must be inside the native-approved production-v4-backups directory.")
+    if candidate and (candidate.get("executable_name") != EXECUTABLE_NAME or Path(str(candidate.get("executable_path", ""))).name != EXECUTABLE_NAME):
+        errors.append("Candidate executable name/path is not the fixed Production executable.")
     return errors
 
 
@@ -333,6 +401,7 @@ def make_release_receipt(facts: dict[str, Any]) -> dict[str, Any]:
         "candidateExecutableSha256": candidate["executable_sha256"],
         "compatibilityManifestSha256": candidate["manifest_sha256"],
         "maxSupportedSchemaVersion": candidate["manifest"]["maxSupportedSchemaVersion"],
+        "sidecarsAbsent": database.get("sidecars") == [] and facts.get("sidecars_absent") is True,
         "productionDatabasePath": database["path"],
         "productionDatabasePreMigrationSha256": database["sha256"],
         "productionSchema": {
@@ -342,8 +411,9 @@ def make_release_receipt(facts: dict[str, Any]) -> dict[str, Any]:
         "backupPath": str(Path(str(backup["path"])).resolve()),
         "backupSha256": backup["sha256"],
         "ownerAuthorizationId": facts["migration_authorization"].get("authorizationId"),
-        "processInventory": [],
-        "productionAppInventory": [item["bundle_path"] for item in facts["production_apps"]],
+        "candidateApprovalId": facts["candidate_approval"].get("authorizationId"),
+        "processInventory": facts.get("process_inventory"),
+        "productionAppInventory": facts["production_apps"],
     }
 
 
@@ -392,11 +462,17 @@ def collect_real_facts(candidate_approval_path: Path, migration_authorization_pa
         "exists": approval_backup_path.is_file(),
         "sha256": sha256_file(approval_backup_path) if approval_backup_path.is_file() else None,
     }
+    processes = inventory_production_processes(known_apps=apps)
+    database_sidecars_absent = database.get("sidecars") == []
     return {
         "platform": sys.platform,
         "expected_installed_app": str(APP_PATH),
         "expected_database_path": str(DATABASE_PATH),
-        "running_production_processes": inventory_production_processes(),
+        "running_production_processes": processes,
+        "process_inventory": {"complete": True, "processes": processes},
+        "process_inventory_complete": True,
+        "app_inventory_complete": True,
+        "sidecars_absent": database_sidecars_absent,
         "production_apps": apps,
         "candidate": candidate,
         "candidate_approval": candidate_approval,
@@ -406,7 +482,9 @@ def collect_real_facts(candidate_approval_path: Path, migration_authorization_pa
     }
 
 
-def write_migration_permit(receipt: dict[str, Any], approval: dict[str, Any]) -> tuple[Path, str]:
+def write_migration_permit(receipt: dict[str, Any], approval: dict[str, Any], permit_path: Path = GATE_AUTH_PATH) -> tuple[Path, str]:
+    if receipt.get("sidecarsAbsent") is not True:
+        raise GateBlocked(["SQLite sidecar absence was not bound into the release receipt."])
     nonce = secrets.token_urlsafe(32)
     permit = {
         **receipt,
@@ -417,16 +495,23 @@ def write_migration_permit(receipt: dict[str, Any], approval: dict[str, Any]) ->
         "expiresAtUnix": int(time.time()) + 120,
         "ownerAuthorizationId": approval.get("authorizationId"),
     }
-    APP_DATA.mkdir(parents=True, exist_ok=True)
-    temporary = GATE_AUTH_PATH.with_suffix(".tmp")
-    with temporary.open("x", encoding="utf-8") as stream:
+    permit_path.parent.mkdir(parents=True, exist_ok=True)
+    if permit_path.exists():
+        raise GateBlocked(["An unconsumed Production migration authorization already exists."])
+    temporary = permit_path.with_suffix(".tmp")
+    descriptor = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+    with os.fdopen(descriptor, "w", encoding="utf-8") as stream:
         json.dump(permit, stream, ensure_ascii=False, indent=2)
         stream.write("\n")
         stream.flush()
         os.fsync(stream.fileno())
-    os.chmod(temporary, 0o600)
-    os.replace(temporary, GATE_AUTH_PATH)
-    return GATE_AUTH_PATH, nonce
+    os.replace(temporary, permit_path)
+    directory_fd = os.open(permit_path.parent, os.O_RDONLY)
+    try:
+        os.fsync(directory_fd)
+    finally:
+        os.close(directory_fd)
+    return permit_path, nonce
 
 
 def run_gate(
@@ -451,12 +536,16 @@ def run_gate(
         raise ValueError(f"Unsupported gate mode: {mode}")
     receipt["status"] = "GATE_PASSED_MIGRATION_PERMITTED"
     _persist_receipt(receipt_path, receipt, create=True)
-    permit_path, nonce = write_migration_permit(receipt, migration_authorization)
-    executable = Path(receipt["candidateExecutablePath"])
-    env = dict(os.environ)
-    env[MIGRATION_AUTH_ENV] = nonce
     try:
-        process = subprocess.Popen([str(executable)], cwd=str(executable.parent), env=env, start_new_session=True)
+        permit_path, _nonce = write_migration_permit(receipt, migration_authorization)
+    except Exception as error:
+        receipt["status"] = "GATE_PASSED_PERMIT_ISSUANCE_FAILED"
+        receipt["permitIssuanceError"] = f"{type(error).__name__}: {error}"
+        _persist_receipt(receipt_path, receipt, create=False)
+        raise
+    executable = Path(receipt["candidateExecutablePath"])
+    try:
+        process = subprocess.Popen([str(executable)], cwd=str(executable.parent), start_new_session=True)
     except OSError:
         permit_path.unlink(missing_ok=True)
         receipt["status"] = "GATE_PASSED_CANDIDATE_LAUNCH_FAILED"
@@ -507,7 +596,10 @@ def retirement_replace(
         raise GateBlocked(["Candidate bundle ID is not the Production identity."])
     if candidate["executable_sha256"] != authorization.get("candidateExecutableSha256"):
         raise GateBlocked(["Candidate hash does not match the replacement authorization."])
-    timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    approved_manifest_hash = authorization.get("candidateManifestSha256")
+    if not approved_manifest_hash or candidate.get("manifest_sha256") != approved_manifest_hash:
+        raise GateBlocked(["Candidate manifest bytes do not match the replacement authorization."])
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ") + "-" + secrets.token_hex(4)
     archive_dir = archive_root / f"legacy-v3-{timestamp}"
     archive_app = archive_dir / (APP_NAME + ".retired")
     candidate_stage = normal_app_path.with_name(normal_app_path.name + ".v4-staging")
@@ -524,57 +616,213 @@ def retirement_replace(
         raise GateBlocked(["Archived legacy executable remains launchable."])
     receipt = {
         "status": "LEGACY_RUNTIME_ARCHIVED_AND_DISABLED",
+        "observedAtUtc": datetime.now(timezone.utc).isoformat(),
+        "authorizationId": authorization["authorizationId"],
         "originalBundlePath": str(old_app),
         "archivePath": str(archive_app),
         "legacyExecutableSha256": old["executable_sha256"],
         "archiveExecutableOriginalMode": original_mode,
         "archiveFileInventory": original_files,
         "candidateExecutableSha256": candidate["executable_sha256"],
+        "candidateManifestSha256": candidate["manifest_sha256"],
+        "productionAppInventory": production_app_inventory,
+        "processInventory": {"complete": True, "processes": running_processes},
     }
-    with (archive_dir / "retirement-receipt.json").open("x", encoding="utf-8") as stream:
-        json.dump(receipt, stream, ensure_ascii=False, indent=2)
-        stream.write("\n")
+    receipt_path = archive_dir / "retirement-receipt.json"
+    _persist_receipt(receipt_path, receipt, create=True)
 
     try:
         shutil.rmtree(old_app)
         shutil.copytree(candidate_source, candidate_stage, symlinks=True)
-        if read_bundle(candidate_stage)["executable_sha256"] != candidate["executable_sha256"]:
-            raise GateBlocked(["Installed staging candidate does not match its approved executable hash."])
+        staged = read_bundle(candidate_stage)
+        if staged["executable_sha256"] != candidate["executable_sha256"] or staged["manifest_sha256"] != approved_manifest_hash:
+            raise GateBlocked(["Staged candidate executable or manifest bytes differ from the approved source."])
         os.replace(candidate_stage, normal_app_path)
         installed = read_bundle(normal_app_path)
         errors = validate_manifest(installed)
-        if errors or installed["executable_sha256"] != candidate["executable_sha256"]:
-            raise GateBlocked(errors or ["Installed Production candidate differs from the approved candidate."])
-        receipt["status"] = "LEGACY_ARCHIVED_CANDIDATE_INSTALLED"
+        if errors or installed["executable_sha256"] != candidate["executable_sha256"] or installed["manifest_sha256"] != approved_manifest_hash:
+            raise GateBlocked(errors or ["Installed Production candidate executable or manifest bytes differ from the approved candidate."])
+        receipt["status"] = "CANDIDATE_INSTALLED_AND_VERIFIED"
+        receipt["installedBundleId"] = installed["bundle_id"]
+        receipt["installedExecutablePath"] = installed["executable_path"]
+        receipt["installedExecutableSha256"] = installed["executable_sha256"]
+        receipt["installedManifestSha256"] = installed["manifest_sha256"]
+        _persist_receipt(receipt_path, receipt, create=False)
         return receipt
-    except Exception:
-        if candidate_stage.exists():
-            shutil.rmtree(candidate_stage, ignore_errors=True)
-        if normal_app_path.exists() and normal_app_path != old_app:
-            shutil.rmtree(normal_app_path, ignore_errors=True)
-        if not old_app.exists() and archive_app.exists():
-            shutil.copytree(archive_app, old_app)
-            restored_executable = old_app / "Contents/MacOS" / old["executable_name"]
+    except Exception as failure:
+        rollback_errors: list[str] = []
+        try:
+            if candidate_stage.exists():
+                shutil.rmtree(candidate_stage)
+            if normal_app_path.exists():
+                shutil.rmtree(normal_app_path)
+            shutil.copytree(archive_app, normal_app_path, symlinks=True)
+            restored_executable = normal_app_path / "Contents/MacOS" / old["executable_name"]
             restored_executable.chmod(original_mode)
-        raise
+            restored = read_bundle(normal_app_path)
+            if restored["executable_sha256"] != old["executable_sha256"] or restored["bundle_id"] != PRODUCTION_BUNDLE_ID or restored["executable_name"] != old["executable_name"]:
+                raise ValueError("restored old app identity/hash verification failed")
+            if stat.S_IMODE(restored_executable.stat().st_mode) != original_mode:
+                raise ValueError("restored old app executable mode verification failed")
+            receipt["status"] = "ROLLBACK_COMPLETED"
+            receipt["rollbackExecutableSha256"] = restored["executable_sha256"]
+            receipt["rollbackExecutableMode"] = stat.S_IMODE(restored_executable.stat().st_mode)
+        except Exception as rollback_error:
+            rollback_errors.append(f"{type(rollback_error).__name__}: {rollback_error}")
+            receipt["status"] = "ROLLBACK_FAILED"
+            receipt["rollbackErrors"] = rollback_errors
+        receipt["failure"] = f"{type(failure).__name__}: {failure}"
+        receipt["recoveryArchivePath"] = str(archive_app)
+        _persist_receipt(receipt_path, receipt, create=False)
+        if receipt["status"] == "ROLLBACK_FAILED":
+            raise GateBlocked(["Runtime replacement failed and rollback failed; archived recovery evidence remains at " + str(archive_app), *rollback_errors]) from failure
+        raise GateBlocked([f"Runtime replacement failed; old app was restored from {archive_app}: {failure}"]) from failure
 
 
 def run_retirement(candidate_path: Path, authorization_path: Path) -> dict[str, Any]:
     if sys.platform != "darwin":
         raise GateBlocked(["Production runtime retirement is supported only on macOS."])
-    authorization = _load_json(authorization_path, "Runtime replacement authorization")
-    installed_apps = inventory_production_apps([Path("/Applications"), Path.home() / "Applications"])
-    processes = inventory_production_processes()
+    observed: dict[str, Any] = {
+        "status": "PRECHECK_BLOCKED",
+        "observedAtUtc": datetime.now(timezone.utc).isoformat(),
+        "candidatePath": str(candidate_path),
+        "appInventoryComplete": False,
+        "productionAppInventory": None,
+        "processInventory": {"complete": False, "processes": None},
+    }
+    try:
+        authorization = _load_json(authorization_path, "Runtime replacement authorization")
+        installed_apps = inventory_production_apps([Path("/Applications"), Path.home() / "Applications"])
+        observed["appInventoryComplete"] = True
+        observed["productionAppInventory"] = installed_apps
+        processes = inventory_production_processes(known_apps=installed_apps)
+        observed["processInventory"] = {"complete": True, "processes": processes}
+    except Exception as error:
+        observed["diagnostics"] = [f"{type(error).__name__}: {error}"]
+        receipt_path = APP_DATA / "runtime-replacement-receipts" / f"precheck-blocked-{int(time.time())}-{secrets.token_hex(4)}.json"
+        _persist_receipt(receipt_path, observed, create=True)
+        if isinstance(error, GateBlocked):
+            raise GateBlocked([*error.reasons, f"Precheck receipt: {receipt_path}"]) from error
+        raise GateBlocked([observed["diagnostics"][0], f"Precheck receipt: {receipt_path}"]) from error
     archive_root = APP_DATA / "retired-production-runtimes"
-    return retirement_replace(
-        APP_PATH,
-        candidate_path,
-        APP_PATH,
-        archive_root,
-        authorization,
-        processes,
-        installed_apps,
-    )
+    receipts_before = set(archive_root.glob("*/retirement-receipt.json")) if archive_root.exists() else set()
+    try:
+        return retirement_replace(
+            APP_PATH,
+            candidate_path,
+            APP_PATH,
+            archive_root,
+            authorization,
+            processes,
+            installed_apps,
+        )
+    except GateBlocked as error:
+        existing_receipts = [item for item in (archive_root.glob("*/retirement-receipt.json") if archive_root.exists() else []) if item not in receipts_before]
+        prior_outcome = None
+        if existing_receipts:
+            try:
+                prior_outcome = json.loads(max(existing_receipts, key=lambda item: item.stat().st_mtime).read_text(encoding="utf-8")).get("status")
+            except (OSError, json.JSONDecodeError):
+                prior_outcome = "UNKNOWN"
+        if prior_outcome not in {"ROLLBACK_COMPLETED", "ROLLBACK_FAILED"}:
+            observed["status"] = "PRECHECK_BLOCKED"
+            observed["diagnostics"] = error.reasons
+            receipt_path = APP_DATA / "runtime-replacement-receipts" / f"precheck-blocked-{int(time.time())}-{secrets.token_hex(4)}.json"
+            _persist_receipt(receipt_path, observed, create=True)
+            raise GateBlocked([*error.reasons, f"Precheck receipt: {receipt_path}"]) from error
+        raise
+
+
+def create_synthetic_rehearsal(fixture_root: Path) -> dict[str, Any]:
+    root = fixture_root.resolve()
+    protected = [Path("/Applications").resolve(), APP_DATA.resolve()]
+    if any(root == item or item in root.parents or root in item.parents for item in protected):
+        raise GateBlocked(["Synthetic rehearsal root overlaps a protected real Production path."])
+    if root.exists() and any(root.iterdir()):
+        raise GateBlocked(["Synthetic rehearsal requires an empty isolated fixture directory."])
+    app_data = root / "Library/Application Support" / PRODUCTION_BUNDLE_ID
+    app_path = root / "Applications" / APP_NAME
+    executable = app_path / "Contents/MacOS" / EXECUTABLE_NAME
+    executable.parent.mkdir(parents=True, exist_ok=True)
+    executable.write_bytes(b"synthetic-approved-v4-runtime")
+    executable.chmod(0o755)
+    with (app_path / "Contents/Info.plist").open("wb") as stream:
+        plistlib.dump({"CFBundleIdentifier": PRODUCTION_BUNDLE_ID, "CFBundleExecutable": EXECUTABLE_NAME, "CFBundleShortVersionString": "fixture"}, stream)
+    manifest = {
+        "manifestFormatVersion": 1,
+        "runtimeGeneration": 4,
+        "minSupportedSchemaVersion": 1,
+        "maxSupportedSchemaVersion": 4,
+        "bundleId": PRODUCTION_BUNDLE_ID,
+        "executable": f"Contents/MacOS/{EXECUTABLE_NAME}",
+    }
+    manifest_path = app_path / MANIFEST_RELATIVE_PATH
+    manifest_path.parent.mkdir(parents=True, exist_ok=True)
+    manifest_path.write_text(json.dumps(manifest, ensure_ascii=False), encoding="utf-8")
+    database_path = app_data / DATABASE_NAME
+    database_path.parent.mkdir(parents=True, exist_ok=True)
+    with sqlite3.connect(database_path) as connection:
+        connection.executescript(
+            "CREATE TABLE profiles(id TEXT PRIMARY KEY);"
+            "CREATE TABLE schema_migrations(version INTEGER PRIMARY KEY, applied_at TEXT NOT NULL);"
+            "INSERT INTO schema_migrations VALUES(1,'fixture'),(2,'fixture'),(3,'fixture');"
+            "PRAGMA user_version=3;"
+        )
+    backup_path = app_data / "production-v4-backups" / DATABASE_NAME
+    backup_path.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(database_path, backup_path)
+    candidate = read_bundle(app_path)
+    database = inspect_database(database_path)
+    backup = {"path": str(backup_path.resolve()), "exists": True, "sha256": sha256_file(backup_path)}
+    migration_authorization = {
+        "status": "OWNER_AUTHORIZED_PRODUCTION_V4_MIGRATION",
+        "authorizationId": "synthetic-chain-authorization-1",
+        "productionDbPreMigrationSha256": database["sha256"],
+        "candidateExecutableSha256": candidate["executable_sha256"],
+        "backupPath": str(backup_path.resolve()),
+    }
+    facts = {
+        "platform": "darwin",
+        "expected_installed_app": str(app_path.resolve()),
+        "expected_database_path": str(database_path.resolve()),
+        "running_production_processes": [],
+        "process_inventory": {"complete": True, "processes": []},
+        "process_inventory_complete": True,
+        "app_inventory_complete": True,
+        "sidecars_absent": True,
+        "production_apps": [candidate],
+        "candidate": candidate,
+        "candidate_approval": {
+            "status": "OWNER_APPROVED_V4_PRODUCTION_CANDIDATE",
+            "authorizationId": "synthetic-candidate-approval-1",
+            "candidateExecutableSha256": candidate["executable_sha256"],
+            "compatibilityManifestSha256": candidate["manifest_sha256"],
+            "bundleId": PRODUCTION_BUNDLE_ID,
+            "maxSupportedSchemaVersion": 4,
+        },
+        "migration_authorization": migration_authorization,
+        "production_database": database,
+        "backup": backup,
+    }
+    receipt = make_release_receipt(facts)
+    receipt_path = root / "evidence" / "preflight-receipt.json"
+    _persist_receipt(receipt_path, receipt, create=True)
+    permit_path = app_data / PRODUCTION_MIGRATION_AUTHORIZATION
+    write_migration_permit(receipt, migration_authorization, permit_path)
+    return {
+        "status": "SYNTHETIC_PREFLIGHT_AND_PERMIT_CREATED",
+        "fixtureRoot": str(root),
+        "appData": str(app_data),
+        "appPath": str(app_path),
+        "executablePath": str(executable),
+        "databasePath": str(database_path),
+        "backupPath": str(backup_path),
+        "receiptPath": str(receipt_path),
+        "permitPath": str(permit_path),
+        "candidateExecutableSha256": candidate["executable_sha256"],
+        "manifestSha256": candidate["manifest_sha256"],
+        "databaseSha256": database["sha256"],
+    }
 
 
 def main() -> int:
@@ -588,10 +836,14 @@ def main() -> int:
     retire = subparsers.add_parser("retire")
     retire.add_argument("--candidate-app", type=Path, required=True)
     retire.add_argument("--replacement-authorization", type=Path, required=True)
+    rehearse = subparsers.add_parser("rehearse-synthetic", help="test-only gate fixture creation; never touches Production")
+    rehearse.add_argument("--fixture-root", type=Path, required=True)
     args = parser.parse_args()
     try:
         if args.command == "retire":
             result = run_retirement(args.candidate_app, args.replacement_authorization)
+        elif args.command == "rehearse-synthetic":
+            result = create_synthetic_rehearsal(args.fixture_root)
         else:
             result = run_gate(args.command, args.candidate_approval, args.migration_authorization, args.receipt)
         print(json.dumps(result, ensure_ascii=False, indent=2))
