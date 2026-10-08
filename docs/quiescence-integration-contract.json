@@ -1,0 +1,79 @@
+{
+  "document_type": "synthetic-integration-protocol-specification-not-authorization",
+  "contract_version": 2,
+  "scope": "Canonical temporary synthetic root only. No Production connection, launch, replacement, permit, backup or restore.",
+  "entrypoint": "run_integrated(root: &str, callback: &(dyn Fn(&str, serde_json::Value) -> Result<(), Failure> + Send + Sync)) -> Result<serde_json::Value, Failure>",
+  "other_entrypoints": {
+    "hash_entrypoint": "Call before constructing Tauri: Option<Result<(), Failure>>; hash role never creates a webview or SQLite connection.",
+    "diagnostic_integrated": "Read durable files only; root: &str -> Result<Value, Failure>. Unresolved/corrupt/pending/mismatched records block startup. V4_VERIFIED still requires separate handoff authority.",
+    "recover_integrated": "root: &str, authorization_path: &str, callback -> Result<Value, Failure>. Authorization path must be root/recovery-authorization.json. New read-only DB verification; never reruns M4 or restores anything."
+  },
+  "mandatory_files": [
+    "SYNTHETIC_ONLY", "personal-finance-console.sqlite3", "backup.sqlite3", "manifest.json",
+    "maintenance.lock", "managed-contract.json", "authorization.json", "permit.json",
+    "managed-state-S0_VERIFIED_CANDIDATE.json", "managed-state-S1_OLD_RUNTIME_RETAINED.json",
+    "managed-state-S1_ENTRIES_DISABLED.json", "managed-state-S1_TARGET_EXIT_VERIFIED.json",
+    "managed-state-S1_ARCHIVE_VERIFIED.json", "managed-state-S1_STAGING_VERIFIED.json",
+    "managed-state-S1_INSTALLED_DISABLED.json", "managed-state-S1_MANAGED_ISOLATED.json",
+    "managed-state-S2_OWNER_AUTHORIZED.json"
+  ],
+  "permit_v2_required_fields": [
+    "format_version", "synthetic_only", "session", "nonce", "authorization_id",
+    "database_sha256", "backup_sha256", "executable_path", "executable_sha256",
+    "manifest_sha256", "allow_recovery", "allow_wal_infrastructure",
+    "managed_contract_sha256", "authorization_sha256", "lease_dev", "lease_inode"
+  ],
+  "managed_contract_required_fields": {
+    "format_version": "integer 2", "synthetic_only": "true", "root": "canonical absolute temporary fixture path",
+    "session": "nonempty exact permit session", "authorization_id": "exact permit authorization_id", "nonce": "exact permit nonce",
+    "objects": "array of {role,path,kind,dev,inode,size,links,mode,sha256}; kind file|directory; directory sha256 null; file hash lowercase SHA256; paths cover entire root/managed tree including its root",
+    "bundles": "array of {role,path,executable,info_plist,manifest,bundle_id,enabled}; exactly one each installed/candidate/staging/archive; any discovered nested runtime has role nested",
+    "known_nested": "unique array of exact absolute nested bundle paths",
+    "launch_routes": "array of {path,enabled}; all bundle executables and known helper/bare image routes; only installed executable enabled",
+    "processes": "nonempty array of {pid,start,executable_sha256,executable_dev,executable_inode,state}; state EXIT_CONFIRMED; preserved old association must match disabled archived image; native kill(pid,0) must return ESRCH, not EPERM or a reused PID",
+    "transitions": "ordered S0_VERIFIED_CANDIDATE, S1_MANAGED_ISOLATED, S2_OWNER_AUTHORIZED objects {state,path,evidence_sha256}; hashes transitively bind all nine ordered managed receipts",
+    "lease": "{path,dev,inode,session}; exact root/maintenance.lock inode and session",
+    "authorization": "exact authorization.json object with format_version,synthetic_only,scope,id,session,nonce,database_sha256,backup_sha256,candidate_executable_sha256,allow_recovery,allow_wal_infrastructure"
+  },
+  "strict_parsing": "Unknown/missing/incompatible fields are rejected. complete=true is not a protocol field. Native re-enumerates files, directories, nested plist identities, executable hashes, execute bits, modes, links, retained process absence, original raw plist/manifest bytes and parsed compatibility. Symlinks, hardlinks, unknown alias/bookmark files, relevant unsupported bundle layouts and undeclared matching bare executable routes fail closed.",
+  "authorization_scope": "synthetic-integration-only",
+  "maintenance_lock_body": ["format_version=2", "session", "authorization_id", "nonce"],
+  "handoff": {
+    "environment": ["PFC_QUIESCENCE_LEASE_FD", "PFC_QUIESCENCE_LEASE_PATH", "PFC_QUIESCENCE_SESSION"],
+    "native_ack": "native-launch.json fsynced create_new: format_version,synthetic_only,session,nonce,authorization_id,managed_contract_sha256,pid,parent_pid,lease_dev,lease_inode",
+    "ownership": "Native verifies a separate-open contention probe before accepting inherited ownership, duplicates CLOEXEC then closes original inherited FD. Gate verifies exact ACK while retaining its FD, then closes its copy without LOCK_UN. No unlocked interval. Native retains RAII descriptor until after C closes.",
+    "revalidation": "Every native event before and after callback rechecks inode, descriptor, independent contention and full session body. S6/S9/S10 additionally re-enumerate managed objects. Any recreated path/session/inode mismatch blocks.",
+    "limitation": "Lease serializes supported gate/native workflows; it does not control legacy V3 binaries. Those require disabled launch routes and independent retained-process exit confirmation."
+  },
+  "durable_native_records": {
+    "launch": "native-launch.json is create_new duplicate-native gate; any incomplete launch blocks replay",
+    "claim": "permit.json atomically renamed permit.claimed.json; consumed.json fsynced before opening C",
+    "states": "native-state-NNN.json immutable receipt first, then atomically replaced outcome.json, each fsynced and independently read back",
+    "binding_fields": ["format_version", "synthetic_only", "sequence", "phase", "state", "session", "nonce", "authorization_id", "managed_contract_sha256", "authorization_sha256", "object_binding", "previous_record_sha256", "pid", "state_contract", "restart", "details"],
+    "incomplete_write": "Any pending file, missing receipt, corrupt field/hash/binding, illegal phase, or receipt ahead of outcome blocks. No state is inferred from schema."
+  },
+  "states": [
+    {"phase":0,"state":"VERIFIED_CANDIDATE","entry":"native independently rechecks candidate/executable/plist/manifest and frozen entire tree","next":1,"failure":"blocked before claim; retain launch/receipt","restart":"diagnostic only"},
+    {"phase":1,"state":"MANAGED_ISOLATED","entry":"ordered disable/exit/archive/staging/install receipts plus independent current isolation and old PID absence","next":2,"failure":"blocked; no runtime restoration","restart":"diagnostic only"},
+    {"phase":2,"state":"OWNER_AUTHORIZED","entry":"exact synthetic auth/session/nonce/object/C0/backup/recovery policy bindings and held lease","next":3,"failure":"blocked before consumption","restart":"never reissue permit automatically"},
+    {"phase":3,"state":"PERMIT_CONSUMED","entry":"atomic claim and durable consumed ledger","next":4,"failure":"consumption retained; no retry","restart":"explicit recovery required even before lock"},
+    {"phase":4,"state":"CONNECTION_PREPARED","entry":"single native C opened existing fixed DB; no CREATE; verified DELETE/EXCLUSIVE/0ms/FULL/fullfsync/no-checkpoint profile","next":5,"failure":"preserve consumed state; close own C","restart":"explicit recovery required"},
+    {"phase":5,"state":"QUIESCENCE_ACQUIRED","entry":"same C BEGIN EXCLUSIVE and file-control guard verified","next":6,"failure":"same-C rollback if safely provable, otherwise GUARD_LOST_OR_UNPROVEN","restart":"original guard lost; do not infer V3"},
+    {"phase":6,"state":"V3_REVALIDATED","entry":"same C exact V3 full schema/integrity/FK/sequence; helper exact C0 hash; runtime/lease/backup independently rechecked; legacy business snapshot persisted","next":7,"failure":"rollback classification, preserve runtime isolation","restart":"explicit recovery; no M4 replay"},
+    {"phase":7,"state":"MIGRATION_IN_PROGRESS","entry":"same C/transaction fixed approved M4 and version ledger only","next":8,"failure":"verified rollback or guard unknown","restart":"no automatic M4 rerun or old App restore"},
+    {"phase":8,"state":"COMMIT_OUTCOME_UNKNOWN","entry":"precommit same-C V4 schema and business invariants pass; UNKNOWN persisted before COMMIT","next":9,"failure":"autocommit/guard-aware unknown, not inferred rollback","restart":"explicit independent DB/runtime verification"},
+    {"phase":9,"state":"V4_COMMITTED_PENDING_VERIFICATION / POST_READBACK_GUARDED","entry":"COMMIT completed; original C still holds EXCLUSIVE lock; post-readback full V4/legacy business/helper hash/runtime/lease checks","next":10,"failure":"COMMIT_OUTCOME_UNKNOWN or GUARD_LOST_OR_UNPROVEN; never downgrade","restart":"separate authorized read-only verification"},
+    {"phase":10,"state":"V4_VERIFIED","entry":"guarded result durably read back; callback return followed by runtime/guard recheck; explicitly close C, last release L","next":"separately authorized compatible handoff on restart","failure":"unproven late boundary remains isolated","restart":"V4_VERIFIED alone still HANDOFF_REQUIRED"}
+  ],
+  "failure_classifications": ["PERMIT_CONSUMED","QUIESCENCE_ACQUIRED","MIGRATION_IN_PROGRESS","COMMIT_OUTCOME_UNKNOWN","V4_COMMITTED_PENDING_VERIFICATION","FAILED_V3_CONFIRMED","GUARD_LOST_OR_UNPROVEN"],
+  "recovery_authorization_required_fields": ["format_version=2","synthetic_only=true","scope=synthetic-recovery-handoff-only","authorization_id=new distinct ID","session=original session","nonce=new distinct nonce","managed_contract_sha256","consumed_sha256","outcome_sha256","action=diagnose|verify-v4-handoff|verify-v3-terminal","expected_database_sha256"],
+  "recovery_rules": {
+    "read_only": "diagnose reads no SQLite. Verified recovery acquires exact inode/session lease, independently checks all managed runtime facts, then uses a new READ_ONLY/NOFOLLOW/private-cache C with query_only and a read transaction. No sidecar recovery, checkpoint, M4, permit revival or restore.",
+    "terminal_evidence": "exact current DB hash before/inside read transaction, complete schema/ledger/integrity/FK, unchanged legacy rows compared with independently read exact V3 backup, runtime re-enumeration, stable object and lease. V4 also requires persisted commit lineage (phase >= 8).",
+    "files": ["recovery-authorization.json","recovery-consumed.json","recovery-result.json"],
+    "preservation": "Original outcome/immutable state chain preserved. Recovery result is separately bound to original outcome hash and new authorization. A consumed recovery authorization is never replayed.",
+    "v3": "FAILED_V3_CONFIRMED safe attempt terminal still blocks normal business; V4 maintenance runtime remains isolated and no old runtime is restored.",
+    "v4": "V4_VERIFIED handoff_authorized true only after this independent verification. Ordinary startup still requires a new compatible handoff path, never merely schema=4 or a saved success string."
+  },
+  "legacy_compatibility": "CLI v1 historical experiments remain intact. run-integrated --barrier is native-layer instrumentation only and is never Q11 evidence. Real Q11 uses the isolated Tauri runtime and TS invoke boundary."
+}

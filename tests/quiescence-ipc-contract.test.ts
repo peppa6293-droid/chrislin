@@ -1,0 +1,48 @@
+import { readFileSync } from "node:fs";
+import { describe, expect, it } from "vitest";
+
+describe("isolated Q11 frontend/runtime boundaries (source regression only; not Q11 substitute)", () => {
+  const frontend = readFileSync(new URL("../quiescence-web/main.ts", import.meta.url), "utf8");
+  const native = readFileSync(new URL("../src-tauri/src/bin/quiescence_tauri.rs", import.meta.url), "utf8");
+  const controller = readFileSync(new URL("../scripts/quiescence_ipc_tests.py", import.meta.url), "utf8");
+  const config = JSON.parse(readFileSync(new URL("../src-tauri/tauri.quiescence.conf.json", import.meta.url), "utf8")) as { identifier: string };
+  it("uses bundled TypeScript real invoke and a separate Tauri identity", () => {
+    expect(frontend).toContain('import { invoke } from "@tauri-apps/api/core"');
+    expect(config.identifier).toBe("org.pfc.quiescence.integration");
+    expect(native).toContain(".incognito(true)");
+    expect(native).toContain('quiescence::run_integrated');
+  });
+  it("drives actual window close and actual document navigation", () => {
+    expect(frontend).toContain("await getCurrentWindow().close()");
+    expect(frontend).toContain("window.location.replace(");
+    expect(native).toContain("WindowEvent::CloseRequested");
+    expect(native).toContain("RunEvent::ExitRequested");
+    expect(native).toContain(".on_navigation(");
+  });
+  it("does not expose SQL or commit or a production entrypoint to the page", () => {
+    expect(native).toContain('"EARLY_COMMIT_FORBIDDEN_NATIVE_ONLY"');
+    expect(native).toContain('"EARLY_END_FORBIDDEN_NATIVE_ONLY"');
+    expect(native).toContain('"BUSINESS_IPC_BLOCKED_DURING_CUTOVER"');
+    expect(native).not.toContain("personal_finance_console_lib::run");
+    expect(frontend).not.toMatch(/node:sqlite|child_process|mockIPC|mockInvoke/);
+  });
+  it("rejects an incorrect compiled config before Tauri can create default windows", () => {
+    const guard = native.indexOf("if context.config().identifier!=APP_ID");
+    const builder = native.indexOf("let app=tauri::Builder::default()");
+    expect(guard).toBeGreaterThan(0);
+    expect(builder).toBeGreaterThan(guard);
+    expect(native).toContain("!context.config().app.windows.is_empty()");
+    expect(native).toContain("context.config().build.dev_url.is_some()");
+    expect(native).toContain("ISOLATED_CONTEXT_REJECTED_BEFORE_TAURI_BUILD");
+  });
+  it("preserves failed-process identity and avoids invented zero-side-effect attestations", () => {
+    expect(controller).toContain('"provenance": "external_process_controller_not_IPC"');
+    expect(controller).toContain('"pid": process.pid');
+    expect(controller).toContain('"exit_code": process.returncode');
+    expect(controller).toContain('"stdout_sha256": sha(output.name)');
+    expect(controller).toContain('"os_profile_side_effects": "NOT_INDEPENDENTLY_AUDITED"');
+    expect(controller).not.toContain('"production_access":');
+    expect(controller).toContain('env["TAURI_CONFIG"]');
+    expect(controller).toContain('"--build-only"');
+  });
+});

@@ -1,0 +1,36 @@
+{
+  "format_version": 1,
+  "attempt": "ipc-smoke-attempt-02.json",
+  "status": "BLOCKED_OS_SECURITY_REJECTION_NO_REAL_FRONTEND_IPC",
+  "actual_runtime_validation": "NOT_COMPLETED",
+  "original_report_counter_limit": "The original smoke report production_access zero fields were declared scope counters, not measured absence of OS effects. They are not preservation acceptance evidence and have been removed from the future controller report schema.",
+  "assertions_removed": false,
+  "preserved_root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-05lgurvg/pfc-qic-normal-z33cu50j",
+  "stdout_bytes": 0,
+  "stderr_bytes": 0,
+  "native_journal_created": false,
+  "controller_returncode_limit": "The original controller did not persist the native subprocess returncode after an evidence assertion failed. This cannot be recovered from its absent journal; OS evidence is separately identified below.",
+  "old_runtime": {
+    "pid": 8766,
+    "receipt": "managed-state-S1_OLD_RUNTIME_RETAINED.json",
+    "exit_receipt": "managed-state-S1_TARGET_EXIT_VERIFIED.json",
+    "waitpid_exit_code": -9,
+    "os_result": "AMFI Launch Constraint Violation (enforcing) and AppleSystemPolicy rejection at 2026-10-09 00:46:41.419",
+    "limitation": "A retained Popen PID and verified exit are insufficient here to prove that the copied system sleep executable was a successfully running old fixture runtime. Its exit was OS-enforced, not verified controlled runtime shutdown."
+  },
+  "candidate_runtime": {
+    "os_pid": 8789,
+    "os_result": "syspolicyd: Terminating process due to Gatekeeper rejection; kernel AppleSystemPolicy binds this PID to the exact synthetic installed executable path at 2026-10-09 00:47:01.443",
+    "executable_sha256": "464d19138012d04f9ca4a59b8e466b1055fd94f0377d848c78ed71496deb2572",
+    "native_main_reached": "not observed",
+    "frontend_invocations": 0
+  },
+  "codesign_readonly_check": {
+    "standalone_source": "valid on disk; satisfies its Designated Requirement",
+    "fixture_copy": "code has no resources but signature indicates they must be present",
+    "interpretation": "This warning also occurs for the first fixture, which reached native setup. It is not by itself treated as the causal explanation; the bound OS rejection logs are the stronger evidence."
+  },
+  "stop_boundary": "No further real runtime launches, no Gatekeeper/AMFI bypass, no re-signing of a frozen candidate/fixture, no deleting artifacts. A future packaging correction requires a new properly constructed synthetic candidate and fresh evidence; current Q11 remains incomplete.",
+  "os_evidence": "ipc-attempt-02-os-log-excerpt.log",
+  "deleted_artifacts": []
+}

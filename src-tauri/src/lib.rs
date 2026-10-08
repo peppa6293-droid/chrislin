@@ -5,6 +5,8 @@ use sha2::{Digest, Sha256};
 use std::{io::{Read, Write}, path::{Path, PathBuf}, sync::{atomic::{AtomicBool, Ordering}, Arc, Mutex}};
 use tauri::{Manager, State};
 
+mod cutover_startup;
+
 const PRODUCTION_IDENTIFIER: &str = "com.personalfinance.console";
 const SMOKE_IDENTIFIER: &str = "com.personalfinance.console.smoke";
 const ACCEPTANCE_IDENTIFIER: &str = "com.personalfinance.console.v4acceptance";
@@ -18,17 +20,9 @@ const PRODUCTION_APP_BUNDLE: &str = "/Applications/Personal Finance Console.app"
 const PRODUCTION_EXECUTABLE: &str = "personal-finance-console";
 
 fn ensure_no_unresolved_cutover(app_data: &Path) -> Result<(), String> {
-    // No Production handoff/recovery is authorized by the isolated contract.
-    // Presence (including a dangling link), unreadability or any outcome needs
-    // the separately authorized recovery path; schema=4 cannot override it.
-    for name in ["outcome.json", "outcome.json.pending", "permit.claimed.json", "consumed.json", "consumed.json.pending", "cutover-state.json", "cutover-outcome.json", "quiescence-state.json"] {
-        match std::fs::symlink_metadata(app_data.join(name)) {
-            Ok(_) => return Err("CUTOVER_STATE_REQUIRES_AUTHORIZED_HANDOFF: ordinary startup is blocked before SQLite access.".into()),
-            Err(error) if error.kind() == std::io::ErrorKind::NotFound => (),
-            Err(_) => return Err("CUTOVER_STATE_UNKNOWN: ordinary startup is blocked before SQLite access.".into()),
-        }
-    }
-    Ok(())
+    let decision = cutover_startup::inspect(app_data);
+    if decision.ordinary_startup_allowed { return Ok(()); }
+    Err(serde_json::to_string(&decision).unwrap_or_else(|_| "CUTOVER_STATE_UNKNOWN".into()))
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -1016,11 +1010,13 @@ pub fn run() {
             let database_path = if acceptance_runtime { app_data.join(ACCEPTANCE_DATABASE) } else { app_data.join("personal-finance-console.sqlite3") };
             let migration_permitted = false;
             let schema_ready = true;
+            // This gate precedes every ordinary runtime's first SQLite access.
+            // The dedicated synthetic maintenance binary is a separate entry.
+            ensure_no_unresolved_cutover(&app_data).map_err(std::io::Error::other)?;
             if production_runtime {
                 if app_data != home.join("Library/Application Support").join(PRODUCTION_IDENTIFIER) {
                     return Err(std::io::Error::other("Production runtime refused an unexpected application-data path.").into());
                 }
-                ensure_no_unresolved_cutover(&app_data).map_err(std::io::Error::other)?;
                 let executable = std::env::current_exe()?;
                 let expected_executable = Path::new(PRODUCTION_APP_BUNDLE).join("Contents/MacOS").join(PRODUCTION_EXECUTABLE);
                 if executable != expected_executable {

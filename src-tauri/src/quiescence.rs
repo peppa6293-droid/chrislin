@@ -1,5 +1,5 @@
 //! Synthetic-only implementation of the native cutover ownership boundary.
-//! This module is deliberately not linked into the ordinary application.
+//! Linked only into explicit synthetic fixture / IPC runtimes, not Production.
 //! No arbitrary SQL or target path is accepted by the migration runner.
 use rusqlite::{config::DbConfig, Connection, OpenFlags};
 use serde::{Deserialize, Serialize};
@@ -7,7 +7,12 @@ use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
 use std::{fs::{self, File, OpenOptions}, io::{Read, Write, BufRead}, os::unix::{fs::{MetadataExt, OpenOptionsExt}, io::{AsRawFd, FromRawFd}}, path::{Path, PathBuf}, process::{Command, Stdio}, time::{Duration, Instant}};
 
-type Result<T> = std::result::Result<T, Failure>;
+pub type Result<T> = std::result::Result<T, Failure>;
+pub type EventCallback = dyn Fn(&str, Value) -> Result<()> + Send + Sync;
+#[path = "quiescence_contract.rs"]
+mod contract;
+#[path = "quiescence_recovery.rs"]
+mod recovery;
 const DB: &str = "personal-finance-console.sqlite3";
 const MARKER: &str = "PFC_QUIESCENCE_SYNTHETIC_V1\n";
 const M4: &str = include_str!("../../migrations/004.sql");
@@ -15,8 +20,8 @@ const V3: &str = include_str!("../../migrations/v3-schema.json");
 const V4: &str = include_str!("../../migrations/v4-schema.json");
 
 #[derive(Debug, Serialize)]
-pub struct Failure { code: String, detail: String, sqlite_primary: Option<i32>, sqlite_extended: Option<i32> }
-impl Failure { fn new(code: &str, detail: impl ToString) -> Self { Self { code: code.into(), detail: detail.to_string(), sqlite_primary: None, sqlite_extended: None } } }
+pub struct Failure { pub code: String, pub detail: String, pub sqlite_primary: Option<i32>, pub sqlite_extended: Option<i32> }
+impl Failure { pub fn new(code: &str, detail: impl ToString) -> Self { Self { code: code.into(), detail: detail.to_string(), sqlite_primary: None, sqlite_extended: None } } }
 impl From<std::io::Error> for Failure { fn from(e: std::io::Error) -> Self { Self::new("IO_ERROR", e) } }
 impl From<serde_json::Error> for Failure { fn from(e: serde_json::Error) -> Self { Self::new("INVALID_PROTOCOL", e) } }
 impl From<rusqlite::Error> for Failure {
@@ -37,6 +42,14 @@ struct Permit {
     authorization_id: String, database_sha256: String, backup_sha256: String,
     executable_path: String, executable_sha256: String, manifest_sha256: String,
     allow_recovery: bool, allow_wal_infrastructure: bool,
+    #[serde(default, skip_serializing_if="Option::is_none")]
+    managed_contract_sha256: Option<String>,
+    #[serde(default, skip_serializing_if="Option::is_none")]
+    authorization_sha256: Option<String>,
+    #[serde(default, skip_serializing_if="Option::is_none")]
+    lease_dev: Option<u64>,
+    #[serde(default, skip_serializing_if="Option::is_none")]
+    lease_inode: Option<u64>,
 }
 #[derive(Deserialize, Serialize, Debug, Clone, PartialEq)]
 struct Identity { dev: u64, inode: u64, size: u64, links: u64 }
@@ -72,7 +85,7 @@ fn durable(root: &Path, name: &str, data: &Value) -> Result<()> {
     serde_json::to_writer(&mut f,data)?; f.write_all(b"\n")?; f.sync_all()?;
     fs::rename(pending,root.join(name))?; sync_dir(root)
 }
-struct Lease { _fd:File }
+struct Lease { _fd:File, path:PathBuf, initial:Identity, session_body:Option<Value> }
 impl Lease {
     fn inherited(root:&Path, session:&str)->Result<Self> {
         require(std::env::var("PFC_QUIESCENCE_SESSION").ok().as_deref()==Some(session),"SESSION_MISMATCH")?;
@@ -92,7 +105,20 @@ impl Lease {
         require(acquired != 0,"LEASE_HANDOFF_UNPROVEN")?;
         require(std::io::Error::last_os_error().raw_os_error()==Some(libc::EWOULDBLOCK),"LEASE_PROBE_UNKNOWN")?;
         require(unsafe{libc::flock(file.as_raw_fd(),libc::LOCK_EX|libc::LOCK_NB)}==0,"LEASE_NOT_HELD")?;
-        Ok(Self{_fd:file})
+        let initial=regular(&root.join("maintenance.lock"))?;
+        let session_body=fs::read(root.join("maintenance.lock")).ok().and_then(|b|serde_json::from_slice::<Value>(&b).ok()).filter(|v|v["format_version"]==2);
+        if let Some(body)=&session_body {require(body["session"]==session,"LEASE_SESSION_BODY_MISMATCH")?;}
+        Ok(Self{_fd:file,path:root.join("maintenance.lock"),initial,session_body})
+    }
+    fn validate(&self)->Result<()> {
+        require(identity(&self._fd.metadata()?)==self.initial && regular(&self.path)?==self.initial,"LEASE_IDENTITY_MISMATCH")?;
+        if let Some(expected)=&self.session_body {require(contract::read_json(&self.path)?==*expected,"LEASE_SESSION_BODY_MISMATCH")?;}
+        // A separate descriptor must remain contended. Reacquiring first could
+        // conceal an unlocked interval or a different process's lock.
+        let probe=OpenOptions::new().read(true).write(true).custom_flags(libc::O_NOFOLLOW|libc::O_CLOEXEC).open(&self.path)?;
+        let acquired=unsafe{libc::flock(probe.as_raw_fd(),libc::LOCK_EX|libc::LOCK_NB)};
+        require(acquired!=0 && std::io::Error::last_os_error().raw_os_error()==Some(libc::EWOULDBLOCK),"LEASE_CONTINUITY_UNPROVEN")?;
+        require(unsafe{libc::flock(self._fd.as_raw_fd(),libc::LOCK_EX|libc::LOCK_NB)}==0,"LEASE_NOT_HELD")
     }
 }
 #[derive(Serialize, Deserialize)]
@@ -146,6 +172,7 @@ fn candidate(root:&Path,p:&Permit,db:&Identity)->Result<()> {
     require(hash_file(&exe)?==p.executable_sha256,"CANDIDATE_HASH_MISMATCH")?;
     require(hash_file(&root.join("manifest.json"))?==p.manifest_sha256,"MANIFEST_HASH_MISMATCH")?;
     require(hash_file(&root.join("backup.sqlite3"))?==p.backup_sha256,"BACKUP_HASH_MISMATCH")?;
+    if p.format_version==2 {contract::validate(root,p)?;}
     Ok(())
 }
 fn sidecars(root:&Path,allow_journal:bool,db:&Identity)->Result<Value> {
@@ -202,9 +229,19 @@ fn business_snapshot(c:&Connection)->Result<Value> {
         let mut encoded:Vec<String>=rows.iter().map(|row|serde_json::to_string(row).unwrap()).collect();encoded.sort();result.insert(name.into(),json!(encoded));
     }Ok(Value::Object(result))
 }
-struct Events { barriers:bool }
-impl Events {fn emit(&self,event:&str,details:Value)->Result<()> {println!("{}",json!({"event":event,"pid":std::process::id(),"details":details}));std::io::stdout().flush()?;if self.barriers{let mut line=String::new();std::io::stdin().lock().read_line(&mut line)?;require(line.trim()=="continue","CONTROLLER_DISCONNECTED")?;}Ok(())}}
-fn state(root:&Path,p:&Permit,status:&str,details:Value)->Result<()> {durable(root,"outcome.json",&json!({"format_version":1,"synthetic_only":true,"session":p.session,"nonce":p.nonce,"authorization_id":p.authorization_id,"state":status,"details":details}))}
+struct Events<'a> { barriers:bool, callback:Option<&'a EventCallback>, lease:Option<&'a Lease> }
+impl Events<'_> {fn emit(&self,event:&str,details:Value)->Result<()> {
+    if let Some(lease)=self.lease {lease.validate()?;}
+    if let Some(callback)=self.callback {callback(event,details)?;} else {
+        println!("{}",json!({"event":event,"pid":std::process::id(),"details":details}));std::io::stdout().flush()?;
+        if self.barriers{let mut line=String::new();std::io::stdin().lock().read_line(&mut line)?;require(line.trim()=="continue","CONTROLLER_DISCONNECTED")?;}
+    }
+    if let Some(lease)=self.lease {lease.validate()?;}
+    Ok(())
+}}
+fn state(root:&Path,p:&Permit,status:&str,details:Value)->Result<()> {
+    if p.format_version==2 {contract::persist_state(root,p,status,details)} else {durable(root,"outcome.json",&json!({"format_version":1,"synthetic_only":true,"session":p.session,"nonce":p.nonce,"authorization_id":p.authorization_id,"state":status,"details":details}))}
+}
 fn run(root:&Path,events:&Events)->Result<()> {
     require(!["permit.claimed.json","consumed.json","outcome.json","consumed.json.pending","outcome.json.pending"].iter().any(|name|present_or_unreadable(&root.join(name))),"PERMIT_REPLAY_OR_PENDING")?;
     regular(&root.join("permit.json"))?;
@@ -244,6 +281,7 @@ fn run_consumed(root:&Path,p:&Permit,id:&Identity,events:&Events)->Result<()> {
     let options=c.prepare("PRAGMA compile_options")?.query_map([],|r|r.get::<_,String>(0))?.collect::<std::result::Result<Vec<_>,_>>()?;
     let source:String=c.query_row("SELECT sqlite_source_id()",[],|r|r.get(0))?;
     let vfs=vfs_name(&c)?;
+    if p.format_version==2 {state(root,p,"CONNECTION_PREPARED",json!({"guard":"not_acquired","sqlite_version":rusqlite::version(),"source_id":source,"vfs":vfs,"journal":mode,"locking":locking,"connection":"single-native-owner"}))?;}
     events.emit("connection_prepared",json!({"sqlite_version":rusqlite::version(),"source_id":source,"compile_options":options,"os":std::env::consts::OS,"vfs":vfs,"journal":mode,"locking":locking,"busy_timeout":0,"synchronous":2,"fullfsync":1,"no_ckpt_on_close":true,"wal_autocheckpoint":0}))?;
     c.execute_batch("BEGIN EXCLUSIVE")?;
     guarded(&c,root,id)?;
@@ -251,10 +289,10 @@ fn run_consumed(root:&Path,p:&Permit,id:&Identity,events:&Events)->Result<()> {
     let outcome=protected(&c,root,p,id,events);
     if let Err(ref original)=outcome {
         let committed=c.is_autocommit();
-        let dangerous=matches!(original.sqlite_primary,Some(10|7|11|13)) || original.code=="GUARD_LOST_OR_UNPROVEN" || original.code=="DB_IDENTITY_DRIFT" || original.code=="DB_FILE_MOVED";
+        let dangerous=matches!(original.sqlite_primary,Some(10|7|11|13)) || original.code=="GUARD_LOST_OR_UNPROVEN" || original.code=="DB_IDENTITY_DRIFT" || original.code=="DB_FILE_MOVED" || original.code.starts_with("LEASE_");
         if !committed && !dangerous && !failpoint("rollback_failure") {
             match c.execute_batch("ROLLBACK") {
-                Ok(()) if guarded(&c,root,id).is_ok() && schema(&c,3).is_ok()=>{state(root,p,"FAILED_V3_CONFIRMED",json!({"error":original,"guard":"known-held","businessStartupBlocked":true}))?;},
+                Ok(()) if guarded(&c,root,id).is_ok() && schema(&c,3).is_ok() && candidate(root,p,id).is_ok()=>{state(root,p,"FAILED_V3_CONFIRMED",json!({"error":original,"guard":"known-held","businessStartupBlocked":true,"runtime":"verified-isolated","rollback":"confirmed","safe_terminal":false}))?;},
                 _=>{state(root,p,"GUARD_LOST_OR_UNPROVEN",json!({"error":original,"guard":"unknown"}))?;}
             }
         } else {state(root,p,if committed{"COMMIT_OUTCOME_UNKNOWN"}else{"GUARD_LOST_OR_UNPROVEN"},json!({"error":original,"guard":"unknown","autocommit":committed}))?;}
@@ -270,6 +308,7 @@ fn protected(c:&Connection,root:&Path,p:&Permit,id:&Identity,events:&Events)->Re
     guarded(c,root,id)?;require(before.sha256==p.database_sha256,"DB_HASH_MISMATCH")?;
     events.emit("hash_complete",serde_json::to_value(&before)?)?;
     let original=business_snapshot(c)?;
+    if p.format_version==2 {state(root,p,"V3_REVALIDATED",json!({"guard":"known-held","database_sha256":before.sha256,"database_identity":before.identity,"business_snapshot":original,"schema":3,"runtime":"independently-reenumerated"}))?;}
     state(root,p,"MIGRATION_IN_PROGRESS",json!({"guard":"known-held"}))?;events.emit("m4_started",json!({}))?;
     let mut journal:Option<Identity>=None;
     for (index,sql) in M4.split(';').filter(|s|!s.trim().is_empty()).enumerate() {
@@ -296,8 +335,12 @@ fn protected(c:&Connection,root:&Path,p:&Permit,id:&Identity,events:&Events)->Re
         let mut f=OpenOptions::new().read(true).custom_flags(libc::O_NOFOLLOW|libc::O_CLOEXEC).open(root.join(format!("{DB}-journal")))?;let mut header=[0u8;28];let n=f.read(&mut header)?;require(header[..n].iter().all(|b|*b==0),"JOURNAL_NOT_TERMINATED")?;
     }
     events.emit("post_readback",json!({"hash":post.sha256,"sidecars":sides,"guard":"known-held"}))?;
-    guarded(c,root,id)?;state(root,p,"V4_VERIFIED",json!({"sha256":post.sha256,"guard":"known-held","businessStartupBlocked":false,"scope":"synthetic-only"}))?;
-    events.emit("verified_handoff",json!({"guard":"held-until-return"}))?;Ok(())
+    if p.format_version==2 {candidate(root,p,id)?;}
+    if p.format_version==2 {state(root,p,"POST_READBACK_GUARDED",json!({"guard":"known-held","sha256":post.sha256,"database_identity":post.identity,"schema":4,"business_snapshot":original,"runtime":"independently-reenumerated"}))?;}
+    guarded(c,root,id)?;state(root,p,"V4_VERIFIED",json!({"sha256":post.sha256,"guard":"known-held","businessStartupBlocked":p.format_version==2,"separate_restart_handoff_required":p.format_version==2,"scope":"synthetic-only"}))?;
+    events.emit("verified_handoff",json!({"guard":"held-until-return"}))?;
+    if p.format_version==2 {candidate(root,p,id)?;guarded(c,root,id)?;}
+    Ok(())
 }
 fn startup_blocked(root:&Path,value:&Option<Value>)->bool {
     if ["consumed.json.pending","outcome.json.pending"].iter().any(|name|present_or_unreadable(&root.join(name))){return true;}
@@ -309,6 +352,69 @@ fn startup_blocked(root:&Path,value:&Option<Value>)->bool {
     let Some(p)=fs::read(root.join("consumed.json")).ok().and_then(|bytes|serde_json::from_slice::<Permit>(&bytes).ok()) else {return true;};
     p.format_version!=1 || !p.synthetic_only || p.session.is_empty() || p.nonce.is_empty() || p.authorization_id.is_empty() || v["session"]!=p.session || v["nonce"]!=p.nonce || v["authorization_id"]!=p.authorization_id
 }
+
+/// Supported synthetic entrypoint, called by a native-owned worker behind real
+/// Tauri IPC. The callback carries observations/barriers only, never SQL or C.
+pub fn run_integrated(raw:&str,event:&EventCallback)->Result<Value> {
+    let root=root_checked(raw)?;
+    require(!["native-launch.json","native-launch.json.pending","permit.claimed.json","consumed.json","outcome.json","consumed.json.pending","outcome.json.pending"].iter().any(|name|present_or_unreadable(&root.join(name))),"PERMIT_REPLAY_OR_PENDING")?;
+    let p:Permit=serde_json::from_value(contract::read_json(&root.join("permit.json"))?)?;
+    require(p.format_version==2,"V2_PERMIT_REQUIRED")?;
+    let lease=Lease::inherited(&root,&p.session)?;
+    let id=regular(&root.join(DB))?;
+    candidate(&root,&p,&id)?;lease.validate()?;
+    // The inherited descriptor is transferred, not leaked beside our RAII
+    // duplicate. Gate's descriptor still overlaps; it may close, never unlock.
+    let inherited:i32=std::env::var("PFC_QUIESCENCE_LEASE_FD").map_err(|e|Failure::new("LEASE_MISSING",e))?.parse().map_err(|e|Failure::new("LEASE_INVALID",e))?;
+    require(unsafe{libc::close(inherited)}==0,"LEASE_TRANSFER_CLOSE_FAILED")?;
+    let launch=json!({"format_version":2,"synthetic_only":true,"session":p.session,"nonce":p.nonce,"authorization_id":p.authorization_id,"managed_contract_sha256":p.managed_contract_sha256,"pid":std::process::id(),"parent_pid":unsafe{libc::getppid()},"lease_dev":lease.initial.dev,"lease_inode":lease.initial.inode});
+    // create_new is the independent duplicate-native gate even if a mistaken
+    // gate hands the same open file description to two candidate processes.
+    let mut claim=OpenOptions::new().write(true).create_new(true).mode(0o600).custom_flags(libc::O_NOFOLLOW|libc::O_CLOEXEC).open(root.join("native-launch.json"))?;
+    serde_json::to_writer(&mut claim,&launch)?;claim.write_all(b"\n")?;claim.sync_all()?;sync_dir(&root)?;
+    let events=Events{barriers:false,callback:Some(event),lease:Some(&lease)};
+    let result=(||->Result<()> {
+        for (status,entry) in [("VERIFIED_CANDIDATE","frozen candidate and full object tree rechecked"),("MANAGED_ISOLATED","all retained old processes independently absent; disabled archive/staging rechecked"),("OWNER_AUTHORIZED","exact authorization/session/nonce/contract hash bound")] {
+            state(&root,&p,status,json!({"entry_verified":entry,"managed_contract_sha256":p.managed_contract_sha256,"lease":"held"}))?;
+            events.emit("state_persisted",json!({"state":status,"phase":contract::phase(status)}))?;
+        }
+        events.emit("lease_native_owned",launch.clone())?;
+        events.emit("managed_revalidated",json!({"managed_contract_sha256":p.managed_contract_sha256,"scope":"entire-declared-managed-tree"}))?;
+        fs::rename(root.join("permit.json"),root.join("permit.claimed.json"))?;sync_dir(&root)?;
+        events.emit("permit_claimed",json!({"session":p.session}))?;
+        if failpoint("permit_persistence"){return Err(Failure::new("PERMIT_PERSISTENCE_FAILED","claim retained; no connection opened"));}
+        durable(&root,"consumed.json",&serde_json::to_value(&p)?)?;
+        state(&root,&p,"PERMIT_CONSUMED",json!({"guard":"not_acquired","managed_contract_sha256":p.managed_contract_sha256}))?;
+        events.emit("permit_consumed",json!({"session":p.session}))?;
+        run_consumed(&root,&p,&id,&events)
+    })();
+    if let Err(error)=result {
+        // Any failure is recorded without resurrecting permit or overwriting
+        // the database. A write failure retains its pending file, fail-closed.
+        if let Ok(mut current)=contract::read_json(&root.join("outcome.json")) {
+            current["details"]["last_failure"]=serde_json::to_value(&error)?;
+            if let Some(status)=current["state"].as_str() {let _=state(&root,&p,status,current["details"].clone());}
+        }
+        return Err(error);
+    }
+    lease.validate()?;
+    let outcome=contract::verify_chain(&root,&p)?;
+    require(outcome["state"]=="V4_VERIFIED","HANDOFF_NOT_VERIFIED")?;
+    // C was closed by run_consumed only after the guarded durable handoff;
+    // dropping lease here is the explicit last maintenance ownership release.
+    drop(lease);
+    Ok(outcome)
+}
+
+/// Must be checked at the beginning of the isolated Tauri binary's main(),
+/// before constructing an application/webview. This is not a frontend pipe.
+pub fn hash_entrypoint()->Option<Result<()>> {
+    let args:Vec<String>=std::env::args().collect();
+    if args.get(1).map(String::as_str)!=Some("hash"){return None;}
+    Some((|| {require(args.len()==3,"HASH_ARGUMENTS_INVALID")?;let root=root_checked(&args[2])?;hash_role(&root)})())
+}
+pub fn diagnostic_integrated(root:&str)->Result<Value> {recovery::diagnostic(root)}
+pub fn recover_integrated(root:&str,authorization_path:&str,event:&EventCallback)->Result<Value> {recovery::recover(root,authorization_path,event)}
 
 #[cfg(test)]
 mod tests {
@@ -332,14 +438,26 @@ mod tests {
     #[test] fn dangling_pending_symlink_blocks_startup(){let f=Fixture::new();symlink(f.0.join("missing"),f.0.join("outcome.json.pending")).unwrap();assert!(startup_blocked(&f.0,&None));}
     #[test] fn unbound_verified_string_is_not_a_handoff(){let f=Fixture::new();assert!(startup_blocked(&f.0,&Some(json!({"state":"V4_VERIFIED"}))));}
     #[test] fn symlink_marker_is_not_synthetic_authority(){let f=Fixture::new();fs::rename(f.0.join("SYNTHETIC_ONLY"),f.0.join("marker-target")).unwrap();symlink(f.0.join("marker-target"),f.0.join("SYNTHETIC_ONLY")).unwrap();assert_eq!(root_checked(f.0.to_str().unwrap()).unwrap_err().code,"UNSAFE_FILE_IDENTITY");}
-    #[test] fn pending_claim_blocks_before_any_db_open(){let f=Fixture::new();fs::write(f.0.join("consumed.json.pending"),b"{}").unwrap();assert_eq!(run(&f.0,&Events{barriers:false}).unwrap_err().code,"PERMIT_REPLAY_OR_PENDING");}
+    #[test] fn pending_claim_blocks_before_any_db_open(){let f=Fixture::new();fs::write(f.0.join("consumed.json.pending"),b"{}").unwrap();assert_eq!(run(&f.0,&Events{barriers:false,callback:None,lease:None}).unwrap_err().code,"PERMIT_REPLAY_OR_PENDING");}
 }
 pub fn cli()->Result<()> {
     let args:Vec<String>=std::env::args().collect();require(args.len()>=3,"USAGE_RUN_HASH_STATUS_ROOT")?;
     let root=root_checked(&args[2])?;
     match args[1].as_str(){
         "hash"=>hash_role(&root),
-        "run"=>run(&root,&Events{barriers:args.iter().any(|x|x=="--barrier")}),
+        "run"=>run(&root,&Events{barriers:args.iter().any(|x|x=="--barrier"),callback:None,lease:None}),
+        // Native fixture regression only. Real IPC evidence is emitted by the
+        // separate opt-in Tauri binary, never relabelled from this CLI role.
+        "run-integrated"=>{
+            let barriers=args.iter().any(|v|v=="--barrier");
+            run_integrated(root.to_str().unwrap(),&move |event,details|{
+                println!("{}",json!({"event":event,"details":details}));std::io::stdout().flush()?;
+                if barriers {let mut line=String::new();std::io::stdin().lock().read_line(&mut line)?;require(line.trim()=="continue","CONTROLLER_DISCONNECTED")?;}
+                Ok(())
+            }).map(|_|())
+        },
+        "diagnose-integrated"=>{println!("{}",diagnostic_integrated(root.to_str().unwrap())?);Ok(())},
+        "recover-integrated"=>{let value=recover_integrated(root.to_str().unwrap(),root.join("recovery-authorization.json").to_str().unwrap(),&|event,details|{println!("{}",json!({"event":event,"details":details}));Ok(())})?;println!("{value}");Ok(())},
         "status"=>{let value=fs::read(root.join("outcome.json")).ok().and_then(|b|serde_json::from_slice::<Value>(&b).ok());let blocked=startup_blocked(&root,&value);println!("{}",json!({"event":"status","startupBlocked":blocked,"outcome":value}));Ok(())},
         _=>Err(Failure::new("INVALID_ROLE","only run/hash/status in synthetic fixture"))
     }

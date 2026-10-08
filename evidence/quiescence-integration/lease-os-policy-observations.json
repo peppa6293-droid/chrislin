@@ -1,0 +1,187 @@
+[{
+  "timezoneName" : "",
+  "messageType" : "Default",
+  "eventType" : "logEvent",
+  "source" : null,
+  "formatString" : "AMFI: Launch Constraint Violation (%senforcing), error info: c[%d]p[%d]m[%d]e[%d], (%.*s) launching proc[vc: %d pid: %d]: %s, launch type %d, failure proc [vc: %d pid: %d]: %s\n",
+  "userID" : 0,
+  "activityIdentifier" : 0,
+  "subsystem" : "",
+  "category" : "",
+  "threadID" : 34642997,
+  "senderImageUUID" : "DA71449D-BB1F-35C2-8809-313CAD833325",
+  "backtrace" : {
+    "frames" : [
+      {
+        "imageOffset" : 68876,
+        "imageUUID" : "DA71449D-BB1F-35C2-8809-313CAD833325"
+      }
+    ]
+  },
+  "bootUUID" : "4C841E43-727A-4648-9048-D01D7BC3CDFA",
+  "processImagePath" : "\/kernel",
+  "senderImagePath" : "\/System\/Library\/Extensions\/AppleMobileFileIntegrity.kext\/Contents\/MacOS\/AppleMobileFileIntegrity",
+  "timestamp" : "2026-10-09 00:46:14.650572+0800",
+  "machTimestamp" : 28044330305678,
+  "eventMessage" : "AMFI: Launch Constraint Violation (enforcing), error info: c[1]p[1]m[1]e[10], (Constraint not matched) launching proc[vc: 1 pid: 8583]: \/private\/var\/folders\/hj\/7n4_24qx3lsfx5kntghnrv5w0000gn\/T\/pfc-qic-native-lease-x4ly92d3\/pfc-qic-native-duplicate-z3m4ky63\/managed\/install\/Installed.app\/Contents\/MacOS\/personal-finance-console, launch type 0, failure proc [vc: 1 pid: 8583]: \/private\/var\/folders\/hj\/7n4_24qx3lsfx5kntghnrv5w0000gn\/T\/pfc-qic-native-lease-x4ly92d3\/pfc-qic-native-duplicate-z3m4ky63\/managed\/install\/Installed.app\/Contents\/MacOS\/personal-finance-console",
+  "processImageUUID" : "447D769E-1CB7-3086-A0B4-32226837B587",
+  "traceID" : 314924182536196,
+  "processID" : 0,
+  "senderProgramCounter" : 68876,
+  "parentActivityIdentifier" : 0
+},{
+  "timezoneName" : "",
+  "messageType" : "Default",
+  "eventType" : "logEvent",
+  "source" : null,
+  "formatString" : "ASP: Security policy would not allow process: %d, %s\n",
+  "userID" : 0,
+  "activityIdentifier" : 0,
+  "subsystem" : "",
+  "category" : "",
+  "threadID" : 34642998,
+  "senderImageUUID" : "8474AAC8-5327-3045-A969-9B20DBF588BD",
+  "backtrace" : {
+    "frames" : [
+      {
+        "imageOffset" : 33128,
+        "imageUUID" : "8474AAC8-5327-3045-A969-9B20DBF588BD"
+      }
+    ]
+  },
+  "bootUUID" : "4C841E43-727A-4648-9048-D01D7BC3CDFA",
+  "processImagePath" : "\/kernel",
+  "senderImagePath" : "\/System\/Library\/Extensions\/AppleSystemPolicy.kext\/Contents\/MacOS\/AppleSystemPolicy",
+  "timestamp" : "2026-10-09 00:46:14.650823+0800",
+  "machTimestamp" : 28044330311697,
+  "eventMessage" : "ASP: Security policy would not allow process: 8583, \/private\/var\/folders\/hj\/7n4_24qx3lsfx5kntghnrv5w0000gn\/T\/pfc-qic-native-lease-x4ly92d3\/pfc-qic-native-duplicate-z3m4ky63\/managed\/install\/Installed.app\/Contents\/MacOS\/personal-finance-console",
+  "processImageUUID" : "447D769E-1CB7-3086-A0B4-32226837B587",
+  "traceID" : 36438503063556,
+  "processID" : 0,
+  "senderProgramCounter" : 33128,
+  "parentActivityIdentifier" : 0
+},{
+  "timezoneName" : "",
+  "messageType" : "Default",
+  "eventType" : "logEvent",
+  "source" : null,
+  "formatString" : "AMFI: '%s' has no CMS blob?\n",
+  "userID" : 0,
+  "activityIdentifier" : 0,
+  "subsystem" : "",
+  "category" : "",
+  "threadID" : 34643280,
+  "senderImageUUID" : "DA71449D-BB1F-35C2-8809-313CAD833325",
+  "backtrace" : {
+    "frames" : [
+      {
+        "imageOffset" : 107152,
+        "imageUUID" : "DA71449D-BB1F-35C2-8809-313CAD833325"
+      }
+    ]
+  },
+  "bootUUID" : "4C841E43-727A-4648-9048-D01D7BC3CDFA",
+  "processImagePath" : "\/kernel",
+  "senderImagePath" : "\/System\/Library\/Extensions\/AppleMobileFileIntegrity.kext\/Contents\/MacOS\/AppleMobileFileIntegrity",
+  "timestamp" : "2026-10-09 00:46:17.461060+0800",
+  "machTimestamp" : 28044397757391,
+  "eventMessage" : "AMFI: '\/private\/var\/folders\/hj\/7n4_24qx3lsfx5kntghnrv5w0000gn\/T\/pfc-qic-native-lease-x4ly92d3\/pfc-qic-native-duplicate-z3m4ky63\/managed\/install\/Installed.app\/Contents\/MacOS\/personal-finance-console' has no CMS blob?",
+  "processImageUUID" : "447D769E-1CB7-3086-A0B4-32226837B587",
+  "traceID" : 388681655910404,
+  "processID" : 0,
+  "senderProgramCounter" : 107152,
+  "parentActivityIdentifier" : 0
+},{
+  "timezoneName" : "",
+  "messageType" : "Default",
+  "eventType" : "logEvent",
+  "source" : null,
+  "formatString" : "AMFI: '%s': Unrecoverable CT signature issue, bailing out.\n",
+  "userID" : 0,
+  "activityIdentifier" : 0,
+  "subsystem" : "",
+  "category" : "",
+  "threadID" : 34643280,
+  "senderImageUUID" : "DA71449D-BB1F-35C2-8809-313CAD833325",
+  "backtrace" : {
+    "frames" : [
+      {
+        "imageOffset" : 91040,
+        "imageUUID" : "DA71449D-BB1F-35C2-8809-313CAD833325"
+      }
+    ]
+  },
+  "bootUUID" : "4C841E43-727A-4648-9048-D01D7BC3CDFA",
+  "processImagePath" : "\/kernel",
+  "senderImagePath" : "\/System\/Library\/Extensions\/AppleMobileFileIntegrity.kext\/Contents\/MacOS\/AppleMobileFileIntegrity",
+  "timestamp" : "2026-10-09 00:46:17.461068+0800",
+  "machTimestamp" : 28044397757592,
+  "eventMessage" : "AMFI: '\/private\/var\/folders\/hj\/7n4_24qx3lsfx5kntghnrv5w0000gn\/T\/pfc-qic-native-lease-x4ly92d3\/pfc-qic-native-duplicate-z3m4ky63\/managed\/install\/Installed.app\/Contents\/MacOS\/personal-finance-console': Unrecoverable CT signature issue, bailing out.",
+  "processImageUUID" : "447D769E-1CB7-3086-A0B4-32226837B587",
+  "traceID" : 386456862851076,
+  "processID" : 0,
+  "senderProgramCounter" : 91040,
+  "parentActivityIdentifier" : 0
+},{
+  "timezoneName" : "",
+  "messageType" : "Default",
+  "eventType" : "logEvent",
+  "source" : null,
+  "formatString" : "ASP: Security policy would not allow process: %d, %s\n",
+  "userID" : 0,
+  "activityIdentifier" : 0,
+  "subsystem" : "",
+  "category" : "",
+  "threadID" : 34643281,
+  "senderImageUUID" : "8474AAC8-5327-3045-A969-9B20DBF588BD",
+  "backtrace" : {
+    "frames" : [
+      {
+        "imageOffset" : 33128,
+        "imageUUID" : "8474AAC8-5327-3045-A969-9B20DBF588BD"
+      }
+    ]
+  },
+  "bootUUID" : "4C841E43-727A-4648-9048-D01D7BC3CDFA",
+  "processImagePath" : "\/kernel",
+  "senderImagePath" : "\/System\/Library\/Extensions\/AppleSystemPolicy.kext\/Contents\/MacOS\/AppleSystemPolicy",
+  "timestamp" : "2026-10-09 00:46:20.229481+0800",
+  "machTimestamp" : 28044464199504,
+  "eventMessage" : "ASP: Security policy would not allow process: 8602, \/private\/var\/folders\/hj\/7n4_24qx3lsfx5kntghnrv5w0000gn\/T\/pfc-qic-native-lease-x4ly92d3\/pfc-qic-native-duplicate-z3m4ky63\/managed\/install\/Installed.app\/Contents\/MacOS\/personal-finance-console",
+  "processImageUUID" : "447D769E-1CB7-3086-A0B4-32226837B587",
+  "traceID" : 36438503063556,
+  "processID" : 0,
+  "senderProgramCounter" : 33128,
+  "parentActivityIdentifier" : 0
+},{
+  "timezoneName" : "",
+  "messageType" : "Default",
+  "eventType" : "logEvent",
+  "source" : null,
+  "formatString" : "",
+  "userID" : 2863311530,
+  "activityIdentifier" : 0,
+  "subsystem" : "com.apple.log",
+  "category" : "",
+  "threadID" : 34661533,
+  "senderImageUUID" : "F3741F0A-3A99-34C8-ACC4-E809D88ED025",
+  "backtrace" : {
+    "frames" : [
+      {
+        "imageOffset" : 0,
+        "imageUUID" : "F3741F0A-3A99-34C8-ACC4-E809D88ED025"
+      }
+    ]
+  },
+  "bootUUID" : "4C841E43-727A-4648-9048-D01D7BC3CDFA",
+  "processImagePath" : "\/usr\/bin\/log",
+  "senderImagePath" : "\/usr\/bin\/log",
+  "timestamp" : "2026-10-09 00:52:39.928868+0800",
+  "machTimestamp" : 28053576984779,
+  "eventMessage" : "log run noninteractively, parent: 26753 (codex), args: '\/usr\/bin\/log' 'show' '--last' '30m' '--style' 'json' '--predicate' 'eventMessage CONTAINS \"pfc-qic-native-lease-x4ly92d3\"'",
+  "processImageUUID" : "F3741F0A-3A99-34C8-ACC4-E809D88ED025",
+  "traceID" : 0,
+  "processID" : 11376,
+  "senderProgramCounter" : 0,
+  "parentActivityIdentifier" : 0
+}]

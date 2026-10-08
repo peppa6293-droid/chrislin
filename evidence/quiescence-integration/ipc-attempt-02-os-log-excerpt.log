@@ -1,0 +1,17 @@
+Read-only selection 1:
+/usr/bin/log show --last 20m --style compact --predicate 'eventMessage CONTAINS "pfc-qic-normal-z33cu50j"' --info
+
+2026-10-09 00:46:41.419 Df kernel[0:210a55e] (AppleMobileFileIntegrity) AMFI: Launch Constraint Violation (enforcing), error info: c[1]p[1]m[1]e[10], (Constraint not matched) launching proc[vc: 1 pid: 8766]: /private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-05lgurvg/pfc-qic-normal-z33cu50j/managed/install/Installed.app/Contents/MacOS/personal-finance-console, launch type 0, failure proc [vc: 1 pid: 8766]: /private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-05lgurvg/pfc-qic-normal-z33cu50j/managed/install/Installed.app/Contents/MacOS/personal-finance-console
+2026-10-09 00:46:41.419 Df kernel[0:210a55f] (AppleSystemPolicy) ASP: Security policy would not allow process: 8766, /private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-05lgurvg/pfc-qic-normal-z33cu50j/managed/install/Installed.app/Contents/MacOS/personal-finance-console
+2026-10-09 00:46:41.868 Df ReportCrash[92900:2109d32] loadStoreInfo [platform 0] com.personalfinance.console from file:///private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-05lgurvg/pfc-qic-normal-z33cu50j/managed/install/Installed.app/
+2026-10-09 00:46:43.932 Df kernel[0:210a67e] (AppleMobileFileIntegrity) AMFI: '/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-05lgurvg/pfc-qic-normal-z33cu50j/managed/install/Installed.app/Contents/MacOS/personal-finance-console' has no CMS blob?
+2026-10-09 00:46:43.932 Df kernel[0:210a67e] (AppleMobileFileIntegrity) AMFI: '/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-05lgurvg/pfc-qic-normal-z33cu50j/managed/install/Installed.app/Contents/MacOS/personal-finance-console': Unrecoverable CT signature issue, bailing out.
+2026-10-09 00:47:01.440 E  CoreServicesUIAgent[43904:210aa2b] [com.apple.launchservices:uiagent] error moving file <private> to trash Error Domain=NSCocoaErrorDomain Code=4 "文件“Installed.app”不存在。" UserInfo={NSURL=file:///.nofollow/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-05lgurvg/pfc-qic-normal-z33cu50j/managed/install/Installed.app, NSUserStringVariant=Trash, NSUnderlyingError=0x84b6c0450 {Error Domain=NSOSStatusErrorDomain Code=-43 "fnfErr: File not found"}}
+2026-10-09 00:47:01.443 Df kernel[0:210a680] (AppleSystemPolicy) ASP: Security policy would not allow process: 8789, /private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-05lgurvg/pfc-qic-normal-z33cu50j/managed/install/Installed.app/Contents/MacOS/personal-finance-console
+
+Read-only selection 2:
+/usr/bin/log show --start '2026-10-09 00:46:42' --end '2026-10-09 00:47:03' --style compact --predicate 'eventMessage CONTAINS "8789"' --info
+
+2026-10-09 00:47:01.443 E  syspolicyd[506:2109fd4] [com.apple.syspolicy.exec:default] Terminating process due to Gatekeeper rejection: 8789, <private>
+2026-10-09 00:47:01.443 Df kernel[0:210a680] (AppleSystemPolicy) ASP: Sleep interrupted: ref 9786, signal 0x100, pid: 8789
+2026-10-09 00:47:01.443 Df kernel[0:210a680] (AppleSystemPolicy) ASP: Security policy would not allow process: 8789, /private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-05lgurvg/pfc-qic-normal-z33cu50j/managed/install/Installed.app/Contents/MacOS/personal-finance-console

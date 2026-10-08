@@ -10,6 +10,12 @@ default-run = "personal-finance-console"
 [features]
 v4-acceptance = []
 quiescence-fixture = []
+quiescence-tauri = ["quiescence-fixture", "tauri/custom-protocol"]
+
+[[bin]]
+name = "quiescence-tauri"
+path = "src/bin/quiescence_tauri.rs"
+required-features = ["quiescence-tauri"]
 
 [[bin]]
 name = "quiescence-fixture"
@@ -34,4 +40,5 @@ serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 sha2 = "0.10"
 libc = "0.2"
+plist = "=1.10.1"
 tauri = { version = "2", features = [] }

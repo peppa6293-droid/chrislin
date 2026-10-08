@@ -1,0 +1,35 @@
+{
+  "format_version": 1,
+  "baseline_commit": "ed412cb4f14e6f1336b8e4ade27336897a55a9da",
+  "authorization_source": "/Users/linte/.codex/attachments/5f69e105-1951-4493-b593-21336356a4d2/已粘贴的文本.txt",
+  "project_root": "/Users/linte/Documents/ChatGPT/个人财务模型app开发",
+  "governance": {
+    "RB-V4-CUTOVER-INVENTORY-01": "SUPERSEDED_BY_RB-V4-CUTOVER-QUIESCENCE-01",
+    "RB-V4-CUTOVER-QUIESCENCE-01": "OPEN",
+    "RB-V4-OLD-RUNTIME-01": "CLOSED",
+    "Production V4 Migration": "NOT AUTHORIZED"
+  },
+  "production_before": {
+    "scope": "read-only raw-file fingerprints only; no SQLite connection; not a C0 freeze or OS activity audit",
+    "observedAt": "2026-10-08T16:22:51.336Z",
+    "observations": {
+      "database": {
+        "path": "/Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3",
+        "sha256": "4b69c93356967fb8eec6fa25b7eedb6cf2a886bddf6b9ea9040182028beacf35",
+        "bytes": 229376,
+        "raw_header_user_version": 3
+      },
+      "executable": {
+        "path": "/Applications/Personal Finance Console.app/Contents/MacOS/personal-finance-console",
+        "sha256": "0e6dcb261de20eb96fcb2f85eaa7fe78fc3cd8c72a96bee78856ac081153911f",
+        "bytes": 12999968
+      },
+      "plist": {
+        "path": "/Applications/Personal Finance Console.app/Contents/Info.plist",
+        "sha256": "4ffd536b7f152b97e2cccb94c7dc82aaa68918ffb2286bfeba7069fcbed4ea6a",
+        "bytes": 1048
+      }
+    }
+  },
+  "observations_limit": "Raw file observations are not a final candidate freeze or proof about unrelated Owner activity."
+}

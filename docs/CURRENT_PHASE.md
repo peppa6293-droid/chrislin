@@ -14,6 +14,8 @@ V0.1 Status: `PERSONAL_FINANCE_CONSOLE_V01_PRODUCTION_ACTIVE`.
 
 ## V0.1.2 V4 Cutover Quiescence — Approved for Isolated Implementation
 
+- 2026-10-09 integration closure: `PF_V012_V4_CUTOVER_QUIESCENCE_INTEGRATION_BLOCKED`. New v2 native/managed/IPC/startup code and failure evidence are saved, but real Tauri Q11, final S1/native lease/formal end-to-end acceptance are incomplete. Exact synthetic old/native PIDs encountered AMFI/Gatekeeper rejection; actual launch retries stopped. Recovery failure ledger/terminal publication also remain incomplete. Executed safe regressions pass; required blocked coverage is not PASS. See [Integration Closure Report](../V012_V4_CUTOVER_QUIESCENCE_INTEGRATION_CLOSURE_REPORT.md).
+- Production DB/executable/plist raw fingerprints are unchanged in this run; no Production SQLite connection, installed Production launch or migration was performed. First failed test created a default-store WebView before its setup guard; broader OS profile zero-side-effect proof remains unconfirmed, as disclosed in the new report. This is not a final Production candidate freeze or authorization. No Experiment Closure or independent re-audit readiness is declared.
 - On 2026-10-08, Owner approved `V012_V4_CUTOVER_QUIESCENCE_CONTRACT_REDESIGN.md`, OD-01–OD-08, for isolated implementation and synthetic verification only. SQLite built-in recovery and mode-probe infrastructure effects are authorized only against synthetic fixtures in this task.
 - `RB-V4-CUTOVER-INVENTORY-01 = SUPERSEDED_BY_RB-V4-CUTOVER-QUIESCENCE-01`. SUPERSEDED is not CLOSED. The historical capability failure below remains unchanged evidence.
 - `RB-V4-CUTOVER-QUIESCENCE-01 = OPEN`. `RB-V4-OLD-RUNTIME-01 = CLOSED` remains the historical Owner closure.

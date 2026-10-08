@@ -1,0 +1,17 @@
+{
+  "format_version": 1,
+  "attempt": "ipc-smoke-attempt-01.json",
+  "status": "FAILED_CLOSED_AT_USER_SETUP_BUT_DEFAULT_WINDOW_ALREADY_CREATED",
+  "failure": "ISOLATED_APP_IDENTIFIER_MISMATCH",
+  "actual_executable_scope": "canonical marked synthetic managed/install bundle only",
+  "actual_bundle_identifier_verified_before_tauri": "org.pfc.quiescence.integration",
+  "compiled_context_identifier": "com.personalfinance.console",
+  "explanation": "tauri-codegen 2.7.1 get_config uses the supplied path parent to read conventional tauri.conf.json; a custom filename alone does not select its contents. TAURI_CONFIG is the supported merge override.",
+  "default_window_creation": "tauri 2.12.1 src/app.rs setup first constructs config.app.windows then runs the user setup hook. Reaching that hook means the default configured webview was constructed. The earlier claim that this attempt stopped before webview creation is withdrawn.",
+  "webview_data_store": "wry 0.57.0 src/wkwebview/mod.rs chooses WKWebsiteDataStore::defaultDataStore when incognito is false and no custom datastore is set. The failed default-config attempt used this OS-managed store, not the intended nonPersistent store.",
+  "production_preservation_limit": "The installed Production application was not launched; this binary does not call personal_finance_console_lib::run and does not register Production database commands. The synthetic real Info.plist identifier was checked before Tauri setup. OS-managed default-webview profile side effects were not independently excluded by this attempt, and are not asserted to be absent.",
+  "original_report_counter_limit": "The original smoke report production_access fields were controller-declared scope counters, not independent OS side-effect measurements. In particular writes:0 must not be used as proof that the failed default-store webview caused no namespace/cache side effects. The original attempt is preserved; this diagnostic supplies the limitation.",
+  "correction": "Build with TAURI_CONFIG loaded from tauri.quiescence.conf.json, including empty windows and null devUrl; independently reject mismatched context identifier/nonempty windows/devUrl before Builder::build; still verify the real synthetic Info.plist before GUI startup; explicitly create only the isolated incognito webview.",
+  "preserved_root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-wq2lwg9b/pfc-qic-normal-3yq6n8gx",
+  "deleted_artifacts": []
+}

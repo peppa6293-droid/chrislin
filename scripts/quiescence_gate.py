@@ -36,6 +36,7 @@ def fixture_root(root: Path) -> Path:
     marker = root / "SYNTHETIC_ONLY"
     if marker.is_symlink() or marker.read_text() != MARKER:
         raise Blocked("BLOCKED_NOT_ISOLATED_FIXTURE", "marker")
+    identity(marker)
     return root
 
 
@@ -76,17 +77,64 @@ class MaintenanceLease:
             raise Blocked("BLOCKED_LEASE_IDENTITY")
         fcntl.flock(self.fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
 
-    def launch_native(self, executable: Path, expected_sha256: str, *, barrier=False):
+    def bind(self, authorization_id: str, nonce: str):
+        """Bind a v2 handoff to this exact stable inode, never replace it.
+
+        A leftover lease is not silently recycled for a different authorization.
+        Persistent attempt records are separate files and survive descriptor exit.
+        """
+        self.validate()
+        if not authorization_id or not nonce:
+            raise Blocked("BLOCKED_LEASE_BINDING")
+        wanted = {"format_version": 2, "session": self.session,
+                  "authorization_id": authorization_id, "nonce": nonce}
+        os.lseek(self.fd, 0, os.SEEK_SET)
+        raw = os.read(self.fd, 16385)
+        if raw:
+            try:
+                actual = json.loads(raw)
+            except (ValueError, UnicodeDecodeError) as exc:
+                raise Blocked("BLOCKED_STALE_LEASE", "invalid lease record") from exc
+            if actual != wanted:
+                raise Blocked("BLOCKED_STALE_LEASE", "binding differs")
+        else:
+            payload = (json.dumps(wanted, sort_keys=True) + "\n").encode()
+            if os.write(self.fd, payload) != len(payload):
+                raise Blocked("BLOCKED_LEASE_BINDING_WRITE")
+            os.fsync(self.fd)
+            directory = os.open(self.root, os.O_RDONLY)
+            try:
+                os.fsync(directory)
+            finally:
+                os.close(directory)
+        self.validate()
+        return {"path": str(self.path), "dev": os.fstat(self.fd).st_dev,
+                "inode": os.fstat(self.fd).st_ino, "session": self.session}
+
+    def environment(self):
+        self.validate()
+        return {"PFC_QUIESCENCE_LEASE_FD": str(self.fd),
+                "PFC_QUIESCENCE_LEASE_PATH": str(self.path),
+                "PFC_QUIESCENCE_SESSION": self.session}
+
+    def launch_native(self, executable: Path, expected_sha256: str, *, barrier=False,
+                      arguments=None, extra_env=None, **process_options):
         self.validate()
         executable = scoped(self.root, executable)
         if identity(executable)["sha256"] != expected_sha256:
             raise Blocked("BLOCKED_NATIVE_IDENTITY")
         env = os.environ.copy()
-        env.update(PFC_QUIESCENCE_LEASE_FD=str(self.fd), PFC_QUIESCENCE_LEASE_PATH=str(self.path), PFC_QUIESCENCE_SESSION=self.session)
-        args = [str(executable), "run", str(self.root)] + (["--barrier"] if barrier else [])
+        env.update(extra_env or {})
+        # Callers cannot override the descriptor/session binding through extra_env.
+        env.update(self.environment())
+        args = [str(executable)] + (list(arguments) if arguments is not None else
+                                   ["run", str(self.root)] + (["--barrier"] if barrier else []))
         # The parent retains its own descriptor; child inherits the same open file
         # description. Closing either copy cannot release the other's flock.
-        return subprocess.Popen(args, env=env, pass_fds=(self.fd,), stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        defaults = {"stdin": subprocess.PIPE, "stdout": subprocess.PIPE,
+                    "stderr": subprocess.PIPE, "text": True}
+        defaults.update(process_options)
+        return subprocess.Popen(args, env=env, pass_fds=(self.fd,), **defaults)
 
     def __exit__(self, *_):
         if self.fd >= 0:
@@ -112,13 +160,13 @@ def identity(path: Path):
     return {"dev": before.st_dev, "ino": before.st_ino, "size": before.st_size, "sha256": digest, "mode": stat.S_IMODE(before.st_mode)}
 
 
-def bundle_identity(root: Path, path: Path):
+def bundle_identity(root: Path, path: Path, *, expected_bundle_id=PRODUCTION_BUNDLE_ID):
     path = scoped(root, path)
     try:
         result = read_bundle(path)
     except (ValueError, OSError, json.JSONDecodeError) as exc:
         raise Blocked("BLOCKED_BUNDLE_IDENTITY", str(exc)) from exc
-    if result["bundle_id"] != PRODUCTION_BUNDLE_ID:
+    if expected_bundle_id is not None and result["bundle_id"] != expected_bundle_id:
         raise Blocked("BLOCKED_BUNDLE_ID")
     for label, relative in (("executable", "Contents/MacOS/" + EXECUTABLE_NAME), ("plist", "Contents/Info.plist"), ("manifest", "Contents/Resources/runtime-compatibility.json")):
         target = scoped(root, path / relative)
@@ -126,7 +174,7 @@ def bundle_identity(root: Path, path: Path):
     return result
 
 
-def discover(root: Path, roots: list[Path]):
+def discover(root: Path, roots: list[Path], *, all_bundles=False):
     """Finite declared closure, no unrelated outer-bundle pruning."""
     root = fixture_root(root)
     found, links = {}, []
@@ -157,12 +205,13 @@ def discover(root: Path, roots: list[Path]):
                     raise Blocked("BLOCKED_METADATA_UNKNOWN", str(meta)) from exc
                 if not isinstance(info, dict) or not isinstance(info.get("CFBundleIdentifier"), str):
                     raise Blocked("BLOCKED_METADATA_UNKNOWN", str(meta))
-                if info["CFBundleIdentifier"] == PRODUCTION_BUNDLE_ID:
+                if all_bundles or info["CFBundleIdentifier"] == PRODUCTION_BUNDLE_ID:
                     if meta == current / "Info.plist" and current.name == "Contents":
                         continue
                     if meta == current / "Info.plist":
                         raise Blocked("BLOCKED_UNSUPPORTED_PRODUCTION_LAYOUT", str(current))
-                    found[str(current)] = bundle_identity(root, current)
+                    found[str(current)] = bundle_identity(root, current,
+                        expected_bundle_id=None if all_bundles else PRODUCTION_BUNDLE_ID)
     for link, target in links:
         # An internal framework alias is harmless only after canonical coverage
         # establishes that it cannot be an additional Production launch route.
@@ -203,10 +252,10 @@ def collect_spawned_fixture_targets(targets):
     return {"complete": True, "observations": observations}
 
 
-def validate_inventory(lease: MaintenanceLease, roots: list[Path], expected: dict, installed: Path):
+def validate_inventory(lease: MaintenanceLease, roots: list[Path], expected: dict, installed: Path, *, all_bundles=False):
     lease.validate()
     installed = scoped(lease.root, installed)
-    actual = discover(lease.root, roots)
+    actual = discover(lease.root, roots, all_bundles=all_bundles)
     if set(actual) != set(expected) or str(installed) not in actual:
         raise Blocked("BLOCKED_MANAGED_OBJECT_SET")
     for path, item in actual.items():
@@ -228,14 +277,15 @@ def validate_inventory(lease: MaintenanceLease, roots: list[Path], expected: dic
     return actual
 
 
-def disable_known_entries(lease: MaintenanceLease, bundles: list[Path], known_targets: list[dict], collector):
+def disable_known_entries(lease: MaintenanceLease, bundles: list[Path], known_targets: list[dict], collector, *, all_bundles=False):
     """Disable before exit recheck; never rename away a live target association.
 
     Collector returns {complete, observations}; only explicit EXIT_CONFIRMED for
     the retained pid/start/image association passes. No kill or auto-restore.
     """
     lease.validate()
-    identities = {str(path): bundle_identity(lease.root, path) for path in bundles}
+    identities = {str(path): bundle_identity(lease.root, path,
+        expected_bundle_id=None if all_bundles else PRODUCTION_BUNDLE_ID) for path in bundles}
     disabled = []
     for path in bundles:
         for entry in scoped(lease.root, path).rglob("*"):

@@ -1,0 +1,89 @@
+{
+  "format_version": 1,
+  "contract_id": "PKG-QIC-G51",
+  "scope_status": "blocked",
+  "status": "IMPLEMENTED_NOT_INTEGRATION_ACCEPTED",
+  "synthetic_only": true,
+  "production_touched": false,
+  "production_sqlite_connection_opened": false,
+  "applications_modified": false,
+  "commit_created": false,
+  "source_sha256": {
+    "scripts/quiescence_gate.py": "fece7f02524f16144afcec441a9a5c8d2010401a4819d894727c94f35004e67d",
+    "scripts/quiescence_integration.py": "82334472c7656c92e37ce9aec5940e70695bf50a2016c794ad3428d2edc4ed6f",
+    "scripts/test_quiescence_integration.py": "0af7c22dcaf16b17b2423fb37ae1eae5d70c2100a68d8d261ba4ada494870787",
+    "scripts/quiescence_native_lease_tests.py": "9124f090cf468234def844e9dfa95a53e596d517470f2beb7339c8c9de9049b9"
+  },
+  "implemented": [
+    "S0-S2 exact versioned synthetic managed contract and chained durable phase receipts",
+    "disable-before-move, retained Popen association, OS exact-PID start observation and waitpid exit",
+    "archive rename preserving old executable inode; staging/install files born non-executable",
+    "candidate/staging/archive disabled; exactly installed primary executable enabled",
+    "all-bundle finite closed inventory with nested old identity, helper, alias, bare-route, symlink, hardlink and overlap refusal",
+    "candidate runtime Info.plist and embedded manifest use isolated org.pfc.quiescence.integration identity",
+    "stable inode v2 lease binding and durable native ACK handoff API closing only the gate FD",
+    "read-only diagnostic classification rejects partial, orphan, corrupt or cross-session state",
+    "formal entry defaults to actual IPC normal scenario; native-only tests use run-integrated and are never Q11",
+    "actual native lease fault-injection suite source created but runtime acceptance incomplete"
+  ],
+  "final_fail_closed_change": {
+    "reason": "Previously accepted -9 old fixture exit corresponded to macOS launch-constraint rejection, not admitted old-runtime readiness",
+    "code": "BLOCKED_OLD_FIXTURE_EXECUTION_UNPROVEN",
+    "required_exit": "requested SIGTERM with returncode -SIGTERM",
+    "other_exit": "MANAGED_BLOCKED; no subsequent contract or permit",
+    "limitation": "Expected SIGTERM classification does not prove old runtime readiness; a future owned synthetic runtime needs an explicit readiness handshake"
+  },
+  "historical_test_results_before_final_fail_closed_change": [
+    {"suite": "test_quiescence_integration.py", "tests": 24, "result": "PASS", "acceptance_limit": "OS launch admission and true old-runtime readiness not established"},
+    {"suite": "test_quiescence_*.py", "tests": 51, "result": "PASS", "acceptance_limit": "before later start/diagnostic changes and before discovered launch-policy rejection"},
+    {"suite": "test_quiescence_integration.py", "tests": 28, "result": "PASS_AFTER_ONE_TEST_PLACEMENT_CORRECTION", "assertions_removed": false, "acceptance_limit": "before final rejection of unexpected old child exit; not current full-suite acceptance"}
+  ],
+  "final_validation": {
+    "py_compile": "PASS for all four package source files",
+    "selected_nonlaunch_tests": 8,
+    "selected_nonlaunch_result": "PASS",
+    "selected_test_scope": "pure exit classifier plus diagnostic corruption/orphan-permit and file-lock record/inode checks; no copied-old-runtime or native candidate launch",
+    "full_managed_suite_on_final_sources": "NOT_RUN after explicit stop",
+    "actual_native_lease_suite": "BLOCKED in first case; no passing actual native handoff cases claimed",
+    "formal_real_tauri_ipc": "NOT_RUN by this package; IPC package reported blocked and all new launches stopped"
+  },
+  "failure_evidence": {
+    "report": "evidence/quiescence-integration/lease-native-report.json",
+    "report_sha256": "5fd3ba071371bb76ba66fa1f998d6321291ef415460daf4e4a57ec9dbbf2fe57",
+    "os_json": "evidence/quiescence-integration/lease-os-policy-observations.json",
+    "os_json_sha256": "578e45c484fabdb2ed5d9542854c75ca8e327167c4ddefbe7eb21794c91062f8",
+    "retained_fixture": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-native-lease-x4ly92d3/pfc-qic-native-duplicate-z3m4ky63",
+    "old_fixture_pid": 8583,
+    "old_fixture_exit_code": -9,
+    "old_fixture_os_start": "Fri Oct  9 00:46:14 2026",
+    "old_fixture_os_rejection": "2026-10-09 00:46:14.650572+0800 AMFI Launch Constraint Violation c[1]p[1]m[1]e[10] for exact retained PID and installed path",
+    "candidate_first_failure_exit_code": null,
+    "candidate_first_failure_exit_code_note": "Original controller omitted this value; it is unknown and has not been invented",
+    "later_scoped_os_rejection": "2026-10-09 00:46:20.229481+0800 ASP would not allow process 8602 at the same exact fixture install path",
+    "readonly_codesign_observation": "Source CLI executable verified valid on disk; its copied synthetic bundle path verification reported code has no resources but signature indicates they must be present; not independently accepted as sole root cause"
+  },
+  "pre_stop_diagnostic_followup": {
+    "note": "After the initial failure and before the all-launch stop, a same-fixture read-only native diagnostic succeeded. One scoped controlled native launch reached only first state_persisted and was killed/reaped by controller; this is not a migration or handoff pass",
+    "native_pid": 9288,
+    "parent_pid": 9279,
+    "last_persisted_state": "VERIFIED_CANDIDATE",
+    "phase": 0,
+    "session": "session-9d0f2b3ae2f24acdaa800923b0f8d2e8",
+    "migration4_success_claimed": false,
+    "root_retained_unchanged_after_stop": true
+  },
+  "remaining": [
+    "Replace relocated platform /bin/sleep fixture in a separately approved continuation with a genuine owned synthetic runtime and readiness proof",
+    "Resolve supported legitimate development bundle packaging/launch without disabling security or re-signing already frozen evidence objects",
+    "Re-run final full managed regressions only after that dependency changes and explicit continuation",
+    "Complete actual native parent-death/child-death/duplicate/wrong-holder/inode handoff tests",
+    "Run one complete formal actual Tauri IPC workflow and independently verify persisted frontend assertions and native outcome"
+  ],
+  "stop_guarantees": {
+    "no_further_actual_native_or_tauri_launch": true,
+    "no_system_security_setting_change": true,
+    "no_frozen_candidate_resigning": true,
+    "no_automatic_runtime_or_database_restore": true,
+    "no_assertion_removed_to_pass": true
+  }
+}

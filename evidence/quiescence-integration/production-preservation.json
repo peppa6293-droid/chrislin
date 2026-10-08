@@ -1,0 +1,64 @@
+{
+  "format_version": 1,
+  "before": {
+    "scope": "read-only raw-file fingerprints only; no SQLite connection; not a C0 freeze or OS activity audit",
+    "observedAt": "2026-10-08T16:22:51.336Z",
+    "observations": {
+      "database": {
+        "path": "/Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3",
+        "sha256": "4b69c93356967fb8eec6fa25b7eedb6cf2a886bddf6b9ea9040182028beacf35",
+        "bytes": 229376,
+        "raw_header_user_version": 3
+      },
+      "executable": {
+        "path": "/Applications/Personal Finance Console.app/Contents/MacOS/personal-finance-console",
+        "sha256": "0e6dcb261de20eb96fcb2f85eaa7fe78fc3cd8c72a96bee78856ac081153911f",
+        "bytes": 12999968
+      },
+      "plist": {
+        "path": "/Applications/Personal Finance Console.app/Contents/Info.plist",
+        "sha256": "4ffd536b7f152b97e2cccb94c7dc82aaa68918ffb2286bfeba7069fcbed4ea6a",
+        "bytes": 1048
+      }
+    }
+  },
+  "after": {
+    "scope": "read-only raw-file fingerprints only; no SQLite connection; not a C0 freeze or OS activity audit",
+    "observedAt": "2026-10-08T17:03:53.340Z",
+    "observations": {
+      "database": {
+        "path": "/Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3",
+        "sha256": "4b69c93356967fb8eec6fa25b7eedb6cf2a886bddf6b9ea9040182028beacf35",
+        "bytes": 229376,
+        "raw_header_user_version": 3
+      },
+      "executable": {
+        "path": "/Applications/Personal Finance Console.app/Contents/MacOS/personal-finance-console",
+        "sha256": "0e6dcb261de20eb96fcb2f85eaa7fe78fc3cd8c72a96bee78856ac081153911f",
+        "bytes": 12999968
+      },
+      "plist": {
+        "path": "/Applications/Personal Finance Console.app/Contents/Info.plist",
+        "sha256": "4ffd536b7f152b97e2cccb94c7dc82aaa68918ffb2286bfeba7069fcbed4ea6a",
+        "bytes": 1048
+      }
+    }
+  },
+  "raw_fingerprints_equal": {
+    "database": true,
+    "executable": true,
+    "plist": true
+  },
+  "production_sqlite_connection_by_task": false,
+  "installed_production_launch_by_task": false,
+  "production_migration_or_restore": false,
+  "production_permit_backup_or_receipt_created": false,
+  "preservation_limits": {
+    "no_full_os_activity_audit": true,
+    "raw_header_not_sqlite_integrity_audit": true,
+    "attempt01_default_webview_created": true,
+    "attempt01_actual_synthetic_bundle_identifier": "org.pfc.quiescence.integration",
+    "production_webview_profile_zero_side_effects_independently_proven": false
+  },
+  "authority": "Production migration NOT AUTHORIZED; no OS security bypass or signing changes to frozen objects"
+}

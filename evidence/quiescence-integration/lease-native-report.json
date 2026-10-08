@@ -1,0 +1,17 @@
+{
+  "format_version": 1,
+  "synthetic_only": true,
+  "transport": "native-v2-cli-barrier-NOT-Q11",
+  "source_sha256": "68865f08e7084083cdaf84f4682181f4634318c90f5805150a7376994febb50c",
+  "native_sha256": "741fe1d9e5f400abd44b2f16abadf24b1d68b0495423fe603ff259eace5fc7f3",
+  "retained_root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-native-lease-x4ly92d3",
+  "cases": [
+    {
+      "name": "duplicate-native-and-gate",
+      "passed": false,
+      "error": "native exited before lease_native_owned: []",
+      "error_type": "AssertionError"
+    }
+  ],
+  "status": "FAILED"
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "PFC Isolated Quiescence IPC",
+  "version": "0.1.0",
+  "identifier": "org.pfc.quiescence.integration",
+  "build": {
+    "beforeDevCommand": null,
+    "devUrl": null,
+    "beforeBuildCommand": null,
+    "frontendDist": "../artifacts/quiescence-ipc-web"
+  },
+  "app": {
+    "windows": [],
+    "security": {
+      "capabilities": ["quiescence-ipc"],
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src ipc: http://ipc.localhost"
+    }
+  },
+  "bundle": { "active": false }
+}

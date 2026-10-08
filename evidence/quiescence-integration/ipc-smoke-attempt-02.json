@@ -1,0 +1,42 @@
+{
+  "format_version": 1,
+  "scope": "synthetic-only",
+  "transport": "real-Tauri-Wry-bundled-TypeScript-invoke",
+  "status": "FAIL",
+  "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-05lgurvg",
+  "binary": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/debug/quiescence-tauri",
+  "binary_sha256": "464d19138012d04f9ca4a59b8e466b1055fd94f0377d848c78ed71496deb2572",
+  "source_sha256": {
+    "scripts/quiescence_ipc_tests.py": "48892d652d3005843da2aef69aa9f23732f8e87b8e24cfcf6f26307e19f2373e",
+    "scripts/quiescence_integration.py": "5452da02844f0188089d8324977aa792c237e1844ed3ba6518886638844f04c4",
+    "scripts/quiescence_gate.py": "d13f327538f46d70486cdaee518cb86d9ad222b44ce772cfe4bf47bec4f9462f",
+    "src-tauri/Cargo.toml": "5cf5dd54ec4ce46807964b4f97a8add42b7fbe18a66d8916de5432b40d93cfbe",
+    "src-tauri/Cargo.lock": "5a58d1e21d6de8bbfdb3d3cb0332e2fe06516ea0790f2e9c14127b0943f054c8",
+    "src-tauri/src/quiescence.rs": "0112ded4d8a1fa05cc46c9aa66c835c2dcec26935575ad38437aafea179659d6",
+    "src-tauri/src/quiescence_contract.rs": "5459e4b779c5096cfdd9e106d1ac3dbfa3b04e3256192347f61f9dae4cd44e00",
+    "src-tauri/src/quiescence_recovery.rs": "19f0b16638faa8425f24e0eff1bab72d04e6f4d57746eae190268cea264852f9",
+    "src-tauri/src/bin/quiescence_tauri.rs": "f0bf647a20aacc7e8523c746c28f113524185209a5bc6873a10a7119a2937956",
+    "src-tauri/tauri.quiescence.conf.json": "f12478f123f9bfe1bee68e4b70b8c7e6e2b69fd91abdde7c38330ff9889dcbd0",
+    "src-tauri/capabilities/quiescence-ipc.json": "67bc79c9b2cdc66615cda844b066f3a205ccc9a2ffc91f284e520dc299496afc",
+    "quiescence-web/main.ts": "2739b6dcce2a0a7dbf9cd04dfee23c47766694c74ff1a2bac93d66198f0589f4",
+    "quiescence-web/index.html": "d16744f9c068bf35c3bab81d8243a55228b8cb7755e106d84580a870063eccee",
+    "quiescence-web/disconnected.html": "b4c46770d8bf4dcf524309b08e0e188286cc65107bac6f95753d7ad40fde010d",
+    "vite.quiescence.config.ts": "3c39ab7bc9be898bd25c7241358e2eb867def91c3a8a283e1e4562ce30fbf9b9",
+    "tsconfig.quiescence.json": "b7fa3844269030d0e1c4a9317e22b5c01f54b6fc730de06721408336ba746537",
+    "tests/quiescence-ipc-contract.test.ts": "083c5e4e1f0ba591d12278a989791c7de83cdf126bfec462071013a8f7e4844f"
+  },
+  "cases": [
+    {
+      "scenario": "normal",
+      "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-05lgurvg/pfc-qic-normal-z33cu50j",
+      "expected_durable_state": "V4_VERIFIED"
+    }
+  ],
+  "production_access": {
+    "sqlite_connections": 0,
+    "launches": 0,
+    "writes": 0,
+    "note": "controller accepts canonical marked temporary roots only; Production setup is not called"
+  },
+  "error": "AssertionError: no actual native/webview evidence"
+}

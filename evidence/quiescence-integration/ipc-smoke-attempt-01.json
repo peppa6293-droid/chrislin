@@ -1,0 +1,42 @@
+{
+  "format_version": 1,
+  "scope": "synthetic-only",
+  "transport": "real-Tauri-Wry-bundled-TypeScript-invoke",
+  "status": "FAIL",
+  "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-wq2lwg9b",
+  "binary": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/debug/quiescence-tauri",
+  "binary_sha256": "9d82733ea87dc9b310cbe1380921fedadfbbf66002b8d348a78c49859c158187",
+  "source_sha256": {
+    "scripts/quiescence_ipc_tests.py": "1cdeacdc4033c28887cdc2b828544cf8cad5f4e7b27ce5d5f70f1cdf8153ccab",
+    "scripts/quiescence_integration.py": "28241ad1ec5885d81d41f383ef911f85c00dddb84a1344009f28035ddf86f5b7",
+    "scripts/quiescence_gate.py": "d13f327538f46d70486cdaee518cb86d9ad222b44ce772cfe4bf47bec4f9462f",
+    "src-tauri/Cargo.toml": "5cf5dd54ec4ce46807964b4f97a8add42b7fbe18a66d8916de5432b40d93cfbe",
+    "src-tauri/Cargo.lock": "5a58d1e21d6de8bbfdb3d3cb0332e2fe06516ea0790f2e9c14127b0943f054c8",
+    "src-tauri/src/quiescence.rs": "c5c60474d8a8a8fd7c6b47775b611156988a511571f6b3f6ed22b25407c24e77",
+    "src-tauri/src/quiescence_contract.rs": "139c37aba057581363ad65ddc13f25ad04d1fab96745b1d7f2f78ab244ac77e6",
+    "src-tauri/src/quiescence_recovery.rs": "6d8f92c5921e4f41a6eb1ca82718109fae6167c688423ef9d828ed14af5b24b6",
+    "src-tauri/src/bin/quiescence_tauri.rs": "46cbeb3e614f3620ecb28b5e8cb4ed01c8b02b62f615a2a94d6ad184f819b775",
+    "src-tauri/tauri.quiescence.conf.json": "7860cffcb5a46f0c7593e7d445ca1f980743a73accc1d4561681e8cdad05d5e3",
+    "src-tauri/capabilities/quiescence-ipc.json": "67bc79c9b2cdc66615cda844b066f3a205ccc9a2ffc91f284e520dc299496afc",
+    "quiescence-web/main.ts": "2739b6dcce2a0a7dbf9cd04dfee23c47766694c74ff1a2bac93d66198f0589f4",
+    "quiescence-web/index.html": "d16744f9c068bf35c3bab81d8243a55228b8cb7755e106d84580a870063eccee",
+    "quiescence-web/disconnected.html": "b4c46770d8bf4dcf524309b08e0e188286cc65107bac6f95753d7ad40fde010d",
+    "vite.quiescence.config.ts": "3c39ab7bc9be898bd25c7241358e2eb867def91c3a8a283e1e4562ce30fbf9b9",
+    "tsconfig.quiescence.json": "b7fa3844269030d0e1c4a9317e22b5c01f54b6fc730de06721408336ba746537",
+    "tests/quiescence-ipc-contract.test.ts": "a0daa1fba0d91b7f5eef6ad75b02e813020951cf21ad75fcf5c2ba6407c140a1"
+  },
+  "cases": [
+    {
+      "scenario": "normal",
+      "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-wq2lwg9b/pfc-qic-normal-3yq6n8gx",
+      "expected_durable_state": "V4_VERIFIED"
+    }
+  ],
+  "production_access": {
+    "sqlite_connections": 0,
+    "launches": 0,
+    "writes": 0,
+    "note": "controller accepts canonical marked temporary roots only; Production setup is not called"
+  },
+  "error": "AssertionError: bundled TypeScript was never observed"
+}

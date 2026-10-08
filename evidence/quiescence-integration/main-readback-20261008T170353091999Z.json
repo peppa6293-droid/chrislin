@@ -1,0 +1,51 @@
+{
+  "format_version": 1,
+  "verification": "main-task independent saved-state readback, not future independent re-audit",
+  "passed": false,
+  "delivery_status": "BLOCKED",
+  "saved_state_readback_complete": true,
+  "ipc_report_sha256": "3fb84cb81de683de3cf51f2be5770603f2c4c806100ad06716ae123b9a51590a",
+  "regression_sha256": "2582ed854b7f5ffe7da7e47231d16b29a401a1e10ec517326ad9af27a9a76f3a",
+  "historical_claims_unchanged": [
+    "V012_V4_CUTOVER_QUIESCENCE_IMPLEMENTATION_REPORT.md",
+    "V012_V4_CUTOVER_QUIESCENCE_SQLITE_EXPERIMENT_REPORT.md",
+    "src/persistence/migrations.ts",
+    "migrations/004.sql"
+  ],
+  "cases": [
+    {
+      "scenario": "normal",
+      "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-wq2lwg9b/pfc-qic-normal-3yq6n8gx",
+      "acceptance": "BLOCKED_NOT_VERIFIED",
+      "database": {
+        "opened": false,
+        "raw_sha256": "3774686f9f2c3c4f1a09756e5a46c34dbb1e781994280d1684511e9639da158a",
+        "equals_synthetic_backup_and_permit": true
+      },
+      "native_claim_or_outcome_present": false,
+      "old_process_exit_observations": [
+        {
+          "evidence": "retained_Popen_waitpid",
+          "executable_dev": 16777232,
+          "executable_inode": 23089848,
+          "executable_sha256": "c30e72b2e2d6a4eb32b6f38f07815346bc734d031d3c712d9123f28d8b237051",
+          "exitCode": -9,
+          "identity": "c30e72b2e2d6a4eb32b6f38f07815346bc734d031d3c712d9123f28d8b237051",
+          "pid": 5158,
+          "start": "Fri Oct  9 00:39:26 2026",
+          "state": "EXIT_CONFIRMED",
+          "target": true
+        }
+      ],
+      "old_runtime_readiness_proven": false,
+      "ipc_log_hashes": {
+        "ipc-initial.stderr.log": "d425b25c5c56a970a592454be2528708b8830da05b9e36a9a4b14d5cec2c85cb",
+        "ipc-initial.stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "archive": {
+    "path": "evidence/quiescence-integration/readback-fixtures-20261008T170353091999Z.tar.gz",
+    "sha256": "41c091a05f47ebfa9332a3c811eccff23befe51f1c4562a214bb52e68790eddf"
+  }
+}

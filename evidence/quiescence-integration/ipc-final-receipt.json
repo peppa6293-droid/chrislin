@@ -1,0 +1,56 @@
+{
+  "format_version": 1,
+  "contract_id": "PKG-QIC-I93",
+  "status": "BLOCKED",
+  "scope": "isolated implementation only; no Production migration authorization",
+  "saved_implementation": [
+    "separate quiescence-tauri feature/binary and fixed isolated Tauri identity",
+    "bundled TypeScript with real @tauri-apps/api/core.invoke calls, no mock transport",
+    "worker-owned native C; authenticated/replay-protected barrier release; no frontend SQL/commit/end control",
+    "ordinary business gate closed until separately authorized native handoff",
+    "real Tauri close/exit callbacks and real frontend navigation disconnect code paths",
+    "synthetic controller kill/restart scenarios and persisted diagnostic/handoff entrypoints",
+    "pre-Builder identifier/windows/devUrl rejection plus real bundle Info.plist identity check",
+    "future controller first saves PID and always saves exit code/stdout/stderr hashes before evidence assertions"
+  ],
+  "verification": {
+    "typescript_typecheck": "PASS: npx tsc --noEmit -p tsconfig.quiescence.json",
+    "typescript_source_boundary_tests": "PASS: 5 tests; source regressions only, not Q11 runtime acceptance",
+    "python_syntax": "PASS: python3 -m py_compile scripts/quiescence_ipc_tests.py",
+    "tauri_build": "PASS for attempt02 source snapshot; runtime rejected by OS before native journal",
+    "real_q11_scenarios_passed": 0,
+    "real_frontend_ipc_observed": false,
+    "formal_s0_s10_tauri_workflow": "NOT_ACCEPTED",
+    "production_os_profile_side_effects": "NOT_INDEPENDENTLY_EXCLUDED; attempt01 default-store creation disclosed"
+  },
+  "failure_evidence": [
+    "ipc-smoke-attempt-01.json",
+    "ipc-attempt-01-diagnostic.json",
+    "ipc-smoke-attempt-02.json",
+    "ipc-attempt-02-diagnostic.json",
+    "ipc-attempt-02-os-log-excerpt.log"
+  ],
+  "blocked_remainder": [
+    "future properly constructed synthetic old runtime and supported candidate bundle packaging before freezing any hashes",
+    "newly authorized real Tauri execution after the OS rejection cause is addressed without bypassing Gatekeeper/AMFI",
+    "all Q11 real IPC cases, exact native/frontend evidence cross-checks, process restart, separate V4 handoff",
+    "formal synthetic end-to-end runtime validation"
+  ],
+  "build_only_reproduction": "python3 scripts/quiescence_ipc_tests.py --build-only",
+  "build_contract": "The builder loads src-tauri/tauri.quiescence.conf.json into TAURI_CONFIG, builds Vite assets, then cargo build --manifest-path src-tauri/Cargo.toml --features quiescence-tauri --bin quiescence-tauri. Custom generate_context filename alone is insufficient in installed tauri-codegen. --build-only never creates fixtures or launches the application.",
+  "stop_status": "No further real launch, no frozen-copy re-signing, no system security bypass, no cleanup/deletion; source frozen and no commit made by this subtask.",
+  "source_sha256": {
+    "src-tauri/Cargo.toml": "5cf5dd54ec4ce46807964b4f97a8add42b7fbe18a66d8916de5432b40d93cfbe",
+    "src-tauri/Cargo.lock": "5a58d1e21d6de8bbfdb3d3cb0332e2fe06516ea0790f2e9c14127b0943f054c8",
+    "src-tauri/src/bin/quiescence_tauri.rs": "f0bf647a20aacc7e8523c746c28f113524185209a5bc6873a10a7119a2937956",
+    "src-tauri/tauri.quiescence.conf.json": "f12478f123f9bfe1bee68e4b70b8c7e6e2b69fd91abdde7c38330ff9889dcbd0",
+    "src-tauri/capabilities/quiescence-ipc.json": "67bc79c9b2cdc66615cda844b066f3a205ccc9a2ffc91f284e520dc299496afc",
+    "quiescence-web/main.ts": "2739b6dcce2a0a7dbf9cd04dfee23c47766694c74ff1a2bac93d66198f0589f4",
+    "quiescence-web/index.html": "d16744f9c068bf35c3bab81d8243a55228b8cb7755e106d84580a870063eccee",
+    "quiescence-web/disconnected.html": "b4c46770d8bf4dcf524309b08e0e188286cc65107bac6f95753d7ad40fde010d",
+    "vite.quiescence.config.ts": "3c39ab7bc9be898bd25c7241358e2eb867def91c3a8a283e1e4562ce30fbf9b9",
+    "tsconfig.quiescence.json": "b7fa3844269030d0e1c4a9317e22b5c01f54b6fc730de06721408336ba746537",
+    "tests/quiescence-ipc-contract.test.ts": "ade45a053af240815481670450a8658455593f52bc41f0b68b5e40fe1ac5d807",
+    "scripts/quiescence_ipc_tests.py": "6f804ea9173ca9ea8b70cf24b07b142e6b859b1eb7fc97627e6bc91700d1b6d7"
+  }
+}
