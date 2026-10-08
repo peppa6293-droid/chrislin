@@ -1,6 +1,7 @@
 node_modules/
 dist/
 coverage/
+artifacts/
 web-dist/
 src-tauri/target/
 src-tauri/gen/

@@ -1,0 +1,42 @@
+{
+  "mirror_vs_saved_baseline_files": 144,
+  "mirror_changed_files": [],
+  "new_checkout_source_changed_files_except_authorized_gitignore": [],
+  "production": {
+    "sha256": "4b69c93356967fb8eec6fa25b7eedb6cf2a886bddf6b9ea9040182028beacf35",
+    "size": 229376,
+    "mtime_ns": 1791164404446788550,
+    "inode": 21120760,
+    "user_version": 3,
+    "migrations": [
+      1,
+      2,
+      3
+    ],
+    "integrity": [
+      "ok"
+    ],
+    "foreign_key_check": []
+  },
+  "acceptance": {
+    "sha256": "f6fba4790c750bf8dcdb14303cb816fcf2fd22d8eae3fcc0d8dc09da8cc1e3ce",
+    "size": 258048,
+    "mtime_ns": 1791390038448382672,
+    "inode": 22240019,
+    "user_version": 4,
+    "migrations": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "integrity": [
+      "ok"
+    ],
+    "foreign_key_check": []
+  },
+  "built_acceptance_bundle": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/v012-v4-owner-acceptance-sandbox-20261007/cargo-target/release/bundle/macos/小钱家 V4 验收版.app",
+  "bundle_id": "com.personalfinance.console.v4acceptance",
+  "executable_sha256": "43c572411c4d5ec195239fedea3e96d44dfe2a741e540b6e62435683e6a98f9f",
+  "app_launched": false
+}
