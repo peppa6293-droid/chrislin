@@ -228,6 +228,23 @@ th {
   color: #665c5a;
   font-size: 13px;
 }
+.reset-confirmation {
+  margin-top: 14px;
+  padding: 16px;
+  border: 1px solid #e6c5c0;
+  border-radius: 12px;
+  background: #fff8f6;
+}
+.reset-confirmation h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+.reset-confirmation p {
+  margin: 0;
+}
+.reset-confirmation .button-row {
+  margin-bottom: 0;
+}
 .notice {
   margin-top: 14px;
   padding: 12px 15px;

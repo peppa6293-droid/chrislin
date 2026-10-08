@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   ACCEPTANCE_ACTUAL_IDS,
   ACCEPTANCE_AS_OF,
@@ -49,6 +49,11 @@ const planningSourceLabels: Record<string, string> = {
   MONTH_INHERIT: "跟随平时收入",
 };
 
+const planningDecisionLabels: Record<string, string> = {
+  OVERRIDE: "本月单独设置",
+  INHERIT: "跟随平时收入",
+};
+
 function money(value: string | number | null | undefined) {
   return value === null || value === undefined
     ? "无记录"
@@ -86,6 +91,8 @@ export function V4AcceptanceApp() {
     }
   });
   const [busy, setBusy] = useState(false);
+  const [showResetConfirmation, setShowResetConfirmation] = useState(false);
+  const resetPending = useRef(false);
 
   const refresh = useCallback(
     async (activeService: V4AcceptanceSandboxService, readDate: string, period: string) => {
@@ -165,6 +172,17 @@ export function V4AcceptanceApp() {
       setError(reason instanceof Error ? reason.message : String(reason));
     } finally {
       setBusy(false);
+    }
+  }
+
+  async function confirmReset() {
+    if (!service || resetPending.current) return;
+    resetPending.current = true;
+    setShowResetConfirmation(false);
+    try {
+      await run(() => service.reset(), "测试数据已恢复");
+    } finally {
+      resetPending.current = false;
     }
   }
 
@@ -518,7 +536,7 @@ export function V4AcceptanceApp() {
                   row.revision_id,
                   row.period_month,
                   row.as_of_date,
-                  planningSourceLabels[row.decision] ?? row.decision,
+                  planningDecisionLabels[row.decision] ?? row.decision,
                   row.amount ?? "—",
                 ]) ?? []
               }
@@ -591,16 +609,44 @@ export function V4AcceptanceApp() {
               className="danger"
               disabled={busy}
               onClick={() => {
-                if (
-                  window.confirm(
-                    "确定清空这个验收版里的测试记录并恢复初始测试数据吗？不会影响你的正式账本。",
-                  )
-                )
-                  void run(() => service.reset(), "验收数据已重置为初始合成场景");
+                setError("");
+                setMessage("");
+                setShowResetConfirmation(true);
               }}
             >
               恢复初始测试数据
             </button>
+            {showResetConfirmation && (
+              <div
+                className="reset-confirmation"
+                role="alertdialog"
+                aria-labelledby="reset-confirmation-title"
+                aria-describedby="reset-confirmation-description"
+              >
+                <h3 id="reset-confirmation-title">确定恢复初始测试数据吗？</h3>
+                <p id="reset-confirmation-description">
+                  这只会清空 V4 验收版里的测试记录，不会影响正式账本。
+                </p>
+                <div className="button-row">
+                  <button
+                    type="button"
+                    className="secondary"
+                    disabled={busy}
+                    onClick={() => setShowResetConfirmation(false)}
+                  >
+                    取消
+                  </button>
+                  <button
+                    type="button"
+                    className="danger"
+                    disabled={busy}
+                    onClick={() => void confirmReset()}
+                  >
+                    确认恢复
+                  </button>
+                </div>
+              </div>
+            )}
           </section>
         </>
       )}
