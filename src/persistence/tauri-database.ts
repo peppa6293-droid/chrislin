@@ -13,6 +13,14 @@ export class TauriSqlDatabase implements SqlDatabase {
     await invoke("database_open");
   }
 
+  async beginSchemaMigration(): Promise<void> {
+    await invoke("database_schema_migration_begin");
+  }
+
+  async endSchemaMigration(succeeded: boolean): Promise<void> {
+    await invoke("database_schema_migration_end", { succeeded });
+  }
+
   async execute(sql: string, bindValues: unknown[] = []): Promise<ExecuteResult> {
     const result = await invoke<DatabaseReply>("database_execute", {
       sql,

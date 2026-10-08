@@ -9,6 +9,12 @@ export interface SqlDatabase {
   transaction<T>(work: (transactionDb: SqlDatabase) => Promise<T>): Promise<T>;
 }
 
+/** Optional native boundary used to authorize schema DDL for a single migration. */
+export interface SchemaMigrationBoundary {
+  beginSchemaMigration?(): Promise<void>;
+  endSchemaMigration?(succeeded: boolean): Promise<void>;
+}
+
 export class ApplicationDataError extends Error {
   readonly code: string;
 

@@ -17,6 +17,9 @@
   "bundle": {
     "active": true,
     "targets": ["app", "dmg"],
+    "resources": {
+      "runtime-compatibility.json": "runtime-compatibility.json"
+    },
     "category": "Finance",
     "shortDescription": "Local-first personal finance model",
     "macOS": {

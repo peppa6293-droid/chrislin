@@ -8,6 +8,7 @@
     "lint": "biome check src tests",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "test:release-gate": "python3 -m unittest scripts/test_production_v4_release_gate.py -v",
     "build": "npm run build:core && npm run build:web",
     "build:core": "tsc -p tsconfig.build.json",
     "build:web": "vite build",

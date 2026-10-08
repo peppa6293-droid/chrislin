@@ -1,6 +1,25 @@
-import type { SqlDatabase } from "./database.js";
+import type { SchemaMigrationBoundary, SqlDatabase } from "./database.js";
 
 export const CURRENT_SCHEMA_VERSION = 4;
+
+interface SchemaVersionState {
+  userVersion: number;
+  migrationVersion: number;
+}
+
+async function readSchemaVersionState(db: SqlDatabase): Promise<SchemaVersionState> {
+  const userVersionRows = await db.select<{ user_version: number }>("PRAGMA user_version");
+  const userVersion = Number(userVersionRows[0]?.user_version ?? 0);
+  const migrationTable = await db.select<{ name: string }>(
+    "SELECT name FROM sqlite_master WHERE type='table' AND name='schema_migrations'",
+  );
+  if (migrationTable.length === 0) return { userVersion, migrationVersion: 0 };
+
+  const migrationRows = await db.select<{ version: number }>(
+    "SELECT COALESCE(MAX(version), 0) AS version FROM schema_migrations",
+  );
+  return { userVersion, migrationVersion: Number(migrationRows[0]?.version ?? 0) };
+}
 
 const migrationV1 = `
 CREATE TABLE IF NOT EXISTS profiles (
@@ -245,72 +264,112 @@ export async function migrateDatabase(
     targetVersion > CURRENT_SCHEMA_VERSION
   )
     throw new RangeError(`Target schema version must be between 1 and ${CURRENT_SCHEMA_VERSION}.`);
-  await db.execute("PRAGMA foreign_keys = ON");
-  await db.execute(
-    "CREATE TABLE IF NOT EXISTS schema_migrations (version INTEGER PRIMARY KEY, applied_at TEXT NOT NULL)",
-  );
-  const rows = await db.select<{ version: number }>(
-    "SELECT COALESCE(MAX(version), 0) AS version FROM schema_migrations",
-  );
-  const applied = Number(rows[0]?.version ?? 0);
+
+  // Read both version authorities before changing connection or database state.
+  const schema = await readSchemaVersionState(db);
+  if (
+    schema.userVersion > CURRENT_SCHEMA_VERSION ||
+    schema.migrationVersion > CURRENT_SCHEMA_VERSION
+  ) {
+    throw new RangeError(
+      `Database schema is newer than this runtime (user_version=${schema.userVersion}, schema_migrations=${schema.migrationVersion}, supported=${CURRENT_SCHEMA_VERSION}).`,
+    );
+  }
+  if (schema.userVersion > targetVersion || schema.migrationVersion > targetVersion) {
+    throw new RangeError(
+      `Database schema is newer than target ${targetVersion} (user_version=${schema.userVersion}, schema_migrations=${schema.migrationVersion}).`,
+    );
+  }
+
+  if (schema.userVersion !== schema.migrationVersion) {
+    throw new RangeError(
+      `Database schema version authorities disagree (user_version=${schema.userVersion}, schema_migrations=${schema.migrationVersion}).`,
+    );
+  }
+
+  // Already-current databases need no startup DDL or PRAGMA writes.
+  if (schema.userVersion === targetVersion) return;
+
+  const applied = schema.migrationVersion;
   if (applied > targetVersion)
     throw new RangeError(
       `Database schema version ${applied} is newer than target ${targetVersion}.`,
     );
-  if (applied < 1) {
-    await db.transaction(async (transactionDb) => {
-      for (const statement of migrationV1
-        .split(";")
-        .map((part) => part.trim())
-        .filter(Boolean)) {
-        await transactionDb.execute(statement);
-      }
-      await transactionDb.execute(
-        "INSERT INTO schema_migrations(version, applied_at) VALUES(1, ?)",
-        [now],
+  const migrationBoundary = db as SqlDatabase & SchemaMigrationBoundary;
+  await migrationBoundary.beginSchemaMigration?.();
+  let succeeded = false;
+  try {
+    await db.execute("PRAGMA foreign_keys = ON");
+    await db.execute(
+      "CREATE TABLE IF NOT EXISTS schema_migrations (version INTEGER PRIMARY KEY, applied_at TEXT NOT NULL)",
+    );
+    if (applied < 1) {
+      await db.transaction(async (transactionDb) => {
+        for (const statement of migrationV1
+          .split(";")
+          .map((part) => part.trim())
+          .filter(Boolean)) {
+          await transactionDb.execute(statement);
+        }
+        await transactionDb.execute(
+          "INSERT INTO schema_migrations(version, applied_at) VALUES(1, ?)",
+          [now],
+        );
+      });
+    }
+    if (applied < 2) {
+      await db.transaction(async (transactionDb) => {
+        for (const statement of migrationV2
+          .split(";")
+          .map((part) => part.trim())
+          .filter(Boolean)) {
+          await transactionDb.execute(statement);
+        }
+        await transactionDb.execute(
+          "INSERT INTO schema_migrations(version, applied_at) VALUES(2, ?)",
+          [now],
+        );
+      });
+    }
+    if (applied < 3) {
+      await db.transaction(async (transactionDb) => {
+        for (const statement of migrationV3
+          .split(";")
+          .map((part) => part.trim())
+          .filter(Boolean)) {
+          await transactionDb.execute(statement);
+        }
+        await transactionDb.execute(
+          "INSERT INTO schema_migrations(version, applied_at) VALUES(3, ?)",
+          [now],
+        );
+      });
+    }
+    if (applied < 4 && targetVersion >= 4) {
+      await db.transaction(async (transactionDb) => {
+        for (const statement of migrationV4
+          .split(";")
+          .map((part) => part.trim())
+          .filter(Boolean)) {
+          await transactionDb.execute(statement);
+        }
+        await transactionDb.execute(
+          "INSERT INTO schema_migrations(version, applied_at) VALUES(4, ?)",
+          [now],
+        );
+      });
+    }
+    const finalSchema = await readSchemaVersionState(db);
+    if (
+      finalSchema.userVersion !== targetVersion ||
+      finalSchema.migrationVersion !== targetVersion
+    ) {
+      throw new Error(
+        `Migration did not reach target ${targetVersion} (user_version=${finalSchema.userVersion}, schema_migrations=${finalSchema.migrationVersion}).`,
       );
-    });
-  }
-  if (applied < 2) {
-    await db.transaction(async (transactionDb) => {
-      for (const statement of migrationV2
-        .split(";")
-        .map((part) => part.trim())
-        .filter(Boolean)) {
-        await transactionDb.execute(statement);
-      }
-      await transactionDb.execute(
-        "INSERT INTO schema_migrations(version, applied_at) VALUES(2, ?)",
-        [now],
-      );
-    });
-  }
-  if (applied < 3) {
-    await db.transaction(async (transactionDb) => {
-      for (const statement of migrationV3
-        .split(";")
-        .map((part) => part.trim())
-        .filter(Boolean)) {
-        await transactionDb.execute(statement);
-      }
-      await transactionDb.execute(
-        "INSERT INTO schema_migrations(version, applied_at) VALUES(3, ?)",
-        [now],
-      );
-    });
-  }
-  if (applied < 4 && targetVersion >= 4) {
-    await db.transaction(async (transactionDb) => {
-      for (const statement of migrationV4
-        .split(";")
-        .map((part) => part.trim())
-        .filter(Boolean)) {
-        await transactionDb.execute(statement);
-      }
-      await transactionDb.execute(
-        "INSERT INTO schema_migrations(version, applied_at) VALUES(4, ?)",
-        [now],
-      );
-    });
+    }
+    succeeded = true;
+  } finally {
+    await migrationBoundary.endSchemaMigration?.(succeeded);
   }
 }
