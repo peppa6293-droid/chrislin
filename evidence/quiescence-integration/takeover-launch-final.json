@@ -1,0 +1,319 @@
+{
+  "format_version": 1,
+  "synthetic_only": true,
+  "launch_path": "macOS LaunchServices via /usr/bin/open -n -W -a <.app>",
+  "started_at": "2026-10-09T06:15:41.065731+00:00",
+  "finished_at": "2026-10-09T06:15:42.028015+00:00",
+  "command": [
+    "/usr/bin/open",
+    "-n",
+    "-W",
+    "-a",
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-local-launch-f_on3mpu/managed/install/Isolated Quiescence.app",
+    "--env",
+    "PFC_IPC_ROOT=/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-local-launch-f_on3mpu",
+    "--env",
+    "PFC_IPC_SCENARIO=readiness",
+    "--env",
+    "PFC_IPC_PHASE=initial",
+    "--stdout",
+    "/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/quiescence-integration/local-launch-20261009T061541034909Z/app.stdout.log",
+    "--stderr",
+    "/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/quiescence-integration/local-launch-20261009T061541034909Z/app.stderr.log"
+  ],
+  "launcher_pid": 2094,
+  "launcher_exit_code": 0,
+  "bundle_path": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/isolated-quiescence-20261009T061315261961Z/release/bundle/macos/PFC Isolated Quiescence IPC.app",
+  "fixture_bundle_path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-local-launch-f_on3mpu/managed/install/Isolated Quiescence.app",
+  "bundle_id": "org.pfc.quiescence.integration",
+  "cf_bundle_executable": "quiescence-tauri",
+  "executable_path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-local-launch-f_on3mpu/managed/install/Isolated Quiescence.app/Contents/MacOS/quiescence-tauri",
+  "executable_sha256": "6f4295856e47b61f71871741a396cbe4a4b74f0de775ee7c5a512be669b46e36",
+  "team_identifier": "SSRKA7A4TN",
+  "signing_identity": "Apple Development: 8619814730147 (FW5KHTFNZ6)",
+  "manifest_bundle_id": "org.pfc.quiescence.integration",
+  "manifest_executable": "Contents/MacOS/quiescence-tauri",
+  "session": "local-launch-02a0b581197f4425a6e9ded8cc9326f3",
+  "pid": 2095,
+  "process_command": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-local-launch-f_on3mpu/managed/install/Isolated Quiescence.app/Contents/MacOS/quiescence-tauri",
+  "native_runtime_boot": {
+    "at_unix_ms": 1791526541362,
+    "detail": {
+      "actual_bundle_identifier": "org.pfc.quiescence.integration",
+      "actual_executable": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-local-launch-f_on3mpu/managed/install/Isolated Quiescence.app/Contents/MacOS/quiescence-tauri",
+      "app_data_dir": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-local-launch-f_on3mpu",
+      "app_identifier": "org.pfc.quiescence.integration",
+      "phase": "initial",
+      "production_setup_called": false,
+      "runtime": "Tauri/Wry/WebKit",
+      "scenario": "readiness",
+      "session": "local-launch-02a0b581197f4425a6e9ded8cc9326f3",
+      "startup": {
+        "format_version": 2,
+        "outcome": null,
+        "phase": null,
+        "reason": {
+          "code": "IO_ERROR",
+          "detail": "No such file or directory (os error 2)",
+          "sqlite_extended": null,
+          "sqlite_primary": null
+        },
+        "recovery_required": true,
+        "startupBlocked": true,
+        "startup_allowed": false,
+        "state": "GUARD_LOST_OR_UNPROVEN",
+        "synthetic_only": true
+      },
+      "webview_data_store": "nonpersistent"
+    },
+    "event": "native_runtime_boot",
+    "format_version": 1,
+    "pid": 2095,
+    "sequence": 2,
+    "transport": "tauri-wry-ipc"
+  },
+  "readiness_handshake": {
+    "at_unix_ms": 1791526541746,
+    "detail": {
+      "phase": "initial",
+      "scenario": "readiness",
+      "value": {
+        "app_identifier": "org.pfc.quiescence.integration",
+        "href": "tauri://localhost",
+        "kind": "frontend_loaded",
+        "source": "bundled_typescript",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko)"
+      }
+    },
+    "event": "frontend_evidence",
+    "format_version": 1,
+    "pid": 2095,
+    "sequence": 5,
+    "transport": "tauri-wry-ipc"
+  },
+  "app_data_before": {
+    "/Users/linte/Library/Application Support/org.pfc.quiescence.integration": {
+      "exists": true,
+      "inode": 23598654,
+      "dev": 16777232,
+      "size": 96,
+      "mtime_ns": 1791516501386108733,
+      "ctime_ns": 1791516501386108733,
+      "sha256": null
+    },
+    "/Users/linte/Library/Application Support/org.pfc.quiescence.integration/personal-finance-console.sqlite3": {
+      "exists": true,
+      "inode": 23598655,
+      "dev": 16777232,
+      "size": 0,
+      "mtime_ns": 1791516501386107109,
+      "ctime_ns": 1791516501386121400,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "app_data_after": {
+    "/Users/linte/Library/Application Support/org.pfc.quiescence.integration": {
+      "exists": true,
+      "inode": 23598654,
+      "dev": 16777232,
+      "size": 96,
+      "mtime_ns": 1791516501386108733,
+      "ctime_ns": 1791516501386108733,
+      "sha256": null
+    },
+    "/Users/linte/Library/Application Support/org.pfc.quiescence.integration/personal-finance-console.sqlite3": {
+      "exists": true,
+      "inode": 23598655,
+      "dev": 16777232,
+      "size": 0,
+      "mtime_ns": 1791516501386107109,
+      "ctime_ns": 1791516501386121400,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "app_data_unchanged": true,
+  "raw_lsof": "COMMAND    PID  USER   FD   TYPE             DEVICE  SIZE/OFF                NODE NAME\nquiescenc 2095 linte  cwd    DIR               1,16       704                   2 /\nquiescenc 2095 linte  txt    REG               1,16  13774400            23718896 /private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-local-launch-f_on3mpu/managed/install/Isolated Quiescence.app/Contents/MacOS/quiescence-tauri\nquiescenc 2095 linte  txt    REG               1,16     73028            18756132 /Library/Preferences/Logging/.plist-cache.obCGUr4w\nquiescenc 2095 linte  txt    REG               1,16       110 1152921500312103375 /System/Library/CoreServices/SystemVersion.bundle/English.lproj/SystemVersion.strings\nquiescenc 2095 linte  txt    REG               1,16    234224             7236261 /private/var/db/timezone/tz/2026c.1.0/icutz/icutz44l.dat\nquiescenc 2095 linte  txt    REG               1,16    137016 1152921500312103064 /System/Library/CoreServices/SystemAppearance.bundle/Contents/Resources/SystemAppearance.car\nquiescenc 2095 linte  txt    REG               1,16    248192 1152921500312573273 /usr/lib/libobjc-trampolines.dylib\nquiescenc 2095 linte  txt    REG               1,16      6918 1152921500312144377 /System/Library/Frameworks/AppKit.framework/Versions/C/Resources/InputManager.loctable\nquiescenc 2095 linte  txt    REG               1,16      4978 1152921500312144351 /System/Library/Frameworks/AppKit.framework/Versions/C/Resources/DictationManager.loctable\nquiescenc 2095 linte  txt    REG               1,16   2562000 1152921500312573255 /usr/lib/dyld\nquiescenc 2095 linte  txt    REG               1,16    161586            23198567 /private/var/db/analyticsd/events.allowlist\nquiescenc 2095 linte  txt    REG               1,16    177510 1152921500312144383 /System/Library/Frameworks/AppKit.framework/Versions/C/Resources/MenuCommands.loctable\nquiescenc 2095 linte  txt    REG               1,16   1561920 1152921500312212658 /System/Library/Keyboard Layouts/AppleKeyboardLayouts.bundle/Contents/Resources/AppleKeyboardLayouts-L.dat\nquiescenc 2095 linte  txt    REG               1,16    139252            11641740 /System/Library/Caches/com.apple.IntlDataCache.le.kbdx\nquiescenc 2095 linte  txt    REG               1,16     15375 1152921500312211192 /System/Library/Input Methods/SCIM.app/Contents/PlugIns/SCIM_Extension.appex/Contents/Resources/InfoPlist.loctable\nquiescenc 2095 linte  txt    REG               1,16    250306 1152921500312212660 /System/Library/Keyboard Layouts/AppleKeyboardLayouts.bundle/Contents/Resources/InfoPlist.loctable\nquiescenc 2095 linte  txt    REG               1,16     60821 1152921500312144299 /System/Library/Frameworks/AppKit.framework/Versions/C/Resources/Common.loctable\nquiescenc 2095 linte  txt    REG               1,16       339             1359129 /private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/C/com.apple.WebPrivacy/STORAGE_ACCESS_PROMPT_QUIRKS.wplist\nquiescenc 2095 linte  txt    REG               1,16       204             1359128 /private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/C/com.apple.WebPrivacy/STORAGE_ACCESS_USER_AGENT_STRING_QUIRKS.wplist\nquiescenc 2095 linte  txt    REG               1,16      4242             1359172 /private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/C/com.apple.WebPrivacy/FINGERPRINTING_SCRIPTS.wplist\nquiescenc 2095 linte  txt    REG               1,16  35444880 1152921500312583756 /usr/share/icu/icudt78l.dat\nquiescenc 2095 linte  txt    REG               1,16   7795064 1152921500312103037 /System/Library/CoreServices/SystemAppearance.bundle/Contents/Resources/DarkAqua.car\nquiescenc 2095 linte  txt    REG               1,16   3364296 1152921500312103031 /System/Library/CoreServices/SystemAppearance.bundle/Contents/Resources/Assets.car\nquiescenc 2095 linte  txt    REG               1,16   2044376 1152921500312144209 /System/Library/Frameworks/AppKit.framework/Versions/C/Resources/Assets.car\nquiescenc 2095 linte  txt    REG               1,16      1340 1152921500312330100 /System/Library/PrivateFrameworks/MarkupUI.framework/PlugIns/Markup.appex/Contents/Resources/InfoPlist.loctable\nquiescenc 2095 linte  txt    REG               1,16       706 1152921500312356692 /System/Library/PrivateFrameworks/ShareKit.framework/Versions/A/PlugIns/ShareSheetUI.appex/Contents/Resources/InfoPlist.loctable\nquiescenc 2095 linte  txt    REG               1,16       471            21997351 /private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/C/com.apple.WebPrivacy/QUERY_PARAM.wplist\nquiescenc 2095 linte  txt    REG               1,16        89             1359176 /private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/C/com.apple.WebPrivacy/RESTRICTED_OPENER_DOMAINS.wplist\nquiescenc 2095 linte  txt    REG               1,16       862             1359347 /private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/C/com.apple.WebPrivacy/ALLOWED_QUERY_PARAM.wplist\nquiescenc 2095 linte  txt    REG               1,16     85336 1152921500312284788 /System/Library/PrivateFrameworks/DesignLibrary.framework/Versions/A/Resources/Assets.car\nquiescenc 2095 linte  txt    REG               1,16   7912984 1152921500312103025 /System/Library/CoreServices/SystemAppearance.bundle/Contents/Resources/Aqua.car\nquiescenc 2095 linte  txt    REG               1,16   2976648 1152921500312103053 /System/Library/CoreServices/SystemAppearance.bundle/Contents/Resources/FauxVibrantLight.car\nquiescenc 2095 linte  txt    REG               1,16   6223976 1152921500312103078 /System/Library/CoreServices/SystemAppearance.bundle/Contents/Resources/VibrantLight.car\nquiescenc 2095 linte  txt    REG               1,16 160168520 1152921500312351718 /System/Library/PrivateFrameworks/SFSymbols.framework/Versions/A/Resources/CoreGlyphs.bundle/Contents/Resources/Assets.car\nquiescenc 2095 linte  txt    REG               1,16  14860288            23718915 /private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/0/com.apple.LaunchServices.dv/com.apple.LaunchServices-20971545-v2.csstore\nquiescenc 2095 linte  txt    REG               1,16   7909644 1152921500312142422 /System/Library/Fonts/SFNS.ttf\nquiescenc 2095 linte  txt    REG               1,16   1228288 1152921500312133327 /System/Library/Extensions/AppleMetalOpenGLRenderer.bundle/Contents/MacOS/AppleMetalOpenGLRenderer\nquiescenc 2095 linte  txt    REG               1,16   2369592 1152921500312142346 /System/Library/Fonts/Helvetica.ttc\nquiescenc 2095 linte  txt    REG               1,16    111273 1152921500312356926 /System/Library/PrivateFrameworks/ShareKit.framework/Versions/A/Resources/ShareKit.loctable\nquiescenc 2095 linte  txt    REG               1,16   1212416            22964454 /private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/C/com.apple.iconservices/store.index\nquiescenc 2095 linte  txt    REG               1,16    634632            23568590 /private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/C/com.apple.Safari.SafeBrowsing/Tencent/social_engineering,any_platform,url_expression\nquiescenc 2095 linte  txt    REG               1,16   1549230            23639809 /private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/C/com.apple.Safari.SafeBrowsing/Apple/social_engineering,any_platform,url_expression\nquiescenc 2095 linte  txt    REG               1,16    705512 1152921500312148839 /System/Library/Frameworks/CFNetwork.framework/Versions/A/Resources/DafsaData.bin\nquiescenc 2095 linte  txt    REG               1,16  28359824 1152921500312129937 /System/Library/Extensions/AGXMetalG17G.bundle/Contents/MacOS/AGXMetalG17G\nquiescenc 2095 linte  txt    REG               1,16  30682320 1152921500312129942 /System/Library/Extensions/AGXMetalG17G.bundle/Contents/Resources/ds.g17g\nquiescenc 2095 linte    0r   CHR                3,2       0t0                 336 /dev/null\nquiescenc 2095 linte    1u   REG               1,16         0            23718906 /Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/quiescence-integration/local-launch-20261009T061541034909Z/app.stdout.log\nquiescenc 2095 linte    2u   REG               1,16         0            23718907 /Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/quiescence-integration/local-launch-20261009T061541034909Z/app.stderr.log\nquiescenc 2095 linte    3w   REG               1,16      3528            23718913 /private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-local-launch-f_on3mpu/ipc-initial.jsonl\nquiescenc 2095 linte    4u  unix 0xdbf9943ed4e13f4b       0t0                     ->0x92140b88d1634ee2\nquiescenc 2095 linte    5r   REG               1,16    359928 1152921500312133335 /System/Library/Extensions/AppleMetalOpenGLRenderer.bundle/Contents/Resources/default.metallib\nquiescenc 2095 linte    6r   REG               1,16     36296 1152921500312133333 /System/Library/Extensions/AppleMetalOpenGLRenderer.bundle/Contents/Resources/PixelConverter.metallib\n",
+  "synthetic_database_created": false,
+  "runtime_events": [
+    {
+      "at_unix_ms": 1791526541357,
+      "detail": {
+        "actual_executable": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-local-launch-f_on3mpu/managed/install/Isolated Quiescence.app/Contents/MacOS/quiescence-tauri",
+        "before_diagnostic": true,
+        "before_tauri_builder": true,
+        "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-local-launch-f_on3mpu",
+        "session": "local-launch-02a0b581197f4425a6e9ded8cc9326f3"
+      },
+      "event": "native_entry_validated",
+      "format_version": 1,
+      "pid": 2095,
+      "sequence": 1,
+      "transport": "tauri-wry-ipc"
+    },
+    {
+      "at_unix_ms": 1791526541362,
+      "detail": {
+        "actual_bundle_identifier": "org.pfc.quiescence.integration",
+        "actual_executable": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-local-launch-f_on3mpu/managed/install/Isolated Quiescence.app/Contents/MacOS/quiescence-tauri",
+        "app_data_dir": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-local-launch-f_on3mpu",
+        "app_identifier": "org.pfc.quiescence.integration",
+        "phase": "initial",
+        "production_setup_called": false,
+        "runtime": "Tauri/Wry/WebKit",
+        "scenario": "readiness",
+        "session": "local-launch-02a0b581197f4425a6e9ded8cc9326f3",
+        "startup": {
+          "format_version": 2,
+          "outcome": null,
+          "phase": null,
+          "reason": {
+            "code": "IO_ERROR",
+            "detail": "No such file or directory (os error 2)",
+            "sqlite_extended": null,
+            "sqlite_primary": null
+          },
+          "recovery_required": true,
+          "startupBlocked": true,
+          "startup_allowed": false,
+          "state": "GUARD_LOST_OR_UNPROVEN",
+          "synthetic_only": true
+        },
+        "webview_data_store": "nonpersistent"
+      },
+      "event": "native_runtime_boot",
+      "format_version": 1,
+      "pid": 2095,
+      "sequence": 2,
+      "transport": "tauri-wry-ipc"
+    },
+    {
+      "at_unix_ms": 1791526541737,
+      "detail": {
+        "app_identifier": "org.pfc.quiescence.integration",
+        "phase": "initial",
+        "scenario": "readiness"
+      },
+      "event": "frontend_bootstrap",
+      "format_version": 1,
+      "pid": 2095,
+      "sequence": 3,
+      "transport": "tauri-wry-ipc"
+    },
+    {
+      "at_unix_ms": 1791526541742,
+      "detail": {
+        "authenticated": true,
+        "command": "record_frontend_evidence",
+        "rejected_code": null,
+        "request_id": "initial-/-1"
+      },
+      "event": "ipc_invocation",
+      "format_version": 1,
+      "pid": 2095,
+      "sequence": 4,
+      "transport": "tauri-wry-ipc"
+    },
+    {
+      "at_unix_ms": 1791526541746,
+      "detail": {
+        "phase": "initial",
+        "scenario": "readiness",
+        "value": {
+          "app_identifier": "org.pfc.quiescence.integration",
+          "href": "tauri://localhost",
+          "kind": "frontend_loaded",
+          "source": "bundled_typescript",
+          "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko)"
+        }
+      },
+      "event": "frontend_evidence",
+      "format_version": 1,
+      "pid": 2095,
+      "sequence": 5,
+      "transport": "tauri-wry-ipc"
+    },
+    {
+      "at_unix_ms": 1791526541753,
+      "detail": {
+        "authenticated": true,
+        "command": "finish_frontend",
+        "rejected_code": null,
+        "request_id": "initial-/-2"
+      },
+      "event": "ipc_invocation",
+      "format_version": 1,
+      "pid": 2095,
+      "sequence": 6,
+      "transport": "tauri-wry-ipc"
+    },
+    {
+      "at_unix_ms": 1791526541757,
+      "detail": {
+        "native": {
+          "app_exit_prevented": 0,
+          "barrier": null,
+          "disconnected": false,
+          "error": null,
+          "handoff_authorized": false,
+          "result": null,
+          "running": false,
+          "started": false,
+          "startup": {
+            "format_version": 2,
+            "outcome": null,
+            "phase": null,
+            "reason": {
+              "code": "IO_ERROR",
+              "detail": "No such file or directory (os error 2)",
+              "sqlite_extended": null,
+              "sqlite_primary": null
+            },
+            "recovery_required": true,
+            "startupBlocked": true,
+            "startup_allowed": false,
+            "state": "GUARD_LOST_OR_UNPROVEN",
+            "synthetic_only": true
+          },
+          "window_close_prevented": 0
+        },
+        "phase": "initial",
+        "scenario": "readiness",
+        "value": {
+          "actual_transport": "@tauri-apps/api/core.invoke",
+          "assertions": 0,
+          "passed": true,
+          "phase": "initial",
+          "readiness_only": true,
+          "scenario": "readiness"
+        }
+      },
+      "event": "frontend_complete",
+      "format_version": 1,
+      "pid": 2095,
+      "sequence": 7,
+      "transport": "tauri-wry-ipc"
+    },
+    {
+      "at_unix_ms": 1791526541991,
+      "detail": {
+        "code": 0,
+        "prevented": false,
+        "source": "Tauri.RunEvent.ExitRequested"
+      },
+      "event": "real_app_exit_event",
+      "format_version": 1,
+      "pid": 2095,
+      "sequence": 8,
+      "transport": "tauri-wry-ipc"
+    }
+  ],
+  "runtime_log": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-local-launch-f_on3mpu/ipc-initial.jsonl",
+  "stdout_path": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/quiescence-integration/local-launch-20261009T061541034909Z/app.stdout.log",
+  "stderr_path": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/quiescence-integration/local-launch-20261009T061541034909Z/app.stderr.log",
+  "launchservices_stdout": "",
+  "launchservices_stderr": "",
+  "quarantine": false,
+  "gatekeeper_assessment_is_diagnostic_only_for_approved_profile": true,
+  "system_launch_logs_on_failure": null,
+  "status": "PASS"
+}

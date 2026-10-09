@@ -70,8 +70,9 @@
   "recovery_rules": {
     "read_only": "diagnose reads no SQLite. Verified recovery acquires exact inode/session lease, independently checks all managed runtime facts, then uses a new READ_ONLY/NOFOLLOW/private-cache C with query_only and a read transaction. No sidecar recovery, checkpoint, M4, permit revival or restore.",
     "terminal_evidence": "exact current DB hash before/inside read transaction, complete schema/ledger/integrity/FK, unchanged legacy rows compared with independently read exact V3 backup, runtime re-enumeration, stable object and lease. V4 also requires persisted commit lineage (phase >= 8).",
-    "files": ["recovery-authorization.json","recovery-consumed.json","recovery-result.json"],
-    "preservation": "Original outcome/immutable state chain preserved. Recovery result is separately bound to original outcome hash and new authorization. A consumed recovery authorization is never replayed.",
+    "files": ["recovery-authorization.json","recovery-consumed.json","recovery-history.jsonl","recovery-active.json","recovery-preterminal-<attempt_key>.json","recovery-result.json"],
+    "preservation": "Original outcome/immutable state chain preserved. Recovery result binds original outcome hash, exact recovery authorization bytes and append-only attempt ledger. A consumed recovery authorization never reruns recovery; the exact same authority may only confirm an already-published terminal through read-only current-byte, lineage and lease checks.",
+    "publication": "Single-writer active claim plus SQLite read guard and same maintenance lease remain held through terminal publication/readback. Preterminal failure consumes the attempt and records FAILED; only a distinct fresh authority can try again. Post-publication uncertainty preserves terminal and active evidence; no success is inferred from schema or process exit.",
     "v3": "FAILED_V3_CONFIRMED safe attempt terminal still blocks normal business; V4 maintenance runtime remains isolated and no old runtime is restored.",
     "v4": "V4_VERIFIED handoff_authorized true only after this independent verification. Ordinary startup still requires a new compatible handoff path, never merely schema=4 or a saved success string."
   },

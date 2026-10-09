@@ -33,6 +33,20 @@ def rows(path: Path):
     return [json.loads(line) for line in raw[:raw.rfind(b"\n") + 1].splitlines()]
 
 
+def app_data_facts():
+    directory = Path.home() / "Library/Application Support/org.pfc.quiescence.integration"
+    facts = {}
+    for path in (directory, directory / "personal-finance-console.sqlite3"):
+        if path.exists():
+            meta = path.stat()
+            facts[str(path)] = {"exists": True, "inode": meta.st_ino, "dev": meta.st_dev,
+                               "size": meta.st_size, "mtime_ns": meta.st_mtime_ns, "ctime_ns": meta.st_ctime_ns,
+                               "sha256": sha(path) if path.is_file() else None}
+        else:
+            facts[str(path)] = {"exists": False}
+    return facts
+
+
 def main():
     import argparse
     parser = argparse.ArgumentParser(description=__doc__)
@@ -77,10 +91,13 @@ def main():
     launcher_stdout = evidence_dir / "launchservices.stdout.log"
     launcher_stderr = evidence_dir / "launchservices.stderr.log"
     command = ["/usr/bin/open", "-n", "-W", "-a", str(app),
-               "--env", f"PFC_IPC_ROOT={root}", "--env", "PFC_IPC_SCENARIO=normal",
+               "--env", f"PFC_IPC_ROOT={root}", "--env", "PFC_IPC_SCENARIO=readiness",
                "--env", "PFC_IPC_PHASE=initial", "--stdout", str(stdout_path),
                "--stderr", str(stderr_path)]
     started = datetime.datetime.now(datetime.timezone.utc).isoformat()
+    before = app_data_facts()
+    (evidence_dir / "prelaunch.json").write_text(json.dumps({"app_data": before, "root": str(root),
+        "root_entries": sorted(p.name for p in root.iterdir()), "executable_sha256": expected_executable_hash}, indent=2))
     with launcher_stdout.open("w") as out, launcher_stderr.open("w") as err:
         process = subprocess.Popen(command, cwd=REPO, stdout=out, stderr=err, text=True)
         deadline = time.monotonic() + 45
@@ -97,9 +114,11 @@ def main():
         boot = next((row for row in runtime_rows if row.get("event") == "native_runtime_boot"), None)
         pid = boot.get("pid") if boot else None
         process_command = None
+        raw_lsof = None
         if pid:
             ps = subprocess.run(["/bin/ps", "-p", str(pid), "-o", "command="], capture_output=True, text=True)
             process_command = ps.stdout.strip()
+            raw_lsof = subprocess.run(["/usr/sbin/lsof", "-nP", "-p", str(pid)], capture_output=True, text=True).stdout
         try:
             launcher_exit = process.wait(timeout=max(1, deadline - time.monotonic()))
         except subprocess.TimeoutExpired:
@@ -111,6 +130,7 @@ def main():
                 process.kill()
                 launcher_exit = process.wait(timeout=5)
     runtime_rows = rows(runtime_log)
+    after = app_data_facts()
     failure_logs = None
     if not readiness or not boot:
         logs = subprocess.run(["/usr/bin/log", "show", "--last", "5m", "--style", "compact",
@@ -127,6 +147,8 @@ def main():
         "signing_identity": EXPECTED_IDENTITY, "manifest_bundle_id": manifest.get("bundleId"),
         "manifest_executable": manifest.get("executable"), "session": session, "pid": pid,
         "process_command": process_command, "native_runtime_boot": boot, "readiness_handshake": readiness,
+        "app_data_before": before, "app_data_after": after, "app_data_unchanged": before == after,
+        "raw_lsof": raw_lsof, "synthetic_database_created": (root / "personal-finance-console.sqlite3").exists(),
         "runtime_events": runtime_rows, "runtime_log": str(runtime_log), "stdout_path": str(stdout_path),
         "stderr_path": str(stderr_path), "launchservices_stdout": launcher_stdout.read_text(),
         "launchservices_stderr": launcher_stderr.read_text(), "quarantine": False,
@@ -134,7 +156,8 @@ def main():
         "system_launch_logs_on_failure": failure_logs,
         "status": "PASS" if boot and readiness and boot.get("pid") == readiness.get("pid") and
                   boot.get("detail", {}).get("session") == session and
-                  Path(process_command or "").name == plist["CFBundleExecutable"] and launcher_exit == 0
+                  Path(process_command or "").name == plist["CFBundleExecutable"] and launcher_exit == 0 and before == after
+                  and not (root / "personal-finance-console.sqlite3").exists()
                   else "BLOCKED_LOCAL_APP_LAUNCH",
     }
     output.write_text(json.dumps(receipt, ensure_ascii=False, indent=2) + "\n")

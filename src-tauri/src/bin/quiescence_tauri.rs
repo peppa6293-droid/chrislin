@@ -296,7 +296,7 @@ fn checked_state() -> std::result::Result<Arc<RuntimeState>, Box<dyn std::error:
         return Err("IPC_SYNTHETIC_MARKER_INVALID".into());
     }
     let scenario = std::env::var("PFC_IPC_SCENARIO")?;
-    if !["normal","disconnect","crash_at_quiescence","crash_before_commit","guard_lost"].contains(&scenario.as_str()) {return Err("IPC_SCENARIO_INVALID".into());}
+    if !["readiness","normal","disconnect","crash_at_quiescence","crash_before_commit","guard_lost"].contains(&scenario.as_str()) {return Err("IPC_SCENARIO_INVALID".into());}
     let phase = std::env::var("PFC_IPC_PHASE").unwrap_or_else(|_|"initial".into());
     if !["initial","restart"].contains(&phase.as_str()) { return Err("IPC_PHASE_INVALID".into()); }
     let permit_path = if root.join("permit.json").exists(){root.join("permit.json")}else{root.join("consumed.json")};
@@ -319,11 +319,13 @@ fn checked_state() -> std::result::Result<Arc<RuntimeState>, Box<dyn std::error:
     let token = random.iter().map(|v|format!("{v:02x}")).collect::<String>();
     let file = OpenOptions::new().write(true).create_new(true).custom_flags(libc::O_NOFOLLOW|libc::O_CLOEXEC).mode(0o600)
         .open(root.join(format!("ipc-{phase}.jsonl")))?;
+    let journal = Journal(Mutex::new((file,0)));
+    journal.append("native_entry_validated",json!({"session":session,"root":root,"actual_executable":executable,"before_diagnostic":true,"before_tauri_builder":true}))?;
     let startup = quiescence::diagnostic_integrated(root.to_str().unwrap()).unwrap_or_else(|e|json!({"startupBlocked":true,"diagnostic_error":e}));
-    let state = Arc::new(RuntimeState{root,session,token,scenario,phase,startup,inner:Mutex::new(Inner::default()),wake:Condvar::new(),journal:Journal(Mutex::new((file,0)))});
+    let state = Arc::new(RuntimeState{root,session,token,scenario,phase,startup,inner:Mutex::new(Inner::default()),wake:Condvar::new(),journal});
     state.journal.append("native_runtime_boot",json!({"app_identifier":APP_ID,"app_data_dir":state.root,"scenario":state.scenario,"phase":state.phase,
         "startup":state.startup,"runtime":"Tauri/Wry/WebKit","webview_data_store":"nonpersistent","production_setup_called":false,
-        "actual_bundle_identifier":APP_ID,"actual_executable":executable}))?;
+        "session":state.session,"actual_bundle_identifier":APP_ID,"actual_executable":executable}))?;
     Ok(state)
 }
 

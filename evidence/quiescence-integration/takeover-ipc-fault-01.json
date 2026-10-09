@@ -1,0 +1,831 @@
+{
+  "format_version": 1,
+  "scope": "synthetic-only",
+  "transport": "real-Tauri-Wry-bundled-TypeScript-invoke",
+  "status": "PASS",
+  "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq",
+  "binary": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/isolated-quiescence-20261009T060725775540Z/release/bundle/macos/PFC Isolated Quiescence IPC.app/Contents/MacOS/quiescence-tauri",
+  "binary_sha256": "6ba7dc3d04f0c0e331420a1796f6625e591eb362e4cbf42648b99dd2f8a8b959",
+  "source_sha256": {
+    "scripts/quiescence_ipc_tests.py": "3983cbeff6230d6a340213cb54f15a7ad67cd43ecfb58df4f108a8d9b4d421cc",
+    "scripts/quiescence_integration.py": "46c9b597c9eb17af08fb0f8f0a181dcfa80406af0eaf4b4ac7ee6b3f558d40ff",
+    "scripts/quiescence_gate.py": "0f13ed10be3254c17e6d2b1410e81bbae8c5c7b72c2582e04b3e9f7953d08041",
+    "scripts/package_quiescence_runtime.py": "0b1d08a58cd5212a76a167d60e2779541cad122edc32a97dc937151862da5f92",
+    "src-tauri/Cargo.toml": "a13a11dde6607e9cca43fee7a0e4e843995a89f22771586a65c63f94b579c195",
+    "src-tauri/Cargo.lock": "5a58d1e21d6de8bbfdb3d3cb0332e2fe06516ea0790f2e9c14127b0943f054c8",
+    "src-tauri/src/quiescence.rs": "127d1b269ace44e86547ca9a2f29d68c2e26821f7615a310b0c08010a036bb8b",
+    "src-tauri/src/quiescence_contract.rs": "1bb5611162ad123de4e6b740c3cc7f4d8c01b50d7a83e6759633cea7d7f41799",
+    "src-tauri/src/quiescence_recovery.rs": "cec0bf7e6f7abafa24c56da1da83d93507bf550305aa586a9df30c7a8082ee08",
+    "src-tauri/src/bin/quiescence_tauri.rs": "3c8740fc186022a200c4a71565b856e71934015e44460c5ac4945991b51de554",
+    "src-tauri/src/bin/quiescence_old_runtime.rs": "1cb5040be1183c8ff100267d442cf812fcf7ca591465792034835415136ab9e3",
+    "src-tauri/tauri.quiescence.conf.json": "f12478f123f9bfe1bee68e4b70b8c7e6e2b69fd91abdde7c38330ff9889dcbd0",
+    "src-tauri/tauri.quiescence.package.conf.json": "c72e884b6372653547c2c3694b701d4410b9870ba8646c783cd21f9b0494349c",
+    "src-tauri/quiescence-runtime-compatibility.json": "d9b4488609c1a08d28f9d285eb2c0e9136b29feca26c35599629723b6e192231",
+    "src-tauri/capabilities/quiescence-ipc.json": "67bc79c9b2cdc66615cda844b066f3a205ccc9a2ffc91f284e520dc299496afc",
+    "quiescence-web/main.ts": "3463ddd9bf0dab0a6631eb0e3c48f5a5eba1fae95bfb3d570968c61f78df0dd1",
+    "quiescence-web/index.html": "d16744f9c068bf35c3bab81d8243a55228b8cb7755e106d84580a870063eccee",
+    "quiescence-web/disconnected.html": "b4c46770d8bf4dcf524309b08e0e188286cc65107bac6f95753d7ad40fde010d",
+    "vite.quiescence.config.ts": "3c39ab7bc9be898bd25c7241358e2eb867def91c3a8a283e1e4562ce30fbf9b9",
+    "tsconfig.quiescence.json": "b7fa3844269030d0e1c4a9317e22b5c01f54b6fc730de06721408336ba746537",
+    "tests/quiescence-ipc-contract.test.ts": "96644f7df03890163f080ccfbf5d35f432708abe93d56b2d6022bad6bae391ad"
+  },
+  "cases": [
+    {
+      "scenario": "disconnect",
+      "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-disconnect-otucdm6l",
+      "expected_durable_state": "FAILED_V3_CONFIRMED",
+      "initial": {
+        "pid": 96719,
+        "exit_code": 0,
+        "controller_killed": false,
+        "log": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-disconnect-otucdm6l/ipc-initial.jsonl",
+        "log_sha256": "b596858bb4d484d513832d7361f76e30ab02cb1daab0369e7b2a7f15bc61d4db",
+        "events": 169,
+        "frontend_assertions": 21,
+        "lease_handoff": {
+          "native_pid": 96719,
+          "session": "session-41e86a72904a4cde9807abb8f0741fbb",
+          "dev": 16777232,
+          "inode": 23689611,
+          "gate_closed_after_native_proof": true,
+          "operation": "close-parent-copy-only; no LOCK_UN",
+          "receipt": {
+            "format_version": 2,
+            "synthetic_only": true,
+            "session": "session-41e86a72904a4cde9807abb8f0741fbb",
+            "nonce": "84fe628ebf994cd8acfb114f4b042547",
+            "authorization_id": "synthetic-integration-a24920fd73bd4b1f8e39b22316f6f1e9",
+            "managed_contract_sha256": "9b857cf9e6bd8d9c8716d15acaa3878052313cf7f2245a8f0c12fec440c74c58",
+            "pid": 96719,
+            "parent_pid": 96662,
+            "lease_dev": 16777232,
+            "lease_inode": 23689611,
+            "state": "NATIVE_OWNERSHIP_ACKNOWLEDGED",
+            "native_ack_sha256": "aa524b3845f0e8bc9156ebcb9fa1f8c4c402924d5a6b9428b2840b1fd8a08011",
+            "native_ack_path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-disconnect-otucdm6l/native-launch.json",
+            "child_alive_at_ack_readback": true,
+            "gate_action": "close-own-FD-only; never LOCK_UN",
+            "persistent_attempt_preserved": true
+          }
+        },
+        "controller_lifecycle": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-disconnect-otucdm6l/ipc-initial-controller.json",
+        "frontend_results": [
+          {
+            "actual_transport": "@tauri-apps/api/core.invoke",
+            "assertions": 3,
+            "diagnostic": {
+              "format_version": 2,
+              "outcome": {
+                "authorization_id": "synthetic-integration-a24920fd73bd4b1f8e39b22316f6f1e9",
+                "authorization_sha256": "d8a3193da2bdedb2052c3c97197095d5259ed10df65477dc25d662ccd4491873",
+                "details": {
+                  "businessStartupBlocked": true,
+                  "error": {
+                    "code": "FRONTEND_DISCONNECTED",
+                    "detail": "real webview document navigation",
+                    "sqlite_extended": null,
+                    "sqlite_primary": null
+                  },
+                  "guard": "known-held",
+                  "last_failure": {
+                    "code": "FRONTEND_DISCONNECTED",
+                    "detail": "real webview document navigation",
+                    "sqlite_extended": null,
+                    "sqlite_primary": null
+                  },
+                  "rollback": "confirmed",
+                  "runtime": "verified-isolated",
+                  "safe_terminal": false
+                },
+                "format_version": 2,
+                "managed_contract_sha256": "9b857cf9e6bd8d9c8716d15acaa3878052313cf7f2245a8f0c12fec440c74c58",
+                "nonce": "84fe628ebf994cd8acfb114f4b042547",
+                "object_binding": {
+                  "backup_sha256": "3774686f9f2c3c4f1a09756e5a46c34dbb1e781994280d1684511e9639da158a",
+                  "database_c0_sha256": "3774686f9f2c3c4f1a09756e5a46c34dbb1e781994280d1684511e9639da158a",
+                  "executable_path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-disconnect-otucdm6l/managed/install/Installed.app/Contents/MacOS/quiescence-tauri",
+                  "executable_sha256": "6ba7dc3d04f0c0e331420a1796f6625e591eb362e4cbf42648b99dd2f8a8b959",
+                  "lease_dev": 16777232,
+                  "lease_inode": 23689611,
+                  "manifest_sha256": "d9b4488609c1a08d28f9d285eb2c0e9136b29feca26c35599629723b6e192231"
+                },
+                "phase": 5,
+                "pid": 96719,
+                "previous_record_sha256": "db4d85ae1117267cb15ebfb85f1fc59f7c7b89328a8c9c6eb1add0c6dce4a613",
+                "restart": "ordinary-startup-blocked; explicit diagnostic/recovery authorization required",
+                "sequence": 7,
+                "session": "session-41e86a72904a4cde9807abb8f0741fbb",
+                "state": "FAILED_V3_CONFIRMED",
+                "state_contract": {
+                  "allowed_next": "explicit separately-authorized recovery only",
+                  "entry": "same C BEGIN EXCLUSIVE and native file-control guard checked",
+                  "evidence": "immutable hash-linked native-state-NNN.json, atomically replaced outcome.json, callback events",
+                  "failure": "preserve consumed permit, exact latest durable phase and failure; never restore runtime/DB or infer outcome from schema",
+                  "restart": "ordinary financial startup blocked; read-only diagnosis, then separately-authorized independent recovery"
+                },
+                "synthetic_only": true
+              },
+              "phase": 5,
+              "reason": "UNRESOLVED_CUTOVER_REQUIRES_EXPLICIT_RECOVERY",
+              "recovery_required": true,
+              "startupBlocked": true,
+              "startup_allowed": false,
+              "state": "FAILED_V3_CONFIRMED",
+              "synthetic_only": true
+            },
+            "passed": true,
+            "phase": "initial",
+            "real_document_replacement": true,
+            "scenario": "disconnect"
+          }
+        ],
+        "preserved_log": "evidence/quiescence-integration/ipc-082608af2f-disconnect-initial.jsonl"
+      },
+      "restart": {
+        "pid": 96740,
+        "exit_code": 0,
+        "controller_killed": false,
+        "log": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-disconnect-otucdm6l/ipc-restart.jsonl",
+        "log_sha256": "a9b4acac5eca0964ccd0e0861c0308fb661224c6e8a1d019ef68e42012cc138a",
+        "events": 33,
+        "frontend_assertions": 5,
+        "lease_handoff": null,
+        "controller_lifecycle": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-disconnect-otucdm6l/ipc-restart-controller.json",
+        "frontend_results": [
+          {
+            "actual_transport": "@tauri-apps/api/core.invoke",
+            "assertions": 5,
+            "diagnostic": {
+              "format_version": 2,
+              "outcome": {
+                "authorization_id": "synthetic-integration-a24920fd73bd4b1f8e39b22316f6f1e9",
+                "authorization_sha256": "d8a3193da2bdedb2052c3c97197095d5259ed10df65477dc25d662ccd4491873",
+                "details": {
+                  "businessStartupBlocked": true,
+                  "error": {
+                    "code": "FRONTEND_DISCONNECTED",
+                    "detail": "real webview document navigation",
+                    "sqlite_extended": null,
+                    "sqlite_primary": null
+                  },
+                  "guard": "known-held",
+                  "last_failure": {
+                    "code": "FRONTEND_DISCONNECTED",
+                    "detail": "real webview document navigation",
+                    "sqlite_extended": null,
+                    "sqlite_primary": null
+                  },
+                  "rollback": "confirmed",
+                  "runtime": "verified-isolated",
+                  "safe_terminal": false
+                },
+                "format_version": 2,
+                "managed_contract_sha256": "9b857cf9e6bd8d9c8716d15acaa3878052313cf7f2245a8f0c12fec440c74c58",
+                "nonce": "84fe628ebf994cd8acfb114f4b042547",
+                "object_binding": {
+                  "backup_sha256": "3774686f9f2c3c4f1a09756e5a46c34dbb1e781994280d1684511e9639da158a",
+                  "database_c0_sha256": "3774686f9f2c3c4f1a09756e5a46c34dbb1e781994280d1684511e9639da158a",
+                  "executable_path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-disconnect-otucdm6l/managed/install/Installed.app/Contents/MacOS/quiescence-tauri",
+                  "executable_sha256": "6ba7dc3d04f0c0e331420a1796f6625e591eb362e4cbf42648b99dd2f8a8b959",
+                  "lease_dev": 16777232,
+                  "lease_inode": 23689611,
+                  "manifest_sha256": "d9b4488609c1a08d28f9d285eb2c0e9136b29feca26c35599629723b6e192231"
+                },
+                "phase": 5,
+                "pid": 96719,
+                "previous_record_sha256": "db4d85ae1117267cb15ebfb85f1fc59f7c7b89328a8c9c6eb1add0c6dce4a613",
+                "restart": "ordinary-startup-blocked; explicit diagnostic/recovery authorization required",
+                "sequence": 7,
+                "session": "session-41e86a72904a4cde9807abb8f0741fbb",
+                "state": "FAILED_V3_CONFIRMED",
+                "state_contract": {
+                  "allowed_next": "explicit separately-authorized recovery only",
+                  "entry": "same C BEGIN EXCLUSIVE and native file-control guard checked",
+                  "evidence": "immutable hash-linked native-state-NNN.json, atomically replaced outcome.json, callback events",
+                  "failure": "preserve consumed permit, exact latest durable phase and failure; never restore runtime/DB or infer outcome from schema",
+                  "restart": "ordinary financial startup blocked; read-only diagnosis, then separately-authorized independent recovery"
+                },
+                "synthetic_only": true
+              },
+              "phase": 5,
+              "reason": "UNRESOLVED_CUTOVER_REQUIRES_EXPLICIT_RECOVERY",
+              "recovery_required": true,
+              "startupBlocked": true,
+              "startup_allowed": false,
+              "state": "FAILED_V3_CONFIRMED",
+              "synthetic_only": true
+            },
+            "passed": true,
+            "phase": "restart",
+            "scenario": "disconnect"
+          }
+        ],
+        "preserved_log": "evidence/quiescence-integration/ipc-082608af2f-disconnect-restart.jsonl"
+      },
+      "outcome": {
+        "authorization_id": "synthetic-integration-a24920fd73bd4b1f8e39b22316f6f1e9",
+        "authorization_sha256": "d8a3193da2bdedb2052c3c97197095d5259ed10df65477dc25d662ccd4491873",
+        "details": {
+          "businessStartupBlocked": true,
+          "error": {
+            "code": "FRONTEND_DISCONNECTED",
+            "detail": "real webview document navigation",
+            "sqlite_extended": null,
+            "sqlite_primary": null
+          },
+          "guard": "known-held",
+          "last_failure": {
+            "code": "FRONTEND_DISCONNECTED",
+            "detail": "real webview document navigation",
+            "sqlite_extended": null,
+            "sqlite_primary": null
+          },
+          "rollback": "confirmed",
+          "runtime": "verified-isolated",
+          "safe_terminal": false
+        },
+        "format_version": 2,
+        "managed_contract_sha256": "9b857cf9e6bd8d9c8716d15acaa3878052313cf7f2245a8f0c12fec440c74c58",
+        "nonce": "84fe628ebf994cd8acfb114f4b042547",
+        "object_binding": {
+          "backup_sha256": "3774686f9f2c3c4f1a09756e5a46c34dbb1e781994280d1684511e9639da158a",
+          "database_c0_sha256": "3774686f9f2c3c4f1a09756e5a46c34dbb1e781994280d1684511e9639da158a",
+          "executable_path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-disconnect-otucdm6l/managed/install/Installed.app/Contents/MacOS/quiescence-tauri",
+          "executable_sha256": "6ba7dc3d04f0c0e331420a1796f6625e591eb362e4cbf42648b99dd2f8a8b959",
+          "lease_dev": 16777232,
+          "lease_inode": 23689611,
+          "manifest_sha256": "d9b4488609c1a08d28f9d285eb2c0e9136b29feca26c35599629723b6e192231"
+        },
+        "phase": 5,
+        "pid": 96719,
+        "previous_record_sha256": "db4d85ae1117267cb15ebfb85f1fc59f7c7b89328a8c9c6eb1add0c6dce4a613",
+        "restart": "ordinary-startup-blocked; explicit diagnostic/recovery authorization required",
+        "sequence": 7,
+        "session": "session-41e86a72904a4cde9807abb8f0741fbb",
+        "state": "FAILED_V3_CONFIRMED",
+        "state_contract": {
+          "allowed_next": "explicit separately-authorized recovery only",
+          "entry": "same C BEGIN EXCLUSIVE and native file-control guard checked",
+          "evidence": "immutable hash-linked native-state-NNN.json, atomically replaced outcome.json, callback events",
+          "failure": "preserve consumed permit, exact latest durable phase and failure; never restore runtime/DB or infer outcome from schema",
+          "restart": "ordinary financial startup blocked; read-only diagnosis, then separately-authorized independent recovery"
+        },
+        "synthetic_only": true
+      },
+      "database_sha256": "3774686f9f2c3c4f1a09756e5a46c34dbb1e781994280d1684511e9639da158a",
+      "checks": {
+        "native_and_frontend_cross_checked": true,
+        "no_cli_or_pipe_ipc_substitute": true,
+        "restart_did_not_reconsume_or_rerun_m4": true
+      },
+      "passed": true
+    },
+    {
+      "scenario": "crash_at_quiescence",
+      "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-crash_at_quiescence-c64ad9f6",
+      "expected_durable_state": "QUIESCENCE_ACQUIRED",
+      "initial": {
+        "pid": 96795,
+        "exit_code": -9,
+        "controller_killed": true,
+        "log": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-crash_at_quiescence-c64ad9f6/ipc-initial.jsonl",
+        "log_sha256": "c37e999a0ecb7a2c51de110f5a3ac99ac36ea801f8726f12ad48c18d2252af6c",
+        "events": 76,
+        "frontend_assertions": 9,
+        "lease_handoff": {
+          "native_pid": 96795,
+          "session": "session-8ed5e46378ec40248757569e698372fa",
+          "dev": 16777232,
+          "inode": 23689908,
+          "gate_closed_after_native_proof": true,
+          "operation": "close-parent-copy-only; no LOCK_UN",
+          "receipt": {
+            "format_version": 2,
+            "synthetic_only": true,
+            "session": "session-8ed5e46378ec40248757569e698372fa",
+            "nonce": "7190ca3316044ef0b37471d6466104d0",
+            "authorization_id": "synthetic-integration-f326adacb5ef408989dce38e937770e4",
+            "managed_contract_sha256": "0c9b793d1c6150c0bdce70225fb8181aba85e95e5e4262b415ceaa53989d5efc",
+            "pid": 96795,
+            "parent_pid": 96662,
+            "lease_dev": 16777232,
+            "lease_inode": 23689908,
+            "state": "NATIVE_OWNERSHIP_ACKNOWLEDGED",
+            "native_ack_sha256": "042d135cd311af78d6cc24c1ce8efa9040a7d78e982c2b8bb45be5d1869dd85b",
+            "native_ack_path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-crash_at_quiescence-c64ad9f6/native-launch.json",
+            "child_alive_at_ack_readback": true,
+            "gate_action": "close-own-FD-only; never LOCK_UN",
+            "persistent_attempt_preserved": true
+          }
+        },
+        "controller_lifecycle": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-crash_at_quiescence-c64ad9f6/ipc-initial-controller.json",
+        "frontend_results": [],
+        "preserved_log": "evidence/quiescence-integration/ipc-082608af2f-crash_at_quiescence-initial.jsonl"
+      },
+      "restart": {
+        "pid": 96817,
+        "exit_code": 0,
+        "controller_killed": false,
+        "log": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-crash_at_quiescence-c64ad9f6/ipc-restart.jsonl",
+        "log_sha256": "61b76f9acacf4d5e727cc9b556f7dc822f44b58e3c1cf3dd32ffcc6bd6f0515f",
+        "events": 33,
+        "frontend_assertions": 5,
+        "lease_handoff": null,
+        "controller_lifecycle": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-crash_at_quiescence-c64ad9f6/ipc-restart-controller.json",
+        "frontend_results": [
+          {
+            "actual_transport": "@tauri-apps/api/core.invoke",
+            "assertions": 5,
+            "diagnostic": {
+              "format_version": 2,
+              "outcome": {
+                "authorization_id": "synthetic-integration-f326adacb5ef408989dce38e937770e4",
+                "authorization_sha256": "6234d72f3c267fcd98d9c1099ecec443d73d202c537cf6788d64a69454defb61",
+                "details": {
+                  "guard": "known-held"
+                },
+                "format_version": 2,
+                "managed_contract_sha256": "0c9b793d1c6150c0bdce70225fb8181aba85e95e5e4262b415ceaa53989d5efc",
+                "nonce": "7190ca3316044ef0b37471d6466104d0",
+                "object_binding": {
+                  "backup_sha256": "3774686f9f2c3c4f1a09756e5a46c34dbb1e781994280d1684511e9639da158a",
+                  "database_c0_sha256": "3774686f9f2c3c4f1a09756e5a46c34dbb1e781994280d1684511e9639da158a",
+                  "executable_path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-crash_at_quiescence-c64ad9f6/managed/install/Installed.app/Contents/MacOS/quiescence-tauri",
+                  "executable_sha256": "6ba7dc3d04f0c0e331420a1796f6625e591eb362e4cbf42648b99dd2f8a8b959",
+                  "lease_dev": 16777232,
+                  "lease_inode": 23689908,
+                  "manifest_sha256": "d9b4488609c1a08d28f9d285eb2c0e9136b29feca26c35599629723b6e192231"
+                },
+                "phase": 5,
+                "pid": 96795,
+                "previous_record_sha256": "f50306ccec38ebe6cf13d64ffc0e47a37456add02c48a96106cc7d0148482446",
+                "restart": "ordinary-startup-blocked; explicit diagnostic/recovery authorization required",
+                "sequence": 5,
+                "session": "session-8ed5e46378ec40248757569e698372fa",
+                "state": "QUIESCENCE_ACQUIRED",
+                "state_contract": {
+                  "allowed_next": 6,
+                  "entry": "same C BEGIN EXCLUSIVE and native file-control guard checked",
+                  "evidence": "immutable hash-linked native-state-NNN.json, atomically replaced outcome.json, callback events",
+                  "failure": "preserve consumed permit, exact latest durable phase and failure; never restore runtime/DB or infer outcome from schema",
+                  "restart": "ordinary financial startup blocked; read-only diagnosis, then separately-authorized independent recovery"
+                },
+                "synthetic_only": true
+              },
+              "phase": 5,
+              "reason": "UNRESOLVED_CUTOVER_REQUIRES_EXPLICIT_RECOVERY",
+              "recovery_required": true,
+              "startupBlocked": true,
+              "startup_allowed": false,
+              "state": "QUIESCENCE_ACQUIRED",
+              "synthetic_only": true
+            },
+            "passed": true,
+            "phase": "restart",
+            "scenario": "crash_at_quiescence"
+          }
+        ],
+        "preserved_log": "evidence/quiescence-integration/ipc-082608af2f-crash_at_quiescence-restart.jsonl"
+      },
+      "outcome": {
+        "authorization_id": "synthetic-integration-f326adacb5ef408989dce38e937770e4",
+        "authorization_sha256": "6234d72f3c267fcd98d9c1099ecec443d73d202c537cf6788d64a69454defb61",
+        "details": {
+          "guard": "known-held"
+        },
+        "format_version": 2,
+        "managed_contract_sha256": "0c9b793d1c6150c0bdce70225fb8181aba85e95e5e4262b415ceaa53989d5efc",
+        "nonce": "7190ca3316044ef0b37471d6466104d0",
+        "object_binding": {
+          "backup_sha256": "3774686f9f2c3c4f1a09756e5a46c34dbb1e781994280d1684511e9639da158a",
+          "database_c0_sha256": "3774686f9f2c3c4f1a09756e5a46c34dbb1e781994280d1684511e9639da158a",
+          "executable_path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-crash_at_quiescence-c64ad9f6/managed/install/Installed.app/Contents/MacOS/quiescence-tauri",
+          "executable_sha256": "6ba7dc3d04f0c0e331420a1796f6625e591eb362e4cbf42648b99dd2f8a8b959",
+          "lease_dev": 16777232,
+          "lease_inode": 23689908,
+          "manifest_sha256": "d9b4488609c1a08d28f9d285eb2c0e9136b29feca26c35599629723b6e192231"
+        },
+        "phase": 5,
+        "pid": 96795,
+        "previous_record_sha256": "f50306ccec38ebe6cf13d64ffc0e47a37456add02c48a96106cc7d0148482446",
+        "restart": "ordinary-startup-blocked; explicit diagnostic/recovery authorization required",
+        "sequence": 5,
+        "session": "session-8ed5e46378ec40248757569e698372fa",
+        "state": "QUIESCENCE_ACQUIRED",
+        "state_contract": {
+          "allowed_next": 6,
+          "entry": "same C BEGIN EXCLUSIVE and native file-control guard checked",
+          "evidence": "immutable hash-linked native-state-NNN.json, atomically replaced outcome.json, callback events",
+          "failure": "preserve consumed permit, exact latest durable phase and failure; never restore runtime/DB or infer outcome from schema",
+          "restart": "ordinary financial startup blocked; read-only diagnosis, then separately-authorized independent recovery"
+        },
+        "synthetic_only": true
+      },
+      "database_sha256": "3774686f9f2c3c4f1a09756e5a46c34dbb1e781994280d1684511e9639da158a",
+      "checks": {
+        "native_and_frontend_cross_checked": true,
+        "no_cli_or_pipe_ipc_substitute": true,
+        "restart_did_not_reconsume_or_rerun_m4": true
+      },
+      "passed": true
+    },
+    {
+      "scenario": "crash_before_commit",
+      "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-crash_before_commit-cn0h6v2u",
+      "expected_durable_state": "COMMIT_OUTCOME_UNKNOWN",
+      "initial": {
+        "pid": 96877,
+        "exit_code": -9,
+        "controller_killed": true,
+        "log": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-crash_before_commit-cn0h6v2u/ipc-initial.jsonl",
+        "log_sha256": "4f4e348f5af141adf6d99aaa67ac2faa33a928b2881bd00ba21450e1ce86899e",
+        "events": 98,
+        "frontend_assertions": 9,
+        "lease_handoff": {
+          "native_pid": 96877,
+          "session": "session-ba91d001199147f4be2caafe10072253",
+          "dev": 16777232,
+          "inode": 23690192,
+          "gate_closed_after_native_proof": true,
+          "operation": "close-parent-copy-only; no LOCK_UN",
+          "receipt": {
+            "format_version": 2,
+            "synthetic_only": true,
+            "session": "session-ba91d001199147f4be2caafe10072253",
+            "nonce": "65ccb1c37e3b4421b03f5a6edf27ca72",
+            "authorization_id": "synthetic-integration-e53d033a825b440b9f77c893221ee0bb",
+            "managed_contract_sha256": "df73e5a5514844c7806ad77ad9abd287728d6f49aa8c78c6f305d5cd5db8b417",
+            "pid": 96877,
+            "parent_pid": 96662,
+            "lease_dev": 16777232,
+            "lease_inode": 23690192,
+            "state": "NATIVE_OWNERSHIP_ACKNOWLEDGED",
+            "native_ack_sha256": "5205aa68fe8c60a2fd8afb1abd56dce47fa3e7f199cfe98581ffe5f1e5868626",
+            "native_ack_path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-crash_before_commit-cn0h6v2u/native-launch.json",
+            "child_alive_at_ack_readback": true,
+            "gate_action": "close-own-FD-only; never LOCK_UN",
+            "persistent_attempt_preserved": true
+          }
+        },
+        "controller_lifecycle": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-crash_before_commit-cn0h6v2u/ipc-initial-controller.json",
+        "frontend_results": [],
+        "preserved_log": "evidence/quiescence-integration/ipc-082608af2f-crash_before_commit-initial.jsonl"
+      },
+      "restart": {
+        "pid": 96892,
+        "exit_code": 0,
+        "controller_killed": false,
+        "log": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-crash_before_commit-cn0h6v2u/ipc-restart.jsonl",
+        "log_sha256": "4966ed0a66d38923be0755180e420ed4c384775c3c21bdeca33a594812defca7",
+        "events": 33,
+        "frontend_assertions": 5,
+        "lease_handoff": null,
+        "controller_lifecycle": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-crash_before_commit-cn0h6v2u/ipc-restart-controller.json",
+        "frontend_results": [
+          {
+            "actual_transport": "@tauri-apps/api/core.invoke",
+            "assertions": 5,
+            "diagnostic": {
+              "format_version": 2,
+              "outcome": {
+                "authorization_id": "synthetic-integration-e53d033a825b440b9f77c893221ee0bb",
+                "authorization_sha256": "0b0588b6207ccc5d6eec0efa29542aeeca1b4b5c665c4263750812f00b84a161",
+                "details": {
+                  "commitAttempted": false,
+                  "guard": "known-held"
+                },
+                "format_version": 2,
+                "managed_contract_sha256": "df73e5a5514844c7806ad77ad9abd287728d6f49aa8c78c6f305d5cd5db8b417",
+                "nonce": "65ccb1c37e3b4421b03f5a6edf27ca72",
+                "object_binding": {
+                  "backup_sha256": "3774686f9f2c3c4f1a09756e5a46c34dbb1e781994280d1684511e9639da158a",
+                  "database_c0_sha256": "3774686f9f2c3c4f1a09756e5a46c34dbb1e781994280d1684511e9639da158a",
+                  "executable_path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-crash_before_commit-cn0h6v2u/managed/install/Installed.app/Contents/MacOS/quiescence-tauri",
+                  "executable_sha256": "6ba7dc3d04f0c0e331420a1796f6625e591eb362e4cbf42648b99dd2f8a8b959",
+                  "lease_dev": 16777232,
+                  "lease_inode": 23690192,
+                  "manifest_sha256": "d9b4488609c1a08d28f9d285eb2c0e9136b29feca26c35599629723b6e192231"
+                },
+                "phase": 8,
+                "pid": 96877,
+                "previous_record_sha256": "a0c2923c4f763f392d56721dcd3de687c8e3acc7abc629526fac96b6432f3321",
+                "restart": "ordinary-startup-blocked; explicit diagnostic/recovery authorization required",
+                "sequence": 8,
+                "session": "session-ba91d001199147f4be2caafe10072253",
+                "state": "COMMIT_OUTCOME_UNKNOWN",
+                "state_contract": {
+                  "allowed_next": 9,
+                  "entry": "same C V4 schema and business snapshot checked; commit outcome durably unknown before COMMIT",
+                  "evidence": "immutable hash-linked native-state-NNN.json, atomically replaced outcome.json, callback events",
+                  "failure": "preserve consumed permit, exact latest durable phase and failure; never restore runtime/DB or infer outcome from schema",
+                  "restart": "ordinary financial startup blocked; read-only diagnosis, then separately-authorized independent recovery"
+                },
+                "synthetic_only": true
+              },
+              "phase": 8,
+              "reason": "UNRESOLVED_CUTOVER_REQUIRES_EXPLICIT_RECOVERY",
+              "recovery_required": true,
+              "startupBlocked": true,
+              "startup_allowed": false,
+              "state": "COMMIT_OUTCOME_UNKNOWN",
+              "synthetic_only": true
+            },
+            "passed": true,
+            "phase": "restart",
+            "scenario": "crash_before_commit"
+          }
+        ],
+        "preserved_log": "evidence/quiescence-integration/ipc-082608af2f-crash_before_commit-restart.jsonl"
+      },
+      "outcome": {
+        "authorization_id": "synthetic-integration-e53d033a825b440b9f77c893221ee0bb",
+        "authorization_sha256": "0b0588b6207ccc5d6eec0efa29542aeeca1b4b5c665c4263750812f00b84a161",
+        "details": {
+          "commitAttempted": false,
+          "guard": "known-held"
+        },
+        "format_version": 2,
+        "managed_contract_sha256": "df73e5a5514844c7806ad77ad9abd287728d6f49aa8c78c6f305d5cd5db8b417",
+        "nonce": "65ccb1c37e3b4421b03f5a6edf27ca72",
+        "object_binding": {
+          "backup_sha256": "3774686f9f2c3c4f1a09756e5a46c34dbb1e781994280d1684511e9639da158a",
+          "database_c0_sha256": "3774686f9f2c3c4f1a09756e5a46c34dbb1e781994280d1684511e9639da158a",
+          "executable_path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-crash_before_commit-cn0h6v2u/managed/install/Installed.app/Contents/MacOS/quiescence-tauri",
+          "executable_sha256": "6ba7dc3d04f0c0e331420a1796f6625e591eb362e4cbf42648b99dd2f8a8b959",
+          "lease_dev": 16777232,
+          "lease_inode": 23690192,
+          "manifest_sha256": "d9b4488609c1a08d28f9d285eb2c0e9136b29feca26c35599629723b6e192231"
+        },
+        "phase": 8,
+        "pid": 96877,
+        "previous_record_sha256": "a0c2923c4f763f392d56721dcd3de687c8e3acc7abc629526fac96b6432f3321",
+        "restart": "ordinary-startup-blocked; explicit diagnostic/recovery authorization required",
+        "sequence": 8,
+        "session": "session-ba91d001199147f4be2caafe10072253",
+        "state": "COMMIT_OUTCOME_UNKNOWN",
+        "state_contract": {
+          "allowed_next": 9,
+          "entry": "same C V4 schema and business snapshot checked; commit outcome durably unknown before COMMIT",
+          "evidence": "immutable hash-linked native-state-NNN.json, atomically replaced outcome.json, callback events",
+          "failure": "preserve consumed permit, exact latest durable phase and failure; never restore runtime/DB or infer outcome from schema",
+          "restart": "ordinary financial startup blocked; read-only diagnosis, then separately-authorized independent recovery"
+        },
+        "synthetic_only": true
+      },
+      "database_sha256": "3774686f9f2c3c4f1a09756e5a46c34dbb1e781994280d1684511e9639da158a",
+      "checks": {
+        "native_and_frontend_cross_checked": true,
+        "no_cli_or_pipe_ipc_substitute": true,
+        "restart_did_not_reconsume_or_rerun_m4": true
+      },
+      "passed": true
+    },
+    {
+      "scenario": "guard_lost",
+      "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-guard_lost-662w15kd",
+      "expected_durable_state": "GUARD_LOST_OR_UNPROVEN",
+      "initial": {
+        "pid": 96987,
+        "exit_code": 0,
+        "controller_killed": false,
+        "log": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-guard_lost-662w15kd/ipc-initial.jsonl",
+        "log_sha256": "2ecc96ae7d735758ce5fb553e1d59d50e7b7137b978fcbb92fa09f539140b407",
+        "events": 175,
+        "frontend_assertions": 21,
+        "lease_handoff": {
+          "native_pid": 96987,
+          "session": "session-50f80105254f44bfb1d512832939bb2d",
+          "dev": 16777232,
+          "inode": 23690575,
+          "gate_closed_after_native_proof": true,
+          "operation": "close-parent-copy-only; no LOCK_UN",
+          "receipt": {
+            "format_version": 2,
+            "synthetic_only": true,
+            "session": "session-50f80105254f44bfb1d512832939bb2d",
+            "nonce": "e13e6465cf884709ad2bebf2f27adb8c",
+            "authorization_id": "synthetic-integration-cd957709725c4df6bd33ae3f7aef1fde",
+            "managed_contract_sha256": "d6a2e2ce2cfecbcf4720bd4e9096ed6bc4df91d8f48d71721746efc014570fa1",
+            "pid": 96987,
+            "parent_pid": 96662,
+            "lease_dev": 16777232,
+            "lease_inode": 23690575,
+            "state": "NATIVE_OWNERSHIP_ACKNOWLEDGED",
+            "native_ack_sha256": "5fd20336a9a917f08bd6e0af502768195ec23357fcda5820d59a9c34fd780c0f",
+            "native_ack_path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-guard_lost-662w15kd/native-launch.json",
+            "child_alive_at_ack_readback": true,
+            "gate_action": "close-own-FD-only; never LOCK_UN",
+            "persistent_attempt_preserved": true
+          }
+        },
+        "controller_lifecycle": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-guard_lost-662w15kd/ipc-initial-controller.json",
+        "frontend_results": [
+          {
+            "actual_transport": "@tauri-apps/api/core.invoke",
+            "assertions": 21,
+            "diagnostic": {
+              "format_version": 2,
+              "outcome": {
+                "authorization_id": "synthetic-integration-cd957709725c4df6bd33ae3f7aef1fde",
+                "authorization_sha256": "beac6f33f1ecabcaa278913b834a6686cbfabaec720f82245625e5a94823a2e7",
+                "details": {
+                  "autocommit": false,
+                  "error": {
+                    "code": "INJECTED_ROLLBACK_FAILURE",
+                    "detail": "synthetic control skips rollback; not a real IO fault",
+                    "sqlite_extended": null,
+                    "sqlite_primary": null
+                  },
+                  "guard": "unknown",
+                  "last_failure": {
+                    "code": "INJECTED_ROLLBACK_FAILURE",
+                    "detail": "synthetic control skips rollback; not a real IO fault",
+                    "sqlite_extended": null,
+                    "sqlite_primary": null
+                  }
+                },
+                "format_version": 2,
+                "managed_contract_sha256": "d6a2e2ce2cfecbcf4720bd4e9096ed6bc4df91d8f48d71721746efc014570fa1",
+                "nonce": "e13e6465cf884709ad2bebf2f27adb8c",
+                "object_binding": {
+                  "backup_sha256": "3774686f9f2c3c4f1a09756e5a46c34dbb1e781994280d1684511e9639da158a",
+                  "database_c0_sha256": "3774686f9f2c3c4f1a09756e5a46c34dbb1e781994280d1684511e9639da158a",
+                  "executable_path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-guard_lost-662w15kd/managed/install/Installed.app/Contents/MacOS/quiescence-tauri",
+                  "executable_sha256": "6ba7dc3d04f0c0e331420a1796f6625e591eb362e4cbf42648b99dd2f8a8b959",
+                  "lease_dev": 16777232,
+                  "lease_inode": 23690575,
+                  "manifest_sha256": "d9b4488609c1a08d28f9d285eb2c0e9136b29feca26c35599629723b6e192231"
+                },
+                "phase": 7,
+                "pid": 96987,
+                "previous_record_sha256": "c33f655a1d2a749a41ca69ac9005c85a151d7651cb990b5b044b55ceb9b5fdc1",
+                "restart": "ordinary-startup-blocked; explicit diagnostic/recovery authorization required",
+                "sequence": 9,
+                "session": "session-50f80105254f44bfb1d512832939bb2d",
+                "state": "GUARD_LOST_OR_UNPROVEN",
+                "state_contract": {
+                  "allowed_next": "explicit separately-authorized recovery only",
+                  "entry": "same C and transaction; fixed approved M4 only; original business snapshot retained",
+                  "evidence": "immutable hash-linked native-state-NNN.json, atomically replaced outcome.json, callback events",
+                  "failure": "preserve consumed permit, exact latest durable phase and failure; never restore runtime/DB or infer outcome from schema",
+                  "restart": "ordinary financial startup blocked; read-only diagnosis, then separately-authorized independent recovery"
+                },
+                "synthetic_only": true
+              },
+              "phase": 7,
+              "reason": "UNRESOLVED_CUTOVER_REQUIRES_EXPLICIT_RECOVERY",
+              "recovery_required": true,
+              "startupBlocked": true,
+              "startup_allowed": false,
+              "state": "GUARD_LOST_OR_UNPROVEN",
+              "synthetic_only": true
+            },
+            "fault_kind": "synthetic-native-rollback_failure-control-not-real-IO-fault",
+            "passed": true,
+            "phase": "initial",
+            "scenario": "guard_lost"
+          }
+        ],
+        "preserved_log": "evidence/quiescence-integration/ipc-082608af2f-guard_lost-initial.jsonl"
+      },
+      "restart": {
+        "pid": 97011,
+        "exit_code": 0,
+        "controller_killed": false,
+        "log": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-guard_lost-662w15kd/ipc-restart.jsonl",
+        "log_sha256": "d25915458ae63c1332978ff53645c27f079d094aa985d715691a241c73ac4a92",
+        "events": 33,
+        "frontend_assertions": 5,
+        "lease_handoff": null,
+        "controller_lifecycle": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-guard_lost-662w15kd/ipc-restart-controller.json",
+        "frontend_results": [
+          {
+            "actual_transport": "@tauri-apps/api/core.invoke",
+            "assertions": 5,
+            "diagnostic": {
+              "format_version": 2,
+              "outcome": {
+                "authorization_id": "synthetic-integration-cd957709725c4df6bd33ae3f7aef1fde",
+                "authorization_sha256": "beac6f33f1ecabcaa278913b834a6686cbfabaec720f82245625e5a94823a2e7",
+                "details": {
+                  "autocommit": false,
+                  "error": {
+                    "code": "INJECTED_ROLLBACK_FAILURE",
+                    "detail": "synthetic control skips rollback; not a real IO fault",
+                    "sqlite_extended": null,
+                    "sqlite_primary": null
+                  },
+                  "guard": "unknown",
+                  "last_failure": {
+                    "code": "INJECTED_ROLLBACK_FAILURE",
+                    "detail": "synthetic control skips rollback; not a real IO fault",
+                    "sqlite_extended": null,
+                    "sqlite_primary": null
+                  }
+                },
+                "format_version": 2,
+                "managed_contract_sha256": "d6a2e2ce2cfecbcf4720bd4e9096ed6bc4df91d8f48d71721746efc014570fa1",
+                "nonce": "e13e6465cf884709ad2bebf2f27adb8c",
+                "object_binding": {
+                  "backup_sha256": "3774686f9f2c3c4f1a09756e5a46c34dbb1e781994280d1684511e9639da158a",
+                  "database_c0_sha256": "3774686f9f2c3c4f1a09756e5a46c34dbb1e781994280d1684511e9639da158a",
+                  "executable_path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-guard_lost-662w15kd/managed/install/Installed.app/Contents/MacOS/quiescence-tauri",
+                  "executable_sha256": "6ba7dc3d04f0c0e331420a1796f6625e591eb362e4cbf42648b99dd2f8a8b959",
+                  "lease_dev": 16777232,
+                  "lease_inode": 23690575,
+                  "manifest_sha256": "d9b4488609c1a08d28f9d285eb2c0e9136b29feca26c35599629723b6e192231"
+                },
+                "phase": 7,
+                "pid": 96987,
+                "previous_record_sha256": "c33f655a1d2a749a41ca69ac9005c85a151d7651cb990b5b044b55ceb9b5fdc1",
+                "restart": "ordinary-startup-blocked; explicit diagnostic/recovery authorization required",
+                "sequence": 9,
+                "session": "session-50f80105254f44bfb1d512832939bb2d",
+                "state": "GUARD_LOST_OR_UNPROVEN",
+                "state_contract": {
+                  "allowed_next": "explicit separately-authorized recovery only",
+                  "entry": "same C and transaction; fixed approved M4 only; original business snapshot retained",
+                  "evidence": "immutable hash-linked native-state-NNN.json, atomically replaced outcome.json, callback events",
+                  "failure": "preserve consumed permit, exact latest durable phase and failure; never restore runtime/DB or infer outcome from schema",
+                  "restart": "ordinary financial startup blocked; read-only diagnosis, then separately-authorized independent recovery"
+                },
+                "synthetic_only": true
+              },
+              "phase": 7,
+              "reason": "UNRESOLVED_CUTOVER_REQUIRES_EXPLICIT_RECOVERY",
+              "recovery_required": true,
+              "startupBlocked": true,
+              "startup_allowed": false,
+              "state": "GUARD_LOST_OR_UNPROVEN",
+              "synthetic_only": true
+            },
+            "passed": true,
+            "phase": "restart",
+            "scenario": "guard_lost"
+          }
+        ],
+        "preserved_log": "evidence/quiescence-integration/ipc-082608af2f-guard_lost-restart.jsonl"
+      },
+      "outcome": {
+        "authorization_id": "synthetic-integration-cd957709725c4df6bd33ae3f7aef1fde",
+        "authorization_sha256": "beac6f33f1ecabcaa278913b834a6686cbfabaec720f82245625e5a94823a2e7",
+        "details": {
+          "autocommit": false,
+          "error": {
+            "code": "INJECTED_ROLLBACK_FAILURE",
+            "detail": "synthetic control skips rollback; not a real IO fault",
+            "sqlite_extended": null,
+            "sqlite_primary": null
+          },
+          "guard": "unknown",
+          "last_failure": {
+            "code": "INJECTED_ROLLBACK_FAILURE",
+            "detail": "synthetic control skips rollback; not a real IO fault",
+            "sqlite_extended": null,
+            "sqlite_primary": null
+          }
+        },
+        "format_version": 2,
+        "managed_contract_sha256": "d6a2e2ce2cfecbcf4720bd4e9096ed6bc4df91d8f48d71721746efc014570fa1",
+        "nonce": "e13e6465cf884709ad2bebf2f27adb8c",
+        "object_binding": {
+          "backup_sha256": "3774686f9f2c3c4f1a09756e5a46c34dbb1e781994280d1684511e9639da158a",
+          "database_c0_sha256": "3774686f9f2c3c4f1a09756e5a46c34dbb1e781994280d1684511e9639da158a",
+          "executable_path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-_a7sptoq/pfc-qic-guard_lost-662w15kd/managed/install/Installed.app/Contents/MacOS/quiescence-tauri",
+          "executable_sha256": "6ba7dc3d04f0c0e331420a1796f6625e591eb362e4cbf42648b99dd2f8a8b959",
+          "lease_dev": 16777232,
+          "lease_inode": 23690575,
+          "manifest_sha256": "d9b4488609c1a08d28f9d285eb2c0e9136b29feca26c35599629723b6e192231"
+        },
+        "phase": 7,
+        "pid": 96987,
+        "previous_record_sha256": "c33f655a1d2a749a41ca69ac9005c85a151d7651cb990b5b044b55ceb9b5fdc1",
+        "restart": "ordinary-startup-blocked; explicit diagnostic/recovery authorization required",
+        "sequence": 9,
+        "session": "session-50f80105254f44bfb1d512832939bb2d",
+        "state": "GUARD_LOST_OR_UNPROVEN",
+        "state_contract": {
+          "allowed_next": "explicit separately-authorized recovery only",
+          "entry": "same C and transaction; fixed approved M4 only; original business snapshot retained",
+          "evidence": "immutable hash-linked native-state-NNN.json, atomically replaced outcome.json, callback events",
+          "failure": "preserve consumed permit, exact latest durable phase and failure; never restore runtime/DB or infer outcome from schema",
+          "restart": "ordinary financial startup blocked; read-only diagnosis, then separately-authorized independent recovery"
+        },
+        "synthetic_only": true
+      },
+      "database_sha256": "3774686f9f2c3c4f1a09756e5a46c34dbb1e781994280d1684511e9639da158a",
+      "checks": {
+        "native_and_frontend_cross_checked": true,
+        "no_cli_or_pipe_ipc_substitute": true,
+        "restart_did_not_reconsume_or_rerun_m4": true
+      },
+      "passed": true
+    }
+  ],
+  "production_preservation": {
+    "intended_scope": "canonical marked temporary fixtures only; installed Production must not be launched",
+    "source_guards": "pre-Builder exact isolated context and empty configured windows; actual isolated bundle plist; fixed synthetic DB path; no Production command registration",
+    "os_profile_side_effects": "NOT_INDEPENDENTLY_AUDITED",
+    "acceptance_limit": "These source constraints are not a measured zero-side-effect attestation. Preserve raw before/after evidence separately. Attempt01 created a default-store webview before the setup guard and is explicitly disclosed in its diagnostic."
+  }
+}

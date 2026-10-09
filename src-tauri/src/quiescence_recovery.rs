@@ -59,6 +59,7 @@ fn recovery_history(root:&Path)->Result<Vec<Value>> {
     require(!fs::read_dir(root)?.any(|entry|entry.map(|e|e.file_name().to_string_lossy().ends_with(".pending")).unwrap_or(true)),"RECOVERY_HISTORY_PENDING")?;
     let path=root.join(HISTORY);
     if !present_or_unreadable(&path) { return Ok(Vec::new()); }
+    regular(&path)?;
     let bytes=fs::read(&path)?;
     require(bytes.is_empty() || bytes.ends_with(b"\n"),"RECOVERY_HISTORY_CORRUPT")?;
     let mut rows:Vec<Value>=Vec::new();
@@ -66,12 +67,19 @@ fn recovery_history(root:&Path)->Result<Vec<Value>> {
         rows.push(serde_json::from_slice(line).map_err(|_|Failure::new("RECOVERY_HISTORY_CORRUPT","invalid ledger row"))?);
     }
     let mut open=std::collections::HashMap::<String,Value>::new();
+    let mut seen=std::collections::HashSet::<String>::new();
     for row in &rows {
         let key=row["attempt_key"].as_str().ok_or_else(||Failure::new("RECOVERY_HISTORY_CORRUPT","missing attempt key"))?;
         match row["record_type"].as_str() {
-            Some("STARTED")=>require(open.insert(key.to_owned(),row.clone()).is_none(),"RECOVERY_HISTORY_CORRUPT")?,
-            Some("FAILED")|Some("OUTCOME_UNKNOWN")|Some("SUCCEEDED")=>require(open.remove(key).is_some(),"RECOVERY_HISTORY_CORRUPT")?,
-            Some("TERMINAL_PENDING")=>require(open.contains_key(key),"RECOVERY_HISTORY_CORRUPT")?,
+            Some("STARTED")=>{
+                require(seen.insert(key.to_owned()),"RECOVERY_HISTORY_CORRUPT")?;
+                require(open.insert(key.to_owned(),row.clone()).is_none(),"RECOVERY_HISTORY_CORRUPT")?;
+            },
+            Some("FAILED")|Some("OUTCOME_UNKNOWN")|Some("SUCCEEDED")|Some("TERMINAL_PENDING")=>{
+                let start=open.get(key).ok_or_else(||Failure::new("RECOVERY_HISTORY_CORRUPT","terminal without start"))?;
+                require(row["authorization_id"]==start["authorization_id"]&&row["nonce"]==start["nonce"],"RECOVERY_HISTORY_CORRUPT")?;
+                if row["record_type"]!="TERMINAL_PENDING" {open.remove(key);}
+            },
             _=>return Err(Failure::new("RECOVERY_HISTORY_CORRUPT","unknown record type")),
         }
     }
@@ -86,7 +94,7 @@ fn recovery_history(root:&Path)->Result<Vec<Value>> {
             value["attempt_key"].as_str().is_some_and(|key|open.get(key).is_some_and(|start|value["authorization_id"]==start["authorization_id"]&&value["nonce"]==start["nonce"]))&&
             preterminal.as_ref().is_some_and(|record|record["attempt_key"]==value["attempt_key"]&&record["terminal_sha256"]==terminal_hash.clone().unwrap_or_default())
         });
-        require(bound,"RECOVERY_HISTORY_PENDING")?;
+        require(open.len()==1&&bound,"RECOVERY_HISTORY_PENDING")?;
     }
     Ok(rows)
 }
@@ -128,6 +136,53 @@ fn terminal_result(root:&Path,result:&Value)->Result<Value> {
     Ok(readback)
 }
 
+fn terminal_binding(root:&Path,a:&RecoveryAuthorization,p:&Permit,terminal:&Value,history:&[Value])->Result<()> {
+    let key=attempt_key(a);
+    let authorization_hash=hash_file(&root.join("recovery-authorization.json"))?;
+    require(terminal["format_version"]==2&&terminal["synthetic_only"]==true&&
+        terminal["attempt_key"]==key&&terminal["authorization_id"]==a.authorization_id&&terminal["nonce"]==a.nonce&&
+        terminal["session"]==p.session&&terminal["managed_contract_sha256"]==json!(p.managed_contract_sha256)&&
+        terminal["outcome_sha256"]==a.outcome_sha256&&terminal["database_sha256"]==a.expected_database_sha256&&
+        terminal["recovery_authorization_sha256"]==authorization_hash,"RECOVERY_TERMINAL_BINDING_MISMATCH")?;
+    let expected=if a.action=="verify-v4-handoff" {"V4_VERIFIED"}else{"FAILED_V3_CONFIRMED"};
+    require(terminal["state"]==expected&&terminal["handoff_authorized"]==(expected=="V4_VERIFIED")&&
+        terminal["startupBlocked"]==(expected!="V4_VERIFIED")&&
+        (expected=="V4_VERIFIED"||terminal["safe_terminal"]==true),"RECOVERY_TERMINAL_BINDING_MISMATCH")?;
+    require(history.iter().any(|row|row["record_type"]=="STARTED"&&row["attempt_key"]==key&&
+        row["authorization_id"]==a.authorization_id&&row["nonce"]==a.nonce&&row["session"]==p.session&&
+        row["action"]==a.action&&row["recovery_authorization_sha256"]==authorization_hash),"RECOVERY_TERMINAL_BINDING_MISMATCH")?;
+    require(history.last().is_some_and(|row|row["record_type"]=="TERMINAL_PENDING"&&row["attempt_key"]==key),"RECOVERY_TERMINAL_BINDING_MISMATCH")?;
+    if present_or_unreadable(&root.join(ACTIVE)) {
+        let active=contract::read_json(&root.join(ACTIVE))?;
+        require(active["attempt_key"]==key&&active["authorization_id"]==a.authorization_id&&active["session"]==p.session,"RECOVERY_TERMINAL_BINDING_MISMATCH")?;
+    }
+    Ok(())
+}
+
+// A lost reply after publication is not a second recovery execution. Confirm the
+// exact original authority, immutable ledger, and current protected bytes only.
+// No permit, ledger, terminal, marker, or database content is written here.
+fn confirm_terminal(root:&Path,a:&RecoveryAuthorization,p:&Permit)->Result<Value> {
+    let lease=acquire_recovery_lease(root,p)?;
+    contract::verify_chain(root,p)?;
+    require(hash_file(&root.join("consumed.json"))?==a.consumed_sha256&&hash_file(&root.join("outcome.json"))?==a.outcome_sha256,"RECOVERY_AUTHORIZATION_BINDING_MISMATCH")?;
+    let history=recovery_history(root)?;
+    let terminal=durable_terminal_readback(root)?;
+    terminal_binding(root,a,p,&terminal,&history)?;
+    let id=regular(&root.join(DB))?;candidate(root,p,&id)?;sidecars(root,false,&id)?;
+    let c=Connection::open_with_flags(root.join(DB),OpenFlags::SQLITE_OPEN_READ_ONLY|OpenFlags::SQLITE_OPEN_NO_MUTEX|OpenFlags::SQLITE_OPEN_PRIVATE_CACHE|OpenFlags::SQLITE_OPEN_NOFOLLOW)?;
+    c.busy_timeout(Duration::ZERO)?;c.execute_batch("PRAGMA query_only=ON; BEGIN")?;
+    // Obtain a shared SQLite read guard without changing any business contents.
+    c.query_row("SELECT count(*) FROM sqlite_schema",[],|row|row.get::<_,i64>(0))?;
+    same_object(&c,root,&id)?;
+    require(file_control(&c,rusqlite::ffi::SQLITE_FCNTL_LOCKSTATE)?>=1,"RECOVERY_READ_GUARD_UNPROVEN")?;
+    require(safe_hash(root,p)?.sha256==a.expected_database_sha256,"RECOVERY_DATABASE_HASH_MISMATCH")?;
+    contract::validate(root,p)?;lease.validate()?;
+    require(contract::read_json(&root.join("recovery-result.json"))?==terminal,"RECOVERY_TERMINAL_READBACK_MISMATCH")?;
+    c.execute_batch("ROLLBACK")?;drop(c);drop(lease);
+    Ok(terminal)
+}
+
 pub(super) fn recover(raw:&str,authorization_path:&str,event:&EventCallback)->Result<Value> {
     let root=root_checked(raw)?;
     require(Path::new(authorization_path)==root.join("recovery-authorization.json"),"RECOVERY_AUTHORIZATION_PATH_INVALID")?;
@@ -138,8 +193,19 @@ pub(super) fn recover(raw:&str,authorization_path:&str,event:&EventCallback)->Re
     require(a.authorization_id!=p.authorization_id&&a.nonce!=p.nonce&&a.session==p.session&&Some(a.managed_contract_sha256.as_str())==p.managed_contract_sha256.as_deref()&&a.consumed_sha256==hash_file(&root.join("consumed.json"))?&&a.outcome_sha256==hash_file(&root.join("outcome.json"))?,"RECOVERY_AUTHORIZATION_BINDING_MISMATCH")?;
     if a.action=="diagnose" {return diagnostic(raw);}
     require(contract::digest_ok(&a.expected_database_sha256),"RECOVERY_EXPECTED_HASH_INVALID")?;
-    let history=recovery_history(&root)?;
     let key=attempt_key(&a);
+    if present_or_unreadable(&root.join("recovery-result.json")) {return confirm_terminal(&root,&a,&p);}
+    let claim=json!({"format_version":1,"synthetic_only":true,"attempt_key":key,"authorization_id":a.authorization_id,"session":p.session});
+    // create_new is the single-writer admission point. A crash leaves the
+    // marker behind and ordinary startup remains blocked.
+    let mut active=OpenOptions::new().write(true).create_new(true).mode(0o600).open(root.join(ACTIVE))?;
+    serde_json::to_writer(&mut active,&claim)?;active.write_all(b"\n")?;active.sync_all()?;sync_dir(&root)?;
+    let mut started=false;
+    let result=(||->Result<Value>{
+    // Admission precedes every mutable-history decision. Another caller may
+    // have completed between our first terminal check and create_new.
+    require(!present_or_unreadable(&root.join("recovery-result.json")),"RECOVERY_TERMINAL_ALREADY_PUBLISHED")?;
+    let history=recovery_history(&root)?;
     require(!authorization_replayed(&history,&a),"RECOVERY_AUTHORIZATION_REPLAY")?;
     if present_or_unreadable(&root.join("recovery-consumed.json")) {
         let legacy:RecoveryAuthorization=serde_json::from_value(contract::read_json(&root.join("recovery-consumed.json"))?)
@@ -147,14 +213,9 @@ pub(super) fn recover(raw:&str,authorization_path:&str,event:&EventCallback)->Re
         require(legacy.authorization_id!=a.authorization_id&&legacy.nonce!=a.nonce,"RECOVERY_AUTHORIZATION_REPLAY")?;
     }
     require(!present_or_unreadable(&root.join("recovery-consumed.json.pending")),"RECOVERY_HISTORY_PENDING")?;
-    require(!present_or_unreadable(&root.join("recovery-result.json")),"RECOVERY_TERMINAL_ALREADY_PUBLISHED")?;
-    let claim=json!({"format_version":1,"synthetic_only":true,"attempt_key":key,"authorization_id":a.authorization_id,"session":p.session});
-    // create_new is the single-writer admission point. A crash leaves the
-    // marker behind and ordinary startup remains blocked.
-    let mut active=OpenOptions::new().write(true).create_new(true).mode(0o600).open(root.join(ACTIVE))?;
-    serde_json::to_writer(&mut active,&claim)?;active.write_all(b"\n")?;active.sync_all()?;sync_dir(&root)?;
-    append_history(&root,&json!({"record_type":"STARTED","attempt_key":key,"authorization_id":a.authorization_id,"nonce":a.nonce,"session":p.session,"action":a.action}))?;
-    let result=(||->Result<Value>{
+    let authorization_hash=hash_file(Path::new(authorization_path))?;
+    append_history(&root,&json!({"record_type":"STARTED","attempt_key":key,"authorization_id":a.authorization_id,"nonce":a.nonce,"session":p.session,"action":a.action,"recovery_authorization_sha256":authorization_hash}))?;
+    started=true;
     let lease=acquire_recovery_lease(&root,&p)?;
     contract::validate(&root,&p)?;
     let id=regular(&root.join(DB))?;candidate(&root,&p,&id)?;
@@ -180,7 +241,7 @@ pub(super) fn recover(raw:&str,authorization_path:&str,event:&EventCallback)->Re
     let after=safe_hash(&root,&p)?;
     require(after.sha256==before.sha256&&after.identity==before.identity,"RECOVERY_DB_CHANGED_DURING_VERIFICATION")?;
     contract::validate(&root,&p)?;lease.validate()?;same_object(&c,&root,&id)?;
-    let terminal=if want==4 {
+    let mut terminal=if want==4 {
         require(old["phase"].as_u64().is_some_and(|phase|phase>=8),"NO_PERSISTED_COMMIT_LINEAGE")?;
         // A recovery read is a new protected verification, not an assertion
         // that the lost migration guard was continuously held after a crash.
@@ -190,27 +251,36 @@ pub(super) fn recover(raw:&str,authorization_path:&str,event:&EventCallback)->Re
     } else {
         json!({"format_version":2,"synthetic_only":true,"state":"FAILED_V3_CONFIRMED","safe_terminal":true,"handoff_authorized":false,"startupBlocked":true,"attempt_key":key,"authorization_id":a.authorization_id,"nonce":a.nonce,"session":p.session,"managed_contract_sha256":p.managed_contract_sha256,"outcome_sha256":a.outcome_sha256,"database_sha256":after.sha256,"runtime":"V4 maintenance isolated; no old runtime restored","original_state":old["state"]})
     };
-    // Every fallible operation and evidence callback precedes final publication.
+    terminal["recovery_authorization_sha256"]=json!(authorization_hash);
+    // Callback failure cannot publish success. Retain the SQLite read guard and
+    // lease through publication; a close/reply failure is confirmable, not replay.
     lease.validate()?;same_object(&c,&root,&id)?;
-    c.execute_batch("ROLLBACK")?;
-    lease.validate()?;same_object(&c,&root,&id)?;drop(c);
     event("authorized_recovery_verified",terminal.clone())?;
+    contract::validate(&root,&p)?;lease.validate()?;same_object(&c,&root,&id)?;
+    require(safe_hash(&root,&p)?.sha256==after.sha256,"RECOVERY_DB_CHANGED_DURING_VERIFICATION")?;
     durable(&root,&format!("recovery-preterminal-{key}.json"),&json!({"format_version":1,"synthetic_only":true,"attempt_key":key,"state":"VERIFIED_PENDING_TERMINAL","terminal_sha256":Sha256::digest(serde_json::to_vec(&terminal)?).iter().map(|b|format!("{b:02x}")).collect::<String>()}))?;
     append_history(&root,&json!({"record_type":"TERMINAL_PENDING","attempt_key":key,"authorization_id":a.authorization_id,"nonce":a.nonce}))?;
-    drop(lease);
+    // Retain both ownership boundaries until publication and its readback.
+    let saved=terminal_result(&root,&terminal)?;
+    c.execute_batch("ROLLBACK")?;
+    c.close().map_err(|(_,error)|Failure::from(error))?;
     fs::remove_file(root.join(ACTIVE))?;sync_dir(&root)?;
-    terminal_result(&root,&terminal)
+    drop(lease);
+    Ok(saved)
     })();
     match result {
         Ok(value)=>{
             Ok(value)
         },
-        Err(error)=>{
+        Err(mut error)=>{
             // A possibly-published terminal is an unknown outcome: preserve the
             // active marker so startup fails closed until it independently binds it.
-            if !present_or_unreadable(&root.join("recovery-result.json")) {
-                append_history(&root,&json!({"record_type":"FAILED","attempt_key":key,"authorization_id":a.authorization_id,"nonce":a.nonce,"error":error.code}))?;
-                fs::remove_file(root.join(ACTIVE))?;sync_dir(&root)?;
+            if !present_or_unreadable(&root.join("recovery-result.json")) || !started {
+                let cleanup=(||->Result<()> {
+                    if started {append_history(&root,&json!({"record_type":"FAILED","attempt_key":key,"authorization_id":a.authorization_id,"nonce":a.nonce,"error":error.code}))?;}
+                    fs::remove_file(root.join(ACTIVE))?;sync_dir(&root)
+                })();
+                if let Err(cleanup)=cleanup {error.detail.push_str(&format!("; recovery cleanup failed: {}: {}",cleanup.code,cleanup.detail));}
             } else {
                 // Terminal exists: leave TERMINAL_PENDING untouched. The next
                 // startup must validate its full binding and durable readback.
@@ -269,6 +339,33 @@ mod tests {
         let bound_hash=format!("{:x}",Sha256::digest(serde_json::to_vec(&bound).unwrap()));
         durable(&f.0,"recovery-preterminal-key-a.json",&json!({"attempt_key":"key-a","terminal_sha256":bound_hash})).unwrap();
         assert_eq!(recovery_history(&f.0).unwrap().len(),2);
+    }
+    #[test] fn one_terminal_cannot_hide_another_unfinished_attempt(){
+        let f=Fixture::new();
+        append_history(&f.0,&start("key-a","auth-a","nonce-a")).unwrap();
+        append_history(&f.0,&start("key-b","auth-b","nonce-b")).unwrap();
+        let terminal=json!({"format_version":2,"synthetic_only":true,"state":"V4_VERIFIED","attempt_key":"key-a","authorization_id":"auth-a","nonce":"nonce-a"});
+        durable(&f.0,"recovery-result.json",&terminal).unwrap();
+        durable(&f.0,"recovery-preterminal-key-a.json",&json!({"attempt_key":"key-a","terminal_sha256":format!("{:x}",Sha256::digest(serde_json::to_vec(&terminal).unwrap()))})).unwrap();
+        assert_eq!(recovery_history(&f.0).unwrap_err().code,"RECOVERY_HISTORY_PENDING");
+    }
+    #[test] fn readonly_terminal_confirmation_requires_exact_authority_and_ledger(){
+        let f=Fixture::new();let a=auth("recovery-a","recovery-n");
+        let p:Permit=serde_json::from_value(json!({"format_version":2,"synthetic_only":true,"session":"fixture","nonce":"n","authorization_id":"a","database_sha256":"d","backup_sha256":"d","executable_path":"/unused","executable_sha256":"e","manifest_sha256":"f","allow_recovery":true,"allow_wal_infrastructure":true,"managed_contract_sha256":"a"})).unwrap();
+        durable(&f.0,"recovery-authorization.json",&serde_json::to_value(&a).unwrap()).unwrap();
+        let authority_hash=hash_file(&f.0.join("recovery-authorization.json")).unwrap();let key=attempt_key(&a);
+        let terminal=json!({"format_version":2,"synthetic_only":true,"state":"FAILED_V3_CONFIRMED","safe_terminal":true,"handoff_authorized":false,"startupBlocked":true,"attempt_key":key,"authorization_id":a.authorization_id,"nonce":a.nonce,"session":a.session,"managed_contract_sha256":"a","outcome_sha256":"c","database_sha256":"d","recovery_authorization_sha256":authority_hash});
+        let rows=vec![json!({"record_type":"STARTED","attempt_key":key,"authorization_id":a.authorization_id,"nonce":a.nonce,"session":a.session,"action":a.action,"recovery_authorization_sha256":authority_hash}),json!({"record_type":"TERMINAL_PENDING","attempt_key":key})];
+        let before=fs::read(f.0.join("recovery-authorization.json")).unwrap();
+        terminal_binding(&f.0,&a,&p,&terminal,&rows).unwrap();
+        assert_eq!(fs::read(f.0.join("recovery-authorization.json")).unwrap(),before);
+        for field in ["authorization_id","nonce","session","managed_contract_sha256","outcome_sha256","database_sha256","recovery_authorization_sha256","state","handoff_authorized","startupBlocked","safe_terminal"] {
+            let mut wrong=terminal.clone();wrong[field]=json!("wrong");
+            assert_eq!(terminal_binding(&f.0,&a,&p,&wrong,&rows).unwrap_err().code,"RECOVERY_TERMINAL_BINDING_MISMATCH","{field}");
+        }
+        assert!(terminal_binding(&f.0,&a,&p,&terminal,&[]).is_err());
+        durable(&f.0,ACTIVE,&json!({"attempt_key":"another","authorization_id":a.authorization_id,"session":a.session})).unwrap();
+        assert!(terminal_binding(&f.0,&a,&p,&terminal,&rows).is_err());
     }
     #[test] fn concurrent_recovery_claim_has_at_most_one_active_owner(){
         let f=Fixture::new();

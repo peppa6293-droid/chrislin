@@ -188,7 +188,8 @@ async function main(): Promise<void> {
   boot = await invoke<Bootstrap>("ipc_bootstrap");
   await evidence({ kind: "frontend_loaded", source: "bundled_typescript", href: window.location.href, userAgent: navigator.userAgent, app_identifier: boot.app_identifier });
   show({ scenario: boot.scenario, phase: boot.phase, transport: "real Tauri invoke" });
-  if (location.pathname.endsWith("disconnected.html")) await disconnectedDocument();
+  if (boot.scenario === "readiness") await finish({ readiness_only: true });
+  else if (location.pathname.endsWith("disconnected.html")) await disconnectedDocument();
   else if (boot.phase === "restart") await restart();
   else await initial();
 }

@@ -1,0 +1,29 @@
+{
+  "app_data": {
+    "/Users/linte/Library/Application Support/org.pfc.quiescence.integration": {
+      "exists": true,
+      "inode": 23598654,
+      "dev": 16777232,
+      "size": 96,
+      "mtime_ns": 1791516501386108733,
+      "ctime_ns": 1791516501386108733,
+      "sha256": null
+    },
+    "/Users/linte/Library/Application Support/org.pfc.quiescence.integration/personal-finance-console.sqlite3": {
+      "exists": true,
+      "inode": 23598655,
+      "dev": 16777232,
+      "size": 0,
+      "mtime_ns": 1791516501386107109,
+      "ctime_ns": 1791516501386121400,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-local-launch-i5zgrvs9",
+  "root_entries": [
+    "SYNTHETIC_ONLY",
+    "managed",
+    "permit.json"
+  ],
+  "executable_sha256": "3f230e33183307e76d9657f3532ce80424fdf9d1f471b8879bd55412512b1c9b"
+}

@@ -54,7 +54,10 @@ describe("isolated Q11 frontend/runtime boundaries (source regression only; not 
     expect(controller).not.toContain('"production_access":');
     expect(packager).toContain('"--config", "src-tauri/tauri.quiescence.conf.json"');
     expect(packager).toContain('"src-tauri/tauri.quiescence.package.conf.json"');
-    expect(packager).toContain('"--", "--bin", "quiescence-tauri"');
+    expect(packager).toContain('"--bin", "quiescence-tauri", "--message-format=json-render-diagnostics"');
+    expect(packager).toContain('"npx", "tauri", "bundle"');
+    expect(packager).not.toContain('["npx", "tauri", "build"');
+    expect(packager).toContain('provenance["prebundle_uuid"]');
     expect(controller).toContain('"--build-only"');
     expect(controller).toContain('Contents/MacOS/quiescence-tauri');
   });

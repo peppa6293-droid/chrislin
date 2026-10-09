@@ -1,0 +1,246 @@
+{
+  "format_version": 1,
+  "synthetic_only": true,
+  "status": "SIGNED_LOCAL_DEVELOPMENT_ENTRY_BINDING_PASS",
+  "started_at": "2026-10-09T06:13:15.262252+00:00",
+  "repo_head": "1ef7fddb311d04a3fe4927f4ccbd4468c1c336f9",
+  "signing_identity": "Apple Development: 8619814730147 (FW5KHTFNZ6)",
+  "commands": [
+    {
+      "argv": [
+        "npx",
+        "vite",
+        "build",
+        "--config",
+        "vite.quiescence.config.ts"
+      ],
+      "exit_code": 0,
+      "stdout_path": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/quiescence-integration/signed-runtime-20261009T061315261961Z/command-1.stdout.txt",
+      "stderr_path": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/quiescence-integration/signed-runtime-20261009T061315261961Z/command-1.stderr.txt",
+      "stdout_sha256": "3a58e1d888296bbbc6e4da59b662d205fd49672773c9faaa22a420d6694fd2e7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "cargo",
+        "build",
+        "--manifest-path",
+        "src-tauri/Cargo.toml",
+        "--features",
+        "quiescence-fixture",
+        "--bin",
+        "quiescence-old-runtime"
+      ],
+      "exit_code": 0,
+      "stdout_path": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/quiescence-integration/signed-runtime-20261009T061315261961Z/command-2.stdout.txt",
+      "stderr_path": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/quiescence-integration/signed-runtime-20261009T061315261961Z/command-2.stderr.txt",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "ea2ceb4ec4bbbe58c8796ca6f845e127dd5d8a2fdc2f69e72ad8e4eaf77c69b9"
+    },
+    {
+      "argv": [
+        "cargo",
+        "build",
+        "--manifest-path",
+        "src-tauri/Cargo.toml",
+        "--release",
+        "--features",
+        "quiescence-tauri",
+        "--bin",
+        "quiescence-tauri",
+        "--message-format=json-render-diagnostics"
+      ],
+      "exit_code": 0,
+      "stdout_path": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/quiescence-integration/signed-runtime-20261009T061315261961Z/command-3.stdout.txt",
+      "stderr_path": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/quiescence-integration/signed-runtime-20261009T061315261961Z/command-3.stderr.txt",
+      "stdout_sha256": "b54c278a676d188b088ebf67ad9f25689fe58a08ebe4b0e5ae2b904830b7f89a",
+      "stderr_sha256": "cd4bda7c767da340e216b48a2c1989f62fae243afb8d4aa9950779b3ad247bc2"
+    },
+    {
+      "argv": [
+        "npx",
+        "tauri",
+        "bundle",
+        "--config",
+        "src-tauri/tauri.quiescence.conf.json",
+        "--config",
+        "src-tauri/tauri.quiescence.package.conf.json",
+        "--features",
+        "quiescence-tauri",
+        "--bundles",
+        "app",
+        "--no-binary-patching"
+      ],
+      "exit_code": 0,
+      "stdout_path": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/quiescence-integration/signed-runtime-20261009T061315261961Z/command-4.stdout.txt",
+      "stderr_path": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/quiescence-integration/signed-runtime-20261009T061315261961Z/command-4.stderr.txt",
+      "stdout_sha256": "9f2fae2dd965008c016cac73f018fcbe53c4714e31f34cdd33001664a8b75af6",
+      "stderr_sha256": "9ffd3a9587b5c8101c32a227a12811a052a083dcb8e5fb099daa108ec1b81758"
+    }
+  ],
+  "app_bundle": {
+    "path": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/isolated-quiescence-20261009T061315261961Z/release/bundle/macos/PFC Isolated Quiescence IPC.app",
+    "bundle_identifier": "org.pfc.quiescence.integration",
+    "executable": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/isolated-quiescence-20261009T061315261961Z/release/bundle/macos/PFC Isolated Quiescence IPC.app/Contents/MacOS/quiescence-tauri",
+    "executable_sha256": "6f4295856e47b61f71871741a396cbe4a4b74f0de775ee7c5a512be669b46e36",
+    "cargo_binary": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/isolated-quiescence-20261009T061315261961Z/release/quiescence-tauri",
+    "cargo_binary_sha256": "b6af93f5b60859a589fe6bf10c8b35ace2ec29c7576d08359c9f520058aeaa14",
+    "cargo_binary_matches_packaged_executable": false,
+    "mach_o_uuid_binding": "UUID: DFDEC7D8-B90D-39F0-B879-BD768C1C0DBC (arm64) /Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/isolated-quiescence-20261009T061315261961Z/release/bundle/macos/PFC Isolated Quiescence IPC.app/Contents/MacOS/quiescence-tauri\nUUID: DFDEC7D8-B90D-39F0-B879-BD768C1C0DBC (arm64) /Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/isolated-quiescence-20261009T061315261961Z/release/quiescence-tauri\n",
+    "isolated_source_manifest_sha256": "d9b4488609c1a08d28f9d285eb2c0e9136b29feca26c35599629723b6e192231",
+    "packaged_resource_entries": [
+      "runtime-compatibility.json"
+    ],
+    "packaged_macos_entries": [
+      "quiescence-tauri"
+    ],
+    "info_plist_sha256": "44b8851f13bfe15d4718814a5dfa153284ee0e0e02522f5d2a57cfb93ef0cfc8",
+    "runtime_manifest_sha256": "d9b4488609c1a08d28f9d285eb2c0e9136b29feca26c35599629723b6e192231",
+    "codesign_verify": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/isolated-quiescence-20261009T061315261961Z/release/bundle/macos/PFC Isolated Quiescence IPC.app: valid on disk\n/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/isolated-quiescence-20261009T061315261961Z/release/bundle/macos/PFC Isolated Quiescence IPC.app: satisfies its Designated Requirement\n"
+    },
+    "signature_details": "Executable=/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/isolated-quiescence-20261009T061315261961Z/release/bundle/macos/PFC Isolated Quiescence IPC.app/Contents/MacOS/quiescence-tauri\nIdentifier=org.pfc.quiescence.integration\nFormat=app bundle with Mach-O thin (arm64)\nCodeDirectory v=20500 size=27050 flags=0x10000(runtime) hashes=838+3 location=embedded\nVersionPlatform=1\nVersionMin=720896\nVersionSDK=1769472\nHash type=sha256 size=32\nCandidateCDHash sha256=7ac00828a1438f10fabca34eb496ec0b72af76db\nCandidateCDHashFull sha256=7ac00828a1438f10fabca34eb496ec0b72af76db1d6b8844f0a8cb011d610b58\nHash choices=sha256\nCMSDigest=7ac00828a1438f10fabca34eb496ec0b72af76db1d6b8844f0a8cb011d610b58\nCMSDigestType=2\nExecutable Segment base=0\nExecutable Segment limit=9715712\nExecutable Segment flags=0x1\nPage size=16384\nCDHash=7ac00828a1438f10fabca34eb496ec0b72af76db\nSignature size=4777\nAuthority=Apple Development: 8619814730147 (FW5KHTFNZ6)\nAuthority=Apple Worldwide Developer Relations Certification Authority\nAuthority=Apple Root CA\nSigned Time=Oct 9, 2026 at 14:15:20\nInfo.plist entries=14\nTeamIdentifier=SSRKA7A4TN\nRuntime Version=27.0.0\nSealed Resources version=2 rules=13 files=1\nInternal requirements count=1 size=196\n",
+    "designated_requirement": "Executable=/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/isolated-quiescence-20261009T061315261961Z/release/bundle/macos/PFC Isolated Quiescence IPC.app/Contents/MacOS/quiescence-tauri\ndesignated => identifier \"org.pfc.quiescence.integration\" and anchor apple generic and certificate leaf[subject.CN] = \"Apple Development: 8619814730147 (FW5KHTFNZ6)\" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */",
+    "gatekeeper_assessment": {
+      "exit_code": 3,
+      "stdout": "",
+      "stderr": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/isolated-quiescence-20261009T061315261961Z/release/bundle/macos/PFC Isolated Quiescence IPC.app: rejected\n"
+    },
+    "extended_attributes": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/isolated-quiescence-20261009T061315261961Z/release/bundle/macos/PFC Isolated Quiescence IPC.app/Contents/_CodeSignature/CodeResources: com.apple.provenance: \u0001\u0002\n/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/isolated-quiescence-20261009T061315261961Z/release/bundle/macos/PFC Isolated Quiescence IPC.app/Contents/_CodeSignature: com.apple.provenance: \u0001\u0002\n/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/isolated-quiescence-20261009T061315261961Z/release/bundle/macos/PFC Isolated Quiescence IPC.app/Contents/MacOS/quiescence-tauri: com.apple.provenance: \u0001\u0002\n/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/isolated-quiescence-20261009T061315261961Z/release/bundle/macos/PFC Isolated Quiescence IPC.app/Contents/MacOS: com.apple.provenance: \u0001\u0002\n/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/isolated-quiescence-20261009T061315261961Z/release/bundle/macos/PFC Isolated Quiescence IPC.app/Contents/Resources/runtime-compatibility.json: com.apple.provenance: \u0001\u0002\n/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/isolated-quiescence-20261009T061315261961Z/release/bundle/macos/PFC Isolated Quiescence IPC.app/Contents/Resources: com.apple.provenance: \u0001\u0002\n/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/isolated-quiescence-20261009T061315261961Z/release/bundle/macos/PFC Isolated Quiescence IPC.app/Contents/Info.plist: com.apple.provenance: \u0001\u0002\n/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/isolated-quiescence-20261009T061315261961Z/release/bundle/macos/PFC Isolated Quiescence IPC.app/Contents: com.apple.provenance: \u0001\u0002\n/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/isolated-quiescence-20261009T061315261961Z/release/bundle/macos/PFC Isolated Quiescence IPC.app: com.apple.provenance: \u0001\u0002\n",
+    "extended_attributes_exit_code": 0,
+    "files": [
+      {
+        "path": ".",
+        "kind": "directory"
+      },
+      {
+        "path": "Contents",
+        "kind": "directory"
+      },
+      {
+        "path": "Contents/Info.plist",
+        "kind": "file",
+        "bytes": 1048,
+        "sha256": "44b8851f13bfe15d4718814a5dfa153284ee0e0e02522f5d2a57cfb93ef0cfc8",
+        "mode": 420
+      },
+      {
+        "path": "Contents/MacOS",
+        "kind": "directory"
+      },
+      {
+        "path": "Contents/MacOS/quiescence-tauri",
+        "kind": "file",
+        "bytes": 13774400,
+        "sha256": "6f4295856e47b61f71871741a396cbe4a4b74f0de775ee7c5a512be669b46e36",
+        "mode": 493
+      },
+      {
+        "path": "Contents/Resources",
+        "kind": "directory"
+      },
+      {
+        "path": "Contents/Resources/runtime-compatibility.json",
+        "kind": "file",
+        "bytes": 226,
+        "sha256": "d9b4488609c1a08d28f9d285eb2c0e9136b29feca26c35599629723b6e192231",
+        "mode": 420
+      },
+      {
+        "path": "Contents/_CodeSignature",
+        "kind": "directory"
+      },
+      {
+        "path": "Contents/_CodeSignature/CodeResources",
+        "kind": "file",
+        "bytes": 2474,
+        "sha256": "61b502b0a613d575b013c3f35f8edd7e21a31a34578e77d9e935f6de934b1e2b",
+        "mode": 420
+      }
+    ]
+  },
+  "build_target_dir": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/isolated-quiescence-20261009T061315261961Z",
+  "source_sha256_before": {
+    "src-tauri/src/quiescence_contract.rs": "1872b6f4239e1de871eaa70b083af45034f7d4348c2fedebc4c1f43fcda1824e",
+    "src-tauri/src/cutover_startup.rs": "ac48769928c455bbe290873297de2962c4faa86911c00a2e907f1dee82e0e956",
+    "src-tauri/src/lib.rs": "1e418d9572aba888fc70b8fb6ca34b77a6df3de980aca37a13bab63cd471a226",
+    "src-tauri/src/main.rs": "07c07867825ed9c0db5825420fca9e9fbeb490957be50ce3e713c62eb3182f73",
+    "src-tauri/src/quiescence_recovery.rs": "cec0bf7e6f7abafa24c56da1da83d93507bf550305aa586a9df30c7a8082ee08",
+    "src-tauri/src/quiescence.rs": "b0d6f996063e2b6c5e52bf5cbaa95cea4d39f4c24aea33df70c44d303bd1328e",
+    "src-tauri/src/bin/quiescence_old_runtime.rs": "1cb5040be1183c8ff100267d442cf812fcf7ca591465792034835415136ab9e3",
+    "src-tauri/src/bin/quiescence_fixture.rs": "eca35f31eb913cc5ef8c6ae03e9891cd10bd0546d6ae9b78c7bcb546729ced75",
+    "src-tauri/src/bin/quiescence_tauri.rs": "3c8740fc186022a200c4a71565b856e71934015e44460c5ac4945991b51de554",
+    "src-tauri/src/bin/quiescence_competitor.rs": "5845bf112936c2c63403d0321f9fed4787c6c919a66d4ddbcc791e995fca3625",
+    "quiescence-web/index.html": "d16744f9c068bf35c3bab81d8243a55228b8cb7755e106d84580a870063eccee",
+    "quiescence-web/main.ts": "3463ddd9bf0dab0a6631eb0e3c48f5a5eba1fae95bfb3d570968c61f78df0dd1",
+    "quiescence-web/disconnected.html": "b4c46770d8bf4dcf524309b08e0e188286cc65107bac6f95753d7ad40fde010d",
+    "src-tauri/Cargo.toml": "a13a11dde6607e9cca43fee7a0e4e843995a89f22771586a65c63f94b579c195",
+    "src-tauri/Cargo.lock": "5a58d1e21d6de8bbfdb3d3cb0332e2fe06516ea0790f2e9c14127b0943f054c8",
+    "src-tauri/build.rs": "b2d2640ef3405c1e4d5f219b0e10ecf7f9bad27640f94df68bda6a0702046c81",
+    "src-tauri/tauri.quiescence.conf.json": "f12478f123f9bfe1bee68e4b70b8c7e6e2b69fd91abdde7c38330ff9889dcbd0",
+    "src-tauri/tauri.quiescence.package.conf.json": "c72e884b6372653547c2c3694b701d4410b9870ba8646c783cd21f9b0494349c"
+  },
+  "isolated_compiler_artifact": {
+    "reason": "compiler-artifact",
+    "package_id": "path+file:///Users/linte/Documents/ChatGPT/%E4%B8%AA%E4%BA%BA%E8%B4%A2%E5%8A%A1%E6%A8%A1%E5%9E%8Bapp%E5%BC%80%E5%8F%91/src-tauri#personal-finance-console@0.1.0",
+    "manifest_path": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/Cargo.toml",
+    "target": {
+      "kind": [
+        "bin"
+      ],
+      "crate_types": [
+        "bin"
+      ],
+      "name": "quiescence-tauri",
+      "src_path": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/src/bin/quiescence_tauri.rs",
+      "edition": "2021",
+      "required-features": [
+        "quiescence-tauri"
+      ],
+      "doc": true,
+      "doctest": false,
+      "test": true
+    },
+    "profile": {
+      "opt_level": "3",
+      "debuginfo": 0,
+      "debug_assertions": false,
+      "overflow_checks": false,
+      "test": false
+    },
+    "features": [
+      "quiescence-fixture",
+      "quiescence-tauri"
+    ],
+    "filenames": [
+      "/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/isolated-quiescence-20261009T061315261961Z/release/quiescence-tauri"
+    ],
+    "executable": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/isolated-quiescence-20261009T061315261961Z/release/quiescence-tauri",
+    "fresh": false
+  },
+  "prebundle_binary_sha256": "b6af93f5b60859a589fe6bf10c8b35ace2ec29c7576d08359c9f520058aeaa14",
+  "prebundle_uuid": "DFDEC7D8-B90D-39F0-B879-BD768C1C0DBC",
+  "source_sha256_after": {
+    "src-tauri/src/quiescence_contract.rs": "1872b6f4239e1de871eaa70b083af45034f7d4348c2fedebc4c1f43fcda1824e",
+    "src-tauri/src/cutover_startup.rs": "ac48769928c455bbe290873297de2962c4faa86911c00a2e907f1dee82e0e956",
+    "src-tauri/src/lib.rs": "1e418d9572aba888fc70b8fb6ca34b77a6df3de980aca37a13bab63cd471a226",
+    "src-tauri/src/main.rs": "07c07867825ed9c0db5825420fca9e9fbeb490957be50ce3e713c62eb3182f73",
+    "src-tauri/src/quiescence_recovery.rs": "cec0bf7e6f7abafa24c56da1da83d93507bf550305aa586a9df30c7a8082ee08",
+    "src-tauri/src/quiescence.rs": "b0d6f996063e2b6c5e52bf5cbaa95cea4d39f4c24aea33df70c44d303bd1328e",
+    "src-tauri/src/bin/quiescence_old_runtime.rs": "1cb5040be1183c8ff100267d442cf812fcf7ca591465792034835415136ab9e3",
+    "src-tauri/src/bin/quiescence_fixture.rs": "eca35f31eb913cc5ef8c6ae03e9891cd10bd0546d6ae9b78c7bcb546729ced75",
+    "src-tauri/src/bin/quiescence_tauri.rs": "3c8740fc186022a200c4a71565b856e71934015e44460c5ac4945991b51de554",
+    "src-tauri/src/bin/quiescence_competitor.rs": "5845bf112936c2c63403d0321f9fed4787c6c919a66d4ddbcc791e995fca3625",
+    "quiescence-web/index.html": "d16744f9c068bf35c3bab81d8243a55228b8cb7755e106d84580a870063eccee",
+    "quiescence-web/main.ts": "3463ddd9bf0dab0a6631eb0e3c48f5a5eba1fae95bfb3d570968c61f78df0dd1",
+    "quiescence-web/disconnected.html": "b4c46770d8bf4dcf524309b08e0e188286cc65107bac6f95753d7ad40fde010d",
+    "src-tauri/Cargo.toml": "a13a11dde6607e9cca43fee7a0e4e843995a89f22771586a65c63f94b579c195",
+    "src-tauri/Cargo.lock": "5a58d1e21d6de8bbfdb3d3cb0332e2fe06516ea0790f2e9c14127b0943f054c8",
+    "src-tauri/build.rs": "b2d2640ef3405c1e4d5f219b0e10ecf7f9bad27640f94df68bda6a0702046c81",
+    "src-tauri/tauri.quiescence.conf.json": "f12478f123f9bfe1bee68e4b70b8c7e6e2b69fd91abdde7c38330ff9889dcbd0",
+    "src-tauri/tauri.quiescence.package.conf.json": "c72e884b6372653547c2c3694b701d4410b9870ba8646c783cd21f9b0494349c"
+  },
+  "finished_at": "2026-10-09T06:15:20.988950+00:00"
+}

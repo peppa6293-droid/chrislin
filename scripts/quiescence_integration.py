@@ -868,8 +868,10 @@ def handoff_native(lease, child, context, *, timeout=15):
     return receipt
 
 
-def run_formal(parent, native, scenario="normal", mode="ipc"):
-    fixture = create_fixture(parent, native, scenario)
+def run_formal(parent, native, scenario="normal", mode="ipc", candidate_bundle=None):
+    if mode == "ipc" and candidate_bundle is None:
+        raise Blocked("BLOCKED_SIGNED_IPC_BUNDLE_REQUIRED")
+    fixture = create_fixture(parent, native, scenario, candidate_bundle=candidate_bundle)
     root = Path(fixture["root"])
     with MaintenanceLease(root, fixture["session"]) as lease:
         context = prepare_managed(root, lease)
@@ -928,13 +930,14 @@ def main():
         sub.add_argument("--scenario", default="normal")
         if command == "run":
             sub.add_argument("--mode", choices=("ipc", "cli"), default="ipc")
+            sub.add_argument("--bundle", type=Path)
     actions.add_parser("diagnose").add_argument("root", type=Path)
     args = parser.parse_args()
     try:
         if args.action == "create-fixture":
             result = create_fixture(args.parent, args.native, args.scenario)
         elif args.action == "run":
-            result = run_formal(args.parent, args.native, args.scenario, args.mode)
+            result = run_formal(args.parent, args.native, args.scenario, args.mode, args.bundle)
         else:
             result = diagnose(args.root)
         print(json.dumps(result, sort_keys=True))

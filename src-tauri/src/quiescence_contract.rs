@@ -99,6 +99,34 @@ fn check_bundle(root:&Path,b:&Bundle,objects:&BTreeMap<String,Object>)->Result<(
     require((objects[&b.executable].mode&0o111!=0)==b.enabled,"BUNDLE_EXECUTION_STATE_DRIFT")
 }
 
+// A hash-linked receipt proves bytes, not their meaning. The supported S1
+// collector retains exactly one project-owned old runtime until waitpid.
+fn validate_retained_receipt(details:&Value,old:&Process,session:&str)->Result<()> {
+    let a=&details["association"];
+    require(a["pid"]==old.pid&&a["start"]==old.start&&a["executable_dev"]==old.executable_dev
+        &&a["executable_inode"]==old.executable_inode&&a["executable_sha256"]==old.executable_sha256
+        &&a["identity"]==old.executable_sha256&&digest_ok(&old.executable_sha256),"RETAINED_ASSOCIATION_RECEIPT_MISMATCH")?;
+    require(a["readiness"]==json!({"protocol":"pfc.synthetic-old-runtime.ready.v1","pid":old.pid,
+        "session":session,"initialized":true,"executable_sha256":old.executable_sha256}),"OLD_RUNTIME_READINESS_RECEIPT_MISMATCH")?;
+    let start=&details["start_evidence"];
+    require(start["pid"]==old.pid&&start["value"]==old.start&&start["returncode"]==0
+        &&start["collector"]=="ps_exact_retained_child_lstart"&&start["ownership"]=="retained_Popen_waitpid"
+        &&start["readiness"]==a["readiness"],"OLD_RUNTIME_START_RECEIPT_MISMATCH")?;
+    require(a["signature"]["signature_verified"]==true
+        &&a["signature"]["signature_details"].as_str().is_some_and(|s|s.lines().any(|line|line=="Identifier=org.pfc.quiescence.oldruntime")),
+        "OLD_RUNTIME_IDENTITY_RECEIPT_MISMATCH")
+}
+
+fn validate_exit_receipt(details:&Value,association:&Value)->Result<()> {
+    let observations=details["observations"].as_array().ok_or_else(||Failure::new("OLD_RUNTIME_EXIT_RECEIPT_MISMATCH","observations required"))?;
+    require(observations.len()==1,"OLD_RUNTIME_EXIT_RECEIPT_MISMATCH")?;
+    let mut expected=association.clone();
+    let fields=expected.as_object_mut().ok_or_else(||Failure::new("OLD_RUNTIME_EXIT_RECEIPT_MISMATCH","association required"))?;
+    fields.insert("target".into(),json!(true));fields.insert("state".into(),json!("EXIT_CONFIRMED"));
+    fields.insert("exitCode".into(),json!(0));fields.insert("evidence".into(),json!("retained_Popen_waitpid"));
+    require(observations[0]==expected,"OLD_RUNTIME_EXIT_RECEIPT_MISMATCH")
+}
+
 pub(super) fn validate(root:&Path,p:&Permit)->Result<Contract> {
     require(p.format_version==2&&p.synthetic_only&&!p.session.is_empty()&&!p.nonce.is_empty()&&!p.authorization_id.is_empty(),"V2_PERMIT_REQUIRED")?;
     let contract_hash=p.managed_contract_sha256.as_deref().filter(|v|digest_ok(v)).ok_or_else(||Failure::new("MANAGED_CONTRACT_HASH_MISSING","version 2 requires exact frozen hash"))?;
@@ -183,6 +211,7 @@ pub(super) fn validate(root:&Path,p:&Permit)->Result<Contract> {
     // including the disable-before-exit-before-move intermediate receipts.
     let managed_states=["S0_VERIFIED_CANDIDATE","S1_OLD_RUNTIME_RETAINED","S1_ENTRIES_DISABLED","S1_TARGET_EXIT_VERIFIED","S1_ARCHIVE_VERIFIED","S1_STAGING_VERIFIED","S1_INSTALLED_DISABLED","S1_MANAGED_ISOLATED","S2_OWNER_AUTHORIZED"];
     let mut prior:Option<String>=None;
+    let mut retained_association:Option<Value>=None;
     for (index,status) in managed_states.iter().enumerate() {
         let path=root.join(format!("managed-state-{status}.json"));let record=read_json(&path)?;
         require(record["format_version"]==2&&record["synthetic_only"]==true&&record["state"]==*status&&record["session"]==p.session&&record["authorization_id"]==p.authorization_id&&record["nonce"]==p.nonce&&record["sequence"]==index+1&&record["previous_evidence_sha256"]==json!(prior),"MANAGED_ORDERED_RECEIPT_CHAIN_INVALID")?;
@@ -190,7 +219,13 @@ pub(super) fn validate(root:&Path,p:&Permit)->Result<Contract> {
         if *status=="S1_MANAGED_ISOLATED" {require(record["details"]["objects"]==serde_json::to_value(&c.objects)?&&record["details"]["bundles"]==serde_json::to_value(&c.bundles)?&&record["details"]["known_nested"]==serde_json::to_value(&c.known_nested)?,"MANAGED_ISOLATION_RECEIPT_DRIFT")?;}
         if *status=="S2_OWNER_AUTHORIZED" {require(record["details"]["authorization"]==serde_json::to_value(&c.authorization)?&&record["details"]["lease"]==serde_json::to_value(&c.lease)?,"MANAGED_AUTHORIZATION_RECEIPT_DRIFT")?;}
         if *status=="S1_OLD_RUNTIME_RETAINED" {
-            require(c.processes.iter().any(|old|record["details"]["association"]["pid"]==old.pid&&record["details"]["association"]["start"]==old.start&&record["details"]["association"]["executable_dev"]==old.executable_dev&&record["details"]["association"]["executable_inode"]==old.executable_inode&&record["details"]["association"]["executable_sha256"]==old.executable_sha256),"RETAINED_ASSOCIATION_RECEIPT_MISMATCH")?;
+            require(c.processes.len()==1,"RETAINED_ASSOCIATION_RECEIPT_MISMATCH")?;
+            validate_retained_receipt(&record["details"],&c.processes[0],&p.session)?;
+            retained_association=Some(record["details"]["association"].clone());
+        }
+        if *status=="S1_TARGET_EXIT_VERIFIED" {
+            let association=retained_association.as_ref().ok_or_else(||Failure::new("OLD_RUNTIME_EXIT_RECEIPT_MISMATCH","retained association missing"))?;
+            validate_exit_receipt(&record["details"],association)?;
         }
     }
     // Re-read the frozen bytes after the full traversal, not merely beforehand.
@@ -281,6 +316,47 @@ pub(super) fn verify_chain(root:&Path,p:&Permit)->Result<Value> {
 mod tests {
     use super::*;
     use std::os::unix::fs::PermissionsExt;
+    fn old_receipt()->(Process,Value) {
+        let old=Process{pid:12345,start:"Fri Oct 9 2026".into(),executable_sha256:"a".repeat(64),executable_dev:1,executable_inode:2,state:"EXIT_CONFIRMED".into()};
+        let readiness=json!({"protocol":"pfc.synthetic-old-runtime.ready.v1","pid":old.pid,"session":"s","initialized":true,"executable_sha256":old.executable_sha256});
+        let details=json!({"association":{"pid":old.pid,"start":old.start,"identity":old.executable_sha256,
+            "executable_sha256":old.executable_sha256,"executable_dev":1,"executable_inode":2,"readiness":readiness,
+            "signature":{"signature_verified":true,"signature_details":"Identifier=org.pfc.quiescence.oldruntime\n"}},
+            "start_evidence":{"pid":old.pid,"value":old.start,"returncode":0,"collector":"ps_exact_retained_child_lstart","ownership":"retained_Popen_waitpid","readiness":readiness}});
+        (old,details)
+    }
+    #[test] fn s1_readiness_semantics_reject_rehashed_false_claims() {
+        let (old,valid)=old_receipt();validate_retained_receipt(&valid,&old,"s").unwrap();
+        for (pointer,replacement) in [
+            ("/association/readiness/protocol",json!("generic-ready")),("/association/readiness/session",json!("other")),
+            ("/association/readiness/pid",json!(12346)),("/association/readiness/initialized",json!(false)),
+            ("/association/readiness/executable_sha256",json!("b".repeat(64))),
+            ("/association/executable_dev",json!(3)),("/association/executable_inode",json!(3)),
+            ("/association/identity",json!("b".repeat(64))),
+            ("/association/signature/signature_verified",json!(false)),
+            ("/association/signature/signature_details",json!("Identifier=org.pfc.quiescence.oldruntime.evil\n")),
+            ("/start_evidence/ownership",json!("kill-zero")),("/start_evidence/value",json!("other-start")),
+            ("/start_evidence/returncode",json!(1)),("/start_evidence/readiness",Value::Null),
+        ] {let mut changed=valid.clone();*changed.pointer_mut(pointer).unwrap()=replacement;
+            assert!(validate_retained_receipt(&changed,&old,"s").is_err(),"accepted {pointer}");}
+        let mut missing=valid.clone();missing["association"].as_object_mut().unwrap().remove("readiness");
+        assert!(validate_retained_receipt(&missing,&old,"s").is_err());
+    }
+    #[test] fn s1_exit_requires_exact_retained_association_zero_exit_and_waitpid() {
+        let (_,retained)=old_receipt();let association=&retained["association"];
+        let mut observed=association.clone();observed["target"]=json!(true);observed["state"]=json!("EXIT_CONFIRMED");
+        observed["exitCode"]=json!(0);observed["evidence"]=json!("retained_Popen_waitpid");
+        let valid=json!({"complete":true,"observations":[observed]});validate_exit_receipt(&valid,association).unwrap();
+        for (field,value) in [("pid",json!(12346)),("start",json!("wrong")),("executable_inode",json!(3)),
+            ("exitCode",json!(-15)),("exitCode",Value::Null),("target",json!(false)),("state",json!("ACTIVE")),
+            ("evidence",json!("kill-zero")),("readiness",Value::Null)] {
+            let mut changed=valid.clone();changed["observations"][0][field]=value;
+            assert!(validate_exit_receipt(&changed,association).is_err(),"accepted {field}");
+        }
+        for observations in [json!([]),json!([observed.clone(),observed]),Value::Null] {
+            assert!(validate_exit_receipt(&json!({"complete":true,"observations":observations}),association).is_err());
+        }
+    }
     static SEQ:std::sync::atomic::AtomicU64=std::sync::atomic::AtomicU64::new(0);
     struct Fixture(PathBuf);
     impl Fixture {fn new()->Self {

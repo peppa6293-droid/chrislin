@@ -370,7 +370,13 @@ pub fn run_integrated(raw:&str,event:&EventCallback)->Result<Value> {
     let launch=json!({"format_version":2,"synthetic_only":true,"session":p.session,"nonce":p.nonce,"authorization_id":p.authorization_id,"managed_contract_sha256":p.managed_contract_sha256,"pid":std::process::id(),"parent_pid":unsafe{libc::getppid()},"lease_dev":lease.initial.dev,"lease_inode":lease.initial.inode});
     // create_new is the independent duplicate-native gate even if a mistaken
     // gate hands the same open file description to two candidate processes.
+    // Deterministic OS-death boundaries exist only in isolated fixture-feature builds.
+    // They run after root/candidate/lease validation and before any SQLite open.
+    #[cfg(feature="quiescence-fixture")]
+    if failpoint("native_ack_pre_write") {event("native_ack_pre_write",launch.clone())?;}
     let mut claim=OpenOptions::new().write(true).create_new(true).mode(0o600).custom_flags(libc::O_NOFOLLOW|libc::O_CLOEXEC).open(root.join("native-launch.json"))?;
+    #[cfg(feature="quiescence-fixture")]
+    if failpoint("native_ack_created") {event("native_ack_created",launch.clone())?;}
     serde_json::to_writer(&mut claim,&launch)?;claim.write_all(b"\n")?;claim.sync_all()?;sync_dir(&root)?;
     let events=Events{barriers:false,callback:Some(event),lease:Some(&lease)};
     let result=(||->Result<()> {

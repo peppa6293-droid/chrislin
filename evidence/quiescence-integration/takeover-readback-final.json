@@ -1,0 +1,61 @@
+{
+  "status": "PASS",
+  "scope": "isolated integration handoff, not blocker closure or Production approval",
+  "reports": {
+    "package": {
+      "path": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/quiescence-integration/signed-runtime-20261009T061315261961Z/package-validation.json",
+      "sha256": "3c19567c7d859fec79a3780bb47bbf8973aa9ef07a5863145cb6ba78fbc9c264"
+    },
+    "launch": {
+      "path": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/quiescence-integration/takeover-launch-final.json",
+      "sha256": "1d6292028a5dd5a34d19a00e9db94adac77ae16d6f6029e41545dc947d75004e"
+    },
+    "ipc": {
+      "path": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/quiescence-integration/takeover-ipc-final.json",
+      "sha256": "54b77a91a1267b37d64e2aa68aa8c13ec8a9394bc394da602c913c6235e65f1c"
+    },
+    "lease": {
+      "path": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/quiescence-integration/takeover-lease-final.json",
+      "sha256": "827cff192a962dbe5dab369da0a2d9af4d35f2755d14f6a015536b6db7f1d6bf"
+    },
+    "recovery": {
+      "path": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/quiescence-integration/takeover-recovery-final.json",
+      "sha256": "2aada9dc09c228acc005a32ab25a86fdb57c835a448013d26f60f9e06e3623c9"
+    },
+    "formal": {
+      "path": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/quiescence-integration/takeover-formal-final.json",
+      "sha256": "0164702bc6b9cb4bef10858cf0dcf095cb467168b8eb3e7aaac7530997cfe107"
+    },
+    "regressions": {
+      "path": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/quiescence-integration/regressions-20261009T061509017819Z.json",
+      "sha256": "1108df442fb43d2d35675b4757a2599933ff40d0fe910c609024f2066dd4b0be"
+    }
+  },
+  "archive": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/quiescence-integration/takeover-readback-final.tar.gz",
+  "archive_sha256": "85a8bbd8b7663a58e7f36d2438bb6a180d6ec61425f09a8cf36cb58e50c93570",
+  "formal_phases": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "formal_legacy_rows_equal": true,
+  "production_accessed": false,
+  "repository_protected_sources_unchanged": [
+    "src-tauri/src/lib.rs",
+    "src-tauri/src/main.rs",
+    "src-tauri/Cargo.toml",
+    "src/persistence/migrations.ts",
+    "migrations/004.sql",
+    "docs/CURRENT_PHASE.md"
+  ],
+  "blocker": "OPEN",
+  "independent_audit": "NOT_PERFORMED"
+}

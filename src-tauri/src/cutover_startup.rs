@@ -13,7 +13,7 @@ pub const RECORDS: &[&str] = &[
     "managed-progress.json", "native-launch.json",
     "handoff.json", "handoff-authorization.json", "recovery.json",
     "recovery-authorization.json", "integration-state.json",
-    "recovery-consumed.json", "recovery-result.json",
+    "recovery-consumed.json", "recovery-result.json", "recovery-history.jsonl", "recovery-active.json",
     "managed-state-S0_VERIFIED_CANDIDATE.json",
     "managed-state-S1_MANAGED_ISOLATED.json",
     "managed-state-S2_OWNER_AUTHORIZED.json",
@@ -68,7 +68,7 @@ pub fn inspect(app_data: &Path) -> StartupDecision {
             match entry {
                 Ok(entry) => {
                     let name = entry.file_name().to_string_lossy().into_owned();
-                    if name.starts_with("native-state-") || name.starts_with("managed-state-") {
+                    if name.starts_with("native-state-") || name.starts_with("managed-state-") || name.starts_with("recovery-preterminal-") {
                         names.push(name);
                     }
                 }
@@ -194,6 +194,17 @@ mod tests {
             fs::write(f.0.join(&name), b"{}").unwrap();
             assert!(!inspect(&f.0).ordinary_startup_allowed, "{name}");
             fs::remove_file(f.0.join(name)).unwrap();
+        }
+    }
+    #[test]
+    fn orphan_recovery_records_never_become_not_started() {
+        for name in ["recovery-history.jsonl", "recovery-active.json", "recovery-preterminal-attempt.json", "recovery-preterminal-attempt.json.pending"] {
+            let f = Fixture::new();
+            fs::write(f.0.join(name), b"{}").unwrap();
+            let d = inspect(&f.0);
+            assert!(!d.ordinary_startup_allowed, "{name}");
+            assert_ne!(d.state, "NOT_STARTED");
+            assert!(!d.database_accessed);
         }
     }
     #[test]
