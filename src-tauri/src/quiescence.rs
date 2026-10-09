@@ -463,7 +463,14 @@ pub fn cli()->Result<()> {
             }).map(|_|())
         },
         "diagnose-integrated"=>{println!("{}",diagnostic_integrated(root.to_str().unwrap())?);Ok(())},
-        "recover-integrated"=>{let value=recover_integrated(root.to_str().unwrap(),root.join("recovery-authorization.json").to_str().unwrap(),&|event,details|{println!("{}",json!({"event":event,"details":details}));Ok(())})?;println!("{value}");Ok(())},
+        "recover-integrated"=>{
+            let barriers=args.iter().any(|v|v=="--barrier");
+            let value=recover_integrated(root.to_str().unwrap(),root.join("recovery-authorization.json").to_str().unwrap(),&move |event,details|{
+                println!("{}",json!({"event":event,"details":details}));std::io::stdout().flush()?;
+                if barriers {let mut line=String::new();std::io::stdin().lock().read_line(&mut line)?;require(line.trim()=="continue","CONTROLLER_DISCONNECTED")?;}
+                Ok(())
+            })?;println!("{value}");Ok(())
+        },
         "status"=>{let value=fs::read(root.join("outcome.json")).ok().and_then(|b|serde_json::from_slice::<Value>(&b).ok());let blocked=startup_blocked(&root,&value);println!("{}",json!({"event":"status","startupBlocked":blocked,"outcome":value}));Ok(())},
         _=>Err(Failure::new("INVALID_ROLE","only run/hash/status in synthetic fixture"))
     }

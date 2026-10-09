@@ -187,7 +187,7 @@ def main():
                           "old_runtime_readiness_proven": False,
                           "ipc_log_hashes": {p.name: digest(p) for p in root.glob("ipc-*.log")}})
     else:
-        expected_cases = {"normal", "disconnect", "crash_at_quiescence", "crash_before_commit", "guard_lost"}
+        expected_cases = {"normal", "disconnect", "crash_at_quiescence", "crash_before_commit", "guard_lost", "refresh", "disconnect_after_release", "disconnect_postcommit"}
         assert {case["scenario"] for case in ipc["cases"]} == expected_cases
         cases = [verify_case(case) for case in ipc["cases"]]
     stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")

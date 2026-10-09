@@ -15,6 +15,7 @@ interface Status {
   started: boolean;
   running: boolean;
   disconnected: boolean;
+  commit_fenced: boolean;
   barrier: { id: number; event: string; details: Json } | null;
   result: Json | null;
   error: { code: string; detail: string } | null;
@@ -27,7 +28,8 @@ let boot: Bootstrap;
 let sequence = 0;
 let assertions = 0;
 const wait = (milliseconds: number) => new Promise<void>((resolve) => setTimeout(resolve, milliseconds));
-const nextId = () => `${boot.phase}-${location.pathname}-${++sequence}`;
+const documentId = crypto.getRandomValues(new Uint32Array(4)).join("-");
+const nextId = () => `${boot.phase}-${documentId}-${++sequence}`;
 const credentials = (requestId = nextId()) => ({ session: boot.session, token: boot.token, requestId });
 
 function show(value: unknown): void {
@@ -102,6 +104,9 @@ async function restart(): Promise<void> {
   } else {
     const expected: Record<string, string> = {
       disconnect: "FAILED_V3_CONFIRMED",
+      refresh: "FAILED_V3_CONFIRMED",
+      disconnect_after_release: "FAILED_V3_CONFIRMED",
+      disconnect_postcommit: "V4_VERIFIED",
       crash_at_quiescence: "QUIESCENCE_ACQUIRED",
       crash_before_commit: "COMMIT_OUTCOME_UNKNOWN",
       guard_lost: "GUARD_LOST_OR_UNPROVEN",
@@ -116,10 +121,13 @@ async function disconnectedDocument(): Promise<void> {
   let current = await status();
   const deadline = performance.now() + 10_000;
   while (current.running && performance.now() < deadline) { await wait(65); current = await status(); }
-  await check("navigation-loss-cancels-native-owned-cutover", !current.running && current.disconnected && current.error?.code === "FRONTEND_DISCONNECTED", current);
+  const postcommit = boot.scenario === "disconnect_postcommit";
+  await check("document-loss-obeys-native-commit-fence", !current.running && current.disconnected &&
+    (postcommit ? current.commit_fenced && current.error === null : current.error?.code === "FRONTEND_DISCONNECTED"), current);
   const diagnostic = await call("diagnostic_recovery");
-  await check("disconnect-retains-fail-closed-durable-state", diagnostic.startupBlocked === true && diagnostic.state === "FAILED_V3_CONFIRMED", diagnostic);
+  await check("disconnect-retains-fail-closed-durable-state", diagnostic.startupBlocked === true && diagnostic.state === (postcommit ? "V4_VERIFIED" : "FAILED_V3_CONFIRMED"), diagnostic);
   await rejects("ordinary_business_read", "BUSINESS_IPC_BLOCKED_DURING_CUTOVER");
+  await rejects("ordinary_business_write", "BUSINESS_IPC_BLOCKED_DURING_CUTOVER");
   await finish({ diagnostic, real_document_replacement: true });
 }
 
@@ -161,6 +169,12 @@ async function initial(): Promise<void> {
   await call("request_app_close");
   const closeChecked = await until((value) => value.app_exit_prevented >= 1, "real app-exit interception");
   await check("real-window-and-app-close-kept-native-C", closeChecked.running && closeChecked.barrier?.id === barrier.id, closeChecked);
+  if (boot.scenario === "refresh") {
+    sessionStorage.setItem(`refresh-${boot.session}`, "replacement");
+    await evidence({ kind: "frontend_disconnect_requested", method: "window.location.reload", target: location.href });
+    window.location.reload();
+    return;
+  }
   if (boot.scenario === "disconnect") {
     await evidence({ kind: "frontend_disconnect_requested", method: "window.location.replace", target: "disconnected.html" });
     window.location.replace(new URL("disconnected.html", window.location.href).href);
@@ -169,6 +183,18 @@ async function initial(): Promise<void> {
   const advanced = await call("diagnostic_advance_barrier", { barrierId: barrier.id });
   await check("frontend-releases-only-barrier-never-commit", advanced.commit_control === "native_state_machine_only", advanced);
   await rejects("diagnostic_advance_barrier", "BARRIER_REPLAY", { barrierId: barrier.id });
+  if (boot.scenario === "disconnect_after_release" || boot.scenario === "disconnect_postcommit") {
+    const boundary = boot.scenario === "disconnect_postcommit" ? "committed" : "m4_started";
+    const next = await until((value) => value.barrier?.event === boundary, "native loss boundary");
+    await check("document-loss-after-first-barrier-release", next.running && next.barrier?.id !== barrier.id &&
+      next.commit_fenced === (boundary === "committed"), next);
+    // Observation interval for the independent SQLite/lease contender; native
+    // remains at a deterministic protected barrier, not a guessed race window.
+    await wait(650);
+    await evidence({ kind: "frontend_disconnect_requested", method: "window.location.replace", target: "index.html?replacement=1", native_boundary: boundary });
+    window.location.replace(new URL("index.html?replacement=1", window.location.href).href);
+    return;
+  }
   let done = await status();
   const deadline = performance.now() + 30_000;
   while (done.running && performance.now() < deadline) { await wait(70); done = await status(); }
@@ -189,8 +215,8 @@ async function main(): Promise<void> {
   await evidence({ kind: "frontend_loaded", source: "bundled_typescript", href: window.location.href, userAgent: navigator.userAgent, app_identifier: boot.app_identifier });
   show({ scenario: boot.scenario, phase: boot.phase, transport: "real Tauri invoke" });
   if (boot.scenario === "readiness") await finish({ readiness_only: true });
-  else if (location.pathname.endsWith("disconnected.html")) await disconnectedDocument();
   else if (boot.phase === "restart") await restart();
+  else if (location.pathname.endsWith("disconnected.html") || location.search.includes("replacement=1") || sessionStorage.getItem(`refresh-${boot.session}`) === "replacement") await disconnectedDocument();
   else await initial();
 }
 

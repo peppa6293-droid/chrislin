@@ -47,6 +47,7 @@ struct Inner {
     started: bool,
     running: bool,
     disconnected: bool,
+    commit_fenced: bool,
     barrier: Option<Barrier>,
     next_barrier: u64,
     released: HashSet<u64>,
@@ -97,36 +98,54 @@ impl RuntimeState {
     fn snapshot(&self) -> Value {
         let inner = self.inner.lock().unwrap();
         json!({"started":inner.started,"running":inner.running,"barrier":inner.barrier,
-            "disconnected":inner.disconnected,"result":inner.result,"error":inner.error,
+            "disconnected":inner.disconnected,"commit_fenced":inner.commit_fenced,"result":inner.result,"error":inner.error,
             "window_close_prevented":inner.window_close_prevented,"app_exit_prevented":inner.app_exit_prevented,
             "handoff_authorized":inner.handoff_authorized,"startup":self.startup})
     }
 
     fn native_event(&self, event: &str, details: Value) -> quiescence::Result<()> {
         self.journal.append("native_event", json!({"event":event,"details":details}))?;
-        let pause_at = if self.scenario == "crash_before_commit" { "before_commit" } else { "quiescence_acquired" };
-        if event != pause_at { return Ok(()); }
         let mut inner = self.inner.lock().unwrap();
+        // Before the native commit decision, document loss cancels at the next
+        // protected callback. After that fence it cannot veto COMMIT or readback.
+        if inner.disconnected && !inner.commit_fenced {
+            return Err(quiescence::Failure::new("FRONTEND_DISCONNECTED", "document lost before native commit fence"));
+        }
+        let pause_at = if self.scenario == "crash_before_commit" { "before_commit" } else { "quiescence_acquired" };
+        let second = (self.scenario == "disconnect_after_release" && event == "m4_started")
+            || (self.scenario == "disconnect_postcommit" && event == "committed");
+        if event != pause_at && !second {
+            if event == "before_commit" {
+                inner.commit_fenced = true;
+                self.journal.append("native_commit_fence",json!({"frontend_cannot_cancel_after_this_point":true}))?;
+            }
+            return Ok(());
+        }
         inner.next_barrier += 1;
         let id = inner.next_barrier;
         inner.barrier = Some(Barrier { id, event:event.into(), details });
-        self.journal.append("native_barrier_entered",json!({"barrier_id":id,"event":event,"owns_connection_c":true}))?;
+        self.journal.append("native_barrier_entered",json!({"barrier_id":id,"event":event,"owns_connection_c":true,"commit_fenced":inner.commit_fenced}))?;
         while !inner.released.contains(&id) && !inner.disconnected {
             let (next, timed) = self.wake.wait_timeout(inner, Duration::from_secs(45)).unwrap();
             inner = next;
-            if timed.timed_out() { return Err(quiescence::Failure::new("FRONTEND_BARRIER_TIMEOUT", event)); }
+            if timed.timed_out() {
+                if inner.commit_fenced {break;}
+                return Err(quiescence::Failure::new("FRONTEND_BARRIER_TIMEOUT", event));
+            }
         }
-        if inner.disconnected { return Err(quiescence::Failure::new("FRONTEND_DISCONNECTED", "real webview document navigation")); }
+        if inner.disconnected && !inner.commit_fenced { return Err(quiescence::Failure::new("FRONTEND_DISCONNECTED", "real webview document loss before commit fence")); }
         inner.barrier = None;
         self.journal.append("native_barrier_released",json!({"barrier_id":id,"event":event}))?;
+        if event == "before_commit" {inner.commit_fenced=true;self.journal.append("native_commit_fence",json!({"frontend_cannot_cancel_after_this_point":true}))?;}
         Ok(())
     }
 
     fn disconnect(&self, url: &str) {
         let mut inner = self.inner.lock().unwrap();
-        if inner.running {
+        if inner.running && !inner.disconnected {
             inner.disconnected = true;
-            let _ = self.journal.append("frontend_document_disconnected",json!({"url":url,"source":"real_webview_navigation_hook"}));
+            let _ = self.journal.append("frontend_document_disconnected",json!({"url":url,"source":"real_webview_navigation_or_page_load_hook","commit_fenced":inner.commit_fenced,
+                "policy":if inner.commit_fenced{"native-continues-protected-terminal-verification"}else{"native-cancels-before-commit-at-protected-callback"}}));
             self.wake.notify_all();
         }
     }
@@ -296,7 +315,7 @@ fn checked_state() -> std::result::Result<Arc<RuntimeState>, Box<dyn std::error:
         return Err("IPC_SYNTHETIC_MARKER_INVALID".into());
     }
     let scenario = std::env::var("PFC_IPC_SCENARIO")?;
-    if !["readiness","normal","disconnect","crash_at_quiescence","crash_before_commit","guard_lost"].contains(&scenario.as_str()) {return Err("IPC_SCENARIO_INVALID".into());}
+    if !["readiness","normal","disconnect","refresh","disconnect_after_release","disconnect_postcommit","crash_at_quiescence","crash_before_commit","guard_lost"].contains(&scenario.as_str()) {return Err("IPC_SCENARIO_INVALID".into());}
     let phase = std::env::var("PFC_IPC_PHASE").unwrap_or_else(|_|"initial".into());
     if !["initial","restart"].contains(&phase.as_str()) { return Err("IPC_PHASE_INVALID".into()); }
     let permit_path = if root.join("permit.json").exists(){root.join("permit.json")}else{root.join("consumed.json")};
@@ -354,13 +373,17 @@ fn main() {
         .setup(move |app| {
             if app.config().identifier!=APP_ID {return Err("ISOLATED_APP_IDENTIFIER_MISMATCH".into());}
             let navigation=Arc::clone(&setup_state);
+            let loading=Arc::clone(&setup_state);
             WebviewWindowBuilder::new(app,"quiescence",WebviewUrl::App("index.html".into()))
                 .title("Synthetic Q11 — real Tauri IPC")
                 .inner_size(760.0,420.0)
                 .incognito(true)
                 .on_navigation(move |url| {
-                    if url.path().ends_with("/disconnected.html") {navigation.disconnect(url.as_str());}
-                    matches!(url.scheme(),"tauri"|"http"|"https") && matches!(url.host_str(),Some("localhost"|"tauri.localhost"))
+                    let allowed=matches!(url.scheme(),"tauri"|"http"|"https") && matches!(url.host_str(),Some("localhost"|"tauri.localhost"));
+                    if allowed {navigation.disconnect(url.as_str());}
+                    allowed
+                }).on_page_load(move |_window,payload| {
+                    if matches!(payload.event(),tauri::webview::PageLoadEvent::Started) {loading.disconnect(payload.url().as_str());}
                 }).build()?;
             Ok(())
         })

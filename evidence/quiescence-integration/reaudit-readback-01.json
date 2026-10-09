@@ -1,0 +1,69 @@
+{
+  "status": "PASS",
+  "scope": "isolated integration handoff, not blocker closure or Production approval",
+  "reports": {
+    "package": {
+      "path": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/quiescence-integration/signed-runtime-20261009T064724502081Z/package-validation.json",
+      "sha256": "7c125652e7ef67fff7d18ff14b8c72744c13552096fc9b3ff6e6fdd36589c504"
+    },
+    "revalidation": {
+      "path": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/quiescence-integration/reaudit-build-revalidation-01.json",
+      "sha256": "b24de1b491e12a5471d8de56ba55958570a0e84496df60e5b8a021592bb907bb"
+    },
+    "negative_receipts": {
+      "path": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/quiescence-integration/reaudit-receipt-negative-01.json",
+      "sha256": "f67443b9c6da1265fa047656e0ae02c4dabdd4ff3ff152e85f9defd9b195c7e6"
+    },
+    "launch": {
+      "path": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/quiescence-integration/reaudit-launch-01.json",
+      "sha256": "e2842bfada0a5120b0df29e4e9b8a076ba5a2a8205f2f8d5d16c03919afa43c8"
+    },
+    "ipc": {
+      "path": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/quiescence-integration/reaudit-ipc-01.json",
+      "sha256": "eeeba8f97f41b1f787caeaff1ea0b81341a751b31f9b78bda1e311033acc814a"
+    },
+    "lease": {
+      "path": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/quiescence-integration/reaudit-lease-01.json",
+      "sha256": "8fbf21a93e3e9f0175fa98b5f7bb3040141783375f03b843d7a738690f500fbb"
+    },
+    "recovery": {
+      "path": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/quiescence-integration/reaudit-recovery-01.json",
+      "sha256": "2929461166dc25ec4ddfccf75192638c567ac317c9fc817e4eea82250c9641d0"
+    },
+    "formal": {
+      "path": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/quiescence-integration/reaudit-formal-01.json",
+      "sha256": "cc542a9a32caf7e12007cc506ecadb19d185cad33b11c2da660235e308157d29"
+    },
+    "regressions": {
+      "path": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/quiescence-integration/regressions-20261009T065218965414Z.json",
+      "sha256": "6f6f1403921f1c0de95f9f4557c4d3f6d04cbaefe2417cdbe1a3c69b9d65ded5"
+    }
+  },
+  "archive": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/quiescence-integration/reaudit-readback-01.tar.gz",
+  "archive_sha256": "b6d3d8a51aa664ea48452da85912dc17bd8f916b55bfc1d10b94d2d061bded73",
+  "formal_phases": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "formal_legacy_rows_equal": true,
+  "production_accessed": false,
+  "repository_protected_sources_unchanged": [
+    "src-tauri/src/lib.rs",
+    "src-tauri/src/main.rs",
+    "src-tauri/Cargo.toml",
+    "src/persistence/migrations.ts",
+    "migrations/004.sql",
+    "docs/CURRENT_PHASE.md"
+  ],
+  "blocker": "OPEN",
+  "independent_audit": "NOT_PERFORMED"
+}

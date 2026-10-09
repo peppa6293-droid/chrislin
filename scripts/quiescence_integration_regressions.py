@@ -17,6 +17,8 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "evidence/quiescence-integration"
 COMMANDS = [
+    [sys.executable, "-m", "unittest", "discover", "-s", "scripts", "-p", "test_quiescence_package_provenance.py", "-v"],
+    [sys.executable, "-m", "unittest", "discover", "-s", "scripts", "-p", "test_quiescence_readiness.py", "-v"],
     ["npm", "run", "typecheck"],
     ["npx", "tsc", "--noEmit", "-p", "tsconfig.quiescence.json"],
     ["npm", "test"],

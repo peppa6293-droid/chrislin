@@ -9,6 +9,7 @@ frontend invoke. All roots are retained for independent persisted DB readback.
 from __future__ import annotations
 
 import argparse
+import fcntl
 import hashlib
 import json
 import os
@@ -24,11 +25,13 @@ from quiescence_gate import MaintenanceLease
 from quiescence_integration import create_fixture, handoff_native, prepare_managed
 
 REPO = Path(__file__).resolve().parents[1]
-CASES = ("normal", "disconnect", "crash_at_quiescence", "crash_before_commit", "guard_lost")
+CASES = ("normal", "disconnect", "crash_at_quiescence", "crash_before_commit", "guard_lost",
+         "refresh", "disconnect_after_release", "disconnect_postcommit")
 EXPECTED = {
     "normal": "V4_VERIFIED", "disconnect": "FAILED_V3_CONFIRMED",
     "crash_at_quiescence": "QUIESCENCE_ACQUIRED",
     "crash_before_commit": "COMMIT_OUTCOME_UNKNOWN", "guard_lost": "GUARD_LOST_OR_UNPROVEN",
+    "refresh": "FAILED_V3_CONFIRMED", "disconnect_after_release": "FAILED_V3_CONFIRMED", "disconnect_postcommit": "V4_VERIFIED",
 }
 SOURCES = (
     "scripts/quiescence_ipc_tests.py", "scripts/quiescence_integration.py", "scripts/quiescence_gate.py",
@@ -36,6 +39,7 @@ SOURCES = (
     "src-tauri/Cargo.toml", "src-tauri/Cargo.lock", "src-tauri/src/quiescence.rs",
     "src-tauri/src/quiescence_contract.rs", "src-tauri/src/quiescence_recovery.rs",
     "src-tauri/src/bin/quiescence_tauri.rs", "src-tauri/src/bin/quiescence_old_runtime.rs",
+    "src-tauri/src/bin/quiescence_competitor.rs",
     "src-tauri/tauri.quiescence.conf.json", "src-tauri/tauri.quiescence.package.conf.json",
     "src-tauri/quiescence-runtime-compatibility.json",
     "src-tauri/capabilities/quiescence-ipc.json", "quiescence-web/main.ts",
@@ -116,6 +120,7 @@ def launch(context, scenario, phase, lease=None):
     lifecycle_path = root / f"ipc-{phase}-controller.json"
     handoff = None
     killed = False
+    protection_probes = []
     with (root / f"ipc-{phase}.stdout.log").open("x") as output, (root / f"ipc-{phase}.stderr.log").open("x") as error:
         if lease is not None:
             process = lease.launch_native(executable, context["native_sha256"], arguments=[], extra_env=extra,
@@ -141,6 +146,31 @@ def launch(context, scenario, phase, lease=None):
                 release = release_gate_after_native_proof(lease, context, process, entries)
                 if release:
                     handoff = release
+                if scenario in ("disconnect_after_release", "disconnect_postcommit") and phase == "initial" and not protection_probes:
+                    boundary = "committed" if scenario == "disconnect_postcommit" else "m4_started"
+                    markers = [row for row in entries if row["event"] == "native_barrier_entered" and row["detail"]["event"] == boundary]
+                    if markers:
+                        fd = os.open(root / "maintenance.lock", os.O_RDWR)
+                        try:
+                            try:
+                                fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                                raise AssertionError("native lost lease at document-loss boundary")
+                            except BlockingIOError:
+                                pass
+                        finally:
+                            os.close(fd)
+                        peer = REPO / "src-tauri/target/debug/quiescence_competitor"
+                        commands = [{"action": "sql", "sql": "SELECT count(*) FROM sqlite_schema", "query": True},
+                                    {"action": "sql", "sql": "BEGIN IMMEDIATE", "query": False}, {"action": "close"}]
+                        attempt = subprocess.run([str(peer), str(root)], input="".join(json.dumps(c) + "\n" for c in commands),
+                                                 capture_output=True, text=True, timeout=10)
+                        peer_rows = [json.loads(line) for line in attempt.stdout.splitlines()]
+                        probes = [row for row in peer_rows if row.get("event") == "sql"]
+                        require(attempt.returncode == 0 and len(probes) == 2 and all(row.get("ok") is False and row.get("primary_code") == 5 for row in probes),
+                                f"real SQLite competitor did not prove BUSY: {attempt.stdout} {attempt.stderr}")
+                        protection_probes.append({"boundary": boundary, "native_pid": process.pid, "lease_contended": True,
+                            "sqlite_peer": str(peer), "sqlite_peer_sha256": sha(peer), "sqlite": probes, "peer_events": peer_rows,
+                            "peer_returncode": attempt.returncode, "peer_stderr": attempt.stderr})
                 fatal = frontend(entries, "fatal_frontend_failure")
                 if fatal:
                     raise AssertionError(f"actual frontend failed: {fatal[-1]}")
@@ -163,10 +193,13 @@ def launch(context, scenario, phase, lease=None):
                 complete = [row for row in entries if row["event"] == "frontend_complete"]
                 require(complete and complete[-1]["detail"]["value"].get("passed") is True, "missing passing persisted frontend result")
             require(not [row for row in frontend(entries, "assertion") if not row["passed"]], "frontend assertion failed")
+            if scenario in ("disconnect_after_release", "disconnect_postcommit") and phase == "initial":
+                require(len(protection_probes) == 1, "missing real lease/SQLite contender at protected loss boundary")
             return {"pid": process.pid, "exit_code": process.returncode, "controller_killed": killed,
                     "log": str(log), "log_sha256": sha(log), "events": len(entries),
                     "frontend_assertions": len(frontend(entries, "assertion")), "lease_handoff": handoff,
                     "controller_lifecycle": str(lifecycle_path),
+                    "protection_probes": protection_probes,
                     "frontend_results": [row["detail"]["value"] for row in entries if row["event"] == "frontend_complete"]}
         except Exception as failure:
             lifecycle["failure"] = f"{type(failure).__name__}: {failure}"
@@ -222,9 +255,14 @@ def verify_native_cross_checks(case):
         blocked = {row["detail"]["command"] for row in entries if row["event"] == "ipc_rejected"
                    and row["detail"]["code"] == "BUSINESS_IPC_BLOCKED_DURING_CUTOVER"}
         require({"ordinary_business_read", "ordinary_business_write"} <= blocked, "real business IPC refusals missing")
-    if case["scenario"] == "disconnect":
+    if case["scenario"] in ("disconnect", "refresh", "disconnect_after_release", "disconnect_postcommit"):
         require(any(row["event"] == "frontend_document_disconnected" for row in entries), "real navigation disconnect hook absent")
         require(frontend(entries, "real_replacement_document_loaded"), "replacement real document did not load")
+        loss = next(row for row in entries if row["event"] == "frontend_document_disconnected")
+        require(loss["detail"]["commit_fenced"] == (case["scenario"] == "disconnect_postcommit"), "wrong disconnect commit-fence policy")
+        if case["scenario"] in ("disconnect_after_release", "disconnect_postcommit"):
+            require(any(row["event"] == "native_barrier_released" and row["sequence"] < loss["sequence"] for row in entries), "loss did not follow release")
+            require(case["initial"]["protection_probes"], "no real guard evidence")
     restart = rows(Path(case["restart"]["log"]))
     require(not any(row["event"] == "native_worker_started" for row in restart), "restart reran migration")
     if case["scenario"] == "normal":

@@ -68,17 +68,81 @@ def authorize(context, action="verify-v4-handoff", authorization_id=None, nonce=
     return value
 
 
-def invoke(context, name, failpoint="", expect=None):
+def invoke(context, name, failpoint="", expect=None, *, barrier_event=None, replacement_kind=None):
     root = Path(context["root"])
     before = protected(root)
     env = os.environ.copy()
     env["PFC_Q_FAIL"] = failpoint
     command = [context["installed_executable"], "recover-integrated", str(root)]
-    result = subprocess.run(command, env=env, text=True, capture_output=True, timeout=45)
+    barrier_evidence = None
+    if barrier_event:
+        command.append("--barrier")
+        target = root / "recovery-authorization.json"
+        original = target.read_bytes()
+        before_authority = target.stat()
+        out_path, err_path = root / (name + "-stdout.log"), root / (name + "-stderr.log")
+        observed, replaced = 0, False
+        with out_path.open("x") as output, err_path.open("x") as error:
+            process = subprocess.Popen(command, env=env, text=True, stdin=subprocess.PIPE, stdout=output, stderr=error)
+            try:
+                deadline = time.monotonic() + 45
+                while process.poll() is None:
+                    require(time.monotonic() < deadline, "recovery callback barrier timed out")
+                    output_text = out_path.read_text()
+                    available = output_text.splitlines()
+                    if output_text and not output_text.endswith("\n"):
+                        available = available[:-1]
+                    while observed < len(available):
+                        row = json.loads(available[observed])
+                        observed += 1
+                        if row.get("event") not in {"recovery_authorization_parsed", "authorized_recovery_verified"}:
+                            continue
+                        if row["event"] == barrier_event:
+                            require(not replaced, "target callback repeated")
+                            replaced = True
+                            (root / ("retained-" + name + "-authority.json")).write_bytes(original)
+                            if replacement_kind == "semantic":
+                                changed = json.loads(original)
+                                changed["nonce"] = "changed-" + uuid.uuid4().hex
+                                replacement = (json.dumps(changed, indent=2) + "\n").encode()
+                            elif replacement_kind == "bytes":
+                                replacement = original.replace(b"\n", b" ", 1)
+                                require(replacement != original and len(replacement) == len(original), "same-size byte mutation missing")
+                                require(json.loads(replacement) == json.loads(original), "byte-only mutation changed meaning")
+                            else:
+                                require(replacement_kind == "unchanged", "invalid mutation kind")
+                                replacement = original
+                            if replacement_kind == "bytes":
+                                with target.open("r+b") as stream:
+                                    stream.write(replacement)
+                                    stream.flush()
+                                    os.fsync(stream.fileno())
+                            elif replacement_kind != "unchanged":
+                                swap = root / (name + "-replacement.json")
+                                swap.write_bytes(replacement)
+                                os.replace(swap, target)
+                            after_authority = target.stat()
+                            barrier_evidence = {"event": row, "mutation": replacement_kind,
+                                "original_sha256": hashlib.sha256(original).hexdigest(), "current_sha256": sha(target),
+                                "original_object": [before_authority.st_dev, before_authority.st_ino],
+                                "current_object": [after_authority.st_dev, after_authority.st_ino]}
+                        process.stdin.write("continue\n")
+                        process.stdin.flush()
+                    time.sleep(0.01)
+                require(replaced, "requested callback was not observed")
+            finally:
+                if process.poll() is None:
+                    process.kill()
+                    process.wait(timeout=5)
+                process.stdin.close()
+        result = subprocess.CompletedProcess(command, process.returncode, out_path.read_text(), err_path.read_text())
+    else:
+        result = subprocess.run(command, env=env, text=True, capture_output=True, timeout=45)
     rows = [json.loads(line) for line in result.stdout.splitlines() if line.strip()]
     last = rows[-1] if rows else None
     entry = {"name": name, "command": command, "returncode": result.returncode,
         "stdout": result.stdout, "stderr": result.stderr, "rows": rows,
+        "barrier": barrier_evidence,
         "protected_before": before, "protected_after": protected(root), "saved_records": record_facts(root)}
     save(root / ("matrix-" + name + ".json"), entry)
     require(entry["protected_before"] == entry["protected_after"], name + ": recovery mutated DB/permit/original native receipts")
@@ -119,7 +183,35 @@ def case(base, native, signing, name):
     context = setup(base, native, signing, name, v3=name == "v3-terminal")
     root = Path(context["root"])
     evidence = []
-    if name in {"v4-success-confirm", "v3-terminal"}:
+    if name.startswith("authorization-"):
+        _, stage, mutation = name.split("-")
+        callback = "recovery_authorization_parsed" if stage == "parse" else "authorized_recovery_verified"
+        expected = None if mutation == "unchanged" else {"RECOVERY_AUTHORIZATION_DRIFT"}
+        evidence.append(invoke(context, "fixed-authority-boundary", expect=expected,
+            barrier_event=callback, replacement_kind=mutation))
+        original_hash = evidence[-1]["barrier"]["original_sha256"]
+        if mutation == "unchanged":
+            before = record_facts(root)
+            evidence.append(invoke(context, "same-original-authority-readonly-confirm"))
+            require(record_facts(root) == before, "confirmation changed records")
+            require(json.loads((root / "recovery-result.json").read_text())["recovery_authorization_sha256"] == original_hash,
+                    "terminal does not bind the parsed byte vector")
+        else:
+            require(not (root / "recovery-result.json").exists(), "authorization drift published terminal success")
+            if stage == "parse":
+                require(not (root / "recovery-consumed.json").exists() and not (root / "recovery-history.jsonl").exists(),
+                        "authorization changed before consumption was consumed")
+            else:
+                history = [json.loads(line) for line in (root / "recovery-history.jsonl").read_text().splitlines()]
+                require(history[0]["recovery_authorization_sha256"] == original_hash and history[-1]["record_type"] == "FAILED",
+                        "failed callback did not retain original authority consumption")
+    elif name == "terminal-new-authority-refused":
+        evidence.append(invoke(context, "original-authority-terminal"))
+        authorize(context)
+        before = record_facts(root)
+        evidence.append(invoke(context, "new-authority-cannot-confirm-old-terminal", expect={"RECOVERY_TERMINAL_BINDING_MISMATCH"}))
+        require(record_facts(root) == before, "new authority changed original terminal/ledger")
+    elif name in {"v4-success-confirm", "v3-terminal"}:
         evidence.append(invoke(context, "initial"))
         before = record_facts(root)
         evidence.append(invoke(context, "readonly-confirm"))
@@ -206,7 +298,9 @@ def main():
         "sources_before": {str(path): sha(path) for path in sources}, "cases": [], "status": "RUNNING"}
     save(args.output, report)
     cases = ["v4-success-confirm", "v3-terminal", "busy-new-authorization", "before-terminal", "after-terminal",
-             "ledger-missing", "ledger-corrupt", "pending", "candidate-changed", "database-changed"]
+             "ledger-missing", "ledger-corrupt", "pending", "candidate-changed", "database-changed",
+             "authorization-parse-semantic", "authorization-parse-bytes", "authorization-callback-semantic",
+             "authorization-callback-bytes", "authorization-callback-unchanged", "terminal-new-authority-refused"]
     for name in cases:
         try:
             report["cases"].append(case(base, native, args.signing_identity, name))

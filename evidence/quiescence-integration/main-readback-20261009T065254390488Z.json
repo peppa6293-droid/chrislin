@@ -1,0 +1,188 @@
+{
+  "format_version": 1,
+  "verification": "main-task independent saved-state readback, not future independent re-audit",
+  "passed": true,
+  "delivery_status": "PASS",
+  "saved_state_readback_complete": true,
+  "ipc_report_sha256": "eeeba8f97f41b1f787caeaff1ea0b81341a751b31f9b78bda1e311033acc814a",
+  "regression_sha256": "6f6f1403921f1c0de95f9f4557c4d3f6d04cbaefe2417cdbe1a3c69b9d65ded5",
+  "historical_claims_unchanged": [
+    "V012_V4_CUTOVER_QUIESCENCE_IMPLEMENTATION_REPORT.md",
+    "V012_V4_CUTOVER_QUIESCENCE_SQLITE_EXPERIMENT_REPORT.md",
+    "src/persistence/migrations.ts",
+    "migrations/004.sql"
+  ],
+  "cases": [
+    {
+      "scenario": "normal",
+      "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-vm618s8k/pfc-qic-normal-vap71q4z",
+      "outcome_state": "V4_VERIFIED",
+      "ipc_log_hashes": {
+        "ipc-initial.jsonl": "f2497b5d376ad13922fe117ad2cff686bc7d60d3d849209a8c87de602c2eac8d",
+        "ipc-restart.jsonl": "a5d141a7597ac44673aa52b1ecc7708d32923dd3742577ca8d00655fbad27b2b"
+      },
+      "native_receipts": 12,
+      "database": {
+        "opened": true,
+        "immutable_read_only": true,
+        "unchanged_legacy_business_rows": true,
+        "version": 4,
+        "versions": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "sha256": "4a2ca5748ab55a5f6cc6060b3f8a95558136c49ced52284ca0139b181b437122",
+        "integrity": "ok",
+        "foreign_key_violations": 0
+      }
+    },
+    {
+      "scenario": "disconnect",
+      "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-vm618s8k/pfc-qic-disconnect-ie0fgq8c",
+      "outcome_state": "FAILED_V3_CONFIRMED",
+      "ipc_log_hashes": {
+        "ipc-initial.jsonl": "24547d543a2647eefd3d393726e278ff33868cce783fc1510330b2c418148db1",
+        "ipc-restart.jsonl": "e648d41ddd2517f4306b6ac4e57ba51892a04c38e2b0197c6e7dacf3a3cf7e4a"
+      },
+      "native_receipts": 8,
+      "database": {
+        "opened": true,
+        "immutable_read_only": true,
+        "unchanged_legacy_business_rows": true,
+        "version": 3,
+        "versions": [
+          1,
+          2,
+          3
+        ],
+        "sha256": "3774686f9f2c3c4f1a09756e5a46c34dbb1e781994280d1684511e9639da158a",
+        "integrity": "ok",
+        "foreign_key_violations": 0
+      }
+    },
+    {
+      "scenario": "crash_at_quiescence",
+      "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-vm618s8k/pfc-qic-crash_at_quiescence-v2gfvqob",
+      "outcome_state": "QUIESCENCE_ACQUIRED",
+      "ipc_log_hashes": {
+        "ipc-initial.jsonl": "e70b3f5e7d4959d4565657610ca20fb81b539e5e738f26514a145bfe7eec100e",
+        "ipc-restart.jsonl": "751ec1a3ea2543e4a5022d83230da88e545fcfae359298bb3f6b49f5299dda71"
+      },
+      "native_receipts": 6,
+      "database": {
+        "opened": false,
+        "reason": "unresolved state preserved; no schema-only inference",
+        "raw_sha256": "3774686f9f2c3c4f1a09756e5a46c34dbb1e781994280d1684511e9639da158a"
+      }
+    },
+    {
+      "scenario": "crash_before_commit",
+      "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-vm618s8k/pfc-qic-crash_before_commit-2xc7fdwf",
+      "outcome_state": "COMMIT_OUTCOME_UNKNOWN",
+      "ipc_log_hashes": {
+        "ipc-initial.jsonl": "115a9d2c88470484b5d9d4893b4d099114bdf9f2ecd593e319a5bf8493ea0d17",
+        "ipc-restart.jsonl": "b6eb62ac258aa3ed313739fbd929d6e693ecda597cff8499f87ceec82168e210"
+      },
+      "native_receipts": 9,
+      "database": {
+        "opened": false,
+        "reason": "unresolved state preserved; no schema-only inference",
+        "raw_sha256": "3774686f9f2c3c4f1a09756e5a46c34dbb1e781994280d1684511e9639da158a"
+      }
+    },
+    {
+      "scenario": "guard_lost",
+      "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-vm618s8k/pfc-qic-guard_lost-it__9nne",
+      "outcome_state": "GUARD_LOST_OR_UNPROVEN",
+      "ipc_log_hashes": {
+        "ipc-initial.jsonl": "a1b6ef4c98b2c0cc6c4355359d23ddf876cb42e35a59a0156cd2cf3b15c9e281",
+        "ipc-restart.jsonl": "7fe8a43e0cc71775921e82eed3f38ecd46cc942efa3f8f1b44899ef75c7bbd24"
+      },
+      "native_receipts": 10,
+      "database": {
+        "opened": false,
+        "reason": "unresolved state preserved; no schema-only inference",
+        "raw_sha256": "3774686f9f2c3c4f1a09756e5a46c34dbb1e781994280d1684511e9639da158a"
+      }
+    },
+    {
+      "scenario": "refresh",
+      "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-vm618s8k/pfc-qic-refresh-mfzoqa5o",
+      "outcome_state": "FAILED_V3_CONFIRMED",
+      "ipc_log_hashes": {
+        "ipc-initial.jsonl": "55bf24b715f8080ebf87dac1a32936c2aecd6c5e50ab7b973defec51a781ec4a",
+        "ipc-restart.jsonl": "da0c9a648fb478542dafa407d8eb2603a23279a28bc9749ef9dafaf7893a52c1"
+      },
+      "native_receipts": 8,
+      "database": {
+        "opened": true,
+        "immutable_read_only": true,
+        "unchanged_legacy_business_rows": true,
+        "version": 3,
+        "versions": [
+          1,
+          2,
+          3
+        ],
+        "sha256": "3774686f9f2c3c4f1a09756e5a46c34dbb1e781994280d1684511e9639da158a",
+        "integrity": "ok",
+        "foreign_key_violations": 0
+      }
+    },
+    {
+      "scenario": "disconnect_after_release",
+      "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-vm618s8k/pfc-qic-disconnect_after_release-i2jikq1c",
+      "outcome_state": "FAILED_V3_CONFIRMED",
+      "ipc_log_hashes": {
+        "ipc-initial.jsonl": "bd41311aad84e5f7789f2175a7807fd72e04f7530157c27c5601cda4992058bb",
+        "ipc-restart.jsonl": "04ddf8b4d46f1a6aaec275a11dad961d595625ca3a58031f5e895b88062f4869"
+      },
+      "native_receipts": 10,
+      "database": {
+        "opened": true,
+        "immutable_read_only": true,
+        "unchanged_legacy_business_rows": true,
+        "version": 3,
+        "versions": [
+          1,
+          2,
+          3
+        ],
+        "sha256": "3774686f9f2c3c4f1a09756e5a46c34dbb1e781994280d1684511e9639da158a",
+        "integrity": "ok",
+        "foreign_key_violations": 0
+      }
+    },
+    {
+      "scenario": "disconnect_postcommit",
+      "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-vm618s8k/pfc-qic-disconnect_postcommit-md0tqltc",
+      "outcome_state": "V4_VERIFIED",
+      "ipc_log_hashes": {
+        "ipc-initial.jsonl": "5f3587d3eb08e4517d7d34c445637a73c7047e0b5756a143f69df197a42f5b1d",
+        "ipc-restart.jsonl": "b30809ba6bb9d609d1fc9d65131849f72b0bb6faa3a37c127a86f7af7497b73f"
+      },
+      "native_receipts": 12,
+      "database": {
+        "opened": true,
+        "immutable_read_only": true,
+        "unchanged_legacy_business_rows": true,
+        "version": 4,
+        "versions": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "sha256": "679171136d97cd9887ce1bf4d17c9b6e66ab2e28c160f9363f5f8bf3300a6424",
+        "integrity": "ok",
+        "foreign_key_violations": 0
+      }
+    }
+  ],
+  "archive": {
+    "path": "evidence/quiescence-integration/readback-fixtures-20261009T065254390488Z.tar.gz",
+    "sha256": "8adef48cc9b53b577489b3873ff2da8f91bcf19ec2bafa0a2954ab878172ae4b"
+  }
+}

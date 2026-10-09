@@ -68,6 +68,7 @@
   "failure_classifications": ["PERMIT_CONSUMED","QUIESCENCE_ACQUIRED","MIGRATION_IN_PROGRESS","COMMIT_OUTCOME_UNKNOWN","V4_COMMITTED_PENDING_VERIFICATION","FAILED_V3_CONFIRMED","GUARD_LOST_OR_UNPROVEN"],
   "recovery_authorization_required_fields": ["format_version=2","synthetic_only=true","scope=synthetic-recovery-handoff-only","authorization_id=new distinct ID","session=original session","nonce=new distinct nonce","managed_contract_sha256","consumed_sha256","outcome_sha256","action=diagnose|verify-v4-handoff|verify-v3-terminal","expected_database_sha256"],
   "recovery_rules": {
+    "authorization_bytes": "One NOFOLLOW regular-file descriptor snapshot supplies both parsed authority and SHA256. Path/inode/metadata/original bytes are rechecked before ledger consumption, before legacy consumed record, after callback and immediately before terminal publication; drift fails closed. Confirmation binds the exact original bytes and is read-only.",
     "read_only": "diagnose reads no SQLite. Verified recovery acquires exact inode/session lease, independently checks all managed runtime facts, then uses a new READ_ONLY/NOFOLLOW/private-cache C with query_only and a read transaction. No sidecar recovery, checkpoint, M4, permit revival or restore.",
     "terminal_evidence": "exact current DB hash before/inside read transaction, complete schema/ledger/integrity/FK, unchanged legacy rows compared with independently read exact V3 backup, runtime re-enumeration, stable object and lease. V4 also requires persisted commit lineage (phase >= 8).",
     "files": ["recovery-authorization.json","recovery-consumed.json","recovery-history.jsonl","recovery-active.json","recovery-preterminal-<attempt_key>.json","recovery-result.json"],
@@ -76,5 +77,13 @@
     "v3": "FAILED_V3_CONFIRMED safe attempt terminal still blocks normal business; V4 maintenance runtime remains isolated and no old runtime is restored.",
     "v4": "V4_VERIFIED handoff_authorized true only after this independent verification. Ordinary startup still requires a new compatible handoff path, never merely schema=4 or a saved success string."
   },
-  "legacy_compatibility": "CLI v1 historical experiments remain intact. run-integrated --barrier is native-layer instrumentation only and is never Q11 evidence. Real Q11 uses the isolated Tauri runtime and TS invoke boundary."
+  "frontend_loss_policy": {
+    "ownership": "Native alone owns Connection C and lease. No frontend command commits, rolls back or releases C. All same-origin document navigations and page-load-start (including reload) signal loss; no dedicated test URL is required.",
+    "pre_commit": "Before the native before_commit decision fence, observed document loss aborts at a protected native callback and V3 is reported only after guarded rollback/schema proof. A vanished unobserved renderer at a barrier times out and fails closed.",
+    "commit_fence_and_after": "The before_commit callback atomically checks loss and sets a native fence before returning to COMMIT. Loss after this fence cannot veto COMMIT or protected readback; native continues to a verified terminal or its existing UNKNOWN/GUARD_LOST error state, never an inferred V3. A postcommit diagnostic barrier auto-releases on document loss or timeout while C/lease stay native-owned.",
+    "business": "Document replacement and terminal completion never grant ordinary business entry. Restart stays blocked until separate bound recovery handoff.",
+    "coverage": ["real disconnected.html navigation", "real same-URL reload", "real generic same-origin replacement after initial barrier release before commit", "real generic same-origin replacement after COMMIT with SQLite and lease contention probes"],
+    "renderer_termination": "NOT VERIFIED: no supported exact WebKit renderer termination hook is asserted; whole-app SIGKILL remains a different crash test. No promise of immediate renderer-loss detection outside observed navigation/page-load or a waiting barrier. Native safe continuation and ordinary-entry blocking remain the policy."
+  },
+  "legacy_compatibility": "CLI v1 historical experiments remain intact. run-integrated/recover-integrated --barrier are native-layer instrumentation only and never Q11 evidence. Real Q11 uses the isolated Tauri runtime and TS invoke boundary."
 }

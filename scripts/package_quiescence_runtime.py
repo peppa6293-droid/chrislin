@@ -18,12 +18,19 @@ IDENTIFIER = "org.pfc.quiescence.integration"
 EXECUTABLE = "quiescence-tauri"
 EXPECTED_IDENTITY = "Apple Development: 8619814730147 (FW5KHTFNZ6)"
 EXPECTED_TEAM_IDENTIFIER = "SSRKA7A4TN"
+PASS_STATUS = "SIGNED_LOCAL_DEVELOPMENT_ENTRY_BINDING_PASS"
 
 
 def build_sources():
     files = list((REPO / "src-tauri/src").rglob("*.rs")) + list((REPO / "quiescence-web").rglob("*"))
+    for directory in ("migrations", "src-tauri/capabilities", "src-tauri/icons", "src-tauri/.cargo", ".cargo"):
+        files += list((REPO / directory).rglob("*"))
     files += [REPO / name for name in ("src-tauri/Cargo.toml", "src-tauri/Cargo.lock", "src-tauri/build.rs",
-        "src-tauri/tauri.quiescence.conf.json", "src-tauri/tauri.quiescence.package.conf.json")]
+        "src-tauri/tauri.quiescence.conf.json", "src-tauri/tauri.quiescence.package.conf.json",
+        "src-tauri/tauri.conf.json", "src-tauri/quiescence-runtime-compatibility.json",
+        "src/persistence/migrations.ts", "vite.quiescence.config.ts", "package.json", "package-lock.json",
+        "scripts/package_quiescence_runtime.py")]
+    files += list((REPO / "src-tauri").glob("tauri.*.conf.json"))
     return {str(path.relative_to(REPO)): sha(path) for path in files if path.is_file()}
 
 
@@ -33,6 +40,86 @@ def sha(path):
         for block in iter(lambda: stream.read(1024 * 1024), b""):
             digest.update(block)
     return digest.hexdigest()
+
+
+def expected_commands():
+    return [
+        ["npx", "vite", "build", "--config", "vite.quiescence.config.ts"],
+        ["cargo", "build", "--manifest-path", "src-tauri/Cargo.toml", "--features", "quiescence-fixture", "--bin", "quiescence-old-runtime"],
+        ["cargo", "build", "--manifest-path", "src-tauri/Cargo.toml", "--release", "--features", "quiescence-tauri", "--bin", "quiescence-tauri", "--message-format=json-render-diagnostics"],
+        ["npx", "tauri", "bundle", "--config", "src-tauri/tauri.quiescence.conf.json", "--config", "src-tauri/tauri.quiescence.package.conf.json", "--features", "quiescence-tauri", "--bundles", "app", "--no-binary-patching"],
+    ]
+
+
+def require(condition, message):
+    if not condition:
+        raise RuntimeError(message)
+
+
+def validate_artifact(artifact, build_dir):
+    binary = build_dir / "release" / EXECUTABLE
+    require(isinstance(artifact, dict) and artifact.get("reason") == "compiler-artifact", "invalid compiler artifact")
+    target = artifact.get("target", {})
+    require(target.get("name") == EXECUTABLE and target.get("kind") == ["bin"]
+            and target.get("src_path") == str(REPO / "src-tauri/src/bin/quiescence_tauri.rs")
+            and artifact.get("manifest_path") == str(REPO / "src-tauri/Cargo.toml")
+            and artifact.get("executable") == str(binary)
+            and artifact.get("filenames") == [str(binary)], "compiler artifact source/name/path/builddir mismatch")
+    require(binary.resolve(strict=True) == binary, "compiler artifact path is redirected")
+    return binary
+
+
+def validate_prior_receipt(prior, current_sources, signing_identity):
+    require(isinstance(prior, dict) and type(prior.get("format_version")) is int
+            and prior["format_version"] == 1 and prior.get("synthetic_only") is True
+            and prior.get("receipt_kind") == "build" and prior.get("status") == PASS_STATUS
+            and not prior.get("error") and not prior.get("build_receipt_path"), "not a successful original build receipt")
+    require(prior.get("signing_identity") == signing_identity, "original signing identity mismatch")
+    before, after = prior.get("source_sha256_before"), prior.get("source_sha256_after")
+    require(isinstance(before, dict) and bool(before) and before == after == current_sources
+            and all(isinstance(v, str) and re.fullmatch(r"[0-9a-f]{64}", v) for v in before.values()),
+            "original before/after/current source fingerprints or complete key set mismatch")
+    build_dir = Path(prior.get("build_target_dir", ""))
+    require(build_dir.is_absolute() and build_dir.parent == REPO / "src-tauri/target"
+            and build_dir.name.startswith("isolated-quiescence-") and build_dir.resolve(strict=True) == build_dir,
+            "original build directory is not canonical isolated target")
+    commands = prior.get("commands")
+    require(isinstance(commands, list) and len(commands) == 4, "original build must contain four commands")
+    for item, expected in zip(commands, expected_commands()):
+        require(isinstance(item, dict) and item.get("argv") == expected
+                and type(item.get("exit_code")) is int and item["exit_code"] == 0,
+                "original command order/arguments/explicit zero exit mismatch")
+        for stream in ("stdout", "stderr"):
+            log = Path(item.get(stream + "_path", ""))
+            require(log.is_absolute() and log.is_file() and sha(log) == item.get(stream + "_sha256"), "original command log hash mismatch")
+    artifact = prior.get("isolated_compiler_artifact")
+    binary = validate_artifact(artifact, build_dir)
+    cargo_rows = [json.loads(line) for line in Path(commands[2]["stdout_path"]).read_text().splitlines() if line.startswith("{")]
+    selected = [row for row in cargo_rows if row.get("reason") == "compiler-artifact" and row.get("target", {}).get("name") == EXECUTABLE and row.get("executable")]
+    require(selected == [artifact], "compiler artifact differs from original hashed Cargo log")
+    require(sha(binary) == prior.get("prebundle_binary_sha256"), "source-bound candidate binary hash mismatch")
+    bundle = prior.get("app_bundle")
+    require(isinstance(bundle, dict), "missing original package identity")
+    app = build_dir / "release/bundle/macos/PFC Isolated Quiescence IPC.app"
+    executable = app / "Contents/MacOS" / EXECUTABLE
+    require(bundle.get("path") == str(app) and bundle.get("executable") == str(executable)
+            and bundle.get("cargo_binary") == str(binary) and bundle.get("bundle_identifier") == IDENTIFIER,
+            "original package/candidate identity mismatch")
+    require(sha(binary) == bundle.get("cargo_binary_sha256") and sha(executable) == bundle.get("executable_sha256")
+            and sha(app / "Contents/Info.plist") == bundle.get("info_plist_sha256")
+            and sha(app / "Contents/Resources/runtime-compatibility.json") == bundle.get("runtime_manifest_sha256"),
+            "original package or candidate bytes changed")
+    require(isinstance(prior.get("prebundle_uuid"), str) and bool(prior["prebundle_uuid"]), "original UUID missing")
+    recorded_uuid = bundle.get("mach_o_uuid_binding", "")
+    check = subprocess.run(["dwarfdump", "--uuid", str(executable), str(binary)], capture_output=True, text=True)
+    require(type(check.returncode) is int and check.returncode == 0 and check.stdout == recorded_uuid,
+            "original package/candidate UUID observation changed")
+    uuid_rows = [re.fullmatch(r"UUID:\s+(\S+)\s+\(([^)]+)\)\s+(.+)", line) for line in check.stdout.splitlines()]
+    require(len(uuid_rows) == 2 and all(uuid_rows)
+            and all(row[1] == prior["prebundle_uuid"] for row in uuid_rows)
+            and uuid_rows[0][2] == uuid_rows[1][2]
+            and [row[3] for row in uuid_rows] == [str(executable), str(binary)], "original package UUID binding mismatch")
+    return build_dir
 
 
 def main():
@@ -47,36 +134,37 @@ def main():
     evidence_dir.mkdir(parents=True, exist_ok=False)
     output = args.output or evidence_dir / "package-validation.json"
     receipt = {"format_version": 1, "synthetic_only": True, "status": "RUNNING",
+               "receipt_kind": "revalidation" if args.validate_build_receipt else "build",
                "started_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
                "repo_head": subprocess.run(["git", "rev-parse", "HEAD"], cwd=REPO, capture_output=True,
                                               text=True, check=True).stdout.strip(),
                "signing_identity": args.signing_identity, "commands": [], "app_bundle": None,
                "build_target_dir": str(REPO / "src-tauri/target" / f"isolated-quiescence-{stamp}")}
-    receipt["source_sha256_before"] = build_sources()
+    current_sources = build_sources()
+    if args.validate_build_receipt:
+        receipt["revalidation_source_sha256_before"] = current_sources
+    else:
+        receipt["source_sha256_before"] = current_sources
     env = os.environ.copy()
     env["APPLE_SIGNING_IDENTITY"] = args.signing_identity
     env["CARGO_TARGET_DIR"] = receipt["build_target_dir"]
     # Build the isolated source explicitly; tauri build renames default-run.
     env["TAURI_CONFIG"] = json.dumps(json.loads((REPO / "src-tauri/tauri.quiescence.conf.json").read_text()))
-    commands = [
-        ["npx", "vite", "build", "--config", "vite.quiescence.config.ts"],
-        ["cargo", "build", "--manifest-path", "src-tauri/Cargo.toml", "--features", "quiescence-fixture",
-         "--bin", "quiescence-old-runtime"],
-        ["cargo", "build", "--manifest-path", "src-tauri/Cargo.toml", "--release",
-         "--features", "quiescence-tauri", "--bin", "quiescence-tauri", "--message-format=json-render-diagnostics"],
-        ["npx", "tauri", "bundle", "--config", "src-tauri/tauri.quiescence.conf.json", "--config",
-         "src-tauri/tauri.quiescence.package.conf.json", "--features", "quiescence-tauri", "--bundles", "app",
-         "--no-binary-patching"],
-    ]
+    commands = expected_commands()
     try:
         if args.validate_build_receipt:
             prior_path = args.validate_build_receipt.resolve(strict=True)
             prior = json.loads(prior_path.read_text())
-            if not prior.get("build_target_dir") or not prior.get("commands") or any(item.get("exit_code") for item in prior["commands"]):
-                raise RuntimeError("prior receipt does not prove all package build commands completed")
-            receipt["build_target_dir"] = prior["build_target_dir"]
+            receipt["build_target_dir"] = str(validate_prior_receipt(prior, current_sources, args.signing_identity))
             receipt["commands"] = prior["commands"]
             receipt["build_receipt_path"] = str(prior_path)
+            receipt["build_receipt_sha256"] = sha(prior_path)
+            receipt["original_build_provenance"] = prior
+            # Preserve historical build fingerprints verbatim, separately from
+            # this read-only revalidation's source snapshot and repo head.
+            receipt["original_build_repo_head"] = prior.get("repo_head")
+            for field in ("source_sha256_before", "source_sha256_after", "isolated_compiler_artifact", "prebundle_binary_sha256", "prebundle_uuid"):
+                receipt[field] = prior[field]
         else:
             for index, command in enumerate(commands, start=1):
                 result = subprocess.run(command, cwd=REPO, env=env, capture_output=True, text=True, timeout=1800)
@@ -97,6 +185,7 @@ def main():
                     if len(selected) != 1 or Path(selected[0]["target"]["src_path"]).resolve() != REPO / "src-tauri/src/bin/quiescence_tauri.rs":
                         raise RuntimeError("Cargo did not prove the exact isolated source entry")
                     artifact = selected[0]
+                    validate_artifact(artifact, Path(receipt["build_target_dir"]))
                     receipt["isolated_compiler_artifact"] = artifact
                     receipt["prebundle_binary_sha256"] = sha(artifact["executable"])
                     receipt["prebundle_uuid"] = subprocess.run(["dwarfdump", "--uuid", artifact["executable"]],
@@ -124,6 +213,8 @@ def main():
         provenance = receipt if not args.validate_build_receipt else prior
         if not provenance.get("isolated_compiler_artifact") or not provenance.get("prebundle_uuid"):
             raise RuntimeError("missing independent pre-bundle Cargo source provenance")
+        validate_artifact(provenance["isolated_compiler_artifact"], Path(receipt["build_target_dir"]))
+        require(sha(build_binary) == provenance.get("prebundle_binary_sha256"), "candidate changed after source-bound compilation")
         if manifest_value.get("bundleId") != IDENTIFIER or manifest_value.get("executable") != f"Contents/MacOS/{EXECUTABLE}":
             raise RuntimeError(f"isolated runtime manifest mismatch: {manifest_value}")
         resource_entries = sorted(path.name for path in (app / "Contents/Resources").iterdir())
@@ -184,11 +275,15 @@ def main():
             "extended_attributes": attrs.stdout, "extended_attributes_exit_code": attrs.returncode,
             "files": files,
         }
-        receipt["status"] = "SIGNED_LOCAL_DEVELOPMENT_ENTRY_BINDING_PASS"
-        receipt["source_sha256_after"] = build_sources()
-        if receipt["source_sha256_after"] != receipt["source_sha256_before"]:
+        after_sources = build_sources()
+        receipt["revalidation_source_sha256_after" if args.validate_build_receipt else "source_sha256_after"] = after_sources
+        if after_sources != current_sources:
             receipt["status"] = "SOURCE_DRIFT_DURING_BUILD"
             raise RuntimeError("source drifted during build; candidate is not audit-ready")
+        if args.validate_build_receipt:
+            require(sha(prior_path) == receipt["build_receipt_sha256"], "original receipt changed during revalidation")
+            validate_prior_receipt(prior, after_sources, args.signing_identity)
+        receipt["status"] = PASS_STATUS
     except Exception as error:
         if receipt["status"] == "RUNNING":
             receipt["status"] = "BUILD_OR_SIGNATURE_FAILED"

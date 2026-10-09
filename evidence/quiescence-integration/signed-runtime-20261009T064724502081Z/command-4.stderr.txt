@@ -1,0 +1,10 @@
+        Warn Skipping binary patching for /Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/isolated-quiescence-20261009T064724502081Z/release/quiescence-tauri due to --no-binary-patching flag.
+    Bundling PFC Isolated Quiescence IPC.app (/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/isolated-quiescence-20261009T064724502081Z/release/bundle/macos/PFC Isolated Quiescence IPC.app)
+     Signing with identity "Apple Development: 8619814730147 (FW5KHTFNZ6)"
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/isolated-quiescence-20261009T064724502081Z/release/bundle/macos/PFC Isolated Quiescence IPC.app/Contents/MacOS/quiescence-tauri: replacing existing signature
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/isolated-quiescence-20261009T064724502081Z/release/bundle/macos/PFC Isolated Quiescence IPC.app/Contents/MacOS/quiescence-tauri: replacing existing signature
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/isolated-quiescence-20261009T064724502081Z/release/bundle/macos/PFC Isolated Quiescence IPC.app: replacing existing signature
+        Warn skipping app notarization, no APPLE_ID & APPLE_PASSWORD & APPLE_TEAM_ID or APPLE_API_KEY & APPLE_API_ISSUER & APPLE_API_KEY_PATH environment variables found
+    Finished 1 bundle at:
+        /Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/isolated-quiescence-20261009T064724502081Z/release/bundle/macos/PFC Isolated Quiescence IPC.app (13.13 MiB)
+
