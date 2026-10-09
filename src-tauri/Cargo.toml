@@ -23,6 +23,11 @@ path = "src/bin/quiescence_fixture.rs"
 required-features = ["quiescence-fixture"]
 
 [[bin]]
+name = "quiescence-old-runtime"
+path = "src/bin/quiescence_old_runtime.rs"
+required-features = ["quiescence-fixture"]
+
+[[bin]]
 name = "quiescence_competitor"
 path = "src/bin/quiescence_competitor.rs"
 required-features = ["quiescence-fixture"]

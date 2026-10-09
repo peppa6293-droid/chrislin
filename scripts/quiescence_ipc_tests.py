@@ -32,9 +32,12 @@ EXPECTED = {
 }
 SOURCES = (
     "scripts/quiescence_ipc_tests.py", "scripts/quiescence_integration.py", "scripts/quiescence_gate.py",
+    "scripts/package_quiescence_runtime.py",
     "src-tauri/Cargo.toml", "src-tauri/Cargo.lock", "src-tauri/src/quiescence.rs",
     "src-tauri/src/quiescence_contract.rs", "src-tauri/src/quiescence_recovery.rs",
-    "src-tauri/src/bin/quiescence_tauri.rs", "src-tauri/tauri.quiescence.conf.json",
+    "src-tauri/src/bin/quiescence_tauri.rs", "src-tauri/src/bin/quiescence_old_runtime.rs",
+    "src-tauri/tauri.quiescence.conf.json", "src-tauri/tauri.quiescence.package.conf.json",
+    "src-tauri/quiescence-runtime-compatibility.json",
     "src-tauri/capabilities/quiescence-ipc.json", "quiescence-web/main.ts",
     "quiescence-web/index.html", "quiescence-web/disconnected.html",
     "vite.quiescence.config.ts", "tsconfig.quiescence.json", "tests/quiescence-ipc-contract.test.ts",
@@ -232,24 +235,35 @@ def verify_native_cross_checks(case):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--binary", type=Path, default=REPO / "src-tauri/target/debug/quiescence-tauri")
+    parser.add_argument("--binary", type=Path, help="exact executable inside the signed synthetic candidate bundle")
+    parser.add_argument("--bundle", type=Path, help="signed isolated Tauri app bundle built with the package profile")
+    parser.add_argument("--signing-identity", default="Apple Development: 8619814730147 (FW5KHTFNZ6)")
     parser.add_argument("--output", type=Path, default=REPO / "evidence/quiescence-integration/ipc-report.json")
     parser.add_argument("--case", choices=CASES, action="append")
     parser.add_argument("--build", action="store_true")
     parser.add_argument("--build-only", action="store_true", help="compile the isolated context without creating any fixture or launching an app")
     args = parser.parse_args()
+    bundle = args.bundle
     if args.build or args.build_only:
-        subprocess.run(["npx", "vite", "build", "--config", "vite.quiescence.config.ts"], cwd=REPO, check=True)
-        # Tauri's codegen reads the conventional file in the supplied macro
-        # path's parent. Its supported override is TAURI_CONFIG, also used by
-        # the Tauri CLI for --config. The runtime independently rejects an
-        # accidentally built Production identifier before any webview opens.
-        env = os.environ.copy()
-        env["TAURI_CONFIG"] = json.dumps(json.loads((REPO / "src-tauri/tauri.quiescence.conf.json").read_text()))
-        subprocess.run(["cargo", "build", "--manifest-path", "src-tauri/Cargo.toml", "--features", "quiescence-tauri", "--bin", "quiescence-tauri"], cwd=REPO, env=env, check=True)
-    binary = args.binary.resolve(strict=True)
+        result = subprocess.run([sys.executable, "scripts/package_quiescence_runtime.py",
+                                 "--signing-identity", args.signing_identity], cwd=REPO, capture_output=True, text=True)
+        print(result.stdout, end="")
+        if result.stderr:
+            print(result.stderr, file=sys.stderr, end="")
+        if result.returncode:
+            return result.returncode
+        summary = json.loads(result.stdout.splitlines()[-1])
+        bundle = Path(summary["bundle"])
+    if bundle is None:
+        bundle = REPO / "src-tauri/target/release/bundle/macos/PFC Isolated Quiescence IPC.app"
+    bundle = bundle.resolve(strict=True)
+    binary = (args.binary.resolve(strict=True) if args.binary else bundle / "Contents/MacOS/personal-finance-console")
+    binary = binary.resolve(strict=True)
+    if not binary.is_relative_to(bundle):
+        raise SystemExit("candidate executable must be inside the signed synthetic app bundle")
     if args.build_only:
-        print(json.dumps({"built_only": True, "app_launched": False, "binary": str(binary), "sha256": sha(binary)}))
+        print(json.dumps({"built_only": True, "app_launched": False, "bundle": str(bundle),
+                          "binary": str(binary), "sha256": sha(binary)}))
         return 0
     base = Path(tempfile.mkdtemp(prefix="pfc-q11-real-ipc-")).resolve()
     selected = args.case or list(CASES)
@@ -267,7 +281,8 @@ def main():
     try:
         for scenario in selected:
             print(f"Q11 real IPC: {scenario}", flush=True)
-            definition = create_fixture(base, binary, scenario)
+            definition = create_fixture(base, binary, scenario, candidate_bundle=bundle,
+                                        signing_identity=args.signing_identity)
             root = Path(definition["root"])
             case = {"scenario": scenario, "root": str(root), "expected_durable_state": EXPECTED[scenario]}
             report["cases"].append(case)

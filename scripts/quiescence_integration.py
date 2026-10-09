@@ -16,10 +16,13 @@ import json
 import os
 from pathlib import Path
 import plistlib
+import selectors
 import signal
+import shutil
 import sqlite3
 import stat
 import subprocess
+import sys
 import tempfile
 import time
 import uuid
@@ -35,8 +38,59 @@ REPO = Path(__file__).resolve().parents[1]
 DATABASE = "personal-finance-console.sqlite3"
 CONTRACT_VERSION = 2
 ISOLATED_BUNDLE_ID = "org.pfc.quiescence.integration"
+OLD_RUNTIME_BUNDLE_ID = "org.pfc.quiescence.oldruntime"
 EXE_REL = Path("Contents/MacOS") / EXECUTABLE_NAME
 MANIFEST_REL = Path("Contents/Resources/runtime-compatibility.json")
+
+
+def _configured_signing_identity(explicit=None):
+    value = explicit or os.environ.get("APPLE_SIGNING_IDENTITY")
+    if sys.platform == "darwin" and (not value or value == "-"):
+        raise Blocked("MACOS_SIGNING_PREREQUISITE_REQUIRED", "Apple Development identity was not configured")
+    return value
+
+
+def _codesign(path, signing_identity, *, identifier=None):
+    command = ["codesign", "--force", "--timestamp=none", "--sign", signing_identity]
+    if identifier:
+        command += ["--identifier", identifier]
+    command.append(str(path))
+    result = subprocess.run(command, capture_output=True, text=True)
+    if result.returncode:
+        raise Blocked("BLOCKED_CODESIGN_FAILED", f"{path}: {result.stderr.strip() or result.stdout.strip()}")
+
+
+def _code_signature(path, *, assess_gatekeeper=False):
+    if sys.platform != "darwin":
+        return {"signature_verified": None, "gatekeeper": "not-applicable"}
+    verify = subprocess.run(["codesign", "--verify", "--deep", "--strict", "--verbose=2", str(path)],
+                            capture_output=True, text=True)
+    if verify.returncode:
+        raise Blocked("BLOCKED_CODE_SIGNATURE_INVALID", f"{path}: {verify.stderr.strip() or verify.stdout.strip()}")
+    display = subprocess.run(["codesign", "-dv", "--verbose=4", str(path)], capture_output=True, text=True)
+    requirement = subprocess.run(["codesign", "-dr", "-", str(path)], capture_output=True, text=True)
+    if display.returncode or requirement.returncode:
+        raise Blocked("BLOCKED_CODE_SIGNATURE_IDENTITY_UNKNOWN", str(path))
+    facts = {"signature_verified": True, "signature_details": display.stderr.strip(),
+             "designated_requirement": requirement.stderr.strip()}
+    if assess_gatekeeper:
+        assessment = subprocess.run(["spctl", "--assess", "--type", "execute", "--verbose=4", str(path)],
+                                    capture_output=True, text=True)
+        facts["gatekeeper_assessment"] = {"exit_code": assessment.returncode,
+                                           "stdout": assessment.stdout, "stderr": assessment.stderr}
+        if assessment.returncode:
+            raise Blocked("BLOCKED_GATEKEEPER_ASSESSMENT",
+                          assessment.stderr.strip() or assessment.stdout.strip())
+    return facts
+
+
+def _build_old_runtime():
+    executable = REPO / "src-tauri/target/debug/quiescence-old-runtime"
+    if not executable.is_file():
+        subprocess.run(["cargo", "build", "--manifest-path", str(REPO / "src-tauri/Cargo.toml"),
+                        "--features", "quiescence-fixture", "--bin", "quiescence-old-runtime"],
+                       cwd=REPO, check=True)
+    return executable.resolve(strict=True)
 
 # These contracts describe restart behavior as well as happy-path edges. Native
 # owns S3-S10; a missing receipt cannot be repaired from a SQLite version number.
@@ -154,7 +208,10 @@ def _bundle(path, executable_source, version, *, enabled=False, bundle_id=PRODUC
         "CFBundleIdentifier": bundle_id,
         "CFBundleExecutable": EXECUTABLE_NAME,
         "CFBundlePackageType": "APPL",
+        "CFBundleSignature": "????",
         "CFBundleShortVersionString": f"0.1.2-synthetic-v{version}",
+        "LSMinimumSystemVersion": "11.0",
+        "NSHighResolutionCapable": True,
     }))
     _new_json(path / MANIFEST_REL, {
         "manifestFormatVersion": 1, "runtimeGeneration": version,
@@ -166,6 +223,34 @@ def _bundle(path, executable_source, version, *, enabled=False, bundle_id=PRODUC
         (path / EXE_REL).chmod(0o700)
     _sync_dir(path / "Contents/MacOS")
     return path
+
+
+def _copy_bundle_disabled(source, target):
+    source, target = Path(source).resolve(strict=True), Path(target)
+    if not source.is_dir() or target.exists():
+        raise Blocked("BLOCKED_CANDIDATE_BUNDLE_PATH", str(source))
+    for item in [source, *source.rglob("*")]:
+        info = item.lstat()
+        if stat.S_ISLNK(info.st_mode) or not (stat.S_ISDIR(info.st_mode) or stat.S_ISREG(info.st_mode)):
+            raise Blocked("BLOCKED_CANDIDATE_BUNDLE_OBJECT", str(item))
+        if stat.S_ISREG(info.st_mode) and info.st_nlink != 1:
+            raise Blocked("BLOCKED_CANDIDATE_BUNDLE_HARDLINK", str(item))
+    target.mkdir(mode=0o700, parents=True)
+    for current, dirs, files in os.walk(source, followlinks=False):
+        rel = Path(current).relative_to(source)
+        for name in dirs:
+            (target / rel / name).mkdir(mode=0o700)
+        for name in files:
+            original, destination = Path(current) / name, target / rel / name
+            before = identity(original)
+            fd = os.open(destination, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+            with os.fdopen(fd, "wb") as out, original.open("rb") as inp:
+                shutil.copyfileobj(inp, out, 1024 * 1024)
+                out.flush()
+                os.fsync(out.fileno())
+            if identity(original) != before or identity(destination)["sha256"] != before["sha256"]:
+                raise Blocked("BLOCKED_CANDIDATE_COPY_DRIFT", str(original))
+    return target
 
 
 def _paths(root):
@@ -254,7 +339,8 @@ def _verify_v3(root):
     return {"exact_schema": True, "integrity": "ok", "foreign_keys": "ok", **before}
 
 
-def create_fixture(parent, native_executable, scenario="formal", runtime_bundle_id=ISOLATED_BUNDLE_ID):
+def create_fixture(parent, native_executable, scenario="formal", runtime_bundle_id=ISOLATED_BUNDLE_ID,
+                   *, candidate_bundle=None, signing_identity=None):
     """Return a fresh fixture definition; no permit or lease is created here.
 
     Controllers must call prepare_managed while retaining their own lease, then
@@ -277,21 +363,39 @@ def create_fixture(parent, native_executable, scenario="formal", runtime_bundle_
     paths = _paths(root)
     for path in paths.values():
         path.parent.mkdir(parents=True, mode=0o700)
-    old_source = Path("/bin/sleep").resolve(strict=True)
-    _bundle(paths["installed"], old_source, 3, enabled=True)
-    nested = paths["installed"] / "Contents/Resources/Outer/Contents/Resources/Nested.retired"
-    _bundle(nested, old_source, 3, enabled=True)
+    signing_identity = _configured_signing_identity(signing_identity)
+    old_source = _build_old_runtime()
+    _bundle(paths["installed"], old_source, 3, enabled=True, bundle_id=OLD_RUNTIME_BUNDLE_ID)
+    nested = paths["installed"] / "Contents/Resources/Outer/Contents/Resources/Nested.app"
+    _bundle(nested, old_source, 3, enabled=True, bundle_id=OLD_RUNTIME_BUNDLE_ID)
     helper = paths["installed"] / "Contents/Resources/legacy-helper"
     _copy_file(old_source, helper)
     helper.chmod(0o700)
-    _bundle(paths["candidate"], native_executable, 4, bundle_id=runtime_bundle_id)
+    _codesign(helper, signing_identity, identifier=OLD_RUNTIME_BUNDLE_ID + ".helper")
+    _codesign(nested, signing_identity)
+    _codesign(paths["installed"], signing_identity)
+    old_signature = _code_signature(paths["installed"])
+    if candidate_bundle:
+        candidate_bundle = Path(candidate_bundle).resolve(strict=True)
+        source_signature = _code_signature(candidate_bundle, assess_gatekeeper=True)
+        _copy_bundle_disabled(candidate_bundle, paths["candidate"])
+        candidate_signature = _code_signature(paths["candidate"], assess_gatekeeper=True)
+        candidate_signature["source_signature"] = source_signature
+    else:
+        _bundle(paths["candidate"], native_executable, 4, bundle_id=runtime_bundle_id)
+        _codesign(paths["candidate"], signing_identity)
+        candidate_signature = _code_signature(paths["candidate"], assess_gatekeeper=True)
+        runtime_bundle_id = bundle_identity(root, paths["candidate"], expected_bundle_id=runtime_bundle_id)["bundle_id"]
     _copy_file(paths["candidate"] / MANIFEST_REL, root / "manifest.json")
     bootstrap = _bootstrap(root)
     definition = {
         "format_version": 2, "synthetic_only": True, "root": str(root),
         "scenario": scenario, "session": "session-" + uuid.uuid4().hex,
         "authorization_id": "synthetic-integration-" + uuid.uuid4().hex,
-        "nonce": uuid.uuid4().hex, "native_sha256": native_identity["sha256"],
+        "nonce": uuid.uuid4().hex, "native_sha256": identity(paths["candidate"] / EXE_REL)["sha256"],
+        "build_executable_sha256": native_identity["sha256"],
+        "signing_identity": signing_identity,
+        "signing_facts": {"old_runtime": old_signature, "candidate_runtime": candidate_signature},
         "runtime_bundle_id": runtime_bundle_id,
         "paths": {key: str(value) for key, value in paths.items()},
         "known_nested": [str(nested)], "known_helpers": [str(helper)],
@@ -395,15 +499,28 @@ def _contract_bundles(root, paths):
     return actual, bundles
 
 
-def _retained_child_start(child):
-    """Observe the OS start time for this exact still-retained child PID.
-
-    The start string is an OS observation, not a generated association token.
-    waitpid/Popen ownership is still authoritative for exit across path moves.
-    No host-wide process list is requested or consumed.
-    """
+def _retained_child_start(child, expected_session, expected_executable):
+    """Require a project-runtime readiness handshake before recording PID start."""
     if child.poll() is not None:
         raise Blocked("BLOCKED_MANAGED_RUNTIME_IDENTITY_UNKNOWN", "child exited before OS start observation")
+    selector = selectors.DefaultSelector()
+    selector.register(child.stdout, selectors.EVENT_READ)
+    try:
+        if not selector.select(timeout=5):
+            raise Blocked("BLOCKED_OLD_RUNTIME_READINESS_TIMEOUT", "no project runtime handshake")
+        line = child.stdout.readline()
+    finally:
+        selector.close()
+    try:
+        readiness = json.loads(line)
+    except (json.JSONDecodeError, TypeError) as exc:
+        raise Blocked("BLOCKED_OLD_RUNTIME_READINESS_INVALID", repr(line)) from exc
+    expected = {"protocol": "pfc.synthetic-old-runtime.ready.v1", "pid": child.pid,
+                "session": expected_session, "initialized": True}
+    if readiness != expected or identity(Path(child.args[0]))["sha256"] != expected_executable["sha256"]:
+        raise Blocked("BLOCKED_OLD_RUNTIME_READINESS_BINDING", "runtime/session/executable identity mismatch")
+    if child.poll() is not None:
+        raise Blocked("BLOCKED_OLD_RUNTIME_READINESS_EARLY_EXIT", "runtime exited before readiness association")
     env = os.environ.copy()
     env["LC_ALL"] = "C"
     result = subprocess.run(["/bin/ps", "-p", str(child.pid), "-o", "lstart="],
@@ -412,15 +529,16 @@ def _retained_child_start(child):
     if result.returncode != 0 or len(lines) != 1 or child.poll() is not None:
         raise Blocked("BLOCKED_MANAGED_RUNTIME_IDENTITY_UNKNOWN", "OS start fact unavailable")
     return {"value": lines[0], "pid": child.pid, "collector": "ps_exact_retained_child_lstart",
-            "ownership": "retained_Popen_waitpid", "returncode": result.returncode}
+            "ownership": "retained_Popen_waitpid", "returncode": result.returncode,
+            "readiness": {"protocol": readiness["protocol"], "pid": readiness["pid"],
+                          "session": readiness["session"], "initialized": readiness["initialized"],
+                          "executable_sha256": expected_executable["sha256"]}}
 
 
-def _verify_requested_old_exit(returncode):
-    if returncode != -signal.SIGTERM:
-        # An OS launch-policy kill is not proof that a usable old fixture runtime
-        # was running. Do not promote this attempt into managed S1 success.
+def _verify_requested_old_exit(returncode, readiness=None):
+    if returncode != 0 or not readiness or readiness.get("initialized") is not True:
         raise Blocked("BLOCKED_OLD_FIXTURE_EXECUTION_UNPROVEN",
-            f"expected requested SIGTERM exit, observed {returncode}; no contract/permit")
+            f"requested termination/readiness was not proven: exit={returncode}; no contract/permit")
 
 
 def prepare_managed(root, lease, *, stop_old=True, observer=None):
@@ -461,6 +579,7 @@ def prepare_managed(root, lease, *, stop_old=True, observer=None):
     candidate = bundle_identity(root, paths["candidate"], expected_bundle_id=definition["runtime_bundle_id"])
     if candidate["executable_sha256"] != definition["native_sha256"]:
         raise Blocked("BLOCKED_NATIVE_IDENTITY")
+    candidate_signature = _code_signature(paths["candidate"], assess_gatekeeper=True)
     recorder = Recorder(root, definition)
     old_child = None
     def record(state, details):
@@ -470,15 +589,19 @@ def prepare_managed(root, lease, *, stop_old=True, observer=None):
         return result
     try:
         record("S0_VERIFIED_CANDIDATE", {"candidate": candidate, "database": pre,
+                "candidate_signature": candidate_signature,
                 "initial_inventory_sha256": _sha(_bytes(definition["initial_inventory"]))})
         old_executable = paths["installed"] / EXE_REL
         old_identity = identity(old_executable)
-        old_child = subprocess.Popen([str(old_executable), "3600"], stdin=subprocess.DEVNULL,
-                                     stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
-        start_evidence = _retained_child_start(old_child)
+        old_signature = _code_signature(paths["installed"], assess_gatekeeper=True)
+        old_child = subprocess.Popen([str(old_executable), "--synthetic-old-runtime", definition["session"]],
+                                     stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                     text=True, bufsize=1)
+        start_evidence = _retained_child_start(old_child, definition["session"], old_identity)
         association = {"pid": old_child.pid, "start": start_evidence["value"],
                        "identity": old_identity["sha256"], "executable_sha256": old_identity["sha256"],
-                       "executable_dev": old_identity["dev"], "executable_inode": old_identity["ino"]}
+                       "executable_dev": old_identity["dev"], "executable_inode": old_identity["ino"],
+                       "readiness": start_evidence["readiness"], "signature": old_signature}
         if old_child.poll() is not None:
             raise Blocked("BLOCKED_MANAGED_RUNTIME_IDENTITY_UNKNOWN", "old fixture exited before association")
         record("S1_OLD_RUNTIME_RETAINED", {"association": association, "start_evidence": start_evidence,
@@ -491,9 +614,9 @@ def prepare_managed(root, lease, *, stop_old=True, observer=None):
             record("S1_ENTRIES_DISABLED", {"disabled_inventory": tree_facts(root),
                     "process_association": association, "source_still_in_install_slot": paths["installed"].exists()})
             if stop_old:
-                old_child.terminate()  # Exact child spawned above, never a host process.
+                old_child.terminate()  # Exact initialized child spawned above, never a host process.
                 old_child.wait(timeout=5)
-                _verify_requested_old_exit(old_child.returncode)
+                _verify_requested_old_exit(old_child.returncode, start_evidence["readiness"])
             observations = collect_spawned_fixture_targets([(association, old_child)])
             if old_child.poll() is not None:
                 record("S1_TARGET_EXIT_VERIFIED", observations)
@@ -516,11 +639,13 @@ def prepare_managed(root, lease, *, stop_old=True, observer=None):
         _all_disabled(root)
         _same_tree_bytes(paths["candidate"], paths["staging"])
         _frozen_bundle(root, definition, "candidate", paths["staging"], same_inode=False)
+        staging_signature = _code_signature(paths["staging"])
         record("S1_STAGING_VERIFIED", {"staging": bundle_identity(root, paths["staging"], expected_bundle_id=definition["runtime_bundle_id"]), "born_disabled": True})
         copy_disabled(lease, paths["staging"], paths["installed"])
         _all_disabled(root)
         _same_tree_bytes(paths["candidate"], paths["installed"])
         _frozen_bundle(root, definition, "candidate", paths["installed"], same_inode=False)
+        installed_disabled_signature = _code_signature(paths["installed"])
         record("S1_INSTALLED_DISABLED", {"installed": bundle_identity(root, paths["installed"], expected_bundle_id=definition["runtime_bundle_id"]), "born_disabled": True})
         installed_executable = paths["installed"] / EXE_REL
         fd = os.open(installed_executable, os.O_RDONLY | os.O_NOFOLLOW)
@@ -534,9 +659,13 @@ def prepare_managed(root, lease, *, stop_old=True, observer=None):
         validate_inventory(lease, [root / "managed"], actual, paths["installed"], all_bundles=True)
         if identity(installed_executable)["sha256"] != definition["native_sha256"]:
             raise Blocked("BLOCKED_INSTALLED_READBACK")
+        installed_signature = _code_signature(paths["installed"], assess_gatekeeper=True)
         record("S1_MANAGED_ISOLATED", {"bundles": bundles, "objects": tree_facts(root),
                 "known_nested": [item["path"] for item in bundles if item["role"] == "nested"],
-                "target_exit_evidence": disabled["exit_evidence"], "only_installed_executable_enabled": True})
+                "target_exit_evidence": disabled["exit_evidence"], "only_installed_executable_enabled": True,
+                "staging_signature": staging_signature,
+                "installed_disabled_signature": installed_disabled_signature,
+                "installed_signature": installed_signature})
 
         authorization = {"format_version": 2, "synthetic_only": True, "scope": "synthetic-integration-only",
             "id": definition["authorization_id"], "session": definition["session"], "nonce": definition["nonce"],

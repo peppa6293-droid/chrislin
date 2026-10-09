@@ -123,6 +123,13 @@ def case_duplicate(base, binary):
     try:
         owned = native.advance("lease_native_owned")
         require(contended(native.root), "actual native/gate lease was not contended")
+        gate_probe = subprocess.run([sys.executable, str(Path(__file__).resolve()),
+            "--gate-probe", str(native.root), "--session", context["session"]],
+            capture_output=True, text=True, timeout=15)
+        require(gate_probe.returncode == 0, gate_probe.stderr + gate_probe.stdout)
+        gate_duplicate = json.loads(gate_probe.stdout)
+        require(gate_duplicate == {"acquired": False, "blocked": True},
+                f"second independent gate was not rejected: {gate_duplicate}")
         second = lease.launch_native(Path(context["installed_executable"]), context["native_sha256"],
             arguments=["run-integrated", context["root"]], stdin=subprocess.DEVNULL)
         stdout, stderr = second.communicate(timeout=15)
@@ -130,7 +137,8 @@ def case_duplicate(base, binary):
         require(second.returncode != 0 and error["error"]["code"] == "PERMIT_REPLAY_OR_PENDING", "second native using same inherited description was not rejected")
         require(json.loads((native.root / "native-launch.json").read_bytes())["pid"] == native.child.pid, "native ownership overwritten")
         return {"root": context["root"], "native_pid": native.child.pid, "duplicate_pid": second.pid,
-                "owner_ack": owned, "duplicate_result": error, "native_log": str(native.log), "passed": True}
+                "owner_ack": owned, "gate_duplicate_probe": gate_duplicate,
+                "duplicate_result": error, "native_log": str(native.log), "passed": True}
     finally:
         native.close()
         lease.__exit__()
@@ -155,6 +163,87 @@ def case_child_death(base, binary):
                 "persistent_diagnostic": checked, "native_log": str(native.log), "passed": True}
     finally:
         native.close()
+        lease.__exit__()
+
+
+def case_native_death_after_ack_before_gate_close(base, binary):
+    context, lease = setup(base, binary, "native-death-after-ack")
+    native = Native(context, lease)
+    try:
+        ack = native.advance("lease_native_owned")
+        require(ack["pid"] == native.child.pid, "ACK PID differs from launched native")
+        lock = (native.root / "maintenance.lock").stat()
+        require((ack["lease_dev"], ack["lease_inode"]) == (lock.st_dev, lock.st_ino),
+                "ACK does not bind current lock inode")
+        require(ack["session"] == context["session"], "ACK does not bind fixture session")
+        native.child.kill()
+        native.child.wait(timeout=5)
+        require(contended(native.root), "native death before gate close released gate ownership")
+        persisted = json.loads((native.root / "native-launch.json").read_bytes())
+        require(persisted == ack, "native ACK changed after child death")
+        checked = diagnostic(context)
+        before = identity(native.root / "native-launch.json")["sha256"]
+        lease.__exit__()
+        require(not contended(native.root), "gate close did not release lease after native death")
+        require(identity(native.root / "native-launch.json")["sha256"] == before,
+                "native death or lease release changed durable ACK")
+        return {"root": context["root"], "native_pid": native.child.pid,
+                "ack": ack, "persistent_diagnostic": checked,
+                "gate_retained_until_close": True, "persistent_ack_after_release": True,
+                "native_log": str(native.log), "passed": True}
+    finally:
+        native.close()
+        lease.__exit__()
+
+
+def case_gate_death_before_native_launch(base, binary):
+    fixture = create_fixture(base, binary, "gate-death-before-ack")
+    root = Path(fixture["root"])
+    read_fd, write_fd = os.pipe()
+    ready = root / "lease-gate-ready.json"
+    gate = subprocess.Popen([sys.executable, str(Path(__file__).resolve()),
+        "--gate-before-native", str(root), "--read-fd", str(read_fd)],
+        pass_fds=(read_fd,), stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, text=True)
+    os.close(read_fd)
+    try:
+        wait_file(ready, gate)
+        gate.kill()
+        gate.wait(timeout=5)
+        require(not (root / "native-launch.json").exists(), "gate death before launch produced native ACK")
+        require(not (root / "gate-handoff.json").exists(), "gate death before launch produced handoff receipt")
+        with MaintenanceLease(root, fixture["session"]) as probe:
+            lock = (root / "maintenance.lock").stat()
+            require((os.fstat(probe.fd).st_dev, os.fstat(probe.fd).st_ino) ==
+                    (lock.st_dev, lock.st_ino), "released gate lock inode changed")
+        return {"root": str(root), "gate_pid": gate.pid, "native_launched": False,
+                "ack_absent": True, "handoff_receipt_absent": True,
+                "lease_reacquired_after_gate_death": True, "passed": True}
+    finally:
+        os.close(write_fd)
+        if gate.poll() is None:
+            gate.kill()
+            gate.wait(timeout=5)
+        gate.stderr.close()
+
+
+def case_native_exit_before_ack(base, binary):
+    context, lease = setup(base, binary, "native-exit-before-ack")
+    env = os.environ.copy()
+    env.update(lease.environment())
+    env["PFC_QUIESCENCE_SESSION"] = "deliberately-wrong-session"
+    try:
+        child = subprocess.run([context["installed_executable"], "run-integrated", context["root"]],
+            env=env, pass_fds=(lease.fd,), capture_output=True, text=True, timeout=15)
+        require(child.returncode != 0, "native unexpectedly accepted wrong pre-ACK session")
+        require(not (Path(context["root"]) / "native-launch.json").exists(),
+                "native wrote ownership ACK before rejecting session")
+        require(contended(Path(context["root"])), "gate lost lease after native pre-ACK rejection")
+        error = json.loads(child.stdout.splitlines()[-1])
+        require(error["error"]["code"] == "SESSION_MISMATCH", error)
+        return {"root": context["root"], "native_returncode": child.returncode,
+                "native_exited_before_ack": True, "observed": error,
+                "gate_retained_lease": True, "passed": True}
+    finally:
         lease.__exit__()
 
 
@@ -237,6 +326,15 @@ def gate_child(root, read_fd):
             child.wait(timeout=60)
 
 
+def gate_before_native(root, read_fd):
+    """Hold the gate lease at a deterministic pre-launch point for death testing."""
+    fixture = json.loads((root / "fixture-definition.json").read_bytes())
+    with MaintenanceLease(root, fixture["session"]) as lease:
+        prepare_managed(root, lease)
+        _new_json(root / "lease-gate-ready.json", {"gate_pid": os.getpid(), "lease_held": True})
+        os.read(read_fd, 1)
+
+
 def case_parent_death(base, binary):
     fixture = create_fixture(base, binary, "native-parent-death")
     root = Path(fixture["root"])
@@ -315,19 +413,55 @@ def main():
     parser.add_argument("--native", type=Path)
     parser.add_argument("--output", type=Path, default=REPO / "evidence/quiescence-integration/lease-report.json")
     parser.add_argument("--gate-child", type=Path)
+    parser.add_argument("--gate-before-native", type=Path)
+    parser.add_argument("--gate-probe", type=Path)
+    parser.add_argument("--session")
     parser.add_argument("--read-fd", type=int)
     args = parser.parse_args()
     if args.gate_child:
         gate_child(args.gate_child, args.read_fd)
+        return 0
+    if args.gate_before_native:
+        gate_before_native(args.gate_before_native, args.read_fd)
+        return 0
+    if args.gate_probe:
+        try:
+            require(args.session, "--session required with --gate-probe")
+            with MaintenanceLease(args.gate_probe, args.session):
+                pass
+        except BlockingIOError:
+            print(json.dumps({"acquired": False, "blocked": True}))
+            return 0
+        print(json.dumps({"acquired": True, "blocked": False}))
         return 0
     require(args.native is not None, "--native required")
     binary = args.native.resolve(strict=True)
     base = Path(tempfile.mkdtemp(prefix="pfc-qic-native-lease-")).resolve()
     report = {"format_version": 1, "synthetic_only": True, "transport": "native-v2-cli-barrier-NOT-Q11",
               "source_sha256": identity(Path(__file__))["sha256"], "native_sha256": identity(binary)["sha256"],
-              "retained_root": str(base), "cases": [], "status": "RUNNING"}
+              "retained_root": str(base), "cases": [], "status": "RUNNING",
+              "coverage_matrix": {
+                  "overlapping_gate_native_handoff": "BLOCKED_NOT_RUN",
+                  "exact_inode_session_ack": "BLOCKED_NOT_RUN",
+                  "gate_close_only_after_exact_ack": "BLOCKED_NOT_RUN",
+                  "no_LOCK_UN_gap": "BLOCKED_NOT_RUN",
+                  "wrong_recreated_stale_lock": "BLOCKED_NOT_RUN",
+                  "duplicate_gate_and_native": "BLOCKED_NOT_RUN",
+                  "gate_death_before_ack_no_native_started": "BLOCKED_NOT_RUN",
+                  "gate_death_during_ack": "BLOCKED_BY_MISSING_DETERMINISTIC_ACK_BOUNDARY",
+                  "native_exit_before_ack_wrong_session": "BLOCKED_NOT_RUN",
+                  "native_kill_before_ack": "BLOCKED_BY_MISSING_NATIVE_PRE_ACK_FAILPOINT",
+                  "native_death_after_ack": "BLOCKED_NOT_RUN",
+                  "unrelated_lock_contention": "BLOCKED_NOT_RUN",
+                  "persistent_state_after_release": "BLOCKED_NOT_RUN"},
+              "known_limitations": [
+                  "Gate death during the ACK write/fsync/readback boundary needs a deterministic gate failpoint; this suite does not claim coverage.",
+                  "An abrupt native kill before ACK needs a native pre-ACK failpoint; the wrong-session rejection case only proves fail-closed exit before ACK."]}
     cases = [("duplicate-native-and-gate", lambda: case_duplicate(base, binary)),
              ("native-child-death", lambda: case_child_death(base, binary)),
+             ("native-death-after-ack-before-gate-close", lambda: case_native_death_after_ack_before_gate_close(base, binary)),
+             ("gate-death-before-native-launch-ack-absent", lambda: case_gate_death_before_native_launch(base, binary)),
+             ("native-exit-before-ack-wrong-session", lambda: case_native_exit_before_ack(base, binary)),
              ("acknowledged-handoff-no-gap", lambda: case_explicit_handoff(base, binary)),
              ("actual-parent-death", lambda: case_parent_death(base, binary))]
     for kind in ("wrong-inode", "unlocked-fd", "unrelated-holder", "recreated-file", "stale-session", "wrong-session"):
@@ -341,9 +475,30 @@ def main():
             save_report(args.output, report)
             print(json.dumps({"status": report["status"], "failed_case": name, "error": str(error), "report": str(args.output)}))
             return 2
-    report["status"] = "PASS"
+    case_names = {item["name"] for item in report["cases"] if item.get("passed")}
+    matrix = report["coverage_matrix"]
+    if "acknowledged-handoff-no-gap" in case_names:
+        matrix.update({"overlapping_gate_native_handoff": "PASS",
+            "exact_inode_session_ack": "PASS", "gate_close_only_after_exact_ack": "PASS",
+            "no_LOCK_UN_gap": "PASS", "persistent_state_after_release": "PASS"})
+    if {"wrong-inode", "recreated-file", "stale-session"}.issubset(case_names):
+        matrix["wrong_recreated_stale_lock"] = "PASS"
+    if "duplicate-native-and-gate" in case_names:
+        matrix["duplicate_gate_and_native"] = "PASS"
+    if "gate-death-before-native-launch-ack-absent" in case_names:
+        matrix["gate_death_before_ack_no_native_started"] = "PASS"
+    if "native-exit-before-ack-wrong-session" in case_names:
+        matrix["native_exit_before_ack_wrong_session"] = "PASS"
+    if any(name in case_names for name in ("native-child-death", "native-death-after-ack-before-gate-close", "actual-parent-death")):
+        matrix["native_death_after_ack"] = "PASS"
+    if "unrelated-holder" in case_names:
+        matrix["unrelated_lock_contention"] = "PASS"
+    blocked = [name for name, state in report["coverage_matrix"].items()
+               if state.startswith("BLOCKED")]
+    report["status"] = "PASS_WITH_BLOCKED_COVERAGE" if blocked else "PASS"
     save_report(args.output, report)
-    print(json.dumps({"status": "PASS", "cases": len(report["cases"]), "report": str(args.output), "retained_root": str(base)}))
+    print(json.dumps({"status": report["status"], "cases": len(report["cases"]),
+                      "blocked_coverage": blocked, "report": str(args.output), "retained_root": str(base)}))
     return 0
 
 

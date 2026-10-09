@@ -13,18 +13,20 @@ import plistlib
 
 from quiescence_gate import Blocked, MaintenanceLease, identity
 from quiescence_integration import (EXE_REL, MANIFEST_REL, create_fixture,
-    diagnose, prepare_managed, tree_facts, _verify_requested_old_exit)
+    OLD_RUNTIME_BUNDLE_ID, diagnose, prepare_managed, tree_facts, _verify_requested_old_exit)
 
 
 class OldFixtureExitProofTests(unittest.TestCase):
     """Pure verification tests: no process or fixture execution."""
     def test_only_requested_termination_is_accepted(self):
-        _verify_requested_old_exit(-signal.SIGTERM)
+        _verify_requested_old_exit(0, {"initialized": True})
 
     def test_policy_kill_unknown_or_early_exit_never_proves_old_runtime(self):
-        for code in (-signal.SIGKILL, None, 0, 1, -signal.SIGSEGV):
+        for code in (-signal.SIGKILL, None, -signal.SIGTERM, 1, -signal.SIGSEGV):
             with self.subTest(code=code), self.assertRaisesRegex(Blocked, "BLOCKED_OLD_FIXTURE_EXECUTION_UNPROVEN"):
-                _verify_requested_old_exit(code)
+                _verify_requested_old_exit(code, {"initialized": True})
+        with self.assertRaisesRegex(Blocked, "BLOCKED_OLD_FIXTURE_EXECUTION_UNPROVEN"):
+            _verify_requested_old_exit(0, None)
 
 
 class ManagedIntegrationTests(unittest.TestCase):
@@ -88,6 +90,8 @@ class ManagedIntegrationTests(unittest.TestCase):
         self.assertEqual(process["state"], "EXIT_CONFIRMED")
         retained = json.loads((self.root / "managed-state-S1_OLD_RUNTIME_RETAINED.json").read_bytes())
         self.assertEqual(retained["details"]["start_evidence"]["collector"], "ps_exact_retained_child_lstart")
+        self.assertEqual(retained["details"]["start_evidence"]["readiness"]["session"], self.fixture["session"])
+        self.assertTrue(retained["details"]["start_evidence"]["readiness"]["initialized"])
         self.assertEqual(process["start"], retained["details"]["start_evidence"]["value"])
         self.assertNotIn("retained-Popen-", process["start"])
         with self.assertRaises(ProcessLookupError):
@@ -244,7 +248,7 @@ class ManagedIntegrationTests(unittest.TestCase):
         for item in contract["bundles"]:
             plist = plistlib.loads(Path(item["info_plist"]).read_bytes())
             manifest = json.loads(Path(item["manifest"]).read_bytes())
-            expected = "org.pfc.quiescence.integration" if item["role"] in ("candidate", "staging", "installed") else "com.personalfinance.console"
+            expected = "org.pfc.quiescence.integration" if item["role"] in ("candidate", "staging", "installed") else OLD_RUNTIME_BUNDLE_ID
             self.assertEqual(plist["CFBundleIdentifier"], expected)
             self.assertEqual(manifest["bundleId"], expected)
 

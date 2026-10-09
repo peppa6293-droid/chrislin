@@ -1,0 +1,107 @@
+        Info Looking up installed tauri packages to check mismatched versions...
+   Compiling personal-finance-console v0.1.0 (/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri)
+warning: constant `PRODUCTION_MIGRATION_AUTHORIZATION` is never used
+  --> src/lib.rs:17:7
+   |
+17 | const PRODUCTION_MIGRATION_AUTHORIZATION: &str = "production-v4-migration-authorization.json";
+   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: constant `CONSUMED_AUTHORIZATION_LEDGER` is never used
+  --> src/lib.rs:18:7
+   |
+18 | const CONSUMED_AUTHORIZATION_LEDGER: &str = "production-v4-consumed-authorizations.json";
+   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: struct `ProductionMigrationAuthorization` is never constructed
+  --> src/lib.rs:33:8
+   |
+33 | struct ProductionMigrationAuthorization {
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: struct `ConsumedAuthorization` is never constructed
+  --> src/lib.rs:56:8
+   |
+56 | struct ConsumedAuthorization {
+   |        ^^^^^^^^^^^^^^^^^^^^^
+
+warning: struct `ProductionSchemaVersion` is never constructed
+  --> src/lib.rs:66:8
+   |
+66 | struct ProductionSchemaVersion { user_version: i64, migration_version: i64 }
+   |        ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `consume_production_migration_authorization` is never used
+   --> src/lib.rs:147:4
+    |
+147 | fn consume_production_migration_authorization(
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `persist_consumed_authorization` is never used
+   --> src/lib.rs:164:4
+    |
+164 | fn persist_consumed_authorization(ledger_path: &Path, consumed: ConsumedAuthorization) -> Result<(), String> {
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `consume_production_migration_authorization_at` is never used
+   --> src/lib.rs:211:4
+    |
+211 | fn consume_production_migration_authorization_at(
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `personal-finance-console` (lib) generated 8 warnings
+warning: direct cast of function item into an integer
+  --> src/bin/quiescence_old_runtime.rs:24:62
+   |
+24 |     unsafe { libc::signal(libc::SIGTERM, request_termination as libc::sighandler_t); }
+   |                                                              ^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(function_casts_as_integer)]` on by default
+help: first cast to a pointer `as *const ()`
+   |
+24 |     unsafe { libc::signal(libc::SIGTERM, request_termination as *const () as libc::sighandler_t); }
+   |                                                              ++++++++++++
+
+warning: `personal-finance-console` (bin "quiescence-old-runtime") generated 1 warning (run `cargo fix --bin "quiescence-old-runtime" -p personal-finance-console` to apply 1 suggestion)
+warning: function `hash_entrypoint` is never used
+   --> src/bin/../quiescence.rs:411:8
+    |
+411 | pub fn hash_entrypoint()->Option<Result<()>> {
+    |        ^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `run` is never used
+   --> src/bin/../quiescence.rs:245:4
+    |
+245 | fn run(root:&Path,events:&Events)->Result<()> {
+    |    ^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `startup_blocked` is never used
+   --> src/bin/../quiescence.rs:345:4
+    |
+345 | fn startup_blocked(root:&Path,value:&Option<Value>)->bool {
+    |    ^^^^^^^^^^^^^^^
+
+warning: function `cli` is never used
+   --> src/bin/../quiescence.rs:443:8
+    |
+443 | pub fn cli()->Result<()> {
+    |        ^^^
+
+warning: `personal-finance-console` (bin "quiescence-fixture") generated 1 warning
+warning: `personal-finance-console` (bin "quiescence-tauri") generated 3 warnings
+    Finished `release` profile [optimized] target(s) in 27.69s
+       Built application at: /Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/release/personal-finance-console
+    Bundling PFC Isolated Quiescence IPC.app (/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/release/bundle/macos/PFC Isolated Quiescence IPC.app)
+     Signing with identity "Apple Development: 8619814730147 (FW5KHTFNZ6)"
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/release/bundle/macos/PFC Isolated Quiescence IPC.app/Contents/MacOS/quiescence-tauri: replacing existing signature
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/release/bundle/macos/PFC Isolated Quiescence IPC.app/Contents/MacOS/personal-finance-console: replacing existing signature
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/release/bundle/macos/PFC Isolated Quiescence IPC.app: replacing existing signature
+        Warn skipping app notarization, no APPLE_ID & APPLE_PASSWORD & APPLE_TEAM_ID or APPLE_API_KEY & APPLE_API_ISSUER & APPLE_API_KEY_PATH environment variables found
+    Finished 1 bundle at:
+        /Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/release/bundle/macos/PFC Isolated Quiescence IPC.app (25.58 MiB)
+
