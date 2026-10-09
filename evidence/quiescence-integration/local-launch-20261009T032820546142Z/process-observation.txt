@@ -1,0 +1,28 @@
+Local launch follow-up observation (2026-10-09, host local time around 11:28)
+
+Command used the signed isolated .app through /usr/bin/open -n -W -a, with the
+synthetic PFC_IPC_ROOT, scenario=normal, phase=initial, stdout and stderr paths
+recorded in launch-receipt.json.
+
+Observed process:
+36057 S /private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-local-launch-p5o4z0se/managed/install/Isolated Quiescence.app/Contents/MacOS/quiescence-tauri
+
+`ps eww -p 36057` showed the PFC_IPC_ROOT, PFC_IPC_SCENARIO and PFC_IPC_PHASE
+values targeting that synthetic temp root. The process stayed present during
+the 45-second observation, but no `ipc-initial.jsonl` was created and both app
+stdout/stderr files remained empty. No native_runtime_boot or frontend_loaded
+readiness event was observed. `lsof` showed the process had its exact app
+executable open and had opened this 0-byte path:
+`/Users/linte/Library/Application Support/org.pfc.quiescence.integration/personal-finance-console.sqlite3`.
+It was 0 bytes when inspected. This task did not separately open/read/write it,
+but the launched app had the path open. Whether the app created or truncated it
+cannot be established because no prelaunch fingerprint exists. It was not
+removed.
+
+After the observation timeout, this task sent SIGTERM to its own PID 36057.
+The process exited. The launch controller was then stopped after it failed to
+return; receipt launcher_exit_code is -9. This is a controller timeout/stop,
+not evidence that AMFI killed the app. Syspolicyd output is in launch-receipt.json;
+it contains repeated qtn_proc initialization/dispatch errors during the time
+window but no process-specific AMFI verdict. The evidence does not establish
+why startup stalled.

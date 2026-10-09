@@ -60,7 +60,7 @@ def _codesign(path, signing_identity, *, identifier=None):
         raise Blocked("BLOCKED_CODESIGN_FAILED", f"{path}: {result.stderr.strip() or result.stdout.strip()}")
 
 
-def _code_signature(path, *, assess_gatekeeper=False):
+def _code_signature(path, *, assess_gatekeeper=False, allow_local_development=False):
     if sys.platform != "darwin":
         return {"signature_verified": None, "gatekeeper": "not-applicable"}
     verify = subprocess.run(["codesign", "--verify", "--deep", "--strict", "--verbose=2", str(path)],
@@ -78,9 +78,13 @@ def _code_signature(path, *, assess_gatekeeper=False):
                                     capture_output=True, text=True)
         facts["gatekeeper_assessment"] = {"exit_code": assessment.returncode,
                                            "stdout": assessment.stdout, "stderr": assessment.stderr}
-        if assessment.returncode:
+        if assessment.returncode and not allow_local_development:
             raise Blocked("BLOCKED_GATEKEEPER_ASSESSMENT",
                           assessment.stderr.strip() or assessment.stdout.strip())
+        facts["gatekeeper_interpretation"] = (
+            "diagnostic_only_apple_development_local_test_path" if assessment.returncode
+            else "accepted_by_gatekeeper"
+        )
     return facts
 
 
@@ -262,6 +266,14 @@ def _paths(root):
     }
 
 
+def _bundle_exe_rel(path):
+    info = plistlib.loads((Path(path) / "Contents/Info.plist").read_bytes())
+    name = info.get("CFBundleExecutable") if isinstance(info, dict) else None
+    if not isinstance(name, str) or not name or Path(name).name != name or "/" in name:
+        raise Blocked("BLOCKED_BUNDLE_EXECUTABLE_UNKNOWN", str(path))
+    return Path("Contents/MacOS") / name
+
+
 def _role(path, paths):
     # Nested objects retain the enclosing role; bundles have a separate nested
     # role. No role is an exception to the disabled-execution invariant.
@@ -377,14 +389,18 @@ def create_fixture(parent, native_executable, scenario="formal", runtime_bundle_
     old_signature = _code_signature(paths["installed"])
     if candidate_bundle:
         candidate_bundle = Path(candidate_bundle).resolve(strict=True)
-        source_signature = _code_signature(candidate_bundle, assess_gatekeeper=True)
+        local_development = signing_identity.startswith("Apple Development:")
+        source_signature = _code_signature(candidate_bundle, assess_gatekeeper=True,
+                                           allow_local_development=local_development)
         _copy_bundle_disabled(candidate_bundle, paths["candidate"])
-        candidate_signature = _code_signature(paths["candidate"], assess_gatekeeper=True)
+        candidate_signature = _code_signature(paths["candidate"], assess_gatekeeper=True,
+                                              allow_local_development=local_development)
         candidate_signature["source_signature"] = source_signature
     else:
         _bundle(paths["candidate"], native_executable, 4, bundle_id=runtime_bundle_id)
         _codesign(paths["candidate"], signing_identity)
-        candidate_signature = _code_signature(paths["candidate"], assess_gatekeeper=True)
+        candidate_signature = _code_signature(paths["candidate"], assess_gatekeeper=True,
+                                              allow_local_development=signing_identity.startswith("Apple Development:"))
         runtime_bundle_id = bundle_identity(root, paths["candidate"], expected_bundle_id=runtime_bundle_id)["bundle_id"]
     _copy_file(paths["candidate"] / MANIFEST_REL, root / "manifest.json")
     bootstrap = _bootstrap(root)
@@ -392,7 +408,8 @@ def create_fixture(parent, native_executable, scenario="formal", runtime_bundle_
         "format_version": 2, "synthetic_only": True, "root": str(root),
         "scenario": scenario, "session": "session-" + uuid.uuid4().hex,
         "authorization_id": "synthetic-integration-" + uuid.uuid4().hex,
-        "nonce": uuid.uuid4().hex, "native_sha256": identity(paths["candidate"] / EXE_REL)["sha256"],
+        "nonce": uuid.uuid4().hex, "candidate_executable_rel": str(_bundle_exe_rel(paths["candidate"])),
+        "native_sha256": identity(paths["candidate"] / _bundle_exe_rel(paths["candidate"]))["sha256"],
         "build_executable_sha256": native_identity["sha256"],
         "signing_identity": signing_identity,
         "signing_facts": {"old_runtime": old_signature, "candidate_runtime": candidate_signature},
@@ -464,7 +481,13 @@ def _frozen_bundle(root, definition, original_role, current, *, same_inode, enab
                 raise Blocked("BLOCKED_FROZEN_BUNDLE_DRIFT", str(path))
             continue
         fact = identity(path)
-        wanted_mode = 0o700 if enabled and relative == str(EXE_REL) else prior["mode"] & ~0o111
+        original_exe = (Path(definition["candidate_executable_rel"]) if original_role == "candidate" else EXE_REL)
+        if enabled and relative == str(original_exe):
+            wanted_mode = 0o700
+        elif not same_inode:
+            wanted_mode = 0o600
+        else:
+            wanted_mode = prior["mode"] & ~0o111
         if fact["sha256"] != prior["sha256"] or fact["size"] != prior["size"] or fact["mode"] != wanted_mode:
             raise Blocked("BLOCKED_FROZEN_BUNDLE_DRIFT", str(path))
         if same_inode and (fact["dev"], fact["ino"]) != (prior["dev"], prior["inode"]):
@@ -481,7 +504,7 @@ def _closed_final_tree(root, definition, paths):
         path = Path(item["path"])
         if path not in allowed_containers and not any(path == bundle or path.is_relative_to(bundle) for bundle in paths.values()):
             raise Blocked("BLOCKED_UNDECLARED_MANAGED_ROUTE", str(path))
-        if item["kind"] == "file" and item["mode"] & 0o111 and path != paths["installed"] / EXE_REL:
+        if item["kind"] == "file" and item["mode"] & 0o111 and path != paths["installed"] / Path(definition["candidate_executable_rel"]):
             raise Blocked("BLOCKED_EXTRA_EXECUTABLE_ROUTE", str(path))
 
 
@@ -492,10 +515,10 @@ def _contract_bundles(root, paths):
     for name in sorted(actual):
         path = Path(name)
         bundles.append({"role": top.get(name, "nested"), "path": name,
-                        "executable": str(path / EXE_REL),
+                        "executable": str(path / _bundle_exe_rel(path)),
                         "info_plist": str(path / "Contents/Info.plist"),
                         "manifest": str(path / MANIFEST_REL), "bundle_id": actual[name]["bundle_id"],
-                        "enabled": bool((path / EXE_REL).stat().st_mode & 0o111)})
+                        "enabled": bool((path / _bundle_exe_rel(path)).stat().st_mode & 0o111)})
     return actual, bundles
 
 
@@ -579,7 +602,8 @@ def prepare_managed(root, lease, *, stop_old=True, observer=None):
     candidate = bundle_identity(root, paths["candidate"], expected_bundle_id=definition["runtime_bundle_id"])
     if candidate["executable_sha256"] != definition["native_sha256"]:
         raise Blocked("BLOCKED_NATIVE_IDENTITY")
-    candidate_signature = _code_signature(paths["candidate"], assess_gatekeeper=True)
+    candidate_signature = _code_signature(paths["candidate"], assess_gatekeeper=True,
+                                           allow_local_development=definition.get("signing_identity", "").startswith("Apple Development:"))
     recorder = Recorder(root, definition)
     old_child = None
     def record(state, details):
@@ -593,7 +617,8 @@ def prepare_managed(root, lease, *, stop_old=True, observer=None):
                 "initial_inventory_sha256": _sha(_bytes(definition["initial_inventory"]))})
         old_executable = paths["installed"] / EXE_REL
         old_identity = identity(old_executable)
-        old_signature = _code_signature(paths["installed"], assess_gatekeeper=True)
+        old_signature = _code_signature(paths["installed"], assess_gatekeeper=True,
+                                        allow_local_development=definition.get("signing_identity", "").startswith("Apple Development:"))
         old_child = subprocess.Popen([str(old_executable), "--synthetic-old-runtime", definition["session"]],
                                      stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                      text=True, bufsize=1)
@@ -633,7 +658,7 @@ def prepare_managed(root, lease, *, stop_old=True, observer=None):
             raise Blocked("BLOCKED_RETAINED_PROCESS_ASSOCIATION")
         _all_disabled(root)
         _frozen_bundle(root, definition, "installed", paths["archive"], same_inode=True)
-        record("S1_ARCHIVE_VERIFIED", {"source": str(paths["installed"]), "archive": bundle_identity(root, paths["archive"]),
+        record("S1_ARCHIVE_VERIFIED", {"source": str(paths["installed"]), "archive": bundle_identity(root, paths["archive"], expected_bundle_id=OLD_RUNTIME_BUNDLE_ID),
                 "retained_association": association, "disabled_before_move": True, "disabled_receipt": disabled})
         copy_disabled(lease, paths["candidate"], paths["staging"])
         _all_disabled(root)
@@ -647,7 +672,7 @@ def prepare_managed(root, lease, *, stop_old=True, observer=None):
         _frozen_bundle(root, definition, "candidate", paths["installed"], same_inode=False)
         installed_disabled_signature = _code_signature(paths["installed"])
         record("S1_INSTALLED_DISABLED", {"installed": bundle_identity(root, paths["installed"], expected_bundle_id=definition["runtime_bundle_id"]), "born_disabled": True})
-        installed_executable = paths["installed"] / EXE_REL
+        installed_executable = paths["installed"] / Path(definition["candidate_executable_rel"])
         fd = os.open(installed_executable, os.O_RDONLY | os.O_NOFOLLOW)
         try:
             os.fchmod(fd, 0o700)
@@ -659,7 +684,8 @@ def prepare_managed(root, lease, *, stop_old=True, observer=None):
         validate_inventory(lease, [root / "managed"], actual, paths["installed"], all_bundles=True)
         if identity(installed_executable)["sha256"] != definition["native_sha256"]:
             raise Blocked("BLOCKED_INSTALLED_READBACK")
-        installed_signature = _code_signature(paths["installed"], assess_gatekeeper=True)
+        installed_signature = _code_signature(paths["installed"], assess_gatekeeper=True,
+                                               allow_local_development=definition.get("signing_identity", "").startswith("Apple Development:"))
         record("S1_MANAGED_ISOLATED", {"bundles": bundles, "objects": tree_facts(root),
                 "known_nested": [item["path"] for item in bundles if item["role"] == "nested"],
                 "target_exit_evidence": disabled["exit_evidence"], "only_installed_executable_enabled": True,

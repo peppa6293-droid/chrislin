@@ -68,7 +68,7 @@ class ManagedIntegrationTests(unittest.TestCase):
         self.assertEqual(permit["lease_inode"], (self.root / "maintenance.lock").stat().st_ino)
         self.assertEqual(permit["session"], self.fixture["session"])
         self.assertEqual(permit["format_version"], 2)
-        self.assertEqual(Path(context["installed_executable"]), self.paths["installed"] / EXE_REL)
+        self.assertEqual(Path(context["installed_executable"]), self.paths["installed"] / Path(self.fixture["candidate_executable_rel"]))
         self.assertEqual([item["path"] for item in contract["launch_routes"] if item["enabled"]], [context["installed_executable"]])
         self.assertEqual(len(contract["known_nested"]), 1)
         for receipt in contract["transitions"]:

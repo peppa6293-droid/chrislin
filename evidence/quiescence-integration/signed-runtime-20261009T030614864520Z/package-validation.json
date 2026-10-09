@@ -1,0 +1,68 @@
+{
+  "format_version": 1,
+  "synthetic_only": true,
+  "status": "BUILD_OR_SIGNATURE_FAILED",
+  "started_at": "2026-10-09T03:06:14.865047+00:00",
+  "repo_head": "09f38c34ae0607051d498962c6d41e150ab33ae3",
+  "signing_identity": "Apple Development: 8619814730147 (FW5KHTFNZ6)",
+  "commands": [
+    {
+      "argv": [
+        "npx",
+        "vite",
+        "build",
+        "--config",
+        "vite.quiescence.config.ts"
+      ],
+      "exit_code": 0,
+      "stdout_path": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/quiescence-integration/signed-runtime-20261009T030614864520Z/command-1.stdout.txt",
+      "stderr_path": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/quiescence-integration/signed-runtime-20261009T030614864520Z/command-1.stderr.txt",
+      "stdout_sha256": "5a32a0c1da6d874df91c90fc99c5f46ceeaa1dabca00d1cf332b1999a2663d13",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "cargo",
+        "build",
+        "--manifest-path",
+        "src-tauri/Cargo.toml",
+        "--features",
+        "quiescence-fixture",
+        "--bin",
+        "quiescence-old-runtime"
+      ],
+      "exit_code": 0,
+      "stdout_path": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/quiescence-integration/signed-runtime-20261009T030614864520Z/command-2.stdout.txt",
+      "stderr_path": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/quiescence-integration/signed-runtime-20261009T030614864520Z/command-2.stderr.txt",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "6ae34472465787410351d634705bbe10d332318f90508ff50432249c4f9c0a2c"
+    },
+    {
+      "argv": [
+        "npx",
+        "tauri",
+        "build",
+        "--config",
+        "src-tauri/tauri.quiescence.conf.json",
+        "--config",
+        "src-tauri/tauri.quiescence.package.conf.json",
+        "--features",
+        "quiescence-tauri",
+        "--bundles",
+        "app",
+        "--",
+        "--bin",
+        "quiescence-tauri"
+      ],
+      "exit_code": 0,
+      "stdout_path": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/quiescence-integration/signed-runtime-20261009T030614864520Z/command-3.stdout.txt",
+      "stderr_path": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/quiescence-integration/signed-runtime-20261009T030614864520Z/command-3.stderr.txt",
+      "stdout_sha256": "84cafef7f5424848b6a68954437a3a10b404924bdf2e3fcb1b33cbced1e181ea",
+      "stderr_sha256": "288e19cac1c1bca17644ee15c564e69b16f3c64afdd672b9a2c5568421a4588b"
+    }
+  ],
+  "app_bundle": null,
+  "build_target_dir": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/isolated-quiescence-20261009T030614864520Z",
+  "error": "RuntimeError: expected companion binary absent; cannot classify packaged executable set",
+  "finished_at": "2026-10-09T03:08:06.756861+00:00"
+}

@@ -4,5 +4,5 @@
   "minSupportedSchemaVersion": 3,
   "maxSupportedSchemaVersion": 4,
   "bundleId": "org.pfc.quiescence.integration",
-  "executable": "Contents/MacOS/personal-finance-console"
+  "executable": "Contents/MacOS/quiescence-tauri"
 }

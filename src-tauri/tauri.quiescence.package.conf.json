@@ -3,7 +3,7 @@
   "productName": "PFC Isolated Quiescence IPC",
   "version": "0.1.0",
   "identifier": "org.pfc.quiescence.integration",
-  "mainBinaryName": "personal-finance-console",
+  "mainBinaryName": "quiescence-tauri",
   "build": {
     "frontendDist": "../artifacts/quiescence-ipc-web"
   },

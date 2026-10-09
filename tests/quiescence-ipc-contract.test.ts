@@ -5,7 +5,17 @@ describe("isolated Q11 frontend/runtime boundaries (source regression only; not 
   const frontend = readFileSync(new URL("../quiescence-web/main.ts", import.meta.url), "utf8");
   const native = readFileSync(new URL("../src-tauri/src/bin/quiescence_tauri.rs", import.meta.url), "utf8");
   const controller = readFileSync(new URL("../scripts/quiescence_ipc_tests.py", import.meta.url), "utf8");
+  const packager = readFileSync(new URL("../scripts/package_quiescence_runtime.py", import.meta.url), "utf8");
   const config = JSON.parse(readFileSync(new URL("../src-tauri/tauri.quiescence.conf.json", import.meta.url), "utf8")) as { identifier: string };
+  const packageConfig = JSON.parse(readFileSync(new URL("../src-tauri/tauri.quiescence.package.conf.json", import.meta.url), "utf8")) as {
+    identifier: string; mainBinaryName: string; bundle: { resources: Record<string, string | null> };
+  };
+  const isolatedManifest = JSON.parse(readFileSync(new URL("../src-tauri/quiescence-runtime-compatibility.json", import.meta.url), "utf8")) as {
+    bundleId: string; executable: string;
+  };
+  const productionManifest = JSON.parse(readFileSync(new URL("../src-tauri/runtime-compatibility.json", import.meta.url), "utf8")) as {
+    bundleId: string;
+  };
   it("uses bundled TypeScript real invoke and a separate Tauri identity", () => {
     expect(frontend).toContain('import { invoke } from "@tauri-apps/api/core"');
     expect(config.identifier).toBe("org.pfc.quiescence.integration");
@@ -42,7 +52,20 @@ describe("isolated Q11 frontend/runtime boundaries (source regression only; not 
     expect(controller).toContain('"stdout_sha256": sha(output.name)');
     expect(controller).toContain('"os_profile_side_effects": "NOT_INDEPENDENTLY_AUDITED"');
     expect(controller).not.toContain('"production_access":');
-    expect(controller).toContain('env["TAURI_CONFIG"]');
+    expect(packager).toContain('"--config", "src-tauri/tauri.quiescence.conf.json"');
+    expect(packager).toContain('"src-tauri/tauri.quiescence.package.conf.json"');
+    expect(packager).toContain('"--", "--bin", "quiescence-tauri"');
     expect(controller).toContain('"--build-only"');
+    expect(controller).toContain('Contents/MacOS/quiescence-tauri');
+  });
+  it("binds the isolated bundle entry to Q11 and excludes the Production manifest", () => {
+    expect(packageConfig.identifier).toBe("org.pfc.quiescence.integration");
+    expect(packageConfig.mainBinaryName).toBe("quiescence-tauri");
+    expect(packageConfig.bundle.resources["runtime-compatibility.json"]).toBeNull();
+    expect(packageConfig.bundle.resources["quiescence-runtime-compatibility.json"]).toBe("runtime-compatibility.json");
+    expect(isolatedManifest.bundleId).toBe(packageConfig.identifier);
+    expect(isolatedManifest.executable).toBe("Contents/MacOS/quiescence-tauri");
+    expect(productionManifest.bundleId).toBe("com.personalfinance.console");
+    expect(productionManifest.bundleId).not.toBe(packageConfig.identifier);
   });
 });

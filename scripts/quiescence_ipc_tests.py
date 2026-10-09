@@ -257,7 +257,7 @@ def main():
     if bundle is None:
         bundle = REPO / "src-tauri/target/release/bundle/macos/PFC Isolated Quiescence IPC.app"
     bundle = bundle.resolve(strict=True)
-    binary = (args.binary.resolve(strict=True) if args.binary else bundle / "Contents/MacOS/personal-finance-console")
+    binary = (args.binary.resolve(strict=True) if args.binary else bundle / "Contents/MacOS/quiescence-tauri")
     binary = binary.resolve(strict=True)
     if not binary.is_relative_to(bundle):
         raise SystemExit("candidate executable must be inside the signed synthetic app bundle")

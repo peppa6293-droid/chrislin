@@ -10,6 +10,8 @@ import fcntl
 import hashlib
 import json
 import os
+import json
+import plistlib
 from pathlib import Path
 import plistlib
 import stat
@@ -163,12 +165,39 @@ def identity(path: Path):
 def bundle_identity(root: Path, path: Path, *, expected_bundle_id=PRODUCTION_BUNDLE_ID):
     path = scoped(root, path)
     try:
-        result = read_bundle(path)
+        try:
+            result = read_bundle(path)
+        except ValueError:
+            # The release gate deliberately fixes the Production executable
+            # name. Synthetic isolated candidates may use their own entry name.
+            if expected_bundle_id == PRODUCTION_BUNDLE_ID:
+                raise
+            info_path = scoped(root, path / "Contents/Info.plist")
+            info = plistlib.loads(info_path.read_bytes())
+            if isinstance(info, dict) and info.get("CFBundleIdentifier") == PRODUCTION_BUNDLE_ID:
+                raise ValueError("Production bundle must pass the strict release parser")
+            executable_name = info.get("CFBundleExecutable") if isinstance(info, dict) else None
+            if (not isinstance(executable_name, str) or not executable_name or
+                    Path(executable_name).name != executable_name or "/" in executable_name):
+                raise ValueError("isolated bundle CFBundleExecutable is not a simple filename")
+            executable = scoped(root, path / "Contents/MacOS" / executable_name)
+            manifest_path = scoped(root, path / "Contents/Resources/runtime-compatibility.json")
+            if executable.is_symlink() or not executable.is_file() or manifest_path.is_symlink() or not manifest_path.is_file():
+                raise ValueError("isolated bundle executable or manifest is missing/redirected")
+            resolved = executable.resolve(strict=True)
+            if not resolved.is_relative_to(path.resolve(strict=True)) or resolved != path.resolve(strict=True) / "Contents/MacOS" / executable_name:
+                raise ValueError("isolated bundle executable resolves outside its canonical bundle path")
+            manifest = json.loads(manifest_path.read_text())
+            result = {"bundle_path": str(path.resolve(strict=True)), "bundle_id": info.get("CFBundleIdentifier"),
+                      "version": info.get("CFBundleShortVersionString"), "executable_name": executable_name,
+                      "executable_path": str(resolved), "executable_sha256": identity(executable)["sha256"],
+                      "executable_mode": stat.S_IMODE(executable.stat().st_mode), "manifest": manifest,
+                      "manifest_path": str(manifest_path), "manifest_sha256": identity(manifest_path)["sha256"]}
     except (ValueError, OSError, json.JSONDecodeError) as exc:
         raise Blocked("BLOCKED_BUNDLE_IDENTITY", str(exc)) from exc
     if expected_bundle_id is not None and result["bundle_id"] != expected_bundle_id:
         raise Blocked("BLOCKED_BUNDLE_ID")
-    for label, relative in (("executable", "Contents/MacOS/" + EXECUTABLE_NAME), ("plist", "Contents/Info.plist"), ("manifest", "Contents/Resources/runtime-compatibility.json")):
+    for label, relative in (("executable", "Contents/MacOS/" + result["executable_name"]), ("plist", "Contents/Info.plist"), ("manifest", "Contents/Resources/runtime-compatibility.json")):
         target = scoped(root, path / relative)
         result[label + "_identity"] = identity(target)
     return result
@@ -264,7 +293,7 @@ def validate_inventory(lease: MaintenanceLease, roots: list[Path], expected: dic
         # No role whitelist: every non-installed executable is forbidden.
         for entry in Path(path).rglob("*"):
             if entry.is_file() and entry.stat().st_mode & 0o111:
-                if entry != installed / "Contents/MacOS" / EXECUTABLE_NAME:
+                if entry != Path(actual[str(installed)]["executable_path"]):
                     raise Blocked("BLOCKED_EXTRA_EXECUTABLE_ROUTE", str(entry))
     approved_hashes = {item["executable_sha256"] for item in actual.values()}
     approved_exes = {item["executable_path"] for item in actual.values()}
