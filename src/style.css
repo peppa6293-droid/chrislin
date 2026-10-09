@@ -1813,6 +1813,28 @@ select:hover {
   display: grid;
   gap: 12px;
 }
+.stable-income-history {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+.stable-income-history-note {
+  margin: 0;
+  padding: 0 3px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.65;
+}
+.stable-income-revision {
+  align-items: center;
+}
+.stable-income-revision > div {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.stable-income-revision > strong {
+  flex-shrink: 0;
+}
 .finance-list-card {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;

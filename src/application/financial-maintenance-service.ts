@@ -7,12 +7,13 @@ import type {
   ModelInput,
 } from "../model/types.js";
 import { ApplicationDataError, type SqlDatabase } from "../persistence/database.js";
-import { Repositories } from "../persistence/repositories.js";
+import { Repositories, type StablePlanningIncomeRevision } from "../persistence/repositories.js";
 import { ApplicationModelError, buildMonthlyModelInput } from "./monthly-model-service.js";
 import { getHomeApplicationState, type HomeApplicationState } from "./product-service.js";
 
 export interface FinancialMaintenanceState {
   stableMonthlyIncome: string;
+  stableIncomeRevisions: StablePlanningIncomeRevision[];
   actualIncomeRecords: Array<{
     id: string;
     status: "EXPECTED" | "PENDING" | "RECEIVED";
@@ -230,17 +231,20 @@ export async function getFinancialMaintenanceState(
   validateDate(asOfDate);
   const built = await buildMaintenanceModelInput(db, asOfDate);
   const repositories = new Repositories(db);
-  const [essentials, cash, assets, stablePlanningIncome] = await Promise.all([
+  const profile = await repositories.getProfile();
+  const [essentials, cash, assets, stablePlanningIncome, stableIncomeRevisions] = await Promise.all([
     repositories.listEssentialExpensesAt(asOfDate),
     repositories.cashAccountsAt(asOfDate),
     repositories.assetsAt(asOfDate),
     repositories.stablePlanningIncomeAt(asOfDate.slice(0, 7), asOfDate),
+    profile ? repositories.listStablePlanningIncomeRevisions(profile.id) : Promise.resolve([]),
   ]);
   const currentDebtFacts = await repositories.debtsAt(asOfDate.slice(0, 7), asOfDate, true);
   const currentDebtIds = new Set(currentDebtFacts.map((item) => item.id));
   const requirement = horizonRequirement(built);
   return {
     stableMonthlyIncome: stablePlanningIncome?.amount ?? "0",
+    stableIncomeRevisions,
     actualIncomeRecords: built.facts.actualIncomeRecords.map((item) => ({
       id: item.id,
       status: item.status,

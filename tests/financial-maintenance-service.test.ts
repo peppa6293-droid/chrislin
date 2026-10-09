@@ -3,6 +3,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import { afterEach, describe, expect, it } from "vitest";
+import type { ExecuteResult, SqlDatabase } from "../src/persistence/database.js";
 import {
   getFinancialMaintenanceState,
   updateFinancialDataAndRecalculate,
@@ -14,10 +15,36 @@ import {
   recordExpenseAndRecalculate,
 } from "../src/application/product-service.js";
 import { migrateDatabase } from "../src/persistence/migrations.js";
+import { Repositories } from "../src/persistence/repositories.js";
 import { NodeSqliteDatabase } from "./helpers/node-sqlite.js";
 
 const openDatabases: NodeSqliteDatabase[] = [];
 const tempDirs: string[] = [];
+class ReadOnlyStableIncomeHistoryProbe implements SqlDatabase {
+  readonly queries: Array<{ sql: string; bindValues: unknown[] }> = [];
+  writes = 0;
+
+  async execute(_sql: string, _bindValues: unknown[] = []): Promise<ExecuteResult> {
+    this.writes += 1;
+    throw new Error("Stable-income history must use a read-only query.");
+  }
+
+  async select<T extends Record<string, unknown>>(sql: string, bindValues: unknown[] = []): Promise<T[]> {
+    this.queries.push({ sql, bindValues });
+    if (bindValues[0] !== "selected-profile") return [];
+    return [{
+      revision_id: 19,
+      effective_month: "2026-10",
+      as_of_date: "2026-10-03",
+      amount: "12345.67",
+      created_at: "2026-10-03T00:00:00.000Z",
+    }] as unknown as T[];
+  }
+
+  async transaction<T>(_work: (transactionDb: SqlDatabase) => Promise<T>): Promise<T> {
+    throw new Error("Stable-income history must not open a transaction.");
+  }
+}
 function first<T>(items: T[]): T {
   const item = items[0];
   if (!item) throw new Error("Expected an item in test fixture.");
@@ -68,6 +95,23 @@ async function onboard(db: NodeSqliteDatabase): Promise<void> {
 }
 
 describe("financial maintenance service", () => {
+  it("binds stable-income history to the selected profile and performs no writes", async () => {
+    const db = new ReadOnlyStableIncomeHistoryProbe();
+    const revisions = await new Repositories(db).listStablePlanningIncomeRevisions("selected-profile");
+
+    expect(revisions).toEqual([{
+      revisionId: 19,
+      effectiveMonth: "2026-10",
+      asOfDate: "2026-10-03",
+      amount: "12345.67",
+      createdAt: "2026-10-03T00:00:00.000Z",
+    }]);
+    expect(db.queries).toHaveLength(1);
+    expect(db.queries[0]?.sql).toContain("FROM planning_income_revisions WHERE profile_id=?");
+    expect(db.queries[0]?.sql).toContain("ORDER BY effective_month DESC,as_of_date DESC,revision_id DESC");
+    expect(db.queries[0]?.bindValues).toEqual(["selected-profile"]);
+    expect(db.writes).toBe(0);
+  });
   it("rejects Actual Income outside the maintenance month without partial writes", async () => {
     const db = await memoryDatabase();
     await onboard(db);
@@ -574,6 +618,73 @@ describe("financial maintenance service", () => {
     ).toBe("1600");
     expect(partial.state.cashAccounts.find((item) => item.id === cash.id)?.balance).toBe("5500");
     expect(partial.state.debts.find((item) => item.id === debt.id)?.currentMonthDue).toBe("600");
+  });
+
+  it("reads stable-income revisions by effective month, as-of date, and revision id without writes", async () => {
+    const db = await memoryDatabase();
+    await onboard(db);
+    const profile = await new Repositories(db).getProfile();
+    if (!profile) throw new Error("Expected the fixture profile.");
+    const firstSave = await updateFinancialDataAndRecalculate(
+      db, { stableMonthlyIncome: "11000.01" }, "2026-10-03",
+    );
+    expect(firstSave.state.stableIncomeRevisions.map((revision) => revision.amount)).toContain("11000.01");
+    await updateFinancialDataAndRecalculate(db, { stableMonthlyIncome: "11000.02" }, "2026-10-03");
+    await db.execute(
+      "INSERT INTO planning_income_revisions(profile_id,effective_month,as_of_date,amount,created_at) VALUES(?,?,?,?,?)",
+      [profile.id, "2026-11", "2026-09-03", "12000.03", "2026-09-03T00:00:00.000Z"],
+    );
+
+    const revisionsBefore = await db.select<{ revision_id: number }>(
+      "SELECT revision_id FROM planning_income_revisions ORDER BY revision_id",
+    );
+    const otherPlanningRowsBefore = await db.select(
+      "SELECT id,amount,date,status FROM income_records WHERE kind='PLANNING' ORDER BY id",
+    );
+    const overridesBefore = await db.select(
+      "SELECT revision_id,period_month,decision,amount FROM planning_income_month_revisions ORDER BY revision_id",
+    );
+    const state = await getFinancialMaintenanceState(db, "2026-10-03");
+
+    expect(state.stableMonthlyIncome).toBe("11000.02");
+    expect(state.stableIncomeRevisions.every((revision) => revision.revisionId > 0)).toBe(true);
+    expect(state.stableIncomeRevisions.map(({ revisionId, effectiveMonth, asOfDate, amount }) => ({
+      revisionId,
+      effectiveMonth,
+      asOfDate,
+      amount,
+    }))).toEqual([
+      { revisionId: revisionsBefore[2]?.revision_id, effectiveMonth: "2026-11", asOfDate: "2026-09-03", amount: "12000.03" },
+      { revisionId: revisionsBefore[1]?.revision_id, effectiveMonth: "2026-10", asOfDate: "2026-10-03", amount: "11000.02" },
+      { revisionId: revisionsBefore[0]?.revision_id, effectiveMonth: "2026-10", asOfDate: "2026-10-03", amount: "11000.01" },
+    ]);
+    expect(state.stableIncomeRevisions.map((revision) => revision.createdAt)).toEqual([
+      "2026-09-03T00:00:00.000Z",
+      "2026-10-03T00:00:00.000Z",
+      "2026-10-03T00:00:00.000Z",
+    ]);
+    expect(await db.select("SELECT revision_id FROM planning_income_revisions ORDER BY revision_id"))
+      .toEqual(revisionsBefore);
+    expect(await db.select("SELECT id,amount,date,status FROM income_records WHERE kind='PLANNING' ORDER BY id"))
+      .toEqual(otherPlanningRowsBefore);
+    expect(await db.select("SELECT revision_id,period_month,decision,amount FROM planning_income_month_revisions ORDER BY revision_id"))
+      .toEqual(overridesBefore);
+    expect(await db.select("SELECT kind,amount,date,status FROM income_records WHERE kind='ACTUAL'"))
+      .toEqual([]);
+  });
+
+  it("fails the maintenance read when a stable-income history row is malformed", async () => {
+    const db = await memoryDatabase();
+    await onboard(db);
+    const profile = await new Repositories(db).getProfile();
+    if (!profile) throw new Error("Expected the fixture profile.");
+    await db.execute(
+      "INSERT INTO planning_income_revisions(profile_id,effective_month,as_of_date,amount,created_at) VALUES(?,?,?,?,?)",
+      [profile.id, "2026-10", "2026-10-03", "10000", ""],
+    );
+
+    await expect(getFinancialMaintenanceState(db, "2026-10-03"))
+      .rejects.toMatchObject({ code: "INVALID_STORED_DATA" });
   });
 
   it("keeps V1 rows and appends same-day/month revisions; prior months and file reopen retain correct values", async () => {

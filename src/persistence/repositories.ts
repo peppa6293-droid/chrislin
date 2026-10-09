@@ -74,6 +74,14 @@ export interface PlanningIncomeResolution {
   recordId?: string;
 }
 
+export interface StablePlanningIncomeRevision {
+  revisionId: number;
+  effectiveMonth: string;
+  asOfDate: string;
+  amount: string;
+  createdAt: string;
+}
+
 export interface ActualIncomeRevisionState extends IncomeRecord {
   periodMonth: string;
   active: boolean;
@@ -106,6 +114,16 @@ function invalidColumn(column: string): ApplicationDataError {
     "INVALID_STORED_DATA",
     `Database column ${column} has an invalid value.`,
   );
+}
+
+function validCalendarDate(value: string): boolean {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const [year, month, day] = value.split("-").map(Number);
+  if (!year || !month || !day) return false;
+  const date = new Date(0);
+  date.setUTCHours(0, 0, 0, 0);
+  date.setUTCFullYear(year, month - 1, day);
+  return date.getUTCFullYear() === year && date.getUTCMonth() + 1 === month && date.getUTCDate() === day;
 }
 
 function requireStoredUserInputMoney(value: string): string {
@@ -224,6 +242,38 @@ export class Repositories {
       "INSERT INTO planning_income_revisions(profile_id,effective_month,as_of_date,amount,created_at) VALUES(?,?,?,?,?)",
       [profileId, effectiveMonth, asOfDate, requireStoredUserInputMoney(amount), now],
     );
+  }
+
+  /** Read only the selected profile's stable Planning baseline history. */
+  async listStablePlanningIncomeRevisions(
+    profileId: string,
+  ): Promise<StablePlanningIncomeRevision[]> {
+    const rows = await this.db.select(
+      `SELECT revision_id,effective_month,as_of_date,amount,created_at
+       FROM planning_income_revisions WHERE profile_id=?
+       ORDER BY effective_month DESC,as_of_date DESC,revision_id DESC`,
+      [profileId],
+    );
+    return rows.map((row) => {
+      const rawId = row.revision_id;
+      const revisionId = typeof rawId === "bigint" ? Number(rawId) : rawId;
+      if (typeof revisionId !== "number" || !Number.isSafeInteger(revisionId) || revisionId <= 0)
+        throw invalidColumn("planning_income_revisions.revision_id");
+      const effectiveMonth = text(row, "effective_month");
+      if (!/^\d{4}-(0[1-9]|1[0-2])$/.test(effectiveMonth))
+        throw invalidColumn("planning_income_revisions.effective_month");
+      const asOfDate = text(row, "as_of_date");
+      if (!validCalendarDate(asOfDate)) throw invalidColumn("planning_income_revisions.as_of_date");
+      const createdAt = text(row, "created_at");
+      if (!createdAt.trim()) throw invalidColumn("planning_income_revisions.created_at");
+      return {
+        revisionId,
+        effectiveMonth,
+        asOfDate,
+        amount: requireStoredUserInputMoney(text(row, "amount")),
+        createdAt,
+      };
+    });
   }
 
   async appendPlanningIncomeMonthDecision(

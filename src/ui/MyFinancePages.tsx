@@ -338,6 +338,7 @@ function CategoryList({
               </article>
             ))
           )}
+          <StablePlanningIncomeHistory revisions={data.stableIncomeRevisions} viewAsOfDate={asOfDate} />
         </>
       )}
       {route === "CASH_LIST" &&
@@ -700,10 +701,55 @@ function PlanningIncomePage({
           </section>
         </div>
       )}
+      {data && <StablePlanningIncomeHistory revisions={data.stableIncomeRevisions} viewAsOfDate={asOfDate} />}
       <button className="finance-home-link text-button" type="button" onClick={() => back("home")}>
         返回首页
       </button>
     </main>
+  );
+}
+
+function StablePlanningIncomeHistory({
+  revisions,
+  viewAsOfDate,
+}: {
+  revisions: FinancialMaintenanceState["stableIncomeRevisions"];
+  viewAsOfDate: string;
+}) {
+  const viewMonth = viewAsOfDate.slice(0, 7);
+  return (
+    <section className="stable-income-history" aria-label="稳定月收入修改记录">
+      <header className="finance-list-heading">
+        <h2>稳定月收入修改记录</h2>
+        <span>{revisions.length} 条 · 最新记录在前</span>
+      </header>
+      <p className="stable-income-history-note">
+        按生效月份、记录日期和版本顺序排列。未来记录不会提前改变当前显示金额。
+      </p>
+      {revisions.length === 0 ? (
+        <p className="finance-empty-state" role="status">暂无稳定月收入修改记录。</p>
+      ) : (
+        revisions.map((revision, index) => {
+          const futureEffective = revision.effectiveMonth > viewMonth;
+          const futureKnowledge = revision.asOfDate > viewAsOfDate;
+          return (
+            <article
+              className="finance-data-row stable-income-revision"
+              data-visual-tone={index % 3 === 0 ? "mint" : index % 3 === 1 ? "peach" : "blue"}
+              data-revision-id={revision.revisionId}
+              key={revision.revisionId}
+            >
+              <div>
+                <strong>版本 {revision.revisionId}</strong>
+                <span>{futureEffective ? "未来生效月份" : "生效月份"} · {revision.effectiveMonth}</span>
+                <span>{futureKnowledge ? "未来记录日期" : "记录日期"} · {revision.asOfDate}</span>
+              </div>
+              <strong><MoneyAmount value={revision.amount} size="list" /></strong>
+            </article>
+          );
+        })
+      )}
+    </section>
   );
 }
 
