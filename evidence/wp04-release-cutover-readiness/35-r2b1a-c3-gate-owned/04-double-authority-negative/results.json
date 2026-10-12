@@ -1,0 +1,7 @@
+{
+  "legacyMigrationAuthorizationPresent": "PASS_REFUSED_PRESERVED",
+  "legacyPermitPresent": "PASS_REFUSED_PRESERVED",
+  "formalGatePermitPresent": "PASS_REFUSED_PRESERVED",
+  "unknownMode": "PASS_REFUSED",
+  "wrongOrMissingOrSymlinkMarker": "PASS_REFUSED"
+}

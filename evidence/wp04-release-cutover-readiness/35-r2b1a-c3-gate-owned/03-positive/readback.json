@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "state": "MANAGED_ISOLATED",
+  "mode": "UNIFIED_R2B_GATE_OWNED",
+  "receiptPath": "evidence/wp04-release-cutover-readiness/35-r2b1a-c3-gate-owned/03-positive/managed-isolated-receipt.json",
+  "receiptSha256": "632cb4f2b0d817a6607e978c7184209feb239fb186fd31c3cd21dc6096e6334d",
+  "managedContractSha256": "2d731cee4b2b857a7446d418a752385fc63869fb21df1d3470d1f1d20c4f99be",
+  "migrationAuthorizationFiles": 0,
+  "migrationPermitFiles": 0,
+  "consumedLedgerFiles": 0,
+  "databaseUserVersion": 3,
+  "migrationRows": [
+    1,
+    2,
+    3
+  ],
+  "migration4Executed": false,
+  "leaseReleasedAfterContext": true,
+  "tempRootCleanedAfterEvidenceCopy": true,
+  "receiptFileSha256Actual": "632cb4f2b0d817a6607e978c7184209feb239fb186fd31c3cd21dc6096e6334d",
+  "receiptFileSha256Matches": true
+}

@@ -1,0 +1,507 @@
+diff --git a/scripts/quiescence_gate.py b/scripts/quiescence_gate.py
+index 43c7401..29a91fa 100644
+--- a/scripts/quiescence_gate.py
++++ b/scripts/quiescence_gate.py
+@@ -38,9 +38,16 @@ def fixture_root(root: Path, *, mode="standalone") -> Path:
+         raise Blocked("BLOCKED_NOT_ISOLATED_FIXTURE", str(root))
+     marker = root / "SYNTHETIC_ONLY"
+     expected = {"standalone": MARKER, "unified-r2b": UNIFIED_MARKER}.get(mode)
+-    if expected is None or marker.is_symlink() or marker.read_text() != expected:
+-        raise Blocked("BLOCKED_NOT_ISOLATED_FIXTURE", "marker")
+-    identity(marker)
++    if expected is None:
++        raise Blocked("BLOCKED_UNKNOWN_MANAGED_MODE", str(mode))
++    try:
++        if marker.is_symlink() or marker.read_bytes() != expected.encode():
++            raise Blocked("BLOCKED_NOT_ISOLATED_FIXTURE", "marker")
++        identity(marker)
++    except Blocked:
++        raise
++    except OSError as exc:
++        raise Blocked("BLOCKED_NOT_ISOLATED_FIXTURE", f"marker metadata/read failure: {exc}") from exc
+     return root
+ 
+ 
+@@ -206,9 +213,9 @@ def bundle_identity(root: Path, path: Path, *, expected_bundle_id=PRODUCTION_BUN
+     return result
+ 
+ 
+-def discover(root: Path, roots: list[Path], *, all_bundles=False):
++def discover(root: Path, roots: list[Path], *, all_bundles=False, mode="standalone"):
+     """Finite declared closure, no unrelated outer-bundle pruning."""
+-    root = fixture_root(root)
++    root = fixture_root(root, mode=mode)
+     found, links = {}, []
+     for scan in roots:
+         scan = scoped(root, scan)
+@@ -287,7 +294,7 @@ def collect_spawned_fixture_targets(targets):
+ def validate_inventory(lease: MaintenanceLease, roots: list[Path], expected: dict, installed: Path, *, all_bundles=False):
+     lease.validate()
+     installed = scoped(lease.root, installed)
+-    actual = discover(lease.root, roots, all_bundles=all_bundles)
++    actual = discover(lease.root, roots, all_bundles=all_bundles, mode=lease.mode)
+     if set(actual) != set(expected) or str(installed) not in actual:
+         raise Blocked("BLOCKED_MANAGED_OBJECT_SET")
+     for path, item in actual.items():
+diff --git a/scripts/quiescence_integration.py b/scripts/quiescence_integration.py
+index 02c8dcb..01961e6 100644
+--- a/scripts/quiescence_integration.py
++++ b/scripts/quiescence_integration.py
+@@ -28,7 +28,7 @@ import time
+ import uuid
+ 
+ from quiescence_gate import (
+-    Blocked, EXECUTABLE_NAME, MARKER, PRODUCTION_BUNDLE_ID, MaintenanceLease,
++    Blocked, EXECUTABLE_NAME, MARKER, UNIFIED_MARKER, PRODUCTION_BUNDLE_ID, MaintenanceLease,
+     bundle_identity, collect_spawned_fixture_targets, copy_disabled,
+     disable_known_entries, discover, fixture_root, identity, scoped,
+     validate_inventory,
+@@ -38,6 +38,9 @@ REPO = Path(__file__).resolve().parents[1]
+ DATABASE = "personal-finance-console.sqlite3"
+ CONTRACT_VERSION = 2
+ ISOLATED_BUNDLE_ID = "org.pfc.quiescence.integration"
++STANDALONE_COMPONENT = "STANDALONE_COMPONENT"
++UNIFIED_R2B_GATE_OWNED = "UNIFIED_R2B_GATE_OWNED"
++MANAGED_MODES = (STANDALONE_COMPONENT, UNIFIED_R2B_GATE_OWNED)
+ OLD_RUNTIME_BUNDLE_ID = "org.pfc.quiescence.oldruntime"
+ EXE_REL = Path("Contents/MacOS") / EXECUTABLE_NAME
+ MANIFEST_REL = Path("Contents/Resources/runtime-compatibility.json")
+@@ -266,6 +269,99 @@ def _paths(root):
+     }
+ 
+ 
++def _mode_marker(mode):
++    if mode == STANDALONE_COMPONENT:
++        return MARKER.encode()
++    if mode == UNIFIED_R2B_GATE_OWNED:
++        return UNIFIED_MARKER.encode()
++    raise Blocked("BLOCKED_UNKNOWN_MANAGED_MODE", str(mode))
++
++
++def mode_to_lease(mode):
++    if mode == STANDALONE_COMPONENT:
++        return "standalone"
++    if mode == UNIFIED_R2B_GATE_OWNED:
++        return "unified-r2b"
++    raise Blocked("BLOCKED_UNKNOWN_MANAGED_MODE", str(mode))
++
++
++def _validate_unified_candidate(root, bundle_path, *, role="candidate"):
++    facts = bundle_identity(root, bundle_path, expected_bundle_id=ISOLATED_BUNDLE_ID)
++    manifest = facts.get("manifest")
++    if (facts.get("executable_name") != EXECUTABLE_NAME or not isinstance(manifest, dict) or
++            manifest.get("bundleId") != ISOLATED_BUNDLE_ID or
++            manifest.get("executable") != str(EXE_REL) or
++            manifest.get("runtimeGeneration") != 4 or
++            manifest.get("minSupportedSchemaVersion") != 3 or
++            manifest.get("maxSupportedSchemaVersion") != 4):
++        raise Blocked("REFUSE_UNIFIED_SYNTHETIC_IDENTITY", "candidate manifest does not match the fixed R2B identity")
++    if role not in {"candidate", "installed"}:
++        raise Blocked("BLOCKED_UNKNOWN_CANDIDATE_ROLE", str(role))
++    expected_path = _paths(root)[role]
++    if Path(bundle_path) != expected_path:
++        raise Blocked("REFUSE_UNIFIED_SYNTHETIC_IDENTITY", "candidate is outside the fixed managed candidate slot")
++    return facts
++
++
++def _finish_gate_owned_c3(root, lease, definition, candidate, association, paths, bundles, recorder, pre):
++    """Persist S1 managed isolation only; this mode has no migration authority."""
++    lease.validate()
++    installed = _validate_unified_candidate(root, paths["installed"], role="installed")
++    archive = bundle_identity(root, paths["archive"], expected_bundle_id=OLD_RUNTIME_BUNDLE_ID)
++    marker_identity = identity(root / "SYNTHETIC_ONLY")
++    lease_facts = {"mode": UNIFIED_R2B_GATE_OWNED, "session": lease.session,
++                   "path": str(lease.path), "dev": os.fstat(lease.fd).st_dev,
++                   "inode": os.fstat(lease.fd).st_ino}
++    transitions = [receipt for receipt in recorder.receipts if receipt["state"] in (
++        "S0_VERIFIED_CANDIDATE", "S1_MANAGED_ISOLATED")]
++    contract = {"format_version": 2, "synthetic_only": True, "mode": UNIFIED_R2B_GATE_OWNED,
++                "root": str(root), "session": lease.session, "objects": tree_facts(root, mode=UNIFIED_R2B_GATE_OWNED),
++                "bundles": bundles, "known_nested": [item["path"] for item in bundles if item["role"] == "nested"],
++                "processes": [{key: association[key] for key in (
++                    "pid", "start", "executable_sha256", "executable_dev", "executable_inode")} | {"state": "EXIT_CONFIRMED"}],
++                "transitions": transitions, "lease": lease_facts}
++    _new_json(root / "managed-contract.json", contract)
++    c3 = {"formatVersion": 1, "status": "SYNTHETIC_C3_MANAGED_ISOLATED",
++          "syntheticOnly": True, "mode": UNIFIED_R2B_GATE_OWNED,
++          "root": str(root), "rootMarkerSha256": marker_identity["sha256"],
++          "candidate": {"bundleId": installed["bundle_id"], "bundlePath": installed["bundle_path"],
++                        "executablePath": installed["executable_path"],
++                        "executableSha256": installed["executable_sha256"],
++                        "manifestSha256": installed["manifest_sha256"]},
++          "oldRuntime": {"bundleId": archive["bundle_id"], "archivePath": archive["bundle_path"],
++                         "executableSha256": association["executable_sha256"],
++                         "executableDev": association["executable_dev"],
++                         "executableInode": association["executable_inode"],
++                         "state": "EXIT_CONFIRMED"},
++          "archivePath": str(paths["archive"]), "installedSyntheticCandidatePath": str(paths["installed"]),
++          "timestampUnixNs": time.time_ns(), "lease": lease_facts,
++          "managedContractSha256": identity(root / "managed-contract.json")["sha256"],
++          "managedStateReceiptSha256": recorder.receipts[-1]["evidence_sha256"],
++          "databasePath": str(root / DATABASE), "databaseSha256": pre["sha256"],
++          "schemaVersion": 3, "migrationVersions": [1, 2, 3]}
++    receipt_path = root / "SYNTHETIC_C3_MANAGED_ISOLATED.json"
++    _new_json(receipt_path, c3)
++    lease.validate()
++    if tree_facts(root, mode=UNIFIED_R2B_GATE_OWNED) != contract["objects"]:
++        raise Blocked("BLOCKED_MANAGED_OBJECT_DRIFT")
++    after = _verify_v3(root, mode=UNIFIED_R2B_GATE_OWNED)
++    if after["sha256"] != pre["sha256"]:
++        raise Blocked("BLOCKED_PREMIGRATION_DB_DRIFT")
++    prohibited = ("authorization.json", "permit.json", "permit.claimed.json", "consumed.json",
++                  "consumed-ledger.json", "migration-terminal.json", "outcome.json")
++    if any((root / name).exists() or (root / name).is_symlink() for name in prohibited):
++        raise Blocked("BLOCKED_C3_CREATED_MIGRATION_AUTHORITY")
++    persisted = json.loads(receipt_path.read_bytes())
++    if persisted != c3 or "nonce" in persisted or "authorizationId" in persisted:
++        raise Blocked("BLOCKED_C3_RECEIPT_READBACK")
++    return {"root": str(root), "session": lease.session, "installed_executable": installed["executable_path"],
++            "native_sha256": installed["executable_sha256"], "managed_contract_path": str(root / "managed-contract.json"),
++            "managed_isolated_receipt_path": str(receipt_path), "managed_isolated_receipt_sha256": identity(receipt_path)["sha256"],
++            "state": "MANAGED_ISOLATED", "mode": UNIFIED_R2B_GATE_OWNED,
++            "migration_authorization_created": False, "migration_permit_created": False,
++            "consumed_ledger_created": False}
++
++
+ def _bundle_exe_rel(path):
+     info = plistlib.loads((Path(path) / "Contents/Info.plist").read_bytes())
+     name = info.get("CFBundleExecutable") if isinstance(info, dict) else None
+@@ -283,9 +379,12 @@ def _role(path, paths):
+     return "managed_container"
+ 
+ 
+-def tree_facts(root):
++def tree_facts(root, *, mode=STANDALONE_COMPONENT):
+     """Closed managed-root inventory, including all directories and bare files."""
+-    root = fixture_root(root)
++    marker_mode = "unified-r2b" if mode == UNIFIED_R2B_GATE_OWNED else "standalone" if mode == STANDALONE_COMPONENT else None
++    if marker_mode is None:
++        raise Blocked("BLOCKED_UNKNOWN_MANAGED_MODE", str(mode))
++    root = fixture_root(root, mode=marker_mode)
+     managed = scoped(root, root / "managed")
+     paths = _paths(root)
+     facts = []
+@@ -308,9 +407,12 @@ def tree_facts(root):
+     return facts
+ 
+ 
+-def _bootstrap(root):
++def _bootstrap(root, *, mode=STANDALONE_COMPONENT):
+     """Only a newly created synthetic DB is writable; subsequent proof immutable."""
+-    fixture_root(root)
++    marker_mode = "unified-r2b" if mode == UNIFIED_R2B_GATE_OWNED else "standalone" if mode == STANDALONE_COMPONENT else None
++    if marker_mode is None:
++        raise Blocked("BLOCKED_UNKNOWN_MANAGED_MODE", str(mode))
++    fixture_root(root, mode=marker_mode)
+     database = root / DATABASE
+     if database.exists():
+         raise Blocked("BLOCKED_BOOTSTRAP_EXISTS")
+@@ -378,15 +480,18 @@ def _bootstrap(root):
+     with database.open("rb") as stream:
+         os.fsync(stream.fileno())
+     _sync_dir(root)
+-    _verify_v3(root)
++    _verify_v3(root, mode=mode)
+     _copy_file(database, root / "backup.sqlite3")
+     return {"database_sha256": identity(database)["sha256"],
+             "backup_sha256": identity(root / "backup.sqlite3")["sha256"],
+             "bootstrap_source_sha256": _sha(source.encode())}
+ 
+ 
+-def _verify_v3(root):
+-    root = fixture_root(root)
++def _verify_v3(root, *, mode=STANDALONE_COMPONENT):
++    marker_mode = "unified-r2b" if mode == UNIFIED_R2B_GATE_OWNED else "standalone" if mode == STANDALONE_COMPONENT else None
++    if marker_mode is None:
++        raise Blocked("BLOCKED_UNKNOWN_MANAGED_MODE", str(mode))
++    root = fixture_root(root, mode=marker_mode)
+     database = scoped(root, root / DATABASE)
+     before = identity(database)
+     if any((root / (DATABASE + suffix)).exists() for suffix in ("-wal", "-shm", "-journal")):
+@@ -407,12 +512,16 @@ def _verify_v3(root):
+ 
+ 
+ def create_fixture(parent, native_executable, scenario="formal", runtime_bundle_id=ISOLATED_BUNDLE_ID,
+-                   *, candidate_bundle=None, signing_identity=None):
++                   *, candidate_bundle=None, signing_identity=None, mode=STANDALONE_COMPONENT):
+     """Return a fresh fixture definition; no permit or lease is created here.
+ 
+     Controllers must call prepare_managed while retaining their own lease, then
+     launch the installed executable with that same inherited open description.
+     """
++    if mode not in MANAGED_MODES:
++        raise Blocked("BLOCKED_UNKNOWN_MANAGED_MODE", str(mode))
++    if mode == UNIFIED_R2B_GATE_OWNED and runtime_bundle_id != ISOLATED_BUNDLE_ID:
++        raise Blocked("REFUSE_UNIFIED_SYNTHETIC_IDENTITY", str(runtime_bundle_id))
+     parent = Path(parent).absolute()
+     resolved = parent.resolve(strict=True)
+     temp = Path(tempfile.gettempdir()).resolve()
+@@ -426,7 +535,7 @@ def create_fixture(parent, native_executable, scenario="formal", runtime_bundle_
+     if not scenario or any(c not in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_" for c in scenario):
+         raise Blocked("BLOCKED_SCENARIO")
+     root = Path(tempfile.mkdtemp(prefix=f"pfc-qic-{scenario}-", dir=parent)).resolve()
+-    _new_bytes(root / "SYNTHETIC_ONLY", MARKER.encode())
++    _new_bytes(root / "SYNTHETIC_ONLY", _mode_marker(mode))
+     paths = _paths(root)
+     for path in paths.values():
+         path.parent.mkdir(parents=True, mode=0o700)
+@@ -457,22 +566,27 @@ def create_fixture(parent, native_executable, scenario="formal", runtime_bundle_
+         candidate_signature = _code_signature(paths["candidate"], assess_gatekeeper=True,
+                                               allow_local_development=signing_identity.startswith("Apple Development:"))
+         runtime_bundle_id = bundle_identity(root, paths["candidate"], expected_bundle_id=runtime_bundle_id)["bundle_id"]
++    if mode == UNIFIED_R2B_GATE_OWNED:
++        _validate_unified_candidate(root, paths["candidate"])
+     _copy_file(paths["candidate"] / MANIFEST_REL, root / "manifest.json")
+-    bootstrap = _bootstrap(root)
++    bootstrap = _bootstrap(root, mode=mode)
+     definition = {
+-        "format_version": 2, "synthetic_only": True, "root": str(root),
++        "format_version": 2, "synthetic_only": True, "root": str(root), "contract_mode": mode,
+         "scenario": scenario, "session": "session-" + uuid.uuid4().hex,
+-        "authorization_id": "synthetic-integration-" + uuid.uuid4().hex,
+-        "nonce": uuid.uuid4().hex, "candidate_executable_rel": str(_bundle_exe_rel(paths["candidate"])),
++        "candidate_executable_rel": str(_bundle_exe_rel(paths["candidate"])),
+         "native_sha256": identity(paths["candidate"] / _bundle_exe_rel(paths["candidate"]))["sha256"],
+         "build_executable_sha256": native_identity["sha256"],
+         "signing_identity": signing_identity,
+         "signing_facts": {"old_runtime": old_signature, "candidate_runtime": candidate_signature},
+         "runtime_bundle_id": runtime_bundle_id,
++        "database_path": str(root / DATABASE),
+         "paths": {key: str(value) for key, value in paths.items()},
+         "known_nested": [str(nested)], "known_helpers": [str(helper)],
+-        "initial_inventory": tree_facts(root), "bootstrap": bootstrap,
++        "initial_inventory": tree_facts(root, mode=mode), "bootstrap": bootstrap,
+     }
++    if mode == STANDALONE_COMPONENT:
++        definition["authorization_id"] = "synthetic-integration-" + uuid.uuid4().hex
++        definition["nonce"] = uuid.uuid4().hex
+     _new_json(root / "fixture-definition.json", definition)
+     return {**definition, "fixture_definition_path": str(root / "fixture-definition.json")}
+ 
+@@ -485,27 +599,31 @@ class Recorder:
+     def record(self, state, details):
+         value = {
+             "format_version": 2, "synthetic_only": True, "state": state,
+-            "session": self.definition["session"], "authorization_id": self.definition["authorization_id"],
+-            "nonce": self.definition["nonce"], "sequence": len(self.receipts) + 1,
++            "session": self.definition["session"], "mode": self.definition.get("contract_mode", STANDALONE_COMPONENT),
++            "sequence": len(self.receipts) + 1,
+             "previous_evidence_sha256": self.receipts[-1]["evidence_sha256"] if self.receipts else None,
+             "details": details,
+         }
++        if value["mode"] == STANDALONE_COMPONENT:
++            value["authorization_id"] = self.definition["authorization_id"]
++            value["nonce"] = self.definition["nonce"]
+         if state in MANAGED_STATE_CONTRACT:
+             value["state_contract"] = MANAGED_STATE_CONTRACT[state]
+         path = self.root / f"managed-state-{state}.json"
+         _new_json(path, value)
+         receipt = {"state": state, "path": str(path), "evidence_sha256": identity(path)["sha256"]}
+         self.receipts.append(receipt)
+-        _durable_json(self.root, "managed-progress.json", {
+-            "format_version": 2, "synthetic_only": True, "session": value["session"],
+-            "authorization_id": value["authorization_id"], "nonce": value["nonce"],
+-            "state": state, "receipts": self.receipts,
+-        })
++        progress = {"format_version": 2, "synthetic_only": True, "session": value["session"],
++                    "mode": value["mode"], "state": state, "receipts": self.receipts}
++        if value["mode"] == STANDALONE_COMPONENT:
++            progress["authorization_id"] = value["authorization_id"]
++            progress["nonce"] = value["nonce"]
++        _durable_json(self.root, "managed-progress.json", progress)
+         return receipt
+ 
+ 
+-def _all_disabled(root):
+-    routes = [item for item in tree_facts(root) if item["kind"] == "file" and item["mode"] & 0o111]
++def _all_disabled(root, *, mode=STANDALONE_COMPONENT):
++    routes = [item for item in tree_facts(root, mode=mode) if item["kind"] == "file" and item["mode"] & 0o111]
+     if routes:
+         raise Blocked("BLOCKED_EXTRA_EXECUTABLE_ROUTE", str([item["path"] for item in routes]))
+ 
+@@ -549,13 +667,13 @@ def _frozen_bundle(root, definition, original_role, current, *, same_inode, enab
+             raise Blocked("BLOCKED_FROZEN_BUNDLE_IDENTITY", str(path))
+ 
+ 
+-def _closed_final_tree(root, definition, paths):
++def _closed_final_tree(root, definition, paths, *, mode=STANDALONE_COMPONENT):
+     _frozen_bundle(root, definition, "installed", paths["archive"], same_inode=True)
+     _frozen_bundle(root, definition, "candidate", paths["candidate"], same_inode=True)
+     _frozen_bundle(root, definition, "candidate", paths["staging"], same_inode=False)
+     _frozen_bundle(root, definition, "candidate", paths["installed"], same_inode=False, enabled=True)
+     allowed_containers = {root / "managed", *(path.parent for path in paths.values())}
+-    for item in tree_facts(root):
++    for item in tree_facts(root, mode=mode):
+         path = Path(item["path"])
+         if path not in allowed_containers and not any(path == bundle or path.is_relative_to(bundle) for bundle in paths.values()):
+             raise Blocked("BLOCKED_UNDECLARED_MANAGED_ROUTE", str(path))
+@@ -563,8 +681,11 @@ def _closed_final_tree(root, definition, paths):
+             raise Blocked("BLOCKED_EXTRA_EXECUTABLE_ROUTE", str(path))
+ 
+ 
+-def _contract_bundles(root, paths):
+-    actual = discover(root, [root / "managed"], all_bundles=True)
++def _contract_bundles(root, paths, *, mode=STANDALONE_COMPONENT):
++    marker_mode = "unified-r2b" if mode == UNIFIED_R2B_GATE_OWNED else "standalone" if mode == STANDALONE_COMPONENT else None
++    if marker_mode is None:
++        raise Blocked("BLOCKED_UNKNOWN_MANAGED_MODE", str(mode))
++    actual = discover(root, [root / "managed"], all_bundles=True, mode=marker_mode)
+     top = {str(path): role for role, path in paths.items()}
+     bundles = []
+     for name in sorted(actual):
+@@ -619,21 +740,31 @@ def _verify_requested_old_exit(returncode, readiness=None):
+             f"requested termination/readiness was not proven: exit={returncode}; no contract/permit")
+ 
+ 
+-def prepare_managed(root, lease, *, stop_old=True, observer=None):
++def prepare_managed(root, lease, *, mode=STANDALONE_COMPONENT, stop_old=True, observer=None):
+     """Run S0-S2 once. Every phase persists; an interrupted phase never resumes.
+ 
+     observer is test-only instrumentation and cannot skip a transition. Native
+     independently rechecks every frozen managed file and every bound receipt.
+     """
+-    root = fixture_root(Path(root))
++    if mode not in MANAGED_MODES:
++        raise Blocked("BLOCKED_UNKNOWN_MANAGED_MODE", str(mode))
++    marker_mode = "unified-r2b" if mode == UNIFIED_R2B_GATE_OWNED else "standalone"
++    root = fixture_root(Path(root), mode=marker_mode)
+     lease.validate()
+-    if lease.root != root:
++    if lease.root != root or lease.mode != mode_to_lease(mode):
+         raise Blocked("BLOCKED_LEASE_ROOT")
+     definition_path = scoped(root, root / "fixture-definition.json")
+     identity(definition_path)
+     definition = json.loads(definition_path.read_bytes())
+-    if definition.get("format_version") != 2 or definition.get("synthetic_only") is not True or definition.get("root") != str(root) or definition.get("session") != lease.session:
++    if definition.get("format_version") != 2 or definition.get("synthetic_only") is not True or definition.get("root") != str(root) or definition.get("session") != lease.session or definition.get("contract_mode") != mode:
+         raise Blocked("BLOCKED_FIXTURE_BINDING")
++    if mode == UNIFIED_R2B_GATE_OWNED:
++        if definition.get("runtime_bundle_id") != ISOLATED_BUNDLE_ID or root / DATABASE != Path(definition.get("database_path", root / DATABASE)):
++            raise Blocked("REFUSE_UNIFIED_SYNTHETIC_IDENTITY")
++        migration_authority_names = ("authorization.json", "permit.json", "permit.claimed.json", "consumed.json",
++                                     "consumed-ledger.json", "migration-terminal.json", "outcome.json")
++        if any((root / name).exists() or (root / name).is_symlink() for name in migration_authority_names):
++            raise Blocked("REFUSE_AMBIGUOUS_MIGRATION_AUTHORITY", "existing standalone authorization/permit/ledger must be preserved and investigated")
+     if any((root / name).exists() or (root / name).is_symlink() for name in (
+         "managed-progress.json", "managed-progress.json.pending", "permit.json", "permit.claimed.json",
+         "consumed.json", "outcome.json", "outcome.json.pending", "managed-contract.json", "authorization.json",
+@@ -642,7 +773,7 @@ def prepare_managed(root, lease, *, stop_old=True, observer=None):
+     paths = _paths(root)
+     if definition["paths"] != {key: str(value) for key, value in paths.items()}:
+         raise Blocked("BLOCKED_MANAGED_OBJECT_SET")
+-    if tree_facts(root) != definition["initial_inventory"]:
++    if tree_facts(root, mode=mode) != definition["initial_inventory"]:
+         raise Blocked("BLOCKED_MANAGED_OBJECT_DRIFT")
+     if paths["archive"].exists() or paths["staging"].exists():
+         raise Blocked("BLOCKED_DESTINATION_EXISTS")
+@@ -651,10 +782,12 @@ def prepare_managed(root, lease, *, stop_old=True, observer=None):
+         for other, target in paths.items():
+             if name != other and (path.is_relative_to(target) or target.is_relative_to(path)):
+                 raise Blocked("BLOCKED_COPY_OVERLAP")
+-    pre = _verify_v3(root)
++    pre = _verify_v3(root, mode=mode)
+     if pre["sha256"] != definition["bootstrap"]["database_sha256"]:
+         raise Blocked("BLOCKED_PREMIGRATION_DB_DRIFT")
+     candidate = bundle_identity(root, paths["candidate"], expected_bundle_id=definition["runtime_bundle_id"])
++    if mode == UNIFIED_R2B_GATE_OWNED:
++        candidate = _validate_unified_candidate(root, paths["candidate"])
+     if candidate["executable_sha256"] != definition["native_sha256"]:
+         raise Blocked("BLOCKED_NATIVE_IDENTITY")
+     candidate_signature = _code_signature(paths["candidate"], assess_gatekeeper=True,
+@@ -688,10 +821,10 @@ def prepare_managed(root, lease, *, stop_old=True, observer=None):
+                 "association_id": uuid.uuid4().hex, "original_path": str(old_executable)})
+ 
+         def exited_collector():
+-            _all_disabled(root)
++            _all_disabled(root, mode=mode)
+             _frozen_bundle(root, definition, "installed", paths["installed"], same_inode=True)
+             _frozen_bundle(root, definition, "candidate", paths["candidate"], same_inode=True)
+-            record("S1_ENTRIES_DISABLED", {"disabled_inventory": tree_facts(root),
++            record("S1_ENTRIES_DISABLED", {"disabled_inventory": tree_facts(root, mode=mode),
+                     "process_association": association, "source_still_in_install_slot": paths["installed"].exists()})
+             if stop_old:
+                 old_child.terminate()  # Exact initialized child spawned above, never a host process.
+@@ -704,25 +837,25 @@ def prepare_managed(root, lease, *, stop_old=True, observer=None):
+ 
+         disabled = disable_known_entries(lease, [paths["installed"], paths["candidate"]], [association], exited_collector, all_bundles=True)
+         lease.validate()
+-        _all_disabled(root)
++        _all_disabled(root, mode=mode)
+         os.rename(paths["installed"], paths["archive"])
+         _sync_dir(paths["installed"].parent)
+         _sync_dir(paths["archive"].parent)
+         archive_id = identity(paths["archive"] / EXE_REL)
+         if any(archive_id[key] != old_identity[key] for key in ("dev", "ino", "sha256")):
+             raise Blocked("BLOCKED_RETAINED_PROCESS_ASSOCIATION")
+-        _all_disabled(root)
++        _all_disabled(root, mode=mode)
+         _frozen_bundle(root, definition, "installed", paths["archive"], same_inode=True)
+         record("S1_ARCHIVE_VERIFIED", {"source": str(paths["installed"]), "archive": bundle_identity(root, paths["archive"], expected_bundle_id=OLD_RUNTIME_BUNDLE_ID),
+                 "retained_association": association, "disabled_before_move": True, "disabled_receipt": disabled})
+         copy_disabled(lease, paths["candidate"], paths["staging"])
+-        _all_disabled(root)
++        _all_disabled(root, mode=mode)
+         _same_tree_bytes(paths["candidate"], paths["staging"])
+         _frozen_bundle(root, definition, "candidate", paths["staging"], same_inode=False)
+         staging_signature = _code_signature(paths["staging"])
+         record("S1_STAGING_VERIFIED", {"staging": bundle_identity(root, paths["staging"], expected_bundle_id=definition["runtime_bundle_id"]), "born_disabled": True})
+         copy_disabled(lease, paths["staging"], paths["installed"])
+-        _all_disabled(root)
++        _all_disabled(root, mode=mode)
+         _same_tree_bytes(paths["candidate"], paths["installed"])
+         _frozen_bundle(root, definition, "candidate", paths["installed"], same_inode=False)
+         installed_disabled_signature = _code_signature(paths["installed"])
+@@ -734,20 +867,23 @@ def prepare_managed(root, lease, *, stop_old=True, observer=None):
+             os.fsync(fd)
+         finally:
+             os.close(fd)
+-        actual, bundles = _contract_bundles(root, paths)
+-        _closed_final_tree(root, definition, paths)
++        actual, bundles = _contract_bundles(root, paths, mode=mode)
++        _closed_final_tree(root, definition, paths, mode=mode)
+         validate_inventory(lease, [root / "managed"], actual, paths["installed"], all_bundles=True)
+         if identity(installed_executable)["sha256"] != definition["native_sha256"]:
+             raise Blocked("BLOCKED_INSTALLED_READBACK")
+         installed_signature = _code_signature(paths["installed"], assess_gatekeeper=True,
+                                                allow_local_development=definition.get("signing_identity", "").startswith("Apple Development:"))
+-        record("S1_MANAGED_ISOLATED", {"bundles": bundles, "objects": tree_facts(root),
++        record("S1_MANAGED_ISOLATED", {"bundles": bundles, "objects": tree_facts(root, mode=mode),
+                 "known_nested": [item["path"] for item in bundles if item["role"] == "nested"],
+                 "target_exit_evidence": disabled["exit_evidence"], "only_installed_executable_enabled": True,
+                 "staging_signature": staging_signature,
+                 "installed_disabled_signature": installed_disabled_signature,
+                 "installed_signature": installed_signature})
+ 
++        if mode == UNIFIED_R2B_GATE_OWNED:
++            return _finish_gate_owned_c3(root, lease, definition, candidate, association, paths, bundles, recorder, pre)
++
+         authorization = {"format_version": 2, "synthetic_only": True, "scope": "synthetic-integration-only",
+             "id": definition["authorization_id"], "session": definition["session"], "nonce": definition["nonce"],
+             "database_sha256": definition["bootstrap"]["database_sha256"],
+@@ -763,7 +899,7 @@ def prepare_managed(root, lease, *, stop_old=True, observer=None):
+         routes = sorted({item["executable"] for item in bundles} | {str(archive_helper)})
+         contract = {"format_version": 2, "synthetic_only": True, "root": str(root),
+             "session": definition["session"], "authorization_id": definition["authorization_id"], "nonce": definition["nonce"],
+-            "objects": tree_facts(root), "bundles": bundles,
++            "objects": tree_facts(root, mode=mode), "bundles": bundles,
+             "known_nested": [item["path"] for item in bundles if item["role"] == "nested"],
+             "launch_routes": [{"path": path, "enabled": bool(Path(path).stat().st_mode & 0o111)} for path in routes],
+             "processes": [{key: association[key] for key in (
+@@ -783,7 +919,7 @@ def prepare_managed(root, lease, *, stop_old=True, observer=None):
+             "lease_dev": lease_binding["dev"], "lease_inode": lease_binding["inode"]}
+         _new_json(root / "permit.json", permit)
+         lease.validate()
+-        if tree_facts(root) != contract["objects"]:
++        if tree_facts(root, mode=mode) != contract["objects"]:
+             raise Blocked("BLOCKED_MANAGED_OBJECT_DRIFT")
+         return {"root": str(root), "session": definition["session"], "installed_executable": str(installed_executable),
+                 "native_sha256": definition["native_sha256"], "permit_path": str(root / "permit.json"),
+@@ -806,6 +942,8 @@ def prepare_managed(root, lease, *, stop_old=True, observer=None):
+                 old_child.wait(timeout=5)
+             if old_child.stderr:
+                 old_child.stderr.close()
++            if old_child.stdout:
++                old_child.stdout.close()
+ 
+ 
+ def diagnose(root):

@@ -50,3 +50,9 @@ No Production app or database was opened, read, backed up, installed, or migrate
 ## Commits
 
 Implementation commit: `f7b37374e32d8a3736c060c6f91a4c1e3e7aee70` (`Add explicit WP04 unified synthetic root contract`). This is a partial adapter/root-contract implementation, not the missing C3/native S4 integration. The report and evidence are committed with this report update.
+
+## R2B1A — C3 Gate-Owned Permit Mode
+
+追加记录：`WP04R2B1A_C3_GATE_OWNED_REPORT.md` 状态为 `WP04R2B1A_C3_GATE_OWNED_READY`。此项只关闭 Python/C3 的第二套 migration authorization/permit；原报告中完整 WP04R2B1 `BLOCKED` 结论仍有效。Native consumer/runner authority handoff、S4、Migration 4 与完整 R2B 尚未实施或验收，交由 WP04R2B1B。
+
+C3 implementation commit：`75b2d87fe89f8b0a2fe990ed3f2d65c5116d22fe`。回归与正反例证据位于 `evidence/wp04-release-cutover-readiness/35-r2b1a-c3-gate-owned/`。

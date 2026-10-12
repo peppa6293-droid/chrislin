@@ -1,0 +1,14 @@
+{
+  "typecheck": "PASS",
+  "lint": "PASS_EXIT_0_25_WARNINGS",
+  "product": "PASS_300",
+  "wp03Preview": "PASS_5",
+  "releaseGate": "PASS_40",
+  "build": "PASS",
+  "pythonC3": "PASS_15",
+  "pythonQuiescenceTotal": "PASS_88",
+  "rustDefault": "PASS",
+  "rustFixture": "PASS_33",
+  "recoveryMatrix": "PASS_16",
+  "r2aCliToRust": "PASS_5"
+}

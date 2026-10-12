@@ -1,0 +1,7 @@
+{
+  "candidateMismatch": "PASS_NO_MIGRATION_AUTHORITY",
+  "archiveFailure": "PASS_NO_MIGRATION_AUTHORITY",
+  "copyFailure": "PASS_NO_MIGRATION_AUTHORITY",
+  "installFailure": "PASS_NO_MIGRATION_AUTHORITY",
+  "oldRuntimeStillActive": "PASS_NO_MIGRATION_AUTHORITY"
+}

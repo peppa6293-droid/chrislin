@@ -1,0 +1,49 @@
+{
+  "status": "WP04R2B1A_C3_GATE_OWNED_READY",
+  "startingHead": "9643bb1575ec32e3b8646beebf0f368b9ba2bed6",
+  "implementationCommit": "75b2d87fe89f8b0a2fe990ed3f2d65c5116d22fe",
+  "finalSourceCommit": "75b2d87fe89f8b0a2fe990ed3f2d65c5116d22fe",
+  "reportFilesSha256": {
+    "WP04R2B1A_C3_GATE_OWNED_REPORT.md": "aca07b5ecaaa715e3ad497f615464dac23a3e1c454024e91153e0b8e5761e49f",
+    "WP04R2B1_UNIFIED_SYNTHETIC_CONTRACT_REPORT.md": "69f17b437b8d01375e05f0a600af8bb439bb173a9ec8ad651c82b056a24b6861"
+  },
+  "regressions": {
+    "typecheck": "PASS",
+    "lint": "PASS_EXIT_0_25_WARNINGS",
+    "product": "PASS_300",
+    "wp03Preview": "PASS_5",
+    "releaseGate": "PASS_40",
+    "build": "PASS",
+    "pythonC3": "PASS_15",
+    "pythonQuiescenceTotal": "PASS_88",
+    "rustDefault": "PASS",
+    "rustFixture": "PASS_33",
+    "recoveryMatrix": "PASS_16",
+    "r2aCliToRust": "PASS_5"
+  },
+  "positiveReadback": {
+    "status": "PASS",
+    "state": "MANAGED_ISOLATED",
+    "mode": "UNIFIED_R2B_GATE_OWNED",
+    "receiptPath": "evidence/wp04-release-cutover-readiness/35-r2b1a-c3-gate-owned/03-positive/managed-isolated-receipt.json",
+    "receiptSha256": "632cb4f2b0d817a6607e978c7184209feb239fb186fd31c3cd21dc6096e6334d",
+    "managedContractSha256": "2d731cee4b2b857a7446d418a752385fc63869fb21df1d3470d1f1d20c4f99be",
+    "migrationAuthorizationFiles": 0,
+    "migrationPermitFiles": 0,
+    "consumedLedgerFiles": 0,
+    "databaseUserVersion": 3,
+    "migrationRows": [
+      1,
+      2,
+      3
+    ],
+    "migration4Executed": false,
+    "leaseReleasedAfterContext": true,
+    "tempRootCleanedAfterEvidenceCopy": true,
+    "receiptFileSha256Actual": "632cb4f2b0d817a6607e978c7184209feb239fb186fd31c3cd21dc6096e6334d",
+    "receiptFileSha256Matches": true
+  },
+  "rustNativeFilesModified": false,
+  "productionTouched": false,
+  "fullR2B1Status": "BLOCKED"
+}

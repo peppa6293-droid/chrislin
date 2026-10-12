@@ -1,0 +1,5 @@
+{
+  "standalone": {"apiMode": "STANDALONE_COMPONENT", "rootMarker": "PFC_QUIESCENCE_SYNTHETIC_V1\\n", "legacyAuthorizationAndPermit": true},
+  "unified": {"apiMode": "UNIFIED_R2B_GATE_OWNED", "rootMarker": "PFC_WP04_SYNTHETIC_CUTOVER_V1\\n", "bundleId": "org.pfc.quiescence.integration", "database": "<canonical-root>/personal-finance-console.sqlite3", "createsMigrationAuthorization": false, "createsMigrationPermit": false, "createsConsumedLedger": false},
+  "modeSelection": "Explicit mode on fixture creation, lease, and prepare. Omitted mode retains explicit legacy standalone default and never infers unified mode. Unknown mode is refused."
+}
