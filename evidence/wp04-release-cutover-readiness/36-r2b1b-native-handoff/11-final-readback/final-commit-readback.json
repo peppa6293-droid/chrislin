@@ -1,0 +1,131 @@
+{
+  "status": "WP04R2B1B_NATIVE_AUTHORITY_HANDOFF_READY",
+  "startingHead": "4606607613f01d053abbb1108d93fccba4fb372c",
+  "implementationCommit": "24ff2365e36d4471873b2090128b11725244825a",
+  "sourcePathsCleanAgainstImplementationCommit": true,
+  "reportSha256": "8deeb4a6ea9afd7bceea5515c8b0d3a43e164eeb1c3f2cd477ff6e40bcfda117",
+  "formalGateSolePermitIssuer": true,
+  "c3PermitCount": 0,
+  "formalPermitCount": 1,
+  "permitSha256": "1d6d5e494d2f562507dc455627671cf11266975ea2843dc03dd21d744ec98125",
+  "receiptSha256": "83bb49a75a6e23a99207281c54eb329201215a079fb2ec58f3bceb78a7e87302",
+  "authorizationSha256": "32ecd3363c41a3db248ad9164cb95274b71247737d73c93e4f70c83a2c90cb05",
+  "atomicClaim": true,
+  "consumedAuthorityLedgerCount": 1,
+  "ledgerDurable": true,
+  "permitTranslation": "NO",
+  "validatedNativeAuthority": true,
+  "nativeRunnerBound": true,
+  "rawPermitRunnerBypassPossible": false,
+  "formalCliToRustConsumer": true,
+  "rustConsumerToRunner": true,
+  "highestState": "S4_CONNECTION_PREPARED",
+  "beginExclusiveExecuted": false,
+  "migration4Executed": false,
+  "databaseSchemaVersion": 3,
+  "migrationRows": [
+    1,
+    2,
+    3
+  ],
+  "replay": "PASS",
+  "doubleConsumer": "PASS 1 winner / 1 refusal",
+  "permitMutation": "PASS",
+  "receiptDrift": "PASS",
+  "authorizationDrift": "PASS",
+  "candidateDrift": "PASS",
+  "dbDrift": "PASS",
+  "backupDrift": "PASS",
+  "domainSeparation": "PASS",
+  "regressionSuites": {
+    "typecheck": {
+      "exit": 0,
+      "status": "PASS"
+    },
+    "lint": {
+      "exit": 0,
+      "status": "PASS"
+    },
+    "product": {
+      "exit": 0,
+      "status": "PASS"
+    },
+    "wp03-preview": {
+      "exit": 0,
+      "status": "PASS"
+    },
+    "release-gate": {
+      "exit": 0,
+      "status": "PASS"
+    },
+    "build": {
+      "exit": 0,
+      "status": "PASS"
+    },
+    "python-gate": {
+      "exit": 0,
+      "status": "PASS"
+    },
+    "r2a-cli-rust": {
+      "exit": 0,
+      "status": "PASS"
+    },
+    "c3-gate-owned": {
+      "exit": 0,
+      "status": "PASS"
+    },
+    "python-quiescence": {
+      "exit": 0,
+      "status": "PASS"
+    },
+    "native-handoff": {
+      "exit": 0,
+      "status": "PASS"
+    },
+    "rust-default": {
+      "exit": 0,
+      "status": "PASS"
+    },
+    "rust-fixture": {
+      "exit": 0,
+      "status": "PASS"
+    },
+    "rust-tauri": {
+      "exit": 0,
+      "status": "PASS"
+    },
+    "recovery-matrix": {
+      "exit": 0,
+      "status": "PASS"
+    },
+    "rust-default-all": {
+      "exit": 0,
+      "status": "PASS"
+    },
+    "rust-fixture-all": {
+      "exit": 0,
+      "status": "PASS"
+    },
+    "rust-tauri-all": {
+      "exit": 0,
+      "status": "PASS"
+    },
+    "recovery-matrix-final": {
+      "exit": 0,
+      "status": "PASS"
+    },
+    "recovery-component-matrix-final": {
+      "exit": 0,
+      "status": "PASS",
+      "cases": 16
+    }
+  },
+  "productionAppTouched": false,
+  "productionDatabaseTouched": false,
+  "realAuthorizationCreated": false,
+  "realReceiptCreated": false,
+  "realPermitCreated": false,
+  "preEditCallGraph": "Reconstructed after edits from starting HEAD; chronology not proven",
+  "fullWP04R2B": "NOT RUN / NOT PASS",
+  "evidenceRoot": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/wp04-release-cutover-readiness/36-r2b1b-native-handoff"
+}
