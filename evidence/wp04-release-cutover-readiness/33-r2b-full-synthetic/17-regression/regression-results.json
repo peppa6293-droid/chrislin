@@ -1,0 +1,108 @@
+[
+  {
+    "argv": [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "exit_code": 0,
+    "duration_seconds": 0.48,
+    "log": "evidence/wp04-release-cutover-readiness/33-r2b-full-synthetic/17-regression/01-run.log",
+    "bytes": 60
+  },
+  {
+    "argv": [
+      "npm",
+      "run",
+      "lint"
+    ],
+    "exit_code": 0,
+    "duration_seconds": 0.53,
+    "log": "evidence/wp04-release-cutover-readiness/33-r2b-full-synthetic/17-regression/02-run.log",
+    "bytes": 16212
+  },
+  {
+    "argv": [
+      "npm",
+      "run",
+      "test:product"
+    ],
+    "exit_code": 0,
+    "duration_seconds": 7.36,
+    "log": "evidence/wp04-release-cutover-readiness/33-r2b-full-synthetic/17-regression/03-run.log",
+    "bytes": 490
+  },
+  {
+    "argv": [
+      "npm",
+      "run",
+      "test:wp03-preview"
+    ],
+    "exit_code": 0,
+    "duration_seconds": 0.24,
+    "log": "evidence/wp04-release-cutover-readiness/33-r2b-full-synthetic/17-regression/04-run.log",
+    "bytes": 849
+  },
+  {
+    "argv": [
+      "npm",
+      "run",
+      "test:release-gate"
+    ],
+    "exit_code": 0,
+    "duration_seconds": 1.08,
+    "log": "evidence/wp04-release-cutover-readiness/33-r2b-full-synthetic/17-regression/05-run.log",
+    "bytes": 5203
+  },
+  {
+    "argv": [
+      "npm",
+      "run",
+      "build"
+    ],
+    "exit_code": 0,
+    "duration_seconds": 1.11,
+    "log": "evidence/wp04-release-cutover-readiness/33-r2b-full-synthetic/17-regression/06-run.log",
+    "bytes": 1121
+  },
+  {
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "src-tauri/Cargo.toml"
+    ],
+    "exit_code": 0,
+    "duration_seconds": 6.28,
+    "log": "evidence/wp04-release-cutover-readiness/33-r2b-full-synthetic/17-regression/07-test.log",
+    "bytes": 4659
+  },
+  {
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "src-tauri/Cargo.toml",
+      "--features",
+      "wp03-preview"
+    ],
+    "exit_code": 0,
+    "duration_seconds": 3.76,
+    "log": "evidence/wp04-release-cutover-readiness/33-r2b-full-synthetic/17-regression/08-test.log",
+    "bytes": 4930
+  },
+  {
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "src-tauri/Cargo.toml",
+      "--features",
+      "quiescence-fixture"
+    ],
+    "exit_code": 0,
+    "duration_seconds": 10.01,
+    "log": "evidence/wp04-release-cutover-readiness/33-r2b-full-synthetic/17-regression/09-test.log",
+    "bytes": 9494
+  }
+]

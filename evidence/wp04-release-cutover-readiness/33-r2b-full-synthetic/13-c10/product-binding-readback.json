@@ -1,0 +1,11 @@
+{
+  "wp03_r5_baseline_commit": "fd1d9e8714173167430baa2ab9325557a9e80775",
+  "current_source_commit": "d12d09f0e0eadad3b2192fcbf9b54437b09bd18a",
+  "product_layer_diff": [],
+  "diff_empty": true,
+  "r5_acceptance_report_sha256": "6a5687aebb960c5cf31bde36fdd20eae56511051233c061bed3b60e233c16468",
+  "synthetic_quiescence_harness_executable_sha256": "4628eb7b679ef2eef41c4e90f1419b05bef2bcfc05261f32abe945dc02b79d86",
+  "synthetic_harness_manifest_sha256": "d9b4488609c1a08d28f9d285eb2c0e9136b29feca26c35599629723b6e192231",
+  "full_product_candidate_built": false,
+  "c10_status": "BLOCKED_PRODUCT_SOURCE_COMPARISON_ONLY; no R2B product bundle/source-resource binding"
+}

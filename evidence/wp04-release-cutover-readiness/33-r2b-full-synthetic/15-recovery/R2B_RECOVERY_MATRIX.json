@@ -1,0 +1,91 @@
+{
+  "status": "NOT_RUN_R2B_BOUND_RECOVERY",
+  "source_commit": "d12d09f0e0eadad3b2192fcbf9b54437b09bd18a",
+  "component_matrix": "17-regression/quiescence-recovery-component.json",
+  "cases": [
+    {
+      "scenario": "FAILED_V3_CONFIRMED",
+      "R2B_result": "NOT RUN — no R2B full-chain artifacts",
+      "action": "No auto restore, no V4→V3, no ledger deletion, no permit revival, no unknown-DB overwrite",
+      "component_evidence": "Separate 16/16 native recovery component matrix; not R2B-bound"
+    },
+    {
+      "scenario": "V4_VERIFIED",
+      "R2B_result": "NOT RUN — no R2B full-chain artifacts",
+      "action": "No auto restore, no V4→V3, no ledger deletion, no permit revival, no unknown-DB overwrite",
+      "component_evidence": "Separate 16/16 native recovery component matrix; not R2B-bound"
+    },
+    {
+      "scenario": "QUIESCENCE_ACQUIRED",
+      "R2B_result": "NOT RUN — no R2B full-chain artifacts",
+      "action": "No auto restore, no V4→V3, no ledger deletion, no permit revival, no unknown-DB overwrite",
+      "component_evidence": "Separate 16/16 native recovery component matrix; not R2B-bound"
+    },
+    {
+      "scenario": "COMMIT_OUTCOME_UNKNOWN",
+      "R2B_result": "NOT RUN — no R2B full-chain artifacts",
+      "action": "No auto restore, no V4→V3, no ledger deletion, no permit revival, no unknown-DB overwrite",
+      "component_evidence": "Separate 16/16 native recovery component matrix; not R2B-bound"
+    },
+    {
+      "scenario": "GUARD_LOST_OR_UNPROVEN",
+      "R2B_result": "NOT RUN — no R2B full-chain artifacts",
+      "action": "No auto restore, no V4→V3, no ledger deletion, no permit revival, no unknown-DB overwrite",
+      "component_evidence": "Separate 16/16 native recovery component matrix; not R2B-bound"
+    },
+    {
+      "scenario": "reply lost after durable terminal",
+      "R2B_result": "NOT RUN — no R2B full-chain artifacts",
+      "action": "No auto restore, no V4→V3, no ledger deletion, no permit revival, no unknown-DB overwrite",
+      "component_evidence": "Separate 16/16 native recovery component matrix; not R2B-bound"
+    },
+    {
+      "scenario": "candidate drift",
+      "R2B_result": "NOT RUN — no R2B full-chain artifacts",
+      "action": "No auto restore, no V4→V3, no ledger deletion, no permit revival, no unknown-DB overwrite",
+      "component_evidence": "Separate 16/16 native recovery component matrix; not R2B-bound"
+    },
+    {
+      "scenario": "DB drift",
+      "R2B_result": "NOT RUN — no R2B full-chain artifacts",
+      "action": "No auto restore, no V4→V3, no ledger deletion, no permit revival, no unknown-DB overwrite",
+      "component_evidence": "Separate 16/16 native recovery component matrix; not R2B-bound"
+    },
+    {
+      "scenario": "backup drift",
+      "R2B_result": "NOT RUN — no R2B full-chain artifacts",
+      "action": "No auto restore, no V4→V3, no ledger deletion, no permit revival, no unknown-DB overwrite",
+      "component_evidence": "Separate 16/16 native recovery component matrix; not R2B-bound"
+    },
+    {
+      "scenario": "auth drift",
+      "R2B_result": "NOT RUN — no R2B full-chain artifacts",
+      "action": "No auto restore, no V4→V3, no ledger deletion, no permit revival, no unknown-DB overwrite",
+      "component_evidence": "Separate 16/16 native recovery component matrix; not R2B-bound"
+    },
+    {
+      "scenario": "corrupt ledger",
+      "R2B_result": "NOT RUN — no R2B full-chain artifacts",
+      "action": "No auto restore, no V4→V3, no ledger deletion, no permit revival, no unknown-DB overwrite",
+      "component_evidence": "Separate 16/16 native recovery component matrix; not R2B-bound"
+    },
+    {
+      "scenario": "missing terminal",
+      "R2B_result": "NOT RUN — no R2B full-chain artifacts",
+      "action": "No auto restore, no V4→V3, no ledger deletion, no permit revival, no unknown-DB overwrite",
+      "component_evidence": "Separate 16/16 native recovery component matrix; not R2B-bound"
+    },
+    {
+      "scenario": "lease conflict",
+      "R2B_result": "NOT RUN — no R2B full-chain artifacts",
+      "action": "No auto restore, no V4→V3, no ledger deletion, no permit revival, no unknown-DB overwrite",
+      "component_evidence": "Separate 16/16 native recovery component matrix; not R2B-bound"
+    },
+    {
+      "scenario": "orphan ACTIVE",
+      "R2B_result": "NOT RUN — no R2B full-chain artifacts",
+      "action": "No auto restore, no V4→V3, no ledger deletion, no permit revival, no unknown-DB overwrite",
+      "component_evidence": "Separate 16/16 native recovery component matrix; not R2B-bound"
+    }
+  ]
+}

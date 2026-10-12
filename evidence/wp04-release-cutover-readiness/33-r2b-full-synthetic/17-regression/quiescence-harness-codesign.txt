@@ -1,0 +1,2 @@
+src-tauri/target/isolated-quiescence-20261012T132021108226Z/release/bundle/macos/PFC Isolated Quiescence IPC.app: valid on disk
+src-tauri/target/isolated-quiescence-20261012T132021108226Z/release/bundle/macos/PFC Isolated Quiescence IPC.app: satisfies its Designated Requirement
