@@ -21,6 +21,7 @@ import tempfile
 from production_v4_release_gate import read_bundle, PRODUCTION_BUNDLE_ID, EXECUTABLE_NAME
 
 MARKER = "PFC_QUIESCENCE_SYNTHETIC_V1\n"
+UNIFIED_MARKER = "PFC_WP04_SYNTHETIC_CUTOVER_V1\n"
 
 
 class Blocked(RuntimeError):
@@ -29,14 +30,15 @@ class Blocked(RuntimeError):
         super().__init__(f"{code}: {detail}")
 
 
-def fixture_root(root: Path) -> Path:
+def fixture_root(root: Path, *, mode="standalone") -> Path:
     root = Path(root).absolute()
     resolved = root.resolve(strict=True)
     temp = Path(tempfile.gettempdir()).resolve()
     if root != resolved or not resolved.is_relative_to(temp) or resolved == temp:
         raise Blocked("BLOCKED_NOT_ISOLATED_FIXTURE", str(root))
     marker = root / "SYNTHETIC_ONLY"
-    if marker.is_symlink() or marker.read_text() != MARKER:
+    expected = {"standalone": MARKER, "unified-r2b": UNIFIED_MARKER}.get(mode)
+    if expected is None or marker.is_symlink() or marker.read_text() != expected:
         raise Blocked("BLOCKED_NOT_ISOLATED_FIXTURE", "marker")
     identity(marker)
     return root
@@ -52,8 +54,9 @@ def scoped(root: Path, path: Path, *, exists=True) -> Path:
 
 class MaintenanceLease:
     """Stable flock inode; never unlink or explicitly unlock a shared FD."""
-    def __init__(self, root: Path, session: str):
-        self.root = fixture_root(root)
+    def __init__(self, root: Path, session: str, *, mode="standalone"):
+        self.mode = mode
+        self.root = fixture_root(root, mode=mode)
         if not session or not isinstance(session, str):
             raise Blocked("BLOCKED_SESSION")
         self.session = session

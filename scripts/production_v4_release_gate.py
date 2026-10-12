@@ -33,6 +33,8 @@ DATABASE_PATH = APP_DATA / DATABASE_NAME
 GATE_AUTH_PATH = APP_DATA / PRODUCTION_MIGRATION_AUTHORIZATION
 RELEASE_RECEIPT_PATH = APP_DATA / PRODUCTION_RELEASE_RECEIPT
 SYNTHETIC_GATE_MARKER = b"PFC_WP04R2A_GATE_SYNTHETIC_V1\n"
+UNIFIED_SYNTHETIC_MARKER = b"PFC_WP04_SYNTHETIC_CUTOVER_V1\n"
+UNIFIED_SYNTHETIC_BUNDLE_ID = "org.pfc.quiescence.integration"
 LEGACY_EXECUTABLE_SHA256 = "0e6dcb261de20eb96fcb2f85eaa7fe78fc3cd8c72a96bee78856ac081153911f"
 MANIFEST_RELATIVE_PATH = Path("Contents/Resources/runtime-compatibility.json")
 
@@ -358,7 +360,7 @@ def inspect_database(path: Path) -> dict[str, Any]:
         connection.close()
 
 
-def validate_manifest(bundle: dict[str, Any]) -> list[str]:
+def validate_manifest(bundle: dict[str, Any], *, expected_bundle_id: str = PRODUCTION_BUNDLE_ID) -> list[str]:
     manifest = bundle.get("manifest")
     if not isinstance(manifest, dict):
         return ["Candidate has no embedded runtime compatibility manifest."]
@@ -367,7 +369,7 @@ def validate_manifest(bundle: dict[str, Any]) -> list[str]:
         "manifestFormatVersion": 1,
         "runtimeGeneration": 4,
         "maxSupportedSchemaVersion": 4,
-        "bundleId": PRODUCTION_BUNDLE_ID,
+        "bundleId": expected_bundle_id,
         "executable": f"Contents/MacOS/{bundle.get('executable_name')}",
     }
     for key, value in expected.items():
@@ -381,7 +383,8 @@ def validate_manifest(bundle: dict[str, Any]) -> list[str]:
     return errors
 
 
-def validate_preflight(facts: dict[str, Any], *, synthetic_fixture_root: Path | None = None) -> list[str]:
+def validate_preflight(facts: dict[str, Any], *, synthetic_fixture_root: Path | None = None,
+                       unified_r2b: bool = False) -> list[str]:
     errors: list[str] = []
     if facts.get("platform") != "darwin":
         errors.append("Production release gate requires macOS.")
@@ -395,6 +398,10 @@ def validate_preflight(facts: dict[str, Any], *, synthetic_fixture_root: Path | 
     if synthetic_fixture_root is None:
         required_app_path = APP_PATH.resolve()
         required_database_path = DATABASE_PATH.resolve()
+    elif unified_r2b:
+        fixture_root = synthetic_fixture_root.resolve()
+        required_app_path = (fixture_root / "managed/install/Installed.app").resolve()
+        required_database_path = (fixture_root / DATABASE_NAME).resolve()
     else:
         fixture_root = synthetic_fixture_root.resolve()
         protected_paths = [Path("/Applications").resolve(), APP_DATA.resolve()]
@@ -424,7 +431,7 @@ def validate_preflight(facts: dict[str, Any], *, synthetic_fixture_root: Path | 
         errors.append("Installed candidate facts are unknown.")
         candidate = {}
     else:
-        errors.extend(validate_manifest(candidate))
+        errors.extend(validate_manifest(candidate, expected_bundle_id=UNIFIED_SYNTHETIC_BUNDLE_ID if unified_r2b else PRODUCTION_BUNDLE_ID))
         executable_mode = candidate.get("executable_mode")
         if not isinstance(executable_mode, int) or isinstance(executable_mode, bool):
             errors.append("Candidate executable mode is missing or invalid.")
@@ -445,15 +452,17 @@ def validate_preflight(facts: dict[str, Any], *, synthetic_fixture_root: Path | 
             errors.append("Installed Production bundle has unknown metadata or a path alias.")
         if Path(str(installed.get("bundle_path", ""))) != expected_app.resolve():
             errors.append("A Production-identity app exists outside the approved /Applications installation path.")
-        if installed.get("bundle_id") != PRODUCTION_BUNDLE_ID:
+        expected_identity = UNIFIED_SYNTHETIC_BUNDLE_ID if unified_r2b else PRODUCTION_BUNDLE_ID
+        if installed.get("bundle_id") != expected_identity:
             errors.append("Installed bundle ID is not the Production identity.")
         if installed.get("executable_sha256") == LEGACY_EXECUTABLE_SHA256:
             errors.append("Known legacy V3 Production runtime is still installed.")
         if candidate and installed.get("executable_sha256") != candidate.get("executable_sha256"):
             errors.append("Installed Production executable does not match the inspected candidate.")
     if candidate:
-        if candidate.get("bundle_id") != PRODUCTION_BUNDLE_ID:
-            errors.append("Candidate bundle ID must be com.personalfinance.console.")
+        expected_identity = UNIFIED_SYNTHETIC_BUNDLE_ID if unified_r2b else PRODUCTION_BUNDLE_ID
+        if candidate.get("bundle_id") != expected_identity:
+            errors.append(f"Candidate bundle ID must be {expected_identity}.")
         if candidate.get("bundle_id") == ACCEPTANCE_BUNDLE_ID:
             errors.append("Acceptance bundle ID cannot be used as a Production candidate.")
         if Path(str(candidate.get("bundle_path", ""))) != expected_app.resolve():
@@ -482,7 +491,8 @@ def validate_preflight(facts: dict[str, Any], *, synthetic_fixture_root: Path | 
         errors.append("Production database facts are unknown.")
         database = {}
     if Path(str(database.get("path", ""))) != Path(str(facts.get("expected_database_path", ""))).resolve():
-        errors.append("Production database path does not match the authorized identity and basename.")
+        if not unified_r2b:
+            errors.append("Production database path does not match the authorized identity and basename.")
     if Path(str(database.get("path", ""))).resolve() != required_database_path:
         errors.append("Production database path does not match the fixed or synthetic-contract location.")
     if Path(str(database.get("path", ""))).name != DATABASE_NAME:
@@ -518,7 +528,7 @@ def validate_preflight(facts: dict[str, Any], *, synthetic_fixture_root: Path | 
         errors.append("Production byte-for-byte backup path must differ from the source database path.")
     if backup and database:
         backup_path = Path(str(backup.get("path", ""))).resolve()
-        required_backup_root = Path(str(database.get("path", ""))).resolve().parent / "production-v4-backups"
+        required_backup_root = (synthetic_fixture_root.resolve() if unified_r2b else Path(str(database.get("path", ""))).resolve().parent / "production-v4-backups")
         try:
             backup_path.relative_to(required_backup_root)
         except ValueError:
@@ -528,8 +538,9 @@ def validate_preflight(facts: dict[str, Any], *, synthetic_fixture_root: Path | 
     return errors
 
 
-def make_release_receipt(facts: dict[str, Any], *, synthetic_fixture_root: Path | None = None) -> dict[str, Any]:
-    errors = validate_preflight(facts, synthetic_fixture_root=synthetic_fixture_root)
+def make_release_receipt(facts: dict[str, Any], *, synthetic_fixture_root: Path | None = None,
+                         unified_r2b: bool = False) -> dict[str, Any]:
+    errors = validate_preflight(facts, synthetic_fixture_root=synthetic_fixture_root, unified_r2b=unified_r2b)
     if errors:
         raise GateBlocked(errors)
     if not _nonempty_json_string(facts.get("candidate_approval_sha256")) or not _nonempty_json_string(facts.get("migration_authorization_sha256")):
@@ -544,7 +555,7 @@ def make_release_receipt(facts: dict[str, Any], *, synthetic_fixture_root: Path 
         "syntheticOnly": facts.get("synthetic_only") is True,
         "candidateApprovalSha256": facts["candidate_approval_sha256"],
         "migrationAuthorizationSha256": facts["migration_authorization_sha256"],
-        "productionBundleId": PRODUCTION_BUNDLE_ID,
+        "productionBundleId": UNIFIED_SYNTHETIC_BUNDLE_ID if unified_r2b else PRODUCTION_BUNDLE_ID,
         "installedAppPath": str(Path(str(facts["expected_installed_app"])).resolve()),
         "candidateExecutablePath": candidate["executable_path"],
         "candidateExecutableSha256": candidate["executable_sha256"],
@@ -670,7 +681,7 @@ def collect_real_facts(candidate_approval_path: Path, migration_authorization_pa
     }
 
 
-def _validate_synthetic_gate_root(root: Path) -> Path:
+def _validate_synthetic_gate_root(root: Path, *, unified_r2b: bool = False) -> Path:
     try:
         raw = root
         resolved = raw.resolve(strict=True)
@@ -682,7 +693,8 @@ def _validate_synthetic_gate_root(root: Path) -> Path:
             raise GateBlocked(["Synthetic gate root overlaps a Production-protected path."])
         marker = resolved / "SYNTHETIC_ONLY"
         _require_single_link_regular_file(marker)
-        if marker.read_bytes() != SYNTHETIC_GATE_MARKER:
+        expected_marker = UNIFIED_SYNTHETIC_MARKER if unified_r2b else SYNTHETIC_GATE_MARKER
+        if marker.read_bytes() != expected_marker:
             raise GateBlocked(["Synthetic gate marker is missing or invalid."])
         return resolved
     except GateBlocked:
@@ -695,9 +707,10 @@ def collect_synthetic_facts(
     root: Path,
     candidate_approval_path: Path,
     migration_authorization_path: Path,
+    *, unified_r2b: bool = False,
 ) -> dict[str, Any]:
     """Use the common release-gate checks against one explicitly marked temp namespace."""
-    root = _validate_synthetic_gate_root(root)
+    root = _validate_synthetic_gate_root(root, unified_r2b=unified_r2b)
     approval_path = candidate_approval_path.resolve(strict=True)
     authorization_path = migration_authorization_path.resolve(strict=True)
     for label, path in (("Candidate approval", approval_path), ("Migration authorization", authorization_path)):
@@ -710,14 +723,24 @@ def collect_synthetic_facts(
     if candidate_approval.get("syntheticOnly") is not True or migration_authorization.get("syntheticOnly") is not True:
         raise GateBlocked(["Production authorization artifacts are not valid in synthetic mode."])
 
-    app_path = (root / "Applications" / APP_NAME).resolve()
-    app_data = (root / "Library" / "Application Support" / PRODUCTION_BUNDLE_ID).resolve()
-    database_path = app_data / DATABASE_NAME
+    if unified_r2b:
+        app_path = (root / "managed/install/Installed.app").resolve()
+        app_data = root
+        database_path = root / DATABASE_NAME
+        if any((root / name).exists() or (root / name).is_symlink() for name in ("authorization.json", "permit.json", "consumed.json")):
+            raise GateBlocked(["Unified Gate-owned root contains a standalone quiescence authority artifact."])
+        contract = _load_json(root / "managed-contract.json", "Gate-owned managed contract")
+        if contract.get("synthetic_only") is not True or contract.get("root") != str(root):
+            raise GateBlocked(["Gate-owned managed contract is missing or bound to another root."])
+    else:
+        app_path = (root / "Applications" / APP_NAME).resolve()
+        app_data = (root / "Library" / "Application Support" / PRODUCTION_BUNDLE_ID).resolve()
+        database_path = app_data / DATABASE_NAME
     candidate = read_bundle(app_path)
     database = inspect_database(database_path)
     backup_path = Path(str(migration_authorization.get("backupPath", ""))).resolve(strict=True)
     try:
-        backup_path.relative_to(app_data / "production-v4-backups")
+        backup_path.relative_to(root if unified_r2b else app_data / "production-v4-backups")
     except ValueError as error:
         raise GateBlocked(["Synthetic backup must be inside the synthetic root's fixed backup directory."]) from error
     backup_info = _require_single_link_regular_file(backup_path)
@@ -744,6 +767,7 @@ def collect_synthetic_facts(
         "backup": backup,
         "synthetic_root": str(root),
         "native_consumer_executable": candidate["executable_path"],
+        "unified_r2b": unified_r2b,
     }
 
 
@@ -753,14 +777,15 @@ def write_migration_permit(
     permit_path: Path = GATE_AUTH_PATH,
     *,
     synthetic_fixture_root: Path | None = None,
+    unified_r2b: bool = False,
 ) -> tuple[Path, str]:
     synthetic_only = receipt.get("syntheticOnly") is True
     if synthetic_only:
         if synthetic_fixture_root is None:
             _require_legacy_fixture_path(permit_path)
         else:
-            root = _validate_synthetic_gate_root(synthetic_fixture_root)
-            expected = root / "Library" / "Application Support" / PRODUCTION_BUNDLE_ID / PRODUCTION_MIGRATION_AUTHORIZATION
+            root = _validate_synthetic_gate_root(synthetic_fixture_root, unified_r2b=unified_r2b)
+            expected = root / "gate-permit.json" if unified_r2b else root / "Library" / "Application Support" / PRODUCTION_BUNDLE_ID / PRODUCTION_MIGRATION_AUTHORIZATION
             if permit_path.resolve(strict=False) != expected.resolve(strict=False):
                 raise GateBlocked(["Synthetic permit path does not match the fixed synthetic namespace path."])
     elif permit_path.resolve(strict=False) != GATE_AUTH_PATH.resolve(strict=False):
@@ -806,14 +831,20 @@ def run_gate(
     receipt_path: Path | None = None,
     *,
     synthetic_fixture_root: Path | None = None,
+    synthetic_mode: str = "legacy-component",
 ) -> dict[str, Any]:
     if mode not in {"preflight", "migrate"}:
         raise ValueError(f"Unsupported gate mode: {mode}")
     if sys.platform != "darwin":
         raise GateBlocked(["Production release gate requires macOS."])
     synthetic_only = synthetic_fixture_root is not None
+    unified_r2b = synthetic_only and synthetic_mode == "unified-r2b"
+    if synthetic_only and synthetic_mode not in {"legacy-component", "unified-r2b"}:
+        raise GateBlocked(["Synthetic mode must be explicitly legacy-component or unified-r2b."])
     if receipt_path is None:
         receipt_path = (
+            _validate_synthetic_gate_root(synthetic_fixture_root, unified_r2b=True) / "release-receipt.json"
+            if unified_r2b else
             _validate_synthetic_gate_root(synthetic_fixture_root) / "Library" / "Application Support" /
             PRODUCTION_BUNDLE_ID / PRODUCTION_RELEASE_RECEIPT
             if synthetic_only else RELEASE_RECEIPT_PATH
@@ -822,22 +853,24 @@ def run_gate(
         migration_authorization, migration_authorization_sha256, _ = _load_json_snapshot(migration_authorization_path, "Production migration authorization")
     except GateBlocked as error:
         raise GateBlocked([f"REFUSE_NO_AUTHORIZATION: {error}"]) from error
-    if migration_authorization.get("status") != "OWNER_AUTHORIZED_PRODUCTION_V4_MIGRATION":
+    expected_auth_status = "OWNER_AUTHORIZED_SYNTHETIC_R2B_MIGRATION" if unified_r2b else "OWNER_AUTHORIZED_PRODUCTION_V4_MIGRATION"
+    expected_approval_status = "OWNER_APPROVED_SYNTHETIC_R2B_CANDIDATE" if unified_r2b else "OWNER_APPROVED_V4_PRODUCTION_CANDIDATE"
+    if migration_authorization.get("status") != expected_auth_status:
         raise GateBlocked(["REFUSE_NO_AUTHORIZATION: a separate explicit Owner Production V4 migration authorization is required."])
     candidate_approval, candidate_approval_sha256, _ = _load_json_snapshot(candidate_approval_path, "Candidate approval")
-    if candidate_approval.get("status") != "OWNER_APPROVED_V4_PRODUCTION_CANDIDATE":
+    if candidate_approval.get("status") != expected_approval_status:
         raise GateBlocked(["Candidate approval is missing or is not Owner-approved for Production V4."])
     if synthetic_only and (candidate_approval.get("syntheticOnly") is not True or migration_authorization.get("syntheticOnly") is not True):
         raise GateBlocked(["Synthetic authorization artifacts must carry syntheticOnly=true."])
     if not synthetic_only and (candidate_approval.get("syntheticOnly") is True or migration_authorization.get("syntheticOnly") is True):
         raise GateBlocked(["Authorization domain does not match the selected Production or synthetic gate mode."])
     facts = (
-        collect_synthetic_facts(synthetic_fixture_root, candidate_approval_path, migration_authorization_path)
+        collect_synthetic_facts(synthetic_fixture_root, candidate_approval_path, migration_authorization_path, unified_r2b=unified_r2b)
         if synthetic_only else collect_real_facts(candidate_approval_path, migration_authorization_path)
     )
     if facts["candidate_approval_sha256"] != candidate_approval_sha256 or facts["migration_authorization_sha256"] != migration_authorization_sha256:
         raise GateBlocked(["Authorization byte identity changed between domain validation and fact collection."])
-    receipt = make_release_receipt(facts, synthetic_fixture_root=synthetic_fixture_root)
+    receipt = make_release_receipt(facts, synthetic_fixture_root=synthetic_fixture_root, unified_r2b=unified_r2b)
     receipt["releaseReceiptPath"] = str(receipt_path.resolve(strict=False))
     if mode == "preflight":
         _persist_receipt(receipt_path, receipt, create=True)
@@ -855,19 +888,23 @@ def run_gate(
         raise GateBlocked(["Persisted preflight receipt no longer matches current authorization, candidate, database, or backup facts."])
     receipt["releaseReceiptSha256"] = persisted_receipt_sha256
     permit_path = (
+        _validate_synthetic_gate_root(synthetic_fixture_root, unified_r2b=True) / "gate-permit.json"
+        if unified_r2b else
         _validate_synthetic_gate_root(synthetic_fixture_root) / "Library" / "Application Support" /
         PRODUCTION_BUNDLE_ID / PRODUCTION_MIGRATION_AUTHORIZATION
         if synthetic_only else GATE_AUTH_PATH
     )
     try:
         permit_path, _nonce = write_migration_permit(
-            receipt, migration_authorization, permit_path, synthetic_fixture_root=synthetic_fixture_root
+            receipt, migration_authorization, permit_path, synthetic_fixture_root=synthetic_fixture_root,
+            unified_r2b=unified_r2b
         )
     except Exception as error:
         raise
     executable = Path(receipt["candidateExecutablePath"])
     command = (
-        [str(executable), "--pfc-synthetic-gate-consume", str(_validate_synthetic_gate_root(synthetic_fixture_root))]
+        [str(executable), "--pfc-r2b1-unified-synthetic", str(_validate_synthetic_gate_root(synthetic_fixture_root, unified_r2b=True))]
+        if unified_r2b else [str(executable), "--pfc-synthetic-gate-consume", str(_validate_synthetic_gate_root(synthetic_fixture_root))]
         if synthetic_only else [str(executable), "--pfc-internal-v4-migrate"]
     )
     try:
@@ -1198,6 +1235,7 @@ def main() -> int:
         subparser.add_argument("--migration-authorization", type=Path, required=True)
         subparser.add_argument("--receipt", type=Path, help="fixed gate receipt path; overrides are rejected")
         subparser.add_argument("--synthetic-root", type=Path, help="explicit, marked temporary namespace for isolated integration")
+        subparser.add_argument("--synthetic-mode", choices=("legacy-component", "unified-r2b"), default="legacy-component")
     retire = subparsers.add_parser("retire")
     retire.add_argument("--candidate-app", type=Path, required=True)
     retire.add_argument("--replacement-authorization", type=Path, required=True)
@@ -1210,15 +1248,16 @@ def main() -> int:
             raise GateBlocked(["Runtime retirement remains a separate, explicitly authorized operation and is not this migration command."])
         receipt_path = args.receipt
         if args.synthetic_root is not None:
-            root = _validate_synthetic_gate_root(args.synthetic_root)
-            expected_receipt = root / "Library" / "Application Support" / PRODUCTION_BUNDLE_ID / PRODUCTION_RELEASE_RECEIPT
+            unified = args.synthetic_mode == "unified-r2b"
+            root = _validate_synthetic_gate_root(args.synthetic_root, unified_r2b=unified)
+            expected_receipt = root / "release-receipt.json" if unified else root / "Library" / "Application Support" / PRODUCTION_BUNDLE_ID / PRODUCTION_RELEASE_RECEIPT
             if receipt_path is not None and receipt_path.resolve(strict=False) != expected_receipt.resolve(strict=False):
                 raise GateBlocked(["Synthetic receipt path is fixed inside the marked synthetic root."])
             receipt_path = expected_receipt
         elif receipt_path is not None and receipt_path.resolve(strict=False) != RELEASE_RECEIPT_PATH.resolve(strict=False):
             raise GateBlocked(["Production release receipt path is fixed by the Production identity contract."])
         result = run_gate(args.command, args.candidate_approval, args.migration_authorization,
-                          receipt_path, synthetic_fixture_root=args.synthetic_root)
+                          receipt_path, synthetic_fixture_root=args.synthetic_root, synthetic_mode=args.synthetic_mode)
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0
     except Exception as error:
