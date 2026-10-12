@@ -23,6 +23,7 @@ import { App } from "../src/ui/App.js";
 import type { ProductApplicationServices } from "../src/ui/contracts.js";
 import { HomeScreen } from "../src/ui/HomeScreen.js";
 import { MoneyAmount } from "../src/ui/MoneyAmount.js";
+import { MyFinancePages } from "../src/ui/MyFinancePages.js";
 import { WP03PreviewDateControl } from "../src/ui/WP03PreviewDateControl.js";
 import { makeInput } from "./fixtures/model-input.js";
 import { NodeSqliteDatabase } from "./helpers/node-sqlite.js";
@@ -296,6 +297,88 @@ describe("Phase 3 product UI", () => {
     expect(document.querySelector<HTMLElement>(".home-modules")?.hidden).toBe(true);
     await user.click(screen.getByRole("button", { name: "逐笔确认本月债务" }));
     expect(await screen.findByRole("heading", { name: "债务" })).toBeTruthy();
+  });
+
+  it("debt page never shows stale prior-month payments while rollover facts are incomplete", () => {
+    const currentMonthData: FinancialMaintenanceState = {
+      ...maintenanceState,
+      asOfDate: "2026-11-01",
+      debts: [
+        {
+          id: "debt-a",
+          name: "债务 A",
+          currentBalance: "10000",
+          currentMonthDue: "0",
+          fixedMonthlyPayment: "500",
+          needsCurrentMonthFact: false,
+        },
+        {
+          id: "debt-b",
+          name: "债务 B",
+          currentBalance: "5000",
+          currentMonthDue: null,
+          fixedMonthlyPayment: "300",
+          needsCurrentMonthFact: true,
+        },
+      ],
+    };
+    const staleHome = {
+      ...baselineHome,
+      asOfDate: "2026-10-12",
+      currentMonth: "2026-10",
+      totalDebt: "15000",
+      mandatoryDebtService: "800",
+      debts: [
+        {
+          id: "debt-a",
+          name: "债务 A",
+          currentBalance: "10000",
+          currentMonthDue: "500",
+          fixedMonthlyPayment: "500",
+          countedMonthlyPayment: "500",
+          paymentSource: "CURRENT_MONTH_DUE" as const,
+        },
+        {
+          id: "debt-b",
+          name: "债务 B",
+          currentBalance: "5000",
+          currentMonthDue: "300",
+          fixedMonthlyPayment: "300",
+          countedMonthlyPayment: "300",
+          paymentSource: "CURRENT_MONTH_DUE" as const,
+        },
+      ],
+    };
+
+    render(
+      <MyFinancePages
+        route="DEBT_LIST"
+        home={staleHome}
+        data={currentMonthData}
+        loading={false}
+        error=""
+        asOfDate="2026-11-01"
+        onRoute={() => {}}
+        onBack={() => {}}
+        onHome={() => {}}
+        onRetry={() => {}}
+        onOpenLegacyMaintenance={() => {}}
+        getRequirement={async () => ({ requiresSafetyRecoveryHorizon: false })}
+        onSavePlanning={async () => currentMonthData}
+        isSessionDateCurrent={() => false}
+      />,
+    );
+
+    const debtRows = [...document.querySelectorAll<HTMLElement>(".finance-data-row")];
+    const debtA = debtRows.find((row) => row.querySelector("strong")?.textContent === "债务 A");
+    const debtB = debtRows.find((row) => row.querySelector("strong")?.textContent === "债务 B");
+    expect(debtA?.textContent).toContain("本月已计入还款");
+    expect(debtA?.textContent).toContain("¥0.00");
+    expect(debtB?.textContent).toContain("本月还款待确认");
+    expect(document.querySelector(".finance-list-summary-debt small")?.textContent).toContain(
+      "本月应还待确认",
+    );
+    expect(document.body.textContent).not.toContain("本月必须还款 ¥800.00");
   });
 
   it("renders exact money with an accessible sign and keeps display separate from edit inputs", () => {

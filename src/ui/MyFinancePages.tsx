@@ -246,7 +246,9 @@ function Hub({
     债务: {
       kind: "debt",
       primary: home.totalDebt,
-      secondary: (
+      secondary: data.debts.some((item) => item.needsCurrentMonthFact) ? (
+        <>{data.debts.length} 笔 · 本月应还待确认</>
+      ) : (
         <>
           {data.debts.length} 笔 · 本月必须还款{" "}
           <MoneyAmount value={home.mandatoryDebtService} size="inline" />
@@ -386,6 +388,7 @@ function CategoryList({
   const [domainHistory, setDomainHistory] = useState<V4FinancialReadState | null>(null);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [historyLoading, setHistoryLoading] = useState(false);
+  const hasPendingCurrentMonthDebtFacts = data.debts.some((item) => item.needsCurrentMonthFact);
   return (
     <section className="finance-list-panel" aria-label={`${categoryTitle[route]}项目`}>
       {route !== "INCOME_LIST" && route !== "SAFETY_LIST" && (
@@ -407,7 +410,9 @@ function CategoryList({
           }
           {...(route === "DEBT_LIST"
             ? {
-                secondary: (
+                secondary: hasPendingCurrentMonthDebtFacts ? (
+                  "本月应还待确认"
+                ) : (
                   <>
                     本月必须还款 <MoneyAmount value={home.mandatoryDebtService} size="inline" />
                   </>
@@ -667,7 +672,7 @@ function CategoryList({
       {route === "DEBT_LIST" &&
         (data.debts.length ? (
           data.debts.map((item) => {
-            const modelDebt = home.debts.find((candidate) => candidate.id === item.id);
+            const countedPayment = item.currentMonthDue ?? item.fixedMonthlyPayment ?? "0";
             return (
               <article
                 className="finance-data-row"
@@ -678,12 +683,11 @@ function CategoryList({
                 <div>
                   <strong>{item.name}</strong>
                   <span>
-                    {item.needsCurrentMonthFact || !modelDebt ? (
+                    {item.needsCurrentMonthFact ? (
                       "本月还款待确认"
                     ) : (
                       <>
-                        本月已计入还款{" "}
-                        <MoneyAmount value={modelDebt.countedMonthlyPayment} size="inline" />
+                        本月已计入还款 <MoneyAmount value={countedPayment} size="inline" />
                       </>
                     )}
                   </span>
