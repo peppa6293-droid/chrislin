@@ -371,6 +371,11 @@ function CategoryList({
   isSessionDateCurrent: () => boolean;
 }) {
   const [editing, setEditing] = useState<DailyEdit | null>(null);
+  const [pendingDeactivation, setPendingDeactivation] = useState<{
+    kind: "cash" | "asset" | "debt";
+    id: string;
+    name: string;
+  } | null>(null);
   const [editError, setEditError] = useState("");
   const [editMessage, setEditMessage] = useState("");
   const [editSaving, setEditSaving] = useState(false);
@@ -599,16 +604,9 @@ function CategoryList({
               <button
                 className="text-button"
                 type="button"
-                onClick={() => {
-                  if (
-                    !onDeactivateCashAccount ||
-                    !window.confirm(`停用“${item.name}”？历史仍会保留，后续计算将不再纳入。`)
-                  )
-                    return;
-                  void onDeactivateCashAccount(item.id).catch((reason: unknown) =>
-                    setEditError(reason instanceof Error ? reason.message : "账户未停用。"),
-                  );
-                }}
+                onClick={() =>
+                  setPendingDeactivation({ kind: "cash", id: item.id, name: item.name })
+                }
               >
                 停用账户
               </button>
@@ -655,13 +653,9 @@ function CategoryList({
               <button
                 className="text-button"
                 type="button"
-                onClick={() => {
-                  if (!onDeactivateAsset || !window.confirm(`停用“${item.name}”？其历史仍会保留。`))
-                    return;
-                  void onDeactivateAsset(item.id).catch((reason: unknown) =>
-                    setEditError(reason instanceof Error ? reason.message : "资产未停用。"),
-                  );
-                }}
+                onClick={() =>
+                  setPendingDeactivation({ kind: "asset", id: item.id, name: item.name })
+                }
               >
                 停用资产
               </button>
@@ -735,16 +729,9 @@ function CategoryList({
                 <button
                   className="text-button"
                   type="button"
-                  onClick={() => {
-                    if (
-                      !onDeactivateDebt ||
-                      !window.confirm(`停用“${item.name}”？只有确认后的当前债务事实才能停用。`)
-                    )
-                      return;
-                    void onDeactivateDebt(item.id).catch((reason: unknown) =>
-                      setEditError(reason instanceof Error ? reason.message : "债务未停用。"),
-                    );
-                  }}
+                  onClick={() =>
+                    setPendingDeactivation({ kind: "debt", id: item.id, name: item.name })
+                  }
                 >
                   停用债务
                 </button>
@@ -997,6 +984,43 @@ function CategoryList({
             }
           }}
         />
+      )}
+      {pendingDeactivation && (
+        <div className="dialog-backdrop">
+          <section className="discard-confirm" role="alertdialog" aria-modal="true">
+            <h2>确定停用“{pendingDeactivation.name}”吗？</h2>
+            <p>历史记录会保留；停用后，该项目将不再参与后续计算。</p>
+            <div className="planning-form-actions">
+              <button
+                className="button button-secondary"
+                type="button"
+                onClick={() => setPendingDeactivation(null)}
+              >
+                取消
+              </button>
+              <button
+                className="button button-primary"
+                type="button"
+                onClick={() => {
+                  const pending = pendingDeactivation;
+                  setPendingDeactivation(null);
+                  const deactivate =
+                    pending.kind === "cash"
+                      ? onDeactivateCashAccount
+                      : pending.kind === "asset"
+                        ? onDeactivateAsset
+                        : onDeactivateDebt;
+                  if (!deactivate) return;
+                  void deactivate(pending.id).catch((reason: unknown) =>
+                    setEditError(reason instanceof Error ? reason.message : "项目未停用。"),
+                  );
+                }}
+              >
+                确认停用
+              </button>
+            </div>
+          </section>
+        </div>
       )}
     </section>
   );
