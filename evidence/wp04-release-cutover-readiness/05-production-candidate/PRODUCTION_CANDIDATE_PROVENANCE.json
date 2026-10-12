@@ -1,0 +1,53 @@
+{
+  "status": "PRODUCTION_CANDIDATE_READY_FOR_OWNER_AND_FINAL_AUDIT_REVIEW",
+  "source_commit": "b59dbfe5c00a2ed01a793b0602d6b48b246dc748",
+  "source_archive_sha256": "0116d11698a83886ca10690d0688bc01bbc6700b266066295cf55499e22dfa5b",
+  "build_command_1": [
+    "npm",
+    "run",
+    "tauri:build"
+  ],
+  "build_command_2": [
+    "npm",
+    "run",
+    "tauri:build",
+    "--",
+    "--no-sign",
+    "--bundles",
+    "app"
+  ],
+  "build_roots": [
+    "/Users/linte/Library/Caches/wp04-release-candidate-20261012/build-01",
+    "/Users/linte/Library/Caches/wp04-release-candidate-20261012/build-02"
+  ],
+  "candidate_path": "/Users/linte/Library/Caches/wp04-release-candidate-20261012/build-02/cargo-target/release/bundle/macos/\u5c0f\u94b1\u5bb6.app",
+  "app_bundle_id": "com.personalfinance.console",
+  "CFBundleExecutable": "personal-finance-console",
+  "CFBundleDisplayName": "\u5c0f\u94b1\u5bb6",
+  "CFBundleName": "\u5c0f\u94b1\u5bb6",
+  "Info_plist_sha256": "41b8aa5a1c1933531c2d986c25d180590ffbf8920aff4483d791a882dc3cfdcb",
+  "runtime_compatibility_manifest_sha256": "f60ebff85a28d67750cd4b77084cb7d549f24f8c833811ca4e16a9c41ec583e7",
+  "runtime_manifest_bytes": "{\n  \"manifestFormatVersion\": 1,\n  \"runtimeGeneration\": 4,\n  \"minSupportedSchemaVersion\": 1,\n  \"maxSupportedSchemaVersion\": 4,\n  \"bundleId\": \"com.personalfinance.console\",\n  \"executable\": \"Contents/MacOS/personal-finance-console\"\n}\n",
+  "executable_sha256": "722f560d6b543f402645d6cb8120d7b8dbf4affc17bfb090393a25577b09a475",
+  "executable_uuid": "UUID: 14FABA12-6ECF-36F4-AE2B-46D6E55EB2AF (arm64) /Users/linte/Library/Caches/wp04-release-candidate-20261012/build-02/cargo-target/release/bundle/macos/\u5c0f\u94b1\u5bb6.app/Contents/MacOS/personal-finance-console",
+  "critical_bundle_file_inventory": {
+    "Contents/Info.plist": "41b8aa5a1c1933531c2d986c25d180590ffbf8920aff4483d791a882dc3cfdcb",
+    "Contents/MacOS/personal-finance-console": "722f560d6b543f402645d6cb8120d7b8dbf4affc17bfb090393a25577b09a475",
+    "Contents/Resources/runtime-compatibility.json": "f60ebff85a28d67750cd4b77084cb7d549f24f8c833811ca4e16a9c41ec583e7",
+    "Contents/_CodeSignature/CodeResources": "36d62c2b8dfbba4d0b277ff30b959e48bc68efda330044a45bb9a9d60df96cdd"
+  },
+  "source_lock_and_config_sha256": {
+    "package-lock.json": "3f2152b71eba56701d63ae1c39b1c583543f8109a146bf5dc2e955256cbfba16",
+    "src-tauri/Cargo.lock": "5a58d1e21d6de8bbfdb3d3cb0332e2fe06516ea0790f2e9c14127b0943f054c8",
+    "src-tauri/tauri.conf.json": "0c442bf8421f16d737d086d5036de3f56237f6f01033867e14e6c5cd04baf425",
+    "src-tauri/runtime-compatibility.json": "f60ebff85a28d67750cd4b77084cb7d549f24f8c833811ca4e16a9c41ec583e7"
+  },
+  "build_timestamp_utc": "2026-10-12T11:07:31.266118Z..2026-10-12T11:09:31.910350Z",
+  "signing_authority": "Executable=/Users/linte/Library/Caches/wp04-release-candidate-20261012/build-02/cargo-target/release/bundle/macos/\u5c0f\u94b1\u5bb6.app/Contents/MacOS/personal-finance-console\nIdentifier=com.personalfinance.console\nFormat=app bundle with Mach-O thin (arm64)\nCodeDirectory v=20500 size=40743 flags=0x10000(runtime) hashes=1266+3 location=embedded\nVersionPlatform=1\nVersionMin=720896\nVersionSDK=1769472\nHash type=sha256 size=32\nCandidateCDHash sha256=682389bb94a353403be71b4b05ebd6350ef925d5\nCandidateCDHashFull sha256=682389bb94a353403be71b4b05ebd6350ef925d534f598753a98169145cd1636\nHash choices=sha256\nCMSDigest=682389bb94a353403be71b4b05ebd6350ef925d534f598753a98169145cd1636\nCMSDigestType=2\nExecutable Segment base=0\nExecutable Segment limit=16793600\nExecutable Segment flags=0x1\nPage size=16384\nCDHash=682389bb94a353403be71b4b05ebd6350ef925d5\nSignature size=4777\nAuthority=Apple Development: 8619814730147 (FW5KHTFNZ6)\nAuthority=Apple Worldwide Developer Relations Certification Authority\nAuthority=Apple Root CA\nSigned Time=Oct 12, 2026 at 19:12:52\nInfo.plist entries=14\nTeamIdentifier=SSRKA7A4TN\nRuntime Version=27.0.0\nSealed Resources version=2 rules=13 files=1\nInternal requirements count=1 size=192\n",
+  "team_identifier": "SSRKA7A4TN",
+  "strict_codesign_exit_code": 0,
+  "strict_codesign_output": "/Users/linte/Library/Caches/wp04-release-candidate-20261012/build-02/cargo-target/release/bundle/macos/\u5c0f\u94b1\u5bb6.app: valid on disk\n/Users/linte/Library/Caches/wp04-release-candidate-20261012/build-02/cargo-target/release/bundle/macos/\u5c0f\u94b1\u5bb6.app: satisfies its Designated Requirement\n",
+  "candidate_launched": false,
+  "production_app_touched": false,
+  "production_database_touched": false
+}

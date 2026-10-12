@@ -1,0 +1,4 @@
+
+> personal-finance-console@0.1.0 test:release-gate
+> python3 -m unittest scripts/test_production_v4_release_gate.py -v
+

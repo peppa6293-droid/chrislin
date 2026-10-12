@@ -1,0 +1,45 @@
+test_actual_run_gate_migrate_reaches_only_mocked_permit_and_launcher_boundary (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_actual_run_gate_missing_authorization_file_blocks_before_receipt (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_actual_run_gate_negative_preflight_matrix_blocks_in_gate_logic (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_actual_run_gate_preflight_persists_receipt_without_permit_or_launch (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_all_safe_facts_produce_pre_migration_receipt (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_app_process_bundle_missing_or_nonstring_bundle_id_blocks (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_candidate_manifest_metadata_error_blocks (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_clean_inventory_continues_and_optional_missing_root_is_absent (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_clean_process_inventory_is_known_empty (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_database_path_symlink_is_rejected_before_sqlite_open (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_database_sidecar_metadata_error_blocks_instead_of_means_absent (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_incomplete_process_snapshot_matrix_is_never_empty_success (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_installed_plist_identity_or_executable_mutation_rolls_back (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_inventory_fails_closed_for_hidden_subtree_and_traversal_error (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_malformed_app_metadata_produces_structured_block (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_malformed_candidate_metadata_persists_precheck_receipt (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_missing_authorization_id_equal_backup_path_and_wrong_executable_name_block (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_nested_production_bundle_blocks_and_nested_neutral_helper_is_scanned (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_nested_production_metadata_failure_blocks (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_persistent_receipt_is_written_once_and_readable (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_postinstall_failures_each_restore_old_app (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_precheck_failure_is_persisted_as_structured_blocked_receipt (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_preflight_requires_process_inventory_completeness_contract (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_process_inventory_uses_actual_path_and_blocks_inspector_failure (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_process_snapshot_blocks_unknown_bundle_identity_and_malformed_fields (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_read_bundle_rejects_executable_symlink_escaping_bundle (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_rejects_candidate_without_compatibility_manifest (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_rejects_installed_old_production_app (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_rejects_missing_or_mismatched_backup (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_rejects_running_old_production_process (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_rejects_unknown_executable_hash (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_rejects_unsupported_database_schema (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_rejects_wrong_bundle_and_acceptance_bundle (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_retirement_archives_disables_and_installs_candidate (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_retirement_failure_restores_old_app_and_executable_mode (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_rollback_failure_is_hard_blocked_and_persisted (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_scan_root_metadata_error_is_not_treated_as_an_absent_optional_root (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_source_manifest_byte_mismatch_rejects_before_removal (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_wal_sidecar_blocks_even_with_matching_main_file_backup (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+test_walker_that_returns_no_root_entry_is_unknown (scripts.test_production_v4_release_gate.ReleaseGateTests) ... ok
+
+----------------------------------------------------------------------
+Ran 40 tests in 0.400s
+
+OK

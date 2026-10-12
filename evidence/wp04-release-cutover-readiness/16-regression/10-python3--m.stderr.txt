@@ -1,0 +1,7 @@
+test_imported_legacy_mutations_reject_fixed_production_targets (scripts.test_quiescence_entry_boundary.EntryBoundary) ... ok
+test_mutating_production_commands_fail_before_input_or_receipt_access (scripts.test_quiescence_entry_boundary.EntryBoundary) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.082s
+
+OK

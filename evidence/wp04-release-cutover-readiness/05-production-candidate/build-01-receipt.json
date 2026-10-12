@@ -1,0 +1,16 @@
+{
+  "source_commit": "b59dbfe5c00a2ed01a793b0602d6b48b246dc748",
+  "source_archive_sha256": "0116d11698a83886ca10690d0688bc01bbc6700b266066295cf55499e22dfa5b",
+  "source_copy": "/Users/linte/Library/Caches/wp04-release-candidate-20261012/build-01/source",
+  "stage_root": "/Users/linte/Library/Caches/wp04-release-candidate-20261012",
+  "command": [
+    "npm",
+    "run",
+    "tauri:build"
+  ],
+  "exit_code": 0,
+  "started_at": "2026-10-12T11:04:18.052834+00:00",
+  "finished_at": "2026-10-12T11:06:00.167417+00:00",
+  "stdout": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/wp04-release-cutover-readiness/05-production-candidate/build-01.stdout.txt",
+  "stderr": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/wp04-release-cutover-readiness/05-production-candidate/build-01.stderr.txt"
+}

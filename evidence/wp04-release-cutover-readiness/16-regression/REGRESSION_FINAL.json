@@ -1,0 +1,27 @@
+{
+  "status": "PASS_WITH_DOCUMENTED_ENVIRONMENT_RETRY",
+  "source_commit": "b59dbfe5c00a2ed01a793b0602d6b48b246dc748",
+  "initial_run_status": "FAILED_OR_INCOMPLETE",
+  "initial_failure": "test_quiescence_integration.py did not inherit APPLE_SIGNING_IDENTITY; 28 setup errors were due to missing environment, preserved in 11-python3--m.stderr.txt.",
+  "retry_readback": "REGRESSION_RETRY_READBACK.json reports PASS for the signed integration retry and all three Cargo suites.",
+  "passed_initial_commands": [
+    "npm run typecheck",
+    "npm run lint",
+    "npm run test:product",
+    "npm run test:wp03-preview",
+    "npm run test:release-gate (40 tests)",
+    "npm run build",
+    "test_quiescence_package_provenance.py",
+    "test_quiescence_readiness.py",
+    "test_quiescence_gate.py",
+    "test_quiescence_entry_boundary.py"
+  ],
+  "passed_retries": [
+    "test_quiescence_integration.py (30 tests; explicit signing environment)",
+    "cargo test --lib (39 tests)",
+    "cargo test --features quiescence-fixture --bin quiescence-fixture (33 tests)",
+    "cargo test --features quiescence-tauri --bin quiescence-tauri (33 tests)"
+  ],
+  "git_diff_check": "PASS",
+  "limitation": "Component/regression suites do not constitute full current-source synthetic C0-C10 or S0-S10 acceptance."
+}

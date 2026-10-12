@@ -1,0 +1,12 @@
+{
+  "status": "WP04_RELEASE_CUTOVER_READINESS_BLOCKED",
+  "final_audit_ready": false,
+  "blocking_items": [
+    "Current-source full synthetic C0-C10 and S0-S10 with representative business fixture not completed",
+    "Production V3-to-V4 gate and authorization consumer not connected to a supported execution path",
+    "Renderer-only termination not verified across native state, lease, permit/ledger, commit, IPC, and restart"
+  ],
+  "production_touched": false,
+  "blocker_closed": false,
+  "next_responsible": "Planning assigns; Execution completes remaining synthetic and source integration evidence"
+}

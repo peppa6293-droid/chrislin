@@ -1,0 +1,11 @@
+warning: function `consume_production_migration_authorization` is never used
+   --> src/lib.rs:166:4
+    |
+166 | fn consume_production_migration_authorization(
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `personal-finance-console` (lib test) generated 1 warning
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.39s
+     Running unittests src/lib.rs (src-tauri/target/debug/deps/personal_finance_console_lib-a90cf3bf8ab11178)

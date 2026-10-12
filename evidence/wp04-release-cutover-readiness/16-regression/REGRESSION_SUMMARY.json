@@ -1,0 +1,166 @@
+{
+  "status": "FAILED_OR_INCOMPLETE",
+  "source_commit": "b59dbfe5c00a2ed01a793b0602d6b48b246dc748",
+  "started_at": "2026-10-12T11:02:05.231966+00:00",
+  "finished_at": "2026-10-12T11:02:11.771659+00:00",
+  "commands": [
+    {
+      "argv": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-10-12T11:02:05.232226+00:00",
+      "finished_at": "2026-10-12T11:02:05.547603+00:00",
+      "stdout_path": "evidence/wp04-release-cutover-readiness/16-regression/01-npm-run.stdout.txt",
+      "stderr_path": "evidence/wp04-release-cutover-readiness/16-regression/01-npm-run.stderr.txt"
+    },
+    {
+      "argv": [
+        "npm",
+        "run",
+        "lint"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-10-12T11:02:05.547657+00:00",
+      "finished_at": "2026-10-12T11:02:05.777406+00:00",
+      "stdout_path": "evidence/wp04-release-cutover-readiness/16-regression/02-npm-run.stdout.txt",
+      "stderr_path": "evidence/wp04-release-cutover-readiness/16-regression/02-npm-run.stderr.txt"
+    },
+    {
+      "argv": [
+        "npm",
+        "run",
+        "test:product"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-10-12T11:02:05.777445+00:00",
+      "finished_at": "2026-10-12T11:02:09.924535+00:00",
+      "stdout_path": "evidence/wp04-release-cutover-readiness/16-regression/03-npm-run.stdout.txt",
+      "stderr_path": "evidence/wp04-release-cutover-readiness/16-regression/03-npm-run.stderr.txt"
+    },
+    {
+      "argv": [
+        "npm",
+        "run",
+        "test:wp03-preview"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-10-12T11:02:09.924586+00:00",
+      "finished_at": "2026-10-12T11:02:10.060410+00:00",
+      "stdout_path": "evidence/wp04-release-cutover-readiness/16-regression/04-npm-run.stdout.txt",
+      "stderr_path": "evidence/wp04-release-cutover-readiness/16-regression/04-npm-run.stderr.txt"
+    },
+    {
+      "argv": [
+        "npm",
+        "run",
+        "test:release-gate"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-10-12T11:02:10.060452+00:00",
+      "finished_at": "2026-10-12T11:02:10.687486+00:00",
+      "stdout_path": "evidence/wp04-release-cutover-readiness/16-regression/05-npm-run.stdout.txt",
+      "stderr_path": "evidence/wp04-release-cutover-readiness/16-regression/05-npm-run.stderr.txt"
+    },
+    {
+      "argv": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-10-12T11:02:10.687530+00:00",
+      "finished_at": "2026-10-12T11:02:11.182043+00:00",
+      "stdout_path": "evidence/wp04-release-cutover-readiness/16-regression/06-npm-run.stdout.txt",
+      "stderr_path": "evidence/wp04-release-cutover-readiness/16-regression/06-npm-run.stderr.txt"
+    },
+    {
+      "argv": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts",
+        "-p",
+        "test_quiescence_package_provenance.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-10-12T11:02:11.182083+00:00",
+      "finished_at": "2026-10-12T11:02:11.289905+00:00",
+      "stdout_path": "evidence/wp04-release-cutover-readiness/16-regression/07-python3--m.stdout.txt",
+      "stderr_path": "evidence/wp04-release-cutover-readiness/16-regression/07-python3--m.stderr.txt"
+    },
+    {
+      "argv": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts",
+        "-p",
+        "test_quiescence_readiness.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-10-12T11:02:11.289948+00:00",
+      "finished_at": "2026-10-12T11:02:11.373957+00:00",
+      "stdout_path": "evidence/wp04-release-cutover-readiness/16-regression/08-python3--m.stdout.txt",
+      "stderr_path": "evidence/wp04-release-cutover-readiness/16-regression/08-python3--m.stderr.txt"
+    },
+    {
+      "argv": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts",
+        "-p",
+        "test_quiescence_gate.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-10-12T11:02:11.373997+00:00",
+      "finished_at": "2026-10-12T11:02:11.544337+00:00",
+      "stdout_path": "evidence/wp04-release-cutover-readiness/16-regression/09-python3--m.stdout.txt",
+      "stderr_path": "evidence/wp04-release-cutover-readiness/16-regression/09-python3--m.stderr.txt"
+    },
+    {
+      "argv": [
+        "python3",
+        "-m",
+        "unittest",
+        "scripts/test_quiescence_entry_boundary.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-10-12T11:02:11.544377+00:00",
+      "finished_at": "2026-10-12T11:02:11.672362+00:00",
+      "stdout_path": "evidence/wp04-release-cutover-readiness/16-regression/10-python3--m.stdout.txt",
+      "stderr_path": "evidence/wp04-release-cutover-readiness/16-regression/10-python3--m.stderr.txt"
+    },
+    {
+      "argv": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts",
+        "-p",
+        "test_quiescence_integration.py",
+        "-v"
+      ],
+      "exit_code": 1,
+      "started_at": "2026-10-12T11:02:11.672406+00:00",
+      "finished_at": "2026-10-12T11:02:11.762344+00:00",
+      "stdout_path": "evidence/wp04-release-cutover-readiness/16-regression/11-python3--m.stdout.txt",
+      "stderr_path": "evidence/wp04-release-cutover-readiness/16-regression/11-python3--m.stderr.txt"
+    }
+  ]
+}

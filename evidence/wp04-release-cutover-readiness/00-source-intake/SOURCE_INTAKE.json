@@ -1,0 +1,16 @@
+{
+  "starting_head": "1a72079a7449ba746ccc158c06f4367c0d2789e6",
+  "wp03_runtime_baseline": "fd1d9e8714173167430baa2ab9325557a9e80775",
+  "wp04_source_commit": "b59dbfe5c00a2ed01a793b0602d6b48b246dc748",
+  "wp03_acceptance": "Preserved as accepted/closed per current Owner WP04 instruction; historical WP03 R5 report itself said ready for Planning review.",
+  "runtime_source_files": [
+    "scripts/production_v4_release_gate.py",
+    "scripts/test_production_v4_release_gate.py",
+    "src-tauri/src/lib.rs",
+    "src-tauri/tauri.conf.json"
+  ],
+  "runtime_source_committed": true,
+  "preexisting_untracked_material": "Preserved; see git-status-at-finalization.txt. No reset, clean, or deletion performed.",
+  "production_app_database_authorization_backup_permit_touched": false,
+  "candidate_launched": false
+}

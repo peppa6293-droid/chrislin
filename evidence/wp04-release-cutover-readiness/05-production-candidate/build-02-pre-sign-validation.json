@@ -1,0 +1,61 @@
+{
+  "app": "/Users/linte/Library/Caches/wp04-release-candidate-20261012/build-02/cargo-target/release/bundle/macos/\u5c0f\u94b1\u5bb6.app",
+  "bundle_id": "com.personalfinance.console",
+  "display_name": "\u5c0f\u94b1\u5bb6",
+  "bundle_name": "\u5c0f\u94b1\u5bb6",
+  "executable_path": "/Users/linte/Library/Caches/wp04-release-candidate-20261012/build-02/cargo-target/release/bundle/macos/\u5c0f\u94b1\u5bb6.app/Contents/MacOS/personal-finance-console",
+  "executable_sha256_before_signing": "0d8607fc98ea838a7031cc898383ba79001170b7d818d6d1df70205cf83a7adc",
+  "manifest_sha256": "f60ebff85a28d67750cd4b77084cb7d549f24f8c833811ca4e16a9c41ec583e7",
+  "manifest_raw": "{\n  \"manifestFormatVersion\": 1,\n  \"runtimeGeneration\": 4,\n  \"minSupportedSchemaVersion\": 1,\n  \"maxSupportedSchemaVersion\": 4,\n  \"bundleId\": \"com.personalfinance.console\",\n  \"executable\": \"Contents/MacOS/personal-finance-console\"\n}\n",
+  "runtime_generation": 4,
+  "min_supported_schema_version": 1,
+  "max_supported_schema_version": 4,
+  "pre_sign_xattr_inventory": "/Users/linte/Library/Caches/wp04-release-candidate-20261012/build-02/cargo-target/release/bundle/macos/\u5c0f\u94b1\u5bb6.app/Contents/MacOS/personal-finance-console: com.apple.provenance: \u0001\u0002\n/Users/linte/Library/Caches/wp04-release-candidate-20261012/build-02/cargo-target/release/bundle/macos/\u5c0f\u94b1\u5bb6.app/Contents/MacOS: com.apple.provenance: \u0001\u0002\n/Users/linte/Library/Caches/wp04-release-candidate-20261012/build-02/cargo-target/release/bundle/macos/\u5c0f\u94b1\u5bb6.app/Contents/Resources/runtime-compatibility.json: com.apple.provenance: \u0001\u0002\n/Users/linte/Library/Caches/wp04-release-candidate-20261012/build-02/cargo-target/release/bundle/macos/\u5c0f\u94b1\u5bb6.app/Contents/Resources: com.apple.provenance: \u0001\u0002\n/Users/linte/Library/Caches/wp04-release-candidate-20261012/build-02/cargo-target/release/bundle/macos/\u5c0f\u94b1\u5bb6.app/Contents/Info.plist: com.apple.provenance: \u0001\u0002\n/Users/linte/Library/Caches/wp04-release-candidate-20261012/build-02/cargo-target/release/bundle/macos/\u5c0f\u94b1\u5bb6.app/Contents: com.apple.provenance: \u0001\u0002\n/Users/linte/Library/Caches/wp04-release-candidate-20261012/build-02/cargo-target/release/bundle/macos/\u5c0f\u94b1\u5bb6.app: com.apple.provenance: \u0001\u0002\n",
+  "blocked_metadata_attributes": [],
+  "pre_sign_file_inventory": {
+    "Contents/Info.plist": "41b8aa5a1c1933531c2d986c25d180590ffbf8920aff4483d791a882dc3cfdcb",
+    "Contents/MacOS/personal-finance-console": "0d8607fc98ea838a7031cc898383ba79001170b7d818d6d1df70205cf83a7adc",
+    "Contents/Resources/runtime-compatibility.json": "f60ebff85a28d67750cd4b77084cb7d549f24f8c833811ca4e16a9c41ec583e7"
+  },
+  "frontend_asset_inventory": {
+    "assets/finance-assets-plant@2x-C4nQZY9s.png": "9c6bf6b86813bade24a1ba8a138ccae7c15c02d2f6de9bae8772a1b0bc429b80",
+    "assets/finance-cash-wallet@2x-ygr-R7c4.png": "7e902ae3df3e12ebaeab1de1098f5309047b82d8f18cae7bdd5f8b46986ef152",
+    "assets/finance-debt-cards@2x-DCnctiOR.png": "929b999cad107fcb9092305848a0cffa76a83d53eb6f9f85bc857b8589e5b2d5",
+    "assets/finance-income-coins@2x-BLyvU3qx.png": "041af7c31abfc8f9037a19bfcd810f5072ba86e6b80298c84b0374feeb999d29",
+    "assets/finance-income-empty@2x-B0C9Pnad.png": "a861f3faa1c8cbef60e1a1b3618fbdd4584e83d956c868a3bb831373c39e8e7c",
+    "assets/finance-plan-house@2x-CakhlPme.png": "c53892e26ec2fa89fc9c1d60c1aa7e3458bf6d7e8633563677faebb2d44da8be",
+    "assets/finance-spending-wallet@2x-fQkqZ-5t.png": "069251be5d7aaafc9d11d26d2a1038eb9fe96ac7f02360b6bef3fce074d412b2",
+    "assets/index-DT_siKUL.css": "81a8a354cbc759dbc6edbab1d2012b4a5e4728d1965191f4fe0884fed5d31488",
+    "assets/index-lM2_dVYv.js": "34e317dde57093a7928d341ecc384166cd1cb5690b50810e28390c8628f2f7d2",
+    "index.html": "97b1146f6430dc12840538a4c1811ad9e94b784089e0549b24e6401b281122fc"
+  },
+  "frontend_source_binding": "exact Git archive commit b59dbfe5; Tauri frontendDist ../web-dist; Vite build log saved",
+  "preview_signals": [],
+  "reproducibility": {
+    "build01_signed_executable_sha256": "a4f484b66bf3cd45a5e460dceef44721068195de9c046d43856fb967c3b403ab",
+    "build01_signature_removed_comparison_sha256": "fed6be7dc728bf3617c05f35b109c06248b9ad921f3f0e0dd9c769660a81f189",
+    "build02_unsigned_executable_sha256": "0d8607fc98ea838a7031cc898383ba79001170b7d818d6d1df70205cf83a7adc",
+    "mach_o_uuid_build01": "UUID: 14FABA12-6ECF-36F4-AE2B-46D6E55EB2AF (arm64) /Users/linte/Library/Caches/wp04-release-candidate-20261012/build-01/cargo-target/release/bundle/macos/\u5c0f\u94b1\u5bb6.app/Contents/MacOS/personal-finance-console",
+    "mach_o_uuid_build02": "UUID: 14FABA12-6ECF-36F4-AE2B-46D6E55EB2AF (arm64) /Users/linte/Library/Caches/wp04-release-candidate-20261012/build-02/cargo-target/release/bundle/macos/\u5c0f\u94b1\u5bb6.app/Contents/MacOS/personal-finance-console",
+    "mach_o_uuid_matches": true,
+    "build01_comparison_size": 20736336,
+    "build02_comparison_size": 20736336,
+    "source_commit_same": "b59dbfe5c00a2ed01a793b0602d6b48b246dc748",
+    "manifest_bytes_same": true,
+    "frontend_asset_inventory": {
+      "assets/finance-assets-plant@2x-C4nQZY9s.png": "9c6bf6b86813bade24a1ba8a138ccae7c15c02d2f6de9bae8772a1b0bc429b80",
+      "assets/finance-cash-wallet@2x-ygr-R7c4.png": "7e902ae3df3e12ebaeab1de1098f5309047b82d8f18cae7bdd5f8b46986ef152",
+      "assets/finance-debt-cards@2x-DCnctiOR.png": "929b999cad107fcb9092305848a0cffa76a83d53eb6f9f85bc857b8589e5b2d5",
+      "assets/finance-income-coins@2x-BLyvU3qx.png": "041af7c31abfc8f9037a19bfcd810f5072ba86e6b80298c84b0374feeb999d29",
+      "assets/finance-income-empty@2x-B0C9Pnad.png": "a861f3faa1c8cbef60e1a1b3618fbdd4584e83d956c868a3bb831373c39e8e7c",
+      "assets/finance-plan-house@2x-CakhlPme.png": "c53892e26ec2fa89fc9c1d60c1aa7e3458bf6d7e8633563677faebb2d44da8be",
+      "assets/finance-spending-wallet@2x-fQkqZ-5t.png": "069251be5d7aaafc9d11d26d2a1038eb9fe96ac7f02360b6bef3fce074d412b2",
+      "assets/index-DT_siKUL.css": "81a8a354cbc759dbc6edbab1d2012b4a5e4728d1965191f4fe0884fed5d31488",
+      "assets/index-lM2_dVYv.js": "34e317dde57093a7928d341ecc384166cd1cb5690b50810e28390c8628f2f7d2",
+      "index.html": "97b1146f6430dc12840538a4c1811ad9e94b784089e0549b24e6401b281122fc"
+    },
+    "frontend_assets_source_hashed": true,
+    "binary_reproducibility": "UUID_STABLE_SIGNATURE_RESERVATION_DIFFERENCE_RECORDED",
+    "lc_build_outputs_saved": true
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "status": "PASS",
+  "source_commit": "b59dbfe5c00a2ed01a793b0602d6b48b246dc748",
+  "retry_scope": "Only initial environment-failed signed integration run plus cargo suites were repeated and saved. The first failure log remains preserved.",
+  "results": [
+    {
+      "argv": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts",
+        "-p",
+        "test_quiescence_integration.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-10-12T11:14:03.165826+00:00",
+      "finished_at": "2026-10-12T11:14:27.612954+00:00",
+      "stdout": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/wp04-release-cutover-readiness/16-regression/01-isolated-retry.stdout.txt",
+      "stderr": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/wp04-release-cutover-readiness/16-regression/01-isolated-retry.stderr.txt",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "554ff507e32d006220ab4ebe1572495f2341593bce9e7835bd236de4b3948991"
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "src-tauri/Cargo.toml",
+        "--lib"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-10-12T11:14:27.613155+00:00",
+      "finished_at": "2026-10-12T11:14:28.414925+00:00",
+      "stdout": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/wp04-release-cutover-readiness/16-regression/02-isolated-retry.stdout.txt",
+      "stderr": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/wp04-release-cutover-readiness/16-regression/02-isolated-retry.stderr.txt",
+      "stdout_sha256": "bb5562f027d6bdb0fd45f85a04dd17bfdfa7271551c0d75725478fbde758bd6c",
+      "stderr_sha256": "67f4a05a268eeac9d154025fba8a916e0881830de5ed01b70eca263d3d191fb4"
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "src-tauri/Cargo.toml",
+        "--features",
+        "quiescence-fixture",
+        "--bin",
+        "quiescence-fixture"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-10-12T11:14:28.415117+00:00",
+      "finished_at": "2026-10-12T11:14:36.474860+00:00",
+      "stdout": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/wp04-release-cutover-readiness/16-regression/03-isolated-retry.stdout.txt",
+      "stderr": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/wp04-release-cutover-readiness/16-regression/03-isolated-retry.stderr.txt",
+      "stdout_sha256": "e3cb71e926652774b02af335a2fdabaddda04eadf5585f6b42e432873bfcb063",
+      "stderr_sha256": "5a30baeb90ef2cde5495362bbfc32a8c75a86a0a6f32a01da3ffb936856524fc"
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "src-tauri/Cargo.toml",
+        "--features",
+        "quiescence-tauri",
+        "--bin",
+        "quiescence-tauri"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-10-12T11:14:36.475083+00:00",
+      "finished_at": "2026-10-12T11:14:44.332340+00:00",
+      "stdout": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/wp04-release-cutover-readiness/16-regression/04-isolated-retry.stdout.txt",
+      "stderr": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/wp04-release-cutover-readiness/16-regression/04-isolated-retry.stderr.txt",
+      "stdout_sha256": "c7c1dc3b1c99d692677f9b54820f11f2518e84e287fb31e11ad34cc3af66f5f1",
+      "stderr_sha256": "ce9dd65930628e3cf21d29d515f704328e151a01835019086a6e8315e86582e8"
+    }
+  ]
+}

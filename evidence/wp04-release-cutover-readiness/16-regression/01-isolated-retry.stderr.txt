@@ -1,0 +1,68 @@
+test_actual_candidate_bundle_identity_is_isolated_and_old_is_not_skipped (test_quiescence_integration.ManagedIntegrationTests) ... /Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/test_quiescence_integration.py:45: ResourceWarning: unclosed file <_io.TextIOWrapper name=6 encoding='UTF-8'>
+  return prepare_managed(self.root, lease, observer=observer)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_candidate_plist_drift_after_S0_is_not_refrozen (test_quiescence_integration.ManagedIntegrationTests) ... /Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/traceback.py:220: ResourceWarning: unclosed file <_io.TextIOWrapper name=6 encoding='UTF-8'>
+  tb.tb_frame.clear()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_candidate_staging_archive_born_without_execute_bits (test_quiescence_integration.ManagedIntegrationTests) ... /Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/test_quiescence_integration.py:45: ResourceWarning: unclosed file <_io.TextIOWrapper name=6 encoding='UTF-8'>
+  return prepare_managed(self.root, lease, observer=observer)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_canonical_escape_refused (test_quiescence_integration.ManagedIntegrationTests) ... ok
+test_child_death_parent_keeps_lock_and_attempt_survives_release (test_quiescence_integration.ManagedIntegrationTests) ... /Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/test_quiescence_integration.py:309: ResourceWarning: unclosed file <_io.TextIOWrapper name=6 encoding='UTF-8'>
+  self.prepared_context = prepare_managed(self.root, lease)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_corrupt_stale_lease_record_is_not_replaced (test_quiescence_integration.ManagedIntegrationTests) ... ok
+test_diagnostic_rejects_cross_session_and_orphan_attempt_files (test_quiescence_integration.ManagedIntegrationTests) ... /Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/test_quiescence_integration.py:45: ResourceWarning: unclosed file <_io.TextIOWrapper name=6 encoding='UTF-8'>
+  return prepare_managed(self.root, lease, observer=observer)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_disabled_nested_helper_bytes_drift_is_not_refrozen (test_quiescence_integration.ManagedIntegrationTests) ... /Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/traceback.py:220: ResourceWarning: unclosed file <_io.TextIOWrapper name=6 encoding='UTF-8'>
+  tb.tb_frame.clear()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_full_chain_persisted_readback_and_exact_binding (test_quiescence_integration.ManagedIntegrationTests) ... /Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/test_quiescence_integration.py:45: ResourceWarning: unclosed file <_io.TextIOWrapper name=6 encoding='UTF-8'>
+  return prepare_managed(self.root, lease, observer=observer)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_late_second_route_blocks_before_authorization (test_quiescence_integration.ManagedIntegrationTests) ... /Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/traceback.py:220: ResourceWarning: unclosed file <_io.TextIOWrapper name=6 encoding='UTF-8'>
+  tb.tb_frame.clear()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_overlap_definition_refused_before_disable (test_quiescence_integration.ManagedIntegrationTests) ... ok
+test_parent_death_child_retains_same_inode_session_and_no_unlocked_gap (test_quiescence_integration.ManagedIntegrationTests) ... ok
+test_partial_state_without_progress_blocks_reexecution (test_quiescence_integration.ManagedIntegrationTests) ... ok
+test_pending_and_corrupt_attempt_diagnostic_fail_closed (test_quiescence_integration.ManagedIntegrationTests) ... ok
+test_plain_permit_without_managed_receipt_is_never_not_started (test_quiescence_integration.ManagedIntegrationTests) ... ok
+test_preflight_bare_executable_refused_even_different_hash (test_quiescence_integration.ManagedIntegrationTests) ... ok
+test_preflight_hardlink_refused_without_mutation (test_quiescence_integration.ManagedIntegrationTests) ... ok
+test_preflight_second_bundle_refused (test_quiescence_integration.ManagedIntegrationTests) ... ok
+test_preflight_symlink_refused_without_mutation (test_quiescence_integration.ManagedIntegrationTests) ... ok
+test_preflight_unknown_bookmark_refused (test_quiescence_integration.ManagedIntegrationTests) ... ok
+test_real_old_process_association_retained_across_archive_move (test_quiescence_integration.ManagedIntegrationTests) ... /Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/test_quiescence_integration.py:45: ResourceWarning: unclosed file <_io.TextIOWrapper name=6 encoding='UTF-8'>
+  return prepare_managed(self.root, lease, observer=observer)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_recreated_lease_file_never_accepted_by_original_owner (test_quiescence_integration.ManagedIntegrationTests) ... ok
+test_second_attempt_never_reissues_permit_or_restores_runtime (test_quiescence_integration.ManagedIntegrationTests) ... /Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/test_quiescence_integration.py:45: ResourceWarning: unclosed file <_io.TextIOWrapper name=6 encoding='UTF-8'>
+  return prepare_managed(self.root, lease, observer=observer)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_stale_lease_record_never_rebound (test_quiescence_integration.ManagedIntegrationTests) ... ok
+test_synthetic_parent_and_marker_required (test_quiescence_integration.ManagedIntegrationTests) ... ok
+test_unexited_child_disables_before_block_and_never_moves (test_quiescence_integration.ManagedIntegrationTests) ... /Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/traceback.py:220: ResourceWarning: unclosed file <_io.TextIOWrapper name=6 encoding='UTF-8'>
+  tb.tb_frame.clear()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_unrelated_same_path_holder_blocks_gate (test_quiescence_integration.ManagedIntegrationTests) ... ok
+test_v3_proof_is_not_only_schema_number (test_quiescence_integration.ManagedIntegrationTests) ... ok
+test_only_requested_termination_is_accepted (test_quiescence_integration.OldFixtureExitProofTests) ... ok
+test_policy_kill_unknown_or_early_exit_never_proves_old_runtime (test_quiescence_integration.OldFixtureExitProofTests) ... ok
+
+----------------------------------------------------------------------
+Ran 30 tests in 24.388s
+
+OK

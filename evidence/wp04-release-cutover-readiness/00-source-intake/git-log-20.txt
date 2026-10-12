@@ -1,0 +1,20 @@
+b59dbfe Harden V4 cutover path metadata and sidecars
+1a72079 Complete WP03 R5 daily-use acceptance
+f0fe61f docs: record WP03 R2 partial acceptance status
+fd1d9e8 fix: hide stale debt due on pending month
+f22b3e0 fix: show current debt facts during rollover
+83cde18 feat: add WP03 session-only acceptance date control
+a8b5306 docs: record WP03R1 final package and partial native closure
+112191e fix: show safety coverage when target is zero
+511e597 fix: confirm WP03 deactivation inside native UI
+d680049 build: keep WP03 final bundle off iCloud-managed storage
+d09b466 fix: sanitize WP03 bundle metadata at signing boundary
+7ebe258 fix: remove generated FinderInfo before WP03 signing
+a09ccec docs: record WP03 packaging blocker and final status
+0a98e7e feat: complete isolated WP03 daily finance workflows
+92ec241 Add read-only stable income revision history preview
+943fab0 Address V4 quiescence audit findings A through D
+34ce22d Fix isolated V4 runtime provenance and verify cutover integration
+1ef7fdd docs: attribute quiescence runtime startup block
+72ef067 Continue local signed quiescence integration; block on app readiness
+09f38c3 Checkpoint signed quiescence resumption blocked by Gatekeeper
