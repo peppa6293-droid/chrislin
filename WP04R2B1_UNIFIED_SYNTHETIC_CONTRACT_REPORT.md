@@ -49,4 +49,4 @@ No Production app or database was opened, read, backed up, installed, or migrate
 
 ## Commits
 
-Implementation commit: `f7b37374e32d8a3736c060c6f91a4c1e3e7aee70` (`Add explicit WP04 unified synthetic root contract`). This is a partial adapter/root-contract implementation, not the missing C3/native S4 integration. Report/evidence commit: pending.
+Implementation commit: `f7b37374e32d8a3736c060c6f91a4c1e3e7aee70` (`Add explicit WP04 unified synthetic root contract`). This is a partial adapter/root-contract implementation, not the missing C3/native S4 integration. The report and evidence are committed with this report update.

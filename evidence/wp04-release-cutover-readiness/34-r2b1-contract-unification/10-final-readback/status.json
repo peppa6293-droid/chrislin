@@ -5,6 +5,8 @@
   "migration4_executed": false,
   "implementation_scope": "Python adapter/root contract groundwork only",
   "implementation_commit": "f7b37374e32d8a3736c060c6f91a4c1e3e7aee70",
-  "report_sha256": "06ba66aa151376c5c9a435a49dace6e392a8c4dbc7ccae76d49f17eba82279ba",
-  "r2b_history_retained": true
+  "report_sha256": "b96253c2b358a23288d951b89352489f288060e707eb07570846a0affd708524",
+  "r2b_history_retained": true,
+  "source_commit": "f7b37374e32d8a3736c060c6f91a4c1e3e7aee70",
+  "pre_report_head": "2e0c638e721521202fc961a90f0d263d761acca8"
 }
