@@ -160,11 +160,41 @@ const stage3MaintenanceState: FinancialMaintenanceState = {
   ...maintenanceState,
   stableMonthlyIncome: "12000",
   stableIncomeRevisions: [
-    { revisionId: 3, effectiveMonth: "2026-11", asOfDate: "2026-09-03", amount: "12000", createdAt: "2026-09-03T10:00:00.000Z" },
-    { revisionId: 5, effectiveMonth: "2026-10", asOfDate: "2026-10-20", amount: "12500", createdAt: "2026-10-20T10:00:00.000Z" },
-    { revisionId: 2, effectiveMonth: "2026-10", asOfDate: "2026-10-03", amount: "11000.01", createdAt: "2026-10-03T09:00:00.000Z" },
-    { revisionId: 1, effectiveMonth: "2026-10", asOfDate: "2026-10-01", amount: "10000", createdAt: "2026-10-01T09:00:00.000Z" },
-    { revisionId: 4, effectiveMonth: "2026-09", asOfDate: "2026-08-03", amount: "9500", createdAt: "2026-08-03T10:00:00.000Z" },
+    {
+      revisionId: 3,
+      effectiveMonth: "2026-11",
+      asOfDate: "2026-09-03",
+      amount: "12000",
+      createdAt: "2026-09-03T10:00:00.000Z",
+    },
+    {
+      revisionId: 5,
+      effectiveMonth: "2026-10",
+      asOfDate: "2026-10-20",
+      amount: "12500",
+      createdAt: "2026-10-20T10:00:00.000Z",
+    },
+    {
+      revisionId: 2,
+      effectiveMonth: "2026-10",
+      asOfDate: "2026-10-03",
+      amount: "11000.01",
+      createdAt: "2026-10-03T09:00:00.000Z",
+    },
+    {
+      revisionId: 1,
+      effectiveMonth: "2026-10",
+      asOfDate: "2026-10-01",
+      amount: "10000",
+      createdAt: "2026-10-01T09:00:00.000Z",
+    },
+    {
+      revisionId: 4,
+      effectiveMonth: "2026-09",
+      asOfDate: "2026-08-03",
+      amount: "9500",
+      createdAt: "2026-08-03T10:00:00.000Z",
+    },
   ],
   actualIncomeRecords: [],
   cashAccounts: [
@@ -431,8 +461,11 @@ describe("Phase 3 product UI", () => {
         expect(alreadyEffective?.textContent).not.toContain("未来生效月份");
         const notYetKnown = history.querySelector('[data-revision-id="5"]');
         expect(notYetKnown?.textContent).toContain("未来记录日期");
-        expect(Array.from(history.querySelectorAll("[data-revision-id]")).map((row) => row.getAttribute("data-revision-id")))
-          .toEqual(["3", "5", "2", "1", "4"]);
+        expect(
+          Array.from(history.querySelectorAll("[data-revision-id]")).map((row) =>
+            row.getAttribute("data-revision-id"),
+          ),
+        ).toEqual(["3", "5", "2", "1", "4"]);
       }
       if (name === "资产") {
         expect(screen.getByText(/理财产品 1/)).toBeTruthy();
@@ -449,7 +482,8 @@ describe("Phase 3 product UI", () => {
 
   it("keeps history hidden on read failure and displays it after an explicit retry", async () => {
     const user = userEvent.setup();
-    const getMaintenance = vi.fn()
+    const getMaintenance = vi
+      .fn()
       .mockRejectedValueOnce(new Error("Synthetic history read failure"))
       .mockResolvedValueOnce(stage3MaintenanceState);
     const svc = services({
@@ -459,7 +493,9 @@ describe("Phase 3 product UI", () => {
     render(<App services={svc} />);
     await screen.findByTestId("home-spending-status");
     await user.click(screen.getByRole("button", { name: "我的财务" }));
-    expect((await screen.findByRole("alert")).textContent).toContain("Synthetic history read failure");
+    expect((await screen.findByRole("alert")).textContent).toContain(
+      "Synthetic history read failure",
+    );
     expect(screen.queryByRole("region", { name: "稳定月收入修改记录" })).toBeNull();
     await user.click(screen.getByRole("button", { name: "重试" }));
     await waitFor(() => expect(getMaintenance).toHaveBeenCalledTimes(2));

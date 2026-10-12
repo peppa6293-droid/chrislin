@@ -65,6 +65,13 @@ describe("V4 additive schema and resolvers", () => {
     await migrateDatabase(db, "2026-10-01T00:00:00.000Z");
     await completeOnboarding(db, candidate, "2026-10-01");
     const service = new V4FoundationService(db, () => "2026-10-02T12:00:00.000Z");
+    expect(
+      await service.savePlanningMonthDecision("2026-10", "2026-10-01", {
+        decision: "INHERIT",
+        amount: null,
+      }),
+    ).toMatchObject({ status: "NO_CHANGE" });
+    expect(await db.select("SELECT revision_id FROM planning_income_month_revisions")).toEqual([]);
     expect((await service.read("2026-10", "2026-10-01")).planningIncome).toMatchObject({
       amount: "13000",
       source: "STABLE_BASELINE",
@@ -154,6 +161,9 @@ describe("V4 additive schema and resolvers", () => {
       amount: "800",
       active: true,
     });
+    expect((await service.read("2026-10", "2026-10-03")).actualIncomeHistory).toMatchObject([
+      { id: "actual-1", revisionId: null, amount: "800", active: true },
+    ]);
     expect(
       await service.reviseActualIncome({
         incomeId: "actual-1",
@@ -187,6 +197,13 @@ describe("V4 additive schema and resolvers", () => {
     expect(
       (await new V4FoundationService(db).read("2026-10", "2026-10-05")).actualIncome,
     ).toHaveLength(0);
+    expect(
+      (await new V4FoundationService(db).read("2026-10", "2026-10-05")).actualIncomeHistory,
+    ).toMatchObject([
+      { id: "actual-1", revisionId: null, amount: "800", active: true },
+      { id: "actual-1", revisionId: 1, amount: "950", active: true },
+      { id: "actual-1", revisionId: 2, amount: "950", active: false },
+    ]);
     expect(await db.select("SELECT id FROM income_records WHERE id='actual-1'")).toHaveLength(1);
     expect(await db.select("SELECT revision_id FROM actual_income_revisions")).toHaveLength(2);
   });
@@ -212,6 +229,29 @@ describe("V4 additive schema and resolvers", () => {
     expect(await db.select("SELECT active FROM cash_accounts WHERE id=?", [account.id])).toEqual([
       { active: 1 },
     ]);
+  });
+
+  it("deactivates Asset and Debt through append-only revisions with prior-state readback", async () => {
+    const db = fresh();
+    await migrateDatabase(db, "2026-10-01T00:00:00.000Z");
+    await completeOnboarding(db, candidate, "2026-10-01");
+    const repo = new Repositories(db);
+    const asset = (await repo.assetsAt("2026-10-01"))[0];
+    const debt = (await repo.debtsAt("2026-10", "2026-10-01", true))[0];
+    if (!asset || !debt) throw new Error("onboarding facts missing");
+    const service = new V4FoundationService(db, () => "2026-10-02T00:00:00.000Z");
+    expect(await service.deactivateAsset(asset.id, "2026-10-02")).toMatchObject({
+      status: "SAVED",
+    });
+    expect(await service.deactivateDebt(debt.id, "2026-10", "2026-10-02")).toMatchObject({
+      status: "SAVED",
+    });
+    expect(await repo.assetsAt("2026-10-01")).toHaveLength(1);
+    expect(await repo.assetsAt("2026-10-02")).toHaveLength(0);
+    expect(await repo.debtsAt("2026-10", "2026-10-01", true)).toHaveLength(1);
+    expect(await repo.debtsAt("2026-10", "2026-10-02", true)).toHaveLength(0);
+    expect((await service.read("2026-10", "2026-10-02")).assetHistory.at(-1)?.active).toBe(false);
+    expect((await service.read("2026-10", "2026-10-02")).debtHistory.at(-1)?.active).toBe(false);
   });
 
   it("preserves populated V3 Home/model output and all V3 rows across migration", async () => {

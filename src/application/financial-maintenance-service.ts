@@ -232,13 +232,15 @@ export async function getFinancialMaintenanceState(
   const built = await buildMaintenanceModelInput(db, asOfDate);
   const repositories = new Repositories(db);
   const profile = await repositories.getProfile();
-  const [essentials, cash, assets, stablePlanningIncome, stableIncomeRevisions] = await Promise.all([
-    repositories.listEssentialExpensesAt(asOfDate),
-    repositories.cashAccountsAt(asOfDate),
-    repositories.assetsAt(asOfDate),
-    repositories.stablePlanningIncomeAt(asOfDate.slice(0, 7), asOfDate),
-    profile ? repositories.listStablePlanningIncomeRevisions(profile.id) : Promise.resolve([]),
-  ]);
+  const [essentials, cash, assets, stablePlanningIncome, stableIncomeRevisions] = await Promise.all(
+    [
+      repositories.listEssentialExpensesAt(asOfDate),
+      repositories.cashAccountsAt(asOfDate),
+      repositories.assetsAt(asOfDate),
+      repositories.stablePlanningIncomeAt(asOfDate.slice(0, 7), asOfDate),
+      profile ? repositories.listStablePlanningIncomeRevisions(profile.id) : Promise.resolve([]),
+    ],
+  );
   const currentDebtFacts = await repositories.debtsAt(asOfDate.slice(0, 7), asOfDate, true);
   const currentDebtIds = new Set(currentDebtFacts.map((item) => item.id));
   const requirement = horizonRequirement(built);
@@ -352,12 +354,24 @@ export async function updateFinancialDataAndRecalculate(
       await repositories.appendDebtRevision(profile.id, item, targetMonth, asOfDate, now, newId);
     if (patch.settings !== undefined) {
       const settings = mergeSettings(prior.settings, patch.settings);
-      await repositories.appendSettingsRevision(profile.id, targetMonth, asOfDate, settings, now);
+      if (!sameSettings(prior.settings, settings))
+        await repositories.appendSettingsRevision(profile.id, targetMonth, asOfDate, settings, now);
     }
     const home = await getHomeApplicationState(tx, asOfDate);
     const state = await getFinancialMaintenanceState(tx, asOfDate);
     return { state, home };
   });
+}
+
+function sameSettings(left: FinancialSettings, right: FinancialSettings): boolean {
+  return (
+    left.safetyCoverageTargetMonths === right.safetyCoverageTargetMonths &&
+    left.minimumCashCoverageMonths === right.minimumCashCoverageMonths &&
+    left.safetyRecoveryHorizonMonths === right.safetyRecoveryHorizonMonths &&
+    money(left.desiredMonthlyDiscretionarySpending).eq(
+      money(right.desiredMonthlyDiscretionarySpending),
+    )
+  );
 }
 
 function assertUniquePatchIds(domain: string, patches: Array<{ id?: string }>): void {

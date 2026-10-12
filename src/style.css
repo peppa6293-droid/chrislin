@@ -3198,6 +3198,35 @@ select:hover {
   color: #245947;
   cursor: pointer;
 }
+.daily-edit-dialog {
+  width: min(520px, calc(100vw - 32px));
+  max-height: min(88vh, 760px);
+  overflow-y: auto;
+  text-align: left;
+}
+.daily-edit-dialog fieldset {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  margin: 12px 0;
+  padding: 12px;
+  border: 1px solid #dce6dc;
+  border-radius: 12px;
+}
+.daily-edit-dialog fieldset legend {
+  padding: 0 5px;
+  color: #4d6657;
+  font-size: 13px;
+}
+.daily-edit-dialog select {
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid #d8e1d8;
+  border-radius: 12px;
+  background: #fff;
+  color: #263a30;
+  font: inherit;
+}
 @media (max-width: 680px) {
   .home-page .debt-home-values:has(.money-amount--long) {
     grid-template-columns: 50px minmax(0, 1fr);

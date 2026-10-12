@@ -6,6 +6,14 @@ use std::{io::{Read, Write}, path::{Path, PathBuf}, sync::{atomic::{AtomicBool, 
 use tauri::{Manager, State};
 
 mod cutover_startup;
+mod wp02_preview_isolation;
+mod wp03_preview_isolation;
+
+#[cfg(any(all(feature = "wp02-preview", feature = "v4-acceptance"), all(feature = "wp02-preview", feature = "quiescence-tauri"), all(feature = "wp02-preview", feature = "quiescence-fixture")))]
+compile_error!("wp02-preview cannot be combined with another dedicated runtime feature");
+
+#[cfg(any(all(feature = "wp03-preview", feature = "wp02-preview"), all(feature = "wp03-preview", feature = "v4-acceptance"), all(feature = "wp03-preview", feature = "quiescence-tauri"), all(feature = "wp03-preview", feature = "quiescence-fixture")))]
+compile_error!("wp03-preview cannot be combined with another dedicated runtime feature");
 
 const PRODUCTION_IDENTIFIER: &str = "com.personalfinance.console";
 const SMOKE_IDENTIFIER: &str = "com.personalfinance.console.smoke";
@@ -996,18 +1004,41 @@ pub fn run() {
             let home = app.path().home_dir()?;
             let acceptance_runtime = app.config().identifier == ACCEPTANCE_IDENTIFIER;
             let production_runtime = app.config().identifier == PRODUCTION_IDENTIFIER;
+            let wp02_runtime = app.config().identifier == wp02_preview_isolation::IDENTIFIER;
+            let wp03_runtime = app.config().identifier == wp03_preview_isolation::IDENTIFIER;
+            if cfg!(feature = "wp02-preview") && !wp02_runtime {
+                return Err(std::io::Error::other(
+                    "WP-02 preview build refused to start with a non-WP-02 runtime identity.",
+                )
+                .into());
+            }
+            if cfg!(feature = "wp03-preview") && !wp03_runtime {
+                return Err(std::io::Error::other(
+                    "WP-03 preview build refused to start with a non-WP-03 runtime identity.",
+                )
+                .into());
+            }
             if cfg!(feature = "v4-acceptance") && !acceptance_runtime {
                 return Err(std::io::Error::other(
                     "V4 acceptance build refused to start with a non-acceptance runtime identity.",
                 )
                 .into());
             }
-            if acceptance_runtime {
+            if wp03_runtime {
+                wp03_preview_isolation::ensure_isolated(&app.config().identifier, &app_data, &home)
+                    .map_err(std::io::Error::other)?;
+                std::fs::create_dir_all(&app_data)?;
+                wp03_preview_isolation::ensure_isolated(&app.config().identifier, &app_data, &home)
+                    .map_err(std::io::Error::other)?;
+            } else if wp02_runtime {
+                wp02_preview_isolation::ensure_isolated(&app.config().identifier, &app_data, &home)
+                    .map_err(std::io::Error::other)?;
+            } else if acceptance_runtime {
                 ensure_acceptance_data_dir_isolated(&app.config().identifier, &app_data, &home).map_err(std::io::Error::other)?;
             } else {
                 ensure_smoke_data_dir_isolated(&app.config().identifier, &app_data, &home).map_err(std::io::Error::other)?;
             }
-            let database_path = if acceptance_runtime { app_data.join(ACCEPTANCE_DATABASE) } else { app_data.join("personal-finance-console.sqlite3") };
+            let database_path = if acceptance_runtime { app_data.join(ACCEPTANCE_DATABASE) } else { app_data.join(wp03_preview_isolation::DATABASE) };
             let migration_permitted = false;
             let schema_ready = true;
             // This gate precedes every ordinary runtime's first SQLite access.
@@ -1031,7 +1062,7 @@ pub fn run() {
                     return Err(std::io::Error::other("Production runtime refuses an uninitialized database; use an approved, separately gated bootstrap.").into());
                 }
             }
-            std::fs::create_dir_all(&app_data)?;
+            if !wp03_runtime { std::fs::create_dir_all(&app_data)?; }
             if acceptance_runtime && database_path.exists() {
                 let canonical_data = app_data.canonicalize()?;
                 let canonical_db = database_path.canonicalize()?;

@@ -24,7 +24,13 @@ import {
   type OnboardingSubmission,
   recordExpenseAndRecalculate,
 } from "../application/product-service.js";
+import type { V4FinancialReadState } from "../application/v4-foundation-service.js";
+import {
+  V4FoundationService,
+  type V4MutationResult,
+} from "../application/v4-foundation-service.js";
 import { migrateDatabase } from "../persistence/migrations.js";
+import type { PlanningIncomeMonthDecision } from "../persistence/repositories.js";
 import { TauriSqlDatabase } from "../persistence/tauri-database.js";
 
 export type ApplicationStartupState =
@@ -67,6 +73,24 @@ export interface TauriApplicationServices {
     command: SaveCurrentMonthDebtFactCommand,
     asOfDate: string,
   ): Promise<SaveCurrentMonthDebtFactResult>;
+  savePlanningMonthDecision(
+    month: string,
+    asOfDate: string,
+    decision: PlanningIncomeMonthDecision,
+  ): Promise<V4MutationResult>;
+  reviseActualIncome(input: {
+    incomeId: string;
+    periodMonth: string;
+    asOfDate: string;
+    amount: string;
+    status: "EXPECTED" | "PENDING" | "RECEIVED";
+    date: string;
+    void?: boolean;
+  }): Promise<V4MutationResult>;
+  getV4FinancialReadState(month: string, asOfDate: string): Promise<V4FinancialReadState>;
+  deactivateCashAccount(accountId: string, asOfDate: string): Promise<V4MutationResult>;
+  deactivateAsset(assetId: string, asOfDate: string): Promise<V4MutationResult>;
+  deactivateDebt(debtId: string, month: string, asOfDate: string): Promise<V4MutationResult>;
 }
 
 export interface TauriProductServices {
@@ -94,6 +118,24 @@ export interface TauriProductServices {
     command: SaveCurrentMonthDebtFactCommand,
     asOfDate: string,
   ): Promise<SaveCurrentMonthDebtFactResult>;
+  savePlanningMonthDecision(
+    month: string,
+    asOfDate: string,
+    decision: PlanningIncomeMonthDecision,
+  ): Promise<V4MutationResult>;
+  reviseActualIncome(input: {
+    incomeId: string;
+    periodMonth: string;
+    asOfDate: string;
+    amount: string;
+    status: "EXPECTED" | "PENDING" | "RECEIVED";
+    date: string;
+    void?: boolean;
+  }): Promise<V4MutationResult>;
+  getV4FinancialReadState(month: string, asOfDate: string): Promise<V4FinancialReadState>;
+  deactivateCashAccount(accountId: string, asOfDate: string): Promise<V4MutationResult>;
+  deactivateAsset(assetId: string, asOfDate: string): Promise<V4MutationResult>;
+  deactivateDebt(debtId: string, month: string, asOfDate: string): Promise<V4MutationResult>;
 }
 
 export async function createTauriApplicationServices(): Promise<TauriApplicationServices> {
@@ -101,6 +143,7 @@ export async function createTauriApplicationServices(): Promise<TauriApplication
   await db.open();
   await migrateDatabase(db);
   const initialization = await getApplicationInitializationState(db);
+  const foundation = new V4FoundationService(db);
   return {
     initialization,
     completeOnboarding: (submission, asOfDate) => completeOnboarding(db, submission, asOfDate),
@@ -113,6 +156,14 @@ export async function createTauriApplicationServices(): Promise<TauriApplication
       updateFinancialDataAndRecalculate(db, patch, asOfDate),
     saveCurrentMonthDebtFact: (command, asOfDate) =>
       saveCurrentMonthDebtFact(db, command, asOfDate),
+    savePlanningMonthDecision: (month, asOfDate, decision) =>
+      foundation.savePlanningMonthDecision(month, asOfDate, decision),
+    reviseActualIncome: (input) => foundation.reviseActualIncome(input),
+    getV4FinancialReadState: (month, asOfDate) => foundation.read(month, asOfDate),
+    deactivateCashAccount: (accountId, asOfDate) =>
+      foundation.deactivateCashAccount(accountId, asOfDate),
+    deactivateAsset: (assetId, asOfDate) => foundation.deactivateAsset(assetId, asOfDate),
+    deactivateDebt: (debtId, month, asOfDate) => foundation.deactivateDebt(debtId, month, asOfDate),
   };
 }
 
@@ -145,5 +196,15 @@ export function getTauriProductServices(): TauriProductServices {
       (await open()).updateFinancialData(patch, asOfDate),
     saveCurrentMonthDebtFact: async (command, asOfDate) =>
       (await open()).saveCurrentMonthDebtFact(command, asOfDate),
+    savePlanningMonthDecision: async (month, asOfDate, decision) =>
+      (await open()).savePlanningMonthDecision(month, asOfDate, decision),
+    reviseActualIncome: async (input) => (await open()).reviseActualIncome(input),
+    getV4FinancialReadState: async (month, asOfDate) =>
+      (await open()).getV4FinancialReadState(month, asOfDate),
+    deactivateCashAccount: async (accountId, asOfDate) =>
+      (await open()).deactivateCashAccount(accountId, asOfDate),
+    deactivateAsset: async (assetId, asOfDate) => (await open()).deactivateAsset(assetId, asOfDate),
+    deactivateDebt: async (debtId, month, asOfDate) =>
+      (await open()).deactivateDebt(debtId, month, asOfDate),
   };
 }

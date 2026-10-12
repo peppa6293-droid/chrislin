@@ -123,7 +123,9 @@ function validCalendarDate(value: string): boolean {
   const date = new Date(0);
   date.setUTCHours(0, 0, 0, 0);
   date.setUTCFullYear(year, month - 1, day);
-  return date.getUTCFullYear() === year && date.getUTCMonth() + 1 === month && date.getUTCDate() === day;
+  return (
+    date.getUTCFullYear() === year && date.getUTCMonth() + 1 === month && date.getUTCDate() === day
+  );
 }
 
 function requireStoredUserInputMoney(value: string): string {
@@ -1173,15 +1175,15 @@ export class Repositories {
       ), latest_fact AS (
         SELECT debt_id,current_balance,current_month_due FROM (SELECT *,ROW_NUMBER() OVER(PARTITION BY debt_id ORDER BY as_of_date DESC,revision_id DESC) AS row_num FROM facts) WHERE row_num=1
       ), payment_versions AS (
-        SELECT d.id AS debt_id,'0000-00' AS effective_month,d.created_at AS as_of_date,d.name,d.fixed_monthly_payment,0 AS revision_id FROM debts d
-        UNION ALL SELECT debt_id,period_month,as_of_date,name,fixed_monthly_payment,revision_id FROM debt_revisions WHERE period_month<=? AND as_of_date<=?
+        SELECT d.id AS debt_id,'0000-00' AS effective_month,d.created_at AS as_of_date,d.name,d.fixed_monthly_payment,d.active,0 AS revision_id FROM debts d
+        UNION ALL SELECT debt_id,period_month,as_of_date,name,fixed_monthly_payment,active,revision_id FROM debt_revisions WHERE period_month<=? AND as_of_date<=?
       ), latest_payment AS (
-        SELECT debt_id,name,fixed_monthly_payment FROM (SELECT *,ROW_NUMBER() OVER(PARTITION BY debt_id ORDER BY effective_month DESC,as_of_date DESC,revision_id DESC) AS row_num FROM payment_versions) WHERE row_num=1
+        SELECT debt_id,name,fixed_monthly_payment,active FROM (SELECT *,ROW_NUMBER() OVER(PARTITION BY debt_id ORDER BY effective_month DESC,as_of_date DESC,revision_id DESC) AS row_num FROM payment_versions) WHERE row_num=1
       )
       SELECT d.id,COALESCE(p.name,d.name) AS name,
        p.fixed_monthly_payment,d.active,d.created_at,f.current_balance,f.current_month_due,
        EXISTS(SELECT 1 FROM debt_period_facts p3 WHERE p3.debt_id=d.id AND p3.period_month<?) OR EXISTS(SELECT 1 FROM debt_revisions p4 WHERE p4.debt_id=d.id AND p4.period_month<?) AS has_prior_fact
-      FROM debts d LEFT JOIN latest_fact f ON f.debt_id=d.id LEFT JOIN latest_payment p ON p.debt_id=d.id WHERE d.active=1 ORDER BY d.id`,
+      FROM debts d LEFT JOIN latest_fact f ON f.debt_id=d.id LEFT JOIN latest_payment p ON p.debt_id=d.id WHERE d.active=1 AND COALESCE(p.active,d.active)=1 ORDER BY d.id`,
       [
         targetMonth,
         asOfDate,
@@ -1236,8 +1238,8 @@ export class Repositories {
           SELECT *,ROW_NUMBER() OVER(PARTITION BY debt_id ORDER BY period_month DESC,as_of_date DESC,revision_id DESC) AS row_num FROM prior_facts
         ) WHERE row_num=1
       ), metadata AS (
-        SELECT debt_id,name,fixed_monthly_payment FROM (
-          SELECT debt_id,name,fixed_monthly_payment,ROW_NUMBER() OVER(PARTITION BY debt_id ORDER BY period_month DESC,as_of_date DESC,revision_id DESC) AS row_num
+        SELECT debt_id,name,fixed_monthly_payment,active FROM (
+          SELECT debt_id,name,fixed_monthly_payment,active,ROW_NUMBER() OVER(PARTITION BY debt_id ORDER BY period_month DESC,as_of_date DESC,revision_id DESC) AS row_num
           FROM debt_revisions WHERE period_month<=? AND as_of_date<=?
         ) WHERE row_num=1
       )
@@ -1245,7 +1247,7 @@ export class Repositories {
        CASE WHEN m.debt_id IS NULL THEN d.fixed_monthly_payment ELSE m.fixed_monthly_payment END AS fixed_monthly_payment,
        f.current_balance
       FROM debts d JOIN latest_fact f ON f.debt_id=d.id LEFT JOIN metadata m ON m.debt_id=d.id
-      WHERE d.active=1 ORDER BY d.id`,
+      WHERE d.active=1 AND COALESCE(m.active,d.active)=1 ORDER BY d.id`,
       [targetMonth, asOfDate, targetMonth, asOfDate, targetMonth, asOfDate],
     );
     return rows.map((row) => {

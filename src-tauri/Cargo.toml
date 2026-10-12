@@ -9,6 +9,8 @@ default-run = "personal-finance-console"
 
 [features]
 v4-acceptance = []
+wp02-preview = []
+wp03-preview = []
 quiescence-fixture = []
 quiescence-tauri = ["quiescence-fixture", "tauri/custom-protocol"]
 

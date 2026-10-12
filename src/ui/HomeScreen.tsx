@@ -1,11 +1,14 @@
 import type { FormEvent, ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
+import type { SaveCurrentMonthDebtFactResult } from "../application/debt-fact-service.js";
 import type {
   FinancialMaintenancePatch,
   FinancialMaintenanceState,
 } from "../application/financial-maintenance-service.js";
 import type { ExpenseSubmission, HomeApplicationState } from "../application/product-service.js";
+import type { V4FinancialReadState } from "../application/v4-foundation-service.js";
 import { assertUserInputMoney, formatMoneyExact, money } from "../model/money.js";
+import type { PlanningIncomeMonthDecision } from "../persistence/repositories.js";
 import { localDateTime } from "./date.js";
 import { FinanceIllustration } from "./FinanceIllustration.js";
 import { FinancialMaintenanceDialog } from "./FinancialMaintenanceDialog.js";
@@ -45,9 +48,11 @@ const routeTitle: Record<Exclude<HomeRoute, "HOME">, string> = {
   MY_FINANCE: "我的财务",
   INCOME_LIST: "收入",
   PLANNING_INCOME: "稳定月收入",
+  MONTH_PLANNING: "本月计划收入",
   CASH_LIST: "现金",
   ASSET_LIST: "资产",
   DEBT_LIST: "债务",
+  SAFETY_LIST: "安全目标",
 };
 
 const spendingStatusDetail: Record<HomeApplicationState["spendingStatus"], string> = {
@@ -101,6 +106,13 @@ export function HomeScreen({
   onLoadFinancialMaintenance,
   onGetFinancialMaintenanceRequirement,
   onUpdateFinancialData,
+  onGetPlanningMonth,
+  onSavePlanningMonth,
+  onReviseActualIncome,
+  onDeactivateCashAccount,
+  onDeactivateAsset,
+  onDeactivateDebt,
+  onSaveCurrentMonthDebtFact,
 }: {
   home: HomeApplicationState;
   asOfDate?: string;
@@ -115,6 +127,30 @@ export function HomeScreen({
     patch: FinancialMaintenancePatch,
     asOfDate: string,
   ) => Promise<FinancialMaintenanceState>;
+  onGetPlanningMonth?: ((month: string) => Promise<V4FinancialReadState>) | undefined;
+  onSavePlanningMonth?:
+    | ((month: string, decision: PlanningIncomeMonthDecision) => Promise<void>)
+    | undefined;
+  onReviseActualIncome?:
+    | ((input: {
+        incomeId: string;
+        periodMonth: string;
+        amount: string;
+        status: "EXPECTED" | "PENDING" | "RECEIVED";
+        date: string;
+        void?: boolean;
+      }) => Promise<void>)
+    | undefined;
+  onDeactivateCashAccount?: ((accountId: string) => Promise<void>) | undefined;
+  onDeactivateAsset?: ((assetId: string) => Promise<void>) | undefined;
+  onDeactivateDebt?: ((debtId: string) => Promise<void>) | undefined;
+  onSaveCurrentMonthDebtFact?:
+    | ((command: {
+        debtId: string;
+        currentBalance: string;
+        currentMonthDue: string | null;
+      }) => Promise<SaveCurrentMonthDebtFactResult>)
+    | undefined;
 }) {
   const [sessionAsOfDate] = useState(() => asOfDate ?? home.asOfDate);
   const [route, setRoute] = useState<HomeRoute>("HOME");
@@ -161,6 +197,48 @@ export function HomeScreen({
     return next;
   }
 
+  async function saveActualIncomeRevision(input: {
+    incomeId: string;
+    periodMonth: string;
+    amount: string;
+    status: "EXPECTED" | "PENDING" | "RECEIVED";
+    date: string;
+    void?: boolean;
+  }) {
+    if (!onReviseActualIncome) throw new Error("实际收入修改服务暂不可用。");
+    await onReviseActualIncome(input);
+    await loadMaintenance();
+  }
+
+  async function deactivateCash(accountId: string) {
+    if (!onDeactivateCashAccount) throw new Error("账户停用服务暂不可用。");
+    await onDeactivateCashAccount(accountId);
+    await loadMaintenance();
+  }
+
+  async function deactivateAssetItem(assetId: string) {
+    if (!onDeactivateAsset) throw new Error("资产停用服务暂不可用。");
+    await onDeactivateAsset(assetId);
+    await loadMaintenance();
+  }
+
+  async function deactivateDebtItem(debtId: string) {
+    if (!onDeactivateDebt) throw new Error("债务停用服务暂不可用。");
+    await onDeactivateDebt(debtId);
+    await loadMaintenance();
+  }
+
+  async function saveDebtFact(command: {
+    debtId: string;
+    currentBalance: string;
+    currentMonthDue: string | null;
+  }) {
+    if (!onSaveCurrentMonthDebtFact) throw new Error("本月债务确认服务暂不可用。");
+    const result = await onSaveCurrentMonthDebtFact(command);
+    await loadMaintenance();
+    return result;
+  }
+
   if (isHomeDetailRoute(route))
     return (
       <HomeDetail
@@ -192,6 +270,13 @@ export function HomeScreen({
           getRequirement={onGetFinancialMaintenanceRequirement}
           onSavePlanning={savePlanningIncome}
           isSessionDateCurrent={isSessionDateCurrent}
+          onGetPlanningMonth={onGetPlanningMonth}
+          onSavePlanningMonth={onSavePlanningMonth}
+          onReviseActualIncome={saveActualIncomeRevision}
+          onDeactivateCashAccount={deactivateCash}
+          onDeactivateAsset={deactivateAssetItem}
+          onDeactivateDebt={deactivateDebtItem}
+          onSaveCurrentMonthDebtFact={saveDebtFact}
         />
         {maintenanceOpen && (
           <FinancialMaintenanceDialog

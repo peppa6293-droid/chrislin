@@ -2,7 +2,13 @@
 
 Project: Personal Finance Console
 
-Current Phase: PERSONAL_FINANCE_CONSOLE_V01_PRODUCTION_ACTIVE
+Current Phase: CURRENT_VERSION_TESTING
+
+Parallel Preparation Stage: NATIVE_MIGRATION_PREPARATION (planning only)
+
+PRODUCT_READY_FOR_NATIVE_MIGRATION: false
+
+Installed Production historical baseline: PERSONAL_FINANCE_CONSOLE_V01_PRODUCTION_ACTIVE / Schema V3; not refreshed or changed in this preparation turn.
 
 Financial Model: V1.0 APPROVED / FROZEN
 
@@ -12,7 +18,30 @@ Phase 3: APPROVED.
 
 V0.1 Status: `PERSONAL_FINANCE_CONSOLE_V01_PRODUCTION_ACTIVE`.
 
-## V0.1.2 V4 Cutover Quiescence — Approved for Isolated Implementation
+## WP-03 Product Daily-Use Completion (2026-10-12)
+
+- Execution report: `../WP03_PRODUCT_DAILY_USE_COMPLETION_REPORT.md`; final status `WP03_PRODUCT_DAILY_USE_REGRESSION_FAILED`.
+- Product capabilities were added to ordinary UI and automatic tests pass, but build-03 strict macOS signature verification still fails on `com.apple.FinderInfo`. build-01 predates the last UI source correction and is not the final candidate. Full UI workflow and same-package restart remain unverified.
+- WP-03 is not ready for Planning review as a completed product. Production, WP-02 data, installation, and migration were not touched. See `../evidence/wp03-product-daily-use/`.
+
+## Current Workstream — Current Version Testing / Native Migration Preparation
+
+- Latest Owner instruction (2026-10-09, user message01a1202b-499e-7f40-a827-ed37dbb83c4d): continue current-version testing/correction/product validation through acceptance, and add NATIVE_MIGRATION_PREPARATION in the SAME hierarchy. Future macOS+iPhone native direction is confirmed, but no formal Xcode project, Swift/SwiftUI rewrite, unconfirmed feature or parallel decision chain is authorized.
+- All six specified gates must PASS before PRODUCT_READY_FOR_NATIVE_MIGRATION. Gate2 is PASS only for frozen financial rules; the other five are PENDING. Gate6 reuses prior Owner scope approval when reconciliation shows no unresolved change; no repeated signature is required merely because this stage is new. Live gate/issues record: NATIVE_MIGRATION_PREPARATION.md; report: ../XIAOQIANJIA_NATIVE_MIGRATION_READINESS_V0.1.md.
+- WP-02 new-domain A preflight, implementation review and approved build-01 real UI scenario are complete. Stable income changed from 10,000.00 to 11,000.01; history, normal close and same-package reopen passed. Read-only post-close checks found schema v4 integrity `ok`, one planning-income revision, zero actual-income revisions, zero expenses/assets, no sidecars, and an unchanged database hash after restart. Scoped report: `evidence/acceptance/wp02-20261009/TAKEOVER_UI_ACCEPTANCE_20261012.md`. Owner acceptance remains pending. The original smoke database and Q process were left untouched; Production remains unauthorized.
+
+### Historical — WP-01 handoff before the latest testing approval
+
+- Latest progress (2026-10-09): WP-01 approved scope is COMPLETE through Execution→Audit→Acceptance intake→manager cross-evidence review. Exact commit92ec24136d732e05375760d736ef508c66dd2c0e/build-15; no remaining required correction. This is an unlaunched isolated package and technical evidence, not real runtime acceptance. WP-02's approved new identity/path guard, synthetic checks, unlaunched build-01 and exact new-domain metadata preflight are complete; independent review and new-synthetic-data UI save/history/normal-close/reopen remain pending. Unknown/old data or ambiguous routing stops runtime without overwrite/reset/migration. Production remains entirely unauthorized.
+- 2026-10-09: `PLANNING_GOVERNANCE_READY`. Owner assigned sole Planning to `01a11f98-199c-7332-b6a1-1e9b30d57d2e`. Long-term Acceptance `01a11fa2-43f3-7c70-bf59-58bd6c2556e9` has been created. AC-001 read-only intake is complete; Audit classified AF-AC001-001 as EVIDENCE_GAP, Acceptance independently acknowledged it, and Planning completed this governance cross-review. Proof remains NOT_VERIFIED; real product acceptance has not run. NO_EXECUTION_PLAN; Execution action now is NONE.
+- Commit `943fab08f6f45d7d7830246db6d28647c418de85` passed the latest independent A/B/C/D scoped technical audit. See [independent result](../V012_V4_CUTOVER_QUIESCENCE_ABCD_INDEPENDENT_ACCEPTANCE.md). This supersedes the older integration-blocked / re-audit-pending snapshot below only for the evidenced scope; it is not whole-project or Production acceptance.
+- Governance and role routing: [PLANNING_GOVERNANCE.md](PLANNING_GOVERNANCE.md). Owner's latest final product definition and status matrix: [FINAL_DOD_MATRIX.md](FINAL_DOD_MATRIX.md). The goal is a daily-usable, local-first macOS App branded 小钱家 with unchanged Production identity and ledger paths, complete real UI workflows, preserved Owner data and frozen Model V1.0.
+- A/B/C/D closed scope, prior Sandbox acceptance and prior old-runtime closure are preserved. Renderer-only termination remains NOT VERIFIED; historical Q01–Q18 gaps require evidence-specific technical classification, not blanket PASS or blanket re-testing.
+- `RB-V4-CUTOVER-QUIESCENCE-01 = OPEN`. `RB-V4-CUTOVER-INVENTORY-01 = SUPERSEDED_BY_RB-V4-CUTOVER-QUIESCENCE-01`, not CLOSED. `RB-V4-OLD-RUNTIME-01 = CLOSED` remains historical Owner closure.
+- Production remains historically recorded as V3; no fresh Production read was authorized or performed in this governance turn. Production V4 migration, runtime replacement/launch, backup, restore, permit, release receipt, candidate freeze and blocker closure remain NOT AUTHORIZED. Final DoD definition is not implementation permission.
+- No `PROJECT_READY_FOR_FINAL_OWNER_ACCEPTANCE` is claimed. Only after all required evidence and preceding decisions are complete may Planning propose it; only explicit subsequent Owner final acceptance permits `XIAOQIANJIA_V01_LANDED`.
+
+## Historical — V0.1.2 V4 Cutover Quiescence Initial Isolated Implementation
 
 - 2026-10-09 integration closure: `PF_V012_V4_CUTOVER_QUIESCENCE_INTEGRATION_BLOCKED`. New v2 native/managed/IPC/startup code and failure evidence are saved, but real Tauri Q11, final S1/native lease/formal end-to-end acceptance are incomplete. Exact synthetic old/native PIDs encountered AMFI/Gatekeeper rejection; actual launch retries stopped. Recovery failure ledger/terminal publication also remain incomplete. Executed safe regressions pass; required blocked coverage is not PASS. See [Integration Closure Report](../V012_V4_CUTOVER_QUIESCENCE_INTEGRATION_CLOSURE_REPORT.md).
 - Production DB/executable/plist raw fingerprints are unchanged in this run; no Production SQLite connection, installed Production launch or migration was performed. First failed test created a default-store WebView before its setup guard; broader OS profile zero-side-effect proof remains unconfirmed, as disclosed in the new report. This is not a final Production candidate freeze or authorization. No Experiment Closure or independent re-audit readiness is declared.
@@ -186,4 +215,4 @@ Remaining P2 follow-ups: incomplete maintenance income rows; investment-capacity
 
 ## Next Action
 
-V0.1.2 Phase 1 and the V4 Foundation are formally accepted by Owner. The old-runtime release blocker is CLOSED by Owner. Production remains active on Schema V3 with migrations `[1,2,3]`; Production V4 migration is NOT AUTHORIZED. Any future Production App replacement, old App retirement, Production backup, Production launch/write, or V3→V4 migration requires separate Owner authorization. Do not automatically begin V0.2, Stage 4–7, or deferred P2 work.
+Continue current-version testing through the existing hierarchy under the approved WP-02 scope; independently review the new identity/path guard and exact A-preflight evidence, then have Acceptance perform the real UI save/history/normal-close/reopen flow only after that review. Keep old data and old Q untouched. Keep UI operation single-owned by Acceptance and fixes single-owned by Execution after independent classification. In parallel maintain NATIVE_MIGRATION_PREPARATION gates, stable/changed requirements and open issues. No native implementation before all six gates and later applicable planning/authority; no automatic Production action or blocker closure.

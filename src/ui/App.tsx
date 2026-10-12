@@ -8,6 +8,7 @@ import type {
   HomeApplicationState,
   OnboardingSubmission,
 } from "../application/product-service.js";
+import type { PlanningIncomeMonthDecision } from "../persistence/repositories.js";
 import type { ApplicationStartupState } from "../runtime/tauri-bootstrap.js";
 import { getTauriProductServices } from "../runtime/tauri-bootstrap.js";
 import type { ProductApplicationServices } from "./contracts.js";
@@ -73,6 +74,77 @@ export function App({ services = defaultServices }: { services?: ProductApplicat
     const result = await services.updateFinancialDataAndRecalculate(patch, asOfDate);
     setHome(result.home);
     return result.state;
+  }
+
+  async function savePlanningMonthDecision(month: string, decision: PlanningIncomeMonthDecision) {
+    const result = await services.savePlanningMonthDecision(month, sessionAsOfDate, decision);
+    if (result.status === "SAVED" || result.status === "NO_CHANGE") {
+      setHome(await services.getHomeApplicationState(sessionAsOfDate));
+    } else {
+      throw new Error(`本月计划收入未保存（${result.code}）。`);
+    }
+  }
+
+  async function reviseActualIncome(input: {
+    incomeId: string;
+    periodMonth: string;
+    amount: string;
+    status: "EXPECTED" | "PENDING" | "RECEIVED";
+    date: string;
+    void?: boolean;
+  }) {
+    const result = await services.reviseActualIncome({ ...input, asOfDate: sessionAsOfDate });
+    if (result.status === "SAVED" || result.status === "NO_CHANGE") {
+      setHome(await services.getHomeApplicationState(sessionAsOfDate));
+    } else {
+      throw new Error(`实际收入修改未保存（${result.code}）。`);
+    }
+  }
+
+  async function deactivateCashAccount(accountId: string) {
+    const result = await services.deactivateCashAccount(accountId, sessionAsOfDate);
+    if (result.status === "SAVED" || result.status === "NO_CHANGE")
+      setHome(await services.getHomeApplicationState(sessionAsOfDate));
+    else throw new Error(`账户未停用（${result.code}）。`);
+  }
+
+  async function deactivateAsset(assetId: string) {
+    const result = await services.deactivateAsset(assetId, sessionAsOfDate);
+    if (result.status === "SAVED" || result.status === "NO_CHANGE")
+      setHome(await services.getHomeApplicationState(sessionAsOfDate));
+    else throw new Error(`资产未停用（${result.code}）。`);
+  }
+
+  async function deactivateDebt(debtId: string) {
+    const result = await services.deactivateDebt(
+      debtId,
+      sessionAsOfDate.slice(0, 7),
+      sessionAsOfDate,
+    );
+    if (result.status === "SAVED" || result.status === "NO_CHANGE")
+      setHome(await services.getHomeApplicationState(sessionAsOfDate));
+    else
+      throw new Error(
+        result.code === "DEBT_FACT_REQUIRED_BEFORE_DEACTIVATION"
+          ? "请先确认这笔债务的本月余额和应还，再停用。"
+          : `债务未停用（${result.code}）。`,
+      );
+  }
+
+  async function saveCurrentMonthDebtFact(command: {
+    debtId: string;
+    currentBalance: string;
+    currentMonthDue: string | null;
+  }) {
+    const result = await services.saveCurrentMonthDebtFact(command, sessionAsOfDate);
+    if (result.status === "SAVED_MODEL_READY") setHome(result.home);
+    if (
+      result.status === "VALIDATION_FAILED" ||
+      result.status === "CONFLICT_OR_UNKNOWN_ID" ||
+      result.status === "SAVE_FAILED"
+    )
+      throw new Error(result.message);
+    return result;
   }
 
   if (state.status === "LOADING")
@@ -175,6 +247,13 @@ export function App({ services = defaultServices }: { services?: ProductApplicat
       onLoadFinancialMaintenance={loadFinancialMaintenance}
       onGetFinancialMaintenanceRequirement={getFinancialMaintenanceRequirement}
       onUpdateFinancialData={updateFinancialData}
+      onGetPlanningMonth={(month) => services.getV4FinancialReadState(month, sessionAsOfDate)}
+      onSavePlanningMonth={savePlanningMonthDecision}
+      onReviseActualIncome={reviseActualIncome}
+      onDeactivateCashAccount={deactivateCashAccount}
+      onDeactivateAsset={deactivateAsset}
+      onDeactivateDebt={deactivateDebt}
+      onSaveCurrentMonthDebtFact={saveCurrentMonthDebtFact}
     />
   );
 }

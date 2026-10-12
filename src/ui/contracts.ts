@@ -13,6 +13,11 @@ import type {
   OnboardingRequirement,
   OnboardingSubmission,
 } from "../application/product-service.js";
+import type {
+  V4FinancialReadState,
+  V4MutationResult,
+} from "../application/v4-foundation-service.js";
+import type { PlanningIncomeMonthDecision } from "../persistence/repositories.js";
 import type { ApplicationStartupState } from "../runtime/tauri-bootstrap.js";
 
 export interface ProductApplicationServices {
@@ -43,4 +48,22 @@ export interface ProductApplicationServices {
     command: SaveCurrentMonthDebtFactCommand,
     asOfDate: string,
   ): Promise<SaveCurrentMonthDebtFactResult>;
+  savePlanningMonthDecision(
+    month: string,
+    asOfDate: string,
+    decision: PlanningIncomeMonthDecision,
+  ): Promise<V4MutationResult>;
+  reviseActualIncome(input: {
+    incomeId: string;
+    periodMonth: string;
+    asOfDate: string;
+    amount: string;
+    status: "EXPECTED" | "PENDING" | "RECEIVED";
+    date: string;
+    void?: boolean;
+  }): Promise<V4MutationResult>;
+  getV4FinancialReadState(month: string, asOfDate: string): Promise<V4FinancialReadState>;
+  deactivateCashAccount(accountId: string, asOfDate: string): Promise<V4MutationResult>;
+  deactivateAsset(assetId: string, asOfDate: string): Promise<V4MutationResult>;
+  deactivateDebt(debtId: string, month: string, asOfDate: string): Promise<V4MutationResult>;
 }
