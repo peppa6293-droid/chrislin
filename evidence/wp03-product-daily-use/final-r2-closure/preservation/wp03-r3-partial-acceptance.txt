@@ -1,0 +1,12 @@
+R3 partial candidate acceptance database; not final acceptance evidence
+path=/Users/linte/Library/Application Support/com.personalfinance.console.wp03preview/personal-finance-console.sqlite3 inode=25124032 size=258048 mtime=2026-10-12T14:16:24+0800
+40726ba88ccbbf1598ae7c0cc63bc2b1242623fb1cd4bceb528072c4dccbbce0  /Users/linte/Library/Application Support/com.personalfinance.console.wp03preview/personal-finance-console.sqlite3
+PRAGMA user_version / integrity / fk / migrations / debt facts
+4
+ok
+1
+2
+3
+4
+8ec413c9-6694-4986-927c-b86314e3d020|2026-10|5000|300
+968882c1-13b9-449f-b5bd-41f22d65674f|2026-10|10000|500

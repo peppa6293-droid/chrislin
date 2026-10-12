@@ -1,0 +1,53 @@
+warning: function `consume_production_migration_authorization` is never used
+   --> src/lib.rs:157:4
+    |
+157 | fn consume_production_migration_authorization(
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `personal-finance-console` (lib test) generated 1 warning
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.23s
+     Running unittests src/lib.rs (src-tauri/target/debug/deps/personal_finance_console_lib-a90cf3bf8ab11178)
+
+running 37 tests
+test cutover_startup::tests::absence_is_not_started_without_database_access ... ok
+test cutover_startup::tests::verified_does_not_self_authorize_handoff ... ok
+test cutover_startup::tests::redirected_app_data_is_blocked_before_records_are_trusted ... ok
+test cutover_startup::tests::hardlinked_or_oversized_state_is_never_trusted ... ok
+test tests::d_invalid_and_expired_tokens_return_explicit_errors ... ok
+test tests::b_second_operation_failure_then_rollback_removes_first_write ... ok
+test tests::f_smoke_identity_and_data_path_are_separate_from_production ... ok
+test tests::c_token_cannot_commit_or_rollback_another_transaction ... ok
+test tests::g_production_fresh_data_directory_is_allowed ... ok
+test tests::e_foreign_key_violation_and_rollback_remove_preceding_write ... ok
+test tests::h_acceptance_identity_is_bound_to_its_separate_app_data_path ... ok
+test tests::i_acceptance_database_name_is_distinct_from_production_database_name ... ok
+test tests::k_forward_schema_guard_rejects_newer_and_mismatched_versions ... ok
+test tests::l_production_authorizer_blocks_schema_and_metadata_mutations_outside_gate ... ok
+test tests::n_production_migration_window_cannot_mark_an_incomplete_migration_ready ... ok
+test tests::o_direct_database_open_refuses_the_production_identity_path_before_opening_it ... ok
+test tests::m_authorized_production_migration_window_is_single_use_and_requires_exact_v4 ... ok
+test cutover_startup::tests::orphan_recovery_records_never_become_not_started ... ok
+test tests::a_begin_write_commit_persists_after_reopen ... ok
+test tests::replay_consumer_child_process ... ok
+test tests::r_consumed_ledger_persistence_failure_is_fail_closed ... ok
+test cutover_startup::tests::corrupt_pending_mismatch_and_redirected_records_fail_closed ... ok
+test wp02_preview_isolation::tests::accepts_exact_absent_domain_without_touching_it ... ok
+test wp02_preview_isolation::tests::rejects_wrong_identity_and_protected_paths ... ok
+test wp03_preview_isolation::tests::exact_absent_domain_is_accepted_without_creation ... ok
+test wp02_preview_isolation::tests::rejects_symlinked_domain_or_database ... ok
+test wp03_preview_isolation::tests::rejects_database_with_multiple_hard_links ... ok
+test wp03_preview_isolation::tests::rejects_wrong_and_protected_identities ... ok
+test tests::native_schema_artifacts_match_accepted_migration_source ... ok
+test wp03_preview_isolation::tests::rejects_symlink_directories_database_and_sidecars ... ok
+test cutover_startup::tests::every_unresolved_phase_and_plain_schema_four_stays_blocked ... ok
+test tests::j_acceptance_reset_clears_only_business_rows_and_keeps_migrations ... ok
+test tests::s_only_new_authorization_id_and_nonce_can_extend_consumed_ledger ... ok
+test tests::cutover_outcome_blocks_startup_before_any_database_access ... ok
+test cutover_startup::tests::all_contract_and_phase_records_block_even_without_outcome ... ok
+test tests::q_native_permit_consumer_rejects_sidecar_added_after_python_preflight ... ok
+test tests::p_python_gate_native_permit_consume_replay_and_real_migration4_chain ... ok
+
+test result: ok. 37 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.21s
+

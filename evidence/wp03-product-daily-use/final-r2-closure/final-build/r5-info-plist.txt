@@ -1,0 +1,16 @@
+{
+  "CFBundleDevelopmentRegion" => "English"
+  "CFBundleDisplayName" => "小钱家 WP-03 测试版"
+  "CFBundleExecutable" => "personal-finance-console"
+  "CFBundleIdentifier" => "com.personalfinance.console.wp03preview"
+  "CFBundleInfoDictionaryVersion" => "6.0"
+  "CFBundleName" => "小钱家 WP-03 测试版"
+  "CFBundlePackageType" => "APPL"
+  "CFBundleShortVersionString" => "0.1.0"
+  "CFBundleVersion" => "0.1.0"
+  "CSResourcesFileMapped" => true
+  "LSApplicationCategoryType" => "public.app-category.finance"
+  "LSMinimumSystemVersion" => "11.0"
+  "LSRequiresCarbon" => true
+  "NSHighResolutionCapable" => true
+}

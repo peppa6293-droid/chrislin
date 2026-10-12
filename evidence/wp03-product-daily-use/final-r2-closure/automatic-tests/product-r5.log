@@ -1,0 +1,16 @@
+
+> personal-finance-console@0.1.0 test:product
+> vitest run tests
+
+
+ RUN  v5.0.3 /Users/linte/Documents/ChatGPT/个人财务模型app开发
+
+
+ Test Files  17 passed (17)
+      Tests  300 passed (300)
+   Start at  15:03:57
+   Duration  4.80s (tests 62%, transform 17%, environment 10%, import 10%, worker 1%)
+
+    Isolate  17 workers spawned · ~293ms startup each (spawn + environment, per file)
+             at least ~260ms faster with isolate: false — reuses workers across files instead of one per file
+

@@ -1,0 +1,21 @@
+R1 database closed-state preservation before R3
+path=/Users/linte/Library/Application Support/com.personalfinance.console.wp03preview/personal-finance-console.sqlite3
+inode=25038103 size=258048 mtime=2026-10-12T12:55:43+0800
+401b7b31bc64c024bf4735977e85c20629aaa4774eb75a9ab3ca2b41d3fe9bf6  /Users/linte/Library/Application Support/com.personalfinance.console.wp03preview/personal-finance-console.sqlite3
+open_handles:
+sidecars:
+read_only_sqlite:
+4
+ok
+1|2026-10-12T04:46:46.437Z
+2|2026-10-12T04:46:46.437Z
+3|2026-10-12T04:46:46.437Z
+4|2026-10-12T04:46:46.437Z
+profiles|1
+income_records|1
+expense_records|0
+cash_accounts|1
+assets|1
+debts|2
+settings_revisions|0
+planning_income_revisions|2

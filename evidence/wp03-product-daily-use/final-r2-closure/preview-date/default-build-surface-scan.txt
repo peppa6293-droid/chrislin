@@ -1,0 +1,3 @@
+Default web build surface scan
+PASS: no preview date UI text or IPC command strings found in default web build.
+

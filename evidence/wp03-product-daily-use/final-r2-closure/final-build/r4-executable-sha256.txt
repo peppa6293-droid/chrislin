@@ -1,0 +1,1 @@
+72411368aec2e8d7ebfe3054feef2e34386079bd77bb115bf7db4e23d3963fe1  /Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-r4/cargo-target/release/bundle/macos/小钱家 WP-03 测试版.app/Contents/MacOS/personal-finance-console

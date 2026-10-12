@@ -65,3 +65,42 @@ Production Touched = NO
 - Restart / DB：同一个 final `.app` 正常退出并重开，再正常退出。最终 closed-state readback：WP-03 DB `user_version=4`、migrations `[1,2,3,4]`、`integrity_check=ok`、`foreign_key_check=[]`、无打开 handle、无 SQLite sidecar。详细值、行数及数据库哈希见 `evidence/wp03-product-daily-use/final-closure/db-readback/final-r2-closed-state.txt`。这是局部持久性证据，不代表 A–M 全部写入。
 - 原始 A–M 中“新月份缺少债务事实时显示待确认、单笔确认不得确认其他债务”尚未由当前正常 UI 流程验证。没有通过改系统日期、直接写 DB 或调用内部 service 模拟该业务验收。
 - WP-02 与 Production 均未触碰；Financial Model V1.0 未改。没有 runtime-affecting dirty source。最终进度摘要：`evidence/wp03-product-daily-use/final-closure/WP03R1_CURRENT_PROGRESS.md`。
+
+## WP-03R2 Final Native Acceptance Closure
+
+### 当前状态
+
+`WP03_PRODUCT_DAILY_USE_REGRESSION_FAILED`。本次发现并修复了 R4 真实跨月 UI 中的残留金额缺陷，R5 新包签名和自动回归通过，R5 的跨月待确认、单笔债务确认隔离和首页金额隐藏已通过真实 UI 验收。**完整 A–M 尚未在同一个 R5 最终包上完成，因此不满足 READY，也不放行 Planning Review。** R4 数据和记录已保留，不与 R5 拼接验收。
+
+### 最终源码和包
+
+- Starting HEAD：`a8b5306a20b750133247094ed8d57a4b48c611f1`
+- Preview-Date Implementation Commit：`83cde18dade613f94966d6f8af8272c649b50717`
+- Final Product Fix Commit / Final Source Commit：`fd1d9e8714173167430baa2ab9325557a9e80775`（`fix: hide stale debt due on pending month`）
+- Final App：`artifacts/wp03-isolated-product-preview-20261012/final-r5/cargo-target/release/bundle/macos/小钱家 WP-03 测试版.app`
+- Bundle ID：`com.personalfinance.console.wp03preview`
+- Executable SHA-256：`ecc46453d2aea39cd2f6232a38685827316f6c09e9b1f45e6fb6366cae182313`
+- Strict Codesign：PASS；Apple Development `Apple Development: 8619814730147 (FW5KHTFNZ6)`；TeamIdentifier `SSRKA7A4TN`
+- Runtime source：`fd1d9e8` 已提交，运行时代码无未提交改动。
+
+### R5 回归
+
+Typecheck、lint、300 个 product tests、5 个 WP-03 packaging tests、40 个 Rust preview tests、37 个 Rust default tests、web build 均通过。Lint 有 25 条 CSS specificity warnings。日志与 build receipt 位于 [`evidence/wp03-product-daily-use/final-r2-closure/`](evidence/wp03-product-daily-use/final-r2-closure/)。
+
+### R5 真实 UI 范围
+
+- A Onboarding：PASS，输入收入、必要支出、现金、资产、债务和目标后首页数据吻合。
+- B Stable：PASS，收入修改与同值 no-op 通过。
+- E Expense：PASS，UI 保存 68.50，Home 读回正确。
+- H2 Debt Rollover：PASS，11 月无事实显示待确认；仅将债务 A 保存为 0 后，债务 B 仍待确认；首页不再显示旧 500；债务 B 再保存 200 后首页恢复为 200。
+- K/M：部分通过。R5 normal Quit / same-bundle restart 通过，preview 日期重启后恢复系统日期，Home 与消费数据仍在；重启前后 DB hash 相同。
+- C、D、F、G、H 完整场景、I、I2、J、L 完整核验、M 全页逐项核验：R5 未完成，均不得视为 PASS。
+
+R5 Rollover 与闭库记录：[`h2-r5-home-debt-rollover.md`](evidence/wp03-product-daily-use/final-r2-closure/h2-r5-home-debt-rollover.md)、[`l-r5-db-readback.md`](evidence/wp03-product-daily-use/final-r2-closure/l-r5-db-readback.md)、[`m-r5-restart.md`](evidence/wp03-product-daily-use/final-r2-closure/m-r5-restart.md)。阶段状态：[`WP03R2_CURRENT_PROGRESS.md`](evidence/wp03-product-daily-use/final-r2-closure/WP03R2_CURRENT_PROGRESS.md)。
+
+### 闭库、边界与剩余工作
+
+R5 DB 只读检查：`user_version=4`、migrations `[1,2,3,4]`、integrity `ok`、foreign-key check 空；无 DB handle、WAL/SHM/journal；关闭后 hash `e0b0b1a74ac51051077ad1a2060832f17fa0b9fce9f88dbbc431a98834bf2526`。这只覆盖所列元信息和部分计数，不是 A–I 全量业务表审计。
+
+Financial Model V1.0 未修改；WP-02 和 Production 未访问。Planning Review 暂不放行。下一步须在 R5 同一候选包上完成剩余 A–M 场景并补足完整 closed-state DB 与重启逐页回读；如运行时代码再变更，需重新构建并对新包重做全量验收。
+

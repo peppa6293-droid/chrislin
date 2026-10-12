@@ -1,0 +1,1 @@
+ecc46453d2aea39cd2f6232a38685827316f6c09e9b1f45e6fb6366cae182313  artifacts/wp03-isolated-product-preview-20261012/final-r5/cargo-target/release/bundle/macos/小钱家 WP-03 测试版.app/Contents/MacOS/personal-finance-console

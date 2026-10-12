@@ -1,0 +1,535 @@
+diff --git a/scripts/build_wp03_product_preview.py b/scripts/build_wp03_product_preview.py
+index 1a1b0d8..45ea926 100644
+--- a/scripts/build_wp03_product_preview.py
++++ b/scripts/build_wp03_product_preview.py
+@@ -219,7 +219,7 @@ def main() -> int:
+     save(manifest_path, manifest)
+     vite_config = (
+         "import base from %s;\n" % json.dumps((ROOT / "vite.config.ts").as_uri())
+-        + "export default {...base,cacheDir:%s,build:{...base.build,outDir:%s,emptyOutDir:true}};\n"
++        + "export default {...base,define:{...base.define,__WP03_PREVIEW_BUILD__:true},cacheDir:%s,build:{...base.build,outDir:%s,emptyOutDir:true}};\n"
+         % (json.dumps(str(output / "vite-cache")), json.dumps(str(frontend)))
+     )
+     vite_config_path.write_text(vite_config)
+diff --git a/scripts/test_wp03_preview_packaging.py b/scripts/test_wp03_preview_packaging.py
+index c49b333..17d361c 100644
+--- a/scripts/test_wp03_preview_packaging.py
++++ b/scripts/test_wp03_preview_packaging.py
+@@ -3,6 +3,8 @@ from pathlib import Path
+ 
+ import build_wp03_product_preview as preview
+ 
++ROOT = Path(__file__).resolve().parents[1]
++
+ 
+ class PreviewPackagingTests(unittest.TestCase):
+     def test_parses_real_dwarfdump_line_and_rejects_malformed_rows(self):
+@@ -31,6 +33,25 @@ class PreviewPackagingTests(unittest.TestCase):
+         )
+         self.assertEqual(preview.find_codesign_forbidden_xattrs(output), output.splitlines()[:2])
+ 
++    def test_acceptance_date_is_only_enabled_by_wp03_preview_build_and_identity(self):
++        default_vite = (ROOT / "vite.config.ts").read_text()
++        preview_builder = (ROOT / "scripts/build_wp03_product_preview.py").read_text()
++        rust_runtime = (ROOT / "src-tauri/src/lib.rs").read_text()
++        date_commands = (ROOT / "src-tauri/src/wp03_preview_test_date.rs").read_text()
++
++        self.assertIn('__WP03_PREVIEW_BUILD__: "false"', default_vite)
++        self.assertIn("__WP03_PREVIEW_BUILD__:true", preview_builder)
++        self.assertIn('#[cfg(feature = "wp03-preview")]\nmod wp03_preview_test_date;', rust_runtime)
++        self.assertIn("wp03_preview_test_date::wp03_preview_set_test_date", rust_runtime)
++        self.assertIn("require_preview_identity(&app.config().identifier)", date_commands)
++        self.assertNotIn("std::env", date_commands)
++
++    def test_wp03_source_binds_acceptance_date_feature_and_identity(self):
++        cargo = (ROOT / "src-tauri/Cargo.toml").read_text()
++        isolation = (ROOT / "src-tauri/src/wp03_preview_isolation.rs").read_text()
++        self.assertIn("wp03-preview = []", cargo)
++        self.assertIn('pub const IDENTIFIER: &str = "com.personalfinance.console.wp03preview";', isolation)
++
+ 
+ if __name__ == "__main__":
+     unittest.main()
+diff --git a/src-tauri/src/lib.rs b/src-tauri/src/lib.rs
+index 79cb61f..afb14ea 100644
+--- a/src-tauri/src/lib.rs
++++ b/src-tauri/src/lib.rs
+@@ -8,6 +8,8 @@ use tauri::{Manager, State};
+ mod cutover_startup;
+ mod wp02_preview_isolation;
+ mod wp03_preview_isolation;
++#[cfg(feature = "wp03-preview")]
++mod wp03_preview_test_date;
+ 
+ #[cfg(any(all(feature = "wp02-preview", feature = "v4-acceptance"), all(feature = "wp02-preview", feature = "quiescence-tauri"), all(feature = "wp02-preview", feature = "quiescence-fixture")))]
+ compile_error!("wp02-preview cannot be combined with another dedicated runtime feature");
+@@ -998,7 +1000,7 @@ connection.close();
+ 
+ #[cfg_attr(mobile, tauri::mobile_entry_point)]
+ pub fn run() {
+-    tauri::Builder::default()
++    let builder = tauri::Builder::default()
+         .setup(|app| {
+             let app_data = app.path().app_data_dir()?;
+             let home = app.path().home_dir()?;
+@@ -1030,6 +1032,8 @@ pub fn run() {
+                 std::fs::create_dir_all(&app_data)?;
+                 wp03_preview_isolation::ensure_isolated(&app.config().identifier, &app_data, &home)
+                     .map_err(std::io::Error::other)?;
++                #[cfg(feature = "wp03-preview")]
++                app.manage(wp03_preview_test_date::SessionDate::default());
+             } else if wp02_runtime {
+                 wp02_preview_isolation::ensure_isolated(&app.config().identifier, &app_data, &home)
+                     .map_err(std::io::Error::other)?;
+@@ -1074,8 +1078,36 @@ pub fn run() {
+             let database = DatabaseState::from_connection_with_runtime(connection, database_path, acceptance_runtime, production_runtime, migration_permitted, schema_ready).map_err(std::io::Error::other)?;
+             app.manage(database);
+             Ok(())
+-        })
+-        .invoke_handler(tauri::generate_handler![database_open, database_execute, database_select, database_begin, database_commit, database_rollback, database_schema_migration_begin, database_schema_migration_end, acceptance_runtime_info, acceptance_reset])
++        });
++    #[cfg(feature = "wp03-preview")]
++    let builder = builder.invoke_handler(tauri::generate_handler![
++        database_open,
++        database_execute,
++        database_select,
++        database_begin,
++        database_commit,
++        database_rollback,
++        database_schema_migration_begin,
++        database_schema_migration_end,
++        acceptance_runtime_info,
++        acceptance_reset,
++        wp03_preview_test_date::wp03_preview_get_test_date,
++        wp03_preview_test_date::wp03_preview_set_test_date,
++    ]);
++    #[cfg(not(feature = "wp03-preview"))]
++    let builder = builder.invoke_handler(tauri::generate_handler![
++        database_open,
++        database_execute,
++        database_select,
++        database_begin,
++        database_commit,
++        database_rollback,
++        database_schema_migration_begin,
++        database_schema_migration_end,
++        acceptance_runtime_info,
++        acceptance_reset,
++    ]);
++    builder
+         .run(acceptance_context())
+         .expect("failed to run Personal Finance Console");
+ }
+diff --git a/src/runtime/tauri-bootstrap.ts b/src/runtime/tauri-bootstrap.ts
+index 3a31706..6ca2c31 100644
+--- a/src/runtime/tauri-bootstrap.ts
++++ b/src/runtime/tauri-bootstrap.ts
+@@ -1,3 +1,4 @@
++import { invoke } from "@tauri-apps/api/core";
+ import {
+   type SaveCurrentMonthDebtFactCommand,
+   type SaveCurrentMonthDebtFactResult,
+@@ -33,6 +34,18 @@ import { migrateDatabase } from "../persistence/migrations.js";
+ import type { PlanningIncomeMonthDecision } from "../persistence/repositories.js";
+ import { TauriSqlDatabase } from "../persistence/tauri-database.js";
+ 
++declare const __WP03_PREVIEW_BUILD__: boolean;
++
++export async function getWp03PreviewTestDate(): Promise<string | null> {
++  if (!__WP03_PREVIEW_BUILD__) return null;
++  return invoke<string | null>("wp03_preview_get_test_date");
++}
++
++export async function setWp03PreviewTestDate(testDate: string | null): Promise<void> {
++  if (!__WP03_PREVIEW_BUILD__) throw new Error("WP-03 验收日期仅在 WP-03 测试版中可用。");
++  await invoke("wp03_preview_set_test_date", { testDate });
++}
++
+ export type ApplicationStartupState =
+   | ApplicationInitializationState
+   | { status: "ERROR"; message: string };
+diff --git a/src/style.css b/src/style.css
+index 7b24730..4bde04b 100644
+--- a/src/style.css
++++ b/src/style.css
+@@ -432,6 +432,33 @@ select:hover {
+   justify-content: space-between;
+   gap: 20px;
+ }
++.wp03-preview-date {
++  display: flex;
++  align-items: center;
++  flex-wrap: wrap;
++  gap: 10px 16px;
++  margin: 14px 0 6px;
++  padding: 11px 14px;
++  border: 1px solid #d7e1d9;
++  border-radius: 12px;
++  background: #f4f8f4;
++  color: #53635a;
++  font-size: 12px;
++}
++.wp03-preview-date > div {
++  display: grid;
++  gap: 3px;
++  margin-right: auto;
++}
++.wp03-preview-date input {
++  min-height: 34px;
++  border: 1px solid #cbd7cd;
++  border-radius: 8px;
++  padding: 4px 8px;
++  background: #fff;
++  color: #33443a;
++  font: inherit;
++}
+ .header-actions {
+   display: flex;
+   align-items: center;
+diff --git a/src/ui/App.tsx b/src/ui/App.tsx
+index 950de6b..bccb4d1 100644
+--- a/src/ui/App.tsx
++++ b/src/ui/App.tsx
+@@ -10,12 +10,17 @@ import type {
+ } from "../application/product-service.js";
+ import type { PlanningIncomeMonthDecision } from "../persistence/repositories.js";
+ import type { ApplicationStartupState } from "../runtime/tauri-bootstrap.js";
+-import { getTauriProductServices } from "../runtime/tauri-bootstrap.js";
++import {
++  getTauriProductServices,
++  getWp03PreviewTestDate,
++  setWp03PreviewTestDate,
++} from "../runtime/tauri-bootstrap.js";
+ import type { ProductApplicationServices } from "./contracts.js";
+ import { localDate } from "./date.js";
+ import { FinancialMaintenanceDialog } from "./FinancialMaintenanceDialog.js";
+ import { HomeScreen } from "./HomeScreen.js";
+ import { Onboarding } from "./Onboarding.js";
++import { WP03PreviewDateControl } from "./WP03PreviewDateControl.js";
+ 
+ const defaultServices = getTauriProductServices();
+ 
+@@ -25,7 +30,9 @@ type AppState =
+   | { status: "PRODUCT_ERROR"; message: string };
+ 
+ export function App({ services = defaultServices }: { services?: ProductApplicationServices }) {
+-  const [sessionAsOfDate] = useState(() => localDate(new Date()));
++  const [sessionAsOfDate, setSessionAsOfDate] = useState(() => localDate(new Date()));
++  const [wp03PreviewDateEnabled, setWp03PreviewDateEnabled] = useState(false);
++  const [pendingDebtFactNames, setPendingDebtFactNames] = useState<string[]>([]);
+   const [state, setState] = useState<AppState>({ status: "LOADING" });
+   const [home, setHome] = useState<HomeApplicationState | null>(null);
+   const [recoveryOpen, setRecoveryOpen] = useState(false);
+@@ -35,19 +42,47 @@ export function App({ services = defaultServices }: { services?: ProductApplicat
+ 
+   useEffect(() => {
+     let mounted = true;
+-    void services
+-      .bootstrap()
+-      .then((result) => {
++    void (async () => {
++      try {
++        let startupDate = localDate(new Date());
++        if (__WP03_PREVIEW_BUILD__) {
++          const configuredDate = await getWp03PreviewTestDate();
++          if (!mounted) return;
++          setWp03PreviewDateEnabled(true);
++          if (configuredDate) startupDate = configuredDate;
++        }
++        setSessionAsOfDate(startupDate);
++        const result = await services.bootstrap();
+         if (mounted) setState(result);
+-      })
+-      .catch((error: unknown) => {
++      } catch (error) {
+         if (mounted) setState({ status: "PRODUCT_ERROR", message: messageOf(error) });
+-      });
++      }
++    })();
+     return () => {
+       mounted = false;
+     };
+   }, [services]);
+ 
++  async function updateWp03PreviewDate(nextDate: string | null) {
++    if (!wp03PreviewDateEnabled) throw new Error("WP-03 验收日期仅在 WP-03 测试版中可用。");
++    await setWp03PreviewTestDate(nextDate);
++    const effectiveDate = nextDate ?? localDate(new Date());
++    try {
++      const maintenance = await services.getFinancialMaintenanceState(effectiveDate);
++      const pending = maintenance.debts
++        .filter((debt) => debt.needsCurrentMonthFact)
++        .map((debt) => debt.name);
++      const refreshed =
++        pending.length === 0 ? await services.getHomeApplicationState(effectiveDate) : null;
++      setSessionAsOfDate(effectiveDate);
++      setPendingDebtFactNames(pending);
++      if (refreshed) setHome(refreshed);
++    } catch (error) {
++      await setWp03PreviewTestDate(null);
++      throw error;
++    }
++  }
++
+   async function completeOnboarding(submission: OnboardingSubmission, asOfDate: string) {
+     const result = await services.completeOnboarding(submission, asOfDate);
+     setHome(result);
+@@ -137,7 +172,16 @@ export function App({ services = defaultServices }: { services?: ProductApplicat
+     currentMonthDue: string | null;
+   }) {
+     const result = await services.saveCurrentMonthDebtFact(command, sessionAsOfDate);
+-    if (result.status === "SAVED_MODEL_READY") setHome(result.home);
++    if (result.status === "SAVED_MODEL_READY") {
++      setPendingDebtFactNames([]);
++      setHome(result.home);
++    }
++    if (result.status === "SAVED_NEEDS_CURRENT_MONTH_DEBT_FACTS") {
++      const maintenance = await services.getFinancialMaintenanceState(sessionAsOfDate);
++      setPendingDebtFactNames(
++        maintenance.debts.filter((debt) => debt.needsCurrentMonthFact).map((debt) => debt.name),
++      );
++    }
+     if (
+       result.status === "VALIDATION_FAILED" ||
+       result.status === "CONFLICT_OR_UNKNOWN_ID" ||
+@@ -242,7 +286,15 @@ export function App({ services = defaultServices }: { services?: ProductApplicat
+     <HomeScreen
+       home={home}
+       asOfDate={sessionAsOfDate}
+-      isSessionDateCurrent={() => localDate(new Date()) === sessionAsOfDate}
++      isSessionDateCurrent={() =>
++        wp03PreviewDateEnabled || localDate(new Date()) === sessionAsOfDate
++      }
++      wp03PreviewDateControl={
++        __WP03_PREVIEW_BUILD__ && wp03PreviewDateEnabled ? (
++          <WP03PreviewDateControl asOfDate={sessionAsOfDate} onApply={updateWp03PreviewDate} />
++        ) : null
++      }
++      pendingDebtFactNames={pendingDebtFactNames}
+       onRecordExpense={recordExpense}
+       onLoadFinancialMaintenance={loadFinancialMaintenance}
+       onGetFinancialMaintenanceRequirement={getFinancialMaintenanceRequirement}
+diff --git a/src/ui/HomeScreen.tsx b/src/ui/HomeScreen.tsx
+index a432376..b35aaf9 100644
+--- a/src/ui/HomeScreen.tsx
++++ b/src/ui/HomeScreen.tsx
+@@ -102,6 +102,8 @@ export function HomeScreen({
+   home,
+   asOfDate,
+   isSessionDateCurrent = () => true,
++  wp03PreviewDateControl = null,
++  pendingDebtFactNames = [],
+   onRecordExpense,
+   onLoadFinancialMaintenance,
+   onGetFinancialMaintenanceRequirement,
+@@ -117,6 +119,8 @@ export function HomeScreen({
+   home: HomeApplicationState;
+   asOfDate?: string;
+   isSessionDateCurrent?: () => boolean;
++  wp03PreviewDateControl?: ReactNode;
++  pendingDebtFactNames?: string[];
+   onRecordExpense: (expense: ExpenseSubmission, asOfDate: string) => Promise<void>;
+   onLoadFinancialMaintenance: (asOfDate: string) => Promise<FinancialMaintenanceState>;
+   onGetFinancialMaintenanceRequirement: (
+@@ -152,7 +156,7 @@ export function HomeScreen({
+       }) => Promise<SaveCurrentMonthDebtFactResult>)
+     | undefined;
+ }) {
+-  const [sessionAsOfDate] = useState(() => asOfDate ?? home.asOfDate);
++  const sessionAsOfDate = asOfDate ?? home.asOfDate;
+   const [route, setRoute] = useState<HomeRoute>("HOME");
+   const [expenseOpen, setExpenseOpen] = useState(false);
+   const [expenseError, setExpenseError] = useState("");
+@@ -321,7 +325,9 @@ export function HomeScreen({
+           <span className="local-chip">仅保存在本机</span>
+         </div>
+         <div className="header-actions">
+-          <span className="current-period">{home.currentMonth.replace("-", " 年 ")} 月</span>
++          <span className="current-period">
++            {sessionAsOfDate.slice(0, 7).replace("-", " 年 ")} 月
++          </span>
+           <button
+             className="button button-primary add-expense"
+             type="button"
+@@ -334,12 +340,34 @@ export function HomeScreen({
+           </button>
+         </div>
+       </header>
++      {wp03PreviewDateControl}
+       <section className="home-intro" aria-labelledby="home-title">
+         <h1 id="home-title">你好，今天也认真管理生活。</h1>
+         <p>{trendCopy[home.trendState] ?? "查看本月财务概况"}</p>
+       </section>
+ 
+-      <section className="home-modules" aria-label="本月财务四个方面">
++      {pendingDebtFactNames.length > 0 && (
++        <section className="finance-state-card home-debt-facts-pending" role="status">
++          <h2>{sessionAsOfDate.slice(0, 7)} 本月债务待确认</h2>
++          <p>{pendingDebtFactNames.join("、")}</p>
++          <p>首页暂不按上月应还金额估算。逐笔确认本月余额和应还后，才会更新本月计算。</p>
++          <button
++            className="button button-primary"
++            type="button"
++            onClick={() => {
++              setRoute("DEBT_LIST");
++              void loadMaintenance();
++            }}
++          >
++            逐笔确认本月债务
++          </button>
++        </section>
++      )}
++      <section
++        className="home-modules"
++        aria-label="本月财务四个方面"
++        hidden={pendingDebtFactNames.length > 0}
++      >
+         <article className="home-module module-spending" data-primary-module="spending">
+           <ModuleHeading title="本月可变消费" onClick={() => setRoute("SPENDING_DETAIL")} />
+           <div className="spending-main-line">
+diff --git a/src/vite-env.d.ts b/src/vite-env.d.ts
+index 11f02fe..70ffd19 100644
+--- a/src/vite-env.d.ts
++++ b/src/vite-env.d.ts
+@@ -1 +1,3 @@
+ /// <reference types="vite/client" />
++
++declare const __WP03_PREVIEW_BUILD__: boolean;
+diff --git a/tests/debt-fact-service.test.ts b/tests/debt-fact-service.test.ts
+index 276d07f..692c4c6 100644
+--- a/tests/debt-fact-service.test.ts
++++ b/tests/debt-fact-service.test.ts
+@@ -4,7 +4,10 @@ import { join } from "node:path";
+ import { DatabaseSync } from "node:sqlite";
+ import { afterEach, describe, expect, it } from "vitest";
+ import { saveCurrentMonthDebtFact } from "../src/application/debt-fact-service.js";
+-import { updateFinancialDataAndRecalculate } from "../src/application/financial-maintenance-service.js";
++import {
++  getFinancialMaintenanceState,
++  updateFinancialDataAndRecalculate,
++} from "../src/application/financial-maintenance-service.js";
+ import { buildMonthlyModelInput } from "../src/application/monthly-model-service.js";
+ import { completeOnboarding, getHomeApplicationState } from "../src/application/product-service.js";
+ import type { SqlDatabase } from "../src/persistence/database.js";
+@@ -77,6 +80,45 @@ afterEach(() => {
+ });
+ 
+ describe("single-domain current-month debt fact foundation", () => {
++  it("leaves both November debts pending and confirms only the selected debt", async () => {
++    const db = await database();
++    const secondDebtId = await addSecondDebt(db);
++    const october = await new Repositories(db).debtsAt("2026-10", "2026-10-03");
++    const firstDebtId = october.find((item) => item.name === "Loan A")?.id;
++    if (!firstDebtId) throw new Error("Synthetic first debt is missing.");
++
++    const november = await getFinancialMaintenanceState(db, "2026-11-01");
++    expect(november.debts.map((debt) => debt.id).sort()).toEqual(
++      [firstDebtId, secondDebtId].sort(),
++    );
++    expect(november.debts.every((debt) => debt.currentMonthDue === null)).toBe(true);
++    expect(november.debts.every((debt) => debt.needsCurrentMonthFact)).toBe(true);
++    expect(await db.select("SELECT * FROM debt_period_facts WHERE period_month='2026-11'")).toEqual(
++      [],
++    );
++
++    const first = await saveCurrentMonthDebtFact(
++      db,
++      { debtId: firstDebtId, currentBalance: "3900", currentMonthDue: "0" },
++      "2026-11-01",
++    );
++    expect(first.status).toBe("SAVED_NEEDS_CURRENT_MONTH_DEBT_FACTS");
++    const afterFirst = await getFinancialMaintenanceState(db, "2026-11-01");
++    expect(afterFirst.debts.find((debt) => debt.id === firstDebtId)).toMatchObject({
++      currentMonthDue: "0",
++      needsCurrentMonthFact: false,
++    });
++    expect(afterFirst.debts.find((debt) => debt.id === secondDebtId)).toMatchObject({
++      currentMonthDue: null,
++      needsCurrentMonthFact: true,
++    });
++    expect(
++      await db.select(
++        "SELECT debt_id,current_month_due FROM debt_revisions WHERE period_month='2026-11'",
++      ),
++    ).toEqual([{ debt_id: firstDebtId, current_month_due: "0" }]);
++  });
++
+   it("commits one missing debt fact and reports the remaining IDs without a model", async () => {
+     const db = await database();
+     const secondDebtId = await addSecondDebt(db);
+diff --git a/tests/ui.test.tsx b/tests/ui.test.tsx
+index be7b6ae..7eeff54 100644
+--- a/tests/ui.test.tsx
++++ b/tests/ui.test.tsx
+@@ -18,10 +18,12 @@ import type {
+ import { completeOnboarding, getHomeApplicationState } from "../src/application/product-service.js";
+ import { calculateMonthlyModel } from "../src/model/monthly-model.js";
+ import { migrateDatabase } from "../src/persistence/migrations.js";
++import { getWp03PreviewTestDate, setWp03PreviewTestDate } from "../src/runtime/tauri-bootstrap.js";
+ import { App } from "../src/ui/App.js";
+ import type { ProductApplicationServices } from "../src/ui/contracts.js";
+ import { HomeScreen } from "../src/ui/HomeScreen.js";
+ import { MoneyAmount } from "../src/ui/MoneyAmount.js";
++import { WP03PreviewDateControl } from "../src/ui/WP03PreviewDateControl.js";
+ import { makeInput } from "./fixtures/model-input.js";
+ import { NodeSqliteDatabase } from "./helpers/node-sqlite.js";
+ 
+@@ -256,6 +258,46 @@ function hasDisplayedMoney(amount: string): boolean {
+ }
+ 
+ describe("Phase 3 product UI", () => {
++  it("default build hides the WP-03 acceptance date control and refuses its API", async () => {
++    render(homeScreen(baselineHome));
++    expect(screen.queryByRole("region", { name: "WP-03 验收日期" })).toBeNull();
++    await expect(getWp03PreviewTestDate()).resolves.toBeNull();
++    await expect(setWp03PreviewTestDate("2026-11-01")).rejects.toThrow("仅在 WP-03 测试版中可用");
++  });
++
++  it("WP-03 acceptance date control applies the chosen session date", async () => {
++    const user = userEvent.setup();
++    const onApply = vi.fn(async () => {});
++    render(<WP03PreviewDateControl asOfDate="2026-10-12" onApply={onApply} />);
++    const date = document.querySelector<HTMLInputElement>(".wp03-preview-date input[type='date']");
++    if (!date) throw new Error("WP-03 acceptance date input is missing.");
++    fireEvent.change(date, { target: { value: "2026-11-01" } });
++    await user.click(screen.getByRole("button", { name: "应用测试日期" }));
++    expect(onApply).toHaveBeenCalledWith("2026-11-01");
++  });
++
++  it("pending new-month debt facts suppress stale Home totals and remain actionable", async () => {
++    const user = userEvent.setup();
++    render(
++      <HomeScreen
++        home={baselineHome}
++        asOfDate="2026-11-01"
++        pendingDebtFactNames={["房贷 A", "信用贷 B"]}
++        onRecordExpense={async () => {}}
++        onLoadFinancialMaintenance={async () => maintenanceState}
++        onGetFinancialMaintenanceRequirement={async () => ({
++          requiresSafetyRecoveryHorizon: false,
++        })}
++        onUpdateFinancialData={async () => maintenanceState}
++      />,
++    );
++    expect(screen.getByRole("heading", { name: "2026-11 本月债务待确认" })).toBeTruthy();
++    expect(screen.getByText(/首页暂不按上月应还金额估算/)).toBeTruthy();
++    expect(document.querySelector<HTMLElement>(".home-modules")?.hidden).toBe(true);
++    await user.click(screen.getByRole("button", { name: "逐笔确认本月债务" }));
++    expect(await screen.findByRole("heading", { name: "债务" })).toBeTruthy();
++  });
++
+   it("renders exact money with an accessible sign and keeps display separate from edit inputs", () => {
+     const { rerender } = render(<MoneyAmount value="-12345678901.2" size="hero" />);
+     const largeNegative = screen.getByRole("img", { name: /负 .* 元人民币/ });
+diff --git a/vite.config.ts b/vite.config.ts
+index 04b05fd..b0e8329 100644
+--- a/vite.config.ts
++++ b/vite.config.ts
+@@ -3,6 +3,7 @@ import { defineConfig } from "vite";
+ 
+ export default defineConfig({
+   plugins: [react()],
++  define: { __WP03_PREVIEW_BUILD__: "false" },
+   clearScreen: false,
+   server: { port: 1420, strictPort: true },
+   build: { outDir: "web-dist", emptyOutDir: true },

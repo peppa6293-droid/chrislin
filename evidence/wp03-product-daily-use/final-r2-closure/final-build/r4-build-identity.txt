@@ -1,0 +1,10 @@
+status=WP03_SYNTHETIC_CHECKS_AND_UNLAUNCHED_PREVIEW_BUILD_PASS
+output_root=/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-r4
+source_git_head=f22b3e0fc70dcaf1f8397f871ee8671cfea231ba
+bundle_identifier=com.personalfinance.console.wp03preview
+bundle_executable=/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-r4/cargo-target/release/bundle/macos/小钱家 WP-03 测试版.app/Contents/MacOS/personal-finance-console
+signing_identity=Apple Development: 8619814730147 (FW5KHTFNZ6)
+app_launched=False
+existing_app_data_accessed=False
+production_database_accessed=False
+finished_at=2026-10-12T06:25:12.373851+00:00

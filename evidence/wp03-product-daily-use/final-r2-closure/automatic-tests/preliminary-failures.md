@@ -1,0 +1,8 @@
+# WP-03R2 intermediate failures and corrections
+
+- UI rollover validation exposed a real defect: after confirming only one debt for a new month, the debt page read the prior Home model and displayed the previous month's amount (for example, explicit November due 0 still appeared as 500). Fixed in `f22b3e0`; current debt rows now read saved current-month due with null-only fixed-payment fallback, and month totals are suppressed while any debt fact remains unresolved.
+- The first regression test lookup matched both a debt row and its pending-warning text. The test now selects the row by its rendered row heading; full product tests pass.
+- A second assertion used exact text matching across split text nodes in the list summary. It now checks the rendered summary element; the targeted UI suite and full product suite pass.
+- An early test-output wrapper used zsh's read-only `$status` variable. The commands themselves produced passing summaries; they were rerun with a corrected wrapper and exited 0.
+- During the first native launch, LaunchServices opened the remembered `build-01` when only the app display name was supplied. Its exact process path and existing WP-03 database handle were detected, the app was normally quit without edits, and the R1 database was byte-preserved. All subsequent app launches use the absolute candidate bundle path.
+- The first sparse-image creation command passed `-mountpoint` to `hdiutil create`, which does not support that option. The image was created without attachment and then attached with `hdiutil attach -mountpoint`; the final-r4 path is now an APFS mountpoint.

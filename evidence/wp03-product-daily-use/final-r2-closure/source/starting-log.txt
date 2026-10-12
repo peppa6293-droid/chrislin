@@ -1,0 +1,10 @@
+a8b5306 docs: record WP03R1 final package and partial native closure
+112191e fix: show safety coverage when target is zero
+511e597 fix: confirm WP03 deactivation inside native UI
+d680049 build: keep WP03 final bundle off iCloud-managed storage
+d09b466 fix: sanitize WP03 bundle metadata at signing boundary
+7ebe258 fix: remove generated FinderInfo before WP03 signing
+a09ccec docs: record WP03 packaging blocker and final status
+0a98e7e feat: complete isolated WP03 daily finance workflows
+92ec241 Add read-only stable income revision history preview
+943fab0 Address V4 quiescence audit findings A through D

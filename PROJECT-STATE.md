@@ -72,3 +72,12 @@
 - Final Status 仍是 `WP03_PRODUCT_DAILY_USE_REGRESSION_FAILED`。当前进度和证据：`evidence/wp03-product-daily-use/final-closure/WP03R1_CURRENT_PROGRESS.md`、`WP03_PRODUCT_DAILY_USE_COMPLETION_REPORT.md`。
 - WP-02、Production、Financial Model V1.0 未触碰。
 
+
+# WP-03R2 原生日常验收状态（2026-10-12）
+
+- 当前结论：`WP03_PRODUCT_DAILY_USE_REGRESSION_FAILED`。最终源码修复提交 `fd1d9e8714173167430baa2ab9325557a9e80775`，R5 原生包 strict codesign 与自动回归通过。
+- R5 真实 UI 已验证 onboarding、stable income 修改及同值 no-op、expense 68.50、11 月债务待确认、单笔 A=0 后 B 仍待确认、修复后首页不显示过期 500、B=200 后首页恢复、正常退出、相同包重启后 preview date reset 和 Home/Expense 持久化。
+- R5 完整 A–M 尚未完成，Planning Review 不放行。C、D、F、G、H 完整组、I、I2、J、L 全表核对和 M 全页逐项回读仍未确认。
+- R5 包：`artifacts/wp03-isolated-product-preview-20261012/final-r5/.../小钱家 WP-03 测试版.app`；Bundle ID `com.personalfinance.console.wp03preview`；SHA-256 `ecc46453d2aea39cd2f6232a38685827316f6c09e9b1f45e6fb6366cae182313`。
+- 完整进度与证据入口：`evidence/wp03-product-daily-use/final-r2-closure/WP03R2_CURRENT_PROGRESS.md`。R4 部分现场及 R1 / R3 数据保持封存。
+- Financial Model V1.0 未改；WP-02、Production 未访问。
