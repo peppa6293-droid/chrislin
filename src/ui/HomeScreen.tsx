@@ -165,6 +165,13 @@ export function HomeScreen({
     home.safetyCoverageMonths,
     home.safetyCoverageTargetMonths,
   );
+  const safetyCoverageAvailable =
+    home.safetyCoverageMonths != null &&
+    Number.isFinite(Number(home.safetyCoverageMonths)) &&
+    Number(home.safetyCoverageMonths) >= 0 &&
+    Number.isFinite(home.safetyCoverageTargetMonths) &&
+    home.safetyCoverageTargetMonths >= 0;
+  const safetyTargetUnset = safetyCoverageAvailable && home.safetyCoverageTargetMonths === 0;
 
   function openMyFinance() {
     setRoute("MY_FINANCE");
@@ -466,18 +473,24 @@ export function HomeScreen({
           <div className="safety-main-line">
             <FinanceIllustration kind="safety" className="home-module-art safety-art" />
             <div className="safety-coverage" data-testid="home-safety-coverage">
-              {safetyProgress === null ? (
+              {!safetyCoverageAvailable ? (
                 "暂不可计算"
               ) : (
                 <>
                   <strong>{formatMonths(home.safetyCoverageMonths)}</strong>
-                  <span> / {formatMonths(home.safetyCoverageTargetMonths)} 个月</span>
+                  <span>
+                    {safetyTargetUnset
+                      ? " 个月 · 未设目标"
+                      : ` / ${formatMonths(home.safetyCoverageTargetMonths)} 个月`}
+                  </span>
                 </>
               )}
             </div>
           </div>
           {safetyProgress === null ? (
-            <p className="safety-progress-unavailable">覆盖进度暂不可计算</p>
+            <p className="safety-progress-unavailable">
+              {safetyTargetUnset ? "未设定安全垫目标，不显示目标进度。" : "覆盖进度暂不可计算"}
+            </p>
           ) : (
             <div
               className="safety-progress"
@@ -768,6 +781,13 @@ function SafetyDetail({
   onRoute: (route: HomeRoute) => void;
   onCashAccounts: () => void;
 }) {
+  const safetyCoverageAvailable =
+    home.safetyCoverageMonths != null &&
+    Number.isFinite(Number(home.safetyCoverageMonths)) &&
+    Number(home.safetyCoverageMonths) >= 0 &&
+    Number.isFinite(home.safetyCoverageTargetMonths) &&
+    home.safetyCoverageTargetMonths >= 0;
+  const safetyTargetUnset = safetyCoverageAvailable && home.safetyCoverageTargetMonths === 0;
   const noObligations = home.cashSafetyGateStatus === "NOT_APPLICABLE";
   const structuralDeficit = home.spendingStatus === "STRUCTURAL_DEFICIT";
   const cashFloorShort = home.cashFloorMet === false;
@@ -818,9 +838,11 @@ function SafetyDetail({
       <DetailRow
         label="安全垫大约够几个月"
         value={
-          home.safetyCoverageMonths == null
+          !safetyCoverageAvailable
             ? "暂不可计算"
-            : `${formatMonths(home.safetyCoverageMonths)} / ${formatMonths(home.safetyCoverageTargetMonths)} 个月`
+            : safetyTargetUnset
+              ? `${formatMonths(home.safetyCoverageMonths)} 个月 · 未设目标`
+              : `${formatMonths(home.safetyCoverageMonths)} / ${formatMonths(home.safetyCoverageTargetMonths)} 个月`
         }
       />
       <DetailRow

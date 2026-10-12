@@ -322,7 +322,7 @@ describe("Phase 3 product UI", () => {
     expect(document.body.textContent).not.toMatch(/NaN|Infinity/);
   });
 
-  it("T-P2-01 target zero remains legal but has no calculable progress", async () => {
+  it("T-P2-01 target zero remains legal and shows coverage without a target progress bar", async () => {
     render(
       homeScreen({
         ...baselineHome,
@@ -332,8 +332,9 @@ describe("Phase 3 product UI", () => {
     );
     await screen.findByTestId("home-spending-status");
     expect(screen.queryByRole("progressbar", { name: "安全垫覆盖进度" })).toBeNull();
-    expect(screen.getByText("覆盖进度暂不可计算")).toBeTruthy();
-    expect(screen.getByTestId("home-safety-coverage").textContent).toBe("暂不可计算");
+    expect(screen.getByText("未设定安全垫目标，不显示目标进度。")).toBeTruthy();
+    expect(screen.getByTestId("home-safety-coverage").textContent).toContain("5");
+    expect(screen.getByTestId("home-safety-coverage").textContent).toContain("未设目标");
   });
 
   it.each([
