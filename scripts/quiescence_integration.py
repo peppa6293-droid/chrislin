@@ -903,16 +903,47 @@ def handoff_native(lease, child, context, *, timeout=15):
         "lease_inode": os.fstat(lease.fd).st_ino}
     ack = root / "native-launch.json"
     deadline = time.monotonic() + timeout
-    while not ack.exists():
-        if child.poll() is not None:
+    before = None
+    while True:
+        if ack.exists():
+            try:
+                before = identity(ack)
+                raw = ack.read_bytes()
+                if not raw.endswith(b"\n"):
+                    raise json.JSONDecodeError("native ACK write is incomplete", raw.decode("utf-8", "replace"), len(raw))
+                observed = json.loads(raw)
+                after = identity(ack)
+                if before != after:
+                    raise Blocked("BLOCKED_NATIVE_HANDOFF_ACK_DRIFT", str(ack))
+                if observed != expected:
+                    raise Blocked("BLOCKED_NATIVE_HANDOFF_BINDING", "native ACK differs from exact launched child")
+                # The native writer fsyncs before emitting lease_native_owned.
+                # Sync again from the receiver side before closing the gate's
+                # descriptor, so observing a complete pathname is not treated
+                # as proof of a durable handoff.
+                fd = os.open(ack, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0))
+                try:
+                    os.fsync(fd)
+                finally:
+                    os.close(fd)
+                directory_fd = os.open(root, os.O_RDONLY)
+                try:
+                    os.fsync(directory_fd)
+                finally:
+                    os.close(directory_fd)
+                if identity(ack) != after:
+                    raise Blocked("BLOCKED_NATIVE_HANDOFF_ACK_DRIFT", str(ack))
+                break
+            except (json.JSONDecodeError, FileNotFoundError):
+                pass
+            except Blocked as error:
+                if error.code not in {"BLOCKED_FILE_IDENTITY_DRIFT", "BLOCKED_NATIVE_HANDOFF_ACK_DRIFT"}:
+                    raise
+        if child.poll() is not None and not ack.exists():
             raise Blocked("BLOCKED_NATIVE_HANDOFF_UNPROVEN", "native exited without durable ownership ACK")
         if time.monotonic() >= deadline:
-            raise Blocked("BLOCKED_NATIVE_HANDOFF_TIMEOUT", "gate lease retained")
+            raise Blocked("BLOCKED_NATIVE_HANDOFF_TIMEOUT", "durable native ACK was not established; gate lease retained")
         time.sleep(0.01)
-    before = identity(ack)
-    observed = json.loads(ack.read_bytes())
-    if identity(ack) != before or observed != expected:
-        raise Blocked("BLOCKED_NATIVE_HANDOFF_BINDING", "native ACK differs from exact launched child")
     lease.validate()
     receipt = {**expected, "state": "NATIVE_OWNERSHIP_ACKNOWLEDGED",
         "native_ack_sha256": before["sha256"], "native_ack_path": str(ack),

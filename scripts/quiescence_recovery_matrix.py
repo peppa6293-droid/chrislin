@@ -292,7 +292,8 @@ def main():
     require(not args.output.exists(), "refuse to overwrite an existing matrix report")
     native = args.native.resolve(strict=True)
     base = Path(tempfile.mkdtemp(prefix="pfc-takeover-recovery-")).resolve()
-    sources = [Path(__file__), REPO / "src-tauri/src/quiescence_recovery.rs", REPO / "src-tauri/src/cutover_startup.rs"]
+    sources = [Path(__file__), REPO / "scripts/quiescence_integration.py",
+               REPO / "src-tauri/src/quiescence_recovery.rs", REPO / "src-tauri/src/cutover_startup.rs"]
     report = {"format_version": 1, "synthetic_only": True, "transport": "native-cli-NOT-Q11",
         "retained_root": str(base), "native": str(native), "native_sha256": sha(native),
         "sources_before": {str(path): sha(path) for path in sources}, "cases": [], "status": "RUNNING"}
