@@ -2,7 +2,7 @@ use rusqlite::{hooks::{AuthAction, AuthContext, Authorization}, params_from_iter
 use serde::{Deserialize, Serialize};
 use serde_json::{Map, Number, Value as JsonValue};
 use sha2::{Digest, Sha256};
-use std::{io::{Read, Write}, path::{Path, PathBuf}, sync::{atomic::{AtomicBool, Ordering}, Arc, Mutex}};
+use std::{io::{Read, Write}, os::unix::fs::MetadataExt, path::{Path, PathBuf}, sync::{atomic::{AtomicBool, Ordering}, Arc, Mutex}};
 use tauri::{Manager, State};
 
 mod cutover_startup;
@@ -99,7 +99,16 @@ fn schema_version_from_connection(connection: &Connection) -> Result<DatabaseSch
 }
 
 fn schema_version_from_path(path: &Path) -> Result<DatabaseSchemaVersion, String> {
-    if !path.exists() { return Ok(DatabaseSchemaVersion { user_version: 0, migration_version: 0 }); }
+    match std::fs::symlink_metadata(path) {
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+            return Ok(DatabaseSchemaVersion { user_version: 0, migration_version: 0 });
+        }
+        Err(error) => return Err(format!("Database metadata is unavailable: {error}")),
+        Ok(metadata) if !metadata.is_file() || metadata.file_type().is_symlink() || metadata.nlink() != 1 => {
+            return Err("Database path is not a single-link regular file.".into());
+        }
+        Ok(_) => (),
+    }
     let connection = Connection::open_with_flags(path, OpenFlags::SQLITE_OPEN_READ_ONLY | OpenFlags::SQLITE_OPEN_NO_MUTEX).map_err(|error| error.to_string())?;
     schema_version_from_connection(&connection)
 }
@@ -167,8 +176,27 @@ fn consume_production_migration_authorization(
     consume_production_migration_authorization_at(app_data, database_path, expected_app, &expected_database, schema, executable, executable, manifest_sha256)
 }
 
-fn database_sidecars(database_path: &Path) -> Vec<PathBuf> {
-    ["-wal", "-shm", "-journal"].into_iter().map(|suffix| PathBuf::from(format!("{}{}", database_path.display(), suffix))).filter(|path| path.exists()).collect()
+fn database_sidecars(database_path: &Path) -> Result<Vec<PathBuf>, String> {
+    let mut found = Vec::new();
+    for suffix in ["-wal", "-shm", "-journal"] {
+        let path = PathBuf::from(format!("{}{}", database_path.display(), suffix));
+        match std::fs::symlink_metadata(&path) {
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => (),
+            Err(error) => return Err(format!("SQLite sidecar metadata is unavailable for {}: {error}", path.display())),
+            Ok(metadata) if !metadata.is_file() || metadata.file_type().is_symlink() || metadata.nlink() != 1 => {
+                return Err(format!("SQLite sidecar has an unsafe identity: {}", path.display()));
+            }
+            Ok(_) => found.push(path),
+        }
+    }
+    Ok(found)
+}
+
+fn production_schema_version_from_path(path: &Path) -> Result<DatabaseSchemaVersion, String> {
+    if !database_sidecars(path)?.is_empty() {
+        return Err("Production SQLite sidecar exists; database open is blocked.".into());
+    }
+    schema_version_from_path(path)
 }
 
 fn persist_consumed_authorization(ledger_path: &Path, consumed: ConsumedAuthorization) -> Result<(), String> {
@@ -262,7 +290,7 @@ fn consume_production_migration_authorization_at(
         let backup_path = PathBuf::from(&authorization.backup_path);
         let expected_backup_root = app_data.join("production-v4-backups");
         let current_manifest_hash = sha256_file(&manifest_path)?;
-        let sidecars = database_sidecars(database_path);
+        let sidecars = database_sidecars(database_path)?;
         if authorization.receipt_format_version != 1 || authorization.status != "ONE_TIME_PRODUCTION_V4_MIGRATION_AUTHORIZATION" ||
             authorization.nonce.is_empty() ||
             authorization.issued_at_unix > now || authorization.expires_at_unix < now || authorization.expires_at_unix - authorization.issued_at_unix > 120 ||
@@ -394,7 +422,7 @@ impl DatabaseState {
 
     fn begin_schema_migration(&self) -> Result<(), String> {
         if !self.production_runtime { return Ok(()); }
-        if !database_sidecars(&self.path).is_empty() {
+        if !database_sidecars(&self.path)?.is_empty() {
             return Err("Production SQLite sidecar appeared after authorization; migration is blocked.".into());
         }
         let connection = self.connection.lock().map_err(|_| "Database connection is unavailable.".to_string())?;
@@ -655,6 +683,41 @@ mod tests {
             }))).unwrap().collect::<Result<Vec<_>, _>>().unwrap();
             assert_eq!(JsonValue::Array(actual), serde_json::from_str::<JsonValue>(expected).unwrap());
         }
+    }
+
+    #[test]
+    fn missing_database_is_distinct_from_unsafe_or_unreadable_metadata() {
+        let root = temp_db_path().with_extension("metadata-test");
+        fs::create_dir(&root).unwrap();
+        let missing = root.join(PRODUCTION_DATABASE);
+        assert_eq!(schema_version_from_path(&missing).unwrap(), DatabaseSchemaVersion { user_version: 0, migration_version: 0 });
+        assert!(schema_version_from_path(&root).is_err());
+        #[cfg(unix)] {
+            let link = root.join("linked.sqlite3");
+            std::os::unix::fs::symlink(&missing, &link).unwrap();
+            assert!(schema_version_from_path(&link).is_err());
+        }
+        fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
+    fn sidecar_metadata_is_fail_closed_and_rejects_redirected_objects() {
+        let root = temp_db_path().with_extension("sidecar-metadata-test");
+        fs::create_dir(&root).unwrap();
+        let database = root.join(PRODUCTION_DATABASE);
+        fs::write(&database, b"synthetic only").unwrap();
+        assert!(database_sidecars(&database).unwrap().is_empty());
+        let wal = PathBuf::from(format!("{}-wal", database.display()));
+        fs::write(&wal, b"synthetic sidecar").unwrap();
+        assert_eq!(database_sidecars(&database).unwrap(), vec![wal.clone()]);
+        let blocked = production_schema_version_from_path(&database).unwrap_err();
+        assert!(blocked.contains("sidecar exists"));
+        fs::remove_file(&wal).unwrap();
+        #[cfg(unix)] {
+            std::os::unix::fs::symlink(root.join("absent"), &wal).unwrap();
+            assert!(database_sidecars(&database).is_err());
+        }
+        fs::remove_dir_all(root).unwrap();
     }
 
     fn count(db: &DatabaseState, table: &str) -> i64 {
@@ -1058,7 +1121,7 @@ pub fn run() {
                     return Err(std::io::Error::other("Production identity may run only from the verified normal installed app path.").into());
                 }
                 validate_runtime_compatibility_manifest(&executable).map_err(std::io::Error::other)?;
-                let schema = schema_version_from_path(&database_path).map_err(std::io::Error::other)?;
+                let schema = production_schema_version_from_path(&database_path).map_err(std::io::Error::other)?;
                 ensure_supported_schema(schema).map_err(std::io::Error::other)?;
                 if schema.user_version > 0 && schema.user_version < CURRENT_SCHEMA_VERSION {
                     return Err(std::io::Error::other("QUIESCENCE_IMPLEMENTATION_NOT_PRODUCTION_AUTHORIZED: legacy TS-driven Production migration is disabled; isolated verification is not Production cutover authority.").into());

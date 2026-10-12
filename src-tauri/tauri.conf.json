@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Personal Finance Console",
+  "productName": "小钱家",
   "version": "0.1.0",
   "identifier": "com.personalfinance.console",
   "build": {
@@ -11,7 +11,7 @@
   },
   "app": {
     "windows": [
-      { "title": "Personal Finance Console", "width": 840, "height": 580, "minWidth": 640, "minHeight": 420 }
+      { "title": "小钱家", "width": 840, "height": 580, "minWidth": 640, "minHeight": 420 }
     ]
   },
   "bundle": {

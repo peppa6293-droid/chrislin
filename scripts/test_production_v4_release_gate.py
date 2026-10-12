@@ -408,16 +408,18 @@ class ReleaseGateTests(unittest.TestCase):
         wal_app.parent.mkdir(parents=True)
         shutil.copytree(self.app, wal_app)
         candidate = gate.read_bundle(wal_app)
-        wal_facts = gate.inspect_database(db_path)
-        self.assertIn(str(db_path) + "-wal", wal_facts["sidecars"])
+        with self.assertRaises(gate.GateBlocked) as error:
+            gate.inspect_database(db_path)
+        self.assertIn("sidecar exists", str(error.exception))
         facts["expected_database_path"] = str(db_path.resolve())
         facts["expected_installed_app"] = str(wal_app.resolve())
         facts["candidate"] = candidate
         facts["production_apps"] = [candidate]
         facts["candidate_approval"].update(candidateExecutableSha256=candidate["executable_sha256"], compatibilityManifestSha256=candidate["manifest_sha256"])
-        facts["production_database"] = wal_facts
+        wal_db_hash = gate.sha256_file(db_path)
+        facts["production_database"].update(path=str(db_path.resolve()), sha256=wal_db_hash, sidecars=[str(db_path) + "-wal"])
         facts["backup"] = {"path": str(backup.resolve()), "exists": True, "sha256": gate.sha256_file(backup)}
-        facts["migration_authorization"]["productionDbPreMigrationSha256"] = wal_facts["sha256"]
+        facts["migration_authorization"]["productionDbPreMigrationSha256"] = wal_db_hash
         facts["migration_authorization"]["backupPath"] = str(backup.resolve())
         facts["migration_authorization"]["candidateExecutableSha256"] = candidate["executable_sha256"]
         facts["sidecars_absent"] = False
@@ -426,6 +428,44 @@ class ReleaseGateTests(unittest.TestCase):
         with self.assertRaises(gate.GateBlocked):
             gate.make_release_receipt(facts, synthetic_fixture_root=wal_root)
         connection.close()
+
+    def test_database_sidecar_metadata_error_blocks_instead_of_means_absent(self) -> None:
+        original_lstat = Path.lstat
+        def denied_sidecar(path: Path):
+            if str(path) == str(self.db) + "-wal":
+                raise PermissionError(13, "permission denied", str(path))
+            return original_lstat(path)
+        with patch.object(Path, "lstat", denied_sidecar):
+            with self.assertRaises(gate.GateBlocked) as error:
+                gate.inspect_database(self.db)
+        self.assertIn("Path metadata is unavailable", str(error.exception))
+
+    def test_database_path_symlink_is_rejected_before_sqlite_open(self) -> None:
+        linked = self.root / "linked.sqlite3"
+        linked.symlink_to(self.db)
+        with self.assertRaises(gate.GateBlocked):
+            gate.inspect_database(linked)
+
+    def test_scan_root_metadata_error_is_not_treated_as_an_absent_optional_root(self) -> None:
+        original_lstat = Path.lstat
+        scan_root = self.app.parent
+        def denied_root(path: Path):
+            if path == scan_root:
+                raise PermissionError(13, "permission denied", str(path))
+            return original_lstat(path)
+        with patch.object(Path, "lstat", denied_root):
+            with self.assertRaises(gate.GateBlocked):
+                gate.inventory_production_apps([scan_root])
+
+    def test_candidate_manifest_metadata_error_blocks(self) -> None:
+        original_lstat = Path.lstat
+        def denied_manifest(path: Path):
+            if path == self.manifest:
+                raise PermissionError(13, "permission denied", str(path))
+            return original_lstat(path)
+        with patch.object(Path, "lstat", denied_manifest):
+            with self.assertRaises(gate.GateBlocked):
+                gate.read_bundle(self.app)
 
     def test_missing_authorization_id_equal_backup_path_and_wrong_executable_name_block(self) -> None:
         for invalid_id in (None, 1, [], {}, True, "", "   "):

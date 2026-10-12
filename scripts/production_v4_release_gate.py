@@ -56,6 +56,23 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _metadata_or_none(path: Path) -> os.stat_result | None:
+    """Only ENOENT means absent; every other metadata failure blocks the gate."""
+    try:
+        return path.lstat()
+    except FileNotFoundError:
+        return None
+    except OSError as error:
+        raise GateBlocked([f"Path metadata is unavailable for {path}: {type(error).__name__}: {error}"]) from error
+
+
+def _require_single_link_regular_file(path: Path, info: os.stat_result | None = None) -> os.stat_result:
+    metadata = _metadata_or_none(path) if info is None else info
+    if metadata is None or not stat.S_ISREG(metadata.st_mode) or metadata.st_nlink != 1:
+        raise GateBlocked([f"Path is missing or not a single-link regular file: {path}"])
+    return metadata
+
+
 def _nonempty_json_string(value: Any) -> bool:
     return isinstance(value, str) and bool(value.strip())
 
@@ -74,13 +91,15 @@ def file_inventory(root: Path) -> dict[str, dict[str, Any]]:
 
 
 def read_bundle(app_path: Path) -> dict[str, Any]:
-    if app_path.is_symlink():
+    app_metadata = _metadata_or_none(app_path)
+    if app_metadata is not None and stat.S_ISLNK(app_metadata.st_mode):
         raise ValueError(f"App bundle path is a symbolic link: {app_path}")
-    if not app_path.is_dir():
+    if app_metadata is None or not stat.S_ISDIR(app_metadata.st_mode):
         raise ValueError(f"App bundle path is missing or not a directory: {app_path}")
     bundle_root = app_path.resolve(strict=True)
     info_path = app_path / "Contents/Info.plist"
-    if info_path.is_symlink() or not info_path.is_file():
+    info_metadata = _metadata_or_none(info_path)
+    if info_metadata is None or not stat.S_ISREG(info_metadata.st_mode) or info_metadata.st_nlink != 1:
         raise ValueError(f"Bundle Info.plist is missing or redirected: {info_path}")
     with info_path.open("rb") as stream:
         info = plistlib.load(stream)
@@ -93,7 +112,8 @@ def read_bundle(app_path: Path) -> dict[str, Any]:
     if executable_name != EXECUTABLE_NAME:
         raise ValueError(f"CFBundleExecutable must be the supported executable {EXECUTABLE_NAME!r} in {info_path}")
     executable = app_path / "Contents/MacOS" / executable_name
-    if executable.is_symlink() or not executable.is_file():
+    executable_metadata = _metadata_or_none(executable)
+    if executable_metadata is None or not stat.S_ISREG(executable_metadata.st_mode) or executable_metadata.st_nlink != 1:
         raise ValueError(f"Bundle executable is missing, redirected, or not a file: {executable}")
     resolved_executable = executable.resolve(strict=True)
     expected_executable = bundle_root / "Contents/MacOS" / EXECUTABLE_NAME
@@ -106,9 +126,10 @@ def read_bundle(app_path: Path) -> dict[str, Any]:
     manifest_path = app_path / MANIFEST_RELATIVE_PATH
     manifest: dict[str, Any] | None = None
     manifest_hash: str | None = None
-    if manifest_path.is_symlink():
-        raise ValueError(f"Runtime compatibility manifest is a symbolic link: {manifest_path}")
-    if manifest_path.is_file():
+    manifest_metadata = _metadata_or_none(manifest_path)
+    if manifest_metadata is not None:
+        if not stat.S_ISREG(manifest_metadata.st_mode) or manifest_metadata.st_nlink != 1:
+            raise ValueError(f"Runtime compatibility manifest is not a single-link regular file: {manifest_path}")
         resolved_manifest = manifest_path.resolve(strict=True)
         try:
             resolved_manifest.relative_to(bundle_root)
@@ -117,8 +138,6 @@ def read_bundle(app_path: Path) -> dict[str, Any]:
         with manifest_path.open("r", encoding="utf-8") as stream:
             manifest = json.load(stream)
         manifest_hash = sha256_file(manifest_path)
-    elif manifest_path.exists():
-        raise ValueError(f"Runtime compatibility manifest is not a regular file: {manifest_path}")
     return {
         "bundle_path": str(bundle_root),
         "bundle_id": bundle_id,
@@ -126,9 +145,9 @@ def read_bundle(app_path: Path) -> dict[str, Any]:
         "executable_name": executable_name,
         "executable_path": str(resolved_executable),
         "executable_sha256": sha256_file(executable),
-        "executable_mode": stat.S_IMODE(executable.stat().st_mode),
+        "executable_mode": stat.S_IMODE(executable_metadata.st_mode),
         "manifest": manifest,
-        "manifest_path": str(manifest_path.resolve()) if manifest_path.exists() else str(manifest_path),
+        "manifest_path": str(manifest_path.resolve()) if manifest_metadata is not None else str(manifest_path),
         "manifest_sha256": manifest_hash,
     }
 
@@ -138,13 +157,17 @@ def inventory_production_apps(roots: list[Path], walk: Any = os.walk) -> list[di
     visited: set[str] = set()
     errors: list[dict[str, str]] = []
     for root in roots:
-        if root.is_symlink():
+        root_metadata = _metadata_or_none(root)
+        if root_metadata is not None and stat.S_ISLNK(root_metadata.st_mode):
             errors.append({"path": str(root), "error": "scan root is a symbolic link; inventory target is unknown"})
             continue
-        if not root.exists() and root == Path.home() / "Applications":
+        if root_metadata is None and root == Path.home() / "Applications":
             continue
-        if not root.exists():
+        if root_metadata is None:
             errors.append({"path": str(root), "error": "required scan root is missing"})
+            continue
+        if not stat.S_ISDIR(root_metadata.st_mode):
+            errors.append({"path": str(root), "error": "scan root is not a directory"})
             continue
 
         def onerror(error: OSError) -> None:
@@ -165,7 +188,8 @@ def inventory_production_apps(roots: list[Path], walk: Any = os.walk) -> list[di
                     path = Path(current) / name
                     info_path = path / "Contents/Info.plist"
                     try:
-                        if not info_path.is_file():
+                        app_info_metadata = _metadata_or_none(info_path)
+                        if app_info_metadata is None or not stat.S_ISREG(app_info_metadata.st_mode) or app_info_metadata.st_nlink != 1:
                             raise ValueError("app bundle Info.plist is missing; identity is unknown")
                         with info_path.open("rb") as stream:
                             info = plistlib.load(stream)
@@ -295,9 +319,15 @@ def inventory_production_processes(runner: Any = subprocess.run, known_apps: lis
 
 
 def inspect_database(path: Path) -> dict[str, Any]:
-    if not path.is_file():
-        raise ValueError(f"Production database is missing: {path}")
-    sidecars = [str(Path(str(path) + suffix)) for suffix in ("-wal", "-shm", "-journal") if Path(str(path) + suffix).exists()]
+    _require_single_link_regular_file(path)
+    sidecars = []
+    for suffix in ("-wal", "-shm", "-journal"):
+        sidecar = Path(str(path) + suffix)
+        info = _metadata_or_none(sidecar)
+        if info is not None:
+            sidecars.append(str(sidecar))
+    if sidecars:
+        raise GateBlocked(["SQLite sidecar exists; database open is prohibited until a separately authorized recovery decision."])
     uri = f"file:{path.resolve()}?mode=ro"
     connection = sqlite3.connect(uri, uri=True)
     try:
@@ -562,16 +592,18 @@ def collect_real_facts(candidate_approval_path: Path, migration_authorization_pa
     migration_authorization = _load_json(migration_authorization_path, "Production migration authorization")
     roots = [Path("/Applications"), Path.home() / "Applications"]
     apps = inventory_production_apps(roots)
-    if not APP_PATH.exists():
+    if _metadata_or_none(APP_PATH) is None:
         candidate: dict[str, Any] = {}
     else:
         candidate = read_bundle(APP_PATH)
     database = inspect_database(DATABASE_PATH)
     approval_backup_path = Path(str(migration_authorization.get("backupPath", "")))
+    backup_metadata = _metadata_or_none(approval_backup_path)
+    backup_exists = backup_metadata is not None and stat.S_ISREG(backup_metadata.st_mode) and backup_metadata.st_nlink == 1
     backup = {
-        "path": str(approval_backup_path.resolve()) if approval_backup_path.exists() else str(approval_backup_path),
-        "exists": approval_backup_path.is_file(),
-        "sha256": sha256_file(approval_backup_path) if approval_backup_path.is_file() else None,
+        "path": str(approval_backup_path.resolve()) if backup_metadata is not None else str(approval_backup_path),
+        "exists": backup_exists,
+        "sha256": sha256_file(approval_backup_path) if backup_exists else None,
     }
     process_inventory = inventory_production_processes(known_apps=apps)
     processes = process_inventory["processes"] if process_inventory["complete"] else None
@@ -609,7 +641,7 @@ def write_migration_permit(receipt: dict[str, Any], approval: dict[str, Any], pe
         "ownerAuthorizationId": approval.get("authorizationId"),
     }
     permit_path.parent.mkdir(parents=True, exist_ok=True)
-    if permit_path.exists():
+    if _metadata_or_none(permit_path) is not None:
         raise GateBlocked(["An unconsumed Production migration authorization already exists."])
     temporary = permit_path.with_suffix(".tmp")
     descriptor = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
