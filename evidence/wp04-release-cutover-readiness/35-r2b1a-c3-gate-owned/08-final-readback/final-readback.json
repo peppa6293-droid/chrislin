@@ -45,5 +45,12 @@
   },
   "rustNativeFilesModified": false,
   "productionTouched": false,
-  "fullR2B1Status": "BLOCKED"
+  "fullR2B1Status": "BLOCKED",
+  "reportCommit": "de7fb73ebbb0686dfea09e569cad0c5a9ddcf4d8",
+  "reportCommitContainsReportAndEvidence": true,
+  "sourceFilesCleanAfterImplementationCommit": true,
+  "reportReadbackSha256": {
+    "WP04R2B1A_C3_GATE_OWNED_REPORT.md": "d3be692a421c63026ad0491776233b7d3ef55c26ed45a71dfefd43de7b3ed70e",
+    "WP04R2B1_UNIFIED_SYNTHETIC_CONTRACT_REPORT.md": "69f17b437b8d01375e05f0a600af8bb439bb173a9ec8ad651c82b056a24b6861"
+  }
 }
