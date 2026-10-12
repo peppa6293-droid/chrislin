@@ -111,7 +111,10 @@ impl RuntimeState {
         if inner.disconnected && !inner.commit_fenced {
             return Err(quiescence::Failure::new("FRONTEND_DISCONNECTED", "document lost before native commit fence"));
         }
-        let pause_at = if self.scenario == "crash_before_commit" { "before_commit" } else { "quiescence_acquired" };
+        let pause_at = match self.scenario.as_str() {
+            "crash_before_commit" | "renderer_death_after_commit_fence" => "before_commit",
+            _ => "quiescence_acquired",
+        };
         let second = (self.scenario == "disconnect_after_release" && event == "m4_started")
             || (self.scenario == "disconnect_postcommit" && event == "committed");
         if event != pause_at && !second {
@@ -120,6 +123,14 @@ impl RuntimeState {
                 self.journal.append("native_commit_fence",json!({"frontend_cannot_cancel_after_this_point":true}))?;
             }
             return Ok(());
+        }
+        if event == "before_commit" && self.scenario == "renderer_death_after_commit_fence" {
+            // This synthetic case deliberately places renderer termination on
+            // the committed side of the native decision fence. The other
+            // before_commit scenarios still fence only after their observer
+            // barrier is released.
+            inner.commit_fenced = true;
+            self.journal.append("native_commit_fence",json!({"frontend_cannot_cancel_after_this_point":true,"renderer_death_rehearsal":true}))?;
         }
         inner.next_barrier += 1;
         let id = inner.next_barrier;
@@ -165,7 +176,7 @@ fn native_status(state: State<'_, Arc<RuntimeState>>, session: String, token: St
 }
 
 #[tauri::command]
-fn start_native_cutover(state: State<'_, Arc<RuntimeState>>, session: String, token: String, request_id: String) -> IpcResult {
+fn start_native_cutover(app: tauri::AppHandle, state: State<'_, Arc<RuntimeState>>, session: String, token: String, request_id: String) -> IpcResult {
     state.authorize(&session,&token,&request_id,"start_native_cutover")?;
     {
         // The same mutex covers business connection open/use/close and the transition
@@ -178,6 +189,8 @@ fn start_native_cutover(state: State<'_, Arc<RuntimeState>>, session: String, to
     }
     state.record("native_worker_started",json!({"scope":"synthetic-only","connection_c_exposed_to_frontend":false}))?;
     let shared = Arc::clone(state.inner());
+    let exit_after_terminal = matches!(state.scenario.as_str(), "renderer_death_before_commit" | "renderer_death_after_commit_fence");
+    let app = app.clone();
     std::thread::spawn(move || {
         let events = Arc::clone(&shared);
         let result = quiescence::run_integrated(shared.root.to_str().unwrap(), &move |event, detail| events.native_event(event, detail));
@@ -189,6 +202,13 @@ fn start_native_cutover(state: State<'_, Arc<RuntimeState>>, session: String, to
             Err(error) => { let value = serde_json::to_value(error).unwrap(); let _ = shared.journal.append("native_worker_finished",json!({"success":false,"error":value})); inner.error = Some(value); }
         }
         shared.wake.notify_all();
+        if exit_after_terminal {
+            // Synthetic renderer-death rehearsal: the UI is deliberately gone,
+            // so the native owner closes the isolated test app after persisting
+            // its own terminal result. Production uses a separate entrypoint.
+            std::thread::sleep(Duration::from_millis(200));
+            app.exit(0);
+        }
     });
     Ok(json!({"accepted":true,"native_owns_cutover":true}))
 }
@@ -315,7 +335,7 @@ fn checked_state() -> std::result::Result<Arc<RuntimeState>, Box<dyn std::error:
         return Err("IPC_SYNTHETIC_MARKER_INVALID".into());
     }
     let scenario = std::env::var("PFC_IPC_SCENARIO")?;
-    if !["readiness","normal","disconnect","refresh","disconnect_after_release","disconnect_postcommit","crash_at_quiescence","crash_before_commit","guard_lost"].contains(&scenario.as_str()) {return Err("IPC_SCENARIO_INVALID".into());}
+    if !["readiness","normal","disconnect","refresh","disconnect_after_release","disconnect_postcommit","crash_at_quiescence","crash_before_commit","guard_lost","renderer_death_before_commit","renderer_death_after_commit_fence"].contains(&scenario.as_str()) {return Err("IPC_SCENARIO_INVALID".into());}
     let phase = std::env::var("PFC_IPC_PHASE").unwrap_or_else(|_|"initial".into());
     if !["initial","restart"].contains(&phase.as_str()) { return Err("IPC_PHASE_INVALID".into()); }
     let permit_path = if root.join("permit.json").exists(){root.join("permit.json")}else{root.join("consumed.json")};

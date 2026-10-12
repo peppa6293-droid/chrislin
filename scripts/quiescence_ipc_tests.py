@@ -9,6 +9,7 @@ frontend invoke. All roots are retained for independent persisted DB readback.
 from __future__ import annotations
 
 import argparse
+import ctypes
 import fcntl
 import hashlib
 import json
@@ -26,12 +27,15 @@ from quiescence_integration import create_fixture, handoff_native, prepare_manag
 
 REPO = Path(__file__).resolve().parents[1]
 CASES = ("normal", "disconnect", "crash_at_quiescence", "crash_before_commit", "guard_lost",
-         "refresh", "disconnect_after_release", "disconnect_postcommit")
+         "refresh", "disconnect_after_release", "disconnect_postcommit",
+         "renderer_death_before_commit", "renderer_death_after_commit_fence")
 EXPECTED = {
     "normal": "V4_VERIFIED", "disconnect": "FAILED_V3_CONFIRMED",
     "crash_at_quiescence": "QUIESCENCE_ACQUIRED",
     "crash_before_commit": "COMMIT_OUTCOME_UNKNOWN", "guard_lost": "GUARD_LOST_OR_UNPROVEN",
     "refresh": "FAILED_V3_CONFIRMED", "disconnect_after_release": "FAILED_V3_CONFIRMED", "disconnect_postcommit": "V4_VERIFIED",
+    "renderer_death_before_commit": "FAILED_V3_CONFIRMED",
+    "renderer_death_after_commit_fence": "V4_VERIFIED",
 }
 SOURCES = (
     "scripts/quiescence_ipc_tests.py", "scripts/quiescence_integration.py", "scripts/quiescence_gate.py",
@@ -88,6 +92,66 @@ def require(condition, reason):
         raise AssertionError(reason)
 
 
+def _process_path(pid):
+    """Read the executable path from libproc; never identify WebKit by name alone."""
+    library = ctypes.CDLL("/usr/lib/libproc.dylib", use_errno=True)
+    buffer = ctypes.create_string_buffer(4096)
+    result = library.proc_pidpath(ctypes.c_int(pid), buffer, ctypes.c_uint32(len(buffer)))
+    if result <= 0:
+        return None
+    return os.fsdecode(buffer.value)
+
+
+def _process_table():
+    result = subprocess.run(["ps", "-axo", "pid=,ppid=,pgid=,sess=,lstart="], capture_output=True, text=True, check=True)
+    table = {}
+    for line in result.stdout.splitlines():
+        parts = line.strip().split(None, 4)
+        if len(parts) == 5:
+            try:
+                table[int(parts[0])] = {"ppid": int(parts[1]), "pgid": int(parts[2]),
+                                        "session": int(parts[3]), "start_time": parts[4]}
+            except ValueError:
+                continue
+    return table
+
+
+def _renderer_attributed_to_native(native_pid, expected_native_path, baseline_processes):
+    table = _process_table()
+    native_path = _process_path(native_pid)
+    require(native_path == str(Path(expected_native_path).resolve()), "native PID executable path mismatch")
+    native = table.get(native_pid)
+    require(native is not None and native["pgid"] not in (0, 1), "native process group identity is unavailable or global")
+    found = []
+    for pid, facts in table.items():
+        if pid in baseline_processes:
+            continue
+        path = _process_path(pid)
+        if path != "/System/Library/Frameworks/WebKit.framework/Versions/A/XPCServices/com.apple.WebKit.WebContent.xpc/Contents/MacOS/com.apple.WebKit.WebContent":
+            continue
+        chain, current, seen = [], pid, set()
+        while current in table and current not in seen:
+            seen.add(current)
+            parent = table[current]["ppid"]
+            chain.append({"pid": current, "ppid": parent, "pgid": table[current]["pgid"],
+                          "session": table[current]["session"], "start_time": table[current]["start_time"],
+                          "executable_path": path if current == pid else _process_path(current)})
+            if parent == native_pid:
+                found.append({"pid": pid, "ppid": facts["ppid"], "start_time": facts["start_time"],
+                              "executable_path": path, "parent_chain": chain, "native_pid": native_pid,
+                              "native_executable_path": native_path, "native_process_group": native["pgid"],
+                              "renderer_process_group": facts["pgid"], "relationship": "direct_parent_chain"})
+                break
+            current = parent
+        if facts["pgid"] == native["pgid"] and not any(row["pid"] == pid for row in found):
+            found.append({"pid": pid, "ppid": facts["ppid"], "start_time": facts["start_time"],
+                          "executable_path": path, "parent_chain": chain, "native_pid": native_pid,
+                          "native_executable_path": native_path, "native_process_group": native["pgid"],
+                          "renderer_process_group": facts["pgid"], "relationship": "exact_process_group_and_new_pid"})
+    require(len(found) == 1, f"expected exactly one WebKit WebContent process attributable through PPID chain; found={found}")
+    return found[0]
+
+
 def release_gate_after_native_proof(lease, context, process, entries):
     if lease is None or lease.fd < 0:
         return None
@@ -121,6 +185,8 @@ def launch(context, scenario, phase, lease=None):
     handoff = None
     killed = False
     protection_probes = []
+    renderer_termination = None
+    process_baseline = _process_table() if scenario.startswith("renderer_death_") and phase == "initial" else {}
     with (root / f"ipc-{phase}.stdout.log").open("x") as output, (root / f"ipc-{phase}.stderr.log").open("x") as error:
         if lease is not None:
             process = lease.launch_native(executable, context["native_sha256"], arguments=[], extra_env=extra,
@@ -136,7 +202,7 @@ def launch(context, scenario, phase, lease=None):
                      "pid": process.pid, "executable": str(executable), "executable_sha256": context["native_sha256"],
                      "stdout_log": output.name, "stderr_log": error.name,
                      "started_at_unix_ns": time.time_ns(), "exit_code": None}
-        deadline = time.monotonic() + 60
+        deadline = time.monotonic() + 100
         try:
             # Persist process identity before looking for any frontend evidence.
             # Even an OS rejection before main() must retain its exact PID.
@@ -180,6 +246,40 @@ def launch(context, scenario, phase, lease=None):
                     process.wait(timeout=5)
                     killed = True
                     break
+                if scenario.startswith("renderer_death_") and phase == "initial" and frontend(entries, "renderer_death_checkpoint"):
+                    checkpoint = frontend(entries, "renderer_death_checkpoint")[-1]
+                    expected_event = "before_commit" if scenario == "renderer_death_after_commit_fence" else "quiescence_acquired"
+                    barrier = checkpoint.get("barrier") or {}
+                    require(barrier.get("event") == expected_event, "renderer test checkpoint reached the wrong native barrier")
+                    expected_fence = scenario == "renderer_death_after_commit_fence"
+                    require(checkpoint.get("commit_fenced") is expected_fence, "renderer checkpoint has wrong commit-fence value")
+                    attribution = _renderer_attributed_to_native(process.pid, executable, process_baseline)
+                    native_path = str(executable.resolve())
+                    renderer_pid = attribution["pid"]
+                    renderer_start = attribution["start_time"]
+                    os.kill(renderer_pid, signal.SIGKILL)
+                    renderer_gone = False
+                    renderer_check = None
+                    for _ in range(100):
+                        current_path = _process_path(renderer_pid)
+                        current = _process_table().get(renderer_pid)
+                        if current_path is None or current is None or current["start_time"] != renderer_start:
+                            renderer_gone = True
+                            renderer_check = {"path_after_kill": current_path, "process_after_kill": current}
+                            break
+                        time.sleep(0.05)
+                    require(renderer_gone, "attributed WebKit renderer PID remained present after SIGKILL")
+                    native_alive = process.poll() is None and _process_path(process.pid) == native_path
+                    require(native_alive, "native process did not remain alive immediately after renderer SIGKILL")
+                    renderer_termination = {"native_pid": process.pid, "native_executable_path": native_path,
+                        "renderer_pid": renderer_pid, "renderer_start_time": renderer_start,
+                        "renderer_executable_path": attribution["executable_path"],
+                        "renderer_parent_chain": attribution["parent_chain"], "signal": "SIGKILL",
+                        "renderer_gone_after_kill": renderer_gone, "renderer_pid_readback": renderer_check,
+                        "native_alive_after_renderer_kill": native_alive, "commit_fenced_at_kill": expected_fence,
+                        "native_barrier": barrier}
+                    lifecycle["renderer_termination"] = renderer_termination
+                    save_json(lifecycle_path, lifecycle)
                 time.sleep(0.08)
             if process.poll() is None:
                 raise TimeoutError(f"real Tauri frontend did not finish: {scenario}/{phase}")
@@ -188,7 +288,12 @@ def launch(context, scenario, phase, lease=None):
             require(all(row["transport"] == "tauri-wry-ipc" and row["pid"] == process.pid for row in entries), "runtime event identity mismatch")
             require([row["sequence"] for row in entries] == list(range(1, len(entries) + 1)), "event sequence missing or duplicated")
             require(frontend(entries, "frontend_loaded"), "bundled TypeScript was never observed")
-            if not killed:
+            if scenario.startswith("renderer_death_") and phase == "initial":
+                require(renderer_termination is not None, "no renderer process was terminated by the controller")
+                require(not frontend(entries, "fatal_frontend_failure"), "frontend failed before renderer termination checkpoint")
+                require(not frontend(entries, "frontend_complete"), "renderer unexpectedly completed after termination checkpoint")
+                require(process.returncode == 0, f"native app did not close after durable terminal state: {process.returncode}")
+            elif not killed:
                 require(process.returncode == 0, f"Tauri exit={process.returncode}")
                 complete = [row for row in entries if row["event"] == "frontend_complete"]
                 require(complete and complete[-1]["detail"]["value"].get("passed") is True, "missing passing persisted frontend result")
@@ -196,6 +301,7 @@ def launch(context, scenario, phase, lease=None):
             if scenario in ("disconnect_after_release", "disconnect_postcommit") and phase == "initial":
                 require(len(protection_probes) == 1, "missing real lease/SQLite contender at protected loss boundary")
             return {"pid": process.pid, "exit_code": process.returncode, "controller_killed": killed,
+                    "renderer_termination": renderer_termination,
                     "log": str(log), "log_sha256": sha(log), "events": len(entries),
                     "frontend_assertions": len(frontend(entries, "assertion")), "lease_handoff": handoff,
                     "controller_lifecycle": str(lifecycle_path),
@@ -255,6 +361,18 @@ def verify_native_cross_checks(case):
         blocked = {row["detail"]["command"] for row in entries if row["event"] == "ipc_rejected"
                    and row["detail"]["code"] == "BUSINESS_IPC_BLOCKED_DURING_CUTOVER"}
         require({"ordinary_business_read", "ordinary_business_write"} <= blocked, "real business IPC refusals missing")
+    if case["scenario"].startswith("renderer_death_"):
+        checkpoints = frontend(entries, "renderer_death_checkpoint")
+        termination = case["initial"].get("renderer_termination")
+        require(checkpoints and termination, "renderer-only kill checkpoint or process evidence missing")
+        require(termination["native_alive_after_renderer_kill"] is True, "native process did not survive renderer termination")
+        require(termination["renderer_pid"] != termination["native_pid"], "controller targeted the native process")
+        require(not [row for row in entries if row["event"] == "frontend_complete"], "terminated renderer reported frontend completion")
+        barriers = [row for row in entries if row["event"] == "native_barrier_entered"]
+        require(len(barriers) == 1, "renderer death did not occur at one native barrier")
+        expected_fence = case["scenario"] == "renderer_death_after_commit_fence"
+        require(barriers[0]["detail"]["commit_fenced"] is expected_fence, "renderer death occurred on the wrong side of the commit fence")
+        require(any(row["event"] == "native_worker_finished" for row in entries), "native owner did not persist a result after renderer death")
     if case["scenario"] in ("disconnect", "refresh", "disconnect_after_release", "disconnect_postcommit"):
         require(any(row["event"] == "frontend_document_disconnected" for row in entries), "real navigation disconnect hook absent")
         require(frontend(entries, "real_replacement_document_loaded"), "replacement real document did not load")

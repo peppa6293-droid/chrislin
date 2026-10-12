@@ -318,6 +318,61 @@ def _bootstrap(root):
     with closing(sqlite3.connect(database)) as connection, connection:
         connection.executescript(source)
         connection.execute("INSERT INTO profiles(id,display_name,created_at) VALUES('fixture','Synthetic','2000-01-01')")
+        connection.execute("INSERT INTO financial_settings VALUES('fixture',6,2,12,'1800')")
+        connection.execute("INSERT INTO essential_expense_items VALUES('essential-housing','fixture','HOUSING','Synthetic rent','2200',1,'2000-01-01','2000-01-01')")
+        connection.execute("INSERT INTO essential_expense_snapshots VALUES('essential-housing-snapshot','essential-housing','2026-10-01','2200','2026-10-01T00:00:00Z')")
+        connection.execute("INSERT INTO essential_expense_revisions(item_id,as_of_date,name,category,monthly_amount,active,created_at) VALUES('essential-housing','2026-09-01','Prior synthetic rent','HOUSING','2100',1,'2026-09-01T00:00:00Z')")
+        connection.executemany("INSERT INTO income_records(id,profile_id,kind,status,amount,date,period_month,created_at) VALUES(?,?,?,?,?,?,?,?)", [
+            ('planning-income','fixture','PLANNING','EXPECTED','12000','2026-10-10','2026-10','2026-10-01T00:00:00Z'),
+            ('actual-received','fixture','ACTUAL','RECEIVED','11800','2026-10-05','2026-10','2026-10-05T00:00:00Z'),
+            ('actual-pending','fixture','ACTUAL','PENDING','300','2026-10-20','2026-10','2026-10-05T00:00:00Z'),
+            ('actual-expected','fixture','ACTUAL','EXPECTED','500','2026-10-28','2026-10','2026-10-05T00:00:00Z'),
+        ])
+        connection.executemany("INSERT INTO expense_records(id,profile_id,amount,occurred_at,kind,category,note,created_at,business_date) VALUES(?,?,?,?,?,?,?,?,?)", [
+            ('expense-essential','fixture','2200','2026-10-02T08:00:00Z','ESSENTIAL','HOUSING','synthetic fixed housing','2026-10-02T08:00:00Z','2026-10-02'),
+            ('expense-variable','fixture','125','2026-10-03T12:00:00Z','VARIABLE','FOOD','synthetic groceries','2026-10-03T12:00:00Z','2026-10-03'),
+        ])
+        connection.executemany("INSERT INTO cash_accounts(id,profile_id,name,include_in_safety_resources,active,created_at) VALUES(?,?,?,?,?,?)", [
+            ('cash-eligible','fixture','Eligible cash',1,1,'2026-01-01T00:00:00Z'),
+            ('cash-excluded','fixture','Excluded cash',0,1,'2026-01-01T00:00:00Z'),
+        ])
+        connection.executemany("INSERT INTO cash_balance_snapshots VALUES(?,?,?,?,?)", [
+            ('cash-eligible-snapshot','cash-eligible','2026-10-01','18000','2026-10-01T00:00:00Z'),
+            ('cash-excluded-snapshot','cash-excluded','2026-10-01','7000','2026-10-01T00:00:00Z'),
+        ])
+        connection.executemany("INSERT INTO cash_account_revisions(account_id,as_of_date,name,include_in_safety_resources,balance,created_at) VALUES(?,?,?,?,?,?)", [
+            ('cash-eligible','2026-09-01','Eligible cash prior',1,'17500','2026-09-01T00:00:00Z'),
+            ('cash-excluded','2026-09-01','Excluded cash prior',0,'6500','2026-09-01T00:00:00Z'),
+        ])
+        connection.executemany("INSERT INTO assets(id,profile_id,name,kind,include_in_safety_resources,active,created_at) VALUES(?,?,?,?,?,?,?)", [
+            ('asset-liquid','fixture','Liquid investment','LIQUID_INVESTMENT',1,1,'2026-01-01T00:00:00Z'),
+            ('asset-other','fixture','Other asset','OTHER',0,1,'2026-01-01T00:00:00Z'),
+        ])
+        connection.executemany("INSERT INTO asset_value_snapshots VALUES(?,?,?,?,?)", [
+            ('asset-liquid-snapshot','asset-liquid','2026-10-01','24000','2026-10-01T00:00:00Z'),
+            ('asset-other-snapshot','asset-other','2026-10-01','9000','2026-10-01T00:00:00Z'),
+        ])
+        connection.executemany("INSERT INTO asset_revisions(asset_id,as_of_date,name,kind,include_in_safety_resources,current_value,active,created_at) VALUES(?,?,?,?,?,?,?,?)", [
+            ('asset-liquid','2026-09-01','Liquid investment prior','LIQUID_INVESTMENT',1,'23000',1,'2026-09-01T00:00:00Z'),
+            ('asset-other','2026-09-01','Other asset prior','OTHER',0,'8500',1,'2026-09-01T00:00:00Z'),
+        ])
+        connection.executemany("INSERT INTO debts(id,profile_id,name,fixed_monthly_payment,active,created_at) VALUES(?,?,?,?,?,?)", [
+            ('debt-due','fixture','Debt with current due','900',1,'2026-01-01T00:00:00Z'),
+            ('debt-zero','fixture','Debt with explicit zero due','700',1,'2026-01-01T00:00:00Z'),
+            ('debt-fallback','fixture','Debt with fixed fallback','450',1,'2026-01-01T00:00:00Z'),
+        ])
+        connection.executemany("INSERT INTO debt_period_facts VALUES(?,?,?,?,?,?,?)", [
+            ('debt-due-oct','debt-due','2026-10','2026-10-01','10000','500','2026-10-01T00:00:00Z'),
+            ('debt-zero-oct','debt-zero','2026-10','2026-10-01','8000','0','2026-10-01T00:00:00Z'),
+            ('debt-fallback-oct','debt-fallback','2026-10','2026-10-01','6000',None,'2026-10-01T00:00:00Z'),
+        ])
+        connection.executemany("INSERT INTO debt_revisions(debt_id,period_month,as_of_date,name,current_balance,current_month_due,fixed_monthly_payment,active,created_at) VALUES(?,?,?,?,?,?,?,?,?)", [
+            ('debt-due','2026-09','2026-09-01','Debt with current due prior','10500','500','900',1,'2026-09-01T00:00:00Z'),
+            ('debt-zero','2026-09','2026-09-01','Debt with explicit zero due prior','8500','0','700',1,'2026-09-01T00:00:00Z'),
+            ('debt-fallback','2026-09','2026-09-01','Debt with fixed fallback prior','6500',None,'450',1,'2026-09-01T00:00:00Z'),
+        ])
+        connection.execute("INSERT INTO planning_income_revisions(profile_id,effective_month,as_of_date,amount,created_at) VALUES('fixture','2026-10','2026-09-01','11500','2026-09-01T00:00:00Z')")
+        connection.execute("INSERT INTO settings_revisions(profile_id,effective_month,as_of_date,safety_coverage_target_months,minimum_cash_coverage_months,safety_recovery_horizon_months,desired_monthly_discretionary_spending,created_at) VALUES('fixture','2026-10','2026-09-01',5,2,12,'1700','2026-09-01T00:00:00Z')")
         connection.execute("INSERT INTO app_metadata(key,value) VALUES('quiescence-sentinel','unchanged')")
     database.chmod(0o600)
     with database.open("rb") as stream:

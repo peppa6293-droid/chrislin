@@ -151,7 +151,12 @@ async function initial(): Promise<void> {
     show({ waiting_for_controller_crash: true, barrier });
     return;
   }
-  await check("native-C-owned-with-exclusive-lock", barrier.event === "quiescence_acquired" && barrier.details.lockstate === 4, barrier);
+  const rendererBeforeCommit = boot.scenario === "renderer_death_before_commit";
+  const rendererAfterFence = boot.scenario === "renderer_death_after_commit_fence";
+  const expectedRendererBarrier = rendererAfterFence ? "before_commit" : "quiescence_acquired";
+  await check("native-C-owned-at-expected-barrier", barrier.event === (rendererBeforeCommit || rendererAfterFence ? expectedRendererBarrier : "quiescence_acquired")
+    && (!rendererBeforeCommit || !paused.commit_fenced)
+    && (!rendererAfterFence || paused.commit_fenced), { barrier, commit_fenced: paused.commit_fenced });
   const pauseStart = performance.now();
   await wait(450);
   const stillPaused = await status();
@@ -169,6 +174,15 @@ async function initial(): Promise<void> {
   await call("request_app_close");
   const closeChecked = await until((value) => value.app_exit_prevented >= 1, "real app-exit interception");
   await check("real-window-and-app-close-kept-native-C", closeChecked.running && closeChecked.barrier?.id === barrier.id, closeChecked);
+  if (rendererBeforeCommit || rendererAfterFence) {
+    await evidence({ kind: "renderer_death_checkpoint", action: "controller_must_kill_only_attributed_webkit_renderer",
+      native_pid: null, barrier: closeChecked.barrier,
+      commit_fenced: closeChecked.commit_fenced,
+      expected_terminal: rendererBeforeCommit ? "FAILED_V3_CONFIRMED" : "V4_VERIFIED" });
+    show({ waiting_for_external_renderer_termination: true, barrier: closeChecked.barrier,
+      commit_fenced: closeChecked.commit_fenced });
+    return;
+  }
   if (boot.scenario === "refresh") {
     sessionStorage.setItem(`refresh-${boot.session}`, "replacement");
     await evidence({ kind: "frontend_disconnect_requested", method: "window.location.reload", target: location.href });
