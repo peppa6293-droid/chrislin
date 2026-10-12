@@ -1,9 +1,9 @@
 {
   "status": "WP04_RELEASE_CUTOVER_READINESS_BLOCKED",
   "source_commit": "b59dbfe5c00a2ed01a793b0602d6b48b246dc748",
-  "report_commit": "PENDING_REPORT_COMMIT",
+  "report_commit": "45bd526a7a6969bc6f74d1f3917dd5ccf6da219c",
   "readback_sha256": {
-    "WP04_PRODUCTION_RELEASE_CUTOVER_READINESS_REPORT.md": "add3309beeefd60c6ec1d9f729c65bbcfb17e03e4df05a0708a0b98b23cd99f8",
+    "WP04_PRODUCTION_RELEASE_CUTOVER_READINESS_REPORT.md": "59af0451e398f1e91362f34add9b5e1eb2588ebc18178a7b3090fbcd63b4243f",
     "WP04_PREPRODUCTION_GO_NO_GO_MATRIX.md": "91027cf23e4033c3b4316054c931d0c60cd29acca9e332b00d7f5ca4d9daf81f",
     "WP04_PROGRESS.md": "e65123675ffff230512a3c4a661414b7cc1a663499a26116d48dba8e30b7ec59",
     "evidence/wp04-release-cutover-readiness/01-current-capability-matrix/CURRENT_CUTOVER_CAPABILITY_MATRIX.md": "eb5e01a816fc936755ceff741ac2721d893f073f4cfd0cae1e62bcb785a8258b",
@@ -20,5 +20,5 @@
   "wp02_touched": false,
   "financial_model_changed": false,
   "blocker_closed": false,
-  "readback_at_unix": 1791803939
+  "readback_at_unix": 1791803987
 }
