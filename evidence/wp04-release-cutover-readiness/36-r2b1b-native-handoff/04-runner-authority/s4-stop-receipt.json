@@ -1,0 +1,16 @@
+{
+  "authorizationSha256": "32ecd3363c41a3db248ad9164cb95274b71247737d73c93e4f70c83a2c90cb05",
+  "beginExclusiveExecuted": false,
+  "busyTimeout": 0,
+  "connectionOpenConfirmed": true,
+  "databaseSha256After": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+  "databaseSha256Before": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+  "highestState": "S4_CONNECTION_PREPARED",
+  "journalMode": "delete",
+  "lockingMode": "exclusive",
+  "migration4Executed": false,
+  "permitSha256": "1d6d5e494d2f562507dc455627671cf11266975ea2843dc03dd21d744ec98125",
+  "receiptSha256": "83bb49a75a6e23a99207281c54eb329201215a079fb2ec58f3bceb78a7e87302",
+  "session": "session-90d4d9e166db462bae669f88507c1847",
+  "state": "R2B1B_TEST_STOP_BEFORE_QUIESCENCE"
+}

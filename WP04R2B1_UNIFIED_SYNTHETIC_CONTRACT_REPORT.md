@@ -56,3 +56,9 @@ Implementation commit: `f7b37374e32d8a3736c060c6f91a4c1e3e7aee70` (`Add explicit
 追加记录：`WP04R2B1A_C3_GATE_OWNED_REPORT.md` 状态为 `WP04R2B1A_C3_GATE_OWNED_READY`。此项只关闭 Python/C3 的第二套 migration authorization/permit；原报告中完整 WP04R2B1 `BLOCKED` 结论仍有效。Native consumer/runner authority handoff、S4、Migration 4 与完整 R2B 尚未实施或验收，交由 WP04R2B1B。
 
 C3 implementation commit：`75b2d87fe89f8b0a2fe990ed3f2d65c5116d22fe`。回归与正反例证据位于 `evidence/wp04-release-cutover-readiness/35-r2b1a-c3-gate-owned/`。
+
+## R2B1B — Native Authority Handoff
+
+当前 WP04R2B1 状态：`WP04R2B1_SYNTHETIC_CONTRACT_UNIFIED_READY`。R2B1B 已将 formal Gate 的唯一 permit 经编译 Rust consumer、精确字节 claim、唯一 durable ledger 和私有 validated authority 接入 native runner，并在 S4 停止。权威报告为 `WP04R2B1B_NATIVE_AUTHORITY_HANDOFF_REPORT.md`；实现提交 `24ff2365e36d4471873b2090128b11725244825a`；证据位于 `evidence/wp04-release-cutover-readiness/36-r2b1b-native-handoff/`。
+
+历史状态保留：本报告前文记录的 WP04R2B1 `BLOCKED` 是 R2B1B 实施前真实状态，不作删除或改写。当前 R2B1 unified contract 已具备重跑完整合成 WP04R2B 的前置条件；完整 WP04R2B 仍未执行、未 PASS。Production 未触碰；Migration 4、S5、renderer、final candidate 均未执行。R2B1B 的“修改前调用图”仅由 intake commit 回溯重建，非同期记录，详见证据文档中的限制。

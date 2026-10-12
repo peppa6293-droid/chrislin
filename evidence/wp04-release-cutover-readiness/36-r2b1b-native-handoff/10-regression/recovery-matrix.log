@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_recovery_matrix.py", line 326, in <module>
+    raise SystemExit(main())
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_recovery_matrix.py", line 292, in main
+    require(not args.output.exists(), "refuse to overwrite an existing matrix report")
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_recovery_matrix.py", line 40, in require
+    raise AssertionError(message)
+AssertionError: refuse to overwrite an existing matrix report

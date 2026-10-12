@@ -1,0 +1,13 @@
+{
+  "formal-gate-replay": {
+    "result": "REFUSED",
+    "ledgerCountAfter": 1,
+    "secondS4": false
+  },
+  "double-consumer-race": {
+    "winnerCount": 1,
+    "refusalCount": 1,
+    "ledgerCount": 1,
+    "runnerS4Count": 1
+  }
+}

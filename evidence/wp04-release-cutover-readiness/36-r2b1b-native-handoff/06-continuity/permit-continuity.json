@@ -1,0 +1,38 @@
+{
+  "authorizationId": "synthetic-migration-authorization-r2b1b",
+  "authorizationSha256": "32ecd3363c41a3db248ad9164cb95274b71247737d73c93e4f70c83a2c90cb05",
+  "backupIdentity": {
+    "dev": 16777232,
+    "inode": 25590161,
+    "links": 1,
+    "size": 229376
+  },
+  "backupSha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+  "candidateBundleId": "org.pfc.quiescence.integration",
+  "candidateSha256": "640c865f72c83b048a7a266b0b69d8c1da57537c711fb8a2d57d3398c1472ae6",
+  "claimedPermitSha256": "1d6d5e494d2f562507dc455627671cf11266975ea2843dc03dd21d744ec98125",
+  "consumerInputSha256": "1d6d5e494d2f562507dc455627671cf11266975ea2843dc03dd21d744ec98125",
+  "databaseIdentity": {
+    "dev": 16777232,
+    "inode": 25590119,
+    "links": 1,
+    "size": 229376
+  },
+  "databaseSha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+  "databaseSha256After": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+  "domain": "UNIFIED_R2B_GATE_OWNED",
+  "expiresAtUnix": 1791824036,
+  "expiryValidated": true,
+  "gatePermitSha256": "1d6d5e494d2f562507dc455627671cf11266975ea2843dc03dd21d744ec98125",
+  "ledgerPermitSha256": "1d6d5e494d2f562507dc455627671cf11266975ea2843dc03dd21d744ec98125",
+  "manifestSha256": "2f59feda46f841cfbf6ecafc8f75e8b9c2cfcbdb24a585239c0ae09960350733",
+  "nonce": "0CvOeKA0c-7ihMQFQ00eJtPuyMNztZdtq3REN8HN_os",
+  "receiptSha256": "83bb49a75a6e23a99207281c54eb329201215a079fb2ec58f3bceb78a7e87302",
+  "runnerAuthorityPermitSha256": "1d6d5e494d2f562507dc455627671cf11266975ea2843dc03dd21d744ec98125",
+  "session": "session-90d4d9e166db462bae669f88507c1847",
+  "exactBytePermitPreserved": true,
+  "releaseReceiptSha256Readback": "83bb49a75a6e23a99207281c54eb329201215a079fb2ec58f3bceb78a7e87302",
+  "candidateApprovalSha256Readback": "2f3321ff416dc1cc9d0211a9eaa05a8c65276f9f2e2ec7bea2dd3646ab52d6ef",
+  "migrationAuthorizationSha256Readback": "32ecd3363c41a3db248ad9164cb95274b71247737d73c93e4f70c83a2c90cb05",
+  "allPermitShaFieldsEqual": true
+}

@@ -82,6 +82,15 @@
 - 完整进度与证据入口：`evidence/wp03-product-daily-use/final-r2-closure/WP03R2_CURRENT_PROGRESS.md`。R4 部分现场及 R1 / R3 数据保持封存。
 - Financial Model V1.0 未改；WP-02、Production 未访问。
 
+## WP-04R2B1B — Native Authority Handoff (2026-10-13)
+
+- 状态：`WP04R2B1B_NATIVE_AUTHORITY_HANDOFF_READY`；R2B1 当前统一合成契约为 `WP04R2B1_SYNTHETIC_CONTRACT_UNIFIED_READY`。实施提交：`24ff2365e36d4471873b2090128b11725244825a`。
+- formal Gate → 编译 Rust consumer → native runner 正向链已通过并停在 `S4_CONNECTION_PREPARED`。单一 permit 哈希连续，单一 durable consumed ledger；双 consumer race 1 胜 / 1 拒。V3 schema、迁移行 `[1,2,3]` 和合成数据库字节保持不变；未执行 `BEGIN EXCLUSIVE` 或 Migration 4。
+- typecheck、lint、产品/preview/release-gate/build、Gate/C3/R2A/quiescence/native 回归，以及 default/fixture/Tauri Rust 全套均通过；恢复矩阵 16/16。
+- 报告：`WP04R2B1B_NATIVE_AUTHORITY_HANDOFF_REPORT.md`。证据：`evidence/wp04-release-cutover-readiness/36-r2b1b-native-handoff/`。主 unified contract report 已追加当前状态，原历史 BLOCKED 记录保留。
+- 限制：要求的 pre-edit 调用图未在改码前保存；证据现由 starting HEAD 回溯重建并明确标注非同期。完整 WP04R2B 仍未执行 / 未 PASS；Production、WP-02、Financial Model V1.0 未触碰。
+- 下一责任人：Planning 决定是否另行发出 `WP04R2B — FULL SYNTHETIC CUTOVER RERUN`。本执行项在 S4 停止；不进入 S5、Migration 4、renderer、final candidate、Production 或 audit。
+
 ## WP-03R3 R5 最终产品验收 — 2026-10-12
 
 - 状态：`WP03_PRODUCT_DAILY_USE_READY_FOR_PLANNING_REVIEW`。R5 A–M 整体闭环；A/B/E/H2 继承，剩余 C/D/F/G/H/I/I2/J/K/L/M 以同一原生包/数据库完成。没有 runtime source 修改或 R6；无确定产品缺陷。

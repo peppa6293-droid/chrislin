@@ -1,0 +1,22 @@
+{
+  "legacy-runner-bypass": {
+    "result": "REFUSED",
+    "exitCode": 2,
+    "ledgerCount": 0
+  },
+  "wp03-identity": {
+    "result": "REFUSED",
+    "permitCount": 0,
+    "receiptCount": 0
+  },
+  "wrong-marker": {
+    "result": "REFUSED",
+    "permitCount": 0,
+    "receiptCount": 0
+  },
+  "arbitrary-root": {
+    "result": "REFUSED",
+    "permitCount": 0,
+    "receiptCount": 0
+  }
+}

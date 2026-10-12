@@ -1,0 +1,83 @@
+{
+  "typecheck": {
+    "exit": 0,
+    "status": "PASS"
+  },
+  "lint": {
+    "exit": 0,
+    "status": "PASS"
+  },
+  "product": {
+    "exit": 0,
+    "status": "PASS"
+  },
+  "wp03-preview": {
+    "exit": 0,
+    "status": "PASS"
+  },
+  "release-gate": {
+    "exit": 0,
+    "status": "PASS"
+  },
+  "build": {
+    "exit": 0,
+    "status": "PASS"
+  },
+  "python-gate": {
+    "exit": 0,
+    "status": "PASS"
+  },
+  "r2a-cli-rust": {
+    "exit": 0,
+    "status": "PASS"
+  },
+  "c3-gate-owned": {
+    "exit": 0,
+    "status": "PASS"
+  },
+  "python-quiescence": {
+    "exit": 0,
+    "status": "PASS"
+  },
+  "native-handoff": {
+    "exit": 0,
+    "status": "PASS"
+  },
+  "rust-default": {
+    "exit": 0,
+    "status": "PASS"
+  },
+  "rust-fixture": {
+    "exit": 0,
+    "status": "PASS"
+  },
+  "rust-tauri": {
+    "exit": 0,
+    "status": "PASS"
+  },
+  "recovery-matrix": {
+    "exit": 0,
+    "status": "PASS"
+  },
+  "rust-default-all": {
+    "exit": 0,
+    "status": "PASS"
+  },
+  "rust-fixture-all": {
+    "exit": 0,
+    "status": "PASS"
+  },
+  "rust-tauri-all": {
+    "exit": 0,
+    "status": "PASS"
+  },
+  "recovery-matrix-final": {
+    "exit": 0,
+    "status": "PASS"
+  },
+  "recovery-component-matrix-final": {
+    "exit": 0,
+    "status": "PASS",
+    "cases": 16
+  }
+}

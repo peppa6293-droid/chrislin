@@ -1,0 +1,20 @@
+test_archive_failure_leaves_no_migration_authority (test_quiescence_gate_owned.GateOwnedC3Tests) ... ok
+test_candidate_mismatch_failure_leaves_no_migration_authority (test_quiescence_gate_owned.GateOwnedC3Tests) ... ok
+test_copy_failure_leaves_no_migration_authority (test_quiescence_gate_owned.GateOwnedC3Tests) ... ok
+test_existing_formal_gate_permit_is_refused_and_preserved (test_quiescence_gate_owned.GateOwnedC3Tests) ... ok
+test_existing_standalone_authorization_is_refused_and_preserved (test_quiescence_gate_owned.GateOwnedC3Tests) ... ok
+test_existing_standalone_permit_is_refused_and_preserved (test_quiescence_gate_owned.GateOwnedC3Tests) ... ok
+test_gate_owned_c3_stops_at_s1_without_migration_authority (test_quiescence_gate_owned.GateOwnedC3Tests) ... ok
+test_install_failure_leaves_no_migration_authority (test_quiescence_gate_owned.GateOwnedC3Tests) ... ok
+test_legacy_marker_is_refused_in_unified_mode (test_quiescence_gate_owned.GateOwnedC3Tests) ... ok
+test_missing_wrong_and_symlink_markers_are_refused (test_quiescence_gate_owned.GateOwnedC3Tests) ... ok
+test_old_runtime_still_active_failure_leaves_no_migration_authority (test_quiescence_gate_owned.GateOwnedC3Tests) ... ok
+test_standalone_component_still_issues_its_component_authority (test_quiescence_gate_owned.GateOwnedC3Tests) ... ok
+test_unified_mode_rejects_noncanonical_bundle_identities (test_quiescence_gate_owned.GateOwnedC3Tests) ... ok
+test_unified_mode_requires_exact_marker_and_is_never_inferred (test_quiescence_gate_owned.GateOwnedC3Tests) ... ok
+test_unknown_mode_refuses (test_quiescence_gate_owned.GateOwnedC3Tests) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 10.304s
+
+OK
