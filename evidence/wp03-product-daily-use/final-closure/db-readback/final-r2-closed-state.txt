@@ -1,0 +1,31 @@
+process:
+handles:
+sidecars:
+/Users/linte/Library/Application Support/com.personalfinance.console.wp03preview/personal-finance-console.sqlite3
+integrity:
+4
+ok
+1
+2
+3
+4
+counts:
+profiles|1
+planning_income_revisions|2
+planning_income_month_revisions|3
+income_records|1
+expense_records|0
+cash_accounts|1
+assets|1
+debts|2
+debt_period_facts|2
+3.0|1.0||1000
+2026-10|OVERRIDE|12000
+2026-10|INHERIT|
+2026-10|OVERRIDE|12000
+hash:
+401b7b31bc64c024bf4735977e85c20629aaa4774eb75a9ab3ca2b41d3fe9bf6  /Users/linte/Library/Application Support/com.personalfinance.console.wp03preview/personal-finance-console.sqlite3
+exe:
+7791d20845abbba2d33cfa60feb3a135cc98a3b9b4524a74bd8620b2f374f8d3  /Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/cargo-target/release/bundle/macos/小钱家 WP-03 测试版.app/Contents/MacOS/personal-finance-console
+bundle:
+com.personalfinance.console.wp03preview

@@ -1,0 +1,74 @@
+
+> personal-finance-console@0.1.0 test:product
+> vitest run tests
+
+
+ RUN  v5.0.3 /Users/linte/Documents/ChatGPT/个人财务模型app开发
+
+ ❯ tests/ui.test.tsx (74 tests | 18 failed) 1918ms
+   ❯ Phase 3 product UI (74)
+     × Stage 2 E/F/G. positive surplus and null coverage render truthfully 38ms
+     × Stage 2 L. detail routes are read-only and each has a working Home action 50ms
+     × C. renders model overview values from changing Home/Model fixtures 22ms
+     × 15. structural deficit is described as a core income gap without mislabeling the cash floor 10ms
+     × 17. a failed cash floor gives a calm floor reminder 9ms
+     × 18. NOT_APPLICABLE has no cash warning 9ms
+     × Home and Safety detail preserve A structural deficit with floor met semantics 8ms
+     × Home and Safety detail preserve B normal with floor failed semantics 8ms
+     × Home and Safety detail preserve C structural deficit with floor failed semantics 8ms
+     × Home and Safety detail preserve D normal with floor met semantics 8ms
+     × Home and Safety detail preserve E no core obligations semantics 8ms
+     × Safety primary reason and actions are truthful for structural deficit with floor met 9ms
+     × Safety primary reason and actions are truthful for structural deficit with floor failed 7ms
+     × Safety primary reason and actions are truthful for positive surplus with floor failed 7ms
+     × Safety primary reason and actions are truthful for clear gate 7ms
+     × Safety primary reason and actions are truthful for no core obligations 6ms
+     × Safety primary reason and actions are truthful for zero safety target 6ms
+     × Safety cash-account action opens the existing cash category page 7ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 18 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/ui.test.tsx > Phase 3 product UI > Stage 2 E/F/G. positive surplus and null coverage render truthfully
+ FAIL  tests/ui.test.tsx > Phase 3 product UI > Stage 2 L. detail routes are read-only and each has a working Home action
+ FAIL  tests/ui.test.tsx > Phase 3 product UI > C. renders model overview values from changing Home/Model fixtures
+ FAIL  tests/ui.test.tsx > Phase 3 product UI > 15. structural deficit is described as a core income gap without mislabeling the cash floor
+ FAIL  tests/ui.test.tsx > Phase 3 product UI > 17. a failed cash floor gives a calm floor reminder
+ FAIL  tests/ui.test.tsx > Phase 3 product UI > 18. NOT_APPLICABLE has no cash warning
+ FAIL  tests/ui.test.tsx > Phase 3 product UI > Home and Safety detail preserve A structural deficit with floor met semantics
+ FAIL  tests/ui.test.tsx > Phase 3 product UI > Home and Safety detail preserve B normal with floor failed semantics
+ FAIL  tests/ui.test.tsx > Phase 3 product UI > Home and Safety detail preserve C structural deficit with floor failed semantics
+ FAIL  tests/ui.test.tsx > Phase 3 product UI > Home and Safety detail preserve D normal with floor met semantics
+ FAIL  tests/ui.test.tsx > Phase 3 product UI > Home and Safety detail preserve E no core obligations semantics
+ FAIL  tests/ui.test.tsx > Phase 3 product UI > Safety primary reason and actions are truthful for structural deficit with floor met
+ FAIL  tests/ui.test.tsx > Phase 3 product UI > Safety primary reason and actions are truthful for structural deficit with floor failed
+ FAIL  tests/ui.test.tsx > Phase 3 product UI > Safety primary reason and actions are truthful for positive surplus with floor failed
+ FAIL  tests/ui.test.tsx > Phase 3 product UI > Safety primary reason and actions are truthful for clear gate
+ FAIL  tests/ui.test.tsx > Phase 3 product UI > Safety primary reason and actions are truthful for no core obligations
+ FAIL  tests/ui.test.tsx > Phase 3 product UI > Safety primary reason and actions are truthful for zero safety target
+ FAIL  tests/ui.test.tsx > Phase 3 product UI > Safety cash-account action opens the existing cash category page
+ReferenceError: safetyCoverageAvailable is not defined
+ ❯ SafetyDetail src/ui/HomeScreen.tsx:834:12
+    832|         label="安全垫大约够几个月"
+    833|         value={
+    834|           !safetyCoverageAvailable
+       |            ^
+    835|             ? "暂不可计算"
+    836|             : safetyTargetUnset
+ ❯ Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:28571:20
+ ❯ renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:8030:22
+ ❯ updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:10569:19
+ ❯ beginWork node_modules/react-dom/cjs/react-dom-client.development.js:12205:18
+ ❯ runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:1048:13
+ ❯ performUnitOfWork node_modules/react-dom/cjs/react-dom-client.development.js:19176:22
+ ❯ workLoopSync node_modules/react-dom/cjs/react-dom-client.development.js:19004:41
+ ❯ renderRootSync node_modules/react-dom/cjs/react-dom-client.development.js:18985:11
+ ❯ performWorkOnRoot node_modules/react-dom/cjs/react-dom-client.development.js:18094:35
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/18]⎯
+
+
+ Test Files  1 failed | 16 passed (17)
+      Tests  18 failed | 277 passed (295)
+   Start at  12:42:50
+   Duration  2.70s (tests 63%, transform 16%, import 11%, environment 9%, worker 1%)
+

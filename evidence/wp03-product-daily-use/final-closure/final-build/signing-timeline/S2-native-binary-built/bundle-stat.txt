@@ -1,0 +1,1 @@
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/cargo-target/release/personal-finance-console	mode=-rwxr-xr-x	uid=501	gid=20	nlink=1	size=20833856	mtime_ns=1791777060742910953	inode=6923

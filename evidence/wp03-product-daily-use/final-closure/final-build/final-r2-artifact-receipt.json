@@ -1,0 +1,18 @@
+{
+  "status": "WP03_FINAL_BUNDLE_BUILT_AND_STRICT_CODESIGN_PASS",
+  "source_commit": "112191eebbe4cf3c62f942f034064237ee92514a",
+  "source_tracked_diff": "clean",
+  "app_path": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/cargo-target/release/bundle/macos/小钱家 WP-03 测试版.app",
+  "bundle_id": "com.personalfinance.console.wp03preview",
+  "executable": "Contents/MacOS/personal-finance-console",
+  "executable_sha256": "7791d20845abbba2d33cfa60feb3a135cc98a3b9b4524a74bd8620b2f374f8d3",
+  "database_path": "/Users/linte/Library/Application Support/com.personalfinance.console.wp03preview/personal-finance-console.sqlite3",
+  "signing_identity": "Apple Development: 8619814730147 (FW5KHTFNZ6)",
+  "team_identifier": "SSRKA7A4TN",
+  "strict_codesign_verification": "PASS; final-r2-codesign-verify-live.log",
+  "signing_metadata": "final-r2-codesign-metadata-live.log",
+  "output_volume": "APFS sparse image mounted at artifacts/wp03-isolated-product-preview-20261012/final-build",
+  "build_stdout": "final-r2-build.stdout.log",
+  "build_stderr": "final-r2-build.stderr.log",
+  "acceptance": "Native UI acceptance is partial; see ../ui-a-through-m/final-r2-session.md"
+}

@@ -1,0 +1,12 @@
+{
+  "source": "/Users/linte/Library/Application Support/com.personalfinance.console.wp03preview/personal-finance-console.sqlite3",
+  "backup": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/wp03-product-daily-use/final-closure/preservation/wp03-partial-before-final-ui.sqlite3",
+  "bundle_id": "com.personalfinance.console.wp03preview",
+  "sha256": "9b8b1a76394e30b671dd3087183f5a6fac294af4289e9e8ec4223c054d5d6bc2",
+  "size": 258048,
+  "copied_at": "2026-10-12T11:52:43.766563+08:00",
+  "app_stopped": true,
+  "open_handles": 0,
+  "sidecars": 0,
+  "method": "byte-preserving file copy, hash-verified; no SQL mutation"
+}

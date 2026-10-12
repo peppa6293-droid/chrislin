@@ -1,0 +1,16 @@
+{
+  "source": "/Users/linte/Library/Application Support/com.personalfinance.console.wp03preview/personal-finance-console.sqlite3",
+  "backup": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/wp03-product-daily-use/final-closure/preservation/wp03-partial-final-r1-zero-safety-attempt.sqlite3",
+  "bundle_id": "com.personalfinance.console.wp03preview",
+  "executable_sha256": "be07b04ba51bebff105ec47bf30fa50df465c7e0a238f690fff331f0a5aeafc6",
+  "sha256": "43afaba345cc8704e1a6546157f112f4e732c262708d455c7aeade3b6e1a5744",
+  "size": 258048,
+  "app_stopped": true,
+  "open_handles": 0,
+  "sidecars": 0,
+  "symlink": false,
+  "hardlinks": 1,
+  "sql_mutation": false,
+  "purpose": "Preserve partial native UI run before zero-target copy correction",
+  "captured_at": "2026-10-12T04:41:02.358955+00:00"
+}

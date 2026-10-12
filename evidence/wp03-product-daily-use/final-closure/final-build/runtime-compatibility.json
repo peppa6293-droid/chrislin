@@ -1,0 +1,8 @@
+{
+  "manifestFormatVersion": 1,
+  "runtimeGeneration": 4,
+  "minSupportedSchemaVersion": 1,
+  "maxSupportedSchemaVersion": 4,
+  "bundleId": "com.personalfinance.console.wp03preview",
+  "executable": "Contents/MacOS/personal-finance-console"
+}

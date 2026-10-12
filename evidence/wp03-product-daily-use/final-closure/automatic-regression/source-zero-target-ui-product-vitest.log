@@ -1,0 +1,98 @@
+
+> personal-finance-console@0.1.0 test:product
+> vitest run tests
+
+
+ RUN  v5.0.3 /Users/linte/Documents/ChatGPT/个人财务模型app开发
+
+ ❯ tests/ui.test.tsx (74 tests | 4 failed) 2259ms
+   ❯ Phase 3 product UI (74)
+     × T-P2-01 NaN coverage renders unavailable progress 9ms
+     × T-P2-01 infinite coverage renders unavailable progress 8ms
+     × T-P2-01 NaN target renders unavailable progress 6ms
+     × T-P2-01 infinite target renders unavailable progress 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/ui.test.tsx > Phase 3 product UI > T-P2-01 NaN coverage renders unavailable progress
+AssertionError: expected '小钱家仅保存在本机2026 年 10 月＋ 记一笔你好，今天也认真管理生活…' not to match /NaN|Infinity/
+
+- Expected:
+/NaN|Infinity/
+
++ Received:
+"小钱家仅保存在本机2026 年 10 月＋ 记一笔你好，今天也认真管理生活。财务基准建立中本月可变消费›本月已花¥125.50/个人目标¥1,600.008%目标内剩余 ¥1,474.50安全建议 ¥1,000.00本月收支状态›本月计划收入¥13,000.00→生活和本月还款¥18,046.73→↑按计划还剩-¥5,046.73按当前计划有结余本月收入记录为 0 笔安全垫›NaN / 6 个月覆盖进度暂不可计算距目标约 ¥99,632.77整体安全状态正常债务›总债务¥800.00本月必须还款¥14,518.73依据本月记录的财务数据我的财务更新财务数据"
+
+ ❯ tests/ui.test.tsx:349:43
+    347|     expect(screen.queryByRole("progressbar", { name: "安全垫覆盖进度" })).toB…
+    348|     expect(screen.getByText("覆盖进度暂不可计算")).toBeTruthy();
+    349|     expect(document.body.textContent).not.toMatch(/NaN|Infinity/);
+       |                                           ^
+    350|   });
+    351|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  tests/ui.test.tsx > Phase 3 product UI > T-P2-01 infinite coverage renders unavailable progress
+AssertionError: expected '小钱家仅保存在本机2026 年 10 月＋ 记一笔你好，今天也认真管理生活…' not to match /NaN|Infinity/
+
+- Expected:
+/NaN|Infinity/
+
++ Received:
+"小钱家仅保存在本机2026 年 10 月＋ 记一笔你好，今天也认真管理生活。财务基准建立中本月可变消费›本月已花¥125.50/个人目标¥1,600.008%目标内剩余 ¥1,474.50安全建议 ¥1,000.00本月收支状态›本月计划收入¥13,000.00→生活和本月还款¥18,046.73→↑按计划还剩-¥5,046.73按当前计划有结余本月收入记录为 0 笔安全垫›Infinity / 6 个月覆盖进度暂不可计算距目标约 ¥99,632.77整体安全状态正常债务›总债务¥800.00本月必须还款¥14,518.73依据本月记录的财务数据我的财务更新财务数据"
+
+ ❯ tests/ui.test.tsx:349:43
+    347|     expect(screen.queryByRole("progressbar", { name: "安全垫覆盖进度" })).toB…
+    348|     expect(screen.getByText("覆盖进度暂不可计算")).toBeTruthy();
+    349|     expect(document.body.textContent).not.toMatch(/NaN|Infinity/);
+       |                                           ^
+    350|   });
+    351|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  tests/ui.test.tsx > Phase 3 product UI > T-P2-01 NaN target renders unavailable progress
+AssertionError: expected '小钱家仅保存在本机2026 年 10 月＋ 记一笔你好，今天也认真管理生活…' not to match /NaN|Infinity/
+
+- Expected:
+/NaN|Infinity/
+
++ Received:
+"小钱家仅保存在本机2026 年 10 月＋ 记一笔你好，今天也认真管理生活。财务基准建立中本月可变消费›本月已花¥125.50/个人目标¥1,600.008%目标内剩余 ¥1,474.50安全建议 ¥1,000.00本月收支状态›本月计划收入¥13,000.00→生活和本月还款¥18,046.73→↑按计划还剩-¥5,046.73按当前计划有结余本月收入记录为 0 笔安全垫›0.48 / NaN 个月覆盖进度暂不可计算距目标约 ¥99,632.77整体安全状态正常债务›总债务¥800.00本月必须还款¥14,518.73依据本月记录的财务数据我的财务更新财务数据"
+
+ ❯ tests/ui.test.tsx:360:43
+    358|     expect(screen.queryByRole("progressbar", { name: "安全垫覆盖进度" })).toB…
+    359|     expect(screen.getByText("覆盖进度暂不可计算")).toBeTruthy();
+    360|     expect(document.body.textContent).not.toMatch(/NaN|Infinity/);
+       |                                           ^
+    361|   });
+    362|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  tests/ui.test.tsx > Phase 3 product UI > T-P2-01 infinite target renders unavailable progress
+AssertionError: expected '小钱家仅保存在本机2026 年 10 月＋ 记一笔你好，今天也认真管理生活…' not to match /NaN|Infinity/
+
+- Expected:
+/NaN|Infinity/
+
++ Received:
+"小钱家仅保存在本机2026 年 10 月＋ 记一笔你好，今天也认真管理生活。财务基准建立中本月可变消费›本月已花¥125.50/个人目标¥1,600.008%目标内剩余 ¥1,474.50安全建议 ¥1,000.00本月收支状态›本月计划收入¥13,000.00→生活和本月还款¥18,046.73→↑按计划还剩-¥5,046.73按当前计划有结余本月收入记录为 0 笔安全垫›0.48 / Infinity 个月覆盖进度暂不可计算距目标约 ¥99,632.77整体安全状态正常债务›总债务¥800.00本月必须还款¥14,518.73依据本月记录的财务数据我的财务更新财务数据"
+
+ ❯ tests/ui.test.tsx:360:43
+    358|     expect(screen.queryByRole("progressbar", { name: "安全垫覆盖进度" })).toB…
+    359|     expect(screen.getByText("覆盖进度暂不可计算")).toBeTruthy();
+    360|     expect(document.body.textContent).not.toMatch(/NaN|Infinity/);
+       |                                           ^
+    361|   });
+    362|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed | 16 passed (17)
+      Tests  4 failed | 291 passed (295)
+   Start at  12:42:02
+   Duration  3.15s (tests 62%, transform 20%, import 10%, environment 7%, worker 1%)
+

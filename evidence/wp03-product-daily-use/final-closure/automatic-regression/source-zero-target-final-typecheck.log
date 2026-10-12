@@ -1,0 +1,6 @@
+
+> personal-finance-console@0.1.0 typecheck
+> tsc --noEmit
+
+src/ui/HomeScreen.tsx(834,12): error TS2304: Cannot find name 'safetyCoverageAvailable'.
+src/ui/HomeScreen.tsx(836,15): error TS2304: Cannot find name 'safetyTargetUnset'.

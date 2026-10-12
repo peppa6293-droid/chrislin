@@ -1,0 +1,34 @@
+## /Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend/index.html
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend/assets
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend/assets/finance-spending-wallet@2x-fQkqZ-5t.png
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend/assets/index-D27QmnHX.js
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend/assets/finance-income-coins@2x-BLyvU3qx.png
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend/assets/finance-plan-house@2x-CakhlPme.png
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend/assets/finance-income-empty@2x-B0C9Pnad.png
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend/assets/index-8F_ZweVG.css
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend/assets/finance-cash-wallet@2x-ygr-R7c4.png
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend/assets/finance-assets-plant@2x-C4nQZY9s.png
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend/assets/finance-debt-cards@2x-DCnctiOR.png
+
+## /Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/tauri.wp03.preview.json
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/tauri.wp03.preview.json
+
+## /Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/runtime-compatibility.json
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/runtime-compatibility.json
+
+## /Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/cargo-target/release/bundle/macos/小钱家 WP-03 测试版.app
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/cargo-target/release/bundle/macos/小钱家 WP-03 测试版.app
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/cargo-target/release/bundle/macos/小钱家 WP-03 测试版.app/Contents
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/cargo-target/release/bundle/macos/小钱家 WP-03 测试版.app/Contents/_CodeSignature
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/cargo-target/release/bundle/macos/小钱家 WP-03 测试版.app/Contents/_CodeSignature/CodeResources
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/cargo-target/release/bundle/macos/小钱家 WP-03 测试版.app/Contents/MacOS
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/cargo-target/release/bundle/macos/小钱家 WP-03 测试版.app/Contents/MacOS/personal-finance-console
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/cargo-target/release/bundle/macos/小钱家 WP-03 测试版.app/Contents/Resources
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/cargo-target/release/bundle/macos/小钱家 WP-03 测试版.app/Contents/Resources/runtime-compatibility.json
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/cargo-target/release/bundle/macos/小钱家 WP-03 测试版.app/Contents/Info.plist

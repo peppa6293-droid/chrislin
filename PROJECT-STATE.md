@@ -62,3 +62,13 @@
 - Sole execution session implemented ordinary UI daily management and its regression coverage under the approved isolated WP-03 identity. Report: `WP03_PRODUCT_DAILY_USE_COMPLETION_REPORT.md`; status `WP03_PRODUCT_DAILY_USE_REGRESSION_FAILED`.
 - Product tests pass (295 product Vitest, 2 WP-03 packaging, 37 Rust feature tests). Actual WP-03 onboarding/Home and Actual-income create/list/history partially passed on build-01. After removing a misleading edit-history placeholder, final-source native build-03 still fails strict codesign because `com.apple.FinderInfo` remains on generated app; build-02 and build-03 receipts preserved.
 - Complete domain UI scenario and same-package restart are NOT VERIFIED. WP-02 data and Production remain untouched. Financial Model V1.0 unchanged. Do not call this Planning-ready, Acceptance PASS, or native-migration ready. See `evidence/wp03-product-daily-use/REGRESSION_AND_READBACK.md`.
+# WP-03R1 最终原生包闭环（2026-10-12）
+
+- 最终源码：`112191eebbe4cf3c62f942f034064237ee92514a`，runtime source 无 dirty diff。
+- FinderInfo 根因为 CloudDocs 异步给 `.app` 根附加 FinderInfo；最终候选转到 APFS sparse image 输出后，Apple Development 签名与 `codesign --verify --deep --strict` 通过。build-02 / build-03 失败历史保留。
+- final r2 包：`artifacts/wp03-isolated-product-preview-20261012/final-build/cargo-target/release/bundle/macos/小钱家 WP-03 测试版.app`；Bundle ID `com.personalfinance.console.wp03preview`；executable SHA-256 `7791d20845abbba2d33cfa60feb3a135cc98a3b9b4524a74bd8620b2f374f8d3`。
+- 自动回归：typecheck、lint、295 product tests、WP-03 packaging tests、37 Rust tests、web build 通过。final package 真实 UI 仅部分通过：稳定月收入修订、October override/Home 刷新、同包重启后 Home 持久性已核实。
+- WP-03 DB 关闭态回读 v4 / migrations 1–4 / integrity ok / FK 空 / 无 handle 或 sidecar。A–M 全量真实 UI仍未完成，特别是 actual income、expense、cash/assets/debt/safety完整场景，以及新月份缺债务事实待确认/单笔确认隔离。
+- Final Status 仍是 `WP03_PRODUCT_DAILY_USE_REGRESSION_FAILED`。当前进度和证据：`evidence/wp03-product-daily-use/final-closure/WP03R1_CURRENT_PROGRESS.md`、`WP03_PRODUCT_DAILY_USE_COMPLETION_REPORT.md`。
+- WP-02、Production、Financial Model V1.0 未触碰。
+

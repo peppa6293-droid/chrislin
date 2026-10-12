@@ -1,0 +1,29 @@
+
+> personal-finance-console@0.1.0 build
+> npm run build:core && npm run build:web
+
+
+> personal-finance-console@0.1.0 build:core
+> tsc -p tsconfig.build.json
+
+
+> personal-finance-console@0.1.0 build:web
+> vite build
+
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 57 modules transformed.
+rendering chunks...
+computing gzip size...
+web-dist/index.html                                          0.41 kB │ gzip:   0.28 kB
+web-dist/assets/finance-income-empty@2x-B0C9Pnad.png       575.44 kB
+web-dist/assets/finance-assets-plant@2x-C4nQZY9s.png       802.11 kB
+web-dist/assets/finance-debt-cards@2x-DCnctiOR.png       1,036.05 kB
+web-dist/assets/finance-spending-wallet@2x-fQkqZ-5t.png  1,110.21 kB
+web-dist/assets/finance-plan-house@2x-CakhlPme.png       1,155.84 kB
+web-dist/assets/finance-cash-wallet@2x-ygr-R7c4.png      1,394.76 kB
+web-dist/assets/finance-income-coins@2x-BLyvU3qx.png     1,594.86 kB
+web-dist/assets/index-8F_ZweVG.css                          50.33 kB │ gzip:  10.71 kB
+web-dist/assets/index-BgIbTnXp.js                          457.17 kB │ gzip: 127.67 kB
+
+✓ built in 157ms

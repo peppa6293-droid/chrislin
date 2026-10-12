@@ -1,0 +1,13 @@
+{
+  "source": "/Users/linte/Library/Application Support/com.personalfinance.console.wp03preview/personal-finance-console.sqlite3",
+  "backup": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/wp03-product-daily-use/final-closure/preservation/wp03-partial-final-attempt-01.sqlite3",
+  "bundle_id": "com.personalfinance.console.wp03preview",
+  "sha256": "676a20c6d72ea5a19a26ffceccdc195447f542bb3dce18d5b3330e3339ba87f0",
+  "size": 258048,
+  "copied_at": "2026-10-12T12:08:09.490660+08:00",
+  "app_stopped": true,
+  "open_handles": 0,
+  "sidecars": 0,
+  "reason": "Preserve partial final-build UI run before fixing confirmed cash deactivation no-op",
+  "sql_mutation": false
+}

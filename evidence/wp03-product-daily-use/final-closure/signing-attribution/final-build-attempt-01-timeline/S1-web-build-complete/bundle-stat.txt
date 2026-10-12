@@ -1,0 +1,27 @@
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend	mode=drwxr-xr-x	uid=501	gid=20	nlink=4	size=128	mtime_ns=1791776223585838087	inode=24518586
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend/index.html	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=412	mtime_ns=1791776223585880337	inode=24519548
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend/assets	mode=drwxr-xr-x	uid=501	gid=20	nlink=11	size=352	mtime_ns=1791776223585758962	inode=24519535
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend/assets/finance-spending-wallet@2x-fQkqZ-5t.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1110212	mtime_ns=1791776223585711295	inode=24519546
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend/assets/index-D27QmnHX.js	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=456776	mtime_ns=1791776223583548543	inode=24519536
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend/assets/finance-income-coins@2x-BLyvU3qx.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1594862	mtime_ns=1791776223584724586	inode=24519543
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend/assets/finance-plan-house@2x-CakhlPme.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1155849	mtime_ns=1791776223585549878	inode=24519545
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend/assets/finance-income-empty@2x-B0C9Pnad.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=575448	mtime_ns=1791776223584885211	inode=24519544
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend/assets/index-8F_ZweVG.css	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=50339	mtime_ns=1791776223585810045	inode=24519547
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend/assets/finance-cash-wallet@2x-ygr-R7c4.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1394761	mtime_ns=1791776223584165419	inode=24519538
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend/assets/finance-assets-plant@2x-C4nQZY9s.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=802115	mtime_ns=1791776223583979835	inode=24519537
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend/assets/finance-debt-cards@2x-DCnctiOR.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1036055	mtime_ns=1791776223584532711	inode=24519540
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/tauri.wp03.preview.json	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1011	mtime_ns=1791776216315872158	inode=24518587
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/runtime-compatibility.json	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=243	mtime_ns=1791776216315958908	inode=24518588

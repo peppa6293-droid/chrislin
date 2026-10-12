@@ -51,3 +51,17 @@ Restart Persistence = NOT VERIFIED（仅完成只读数据库检查）
 Remaining Product Gaps = 完整真实 UI 链、最终源码包有效签名、同一包重启回读
 Remaining Native Migration Gaps = 既有 native migration gates 状态不变
 Production Touched = NO
+
+## WP-03R1 Final Closure（2026-10-12）
+
+本节补充最终收口结果，保留上文 build-02/build-03 的失败记录。原报告中“最终源码尚无签名通过包”的判断已被本轮 fresh build 更新；之前的候选和部分 UI 记录没有并入最终包的验收。
+
+- Final Status：`WP03_PRODUCT_DAILY_USE_REGRESSION_FAILED`。最终源码 `112191eebbe4cf3c62f942f034064237ee92514a` 已提交；FinderInfo 根因已定位；同一最终包通过 strict codesign、自动回归、真实启动、正常退出、重启和只读 DB v4 检查。但完整 A–M 原生 UI 未完成，不满足 READY。
+- FinderInfo 根因：签名时间线显示，FinderInfo 异步出现在 iCloud File Provider（CloudDocs）下 `.app` bundle 根目录；source 中 `src-tauri/icons/.DS_Store` 的 FinderInfo 并未作为 app bundle 内 offending resource。清理后 CloudDocs 仍可能重新附加元数据。最终构建输出改用独立 APFS sparse image 挂载点，避免该异步元数据路径；签名前检查、签名后 strict verify 均通过。build-02/build-03 的失败记录仍保留。
+- Signing Fix：在本地 Apple Development identity 下，从最终源码新构建到 APFS 输出卷，签名前检查 xattrs，签名后执行 `codesign --verify --deep --strict`；没有在签名后修改 bundle。TeamIdentifier `SSRKA7A4TN`，Authority `Apple Development: 8619814730147 (FW5KHTFNZ6)`。
+- Final App：`artifacts/wp03-isolated-product-preview-20261012/final-build/cargo-target/release/bundle/macos/小钱家 WP-03 测试版.app`；Bundle ID `com.personalfinance.console.wp03preview`；executable SHA-256 `7791d20845abbba2d33cfa60feb3a135cc98a3b9b4524a74bd8620b2f374f8d3`。Receipt 与实测 strict verify 见 `evidence/wp03-product-daily-use/final-closure/final-build/`。
+- 自动回归：最终源码变更后的 typecheck、lint、17 files / 295 product tests、WP-03 packaging tests、37 Rust tests、web build 均通过；lint 留有 25 条既存 CSS specificity warnings。日志见 `evidence/wp03-product-daily-use/final-closure/automatic-regression/source-zero-target-final-r2-*`。
+- 最终包真实 UI：首次设置数据由隔离的 WP-03 用户 profile 保存。最终包上验证了稳定收入版本新增和历史展示、2026-10 本月收入计划 override 的保存及 Home 刷新、正常退出；相同路径/Bundle ID/executable hash 重启后，Home 仍显示 ¥12,000 计划。此前其他候选包的 A–I 操作不作为最终包 PASS。最终包未完成 Actual Income、expense、cash/assets lifecycle、债务缺失月份与单笔确认、Safety Targets 的完整逐项 A–M 验收。
+- Restart / DB：同一个 final `.app` 正常退出并重开，再正常退出。最终 closed-state readback：WP-03 DB `user_version=4`、migrations `[1,2,3,4]`、`integrity_check=ok`、`foreign_key_check=[]`、无打开 handle、无 SQLite sidecar。详细值、行数及数据库哈希见 `evidence/wp03-product-daily-use/final-closure/db-readback/final-r2-closed-state.txt`。这是局部持久性证据，不代表 A–M 全部写入。
+- 原始 A–M 中“新月份缺少债务事实时显示待确认、单笔确认不得确认其他债务”尚未由当前正常 UI 流程验证。没有通过改系统日期、直接写 DB 或调用内部 service 模拟该业务验收。
+- WP-02 与 Production 均未触碰；Financial Model V1.0 未改。没有 runtime-affecting dirty source。最终进度摘要：`evidence/wp03-product-daily-use/final-closure/WP03R1_CURRENT_PROGRESS.md`。

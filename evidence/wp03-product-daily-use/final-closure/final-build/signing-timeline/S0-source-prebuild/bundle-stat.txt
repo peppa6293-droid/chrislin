@@ -1,0 +1,281 @@
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src	mode=drwxr-xr-x	uid=501	gid=20	nlink=11	size=352	mtime_ns=1791774109000000000	inode=22314772
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui	mode=drwxr-xr-x	uid=501	gid=20	nlink=14	size=448	mtime_ns=1791774055000000000	inode=22314773
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/v4-acceptance-main.tsx	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=376	mtime_ns=1791373810030213273	inode=22314799
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/main.tsx	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=245	mtime_ns=1790999773291992490	inode=22314800
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/runtime	mode=drwxr-xr-x	uid=501	gid=20	nlink=3	size=96	mtime_ns=1791774055000000000	inode=22314801
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/vite-env.d.ts	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=38	mtime_ns=1790952829932467349	inode=22314803
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/persistence	mode=drwxr-xr-x	uid=501	gid=20	nlink=6	size=192	mtime_ns=1791774055000000000	inode=22314804
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/model	mode=drwxr-xr-x	uid=501	gid=20	nlink=13	size=416	mtime_ns=1791774055000000000	inode=22314809
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/style.css	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=63058	mtime_ns=1791773813554950342	inode=22314821
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/application	mode=drwxr-xr-x	uid=501	gid=20	nlink=10	size=320	mtime_ns=1791774055000000000	inode=22314822
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/MoneyAmount.tsx	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1365	mtime_ns=1791350443117389684	inode=22314774
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/App.tsx	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=10263	mtime_ns=1791773728542581128	inode=22314775
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/FinancialMaintenanceDialog.tsx	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=28435	mtime_ns=1791308371283692647	inode=22314776
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/date.ts	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=335	mtime_ns=1790999612251833299	inode=22314777
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/v4-acceptance.css	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=4939	mtime_ns=1791425383585158386	inode=22314778
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/contracts.ts	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=2513	mtime_ns=1791773728534630658	inode=22314779
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/V4AcceptanceApp.tsx	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=24910	mtime_ns=1791425369446414661	inode=22314780
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/Onboarding.tsx	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=23954	mtime_ns=1791111831365130764	inode=22314781
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/HomeScreen.tsx	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=43860	mtime_ns=1791773728553320573	inode=22314782
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/FinanceIllustration.tsx	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1612	mtime_ns=1791278309534962000	inode=22314783
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/MyFinancePages.tsx	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=69377	mtime_ns=1791774537855466694	inode=22314784
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/assets	mode=drwxr-xr-x	uid=501	gid=20	nlink=3	size=96	mtime_ns=1791256690977905949	inode=22314785
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/assets/finance	mode=drwxr-xr-x	uid=501	gid=20	nlink=14	size=448	mtime_ns=1791278263779556415	inode=22314786
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/assets/finance/finance-cash-wallet@2x.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1394761	mtime_ns=1791253718422578372	inode=22314787
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/assets/finance/finance-income-empty@2x.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=575448	mtime_ns=1791253718430150483	inode=22314788
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/assets/finance/finance-debt-cards@2x.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1036055	mtime_ns=1791253718427346629	inode=22314789
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/assets/finance/finance-safety-sprout@2x.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=802115	mtime_ns=1791254276777516341	inode=22314790
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/assets/finance/brand-xiaoqianjia@2x.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1205791	mtime_ns=1791254276781079440	inode=22314791
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/assets/finance/finance-spending-wallet@2x.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1110212	mtime_ns=1791253718416259002	inode=22314792
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/assets/finance/finance-income-green-coins.svg	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1067	mtime_ns=1791278263779722667	inode=22314793
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/assets/finance/brand-wallet-sprout.svg	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1689	mtime_ns=1791277820885450437	inode=22314794
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/assets/finance/finance-assets-plant@2x.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=802115	mtime_ns=1791253718425121937	inode=22314795
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/assets/finance/finance-plan-house@2x.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1155849	mtime_ns=1791253718432780256	inode=22314796
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/assets/finance/manifest.json	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1396	mtime_ns=1791278291482530406	inode=22314797
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/assets/finance/finance-income-coins@2x.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1594862	mtime_ns=1791253718419554353	inode=22314798
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/runtime/tauri-bootstrap.ts	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=8911	mtime_ns=1791773728541873593	inode=22314802
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/persistence/repositories.ts	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=52356	mtime_ns=1791773728547969121	inode=22314805
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/persistence/migrations.ts	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=15759	mtime_ns=1791430756474759253	inode=22314806
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/persistence/database.ts	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1018	mtime_ns=1791429783431040442	inode=22314807
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/persistence/tauri-database.ts	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1681	mtime_ns=1791429848703158270	inode=22314808
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/model/validation.ts	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=8263	mtime_ns=1791026603240462634	inode=22314810
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/model/spending.ts	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=2870	mtime_ns=1791022160281587735	inode=22314811
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/model/debt.ts	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1395	mtime_ns=1790950058932194466	inode=22314812
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/model/monthly-model.ts	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=2116	mtime_ns=1790951328019326155	inode=22314813
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/model/safety.ts	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=4200	mtime_ns=1790950036210984315	inode=22314814
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/model/errors.ts	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=549	mtime_ns=1790949977742160240	inode=22314815
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/model/money.ts	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=2948	mtime_ns=1791026045626106635	inode=22314816
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/model/types.ts	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=6204	mtime_ns=1791022160281248645	inode=22314817
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/model/trend.ts	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=13121	mtime_ns=1790951437744712193	inode=22314818
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/model/priority-action.ts	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1326	mtime_ns=1790951323682982452	inode=22314819
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/model/index.ts	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=618	mtime_ns=1790950677152115157	inode=22314820
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/application/financial-maintenance-service.ts	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=22807	mtime_ns=1791773728545128647	inode=22314823
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/application/product-service.ts	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=17699	mtime_ns=1791206963219733728	inode=22314824
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/application/value-equality.ts	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=286	mtime_ns=1791307699774295918	inode=22314825
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/application/monthly-model-service.ts	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=10751	mtime_ns=1791021966170016688	inode=22314826
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/application/v4-acceptance-sandbox-service.ts	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=7793	mtime_ns=1791374196019961672	inode=22314827
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/application/v4-foundation-service.ts	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=21036	mtime_ns=1791773728545176730	inode=22314828
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/application/debt-fact-service.ts	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=14606	mtime_ns=1791361394555557183	inode=22314829
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/application/initialization-service.ts	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=619	mtime_ns=1790998013483401625	inode=22314830
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/src	mode=drwxr-xr-x	uid=501	gid=20	nlink=11	size=352	mtime_ns=1791774057000000000	inode=22314904
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/src/wp03_preview_isolation.rs	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=5950	mtime_ns=1791773831845381326	inode=24218475
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/src/quiescence_contract.rs	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=39517	mtime_ns=1791526357254041396	inode=23061611
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/src/bin	mode=drwxr-xr-x	uid=501	gid=20	nlink=6	size=192	mtime_ns=1791512115168099089	inode=22971089
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/src/cutover_startup.rs	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=12207	mtime_ns=1791525764685109411	inode=23054522
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/src/lib.rs	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=64580	mtime_ns=1791772388303659846	inode=22314905
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/src/wp02_preview_isolation.rs	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=4873	mtime_ns=1791547721584444187	inode=23940180
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/src/main.rs	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=123	mtime_ns=1790952486415541888	inode=22314906
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/src/quiescence_recovery.rs	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=35054	mtime_ns=1791528202845572360	inode=23062878
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/src/quiescence.rs	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=37885	mtime_ns=1791528336730193706	inode=22976108
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/src/bin/quiescence_old_runtime.rs	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1497	mtime_ns=1791512115168214635	inode=23475303
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/src/bin/quiescence_fixture.rs	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=303	mtime_ns=1791509258863431302	inode=22976107
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/src/bin/quiescence_tauri.rs	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=23659	mtime_ns=1791528196737360709	inode=23061793
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/src/bin/quiescence_competitor.rs	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=4503	mtime_ns=1791474170743372834	inode=22971090
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons	mode=drwxr-xr-x	uid=501	gid=20	nlink=22	size=704	mtime_ns=1791774057000000000	inode=22314840
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/icon.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=7025	mtime_ns=1790955074541614887	inode=22314841
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/Square30x30Logo.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=484	mtime_ns=1790955074400153047	inode=22314842
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/Square150x150Logo.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=2189	mtime_ns=1790955074412633113	inode=22314843
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/icon.icns	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=43431	mtime_ns=1790955074511202638	inode=22314844
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/.DS_Store	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=6148	mtime_ns=1791426611405558695	inode=22350606
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/StoreLogo.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=812	mtime_ns=1790955074399671798	inode=22314845
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/Square107x107Logo.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1536	mtime_ns=1790955074406096872	inode=22314846
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/Square89x89Logo.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1304	mtime_ns=1790955074403840000	inode=22314847
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/Square310x310Logo.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=4273	mtime_ns=1790955074426773051	inode=22314848
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/ios	mode=drwxr-xr-x	uid=501	gid=20	nlink=20	size=640	mtime_ns=1790955074571717844	inode=22314849
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/icon.ico	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=7398	mtime_ns=1790955074517772587	inode=22314868
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/Square142x142Logo.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=2063	mtime_ns=1790955074409372326	inode=22314869
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/android	mode=drwxr-xr-x	uid=501	gid=20	nlink=9	size=288	mtime_ns=1790955074650206565	inode=22314870
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/128x128.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1839	mtime_ns=1790955074522016040	inode=22314895
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/Square284x284Logo.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=4055	mtime_ns=1790955074419027395	inode=22314896
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/32x32.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=575	mtime_ns=1790955074518327087	inode=22314897
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/Square44x44Logo.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=729	mtime_ns=1790955074400855671	inode=22314898
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/Square71x71Logo.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1030	mtime_ns=1790955074402069961	inode=22314899
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/128x128@2x.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=3535	mtime_ns=1790955074528285822	inode=22314900
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/64x64.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=989	mtime_ns=1790955074519539585	inode=22314901
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/ios/AppIcon-20x20@3x.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=879	mtime_ns=1790955074544168883	inode=22314850
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/ios/AppIcon-512@2x.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=15177	mtime_ns=1790955074602538425	inode=22314851
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/ios/AppIcon-83.5x83.5@2x.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=2137	mtime_ns=1790955074565873769	inode=22314852
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/ios/AppIcon-20x20@2x.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=655	mtime_ns=1790955074543318218	inode=22314853
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/ios/AppIcon-29x29@3x.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1180	mtime_ns=1790955074547480712	inode=22314854
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/ios/AppIcon-40x40@2x.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1144	mtime_ns=1790955074550482666	inode=22314855
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/ios/AppIcon-60x60@3x.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=2397	mtime_ns=1790955074558396488	inode=22314856
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/ios/AppIcon-40x40@2x-1.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1144	mtime_ns=1790955074548605377	inode=22314857
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/ios/AppIcon-20x20@2x-1.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=655	mtime_ns=1790955074542312927	inode=22314858
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/ios/AppIcon-60x60@2x.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1619	mtime_ns=1790955074554755451	inode=22314859
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/ios/AppIcon-76x76@1x.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1109	mtime_ns=1790955074559800861	inode=22314860
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/ios/AppIcon-40x40@3x.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1619	mtime_ns=1790955074552566913	inode=22314861
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/ios/AppIcon-29x29@2x.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=877	mtime_ns=1790955074546254547	inode=22314862
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/ios/AppIcon-76x76@2x.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1930	mtime_ns=1790955074562731315	inode=22314863
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/ios/AppIcon-29x29@1x.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=476	mtime_ns=1790955074545478048	inode=22314864
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/ios/AppIcon-40x40@1x.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=655	mtime_ns=1790955074549290709	inode=22314865
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/ios/AppIcon-20x20@1x.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=404	mtime_ns=1790955074542732552	inode=22314866
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/ios/AppIcon-29x29@2x-1.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=877	mtime_ns=1790955074545101590	inode=22314867
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/android/mipmap-mdpi	mode=drwxr-xr-x	uid=501	gid=20	nlink=5	size=160	mtime_ns=1790955074636806959	inode=22314871
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/android/mipmap-hdpi	mode=drwxr-xr-x	uid=501	gid=20	nlink=5	size=160	mtime_ns=1790955074635316378	inode=22314875
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/android/mipmap-xxxhdpi	mode=drwxr-xr-x	uid=501	gid=20	nlink=5	size=160	mtime_ns=1790955074647896985	inode=22314879
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/android/mipmap-xxhdpi	mode=drwxr-xr-x	uid=501	gid=20	nlink=5	size=160	mtime_ns=1790955074642190243	inode=22314883
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/android/values	mode=drwxr-xr-x	uid=501	gid=20	nlink=3	size=96	mtime_ns=1790955074650160940	inode=22314887
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/android/mipmap-xhdpi	mode=drwxr-xr-x	uid=501	gid=20	nlink=5	size=160	mtime_ns=1790955074638597456	inode=22314889
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/android/mipmap-anydpi-v26	mode=drwxr-xr-x	uid=501	gid=20	nlink=3	size=96	mtime_ns=1790955074650232607	inode=22314893
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/android/mipmap-mdpi/ic_launcher_foreground.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1573	mtime_ns=1790955074609210998	inode=22314872
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/android/mipmap-mdpi/ic_launcher.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1571	mtime_ns=1790955074637121917	inode=22314873
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/android/mipmap-mdpi/ic_launcher_round.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1182	mtime_ns=1790955074636576959	inode=22314874
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/android/mipmap-hdpi/ic_launcher_foreground.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=2223	mtime_ns=1790955074606707252	inode=22314876
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/android/mipmap-hdpi/ic_launcher.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=2368	mtime_ns=1790955074635913710	inode=22314877
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/android/mipmap-hdpi/ic_launcher_round.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1733	mtime_ns=1790955074634978336	inode=22314878
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/android/mipmap-xxxhdpi/ic_launcher_foreground.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=6132	mtime_ns=1790955074634021171	inode=22314880
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/android/mipmap-xxxhdpi/ic_launcher.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=5839	mtime_ns=1790955074650092898	inode=22314881
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/android/mipmap-xxxhdpi/ic_launcher_round.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=3819	mtime_ns=1790955074646961486	inode=22314882
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/android/mipmap-xxhdpi/ic_launcher_foreground.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=4464	mtime_ns=1790955074622514229	inode=22314884
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/android/mipmap-xxhdpi/ic_launcher.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=4276	mtime_ns=1790955074644057365	inode=22314885
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/android/mipmap-xxhdpi/ic_launcher_round.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=3129	mtime_ns=1790955074641490786	inode=22314886
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/android/values/ic_launcher_background.xml	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=118	mtime_ns=1790955074650183690	inode=22314888
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/android/mipmap-xhdpi/ic_launcher_foreground.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=2997	mtime_ns=1790955074614541241	inode=22314890
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/android/mipmap-xhdpi/ic_launcher.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=2865	mtime_ns=1790955074639442705	inode=22314891
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/android/mipmap-xhdpi/ic_launcher_round.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1972	mtime_ns=1790955074638152165	inode=22314892
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/icons/android/mipmap-anydpi-v26/ic_launcher.xml	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=261	mtime_ns=1790955074650252106	inode=22314894
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/build.rs	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1430	mtime_ns=1791473659854094486	inode=22314839
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/Cargo.toml	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1262	mtime_ns=1791772323863060115	inode=22314832
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/tauri.conf.json	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=801	mtime_ns=1791429885178003802	inode=22314834
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/runtime-compatibility.json	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=231	mtime_ns=1791429885177117177	inode=22475980
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/build_wp03_product_preview.py	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=28132	mtime_ns=1791776897863167210	inode=24218492

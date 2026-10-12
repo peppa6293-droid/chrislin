@@ -1,0 +1,98 @@
+## src
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/MoneyAmount.tsx: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/App.tsx: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/FinancialMaintenanceDialog.tsx: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/date.ts: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/v4-acceptance.css: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/contracts.ts: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/V4AcceptanceApp.tsx: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/Onboarding.tsx: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/HomeScreen.tsx: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/FinanceIllustration.tsx: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/MyFinancePages.tsx: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/assets/finance/finance-cash-wallet@2x.png: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/assets/finance/finance-income-empty@2x.png: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/assets/finance/finance-debt-cards@2x.png: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/assets/finance/finance-safety-sprout@2x.png: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/assets/finance/brand-xiaoqianjia@2x.png: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/assets/finance/finance-spending-wallet@2x.png: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/assets/finance/finance-income-green-coins.svg: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/assets/finance/brand-wallet-sprout.svg: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/assets/finance/finance-assets-plant@2x.png: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/assets/finance/finance-plan-house@2x.png: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/assets/finance/manifest.json: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/assets/finance/finance-income-coins@2x.png: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/assets/finance: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui/assets: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/ui: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/v4-acceptance-main.tsx: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/main.tsx: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/runtime/tauri-bootstrap.ts: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/runtime: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/vite-env.d.ts: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/persistence/repositories.ts: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/persistence/migrations.ts: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/persistence/database.ts: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/persistence/tauri-database.ts: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/persistence: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/model/validation.ts: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/model/spending.ts: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/model/debt.ts: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/model/monthly-model.ts: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/model/safety.ts: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/model/errors.ts: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/model/money.ts: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/model/types.ts: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/model/trend.ts: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/model/priority-action.ts: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/model/index.ts: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/model: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/style.css: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/application/financial-maintenance-service.ts: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/application/product-service.ts: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/application/value-equality.ts: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/application/monthly-model-service.ts: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/application/v4-acceptance-sandbox-service.ts: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/application/v4-foundation-service.ts: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/application/debt-fact-service.ts: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/application/initialization-service.ts: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src/application: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src: com.apple.provenance: 
+
+## src-tauri/src
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/src/wp03_preview_isolation.rs: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/src/quiescence_contract.rs: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/src/bin/quiescence_old_runtime.rs: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/src/bin/quiescence_fixture.rs: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/src/bin/quiescence_tauri.rs: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/src/bin/quiescence_competitor.rs: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/src/bin: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/src/cutover_startup.rs: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/src/lib.rs: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/src/wp02_preview_isolation.rs: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/src/main.rs: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/src/quiescence_recovery.rs: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/src/quiescence.rs: com.apple.provenance: 
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/src: com.apple.provenance: 
+
+## scripts/build_wp03_product_preview.py
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/build_wp03_product_preview.py: com.apple.provenance: 
+
+## src-tauri/tauri.conf.json
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/tauri.conf.json: com.apple.provenance: 
+
+## src-tauri/runtime-compatibility.json
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/runtime-compatibility.json: com.apple.provenance: 
+
+## package.json
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/package.json: com.apple.provenance: 
+
+## index.html
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/index.html: com.apple.provenance: 

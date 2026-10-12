@@ -1,0 +1,13 @@
+
+> personal-finance-console@0.1.0 test:product
+> vitest run tests
+
+
+ RUN  v5.0.3 /Users/linte/Documents/ChatGPT/个人财务模型app开发
+
+
+ Test Files  17 passed (17)
+      Tests  295 passed (295)
+   Start at  12:11:44
+   Duration  2.87s (tests 62%, transform 20%, import 9%, environment 8%, worker 1%)
+

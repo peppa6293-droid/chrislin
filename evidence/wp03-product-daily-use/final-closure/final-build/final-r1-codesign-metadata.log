@@ -1,0 +1,28 @@
+Executable=/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/cargo-target/release/bundle/macos/小钱家 WP-03 测试版.app/Contents/MacOS/personal-finance-console
+Identifier=com.personalfinance.console.wp03preview
+Format=app bundle with Mach-O thin (arm64)
+CodeDirectory v=20500 size=40627 flags=0x10000(runtime) hashes=1262+3 location=embedded
+VersionPlatform=1
+VersionMin=720896
+VersionSDK=1769472
+Hash type=sha256 size=32
+CandidateCDHash sha256=3258e5c4d3db682f5ba98c7f90dcba79a425b86f
+CandidateCDHashFull sha256=3258e5c4d3db682f5ba98c7f90dcba79a425b86f9a62db74c02277c8d6525c18
+Hash choices=sha256
+CMSDigest=3258e5c4d3db682f5ba98c7f90dcba79a425b86f9a62db74c02277c8d6525c18
+CMSDigestType=2
+Executable Segment base=0
+Executable Segment limit=16744448
+Executable Segment flags=0x1
+Page size=16384
+CDHash=3258e5c4d3db682f5ba98c7f90dcba79a425b86f
+Signature size=4777
+Authority=Apple Development: 8619814730147 (FW5KHTFNZ6)
+Authority=Apple Worldwide Developer Relations Certification Authority
+Authority=Apple Root CA
+Signed Time=Oct 12, 2026 at 12:13:27
+Info.plist entries=14
+TeamIdentifier=SSRKA7A4TN
+Runtime Version=27.0.0
+Sealed Resources version=2 rules=13 files=1
+Internal requirements count=1 size=204

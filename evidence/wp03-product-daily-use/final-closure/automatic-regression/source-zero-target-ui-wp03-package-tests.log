@@ -1,0 +1,12 @@
+
+> personal-finance-console@0.1.0 test:wp03-preview
+> python3 -m unittest discover -s scripts -p test_wp03_preview_packaging.py -v
+
+test_finds_finderinfo_and_resource_fork_attributed_to_exact_paths (test_wp03_preview_packaging.PreviewPackagingTests) ... ok
+test_parses_real_dwarfdump_line_and_rejects_malformed_rows (test_wp03_preview_packaging.PreviewPackagingTests) ... ok
+test_preview_manifest_is_source_mapped_to_the_bundle_resource_name (test_wp03_preview_packaging.PreviewPackagingTests) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.000s
+
+OK

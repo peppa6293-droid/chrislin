@@ -1,0 +1,41 @@
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend	mode=drwxr-xr-x	uid=501	gid=20	nlink=4	size=128	mtime_ns=1791776999313748128	inode=19
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend/index.html	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=412	mtime_ns=1791776999313792961	inode=47
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend/assets	mode=drwxr-xr-x	uid=501	gid=20	nlink=11	size=352	mtime_ns=1791776999313693586	inode=37
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend/assets/finance-spending-wallet@2x-fQkqZ-5t.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1110212	mtime_ns=1791776999313659544	inode=45
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend/assets/index-D27QmnHX.js	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=456776	mtime_ns=1791776999312601746	inode=38
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend/assets/finance-income-coins@2x-BLyvU3qx.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1594862	mtime_ns=1791776999313226333	inode=42
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend/assets/finance-plan-house@2x-CakhlPme.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1155849	mtime_ns=1791776999313508293	inode=44
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend/assets/finance-income-empty@2x-B0C9Pnad.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=575448	mtime_ns=1791776999313358792	inode=43
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend/assets/index-8F_ZweVG.css	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=50339	mtime_ns=1791776999313721461	inode=46
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend/assets/finance-cash-wallet@2x-ygr-R7c4.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1394761	mtime_ns=1791776999312907665	inode=40
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend/assets/finance-assets-plant@2x-C4nQZY9s.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=802115	mtime_ns=1791776999312739663	inode=39
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/frontend/assets/finance-debt-cards@2x-DCnctiOR.png	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1036055	mtime_ns=1791776999313052040	inode=41
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/tauri.wp03.preview.json	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1011	mtime_ns=1791776992609569515	inode=20
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/runtime-compatibility.json	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=243	mtime_ns=1791776992609654891	inode=21
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/cargo-target/release/bundle/macos/小钱家 WP-03 测试版.app	mode=drwxr-xr-x	uid=501	gid=20	nlink=3	size=96	mtime_ns=1791777061352144459	inode=6936
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/cargo-target/release/bundle/macos/小钱家 WP-03 测试版.app/Contents	mode=drwxr-xr-x	uid=501	gid=20	nlink=5	size=160	mtime_ns=1791777061372243287	inode=6937
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/cargo-target/release/bundle/macos/小钱家 WP-03 测试版.app/Contents/MacOS	mode=drwxr-xr-x	uid=501	gid=20	nlink=3	size=96	mtime_ns=1791777061372332037	inode=6941
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/cargo-target/release/bundle/macos/小钱家 WP-03 测试版.app/Contents/Resources	mode=drwxr-xr-x	uid=501	gid=20	nlink=3	size=96	mtime_ns=1791777061372173078	inode=6939
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/cargo-target/release/bundle/macos/小钱家 WP-03 测试版.app/Contents/Info.plist	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=1061	mtime_ns=1791777061353419299	inode=6938
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/cargo-target/release/bundle/macos/小钱家 WP-03 测试版.app/Contents/MacOS/personal-finance-console	mode=-rwxr-xr-x	uid=501	gid=20	nlink=1	size=20833856	mtime_ns=1791777060742910953	inode=6942
+
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/cargo-target/release/bundle/macos/小钱家 WP-03 测试版.app/Contents/Resources/runtime-compatibility.json	mode=-rw-r--r--	uid=501	gid=20	nlink=1	size=243	mtime_ns=1791776992609654891	inode=6940

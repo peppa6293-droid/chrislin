@@ -1,0 +1,23 @@
+Executable=/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/cargo-target/release/bundle/macos/小钱家 WP-03 测试版.app/Contents/MacOS/personal-finance-console
+Identifier=personal_finance_console-eb5eedccb508d794
+Format=app bundle with Mach-O thin (arm64)
+CodeDirectory v=20400 size=161640 flags=0x20002(adhoc,linker-signed) hashes=5047+0 location=embedded
+VersionPlatform=1
+VersionMin=720896
+VersionSDK=1769472
+Hash type=sha256 size=32
+CandidateCDHash sha256=16ef4533d88087a188accb45a160d9b07640a28c
+CandidateCDHashFull sha256=16ef4533d88087a188accb45a160d9b07640a28c9bdef616bdd8f7da7694f0e5
+Hash choices=sha256
+CMSDigest=16ef4533d88087a188accb45a160d9b07640a28c9bdef616bdd8f7da7694f0e5
+CMSDigestType=2
+Executable Segment base=0
+Executable Segment limit=16744448
+Executable Segment flags=0x1
+Page size=4096
+CDHash=16ef4533d88087a188accb45a160d9b07640a28c
+Signature=adhoc
+Info.plist=not bound
+TeamIdentifier=not set
+Sealed Resources=none
+Internal requirements=none

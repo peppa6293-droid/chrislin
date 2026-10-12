@@ -1,0 +1,61 @@
+{
+  "app_path": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-build/cargo-target/release/bundle/macos/小钱家 WP-03 测试版.app",
+  "bundle_id": "com.personalfinance.console.wp03preview",
+  "bundle_executable": "personal-finance-console",
+  "bundle_name": "小钱家 WP-03 测试版",
+  "bundle_display_name": "小钱家 WP-03 测试版",
+  "executable_sha256": "5c4fe6edcf5b4c2c6ff227890af8898597d511e3cbc52d9bb3c256f15f24b07f",
+  "info_plist": {
+    "CFBundleDevelopmentRegion": "English",
+    "CFBundleDisplayName": "小钱家 WP-03 测试版",
+    "CFBundleExecutable": "personal-finance-console",
+    "CFBundleIdentifier": "com.personalfinance.console.wp03preview",
+    "CFBundleInfoDictionaryVersion": "6.0",
+    "CFBundleName": "小钱家 WP-03 测试版",
+    "CFBundlePackageType": "APPL",
+    "CFBundleShortVersionString": "0.1.0",
+    "CFBundleVersion": "0.1.0",
+    "CSResourcesFileMapped": true,
+    "LSApplicationCategoryType": "public.app-category.finance",
+    "LSMinimumSystemVersion": "11.0",
+    "LSRequiresCarbon": true,
+    "NSHighResolutionCapable": true
+  },
+  "runtime_manifest": {
+    "manifestFormatVersion": 1,
+    "runtimeGeneration": 4,
+    "minSupportedSchemaVersion": 1,
+    "maxSupportedSchemaVersion": 4,
+    "bundleId": "com.personalfinance.console.wp03preview",
+    "executable": "Contents/MacOS/personal-finance-console"
+  },
+  "file_count": 4,
+  "files": [
+    {
+      "path": "Contents/Info.plist",
+      "type": "file",
+      "size": 1061,
+      "sha256": "c2ddb33c38eeaa3195185c6dd5624e6f07310f7b908aad54591f2ee07a468b79"
+    },
+    {
+      "path": "Contents/MacOS/personal-finance-console",
+      "type": "file",
+      "size": 20731072,
+      "sha256": "5c4fe6edcf5b4c2c6ff227890af8898597d511e3cbc52d9bb3c256f15f24b07f"
+    },
+    {
+      "path": "Contents/Resources/runtime-compatibility.json",
+      "type": "file",
+      "size": 243,
+      "sha256": "01caa4af6424a11aae1eec7798452460b13e7725a3644c5c8cfc0f43daeacd6c"
+    },
+    {
+      "path": "Contents/_CodeSignature/CodeResources",
+      "type": "file",
+      "size": 2474,
+      "sha256": "18cba65805da7bc0123cd91c5e52f2ec7f77eb6553eb03def0b67a43cf5a42f5"
+    }
+  ],
+  "strict_verify_exit_code": 0,
+  "build_record": "build-record.json"
+}

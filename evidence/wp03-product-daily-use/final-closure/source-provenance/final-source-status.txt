@@ -1,0 +1,5 @@
+Final source HEAD: 112191eebbe4cf3c62f942f034064237ee92514a
+Runtime-affecting tracked source: committed.
+Final native build executable hash: 7791d20845abbba2d33cfa60feb3a135cc98a3b9b4524a74bd8620b2f374f8d3
+No runtime-affecting dirty source at final verification.
+Unrelated pre-existing untracked docs/evidence in the repository were not modified or staged as source.

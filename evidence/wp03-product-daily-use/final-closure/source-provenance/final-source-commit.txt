@@ -1,0 +1,6 @@
+Final WP-03R1 native bundle source commit:
+112191eebbe4cf3c62f942f034064237ee92514a
+
+Parent: 511e59750aaa5c5746c9f8feaa192fae37bc47f6
+Runtime fixes in final source chain: 7ebe258, d09b466, d680049, 511e597, 112191e.
+At build time, tracked source had no uncommitted changes. Unrelated untracked governance/evidence documents were present and were not build inputs.
