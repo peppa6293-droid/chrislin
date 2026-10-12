@@ -1,0 +1,17 @@
+{
+  "format_version": 1,
+  "status": "PASS",
+  "starting_head": "afef8b9d147f2ac4111136d9a5e4ac325756667b",
+  "gate_integration_commit": "41d3c0d6e46dd870a1c8ee266f006099356f1ccb",
+  "suite": "scripts.test_production_gate_wiring_integration",
+  "tests_passed": 5,
+  "tests_failed": 0,
+  "proof": "Production gate CLI preflight persisted the bound synthetic receipt; separate migrate reloaded and validated it, issued the permit, launched the copied synthetic candidate, and reached the compiled Rust consumer; the consumer claimed the permit and durably appended one ledger record.",
+  "postconditions": {
+    "permit_consumed": true,
+    "ledger_record_count": 1,
+    "database_schema_remains_v3": true,
+    "migration4_executed": false,
+    "production_touched": false
+  }
+}

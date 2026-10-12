@@ -134,3 +134,16 @@ After the initial R1 report, a race was reproduced in the synthetic native hando
 The corrected, signed synthetic **native CLI (NOT Q11)** recovery matrix passed all 16 cases. Its receipt is `evidence/wp04-release-cutover-readiness/25-current-recovery/recovery-matrix-ackfix.json`. It covers the listed synthetic handoff/recovery and authorization-boundary cases only. It does not prove Production recovery, renderer behavior, formal gate integration, full C0–C10/S0–S10, Migration 4 exactly-once, or final acceptance. The original race failure remains preserved in `recovery-matrix-signed.json`.
 
 The additional post-fix evidence does not change the overall decision: **WP04_RELEASE_CUTOVER_READINESS_BLOCKED**. The formal Production execution path remains disabled, renderer PID attribution remains unresolved, no R1 final Production candidate exists, and the complete current-source cutover chain remains incomplete. Product regression selections pass; complete WP04 acceptance does not. Production app/DB, authorization, backup, permit, installation, migration, restore, and blocker closure remain untouched/not performed.
+
+
+## WP-04R2A Formal Gate Wiring
+
+**R2A result: `WP04R2A_GATE_WIRING_READY`.** Starting HEAD was `afef8b9d147f2ac4111136d9a5e4ac325756667b`; implementation commit is `41d3c0d6e46dd870a1c8ee266f006099356f1ccb`. The formal Production gate now exposes distinct `preflight` and `migrate` commands. Both are reachable and refuse missing authorization before Production candidate or database inspection.
+
+`preflight` validates exact candidate-approval and migration-authorization bytes, fixed Production identity and paths, candidate, installed inventory, V3 database, and backup, then persists the receipt. It does not issue a permit or launch the native runner. `migrate` reloads and validates the persisted receipt and current authorization/object bindings, rejects drift, issues a one-time permit internally, and launches only the fixed candidate internal role. The native consumer validates the permit against the exact receipt hash and domain, atomically claims it, writes the consumed ledger, and owns native Migration 4.
+
+An isolated marked-temp integration invoked the formal Python CLI twice and reached the actual compiled Rust consumer. The permit was consumed and one durable ledger entry was written; the synthetic database remained V3. Migration 4 was not run. Missing-auth Production CLI checks safely refused both commands without creating receipts or inspecting a Production database. Regression selections and build passed; lint and Rust emitted existing non-failing warnings.
+
+No Production app or database was opened, read, launched, installed, or modified. No real authorization, receipt, backup, or permit was created. No Migration 4, restore, or blocker closure occurred. WP-03 acceptance, Financial Model source, and WP-02 were not modified.
+
+This closes only the R2A gate-wiring target. Renderer attribution, full synthetic cutover/migration rehearsal, final candidate, and overall WP04 acceptance remain outside this round. The next responsibility is Planning to issue the separate R2B scope. Evidence and supported entrypoint map: `evidence/wp04-release-cutover-readiness/32-gate-wiring/` and `evidence/wp04-release-cutover-readiness/03-entrypoint-map/CURRENT_SUPPORTED_ENTRYPOINT_MAP.md`.

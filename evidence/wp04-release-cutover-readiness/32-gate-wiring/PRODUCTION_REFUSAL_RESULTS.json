@@ -1,0 +1,23 @@
+{
+  "format_version": 1,
+  "status": "PASS",
+  "scope": "formal Production CLI with deliberately absent authorization paths; no candidate, app, or database inspection",
+  "results": [
+    {
+      "command": "preflight",
+      "returncode": 2,
+      "status": "BLOCKED",
+      "reason": "REFUSE_NO_AUTHORIZATION: Production V4 release gate blocked: Production migration authorization is missing, unsafe, or unreadable: FileNotFoundError: [Errno 2] No such file or directory: '/does-not-exist/r2a-migration-authorization.json'",
+      "receipt_created": false,
+      "production_database_accessed": false
+    },
+    {
+      "command": "migrate",
+      "returncode": 2,
+      "status": "BLOCKED",
+      "reason": "REFUSE_NO_AUTHORIZATION: Production V4 release gate blocked: Production migration authorization is missing, unsafe, or unreadable: FileNotFoundError: [Errno 2] No such file or directory: '/does-not-exist/r2a-migration-authorization.json'",
+      "receipt_created": false,
+      "production_database_accessed": false
+    }
+  ]
+}

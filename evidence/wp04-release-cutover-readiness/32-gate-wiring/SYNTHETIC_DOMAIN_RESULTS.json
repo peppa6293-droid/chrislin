@@ -1,0 +1,8 @@
+{
+  "format_version": 1,
+  "synthetic_only": true,
+  "status": "PASS",
+  "scope": "formal gate core through actual Rust authorization consumer; Migration 4 not executed",
+  "actual_native_consumer": "PASS",
+  "migration4_executed": false
+}

@@ -31,3 +31,16 @@
 - 证据根：`evidence/wp04-release-cutover-readiness/`
 - 修复后的 recovery matrix：`evidence/wp04-release-cutover-readiness/25-current-recovery/recovery-matrix-ackfix.json`
 - 下一责任人：Execution 继续完成正式 gate/consumer 支持路径、renderer PID 归因及完整 synthetic cutover/候选证据；完成后再交独立审查。当前不具备最终审计就绪条件。
+
+
+## WP-04R2A — Formal Gate Wiring
+
+**R2A status: `WP04R2A_GATE_WIRING_READY`.** Starting HEAD: `afef8b9d147f2ac4111136d9a5e4ac325756667b`. Gate implementation commit: `41d3c0d6e46dd870a1c8ee266f006099356f1ccb`.
+
+- Added distinct supported Production `preflight` and `migrate` commands in `scripts/production_v4_release_gate.py`. Missing authorization reaches the commands and safely returns `REFUSE_NO_AUTHORIZATION` before Production candidate/database inspection.
+- Bound exact authorization bytes, persisted release receipt, gate-issued one-time permit, native consumer claim, and durable consumed ledger. Production DB/app identity and paths remain fixed; no arbitrary DB, SQL, or permit parameter exists.
+- Synthetic mode uses a canonical temporary root and exact marker, strict synthetic authorization tags, and the same gate core. Integration reached the actual Rust consumer and durable ledger; fixture database remained V3. Migration 4 was not executed.
+- Regressions: typecheck, lint, product tests, WP03 preview/isolation, release-gate, gate-entry, native synthetic integration (47 combined gate/boundary/integration tests), Rust default (37), Rust WP03 preview (40), native/quiescence targeted (33), and build passed.
+- Production app/database, real authorization, receipt, backup, permit, installation, migration, restore, and blocker closure were not performed. WP-03 acceptance, Financial Model, and WP-02 were not changed.
+
+**R2A scope is complete.** The next owner is Planning to issue or route WP-04R2B as a separate task; this receipt does not claim renderer closure, full C0-C10/S0-S10, Migration 4 rehearsal, or overall WP04 readiness. Evidence: `evidence/wp04-release-cutover-readiness/32-gate-wiring/`.
