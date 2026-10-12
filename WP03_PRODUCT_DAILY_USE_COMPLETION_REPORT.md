@@ -7,7 +7,7 @@
 ## 项目基线与交付
 
 - Baseline Commit：`92ec24136d732e05375760d736ef508c66dd2c0e`
-- Final Commit：待创建；当前报告记录的是最终源码修正后的回归结果，签名门槛失败，未声称交付可验收的最终 App。
+- Final Commit：`0a98e7e`（`feat: complete isolated WP03 daily finance workflows`；提交源码与测试及本报告）。
 - Capability inventory：[`evidence/wp03-product-daily-use/CAPABILITY_INVENTORY_BEFORE.md`](evidence/wp03-product-daily-use/CAPABILITY_INVENTORY_BEFORE.md)
 - Evidence Root：`evidence/wp03-product-daily-use/`
 - Product regression/readback：[`evidence/wp03-product-daily-use/REGRESSION_AND_READBACK.md`](evidence/wp03-product-daily-use/REGRESSION_AND_READBACK.md)
@@ -40,10 +40,10 @@ WP-03 数据库只读检查为 schema v4、migrations 1–4、integrity `ok`、�
 
 Final Status = `WP03_PRODUCT_DAILY_USE_REGRESSION_FAILED`
 Baseline Commit = `92ec24136d732e05375760d736ef508c66dd2c0e`
-Final Commit = 待创建
+Final Commit = `0a98e7e`
 Report = `WP03_PRODUCT_DAILY_USE_COMPLETION_REPORT.md`
 Evidence Root = `evidence/wp03-product-daily-use/`
-WP-03 App = build-01 曾成功启动；build-03 最终源码签名失败
+WP-03 App = build-01 曾成功启动（可执行文件 SHA-256 `4b5e5c75e21d9511f740da190fc2d9a281d3ea669cd849008982c5ad3bd972ab`，仅代表源码提示修正前的构建）；build-03 最终源码签名失败
 Executable SHA = build-01 receipt 中可核；build-03 无验签通过的最终 SHA
 Automatic Tests = PASS（详见回归表）；final native packaging = FAIL
 Native UI Acceptance = PARTIAL / NOT VERIFIED
