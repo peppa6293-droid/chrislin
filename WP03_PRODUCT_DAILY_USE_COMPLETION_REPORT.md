@@ -1,6 +1,10 @@
 # WP-03 小钱家日常产品完整化报告
 
-## Final Status
+## Current Final Status (WP-03R3)
+
+`WP03_PRODUCT_DAILY_USE_READY_FOR_PLANNING_REVIEW` — see the latest WP-03R3 completion section at the end of this report.
+
+## Historical status at the original WP-03 delivery
 
 `WP03_PRODUCT_DAILY_USE_REGRESSION_FAILED`
 
@@ -104,3 +108,11 @@ R5 DB 只读检查：`user_version=4`、migrations `[1,2,3,4]`、integrity `ok`�
 
 Financial Model V1.0 未修改；WP-02 和 Production 未访问。Planning Review 暂不放行。下一步须在 R5 同一候选包上完成剩余 A–M 场景并补足完整 closed-state DB 与重启逐页回读；如运行时代码再变更，需重新构建并对新包重做全量验收。
 
+
+## WP-03R3 R5 Full Acceptance Completion
+
+WP-03R3 在同一冻结 R5 包和同一 synthetic DB 上完成了剩余日常产品验收。最终状态：`WP03_PRODUCT_DAILY_USE_READY_FOR_PLANNING_REVIEW`。R5 源码提交仍为 `fd1d9e8714173167430baa2ab9325557a9e80775`；本轮 runtime source 无修改，未构建 R6。既有 A/B/E/H2 作为同包已保存结果继承；C、D、F、G、H、I、I2、J、K、L、M 均完成。实际收入表单无名称输入项，D 按金额、状态、业务日期和作废历史验收。
+
+R5 executable SHA-256 为 `ecc46453d2aea39cd2f6232a38685827316f6c09e9b1f45e6fb6366cae182313`，Bundle ID `com.personalfinance.console.wp03preview`，strict codesign PASS。完整 UI 矩阵、全表关闭态数据库回读、相同包重启矩阵及 before/after 数据库对照见 `evidence/wp03-product-daily-use/final-r2-closure/r5-completion/`。重启前后 DB SHA 相同，完整 table rows/revisions 相同；重启未新增业务修订。v4 integrity `ok`，FK check 为空。
+
+没有发现确定产品缺陷或产生 R6。Financial Model V1.0 未改；WP-02 与 Production 未触碰。当前仅进入 Planning Review，尚不代表 Owner 业务接受或 Production 放行。详见 `evidence/wp03-product-daily-use/final-r2-closure/r5-completion/WP03R3_FINAL_ACCEPTANCE.md`。

@@ -81,3 +81,11 @@
 - R5 包：`artifacts/wp03-isolated-product-preview-20261012/final-r5/.../小钱家 WP-03 测试版.app`；Bundle ID `com.personalfinance.console.wp03preview`；SHA-256 `ecc46453d2aea39cd2f6232a38685827316f6c09e9b1f45e6fb6366cae182313`。
 - 完整进度与证据入口：`evidence/wp03-product-daily-use/final-r2-closure/WP03R2_CURRENT_PROGRESS.md`。R4 部分现场及 R1 / R3 数据保持封存。
 - Financial Model V1.0 未改；WP-02、Production 未访问。
+
+## WP-03R3 R5 最终产品验收 — 2026-10-12
+
+- 状态：`WP03_PRODUCT_DAILY_USE_READY_FOR_PLANNING_REVIEW`。R5 A–M 整体闭环；A/B/E/H2 继承，剩余 C/D/F/G/H/I/I2/J/K/L/M 以同一原生包/数据库完成。没有 runtime source 修改或 R6；无确定产品缺陷。
+- 冻结源码提交 `fd1d9e8714173167430baa2ab9325557a9e80775`，当前报告 HEAD 为 `f0fe61f685196beea660f506faccb187dc7e127d`；runtime source diff 为空。App hash `ecc46453d2aea39cd2f6232a38685827316f6c09e9b1f45e6fb6366cae182313`，strict codesign PASS。
+- 关闭态 DB v4/migrations 1–4、integrity ok、FK 空；同包重启后系统日期恢复，UI及全表回读一致；重启前后 DB hash 和所有表行均相同，无新增业务 revisions。
+- 实际收入 UI 没有名称字段，D 按金额、状态、日期和作废历史通过。Planning Review 尚待 Owner；Production、WP-02 未触碰，Financial Model V1.0 未改。
+- 权威报告：`evidence/wp03-product-daily-use/final-r2-closure/r5-completion/WP03R3_FINAL_ACCEPTANCE.md`；机器可读 L/M readbacks 与 J/M UI matrices 在同目录。下一步由 Owner 做 Planning Review；不开始 WP-04。

@@ -1,0 +1,649 @@
+{
+  "captured_at_local": "2026-10-12T15:53:36.691142+08:00",
+  "db_path": "/Users/linte/Library/Application Support/com.personalfinance.console.wp03preview/personal-finance-console.sqlite3",
+  "read_only": true,
+  "user_version": 4,
+  "integrity_check": "ok",
+  "foreign_key_check": [],
+  "migrations": [
+    {
+      "version": 1,
+      "applied_at": "2026-10-12T07:07:00.129Z"
+    },
+    {
+      "version": 2,
+      "applied_at": "2026-10-12T07:07:00.129Z"
+    },
+    {
+      "version": 3,
+      "applied_at": "2026-10-12T07:07:00.129Z"
+    },
+    {
+      "version": 4,
+      "applied_at": "2026-10-12T07:07:00.129Z"
+    }
+  ],
+  "table_counts": {
+    "actual_income_revisions": 3,
+    "app_metadata": 0,
+    "asset_revisions": 4,
+    "asset_value_snapshots": 1,
+    "assets": 3,
+    "cash_account_lifecycle_revisions": 1,
+    "cash_account_revisions": 4,
+    "cash_accounts": 2,
+    "cash_balance_snapshots": 1,
+    "debt_period_facts": 2,
+    "debt_revisions": 9,
+    "debts": 3,
+    "essential_expense_items": 6,
+    "essential_expense_revisions": 0,
+    "essential_expense_snapshots": 6,
+    "expense_records": 1,
+    "financial_settings": 1,
+    "income_records": 2,
+    "planning_income_month_revisions": 4,
+    "planning_income_revisions": 1,
+    "profiles": 1,
+    "schema_migrations": 4,
+    "settings_revisions": 2
+  },
+  "tables": {
+    "actual_income_revisions": [
+      {
+        "revision_id": 1,
+        "income_id": "e714856e-9992-4c40-97ea-7815f01dfe51",
+        "as_of_date": "2026-10-12",
+        "amount": "1345.67",
+        "status": "PENDING",
+        "date": "2026-10-10",
+        "active": 1,
+        "created_at": "2026-10-12T07:30:25.778Z"
+      },
+      {
+        "revision_id": 2,
+        "income_id": "e714856e-9992-4c40-97ea-7815f01dfe51",
+        "as_of_date": "2026-10-12",
+        "amount": "1456.78",
+        "status": "RECEIVED",
+        "date": "2026-10-11",
+        "active": 1,
+        "created_at": "2026-10-12T07:30:53.592Z"
+      },
+      {
+        "revision_id": 3,
+        "income_id": "e714856e-9992-4c40-97ea-7815f01dfe51",
+        "as_of_date": "2026-10-12",
+        "amount": "1456.78",
+        "status": "RECEIVED",
+        "date": "2026-10-11",
+        "active": 0,
+        "created_at": "2026-10-12T07:31:24.093Z"
+      }
+    ],
+    "app_metadata": [],
+    "asset_revisions": [
+      {
+        "revision_id": 1,
+        "asset_id": "16e619fc-40d1-46de-bf3a-acfc345de060",
+        "as_of_date": "2026-10-12",
+        "name": "R5 Liquid Asset",
+        "kind": "LIQUID_INVESTMENT",
+        "include_in_safety_resources": 1,
+        "current_value": "5555.55",
+        "active": 1,
+        "created_at": "2026-10-12T00:00:00.000Z"
+      },
+      {
+        "revision_id": 2,
+        "asset_id": "0dcac45b-b5ae-4d19-aed3-81500cbcd250",
+        "as_of_date": "2026-10-12",
+        "name": "R5 Other Asset",
+        "kind": "OTHER",
+        "include_in_safety_resources": 0,
+        "current_value": "3333.33",
+        "active": 1,
+        "created_at": "2026-10-12T00:00:00.000Z"
+      },
+      {
+        "revision_id": 3,
+        "asset_id": "0dcac45b-b5ae-4d19-aed3-81500cbcd250",
+        "as_of_date": "2026-10-12",
+        "name": "R5 Other Asset Edited",
+        "kind": "OTHER",
+        "include_in_safety_resources": 0,
+        "current_value": "4444.44",
+        "active": 1,
+        "created_at": "2026-10-12T00:00:00.000Z"
+      },
+      {
+        "revision_id": 4,
+        "asset_id": "0dcac45b-b5ae-4d19-aed3-81500cbcd250",
+        "as_of_date": "2026-10-12",
+        "name": "R5 Other Asset Edited",
+        "kind": "OTHER",
+        "include_in_safety_resources": 0,
+        "current_value": "4444.44",
+        "active": 0,
+        "created_at": "2026-10-12T07:38:05.438Z"
+      }
+    ],
+    "asset_value_snapshots": [
+      {
+        "id": "2bcc89be-9f0c-40d8-b343-e41a815b6e5c",
+        "asset_id": "2fa845b6-2532-4d33-9b07-597b524bf8d5",
+        "as_of_date": "2026-10-12",
+        "value": "10000",
+        "created_at": "2026-10-12T00:00:00.000Z"
+      }
+    ],
+    "assets": [
+      {
+        "id": "2fa845b6-2532-4d33-9b07-597b524bf8d5",
+        "profile_id": "09e3ec2a-af4d-4db7-b49a-87fb84413034",
+        "name": "流动资产 A",
+        "kind": "LIQUID_INVESTMENT",
+        "include_in_safety_resources": 1,
+        "active": 1,
+        "created_at": "2026-10-12T00:00:00.000Z"
+      },
+      {
+        "id": "16e619fc-40d1-46de-bf3a-acfc345de060",
+        "profile_id": "09e3ec2a-af4d-4db7-b49a-87fb84413034",
+        "name": "R5 Liquid Asset",
+        "kind": "LIQUID_INVESTMENT",
+        "include_in_safety_resources": 1,
+        "active": 1,
+        "created_at": "2026-10-12T00:00:00.000Z"
+      },
+      {
+        "id": "0dcac45b-b5ae-4d19-aed3-81500cbcd250",
+        "profile_id": "09e3ec2a-af4d-4db7-b49a-87fb84413034",
+        "name": "R5 Other Asset",
+        "kind": "OTHER",
+        "include_in_safety_resources": 0,
+        "active": 1,
+        "created_at": "2026-10-12T00:00:00.000Z"
+      }
+    ],
+    "cash_account_lifecycle_revisions": [
+      {
+        "revision_id": 1,
+        "account_id": "7ba24491-c06c-42af-80cb-e4e46a96cd6b",
+        "as_of_date": "2026-10-12",
+        "active": 0,
+        "created_at": "2026-10-12T07:35:37.743Z"
+      }
+    ],
+    "cash_account_revisions": [
+      {
+        "revision_id": 1,
+        "account_id": "7ba24491-c06c-42af-80cb-e4e46a96cd6b",
+        "as_of_date": "2026-10-12",
+        "name": "R5 Cash Lifecycle",
+        "include_in_safety_resources": 1,
+        "balance": "8888.88",
+        "created_at": "2026-10-12T00:00:00.000Z"
+      },
+      {
+        "revision_id": 2,
+        "account_id": "7ba24491-c06c-42af-80cb-e4e46a96cd6b",
+        "as_of_date": "2026-10-12",
+        "name": "R5 Cash Lifecycle Edited",
+        "include_in_safety_resources": 1,
+        "balance": "7777.77",
+        "created_at": "2026-10-12T00:00:00.000Z"
+      },
+      {
+        "revision_id": 3,
+        "account_id": "7ba24491-c06c-42af-80cb-e4e46a96cd6b",
+        "as_of_date": "2026-10-12",
+        "name": "R5 Cash Lifecycle Edited",
+        "include_in_safety_resources": 0,
+        "balance": "7777.77",
+        "created_at": "2026-10-12T00:00:00.000Z"
+      },
+      {
+        "revision_id": 4,
+        "account_id": "7ba24491-c06c-42af-80cb-e4e46a96cd6b",
+        "as_of_date": "2026-10-12",
+        "name": "R5 Cash Lifecycle Edited",
+        "include_in_safety_resources": 0,
+        "balance": "0",
+        "created_at": "2026-10-12T00:00:00.000Z"
+      }
+    ],
+    "cash_accounts": [
+      {
+        "id": "56ea4ee2-a944-42e6-a86b-61f50c4c2789",
+        "profile_id": "09e3ec2a-af4d-4db7-b49a-87fb84413034",
+        "name": "日常账户",
+        "include_in_safety_resources": 1,
+        "active": 1,
+        "created_at": "2026-10-12T00:00:00.000Z"
+      },
+      {
+        "id": "7ba24491-c06c-42af-80cb-e4e46a96cd6b",
+        "profile_id": "09e3ec2a-af4d-4db7-b49a-87fb84413034",
+        "name": "R5 Cash Lifecycle",
+        "include_in_safety_resources": 1,
+        "active": 1,
+        "created_at": "2026-10-12T00:00:00.000Z"
+      }
+    ],
+    "cash_balance_snapshots": [
+      {
+        "id": "0f1244f9-72fd-4ac4-b2fa-0bdede24efa8",
+        "account_id": "56ea4ee2-a944-42e6-a86b-61f50c4c2789",
+        "as_of_date": "2026-10-12",
+        "balance": "10000",
+        "created_at": "2026-10-12T00:00:00.000Z"
+      }
+    ],
+    "debt_period_facts": [
+      {
+        "id": "5594fdbb-1fb0-4771-8704-bd2412a34b32",
+        "debt_id": "3e5b2ec2-0887-4293-98f8-18b276161501",
+        "period_month": "2026-10",
+        "as_of_date": "2026-10-12",
+        "current_balance": "10000",
+        "current_month_due": "500",
+        "created_at": "2026-10-12T00:00:00.000Z"
+      },
+      {
+        "id": "b8c72847-0043-4aee-8067-69e3788feca7",
+        "debt_id": "d3fd93de-2e71-4848-ab3b-3dd90e56f69c",
+        "period_month": "2026-10",
+        "as_of_date": "2026-10-12",
+        "current_balance": "5000",
+        "current_month_due": "300",
+        "created_at": "2026-10-12T00:00:00.000Z"
+      }
+    ],
+    "debt_revisions": [
+      {
+        "revision_id": 1,
+        "debt_id": "3e5b2ec2-0887-4293-98f8-18b276161501",
+        "period_month": "2026-11",
+        "as_of_date": "2026-11-01",
+        "name": "债务 A",
+        "current_balance": "10000",
+        "current_month_due": "0",
+        "fixed_monthly_payment": "500",
+        "active": 1,
+        "created_at": "2026-11-01T00:00:00.000Z"
+      },
+      {
+        "revision_id": 2,
+        "debt_id": "d3fd93de-2e71-4848-ab3b-3dd90e56f69c",
+        "period_month": "2026-11",
+        "as_of_date": "2026-11-01",
+        "name": "债务 B",
+        "current_balance": "5000",
+        "current_month_due": "200",
+        "fixed_monthly_payment": "300",
+        "active": 1,
+        "created_at": "2026-11-01T00:00:00.000Z"
+      },
+      {
+        "revision_id": 3,
+        "debt_id": "3e5b2ec2-0887-4293-98f8-18b276161501",
+        "period_month": "2026-10",
+        "as_of_date": "2026-10-12",
+        "name": "债务 A",
+        "current_balance": "10000",
+        "current_month_due": "500",
+        "fixed_monthly_payment": "900",
+        "active": 1,
+        "created_at": "2026-10-12T00:00:00.000Z"
+      },
+      {
+        "revision_id": 4,
+        "debt_id": "d3fd93de-2e71-4848-ab3b-3dd90e56f69c",
+        "period_month": "2026-10",
+        "as_of_date": "2026-10-12",
+        "name": "债务 B",
+        "current_balance": "5000",
+        "current_month_due": "0",
+        "fixed_monthly_payment": "900",
+        "active": 1,
+        "created_at": "2026-10-12T00:00:00.000Z"
+      },
+      {
+        "revision_id": 5,
+        "debt_id": "3e5b2ec2-0887-4293-98f8-18b276161501",
+        "period_month": "2026-10",
+        "as_of_date": "2026-10-12",
+        "name": "债务 A",
+        "current_balance": "10000",
+        "current_month_due": null,
+        "fixed_monthly_payment": "900",
+        "active": 1,
+        "created_at": "2026-10-12T00:00:00.000Z"
+      },
+      {
+        "revision_id": 6,
+        "debt_id": "3e5b2ec2-0887-4293-98f8-18b276161501",
+        "period_month": "2026-10",
+        "as_of_date": "2026-10-12",
+        "name": "债务 A",
+        "current_balance": "10000",
+        "current_month_due": null,
+        "fixed_monthly_payment": null,
+        "active": 1,
+        "created_at": "2026-10-12T00:00:00.000Z"
+      },
+      {
+        "revision_id": 7,
+        "debt_id": "3e5b2ec2-0887-4293-98f8-18b276161501",
+        "period_month": "2026-10",
+        "as_of_date": "2026-10-12",
+        "name": "债务 A",
+        "current_balance": "0",
+        "current_month_due": null,
+        "fixed_monthly_payment": null,
+        "active": 1,
+        "created_at": "2026-10-12T00:00:00.000Z"
+      },
+      {
+        "revision_id": 8,
+        "debt_id": "81a0fd8a-6b8f-4261-8c83-0826bbcb6456",
+        "period_month": "2026-10",
+        "as_of_date": "2026-10-12",
+        "name": "Debt C",
+        "current_balance": "1234.00",
+        "current_month_due": "100",
+        "fixed_monthly_payment": null,
+        "active": 1,
+        "created_at": "2026-10-12T00:00:00.000Z"
+      },
+      {
+        "revision_id": 9,
+        "debt_id": "81a0fd8a-6b8f-4261-8c83-0826bbcb6456",
+        "period_month": "2026-10",
+        "as_of_date": "2026-10-12",
+        "name": "Debt C",
+        "current_balance": "1234.00",
+        "current_month_due": "100",
+        "fixed_monthly_payment": null,
+        "active": 0,
+        "created_at": "2026-10-12T07:43:02.950Z"
+      }
+    ],
+    "debts": [
+      {
+        "id": "3e5b2ec2-0887-4293-98f8-18b276161501",
+        "profile_id": "09e3ec2a-af4d-4db7-b49a-87fb84413034",
+        "name": "债务 A",
+        "fixed_monthly_payment": "500",
+        "active": 1,
+        "created_at": "2026-10-12T00:00:00.000Z"
+      },
+      {
+        "id": "d3fd93de-2e71-4848-ab3b-3dd90e56f69c",
+        "profile_id": "09e3ec2a-af4d-4db7-b49a-87fb84413034",
+        "name": "债务 B",
+        "fixed_monthly_payment": "300",
+        "active": 1,
+        "created_at": "2026-10-12T00:00:00.000Z"
+      },
+      {
+        "id": "81a0fd8a-6b8f-4261-8c83-0826bbcb6456",
+        "profile_id": "09e3ec2a-af4d-4db7-b49a-87fb84413034",
+        "name": "Debt C",
+        "fixed_monthly_payment": null,
+        "active": 1,
+        "created_at": "2026-10-12T00:00:00.000Z"
+      }
+    ],
+    "essential_expense_items": [
+      {
+        "id": "2dd3b805-d11a-4c17-b66e-d66c1a23b004",
+        "profile_id": "09e3ec2a-af4d-4db7-b49a-87fb84413034",
+        "category": "HOUSING",
+        "name": "HOUSING",
+        "monthly_amount": "2000",
+        "active": 1,
+        "created_at": "2026-10-12T00:00:00.000Z",
+        "updated_at": "2026-10-12T00:00:00.000Z"
+      },
+      {
+        "id": "9437c220-ce4a-4748-8e57-bb042ceb42f5",
+        "profile_id": "09e3ec2a-af4d-4db7-b49a-87fb84413034",
+        "category": "BASIC_FOOD",
+        "name": "BASIC_FOOD",
+        "monthly_amount": "1000",
+        "active": 1,
+        "created_at": "2026-10-12T00:00:00.000Z",
+        "updated_at": "2026-10-12T00:00:00.000Z"
+      },
+      {
+        "id": "af526b94-afbf-4c75-9cbf-0f6ca991edcb",
+        "profile_id": "09e3ec2a-af4d-4db7-b49a-87fb84413034",
+        "category": "TRANSPORT",
+        "name": "TRANSPORT",
+        "monthly_amount": "300",
+        "active": 1,
+        "created_at": "2026-10-12T00:00:00.000Z",
+        "updated_at": "2026-10-12T00:00:00.000Z"
+      },
+      {
+        "id": "656996fa-0948-4a7b-893f-47ddb941519d",
+        "profile_id": "09e3ec2a-af4d-4db7-b49a-87fb84413034",
+        "category": "UTILITIES_COMMUNICATIONS",
+        "name": "UTILITIES_COMMUNICATIONS",
+        "monthly_amount": "200",
+        "active": 1,
+        "created_at": "2026-10-12T00:00:00.000Z",
+        "updated_at": "2026-10-12T00:00:00.000Z"
+      },
+      {
+        "id": "96913b1c-22f0-4db2-a55f-7cf1186502c8",
+        "profile_id": "09e3ec2a-af4d-4db7-b49a-87fb84413034",
+        "category": "INSURANCE",
+        "name": "INSURANCE",
+        "monthly_amount": "100",
+        "active": 1,
+        "created_at": "2026-10-12T00:00:00.000Z",
+        "updated_at": "2026-10-12T00:00:00.000Z"
+      },
+      {
+        "id": "a989fe91-e38f-4115-bbc9-84fb74353ac3",
+        "profile_id": "09e3ec2a-af4d-4db7-b49a-87fb84413034",
+        "category": "OTHER_ESSENTIAL",
+        "name": "OTHER_ESSENTIAL",
+        "monthly_amount": "400",
+        "active": 1,
+        "created_at": "2026-10-12T00:00:00.000Z",
+        "updated_at": "2026-10-12T00:00:00.000Z"
+      }
+    ],
+    "essential_expense_revisions": [],
+    "essential_expense_snapshots": [
+      {
+        "id": "2dd3b805-d11a-4c17-b66e-d66c1a23b004:2026-10-12",
+        "item_id": "2dd3b805-d11a-4c17-b66e-d66c1a23b004",
+        "as_of_date": "2026-10-12",
+        "monthly_amount": "2000",
+        "created_at": "2026-10-12T00:00:00.000Z"
+      },
+      {
+        "id": "9437c220-ce4a-4748-8e57-bb042ceb42f5:2026-10-12",
+        "item_id": "9437c220-ce4a-4748-8e57-bb042ceb42f5",
+        "as_of_date": "2026-10-12",
+        "monthly_amount": "1000",
+        "created_at": "2026-10-12T00:00:00.000Z"
+      },
+      {
+        "id": "af526b94-afbf-4c75-9cbf-0f6ca991edcb:2026-10-12",
+        "item_id": "af526b94-afbf-4c75-9cbf-0f6ca991edcb",
+        "as_of_date": "2026-10-12",
+        "monthly_amount": "300",
+        "created_at": "2026-10-12T00:00:00.000Z"
+      },
+      {
+        "id": "656996fa-0948-4a7b-893f-47ddb941519d:2026-10-12",
+        "item_id": "656996fa-0948-4a7b-893f-47ddb941519d",
+        "as_of_date": "2026-10-12",
+        "monthly_amount": "200",
+        "created_at": "2026-10-12T00:00:00.000Z"
+      },
+      {
+        "id": "96913b1c-22f0-4db2-a55f-7cf1186502c8:2026-10-12",
+        "item_id": "96913b1c-22f0-4db2-a55f-7cf1186502c8",
+        "as_of_date": "2026-10-12",
+        "monthly_amount": "100",
+        "created_at": "2026-10-12T00:00:00.000Z"
+      },
+      {
+        "id": "a989fe91-e38f-4115-bbc9-84fb74353ac3:2026-10-12",
+        "item_id": "a989fe91-e38f-4115-bbc9-84fb74353ac3",
+        "as_of_date": "2026-10-12",
+        "monthly_amount": "400",
+        "created_at": "2026-10-12T00:00:00.000Z"
+      }
+    ],
+    "expense_records": [
+      {
+        "id": "176be39f-265d-4e40-8c15-8ca138a5668c",
+        "profile_id": "09e3ec2a-af4d-4db7-b49a-87fb84413034",
+        "amount": "68.5",
+        "occurred_at": "2026-10-12T07:15:00.000Z",
+        "kind": "VARIABLE",
+        "category": null,
+        "note": "日用测试",
+        "created_at": "2026-10-12T00:00:00.000Z",
+        "business_date": "2026-10-12"
+      }
+    ],
+    "financial_settings": [
+      {
+        "profile_id": "09e3ec2a-af4d-4db7-b49a-87fb84413034",
+        "safety_coverage_target_months": 3.0,
+        "minimum_cash_coverage_months": 1.0,
+        "safety_recovery_horizon_months": null,
+        "desired_monthly_discretionary_spending": "1000"
+      }
+    ],
+    "income_records": [
+      {
+        "id": "1ec6f9fe-327f-492c-b561-0603d8daad47",
+        "profile_id": "09e3ec2a-af4d-4db7-b49a-87fb84413034",
+        "kind": "PLANNING",
+        "status": "EXPECTED",
+        "amount": "10000",
+        "date": "2026-10-12",
+        "period_month": null,
+        "created_at": "2026-10-12T00:00:00.000Z"
+      },
+      {
+        "id": "e714856e-9992-4c40-97ea-7815f01dfe51",
+        "profile_id": "09e3ec2a-af4d-4db7-b49a-87fb84413034",
+        "kind": "ACTUAL",
+        "status": "EXPECTED",
+        "amount": "1234.56",
+        "date": "2026-10-10",
+        "period_month": "2026-10",
+        "created_at": "2026-10-12T00:00:00.000Z"
+      }
+    ],
+    "planning_income_month_revisions": [
+      {
+        "revision_id": 1,
+        "profile_id": "09e3ec2a-af4d-4db7-b49a-87fb84413034",
+        "period_month": "2026-10",
+        "as_of_date": "2026-10-12",
+        "decision": "OVERRIDE",
+        "amount": "12345.67",
+        "created_at": "2026-10-12T07:25:51.507Z"
+      },
+      {
+        "revision_id": 2,
+        "profile_id": "09e3ec2a-af4d-4db7-b49a-87fb84413034",
+        "period_month": "2026-10",
+        "as_of_date": "2026-10-12",
+        "decision": "INHERIT",
+        "amount": null,
+        "created_at": "2026-10-12T07:28:51.928Z"
+      },
+      {
+        "revision_id": 3,
+        "profile_id": "09e3ec2a-af4d-4db7-b49a-87fb84413034",
+        "period_month": "2026-10",
+        "as_of_date": "2026-10-12",
+        "decision": "OVERRIDE",
+        "amount": "10001.01",
+        "created_at": "2026-10-12T07:29:03.780Z"
+      },
+      {
+        "revision_id": 4,
+        "profile_id": "09e3ec2a-af4d-4db7-b49a-87fb84413034",
+        "period_month": "2026-10",
+        "as_of_date": "2026-10-12",
+        "decision": "INHERIT",
+        "amount": null,
+        "created_at": "2026-10-12T07:29:15.895Z"
+      }
+    ],
+    "planning_income_revisions": [
+      {
+        "revision_id": 1,
+        "profile_id": "09e3ec2a-af4d-4db7-b49a-87fb84413034",
+        "effective_month": "2026-10",
+        "as_of_date": "2026-10-12",
+        "amount": "10001.01",
+        "created_at": "2026-10-12T00:00:00.000Z"
+      }
+    ],
+    "profiles": [
+      {
+        "id": "09e3ec2a-af4d-4db7-b49a-87fb84413034",
+        "singleton_id": 1,
+        "display_name": "验收用户",
+        "created_at": "2026-10-12T00:00:00.000Z"
+      }
+    ],
+    "schema_migrations": [
+      {
+        "version": 1,
+        "applied_at": "2026-10-12T07:07:00.129Z"
+      },
+      {
+        "version": 2,
+        "applied_at": "2026-10-12T07:07:00.129Z"
+      },
+      {
+        "version": 3,
+        "applied_at": "2026-10-12T07:07:00.129Z"
+      },
+      {
+        "version": 4,
+        "applied_at": "2026-10-12T07:07:00.129Z"
+      }
+    ],
+    "settings_revisions": [
+      {
+        "revision_id": 1,
+        "profile_id": "09e3ec2a-af4d-4db7-b49a-87fb84413034",
+        "effective_month": "2026-10",
+        "as_of_date": "2026-10-12",
+        "safety_coverage_target_months": 1.5,
+        "minimum_cash_coverage_months": 0.0,
+        "safety_recovery_horizon_months": null,
+        "desired_monthly_discretionary_spending": "1000",
+        "created_at": "2026-10-12T00:00:00.000Z"
+      },
+      {
+        "revision_id": 2,
+        "profile_id": "09e3ec2a-af4d-4db7-b49a-87fb84413034",
+        "effective_month": "2026-10",
+        "as_of_date": "2026-10-12",
+        "safety_coverage_target_months": 100.0,
+        "minimum_cash_coverage_months": 0.0,
+        "safety_recovery_horizon_months": 8.0,
+        "desired_monthly_discretionary_spending": "1000",
+        "created_at": "2026-10-12T00:00:00.000Z"
+      }
+    ]
+  }
+}

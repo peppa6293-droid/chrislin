@@ -1,0 +1,28 @@
+{
+  "before_sha256": "2659df609f35050df3197a7fa9ef961019fde5c569f3a788440242d196c66981",
+  "after_sha256": "2659df609f35050df3197a7fa9ef961019fde5c569f3a788440242d196c66981",
+  "changed_tables": [],
+  "table_counts_equal": true,
+  "business_rows_identical": true,
+  "integrity_check": "ok",
+  "foreign_key_check": [],
+  "user_version": 4,
+  "migrations": [
+    {
+      "version": 1,
+      "applied_at": "2026-10-12T07:07:00.129Z"
+    },
+    {
+      "version": 2,
+      "applied_at": "2026-10-12T07:07:00.129Z"
+    },
+    {
+      "version": 3,
+      "applied_at": "2026-10-12T07:07:00.129Z"
+    },
+    {
+      "version": 4,
+      "applied_at": "2026-10-12T07:07:00.129Z"
+    }
+  ]
+}

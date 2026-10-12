@@ -1,0 +1,1 @@
+bundle=/Users/linte/Documents/ChatGPT/个人财务模型app开发/artifacts/wp03-isolated-product-preview-20261012/final-r5/cargo-target/release/bundle/macos/小钱家 WP-03 测试版.app inode=6936 size=96 mtime=2026-10-12T15:06:11+0800

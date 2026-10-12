@@ -1,0 +1,4 @@
+total 504
+drwxr-xr-x@   3 linte  staff      96 Oct 12 15:15 .
+drwx------+ 113 linte  staff    3616 Oct 12 11:00 ..
+-rw-r--r--@   1 linte  staff  258048 Oct 12 15:15 personal-finance-console.sqlite3
