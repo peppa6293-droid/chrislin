@@ -412,6 +412,19 @@ def main() -> int:
         receipt["signing_timeline"]["S6_immediately_before_signing"] = capture_signing_stage(
             "S6-immediately-before-signing", output, app, [frontend, app_config_path, manifest_path]
         )
+        # Tauri creates FinderInfo on the .app root. The diagnostic timeline
+        # showed it can reappear after the first cleanup while the bundle is
+        # being inspected, so do the final cleanup only after that inspection.
+        final_sanitation = subprocess.run(
+            ["xattr", "-cr", str(app)], capture_output=True, text=True
+        )
+        receipt["final_pre_sign_sanitation"] = {
+            "exit_code": final_sanitation.returncode,
+            "stdout": final_sanitation.stdout,
+            "stderr": final_sanitation.stderr,
+        }
+        if final_sanitation.returncode != 0:
+            return fail(receipt, output, "PREVIEW_FINAL_METADATA_SANITATION_FAILED")
         pre_sign_xattrs = subprocess.run(
             ["xattr", "-lr", str(app)], capture_output=True, text=True
         )
