@@ -1,0 +1,34 @@
+{
+  "format_version": 1,
+  "final_status": "WP04_RELEASE_CUTOVER_READINESS_BLOCKED",
+  "starting_head": "c2d73ae658cd36ada13556098f30b8b74970f81a",
+  "source_commit": "3d53d87e86f91b31e49b8362227e6fae8763f76d",
+  "report_commit": "e66a40f9de8fa36b2420c5e84cbf7c37ec0ae83c",
+  "recovery_matrix": {
+    "status": "PASS",
+    "cases": 16,
+    "scope": "synthetic native CLI, not Q11 or Production",
+    "receipt": "evidence/wp04-release-cutover-readiness/25-current-recovery/recovery-matrix-ackfix.json"
+  },
+  "renderer_attribution": "UNVERIFIED; BLOCKING_DEFECT",
+  "formal_production_gate": "DISABLED / BLOCKED",
+  "production_app_or_db_touched": false,
+  "real_authorization_backup_or_permit_created": false,
+  "migration_restore_or_blocker_closure": false,
+  "independent_final_audit_ready": false,
+  "archived_threads": [
+    "01a11f53-319a-71a1-b49d-5f35b240ede7",
+    "01a1205b-86fb-79a3-92fd-79db507104a8",
+    "01a11fa2-43f3-7c70-bf59-58bd6c2556e9",
+    "01a11f3d-956c-7702-956a-d3e17aecdac8"
+  ],
+  "sha256": {
+    "WP04_PROGRESS.md": "ce6cc563cc3b21e8c80b1315ef2e85dd0782997b022960039a2232d77b26c98d",
+    "WP04_PRODUCTION_RELEASE_CUTOVER_READINESS_REPORT.md": "f520c345e2979236cc1362f3740103189d5eaf0647e6fc2bac269484c5ce7436",
+    "WP04_PREPRODUCTION_GO_NO_GO_MATRIX.md": "06c2049640fb8441ce011fac7a9b16d8e2b12164deb7f3bf63f5893d5f90abd0",
+    "evidence/wp04-release-cutover-readiness/25-current-recovery/recovery-matrix-ackfix.json": "225e591370761451b19a1230c01f797d63214e1d9d18c8bbaa5ba6d8df14ea39",
+    "evidence/wp04-release-cutover-readiness/30-final-regression/REGRESSION_SUMMARY.json": "f8c2e41516998e2edea17e47ac3276a41b55d98a7d3856412b13c82467dedc35",
+    "evidence/wp04-release-cutover-readiness/20-current-synthetic-fixture/FIXTURE_READBACK.json": "18ee1bb5b036bc3bc277fa489742fced1a14c3a833fab10b4da2b9f4ccfbf0e3"
+  },
+  "working_tree": "report/source changes committed; unrelated pre-existing untracked files remain outside this task commit"
+}
