@@ -38,9 +38,16 @@ def fixture_root(root: Path, *, mode="standalone") -> Path:
         raise Blocked("BLOCKED_NOT_ISOLATED_FIXTURE", str(root))
     marker = root / "SYNTHETIC_ONLY"
     expected = {"standalone": MARKER, "unified-r2b": UNIFIED_MARKER}.get(mode)
-    if expected is None or marker.is_symlink() or marker.read_text() != expected:
-        raise Blocked("BLOCKED_NOT_ISOLATED_FIXTURE", "marker")
-    identity(marker)
+    if expected is None:
+        raise Blocked("BLOCKED_UNKNOWN_MANAGED_MODE", str(mode))
+    try:
+        if marker.is_symlink() or marker.read_bytes() != expected.encode():
+            raise Blocked("BLOCKED_NOT_ISOLATED_FIXTURE", "marker")
+        identity(marker)
+    except Blocked:
+        raise
+    except OSError as exc:
+        raise Blocked("BLOCKED_NOT_ISOLATED_FIXTURE", f"marker metadata/read failure: {exc}") from exc
     return root
 
 
@@ -206,9 +213,9 @@ def bundle_identity(root: Path, path: Path, *, expected_bundle_id=PRODUCTION_BUN
     return result
 
 
-def discover(root: Path, roots: list[Path], *, all_bundles=False):
+def discover(root: Path, roots: list[Path], *, all_bundles=False, mode="standalone"):
     """Finite declared closure, no unrelated outer-bundle pruning."""
-    root = fixture_root(root)
+    root = fixture_root(root, mode=mode)
     found, links = {}, []
     for scan in roots:
         scan = scoped(root, scan)
@@ -287,7 +294,7 @@ def collect_spawned_fixture_targets(targets):
 def validate_inventory(lease: MaintenanceLease, roots: list[Path], expected: dict, installed: Path, *, all_bundles=False):
     lease.validate()
     installed = scoped(lease.root, installed)
-    actual = discover(lease.root, roots, all_bundles=all_bundles)
+    actual = discover(lease.root, roots, all_bundles=all_bundles, mode=lease.mode)
     if set(actual) != set(expected) or str(installed) not in actual:
         raise Blocked("BLOCKED_MANAGED_OBJECT_SET")
     for path, item in actual.items():
