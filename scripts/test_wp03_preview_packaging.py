@@ -23,6 +23,14 @@ class PreviewPackagingTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "artifact root"):
             preview.preview_resource_mapping(Path("/tmp/unrelated/runtime-compatibility.json"))
 
+    def test_finds_finderinfo_and_resource_fork_attributed_to_exact_paths(self):
+        output = (
+            "/tmp/preview.app: com.apple.FinderInfo: \n"
+            "/tmp/preview.app/Contents/Resources/icon.icns: com.apple.ResourceFork: \n"
+            "/tmp/preview.app/Contents/Info.plist: com.apple.provenance: value"
+        )
+        self.assertEqual(preview.find_codesign_forbidden_xattrs(output), output.splitlines()[:2])
+
 
 if __name__ == "__main__":
     unittest.main()

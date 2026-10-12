@@ -9,6 +9,7 @@ import os
 from pathlib import Path
 import plistlib
 import re
+import stat
 import subprocess
 import sys
 
@@ -74,6 +75,11 @@ def parse_macho_uuids(output: str) -> list[tuple[str, str, str]]:
     return rows
 
 
+def find_codesign_forbidden_xattrs(output: str) -> list[str]:
+    forbidden = ("com.apple.FinderInfo", "com.apple.ResourceFork")
+    return [line for line in output.splitlines() if any(name in line for name in forbidden)]
+
+
 def preview_resource_mapping(manifest_path: Path) -> dict[str, str]:
     if not manifest_path.is_absolute() or not manifest_path.is_relative_to(OUTPUT_PARENT):
         raise ValueError("preview runtime manifest source must stay within the WP-03 artifact root")
@@ -82,6 +88,49 @@ def preview_resource_mapping(manifest_path: Path) -> dict[str, str]:
 
 def save(path: Path, value: dict) -> None:
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n")
+
+
+def capture_signing_stage(stage: str, output: Path, app: Path | None = None,
+                          resources: list[Path] | None = None) -> dict[str, str]:
+    """Capture xattrs and filesystem metadata at one native packaging boundary."""
+    folder = output / "signing-timeline" / stage
+    folder.mkdir(parents=True, exist_ok=True)
+    roots = [path for path in (resources or []) if path.exists()]
+    if app is not None and app.exists():
+        roots.append(app)
+    xattrs, inventory, stats = [], [], []
+    for root in roots:
+        inventory.append(f"## {root}\n")
+        listing = subprocess.run(["find", str(root), "-print"], capture_output=True, text=True)
+        inventory.append(listing.stdout)
+        attrs = subprocess.run(["xattr", "-lr", str(root)], capture_output=True, text=True)
+        xattrs.append(f"## {root}\n{attrs.stdout or '(no extended attributes reported)'}")
+        entries = [root, *root.rglob("*")] if root.is_dir() else [root]
+        for entry in entries:
+            try:
+                info = entry.lstat()
+                stats.append(
+                    f"{entry}\tmode={stat.filemode(info.st_mode)}\tuid={info.st_uid}"
+                    f"\tgid={info.st_gid}\tnlink={info.st_nlink}\tsize={info.st_size}"
+                    f"\tmtime_ns={info.st_mtime_ns}\tinode={info.st_ino}\n"
+                )
+            except OSError as error:
+                stats.append(f"{entry}\tSTAT_ERROR={error!r}\n")
+    files = {
+        "bundle-inventory.txt": "\n".join(inventory),
+        "bundle-xattrs.txt": "\n".join(xattrs),
+        "bundle-stat.txt": "\n".join(stats),
+    }
+    if app is not None and app.exists():
+        signature = subprocess.run(["codesign", "-dv", "--verbose=4", str(app)],
+                                   capture_output=True, text=True)
+        files["codesign.txt"] = signature.stdout + signature.stderr
+    hashes = {}
+    for name, content in files.items():
+        path = folder / name
+        path.write_text(content)
+        hashes[name] = sha(path)
+    return hashes
 
 
 def run(argv: list[str], env: dict[str, str], logs: Path, name: str, timeout: int = 1200) -> dict:
@@ -115,12 +164,18 @@ def fail(receipt: dict, output: Path, message: str) -> int:
 
 
 def main() -> int:
-    build_number = 1
-    while True:
-        output = OUTPUT_PARENT / ("build-%02d" % build_number)
-        if not output.exists():
-            break
-        build_number += 1
+    requested_output = os.environ.get("WP03_BUILD_OUTPUT_DIR")
+    if requested_output:
+        output = Path(requested_output).expanduser().resolve()
+        if not output.is_relative_to(OUTPUT_PARENT) or output.exists():
+            raise SystemExit("WP03_BUILD_OUTPUT_DIR must be a fresh directory under the WP-03 artifact root")
+    else:
+        build_number = 1
+        while True:
+            output = OUTPUT_PARENT / ("build-%02d" % build_number)
+            if not output.exists():
+                break
+            build_number += 1
     output.mkdir(parents=True, exist_ok=False)
     logs = output / "logs"
     logs.mkdir()
@@ -174,6 +229,16 @@ def main() -> int:
         "signing_identity": SIGNING_IDENTITY, "commands": [],
     }
     try:
+        timeline_resources = [
+            ROOT / "src", ROOT / "src-tauri/src", ROOT / "src-tauri/icons",
+            ROOT / "src-tauri/build.rs", ROOT / "src-tauri/Cargo.toml",
+            ROOT / "src-tauri/tauri.conf.json", ROOT / "src-tauri/runtime-compatibility.json",
+            ROOT / "scripts/build_wp03_product_preview.py",
+        ]
+        receipt["signing_timeline"] = {
+            "S0_source_prebuild": capture_signing_stage("S0-source-prebuild", output,
+                                                        resources=timeline_resources)
+        }
         identity = subprocess.run(
             ["security", "find-identity", "-v", "-p", "codesigning"],
             capture_output=True, text=True, check=True,
@@ -239,6 +304,9 @@ def main() -> int:
         receipt["commands"].append(item)
         if item["exit_code"] != 0 or item["timed_out"]:
             return fail(receipt, output, "FRONTEND_BUILD_FAILED")
+        receipt["signing_timeline"]["S1_web_build_complete"] = capture_signing_stage(
+            "S1-web-build-complete", output, resources=[frontend, app_config_path, manifest_path]
+        )
 
         cargo_binary = cargo_target / "release" / EXECUTABLE
         item = run(
@@ -279,6 +347,9 @@ def main() -> int:
         if len(uuid_rows) != 1 or uuid_rows[0][2] != str(cargo_binary):
             return fail(receipt, output, "CARGO_BINARY_UUID_INVALID")
         receipt["cargo_binary_uuid"] = uuid_rows[0][0]
+        receipt["signing_timeline"]["S2_native_binary_built"] = capture_signing_stage(
+            "S2-native-binary-built", output, resources=[cargo_binary]
+        )
 
         item = run(
             ["npx", "tauri", "bundle", "--config", str(app_config_path),
@@ -292,6 +363,12 @@ def main() -> int:
         if len(apps) != 1:
             return fail(receipt, output, "EXPECTED_ONE_PREVIEW_APP_BUNDLE")
         app = apps[0]
+        receipt["signing_timeline"]["S3_bundle_first_created"] = capture_signing_stage(
+            "S3-bundle-first-created", output, app, [frontend, app_config_path, manifest_path]
+        )
+        receipt["signing_timeline"]["S4_before_sanitation"] = capture_signing_stage(
+            "S4-before-sanitation", output, app, [frontend, app_config_path, manifest_path]
+        )
         info = app / "Contents/Info.plist"
         plist = plistlib.loads(info.read_bytes())
         if plist.get("CFBundleIdentifier") != IDENTIFIER or plist.get("CFBundleExecutable") != EXECUTABLE:
@@ -329,6 +406,22 @@ def main() -> int:
         })
         if clear_xattrs.returncode != 0:
             return fail(receipt, output, "PREVIEW_BUNDLE_XATTR_CLEANUP_FAILED")
+        receipt["signing_timeline"]["S5_after_sanitation"] = capture_signing_stage(
+            "S5-after-sanitation", output, app, [frontend, app_config_path, manifest_path]
+        )
+        receipt["signing_timeline"]["S6_immediately_before_signing"] = capture_signing_stage(
+            "S6-immediately-before-signing", output, app, [frontend, app_config_path, manifest_path]
+        )
+        pre_sign_xattrs = subprocess.run(
+            ["xattr", "-lr", str(app)], capture_output=True, text=True
+        )
+        forbidden_xattrs = find_codesign_forbidden_xattrs(pre_sign_xattrs.stdout)
+        receipt["pre_sign_metadata_check"] = {
+            "xattr_exit_code": pre_sign_xattrs.returncode,
+            "forbidden_xattr_paths": forbidden_xattrs,
+        }
+        if pre_sign_xattrs.returncode != 0 or forbidden_xattrs:
+            return fail(receipt, output, "PREVIEW_BUNDLE_HAS_CODESIGN_FORBIDDEN_METADATA")
         signature_result = run(
             ["codesign", "--force", "--deep", "--options", "runtime", "--timestamp=none",
              "--sign", SIGNING_IDENTITY, str(app)],
@@ -337,6 +430,9 @@ def main() -> int:
         receipt["commands"].append(signature_result)
         if signature_result["exit_code"] != 0 or signature_result["timed_out"]:
             return fail(receipt, output, "PREVIEW_CODE_SIGN_FAILED")
+        receipt["signing_timeline"]["S7_immediately_after_signing"] = capture_signing_stage(
+            "S7-immediately-after-signing", output, app, [frontend, app_config_path, manifest_path]
+        )
         bundled_uuid = subprocess.run(
             ["dwarfdump", "--uuid", str(executable)], capture_output=True, text=True, check=True
         ).stdout
@@ -350,6 +446,9 @@ def main() -> int:
         )
         signature = subprocess.run(
             ["codesign", "-dv", "--verbose=4", str(app)], capture_output=True, text=True
+        )
+        receipt["signing_timeline"]["S8_strict_verification"] = capture_signing_stage(
+            "S8-strict-verification", output, app, [frontend, app_config_path, manifest_path]
         )
         if (verify.returncode != 0 or signature.returncode != 0
                 or SIGNING_IDENTITY not in signature.stderr
