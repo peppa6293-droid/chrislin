@@ -2,7 +2,7 @@ use rusqlite::{hooks::{AuthAction, AuthContext, Authorization}, params_from_iter
 use serde::{Deserialize, Serialize};
 use serde_json::{Map, Number, Value as JsonValue};
 use sha2::{Digest, Sha256};
-use std::{io::{Read, Write}, os::unix::fs::MetadataExt, path::{Path, PathBuf}, sync::{atomic::{AtomicBool, Ordering}, Arc, Mutex}};
+use std::{io::{Read, Write}, os::unix::fs::MetadataExt, path::{Path, PathBuf}, sync::{atomic::{AtomicBool, Ordering}, Arc, Mutex}, time::Duration};
 use tauri::{Manager, State};
 
 mod cutover_startup;
@@ -25,6 +25,7 @@ const PRODUCTION_DATABASE: &str = "personal-finance-console.sqlite3";
 const CURRENT_SCHEMA_VERSION: i64 = 4;
 const RUNTIME_COMPATIBILITY_MANIFEST: &str = "runtime-compatibility.json";
 const PRODUCTION_MIGRATION_AUTHORIZATION: &str = "production-v4-migration-authorization.json";
+const PRODUCTION_RELEASE_RECEIPT: &str = "production-v4-release-receipt.json";
 const CONSUMED_AUTHORIZATION_LEDGER: &str = "production-v4-consumed-authorizations.json";
 const PRODUCTION_APP_BUNDLE: &str = "/Applications/Personal Finance Console.app";
 const PRODUCTION_EXECUTABLE: &str = "personal-finance-console";
@@ -43,6 +44,7 @@ struct DatabaseSchemaVersion { user_version: i64, migration_version: i64 }
 struct ProductionMigrationAuthorization {
     receipt_format_version: u32,
     status: String,
+    synthetic_only: bool,
     nonce: String,
     issued_at_unix: u64,
     expires_at_unix: u64,
@@ -58,6 +60,10 @@ struct ProductionMigrationAuthorization {
     backup_path: String,
     backup_sha256: String,
     sidecars_absent: bool,
+    release_receipt_path: String,
+    release_receipt_sha256: String,
+    candidate_approval_sha256: String,
+    migration_authorization_sha256: String,
     owner_authorization_id: Option<String>,
 }
 
@@ -170,10 +176,10 @@ fn consume_production_migration_authorization(
     schema: DatabaseSchemaVersion,
     executable: &Path,
     manifest_sha256: &str,
-) -> Result<(), String> {
+) -> Result<String, String> {
     let expected_app = Path::new(PRODUCTION_APP_BUNDLE);
     let expected_database = home.join("Library/Application Support").join(PRODUCTION_IDENTIFIER).join(PRODUCTION_DATABASE);
-    consume_production_migration_authorization_at(app_data, database_path, expected_app, &expected_database, schema, executable, executable, manifest_sha256)
+    consume_production_migration_authorization_at(app_data, database_path, expected_app, &expected_database, schema, executable, executable, manifest_sha256, false)
 }
 
 fn database_sidecars(database_path: &Path) -> Result<Vec<PathBuf>, String> {
@@ -255,7 +261,8 @@ fn consume_production_migration_authorization_at(
     executable: &Path,
     runtime_executable: &Path,
     manifest_sha256: &str,
-) -> Result<(), String> {
+    allow_synthetic: bool,
+) -> Result<String, String> {
     if schema != (DatabaseSchemaVersion { user_version: 3, migration_version: 3 }) {
         return Err("Production V4 migration is supported only from a consistent V3 database.".into());
     }
@@ -291,6 +298,53 @@ fn consume_production_migration_authorization_at(
         let expected_backup_root = app_data.join("production-v4-backups");
         let current_manifest_hash = sha256_file(&manifest_path)?;
         let sidecars = database_sidecars(database_path)?;
+        let release_receipt_path = app_data.join(PRODUCTION_RELEASE_RECEIPT);
+        let receipt_metadata = std::fs::symlink_metadata(&release_receipt_path).map_err(|error| format!("Persisted release receipt is missing: {error}"))?;
+        #[cfg(unix)]
+        {
+            use std::os::unix::fs::PermissionsExt;
+            if receipt_metadata.permissions().mode() & 0o077 != 0 { return Err("Release receipt permissions must be Owner-only.".into()); }
+        }
+        if !receipt_metadata.is_file() || receipt_metadata.file_type().is_symlink() || receipt_metadata.nlink() != 1 {
+            return Err("Release receipt must be a single-link regular file.".into());
+        }
+        let receipt_bytes = std::fs::read(&release_receipt_path).map_err(|error| error.to_string())?;
+        let receipt_hash = format!("{:x}", Sha256::digest(&receipt_bytes));
+        let receipt: JsonValue = serde_json::from_slice(&receipt_bytes).map_err(|error| format!("Release receipt is invalid: {error}"))?;
+        let synthetic_root = if allow_synthetic {
+            let temporary = std::env::temp_dir().canonicalize().map_err(|error| error.to_string())?;
+            let mut current = expected_app;
+            let mut found = None;
+            while let Some(parent) = current.parent() {
+                if parent.join("SYNTHETIC_ONLY").exists() { found = Some(parent.to_path_buf()); break; }
+                current = parent;
+            }
+            let root = found.ok_or("Synthetic gate root marker is missing.")?;
+            if root == temporary || !root.starts_with(&temporary) || root.to_string_lossy().contains(PRODUCTION_IDENTIFIER) {
+                return Err("Synthetic gate root is outside the isolated temporary namespace.".into());
+            }
+            let marker = std::fs::read(root.join("SYNTHETIC_ONLY")).map_err(|error| error.to_string())?;
+            if marker != b"PFC_WP04R2A_GATE_SYNTHETIC_V1\n" { return Err("Synthetic gate marker is invalid.".into()); }
+            Some(root)
+        } else { None };
+        if authorization.synthetic_only != allow_synthetic ||
+            authorization.release_receipt_path != release_receipt_path.to_string_lossy() ||
+            authorization.release_receipt_sha256 != receipt_hash ||
+            receipt.get("status").and_then(JsonValue::as_str) != Some("PREFLIGHT_PASS_READY_FOR_SEPARATELY_AUTHORIZED_MIGRATION") ||
+            receipt.get("syntheticOnly").and_then(JsonValue::as_bool) != Some(allow_synthetic) ||
+            receipt.get("releaseReceiptPath").and_then(JsonValue::as_str) != Some(release_receipt_path.to_string_lossy().as_ref()) ||
+            receipt.get("candidateApprovalSha256").and_then(JsonValue::as_str) != Some(authorization.candidate_approval_sha256.as_str()) ||
+            receipt.get("migrationAuthorizationSha256").and_then(JsonValue::as_str) != Some(authorization.migration_authorization_sha256.as_str()) ||
+            receipt.get("productionDatabasePreMigrationSha256").and_then(JsonValue::as_str) != Some(authorization.production_database_pre_migration_sha256.as_str()) ||
+            receipt.get("candidateExecutableSha256").and_then(JsonValue::as_str) != Some(authorization.candidate_executable_sha256.as_str()) ||
+            receipt.get("compatibilityManifestSha256").and_then(JsonValue::as_str) != Some(authorization.compatibility_manifest_sha256.as_str()) {
+            return Err("Migration permit is not bound to the exact persisted release receipt or authorization domain.".into());
+        }
+        if let Some(root) = synthetic_root {
+            if !release_receipt_path.starts_with(&root) || !database_path.starts_with(&root) || !expected_app.starts_with(&root) {
+                return Err("Synthetic gate artifacts escaped their marked root.".into());
+            }
+        }
         if authorization.receipt_format_version != 1 || authorization.status != "ONE_TIME_PRODUCTION_V4_MIGRATION_AUTHORIZATION" ||
             authorization.nonce.is_empty() ||
             authorization.issued_at_unix > now || authorization.expires_at_unix < now || authorization.expires_at_unix - authorization.issued_at_unix > 120 ||
@@ -313,10 +367,133 @@ fn consume_production_migration_authorization_at(
             consumed_at_unix: now,
             candidate_executable_sha256: current_executable_hash,
             compatibility_manifest_sha256: current_manifest_hash,
-        })
+        })?;
+        Ok(current_database_hash)
     })();
     let _ = std::fs::remove_file(&claimed_path);
     result
+}
+
+#[cfg(feature = "quiescence-fixture")]
+pub fn consume_synthetic_gate_authorization(root: &Path) -> Result<JsonValue, String> {
+    let root = root.canonicalize().map_err(|error| error.to_string())?;
+    let temporary = std::env::temp_dir().canonicalize().map_err(|error| error.to_string())?;
+    if root == temporary || !root.starts_with(&temporary) || root.to_string_lossy().contains(PRODUCTION_IDENTIFIER) {
+        return Err("Synthetic gate root must be an isolated temporary child.".into());
+    }
+    let marker_path = root.join("SYNTHETIC_ONLY");
+    let marker_meta = std::fs::symlink_metadata(&marker_path).map_err(|error| error.to_string())?;
+    if !marker_meta.is_file() || marker_meta.file_type().is_symlink() || marker_meta.nlink() != 1 ||
+        std::fs::read(&marker_path).map_err(|error| error.to_string())? != b"PFC_WP04R2A_GATE_SYNTHETIC_V1\n" {
+        return Err("Synthetic gate marker is unsafe or invalid.".into());
+    }
+    let app_data = root.join("Library/Application Support").join(PRODUCTION_IDENTIFIER);
+    let database_path = app_data.join(PRODUCTION_DATABASE);
+    let expected_app = root.join("Applications").join("Personal Finance Console.app");
+    let executable = std::env::current_exe().map_err(|error| error.to_string())?;
+    let expected_executable = expected_app.join("Contents/MacOS").join(PRODUCTION_EXECUTABLE);
+    if executable != expected_executable {
+        return Err("Synthetic consumer must run from the exact marked candidate bundle.".into());
+    }
+    let (_, manifest_hash) = validate_runtime_compatibility_manifest(&executable)?;
+    let schema = production_schema_version_from_path(&database_path)?;
+    let _ = consume_production_migration_authorization_at(
+        &app_data, &database_path, &expected_app, &database_path, schema,
+        &executable, &executable, &manifest_hash, true,
+    )?;
+    Ok(serde_json::json!({
+        "event": "gate_permit_consumed",
+        "status": "AUTHORIZATION_CONSUMED_NATIVE_MIGRATION_PENDING",
+        "syntheticOnly": true,
+        "migration4Executed": false,
+        "ledgerPath": app_data.join(CONSUMED_AUTHORIZATION_LEDGER),
+    }))
+}
+
+fn native_migration4(database_path: &Path, expected_sha256: &str) -> Result<JsonValue, String> {
+    if !database_sidecars(database_path)?.is_empty() {
+        return Err("Production SQLite sidecar exists before native Migration 4.".into());
+    }
+    let before = std::fs::symlink_metadata(database_path).map_err(|error| error.to_string())?;
+    if !before.is_file() || before.file_type().is_symlink() || before.nlink() != 1 || sha256_file(database_path)? != expected_sha256 {
+        return Err("Native Migration 4 refused a changed database identity or byte hash.".into());
+    }
+    let connection = Connection::open_with_flags(
+        database_path,
+        OpenFlags::SQLITE_OPEN_READ_WRITE | OpenFlags::SQLITE_OPEN_NO_MUTEX | OpenFlags::SQLITE_OPEN_NOFOLLOW,
+    ).map_err(|error| error.to_string())?;
+    connection.busy_timeout(Duration::ZERO).map_err(|error| error.to_string())?;
+    connection.set_db_config(rusqlite::config::DbConfig::SQLITE_DBCONFIG_NO_CKPT_ON_CLOSE, true).map_err(|error| error.to_string())?;
+    if !connection.db_config(rusqlite::config::DbConfig::SQLITE_DBCONFIG_NO_CKPT_ON_CLOSE).map_err(|error| error.to_string())? {
+        return Err("SQLite checkpoint-on-close protection could not be established.".into());
+    }
+    connection.execute_batch("PRAGMA wal_autocheckpoint=0; PRAGMA foreign_keys=ON; PRAGMA locking_mode=EXCLUSIVE; PRAGMA synchronous=FULL; PRAGMA fullfsync=ON;")
+        .map_err(|error| error.to_string())?;
+    for (pragma, expected) in [("busy_timeout", 0), ("wal_autocheckpoint", 0), ("foreign_keys", 1), ("synchronous", 2), ("fullfsync", 1)] {
+        let actual: i64 = connection.query_row(&format!("PRAGMA {pragma}"), [], |row| row.get(0)).map_err(|error| error.to_string())?;
+        if actual != expected { return Err(format!("SQLite migration profile mismatch for {pragma}: {actual}")); }
+    }
+    let journal: String = connection.query_row("PRAGMA journal_mode", [], |row| row.get(0)).map_err(|error| error.to_string())?;
+    let locking: String = connection.query_row("PRAGMA locking_mode", [], |row| row.get(0)).map_err(|error| error.to_string())?;
+    if journal != "delete" || locking != "exclusive" { return Err("Native Migration 4 requires DELETE journal and EXCLUSIVE locking.".into()); }
+    connection.execute_batch("BEGIN EXCLUSIVE").map_err(|error| error.to_string())?;
+    let result = (|| {
+        let after_lock = std::fs::symlink_metadata(database_path).map_err(|error| error.to_string())?;
+        if (before.dev(), before.ino(), before.nlink()) != (after_lock.dev(), after_lock.ino(), after_lock.nlink()) ||
+            sha256_file(database_path)? != expected_sha256 ||
+            schema_version_from_connection(&connection)? != (DatabaseSchemaVersion { user_version: 3, migration_version: 3 }) {
+            return Err("Native Migration 4 locked revalidation did not match the authorized V3 database.".into());
+        }
+        connection.execute_batch(include_str!("../../migrations/004.sql")).map_err(|error| error.to_string())?;
+        connection.execute("INSERT INTO schema_migrations(version, applied_at) VALUES(4, strftime('%Y-%m-%dT%H:%M:%fZ','now'))", [])
+            .map_err(|error| error.to_string())?;
+        if schema_version_from_connection(&connection)? != (DatabaseSchemaVersion { user_version: 4, migration_version: 4 }) {
+            return Err("Native Migration 4 did not reach consistent V4 schema authorities.".into());
+        }
+        connection.execute_batch("COMMIT").map_err(|error| error.to_string())?;
+        Ok(())
+    })();
+    if let Err(error) = result {
+        if !connection.is_autocommit() { let _ = connection.execute_batch("ROLLBACK"); }
+        return Err(error);
+    }
+    drop(connection);
+    let final_schema = production_schema_version_from_path(database_path)?;
+    if final_schema != (DatabaseSchemaVersion { user_version: 4, migration_version: 4 }) {
+        return Err("Native Migration 4 post-commit readback did not verify V4.".into());
+    }
+    let post_sidecars = database_sidecars(database_path)?;
+    if !post_sidecars.is_empty() { return Err("SQLite sidecar appeared after native Migration 4.".into()); }
+    Ok(serde_json::json!({
+        "event": "gate_permit_consumed",
+        "status": "V4_MIGRATION_VERIFIED_NATIVE",
+        "syntheticOnly": false,
+        "migrationOwner": "native-rusqlite-runner",
+        "schema": {"userVersion": final_schema.user_version, "migrationVersion": final_schema.migration_version},
+        "databaseSha256": sha256_file(database_path)?,
+    }))
+}
+
+fn run_production_migration_command() -> Result<JsonValue, String> {
+    let args: Vec<String> = std::env::args().collect();
+    if args.len() != 2 || args[1] != "--pfc-internal-v4-migrate" {
+        return Err("Internal Production migration accepts only the fixed native role.".into());
+    }
+    let executable = std::env::current_exe().map_err(|error| error.to_string())?;
+    let expected_executable = Path::new(PRODUCTION_APP_BUNDLE).join("Contents/MacOS").join(PRODUCTION_EXECUTABLE);
+    if executable != expected_executable { return Err("Native migration role must run from the exact installed Production executable.".into()); }
+    let home = PathBuf::from(std::env::var_os("HOME").ok_or("Home directory is unavailable.")?);
+    let app_data = home.join("Library/Application Support").join(PRODUCTION_IDENTIFIER);
+    let database_path = app_data.join(PRODUCTION_DATABASE);
+    let permit_path = app_data.join(PRODUCTION_MIGRATION_AUTHORIZATION);
+    let permit_meta = std::fs::symlink_metadata(&permit_path).map_err(|_| "REFUSE_NO_AUTHORIZATION: no unconsumed gate permit is present.".to_string())?;
+    if !permit_meta.is_file() || permit_meta.file_type().is_symlink() || permit_meta.nlink() != 1 {
+        return Err("REFUSE_NO_AUTHORIZATION: gate permit has an unsafe identity.".into());
+    }
+    let (_, manifest_sha256) = validate_runtime_compatibility_manifest(&executable)?;
+    let schema = production_schema_version_from_path(&database_path)?;
+    let authorized_database_sha256 = consume_production_migration_authorization(&app_data, &database_path, &home, schema, &executable, &manifest_sha256)?;
+    native_migration4(&database_path, &authorized_database_sha256)
 }
 
 fn ensure_smoke_data_dir_isolated(identifier: &str, data_dir: &Path, home_dir: &Path) -> Result<(), String> {
@@ -899,125 +1076,10 @@ mod tests {
         assert!(matches!(DatabaseState::open(&path), Err(error) if error.contains("Direct database open is disabled for Production")));
     }
 
-    fn synthetic_gate_permit() -> (PathBuf, serde_json::Value) {
-        let root = std::env::temp_dir().join(format!("pf-v4-synthetic-chain-{}-{}", std::process::id(), SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_nanos()));
-        fs::create_dir_all(&root).unwrap();
-        let output = Command::new("python3")
-            .current_dir(Path::new(env!("CARGO_MANIFEST_DIR")).parent().unwrap())
-            .arg("scripts/production_v4_release_gate.py")
-            .arg("rehearse-synthetic")
-            .arg("--fixture-root")
-            .arg(&root)
-            .output()
-            .expect("launch test-only synthetic Python gate harness");
-        assert!(output.status.success(), "{}", String::from_utf8_lossy(&output.stderr));
-        let facts: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
-        (root, facts)
-    }
-
     #[test]
-    fn p_python_gate_native_permit_consume_replay_and_real_migration4_chain() {
-        let (root, facts) = synthetic_gate_permit();
-        let app_data = PathBuf::from(facts["appData"].as_str().unwrap());
-        let app_path = PathBuf::from(facts["appPath"].as_str().unwrap());
-        let executable = PathBuf::from(facts["executablePath"].as_str().unwrap());
-        let database = PathBuf::from(facts["databasePath"].as_str().unwrap());
-        let permit = PathBuf::from(facts["permitPath"].as_str().unwrap());
-        fs::write(root.join("synthetic-gate-facts.json"), serde_json::to_vec(&facts).unwrap()).unwrap();
-        let schema = schema_version_from_path(&database).unwrap();
-        assert_eq!(schema, DatabaseSchemaVersion { user_version: 3, migration_version: 3 });
-        let original_permit = fs::read(&permit).unwrap();
-        let manifest_hash = sha256_file(&production_manifest_path(&executable).unwrap()).unwrap();
-        let permit_json: serde_json::Value = serde_json::from_slice(&original_permit).unwrap();
-        consume_production_migration_authorization_at(&app_data, &database, &app_path, &database, schema, &executable, &executable, &manifest_hash).unwrap();
-        let ledger_path = app_data.join(CONSUMED_AUTHORIZATION_LEDGER);
-        let ledger: Vec<ConsumedAuthorization> = serde_json::from_slice(&fs::read(&ledger_path).unwrap()).unwrap();
-        assert_eq!(ledger.len(), 1);
-        assert_eq!(ledger[0].authorization_id, permit_json["ownerAuthorizationId"].as_str().unwrap());
-        assert_eq!(ledger[0].nonce, permit_json["nonce"].as_str().unwrap());
-        assert_eq!(ledger[0].candidate_executable_sha256, permit_json["candidateExecutableSha256"].as_str().unwrap());
-        assert_eq!(ledger[0].compatibility_manifest_sha256, manifest_hash);
-        #[cfg(unix)]
-        {
-            use std::os::unix::fs::PermissionsExt;
-            assert_eq!(fs::metadata(&ledger_path).unwrap().permissions().mode() & 0o777, 0o600);
-        }
-
-        // A fresh consumer call after restoring the exact original bytes must fail from durable ledger state.
-        fs::write(&permit, &original_permit).unwrap();
-        #[cfg(unix)]
-        {
-            use std::os::unix::fs::PermissionsExt;
-            fs::set_permissions(&permit, fs::Permissions::from_mode(0o600)).unwrap();
-        }
-        let child = Command::new(std::env::current_exe().unwrap())
-            .arg("--exact")
-            .arg("tests::replay_consumer_child_process")
-            .arg("--nocapture")
-            .env("PF_TEST_SYNTHETIC_REPLAY_ROOT", &root)
-            .output()
-            .expect("start fresh native permit consumer process");
-        assert!(child.status.success(), "{}", String::from_utf8_lossy(&child.stderr));
-        assert_eq!(schema_version_from_path(&database).unwrap(), schema);
-
-        // Invoke the production TypeScript migration function after native authorization consumption.
-        let migration_script = root.join("run-v4-migration.mjs");
-        let migration_module = Path::new(env!("CARGO_MANIFEST_DIR")).parent().unwrap().join("src/persistence/migrations.ts");
-        let script = format!(r#"
-import {{ DatabaseSync }} from 'node:sqlite';
-import {{ migrateDatabase }} from '{}';
-const connection = new DatabaseSync({});
-const db = {{
-  async execute(sql, binds = []) {{ const result = connection.prepare(sql).run(...binds); return {{ rowsAffected: Number(result.changes), lastInsertId: Number(result.lastInsertRowid) }}; }},
-  async select(sql, binds = []) {{ return connection.prepare(sql).all(...binds); }},
-  async transaction(work) {{ connection.exec('BEGIN IMMEDIATE'); try {{ const result = await work(db); connection.exec('COMMIT'); return result; }} catch (error) {{ connection.exec('ROLLBACK'); throw error; }} }}
-}};
-await migrateDatabase(db, '2026-10-08T00:00:00.000Z', 4);
-connection.close();
-"#, migration_module.display(), serde_json::to_string(database.to_str().unwrap()).unwrap());
-        fs::write(&migration_script, script).unwrap();
-        let migrated = Command::new("node")
-            .arg("--experimental-strip-types")
-            .arg(&migration_script)
-            .output()
-            .expect("launch isolated real Migration 4 function");
-        assert!(migrated.status.success(), "{}", String::from_utf8_lossy(&migrated.stderr));
-        let connection = Connection::open_with_flags(&database, OpenFlags::SQLITE_OPEN_READ_ONLY).unwrap();
-        let final_schema = schema_version_from_connection(&connection).unwrap();
-        assert_eq!(final_schema, DatabaseSchemaVersion { user_version: 4, migration_version: 4 });
-        assert_eq!(connection.query_row("PRAGMA integrity_check", [], |row| row.get::<_, String>(0)).unwrap(), "ok");
-        assert!(connection.prepare("PRAGMA foreign_key_check").unwrap().query([]).unwrap().next().unwrap().is_none());
-        drop(connection);
-        fs::remove_dir_all(root).unwrap();
-    }
-
-    #[test]
-    fn replay_consumer_child_process() {
-        let Some(root) = std::env::var_os("PF_TEST_SYNTHETIC_REPLAY_ROOT").map(PathBuf::from) else { return; };
-        let facts: serde_json::Value = serde_json::from_slice(&fs::read(root.join("synthetic-gate-facts.json")).unwrap()).unwrap();
-        let app_data = PathBuf::from(facts["appData"].as_str().unwrap());
-        let app_path = PathBuf::from(facts["appPath"].as_str().unwrap());
-        let executable = PathBuf::from(facts["executablePath"].as_str().unwrap());
-        let database = PathBuf::from(facts["databasePath"].as_str().unwrap());
-        let schema = schema_version_from_path(&database).unwrap();
-        let manifest_hash = sha256_file(&production_manifest_path(&executable).unwrap()).unwrap();
-        assert!(consume_production_migration_authorization_at(&app_data, &database, &app_path, &database, schema, &executable, &executable, &manifest_hash).is_err());
-    }
-
-    #[test]
-    fn q_native_permit_consumer_rejects_sidecar_added_after_python_preflight() {
-        let (root, facts) = synthetic_gate_permit();
-        let app_data = PathBuf::from(facts["appData"].as_str().unwrap());
-        let app_path = PathBuf::from(facts["appPath"].as_str().unwrap());
-        let executable = PathBuf::from(facts["executablePath"].as_str().unwrap());
-        let database = PathBuf::from(facts["databasePath"].as_str().unwrap());
-        let manifest_hash = sha256_file(&production_manifest_path(&executable).unwrap()).unwrap();
-        let schema = schema_version_from_path(&database).unwrap();
-        let wal = PathBuf::from(format!("{}-wal", database.display()));
-        fs::write(&wal, b"synthetic WAL appeared after receipt").unwrap();
-        assert!(consume_production_migration_authorization_at(&app_data, &database, &app_path, &database, schema, &executable, &executable, &manifest_hash).is_err());
-        assert_eq!(schema_version_from_path(&database).unwrap(), DatabaseSchemaVersion { user_version: 3, migration_version: 3 });
-        fs::remove_dir_all(root).unwrap();
+    fn p_production_internal_role_is_fixed_and_has_no_user_supplied_paths() {
+        let error = run_production_migration_command().unwrap_err();
+        assert!(error.contains("Internal Production migration accepts only the fixed native role"));
     }
 
     #[test]
@@ -1063,6 +1125,13 @@ connection.close();
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    let command_args: Vec<String> = std::env::args().collect();
+    if command_args.get(1).map(String::as_str) == Some("--pfc-internal-v4-migrate") {
+        match run_production_migration_command() {
+            Ok(result) => { println!("{result}"); std::process::exit(0); }
+            Err(error) => { eprintln!("{}", serde_json::json!({"event":"blocked","error":error})); std::process::exit(2); }
+        }
+    }
     let builder = tauri::Builder::default()
         .setup(|app| {
             let app_data = app.path().app_data_dir()?;

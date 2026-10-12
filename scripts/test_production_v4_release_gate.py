@@ -67,6 +67,8 @@ class ReleaseGateTests(unittest.TestCase):
         authorization = root / "migration-authorization.json"
         approval.write_text(json.dumps(facts["candidate_approval"]), encoding="utf-8")
         authorization.write_text(json.dumps(facts["migration_authorization"]), encoding="utf-8")
+        facts["candidate_approval_sha256"] = gate.sha256_file(approval)
+        facts["migration_authorization_sha256"] = gate.sha256_file(authorization)
         return approval, authorization
 
     def _make_app(self, path: Path, bundle_id: str, with_manifest: bool = True) -> None:
@@ -101,7 +103,7 @@ class ReleaseGateTests(unittest.TestCase):
     def _safe_facts(self) -> dict:
         candidate = gate.read_bundle(self.app)
         database_hash = gate.sha256_file(self.db)
-        return {
+        facts = {
             "platform": "darwin",
             "expected_installed_app": str(self.app),
             "expected_database_path": str(self.db),
@@ -139,6 +141,10 @@ class ReleaseGateTests(unittest.TestCase):
             },
             "backup": {"path": str(self.backup), "exists": True, "sha256": gate.sha256_file(self.backup)},
         }
+        facts["candidate_approval_sha256"] = gate.hashlib.sha256(json.dumps(facts["candidate_approval"], sort_keys=True).encode()).hexdigest()
+        facts["migration_authorization_sha256"] = gate.hashlib.sha256(json.dumps(facts["migration_authorization"], sort_keys=True).encode()).hexdigest()
+        facts["synthetic_only"] = False
+        return facts
 
     def assert_blocked(self, mutate) -> None:
         facts = self._safe_facts()
@@ -528,12 +534,15 @@ class ReleaseGateTests(unittest.TestCase):
         facts = self._normal_entrypoint_facts()
         approval, authorization = self._write_entrypoint_inputs(facts, self.root)
         receipt_path = self.root / "actual-run-gate-migrate.json"
+        with patch.object(gate.sys, "platform", "darwin"), patch.object(gate, "APP_PATH", self.app), patch.object(gate, "DATABASE_PATH", self.db), patch.object(gate, "APP_DATA", self.db.parent), patch.object(gate, "collect_real_facts", return_value=facts):
+            gate.run_gate("preflight", approval, authorization, receipt_path)
         permit_path = self.root / "isolated-migration-permit.json"
         order: list[str] = []
-        def fake_permit(receipt, auth):
+        def fake_permit(receipt, auth, _path, **_kwargs):
             order.append("permit")
             self.assertTrue(receipt_path.is_file())
-            self.assertEqual(json.loads(receipt_path.read_text(encoding="utf-8"))["status"], "GATE_PASSED_MIGRATION_PERMITTED")
+            self.assertEqual(json.loads(receipt_path.read_text(encoding="utf-8"))["status"], "PREFLIGHT_PASS_READY_FOR_SEPARATELY_AUTHORIZED_MIGRATION")
+            self.assertTrue(receipt.get("releaseReceiptSha256"))
             self.assertEqual(auth["authorizationId"], facts["migration_authorization"]["authorizationId"])
             permit_path.write_text("synthetic permit", encoding="utf-8")
             return permit_path, "test-only-nonce"
@@ -541,13 +550,12 @@ class ReleaseGateTests(unittest.TestCase):
             order.append("launch")
             self.assertEqual(Path(command[0]), Path(facts["candidate"]["executable_path"]))
             self.assertTrue(permit_path.is_file())
-            return SimpleNamespace(pid=51515)
-        with patch.object(gate.sys, "platform", "darwin"), patch.object(gate, "APP_PATH", self.app), patch.object(gate, "DATABASE_PATH", self.db), patch.object(gate, "APP_DATA", self.db.parent), patch.object(gate, "collect_real_facts", return_value=facts), patch.object(gate, "write_migration_permit", side_effect=fake_permit), patch.object(gate.subprocess, "Popen", side_effect=fake_launch):
+            return subprocess.CompletedProcess(command, 0, '{"event":"gate_permit_consumed","status":"V4_MIGRATION_VERIFIED_NATIVE","syntheticOnly":false}\n', "")
+        with patch.object(gate.sys, "platform", "darwin"), patch.object(gate, "APP_PATH", self.app), patch.object(gate, "DATABASE_PATH", self.db), patch.object(gate, "APP_DATA", self.db.parent), patch.object(gate, "collect_real_facts", return_value=facts), patch.object(gate, "write_migration_permit", side_effect=fake_permit), patch.object(gate.subprocess, "run", side_effect=fake_launch):
             result = gate.run_gate("migrate", approval, authorization, receipt_path)
         self.assertEqual(order, ["permit", "launch"])
-        self.assertEqual(result["status"], "GATE_PASSED_CANDIDATE_LAUNCHED_MIGRATION_PENDING")
-        self.assertEqual(result["launchPid"], 51515)
-        self.assertEqual(json.loads(receipt_path.read_text(encoding="utf-8"))["status"], "GATE_PASSED_CANDIDATE_LAUNCHED_MIGRATION_PENDING")
+        self.assertEqual(result["status"], "NATIVE_CONSUMER_BOUND")
+        self.assertEqual(json.loads(receipt_path.read_text(encoding="utf-8"))["status"], "PREFLIGHT_PASS_READY_FOR_SEPARATELY_AUTHORIZED_MIGRATION")
 
     def test_actual_run_gate_negative_preflight_matrix_blocks_in_gate_logic(self) -> None:
         cases = [
@@ -584,7 +592,7 @@ class ReleaseGateTests(unittest.TestCase):
         with patch.object(gate.sys, "platform", "darwin"), patch.object(gate, "APP_PATH", self.app), patch.object(gate, "DATABASE_PATH", self.db), patch.object(gate, "APP_DATA", self.db.parent), patch.object(gate, "collect_real_facts") as collect, patch.object(gate, "write_migration_permit") as permit_writer, patch.object(gate.subprocess, "Popen") as launcher:
             with self.assertRaises(gate.GateBlocked) as caught:
                 gate.run_gate("preflight", approval, missing_authorization, receipt_path)
-        self.assertIn("authorization is missing or unreadable", str(caught.exception).lower())
+        self.assertIn("REFUSE_NO_AUTHORIZATION", str(caught.exception))
         self.assertFalse(receipt_path.exists())
         collect.assert_not_called()
         permit_writer.assert_not_called()
