@@ -1,0 +1,273 @@
+{
+  "status": "V3_FIXTURE_VERIFIED",
+  "synthetic_only": true,
+  "source_root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-13v5jor7/pfc-qic-renderer_death_before_commit-xjef6ch7",
+  "database_sha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+  "backup_sha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+  "schema_evidence": {
+    "exact_schema": true,
+    "integrity": "ok",
+    "foreign_keys": "ok",
+    "dev": 16777232,
+    "ino": 25364254,
+    "size": 229376,
+    "sha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+    "mode": 384
+  },
+  "tables": [
+    "app_metadata",
+    "asset_revisions",
+    "asset_value_snapshots",
+    "assets",
+    "cash_account_revisions",
+    "cash_accounts",
+    "cash_balance_snapshots",
+    "debt_period_facts",
+    "debt_revisions",
+    "debts",
+    "essential_expense_items",
+    "essential_expense_revisions",
+    "essential_expense_snapshots",
+    "expense_records",
+    "financial_settings",
+    "income_records",
+    "planning_income_revisions",
+    "profiles",
+    "schema_migrations",
+    "settings_revisions"
+  ],
+  "row_counts": {
+    "app_metadata": 1,
+    "asset_revisions": 2,
+    "asset_value_snapshots": 2,
+    "assets": 2,
+    "cash_account_revisions": 2,
+    "cash_accounts": 2,
+    "cash_balance_snapshots": 2,
+    "debt_period_facts": 3,
+    "debt_revisions": 3,
+    "debts": 3,
+    "essential_expense_items": 1,
+    "essential_expense_revisions": 1,
+    "essential_expense_snapshots": 1,
+    "expense_records": 2,
+    "financial_settings": 1,
+    "income_records": 4,
+    "planning_income_revisions": 1,
+    "profiles": 1,
+    "schema_migrations": 3,
+    "settings_revisions": 1
+  },
+  "selected_rows": {
+    "financial_settings": [
+      [
+        "fixture",
+        6.0,
+        2.0,
+        12.0,
+        "1800"
+      ]
+    ],
+    "income_status_kind": [
+      [
+        "ACTUAL",
+        "EXPECTED",
+        1,
+        500
+      ],
+      [
+        "ACTUAL",
+        "PENDING",
+        1,
+        300
+      ],
+      [
+        "ACTUAL",
+        "RECEIVED",
+        1,
+        11800
+      ],
+      [
+        "PLANNING",
+        "EXPECTED",
+        1,
+        12000
+      ]
+    ],
+    "cash_eligibility": [
+      [
+        "cash-eligible",
+        1
+      ],
+      [
+        "cash-excluded",
+        0
+      ]
+    ],
+    "asset_kind_eligibility": [
+      [
+        "asset-liquid",
+        "LIQUID_INVESTMENT",
+        1
+      ],
+      [
+        "asset-other",
+        "OTHER",
+        0
+      ]
+    ],
+    "debt_facts": [
+      [
+        "debt-due",
+        "500",
+        "900"
+      ],
+      [
+        "debt-fallback",
+        null,
+        "450"
+      ],
+      [
+        "debt-zero",
+        "0",
+        "700"
+      ]
+    ],
+    "expenses": [
+      [
+        "expense-essential",
+        "2200",
+        "ESSENTIAL",
+        "HOUSING",
+        "2026-10-02"
+      ],
+      [
+        "expense-variable",
+        "125",
+        "VARIABLE",
+        "FOOD",
+        "2026-10-03"
+      ]
+    ],
+    "app_metadata": [
+      [
+        "quiescence-sentinel",
+        "unchanged"
+      ]
+    ]
+  },
+  "frozen_financial_model_output": "NOT_RUN",
+  "c0_to_c10": "NOT_RUN_TO_COMPLETION",
+  "preserved_files": [
+    {
+      "name": "SYNTHETIC_ONLY",
+      "bytes": 28,
+      "sha256": "421bc98a8f907a7115d6ad0c353884e1553ec2c388bcd65c7fe9f85f91e08f65"
+    },
+    {
+      "name": "fixture-definition.json",
+      "bytes": 19881,
+      "sha256": "fa903a199aa45c2597e501a4400c09a00cd413a56f98cee75f94bb93184a42cc"
+    },
+    {
+      "name": "manifest.json",
+      "bytes": 226,
+      "sha256": "d9b4488609c1a08d28f9d285eb2c0e9136b29feca26c35599629723b6e192231"
+    },
+    {
+      "name": "managed-contract.json",
+      "bytes": 26690,
+      "sha256": "d50435f568cf74d956c023d982fae1bd8a3e783077c7d12ec0eb8e39516d282f"
+    },
+    {
+      "name": "managed-progress.json",
+      "bytes": 2928,
+      "sha256": "5213c564fcc9869bb7413f7194ea537c4385d996ae73c03d5f4242b292fa8f5f"
+    },
+    {
+      "name": "authorization.json",
+      "bytes": 557,
+      "sha256": "b93c76b5d0a9245390f9582f92b272e24c0167609a2e327b353f340ac2e3163a"
+    },
+    {
+      "name": "permit.claimed.json",
+      "bytes": 1047,
+      "sha256": "9abdc53755ad2cb0a9d168620d0743a0d5e81b7e6ee449ab74ea27e3bc71bf37"
+    },
+    {
+      "name": "consumed.json",
+      "bytes": 1047,
+      "sha256": "9abdc53755ad2cb0a9d168620d0743a0d5e81b7e6ee449ab74ea27e3bc71bf37"
+    },
+    {
+      "name": "outcome.json",
+      "bytes": 1759,
+      "sha256": "c03340832c65d74d6a8230c6732a74ad94b3645c03ac1971e7c20240e4618acd"
+    },
+    {
+      "name": "native-launch.json",
+      "bytes": 383,
+      "sha256": "3681a5ced0f49c21204734bf6934f766b56bafdaaa50cc118d15bcef4bf96511"
+    },
+    {
+      "name": "ipc-initial.jsonl",
+      "bytes": 63776,
+      "sha256": "456610d0b961903bd06a2e6c6030c0f7fcf3360845c562deac9a0a152e7bb353"
+    },
+    {
+      "name": "ipc-initial-controller.json",
+      "bytes": 1565,
+      "sha256": "e2c216c8fc0c0fb20512e9d07cf12fca532be918efa0ee386b0a96ffceca9245"
+    },
+    {
+      "name": "ipc-initial.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "ipc-initial.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "personal-finance-console.sqlite3",
+      "bytes": 229376,
+      "sha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b"
+    },
+    {
+      "name": "backup.sqlite3",
+      "bytes": 229376,
+      "sha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b"
+    },
+    {
+      "name": "native-state-000.json",
+      "bytes": 1871,
+      "sha256": "3116cac1950618b7716d90d0f7f9ae5a6695872709395ea0b449ee87aac65694"
+    },
+    {
+      "name": "native-state-001.json",
+      "bytes": 1979,
+      "sha256": "7f5b74c6df350d9ed89a6467c1c052f9f0e7d6a1be991f9a7b101ce7ffeb56fd"
+    },
+    {
+      "name": "native-state-002.json",
+      "bytes": 1927,
+      "sha256": "33338e7045881bbd34de53e95d83519a78f9fc393c508aa0d4cd13139cf5fae1"
+    },
+    {
+      "name": "native-state-003.json",
+      "bytes": 1856,
+      "sha256": "b555d92650a6d47b07a813c2fd7d1dac2717aa75182016cd2cfaf5047bcfdd4f"
+    },
+    {
+      "name": "native-state-004.json",
+      "bytes": 2005,
+      "sha256": "2dc1733db2df5e52dd0fdd8d628291f1dbb9a02d59aa9893c3c27a7146648c34"
+    },
+    {
+      "name": "native-state-005.json",
+      "bytes": 1759,
+      "sha256": "c03340832c65d74d6a8230c6732a74ad94b3645c03ac1971e7c20240e4618acd"
+    }
+  ]
+}

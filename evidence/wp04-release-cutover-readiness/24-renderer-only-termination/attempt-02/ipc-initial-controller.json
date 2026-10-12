@@ -1,0 +1,23 @@
+{
+  "format_version": 1,
+  "provenance": "external_process_controller_not_IPC",
+  "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-u6wgaetp/pfc-qic-renderer_death_before_commit-m8dpu31q",
+  "scenario": "renderer_death_before_commit",
+  "phase": "initial",
+  "pid": 90165,
+  "executable": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-u6wgaetp/pfc-qic-renderer_death_before_commit-m8dpu31q/managed/install/Installed.app/Contents/MacOS/quiescence-tauri",
+  "executable_sha256": "077e8f58c36297469fef9a3a067a516c99b477339a20b25eaa0d461e0718460c",
+  "stdout_log": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-u6wgaetp/pfc-qic-renderer_death_before_commit-m8dpu31q/ipc-initial.stdout.log",
+  "stderr_log": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-q11-real-ipc-u6wgaetp/pfc-qic-renderer_death_before_commit-m8dpu31q/ipc-initial.stderr.log",
+  "started_at_unix_ns": 1791806114696417000,
+  "exit_code": -9,
+  "failure": "AssertionError: expected exactly one WebKit WebContent process attributable through PPID chain; found=[]",
+  "controller_killed_on_failure": true,
+  "finished_at_unix_ns": 1791806118440812000,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_bytes": 0,
+  "stderr_bytes": 0,
+  "native_journal_exists": true,
+  "native_journal_sha256": "b39a651f972cab28707b8d9c00fbb3b1e7fc295b5a5e2fa664e2f5de2a62c860"
+}

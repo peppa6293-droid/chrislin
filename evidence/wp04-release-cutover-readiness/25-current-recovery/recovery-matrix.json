@@ -1,0 +1,26 @@
+{
+  "format_version": 1,
+  "synthetic_only": true,
+  "transport": "native-cli-NOT-Q11",
+  "retained_root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-takeover-recovery-ne39ce9r",
+  "native": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/debug/quiescence-fixture",
+  "native_sha256": "5870a24604b4124d73c73b307a2e86cfe23e492caa7ccea3b556e024f7413d45",
+  "sources_before": {
+    "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_recovery_matrix.py": "960074651e34a7b592fb235bb61b0d040e3ce2aa2fae9069989afd1d4f8bff73",
+    "/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/src/quiescence_recovery.rs": "505bac32ddf059d99b66968c8df22c29c32023a96df54b35a347811b07ee9242",
+    "/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/src/cutover_startup.rs": "ac48769928c455bbe290873297de2962c4faa86911c00a2e907f1dee82e0e956"
+  },
+  "cases": [
+    {
+      "name": "v4-success-confirm",
+      "passed": false,
+      "error": "Blocked('MACOS_SIGNING_PREREQUISITE_REQUIRED: Apple Development identity was not configured')"
+    }
+  ],
+  "status": "FAILED",
+  "sources_after": {
+    "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_recovery_matrix.py": "960074651e34a7b592fb235bb61b0d040e3ce2aa2fae9069989afd1d4f8bff73",
+    "/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/src/quiescence_recovery.rs": "505bac32ddf059d99b66968c8df22c29c32023a96df54b35a347811b07ee9242",
+    "/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/src/cutover_startup.rs": "ac48769928c455bbe290873297de2962c4faa86911c00a2e907f1dee82e0e956"
+  }
+}

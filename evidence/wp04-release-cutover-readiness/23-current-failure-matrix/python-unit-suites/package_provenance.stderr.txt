@@ -1,0 +1,15 @@
+test_a_build_a_sources_pass_without_mutating_receipt (test_quiescence_package_provenance.ProvenanceTests) ... ok
+test_a_build_b_sources_rejected (test_quiescence_package_provenance.ProvenanceTests) ... ok
+test_artifact_source_name_path_builddir_and_log_mismatch_rejected (test_quiescence_package_provenance.ProvenanceTests) ... ok
+test_build_directory_drift_rejected (test_quiescence_package_provenance.ProvenanceTests) ... ok
+test_changed_actual_uuid_and_changed_entry_bytes_rejected (test_quiescence_package_provenance.ProvenanceTests) ... ok
+test_entry_candidate_identity_hash_and_uuid_mismatch_rejected (test_quiescence_package_provenance.ProvenanceTests) ... ok
+test_equal_but_incomplete_original_source_maps_rejected (test_quiescence_package_provenance.ProvenanceTests) ... ok
+test_exit_must_be_explicit_integer_zero (test_quiescence_package_provenance.ProvenanceTests) ... ok
+test_failed_incomplete_and_wrong_type_receipts_rejected (test_quiescence_package_provenance.ProvenanceTests) ... ok
+test_original_log_drift_rejected (test_quiescence_package_provenance.ProvenanceTests) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.102s
+
+OK

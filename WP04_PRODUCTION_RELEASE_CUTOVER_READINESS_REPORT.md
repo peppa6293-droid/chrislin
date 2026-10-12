@@ -98,3 +98,39 @@ Evidence root: `evidence/wp04-release-cutover-readiness/`.
 - Synthetic C0–C10/S0–S10, recovery and failure folders: `09-synthetic-c0-c3/` through `15-synthetic-c10-binding/` (not complete; see status above).
 - Regression: `16-regression/`.
 - Go/no-go and final readback: `17-go-no-go/`, `18-final-readback/`.
+
+## WP-04R1 Final Execution-Path Closure
+
+**R1 status: WP04_RELEASE_CUTOVER_READINESS_BLOCKED.** Starting HEAD was c2d73ae658cd36ada13556098f30b8b74970f81a; isolated test/source work is committed at 03c5c20246e6ef1a477a277ed3f8910afdefd68f. This commit adds representative synthetic V3 records and a renderer-only test harness; it does not integrate the formal Production gate.
+
+### Gate integration
+
+The formal scripts/production_v4_release_gate.py still refuses Production migrate/retire, and Rust's consume_production_migration_authorization functions remain disconnected from the supported Production setup/invoke path. Current checks passed 40 gate tests and 2 entry-boundary tests. They prove refusal and existing gate behavior, not a supported execution path. No Production facts were collected.
+
+### Synthetic fixture and current-source rehearsal
+
+A fresh synthetic database was built through migrations/003-bootstrap.sql and verified against the exact V3 schema, integrity, and foreign-key checks. It contains planning/actual income, essential/variable expense, safety settings and history, eligible/excluded cash, liquid/non-liquid assets, and current-due/explicit-zero/fallback debt cases. DB and backup hashes match. Frozen Financial Model output was not captured.
+
+The isolated current-source Q11 Tauri/Wry harness reached durable QUIESCENCE_ACQUIRED in two renderer attribution attempts. It did not complete C0-C10 or S0-S10; Migration 4, S6-S10, C9 and C10 are not claimed. Synthetic Q11 authorization/permit/consumption objects are isolated harness artifacts, not evidence of the formal gate C0-C7 contract.
+
+### Renderer-only termination
+
+**Classification: BLOCKING_DEFECT.** Both attempts reached a real WebKit checkpoint. The observed WebKit WebContent processes were reparented to launchd (PPID 1), so the first parent-chain method found no process attributable to the exact native PID. A second bounded attempt required a new PID, exact WebKit WebContent executable path, and exact process-group match; it found no eligible renderer. Neither attempt sent a signal to a renderer PID. The isolated controller stopped the synthetic app after attribution failed; the durable outcome remained QUIESCENCE_ACQUIRED. No renderer restart or post-fence outcome was verified.
+
+### Regressions and candidate
+
+The current-source Rust quiescence suite passed 33 tests; the Production gate suite passed 40; the gate-entry boundary suite passed 2. Python syntax, exact V3 fixture verification, isolated signed test-package identity/source checks, and git diff --check passed. The full requested product/default-package/recovery/failure-matrix/C0-C10 regression set was not completed.
+
+No fresh Production pre-candidate was built for R1. The signed package used in the renderer probe is only the isolated org.pfc.quiescence.integration test app. The previous WP-04 candidate remains unapproved and is not an R1 final candidate.
+
+Production app/database were not opened, launched, installed, or modified. No real authorization, release receipt, backup, or permit was created. No Production migration, restore, or blocker closure occurred. WP-03 acceptance and Financial Model source were not modified.
+
+Evidence is under evidence/wp04-release-cutover-readiness/19-final-gate-integration/ through 31-final-readback/. Fixture: 20-current-synthetic-fixture/FIXTURE_READBACK.json. Renderer attempts and synthetic journals: 24-renderer-only-termination/.
+
+### R1 follow-up — synthetic recovery ACK fix and final status
+
+After the initial R1 report, a race was reproduced in the synthetic native handoff: the parent could observe the native launch marker before its complete durable write. Source commit `3d53d87e86f91b31e49b8362227e6fae8763f76d` now waits for complete, identity-bound native ACK bytes; the receiver fsyncs the ACK and containing directory before releasing the parent lease. The recovery helper is included in the matrix source inventory.
+
+The corrected, signed synthetic **native CLI (NOT Q11)** recovery matrix passed all 16 cases. Its receipt is `evidence/wp04-release-cutover-readiness/25-current-recovery/recovery-matrix-ackfix.json`. It covers the listed synthetic handoff/recovery and authorization-boundary cases only. It does not prove Production recovery, renderer behavior, formal gate integration, full C0–C10/S0–S10, Migration 4 exactly-once, or final acceptance. The original race failure remains preserved in `recovery-matrix-signed.json`.
+
+The additional post-fix evidence does not change the overall decision: **WP04_RELEASE_CUTOVER_READINESS_BLOCKED**. The formal Production execution path remains disabled, renderer PID attribution remains unresolved, no R1 final Production candidate exists, and the complete current-source cutover chain remains incomplete. Product regression selections pass; complete WP04 acceptance does not. Production app/DB, authorization, backup, permit, installation, migration, restore, and blocker closure remain untouched/not performed.

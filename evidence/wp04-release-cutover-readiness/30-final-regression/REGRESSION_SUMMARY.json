@@ -1,0 +1,93 @@
+{
+  "status": "PARTIAL",
+  "source_commit": "3d53d87e86f91b31e49b8362227e6fae8763f76d",
+  "checks": [
+    {
+      "name": "cargo quiescence native suite",
+      "result": "PASS",
+      "passed": 33,
+      "failed": 0
+    },
+    {
+      "name": "production release gate suite",
+      "result": "PASS",
+      "passed": 40,
+      "failed": 0
+    },
+    {
+      "name": "entry boundary suite",
+      "result": "PASS",
+      "passed": 2,
+      "failed": 0
+    },
+    {
+      "name": "python syntax",
+      "result": "PASS"
+    },
+    {
+      "name": "isolated package build and source validation",
+      "result": "PASS",
+      "receipt": "../24-renderer-only-termination/isolated-package-validation.json"
+    },
+    {
+      "name": "isolated package source readback after commit",
+      "result": "PASS",
+      "receipt": "../24-renderer-only-termination/isolated-package-readback.json"
+    },
+    {
+      "name": "git diff check",
+      "result": "PASS"
+    },
+    {
+      "name": "full product/default package/C0-C10/recovery/failure matrix",
+      "result": "NOT_COMPLETED"
+    },
+    {
+      "name": "synthetic native CLI recovery matrix after ACK race fix",
+      "result": "PASS",
+      "passed": 16,
+      "failed": 0,
+      "scope": "native-cli-NOT-Q11; does not establish formal Production gate or full C0-C10/S0-S10 acceptance",
+      "receipt": "../25-current-recovery/recovery-matrix-ackfix.json"
+    },
+    {
+      "name": "integration helper tests after ACK race fix",
+      "result": "PASS",
+      "passed": 30,
+      "failed": 0,
+      "scope": "synthetic Python integration helper suite; signed identity supplied"
+    }
+  ],
+  "initial_failures": [
+    {
+      "event": "first package build",
+      "result": "SOURCE_DRIFT_DURING_BUILD",
+      "preserved_receipt": "INITIAL_SOURCE_DRIFT_BUILD_RECEIPT.json",
+      "cause": "source changed during package build; bundle not accepted"
+    },
+    {
+      "event": "first gate boundary test invocation",
+      "result": "ModuleNotFoundError: No module named 'scripts'",
+      "preserved_note": "../19-final-gate-integration/INITIAL_ENTRY_TEST_INVOCATION_FAILURE.md",
+      "correction": "module invocation passed"
+    },
+    {
+      "event": "renderer attribution attempt 1",
+      "result": "FAIL",
+      "preserved": "../24-renderer-only-termination/renderer-final.json"
+    },
+    {
+      "event": "renderer attribution attempt 2",
+      "result": "FAIL",
+      "preserved": "../24-renderer-only-termination/renderer-attempt-02-precommit.json"
+    },
+    {
+      "event": "fixture probe with aliased temp path",
+      "result": "BLOCKED_NOT_ISOLATED_FIXTURE",
+      "correction": "canonical system temp root used; exact V3 fixture verification passed"
+    }
+  ],
+  "production_actions": [],
+  "candidate": "No new Production candidate built",
+  "full_acceptance": "NOT_ESTABLISHED"
+}

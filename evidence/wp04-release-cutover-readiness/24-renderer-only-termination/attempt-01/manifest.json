@@ -1,0 +1,8 @@
+{
+  "manifestFormatVersion": 1,
+  "runtimeGeneration": 4,
+  "minSupportedSchemaVersion": 3,
+  "maxSupportedSchemaVersion": 4,
+  "bundleId": "org.pfc.quiescence.integration",
+  "executable": "Contents/MacOS/quiescence-tauri"
+}

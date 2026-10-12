@@ -1,0 +1,30 @@
+test_actual_child_exit_after_disable_uses_retained_waitpid (test_quiescence_gate.ManagedGateTests) ... ok
+test_archive_role_does_not_whitelist_launch_route (test_quiescence_gate.ManagedGateTests) ... ok
+test_bare_production_copy_not_hidden_by_nonapp_suffix (test_quiescence_gate.ManagedGateTests) ... ok
+test_copy_overlap_is_rejected_before_any_mutation (test_quiescence_gate.ManagedGateTests) ... ok
+test_disable_precedes_exit_check_and_never_renames_live_target (test_quiescence_gate.ManagedGateTests) ... ok
+test_disabled_copy_born_without_exec_bits (test_quiescence_gate.ManagedGateTests) ... ok
+test_exact_inventory (test_quiescence_gate.ManagedGateTests) ... ok
+test_external_symlink (test_quiescence_gate.ManagedGateTests) ... ok
+test_fixture_rejects_non_temp_and_bad_marker (test_quiescence_gate.ManagedGateTests) ... ok
+test_flat_production_is_not_silently_ignored (test_quiescence_gate.ManagedGateTests) ... ok
+test_gapless_inherited_lease_survives_gate_close (test_quiescence_gate.ManagedGateTests) ... ok
+test_hardlink_identity_rejected (test_quiescence_gate.ManagedGateTests) ... ok
+test_incomplete_target_enumeration_blocks (test_quiescence_gate.ManagedGateTests) ... ok
+test_internal_production_alias (test_quiescence_gate.ManagedGateTests) ... ok
+test_internal_unrelated_framework_alias_reuses_coverage (test_quiescence_gate.ManagedGateTests) ... ok
+test_known_target_cannot_disappear_or_change_identity (test_quiescence_gate.ManagedGateTests) ... ok
+test_lease_handoff_failure_retains_parent_ownership (test_quiescence_gate.ManagedGateTests) ... ok
+test_lease_inode_replacement_detected (test_quiescence_gate.ManagedGateTests) ... ok
+test_manifest_semantically_same_bytes_different (test_quiescence_gate.ManagedGateTests) ... ok
+test_nested_helper_executable_blocks (test_quiescence_gate.ManagedGateTests) ... ok
+test_nested_under_unrelated_outer_resources (test_quiescence_gate.ManagedGateTests) ... ok
+test_old_runtime_idle_still_blocked (test_quiescence_gate.ManagedGateTests) ... ok
+test_os_lease_serializes_supported_entrypoints (test_quiescence_gate.ManagedGateTests) ... ok
+test_unknown_bookmark (test_quiescence_gate.ManagedGateTests) ... ok
+test_unrelated_protected_pid_not_absence_proof (test_quiescence_gate.ManagedGateTests) ... ok
+
+----------------------------------------------------------------------
+Ran 25 tests in 0.288s
+
+OK

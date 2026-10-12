@@ -1,14 +1,33 @@
 # WP-04 Progress Receipt
 
-**Status:** `WP04_RELEASE_CUTOVER_READINESS_BLOCKED`
+**Current status:** `WP04_RELEASE_CUTOVER_READINESS_BLOCKED`
+**Starting HEAD:** `c2d73ae658cd36ada13556098f30b8b74970f81a`
+**Current source commit:** `3d53d87e86f91b31e49b8362227e6fae8763f76d`
 
-- Source hardening and product-visible brand normalization are committed at `b59dbfe5c00a2ed01a793b0602d6b48b246dc748`.
-- Two fresh pre-production candidate builds were produced. The retained candidate is statically inspected and strictly code-signed; it was not launched or notarized.
-- Path metadata and SQLite sidecar checks fail closed. Default candidate preview surface was inspected and excluded.
-- Regression suites pass after an initial integration setup failure caused by a missing signing environment variable; the first failure is retained in evidence.
-- Full current-source synthetic C0–C10/S0–S10 acceptance is incomplete. Production V3→V4 gate integration is not available. Renderer-only termination remains unverified and is classified as a blocking defect.
-- No Production app, database, authorization, backup, permit, install, migration, or restore was touched or created.
+## 已完成并验证
 
-See [WP04_PRODUCTION_RELEASE_CUTOVER_READINESS_REPORT.md](WP04_PRODUCTION_RELEASE_CUTOVER_READINESS_REPORT.md), [WP04_PREPRODUCTION_GO_NO_GO_MATRIX.md](WP04_PREPRODUCTION_GO_NO_GO_MATRIX.md), and `evidence/wp04-release-cutover-readiness/`.
+- 新增并验证 synthetic V3 fixture：使用正式 `migrations/003-bootstrap.sql`，schema、integrity、foreign-key 检查通过；fixture DB 与 byte-for-byte backup 哈希一致。
+- 修复 synthetic native handoff ACK 写入竞态；等待精确身份绑定的 ACK 完整写入，并由接收端 fsync 后再释放父 lease。`quiescence_integration.py` 与 recovery matrix helper 已一并纳入 source binding。
+- 修复后的 native CLI synthetic recovery matrix **16/16 PASS**，覆盖成功/终态确认、busy、状态及 ledger 错误、candidate/database 变化，以及 recovery authorization 的语义/字节漂移和 callback 边界。该结果只证明本 matrix 覆盖的 synthetic native CLI 行为，不代表 formal Production gate 或完整 WP04 验收。
+- 产品回归：typecheck、lint、`test:product`、`test:wp03-preview`、`test:release-gate`、build 均通过；Rust default、WP03 preview、quiescence fixture、quiescence Tauri suites 均通过，其中 quiescence Tauri 33 项通过。
+- Python Production gate 40 项、gate-entry boundary 2 项及 integration helper 30 项通过；integration suite 使用已配置的 Apple signing identity 重跑通过。此前环境缺失和入口调用失败均保留原始记录。
+- 隔离 Q11 测试包签名及 source readback 通过。renderer pre-commit 归因尝试两次均未能安全锁定 WebKit WebContent PID，未发送 renderer 信号；分类仍为 `BLOCKING_DEFECT`。
 
-**Next owner:** Planning to assign the missing synthetic/renderer evidence work; Execution remains responsible for implementation. Independent final audit is not yet ready.
+## 未完成 / 当前阻断
+
+- **Formal Production gate path missing:** migrate/retire 仍拒绝执行；authorization consumer 尚未绑定到受支持的 Production setup/invoke 路径。
+- **Synthetic cutover incomplete:** 虽有代表性 fixture 与 recovery matrix，仍未完成 source/candidate-bound C0-C10、S0-S10、Migration 4 exactly-once、C9/C10、冻结模型输出及完整失败/恢复矩阵。
+- **Renderer closure blocked:** PID attribution 未验证；pre-commit renderer death 未验证；post-commit death 与 restart 未执行。
+- 未生成 R1 final Production pre-candidate；Q01-Q18 当前来源的最终闭环未完成；独立最终预生产审计未就绪。
+
+## Production 边界
+
+未打开、启动、安装或修改 Production app/DB；未创建真实授权、release receipt、backup 或 permit；未执行 Production migration、restore 或 blocker closure。WP-03 acceptance 与 Financial Model 源码未改，WP-02 未触碰。
+
+## 证据与下一责任人
+
+- 主报告：[WP04_PRODUCTION_RELEASE_CUTOVER_READINESS_REPORT.md](WP04_PRODUCTION_RELEASE_CUTOVER_READINESS_REPORT.md)
+- Go/No-Go：[WP04_PREPRODUCTION_GO_NO_GO_MATRIX.md](WP04_PREPRODUCTION_GO_NO_GO_MATRIX.md)
+- 证据根：`evidence/wp04-release-cutover-readiness/`
+- 修复后的 recovery matrix：`evidence/wp04-release-cutover-readiness/25-current-recovery/recovery-matrix-ackfix.json`
+- 下一责任人：Execution 继续完成正式 gate/consumer 支持路径、renderer PID 归因及完整 synthetic cutover/候选证据；完成后再交独立审查。当前不具备最终审计就绪条件。

@@ -1,0 +1,140 @@
+{
+  "format_version": 1,
+  "source_commit": "3d53d87e86f91b31e49b8362227e6fae8763f76d",
+  "commands": [
+    {
+      "name": "typecheck",
+      "argv": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "name": "lint",
+      "argv": [
+        "npm",
+        "run",
+        "lint"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "name": "product",
+      "argv": [
+        "npm",
+        "run",
+        "test:product"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "name": "wp03_preview_isolation",
+      "argv": [
+        "npm",
+        "run",
+        "test:wp03-preview"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "name": "release_gate",
+      "argv": [
+        "npm",
+        "run",
+        "test:release-gate"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "name": "build",
+      "argv": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "name": "rust_default",
+      "argv": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "src-tauri/Cargo.toml"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "name": "rust_wp03_preview",
+      "argv": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "src-tauri/Cargo.toml",
+        "--features",
+        "wp03-preview"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "name": "rust_quiescence_fixture",
+      "argv": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "src-tauri/Cargo.toml",
+        "--features",
+        "quiescence-fixture",
+        "--bin",
+        "quiescence-fixture",
+        "--bin",
+        "quiescence-old-runtime"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "name": "rust_quiescence_tauri",
+      "argv": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "src-tauri/Cargo.toml",
+        "--features",
+        "quiescence-tauri",
+        "--bin",
+        "quiescence-tauri"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    }
+  ],
+  "full_wp04r1_acceptance": "NOT_ESTABLISHED",
+  "production_actions": [],
+  "additional_after_source_commit": [
+    {
+      "name": "quiescence integration Python suite",
+      "passed": 30,
+      "failed": 0,
+      "status": "PASS",
+      "signing_identity_supplied": true
+    },
+    {
+      "name": "synthetic native CLI recovery matrix after ACK race fix",
+      "passed": 16,
+      "failed": 0,
+      "status": "PASS",
+      "receipt": "../../25-current-recovery/recovery-matrix-ackfix.json"
+    }
+  ]
+}
