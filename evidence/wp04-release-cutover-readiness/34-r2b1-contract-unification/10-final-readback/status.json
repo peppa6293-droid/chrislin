@@ -1,0 +1,10 @@
+{
+  "status": "BLOCKED",
+  "r2b_overall": "WP04R2B_SYNTHETIC_CUTOVER_BLOCKED",
+  "production_touched": false,
+  "migration4_executed": false,
+  "implementation_scope": "Python adapter/root contract groundwork only",
+  "implementation_commit": "f7b37374e32d8a3736c060c6f91a4c1e3e7aee70",
+  "report_sha256": "06ba66aa151376c5c9a435a49dace6e392a8c4dbc7ccae76d49f17eba82279ba",
+  "r2b_history_retained": true
+}

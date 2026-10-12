@@ -1,0 +1,7 @@
+{
+  "status": "PARTIAL",
+  "fixed_synthetic_bundle_id": "org.pfc.quiescence.integration",
+  "fixed_root_db_basename": "personal-finance-console.sqlite3",
+  "python_manifest_unit_test": "PASS",
+  "candidate_to_native_runtime_binding": "NOT_IMPLEMENTED"
+}

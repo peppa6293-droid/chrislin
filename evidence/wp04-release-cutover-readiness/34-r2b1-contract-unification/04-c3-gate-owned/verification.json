@@ -1,0 +1,6 @@
+{
+  "status": "BLOCKED",
+  "prepare_managed_gate_owned_mode": "NOT_IMPLEMENTED",
+  "c3_authorization_absent": "NOT_PROVEN",
+  "c3_permit_absent": "NOT_PROVEN"
+}

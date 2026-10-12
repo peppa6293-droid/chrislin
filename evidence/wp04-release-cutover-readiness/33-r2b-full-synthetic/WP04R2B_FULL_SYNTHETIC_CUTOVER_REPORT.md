@@ -95,3 +95,12 @@ Production App, DB, backup and authorization were not accessed. No real receipt,
 - Evidence root: `evidence/wp04-release-cutover-readiness/33-r2b-full-synthetic/`.
 - R2B Q update: `R2B_Q_UPDATE.md` in this evidence root.
 - The current run is **BLOCKED before C0**. Next responsibility: Execution must close the synthetic contract integration gap, then create a fresh candidate/root and rerun all R2B evidence from C0. Only after that can the result be sent for independent review. WP04 overall remains blocked; this does not authorize Production or imply R2C completion.
+## R2B1 Contract Integration Fix
+
+The historical R2B `BLOCKED` conclusion is retained. WP-04R2B1 identified integration gaps between the Gate marker/candidate/DB contract, managed C3 authority ownership, formal Gate permit, native consumer, quiescence runner, and consumed ledger.
+
+Partial implementation groundwork was committed in the follow-up source change: an explicit unified marker and fixed synthetic identity contract were added to the Python Gate/root-validation layer, with focused marker and manifest tests. However, C3 still emits its standalone authorization/permit in its existing mode, and the Rust product path still lacks an exact-byte Gate permit claim and S4-only runner handoff.
+
+New WP-04R2B1 status: `BLOCKED` (not `WP04R2B1_SYNTHETIC_CONTRACT_UNIFIED_READY`). No formal CLI → compiled Rust → native S4 proof exists. The R2B overall status remains `WP04R2B_SYNTHETIC_CUTOVER_BLOCKED`; this update is not a full cutover pass, Production authorization, or release readiness.
+
+See `WP04R2B1_UNIFIED_SYNTHETIC_CONTRACT_REPORT.md` and `evidence/wp04-release-cutover-readiness/34-r2b1-contract-unification/` for scope and evidence.

@@ -1,0 +1,15 @@
+164cd81 docs(wp04): add R2B final evidence readback
+d1c0d53 docs(wp04): record R2B synthetic cutover blocker and evidence
+d12d09f Finalize WP-04R2A evidence readback
+376b936 Document WP-04R2A gate wiring readiness
+41d3c0d Wire formal V4 production migration gate
+afef8b9 Record WP04R1 final readback
+e66a40f Record WP04R1 blocked closure and recovery matrix
+3d53d87 Fix synthetic native handoff acknowledgement race
+03c5c20 Add representative fixture and renderer death probe
+c2d73ae Record WP04 final readback
+45bd526 Document WP04 release cutover readiness
+b59dbfe Harden V4 cutover path metadata and sidecars
+1a72079 Complete WP03 R5 daily-use acceptance
+f0fe61f docs: record WP03 R2 partial acceptance status
+fd1d9e8 fix: hide stale debt due on pending month

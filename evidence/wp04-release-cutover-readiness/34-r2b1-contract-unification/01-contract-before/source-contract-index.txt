@@ -1,0 +1,52 @@
+scripts/test_production_gate_wiring_integration.py:19:MARKER = b"PFC_WP04R2A_GATE_SYNTHETIC_V1\n"
+src-tauri/src/quiescence.rs:17:const MARKER: &str = "PFC_QUIESCENCE_SYNTHETIC_V1\n";
+src-tauri/src/quiescence.rs:41:    format_version: u32, synthetic_only: bool, session: String, nonce: String,
+src-tauri/src/quiescence.rs:264:fn run_consumed(root:&Path,p:&Permit,id:&Identity,events:&Events)->Result<()> {
+src-tauri/src/quiescence.rs:358:pub fn run_integrated(raw:&str,event:&EventCallback)->Result<Value> {
+src-tauri/src/quiescence.rs:459:            run_integrated(root.to_str().unwrap(),&move |event,details|{
+scripts/quiescence_gate.py:21:from production_v4_release_gate import read_bundle, PRODUCTION_BUNDLE_ID, EXECUTABLE_NAME
+scripts/quiescence_gate.py:23:MARKER = "PFC_QUIESCENCE_SYNTHETIC_V1\n"
+scripts/quiescence_gate.py:165:def bundle_identity(root: Path, path: Path, *, expected_bundle_id=PRODUCTION_BUNDLE_ID):
+scripts/quiescence_gate.py:173:            if expected_bundle_id == PRODUCTION_BUNDLE_ID:
+scripts/quiescence_gate.py:177:            if isinstance(info, dict) and info.get("CFBundleIdentifier") == PRODUCTION_BUNDLE_ID:
+scripts/quiescence_gate.py:237:                if all_bundles or info["CFBundleIdentifier"] == PRODUCTION_BUNDLE_ID:
+scripts/quiescence_gate.py:243:                        expected_bundle_id=None if all_bundles else PRODUCTION_BUNDLE_ID)
+scripts/quiescence_gate.py:317:        expected_bundle_id=None if all_bundles else PRODUCTION_BUNDLE_ID) for path in bundles}
+scripts/quiescence_integration.py:31:    Blocked, EXECUTABLE_NAME, MARKER, PRODUCTION_BUNDLE_ID, MaintenanceLease,
+scripts/quiescence_integration.py:40:ISOLATED_BUNDLE_ID = "org.pfc.quiescence.integration"
+scripts/quiescence_integration.py:208:def _bundle(path, executable_source, version, *, enabled=False, bundle_id=PRODUCTION_BUNDLE_ID):
+scripts/quiescence_integration.py:409:def create_fixture(parent, native_executable, scenario="formal", runtime_bundle_id=ISOLATED_BUNDLE_ID,
+scripts/quiescence_integration.py:423:    if not isinstance(runtime_bundle_id, str) or not runtime_bundle_id or runtime_bundle_id == PRODUCTION_BUNDLE_ID:
+scripts/quiescence_integration.py:622:def prepare_managed(root, lease, *, stop_old=True, observer=None):
+src-tauri/src/lib.rs:45:    receipt_format_version: u32,
+src-tauri/src/lib.rs:87:    manifest_format_version: u32,
+src-tauri/src/lib.rs:378:pub fn consume_synthetic_gate_authorization(root: &Path) -> Result<JsonValue, String> {
+scripts/production_v4_release_gate.py:23:PRODUCTION_BUNDLE_ID = "com.personalfinance.console"
+scripts/production_v4_release_gate.py:31:APP_DATA = Path.home() / "Library/Application Support" / PRODUCTION_BUNDLE_ID
+scripts/production_v4_release_gate.py:35:SYNTHETIC_GATE_MARKER = b"PFC_WP04R2A_GATE_SYNTHETIC_V1\n"
+scripts/production_v4_release_gate.py:201:                        if info.get("CFBundleIdentifier") != PRODUCTION_BUNDLE_ID:
+scripts/production_v4_release_gate.py:292:        if bundle_id == PRODUCTION_BUNDLE_ID or str(executable.resolve()) in expected_executables or has_db_handle or digest == LEGACY_EXECUTABLE_SHA256:
+scripts/production_v4_release_gate.py:370:        "bundleId": PRODUCTION_BUNDLE_ID,
+scripts/production_v4_release_gate.py:404:        required_database_path = (fixture_root / "Library/Application Support" / PRODUCTION_BUNDLE_ID / DATABASE_NAME).resolve()
+scripts/production_v4_release_gate.py:448:        if installed.get("bundle_id") != PRODUCTION_BUNDLE_ID:
+scripts/production_v4_release_gate.py:455:        if candidate.get("bundle_id") != PRODUCTION_BUNDLE_ID:
+scripts/production_v4_release_gate.py:477:        if approval.get("bundleId") != PRODUCTION_BUNDLE_ID or approval.get("maxSupportedSchemaVersion") != 4:
+scripts/production_v4_release_gate.py:531:def make_release_receipt(facts: dict[str, Any], *, synthetic_fixture_root: Path | None = None) -> dict[str, Any]:
+scripts/production_v4_release_gate.py:547:        "productionBundleId": PRODUCTION_BUNDLE_ID,
+scripts/production_v4_release_gate.py:685:        if marker.read_bytes() != SYNTHETIC_GATE_MARKER:
+scripts/production_v4_release_gate.py:694:def collect_synthetic_facts(
+scripts/production_v4_release_gate.py:714:    app_data = (root / "Library" / "Application Support" / PRODUCTION_BUNDLE_ID).resolve()
+scripts/production_v4_release_gate.py:750:def write_migration_permit(
+scripts/production_v4_release_gate.py:763:            expected = root / "Library" / "Application Support" / PRODUCTION_BUNDLE_ID / PRODUCTION_MIGRATION_AUTHORIZATION
+scripts/production_v4_release_gate.py:802:def run_gate(
+scripts/production_v4_release_gate.py:818:            PRODUCTION_BUNDLE_ID / PRODUCTION_RELEASE_RECEIPT
+scripts/production_v4_release_gate.py:859:        PRODUCTION_BUNDLE_ID / PRODUCTION_MIGRATION_AUTHORIZATION
+scripts/production_v4_release_gate.py:924:    if old["bundle_id"] != PRODUCTION_BUNDLE_ID or old["executable_sha256"] != expected_old_sha256:
+scripts/production_v4_release_gate.py:934:    if candidate["bundle_id"] != PRODUCTION_BUNDLE_ID:
+scripts/production_v4_release_gate.py:984:        if errors or installed["bundle_id"] != PRODUCTION_BUNDLE_ID or installed["executable_name"] != EXECUTABLE_NAME or installed_executable != expected_installed_executable or installed["executable_sha256"] != candidate["executable_sha256"] or installed["manifest_sha256"] != approved_manifest_hash:
+scripts/production_v4_release_gate.py:1004:            if restored["executable_sha256"] != old["executable_sha256"] or restored["bundle_id"] != PRODUCTION_BUNDLE_ID or restored["executable_name"] != old["executable_name"]:
+scripts/production_v4_release_gate.py:1107:    app_data = root / "Library/Application Support" / PRODUCTION_BUNDLE_ID
+scripts/production_v4_release_gate.py:1114:        plistlib.dump({"CFBundleIdentifier": PRODUCTION_BUNDLE_ID, "CFBundleExecutable": EXECUTABLE_NAME, "CFBundleShortVersionString": "fixture"}, stream)
+scripts/production_v4_release_gate.py:1120:        "bundleId": PRODUCTION_BUNDLE_ID,
+scripts/production_v4_release_gate.py:1164:            "bundleId": PRODUCTION_BUNDLE_ID,
+scripts/production_v4_release_gate.py:1214:            expected_receipt = root / "Library" / "Application Support" / PRODUCTION_BUNDLE_ID / PRODUCTION_RELEASE_RECEIPT

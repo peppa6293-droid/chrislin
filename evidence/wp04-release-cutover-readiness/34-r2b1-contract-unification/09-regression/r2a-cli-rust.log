@@ -1,0 +1,10 @@
+test_authorization_byte_change_and_manual_permit_are_refused (scripts.test_production_gate_wiring_integration.GateWiringIntegration) ... ok
+test_formal_core_reaches_actual_native_consumer_and_stops_before_migration4 (scripts.test_production_gate_wiring_integration.GateWiringIntegration) ... ok
+test_gate_cli_has_no_arbitrary_target_or_permit_options (scripts.test_production_gate_wiring_integration.GateWiringIntegration) ... ok
+test_migrate_requires_persisted_receipt_and_rejects_receipt_tampering (scripts.test_production_gate_wiring_integration.GateWiringIntegration) ... ok
+test_synthetic_and_production_authorization_domains_are_separate (scripts.test_production_gate_wiring_integration.GateWiringIntegration) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 1.167s
+
+OK

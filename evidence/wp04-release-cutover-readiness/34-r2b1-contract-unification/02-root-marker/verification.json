@@ -1,0 +1,9 @@
+{
+  "status": "PARTIAL_PASS",
+  "marker": "PFC_WP04_SYNTHETIC_CUTOVER_V1\\n",
+  "explicit_modes_only": true,
+  "gate_and_quiescence_root_helpers_tested": true,
+  "legacy_gate_marker_preserved": true,
+  "legacy_quiescence_marker_preserved": true,
+  "Rust_marker_consumer": "NOT_IMPLEMENTED"
+}

@@ -1,0 +1,7 @@
+{
+  "status": "PARTIAL_PASS",
+  "marker_and_manifest_unit_cases": 5,
+  "double_permit": "NOT_RUN",
+  "replay": "NOT_RUN",
+  "authorization_receipt_permit_domain_matrix": "NOT_RUN"
+}
