@@ -294,6 +294,9 @@ describe("Phase 3 product UI", () => {
     );
     expect(screen.getByRole("heading", { name: "2026-11 本月债务待确认" })).toBeTruthy();
     expect(screen.getByText(/首页暂不按上月应还金额估算/)).toBeTruthy();
+    expect(screen.getByText("本月应还待确认")).toBeTruthy();
+    expect(screen.getByTestId("home-mandatory-debt-service").textContent).toBe("待确认");
+    expect(screen.queryByText("¥500.00")).toBeNull();
     expect(document.querySelector<HTMLElement>(".home-modules")?.hidden).toBe(true);
     await user.click(screen.getByRole("button", { name: "逐笔确认本月债务" }));
     expect(await screen.findByRole("heading", { name: "债务" })).toBeTruthy();

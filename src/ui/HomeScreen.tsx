@@ -564,10 +564,19 @@ export function HomeScreen({
               </strong>
             </div>
             <div className="debt-due-callout">
-              <span className="module-label">本月必须还款</span>
-              <strong data-testid="home-mandatory-debt-service">
-                <YuanAmount value={home.mandatoryDebtService} />
-              </strong>
+              {pendingDebtFactNames.length > 0 ? (
+                <>
+                  <span className="module-label">本月应还待确认</span>
+                  <strong data-testid="home-mandatory-debt-service">待确认</strong>
+                </>
+              ) : (
+                <>
+                  <span className="module-label">本月必须还款</span>
+                  <strong data-testid="home-mandatory-debt-service">
+                    <YuanAmount value={home.mandatoryDebtService} />
+                  </strong>
+                </>
+              )}
             </div>
           </div>
         </article>
