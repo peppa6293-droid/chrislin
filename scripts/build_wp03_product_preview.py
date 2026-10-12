@@ -165,10 +165,20 @@ def fail(receipt: dict, output: Path, message: str) -> int:
 
 def main() -> int:
     requested_output = os.environ.get("WP03_BUILD_OUTPUT_DIR")
+    output_is_mounted_volume = False
     if requested_output:
         output = Path(requested_output).expanduser().resolve()
-        if not output.is_relative_to(OUTPUT_PARENT) or output.exists():
-            raise SystemExit("WP03_BUILD_OUTPUT_DIR must be a fresh directory under the WP-03 artifact root")
+        if not output.is_relative_to(OUTPUT_PARENT):
+            raise SystemExit("WP03_BUILD_OUTPUT_DIR must stay under the WP-03 artifact root")
+        if output.exists():
+            system_volume_entries = {".fseventsd", ".Spotlight-V100", ".Trashes"}
+            children = list(output.iterdir())
+            output_is_mounted_volume = (
+                os.path.ismount(output)
+                and all(child.name in system_volume_entries for child in children)
+            )
+            if not output_is_mounted_volume:
+                raise SystemExit("WP03_BUILD_OUTPUT_DIR must be fresh or an empty mounted build volume")
     else:
         build_number = 1
         while True:
@@ -176,7 +186,8 @@ def main() -> int:
             if not output.exists():
                 break
             build_number += 1
-    output.mkdir(parents=True, exist_ok=False)
+    if not output_is_mounted_volume:
+        output.mkdir(parents=True, exist_ok=False)
     logs = output / "logs"
     logs.mkdir()
     frontend = output / "frontend"
@@ -216,6 +227,10 @@ def main() -> int:
         "format_version": 1,
         "work_order": "WP-03 product daily-use completion and isolated macOS black-box verification",
         "synthetic_only": True, "status": "RUNNING", "output_root": str(output),
+        "output_volume": {
+            "is_mountpoint": os.path.ismount(output),
+            "df": subprocess.run(["df", "-h", str(output)], capture_output=True, text=True).stdout,
+        },
         "app_launched": False, "existing_app_data_accessed": False,
         "production_database_accessed": False, "install_or_replace": False,
         "migration_or_restore": False,
