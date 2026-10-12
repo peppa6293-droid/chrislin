@@ -472,19 +472,22 @@ def validate_preflight(facts: dict[str, Any], *, synthetic_fixture_root: Path | 
 
     approval = facts.get("candidate_approval")
     migration_authorization = facts.get("migration_authorization")
+    expected_approval_status = "OWNER_APPROVED_SYNTHETIC_R2B_CANDIDATE" if unified_r2b else "OWNER_APPROVED_V4_PRODUCTION_CANDIDATE"
+    expected_authorization_status = "OWNER_AUTHORIZED_SYNTHETIC_R2B_MIGRATION" if unified_r2b else "OWNER_AUTHORIZED_PRODUCTION_V4_MIGRATION"
+    expected_bundle_id = UNIFIED_SYNTHETIC_BUNDLE_ID if unified_r2b else PRODUCTION_BUNDLE_ID
     if not isinstance(approval, dict):
         errors.append("Approved candidate record is missing or unreadable.")
     else:
-        if approval.get("status") != "OWNER_APPROVED_V4_PRODUCTION_CANDIDATE":
-            errors.append("Candidate approval status is not Owner-approved for Production V4.")
+        if approval.get("status") != expected_approval_status:
+            errors.append("Candidate approval status does not match the selected authorization domain.")
         if not _nonempty_json_string(approval.get("authorizationId")):
             errors.append("Candidate approval ID is missing.")
         if candidate and approval.get("candidateExecutableSha256") != candidate.get("executable_sha256"):
             errors.append("Candidate executable hash does not match the Owner-approved hash.")
         if candidate and approval.get("compatibilityManifestSha256") != candidate.get("manifest_sha256"):
             errors.append("Candidate compatibility manifest hash does not match the Owner-approved hash.")
-        if approval.get("bundleId") != PRODUCTION_BUNDLE_ID or approval.get("maxSupportedSchemaVersion") != 4:
-            errors.append("Candidate approval must name the Production bundle and Schema V4.")
+        if approval.get("bundleId") != expected_bundle_id or approval.get("maxSupportedSchemaVersion") != 4:
+            errors.append("Candidate approval must name the fixed selected bundle and Schema V4.")
 
     database = facts.get("production_database")
     if not isinstance(database, dict):
@@ -514,8 +517,8 @@ def validate_preflight(facts: dict[str, Any], *, synthetic_fixture_root: Path | 
     if not isinstance(migration_authorization, dict):
         errors.append("Separate Production V4 migration authorization is missing or unreadable.")
     else:
-        if migration_authorization.get("status") != "OWNER_AUTHORIZED_PRODUCTION_V4_MIGRATION":
-            errors.append("A separate explicit Owner Production V4 migration authorization is required.")
+        if migration_authorization.get("status") != expected_authorization_status:
+            errors.append("A separate explicit migration authorization for the selected domain is required.")
     if migration_authorization and backup and migration_authorization.get("productionDbPreMigrationSha256") != database.get("sha256"):
         errors.append("Migration approval is not bound to the verified Production pre-migration hash.")
     if migration_authorization and backup and Path(str(migration_authorization.get("backupPath", ""))).resolve() != Path(str(backup.get("path", ""))).resolve():
@@ -785,6 +788,9 @@ def write_migration_permit(
             _require_legacy_fixture_path(permit_path)
         else:
             root = _validate_synthetic_gate_root(synthetic_fixture_root, unified_r2b=unified_r2b)
+            if unified_r2b and any(_metadata_or_none(root / name) is not None for name in
+                    ("gate-permit.claimed", "gate-permit.claimed.json", "consumed-ledger.json")):
+                raise GateBlocked(["Unified synthetic permit was already claimed; replay is refused."])
             expected = root / "gate-permit.json" if unified_r2b else root / "Library" / "Application Support" / PRODUCTION_BUNDLE_ID / PRODUCTION_MIGRATION_AUTHORIZATION
             if permit_path.resolve(strict=False) != expected.resolve(strict=False):
                 raise GateBlocked(["Synthetic permit path does not match the fixed synthetic namespace path."])
@@ -864,6 +870,11 @@ def run_gate(
         raise GateBlocked(["Synthetic authorization artifacts must carry syntheticOnly=true."])
     if not synthetic_only and (candidate_approval.get("syntheticOnly") is True or migration_authorization.get("syntheticOnly") is True):
         raise GateBlocked(["Authorization domain does not match the selected Production or synthetic gate mode."])
+    if unified_r2b:
+        root = _validate_synthetic_gate_root(synthetic_fixture_root, unified_r2b=True)
+        if candidate_approval_path.resolve(strict=False) != (root / "gate-inputs/candidate-approval.json").resolve(strict=False) or \
+                migration_authorization_path.resolve(strict=False) != (root / "gate-inputs/migration-authorization.json").resolve(strict=False):
+            raise GateBlocked(["Unified synthetic authorization inputs must use their fixed in-root paths."])
     facts = (
         collect_synthetic_facts(synthetic_fixture_root, candidate_approval_path, migration_authorization_path, unified_r2b=unified_r2b)
         if synthetic_only else collect_real_facts(candidate_approval_path, migration_authorization_path)
@@ -908,7 +919,20 @@ def run_gate(
         if synthetic_only else [str(executable), "--pfc-internal-v4-migrate"]
     )
     try:
-        result = subprocess.run(command, cwd=str(executable.parent), capture_output=True, text=True, timeout=120)
+        child_options: dict[str, Any] = {}
+        if unified_r2b:
+            try:
+                lease_fd = int(os.environ["PFC_QUIESCENCE_LEASE_FD"])
+                lease_session = os.environ["PFC_QUIESCENCE_SESSION"]
+                lease_path = os.environ["PFC_QUIESCENCE_LEASE_PATH"]
+            except (KeyError, ValueError) as error:
+                raise GateBlocked(["Unified native handoff requires the live C3 maintenance lease descriptor."]) from error
+            if lease_fd <= 2 or lease_path != str(_validate_synthetic_gate_root(synthetic_fixture_root, unified_r2b=True) / "maintenance.lock"):
+                raise GateBlocked(["Unified native handoff lease binding is invalid."])
+            child_options["pass_fds"] = (lease_fd,)
+            child_options["env"] = {**os.environ, "PFC_QUIESCENCE_SESSION": lease_session,
+                                     "PFC_GATE_PERMIT_SHA256": sha256_file(permit_path)}
+        result = subprocess.run(command, cwd=str(executable.parent), capture_output=True, text=True, timeout=120, **child_options)
     except (OSError, subprocess.TimeoutExpired) as error:
         raise GateBlocked([f"Native migration consumer did not complete; permit remains a one-time unresolved attempt: {type(error).__name__}: {error}"]) from error
     if result.returncode != 0:
@@ -917,7 +941,7 @@ def run_gate(
         native_result = json.loads(result.stdout.strip().splitlines()[-1])
     except (IndexError, json.JSONDecodeError) as error:
         raise GateBlocked(["Native migration consumer returned no valid terminal JSON result."]) from error
-    expected_native_status = "AUTHORIZATION_CONSUMED_NATIVE_MIGRATION_PENDING" if synthetic_only else "V4_MIGRATION_VERIFIED_NATIVE"
+    expected_native_status = ("S4_CONNECTION_PREPARED" if unified_r2b else "AUTHORIZATION_CONSUMED_NATIVE_MIGRATION_PENDING") if synthetic_only else "V4_MIGRATION_VERIFIED_NATIVE"
     if native_result.get("event") != "gate_permit_consumed" or native_result.get("status") != expected_native_status or native_result.get("syntheticOnly") is not synthetic_only:
         raise GateBlocked(["Native migration consumer did not confirm the expected domain-specific permit/ledger boundary."])
     return {"status": "NATIVE_CONSUMER_BOUND", "receiptPath": str(receipt_path), "receiptSha256": persisted_receipt_sha256,

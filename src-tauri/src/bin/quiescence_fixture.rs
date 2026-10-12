@@ -4,6 +4,20 @@ mod quiescence;
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
+    if args.get(1).map(String::as_str) == Some("--pfc-r2b1-unified-synthetic") {
+        if args.len() != 3 {
+            eprintln!("unified synthetic consumer accepts only its fixed role and marked root");
+            std::process::exit(2);
+        }
+        match quiescence::run_unified_gate_handoff(&args[2]) {
+            Ok(value) => println!("{value}"),
+            Err(error) => {
+                println!("{}", serde_json::json!({"event":"blocked", "error":error}));
+                std::process::exit(2);
+            }
+        }
+        return;
+    }
     if args.get(1).map(String::as_str) == Some("--pfc-synthetic-gate-consume") {
         if args.len() != 3 {
             eprintln!("synthetic gate consumer accepts only its fixed role and marked root");

@@ -5,7 +5,7 @@ use rusqlite::{config::DbConfig, Connection, OpenFlags};
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
-use std::{fs::{self, File, OpenOptions}, io::{Read, Write, BufRead}, os::unix::{fs::{MetadataExt, OpenOptionsExt}, io::{AsRawFd, FromRawFd}}, path::{Path, PathBuf}, process::{Command, Stdio}, time::{Duration, Instant}};
+use std::{fs::{self, File, OpenOptions}, io::{Read, Write, BufRead}, os::unix::{fs::{MetadataExt, OpenOptionsExt, PermissionsExt}, io::{AsRawFd, FromRawFd}}, path::{Path, PathBuf}, process::{Command, Stdio}, time::{Duration, Instant}};
 
 pub type Result<T> = std::result::Result<T, Failure>;
 pub type EventCallback = dyn Fn(&str, Value) -> Result<()> + Send + Sync;
@@ -15,6 +15,7 @@ mod contract;
 mod recovery;
 const DB: &str = "personal-finance-console.sqlite3";
 const MARKER: &str = "PFC_QUIESCENCE_SYNTHETIC_V1\n";
+const UNIFIED_MARKER: &[u8] = b"PFC_WP04_SYNTHETIC_CUTOVER_V1\n";
 const M4: &str = include_str!("../../migrations/004.sql");
 const V3: &str = include_str!("../../migrations/v3-schema.json");
 const V4: &str = include_str!("../../migrations/v4-schema.json");
@@ -421,6 +422,251 @@ pub fn hash_entrypoint()->Option<Result<()>> {
 }
 pub fn diagnostic_integrated(root:&str)->Result<Value> {recovery::diagnostic(root)}
 pub fn recover_integrated(root:&str,authorization_path:&str,event:&EventCallback)->Result<Value> {recovery::recover(root,authorization_path,event)}
+
+#[cfg(feature="quiescence-fixture")]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum AuthorityDomain { UnifiedR2bGateOwned }
+
+#[cfg(feature="quiescence-fixture")]
+struct ValidatedGateAuthority {
+    domain: AuthorityDomain,
+    root: PathBuf,
+    session: String,
+    nonce: String,
+    authorization_id: String,
+    permit_sha256: String,
+    receipt_sha256: String,
+    authorization_sha256: String,
+    candidate_approval_sha256: String,
+    candidate_sha256: String,
+    bundle_id: String,
+    manifest_sha256: String,
+    database_sha256: String,
+    backup_sha256: String,
+    database_identity: Identity,
+    backup_identity: Identity,
+    expires_at_unix: u64,
+    expiry_validated: bool,
+    lease: Lease,
+}
+
+#[cfg(feature="quiescence-fixture")]
+fn exact_hash(path:&Path, expected:&str)->Result<String> {
+    let actual=hash_file(path)?;
+    require(actual==expected,"GATE_AUTHORITY_HASH_MISMATCH")?;
+    Ok(actual)
+}
+
+#[cfg(feature="quiescence-fixture")]
+fn consume_unified_gate_permit(raw:&str)->Result<(ValidatedGateAuthority,Value)> {
+    let supplied=Path::new(raw);
+    let root=fs::canonicalize(supplied)?;
+    let temporary=fs::canonicalize(std::env::temp_dir())?;
+    require(supplied==root&&root!=temporary&&root.starts_with(&temporary)&&!root.to_string_lossy().contains("com.personalfinance.console"),"UNIFIED_ROOT_INVALID")?;
+    let marker=root.join("SYNTHETIC_ONLY");
+    regular(&marker)?;
+    require(fs::read(&marker)?==UNIFIED_MARKER,"UNIFIED_MARKER_INVALID")?;
+    for name in ["authorization.json","permit.json","consumed.json","migration-authorization.json","migration-permit.json","permit.claimed.json","gate-permit.claimed.json","gate-permit.claimed","consumed.json","migration-terminal.json","outcome.json"] {
+        require(!present_or_unreadable(&root.join(name)),"UNIFIED_DOMAIN_AUTHORITY_CONFLICT")?;
+    }
+    require(!present_or_unreadable(&root.join("consumed-ledger.json")),"UNIFIED_LEDGER_ALREADY_EXISTS")?;
+    let permit_path=root.join("gate-permit.json");
+    let permit_identity=regular(&permit_path)?;
+    let permit_bytes=fs::read(&permit_path)?;
+    let permit_sha=format!("{:x}",Sha256::digest(&permit_bytes));
+    require(std::env::var("PFC_GATE_PERMIT_SHA256").ok().as_deref()==Some(permit_sha.as_str()),"GATE_PERMIT_EXACT_BYTES_DRIFT")?;
+    let p:Value=serde_json::from_slice(&permit_bytes)?;
+    let string=|key:&str|->Result<String>{p.get(key).and_then(Value::as_str).map(str::to_owned).ok_or_else(||Failure::new("GATE_PERMIT_INVALID",key))};
+    let root_s=root.to_string_lossy().to_string();
+    let app=root.join("managed/install/Installed.app");
+    let exe=app.join("Contents/MacOS/personal-finance-console");
+    let db=root.join(DB);
+    let backup=root.join("backup.sqlite3");
+    let receipt_path=root.join("release-receipt.json");
+    let auth_path=root.join("gate-inputs/migration-authorization.json");
+    let approval_path=root.join("gate-inputs/candidate-approval.json");
+    require(string("status")?=="ONE_TIME_PRODUCTION_V4_MIGRATION_AUTHORIZATION","GATE_PERMIT_STATUS")?;
+    require(p.get("syntheticOnly").and_then(Value::as_bool)==Some(true),"GATE_PERMIT_DOMAIN")?;
+    require(string("productionBundleId")?=="org.pfc.quiescence.integration","GATE_BUNDLE_ID")?;
+    require(string("installedAppPath")?==app.to_string_lossy().as_ref(),"GATE_CANDIDATE_PATH")?;
+    require(string("candidateExecutablePath")?==exe.to_string_lossy().as_ref(),"GATE_EXECUTABLE_PATH")?;
+    require(fs::canonicalize(std::env::current_exe()?)?==exe,"GATE_EXECUTABLE_IDENTITY")?;
+    require(string("productionDatabasePath")?==db.to_string_lossy().as_ref(),"GATE_DATABASE_PATH")?;
+    require(string("backupPath")?==backup.to_string_lossy().as_ref(),"GATE_BACKUP_PATH")?;
+    require(string("releaseReceiptPath")?==receipt_path.to_string_lossy().as_ref(),"GATE_RECEIPT_PATH")?;
+    require(p.get("sidecarsAbsent").and_then(Value::as_bool)==Some(true),"GATE_SIDECARS")?;
+    require(p.get("maxSupportedSchemaVersion").and_then(Value::as_i64)==Some(4),"GATE_SCHEMA_RANGE")?;
+    let issued=p.get("issuedAtUnix").and_then(Value::as_u64).ok_or_else(||Failure::new("GATE_PERMIT_INVALID","issuedAtUnix"))?;
+    let expires=p.get("expiresAtUnix").and_then(Value::as_u64).ok_or_else(||Failure::new("GATE_PERMIT_INVALID","expiresAtUnix"))?;
+    let now=std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).map_err(|e|Failure::new("CLOCK_INVALID",e))?.as_secs();
+    require(issued<=now&&expires>=now&&expires-issued<=120,"GATE_PERMIT_EXPIRED")?;
+    require(!string("nonce")?.is_empty()&&!string("ownerAuthorizationId")?.is_empty(),"GATE_PERMIT_BINDING")?;
+    let receipt_sha=string("releaseReceiptSha256")?;
+    let auth_sha=string("migrationAuthorizationSha256")?;
+    let approval_sha=string("candidateApprovalSha256")?;
+    exact_hash(&receipt_path,&receipt_sha)?;
+    exact_hash(&auth_path,&auth_sha)?;
+    exact_hash(&approval_path,&approval_sha)?;
+    let receipt:Value=serde_json::from_slice(&fs::read(&receipt_path)?)?;
+    require(receipt.get("status").and_then(Value::as_str)==Some("PREFLIGHT_PASS_READY_FOR_SEPARATELY_AUTHORIZED_MIGRATION")&&
+        receipt.get("syntheticOnly").and_then(Value::as_bool)==Some(true)&&
+        receipt.get("productionDatabasePath").and_then(Value::as_str)==Some(db.to_string_lossy().as_ref())&&
+        receipt.get("candidateExecutablePath").and_then(Value::as_str)==Some(exe.to_string_lossy().as_ref()),"GATE_RECEIPT_BINDING")?;
+    for key in ["candidateApprovalSha256","migrationAuthorizationSha256","candidateExecutableSha256","compatibilityManifestSha256","productionDatabasePreMigrationSha256","backupSha256","releaseReceiptPath","productionBundleId"] {
+        require(receipt.get(key)==p.get(key),"GATE_RECEIPT_FIELD_DRIFT")?;
+    }
+    let approval:Value=serde_json::from_slice(&fs::read(&approval_path)?)?;
+    let authorization:Value=serde_json::from_slice(&fs::read(&auth_path)?)?;
+    require(approval.get("status").and_then(Value::as_str)==Some("OWNER_APPROVED_SYNTHETIC_R2B_CANDIDATE")&&
+        approval.get("syntheticOnly").and_then(Value::as_bool)==Some(true)&&
+        approval.get("bundleId").and_then(Value::as_str)==Some("org.pfc.quiescence.integration")&&
+        approval.get("candidateExecutableSha256").and_then(Value::as_str)==p.get("candidateExecutableSha256").and_then(Value::as_str),"GATE_CANDIDATE_APPROVAL_BINDING")?;
+    require(receipt.get("candidateApprovalId").and_then(Value::as_str)==approval.get("authorizationId").and_then(Value::as_str),"GATE_APPROVAL_RECEIPT_ID_BINDING")?;
+    require(authorization.get("status").and_then(Value::as_str)==Some("OWNER_AUTHORIZED_SYNTHETIC_R2B_MIGRATION")&&
+        authorization.get("syntheticOnly").and_then(Value::as_bool)==Some(true)&&
+        authorization.get("productionDbPreMigrationSha256").and_then(Value::as_str)==p.get("productionDatabasePreMigrationSha256").and_then(Value::as_str)&&
+        authorization.get("candidateExecutableSha256").and_then(Value::as_str)==p.get("candidateExecutableSha256").and_then(Value::as_str)&&
+        authorization.get("backupPath").and_then(Value::as_str)==p.get("backupPath").and_then(Value::as_str)&&
+        receipt.get("ownerAuthorizationId")==authorization.get("authorizationId")&&
+        p.get("ownerAuthorizationId")==authorization.get("authorizationId"),"GATE_MIGRATION_AUTHORIZATION_BINDING")?;
+    let managed:Value=serde_json::from_slice(&fs::read(root.join("SYNTHETIC_C3_MANAGED_ISOLATED.json"))?)?;
+    require(managed.get("status").and_then(Value::as_str)==Some("SYNTHETIC_C3_MANAGED_ISOLATED")&&
+        managed.get("mode").and_then(Value::as_str)==Some("UNIFIED_R2B_GATE_OWNED")&&
+        managed.get("root").and_then(Value::as_str)==Some(root_s.as_str()),"C3_RECEIPT_BINDING")?;
+    let marker_sha=hash_file(&marker)?;
+    require(managed.get("rootMarkerSha256").and_then(Value::as_str)==Some(marker_sha.as_str()),"C3_MARKER_BINDING")?;
+    exact_hash(&root.join("managed-contract.json"),managed["managedContractSha256"].as_str().ok_or_else(||Failure::new("C3_RECEIPT_BINDING","managed contract hash"))?)?;
+    exact_hash(&root.join("managed-state-S1_MANAGED_ISOLATED.json"),managed["managedStateReceiptSha256"].as_str().ok_or_else(||Failure::new("C3_RECEIPT_BINDING","managed state hash"))?)?;
+    let session=managed["lease"]["session"].as_str().ok_or_else(||Failure::new("C3_RECEIPT_BINDING","lease session"))?.to_owned();
+    let lease=Lease::inherited(&root,&session)?;
+    lease.validate()?;
+    let c3_exe=managed["candidate"]["executableSha256"].as_str().ok_or_else(||Failure::new("C3_RECEIPT_BINDING","candidate hash"))?;
+    let candidate_sha=string("candidateExecutableSha256")?;
+    require(c3_exe==candidate_sha,"GATE_C3_CANDIDATE_DRIFT")?;
+    exact_hash(&exe,&candidate_sha)?;
+    let bundle=plist::Value::from_file(app.join("Contents/Info.plist")).map_err(|e|Failure::new("GATE_BUNDLE_INFO_INVALID",e))?;
+    let bundle_id=bundle.as_dictionary().and_then(|d|d.get("CFBundleIdentifier")).and_then(plist::Value::as_string);
+    let executable_name=bundle.as_dictionary().and_then(|d|d.get("CFBundleExecutable")).and_then(plist::Value::as_string);
+    require(bundle_id==Some("org.pfc.quiescence.integration")&&executable_name==Some("personal-finance-console"),"GATE_BUNDLE_INFO_BINDING")?;
+    let manifest_path=app.join("Contents/Resources/runtime-compatibility.json");
+    let manifest_sha=string("compatibilityManifestSha256")?;
+    exact_hash(&manifest_path,&manifest_sha)?;
+    let manifest:Value=serde_json::from_slice(&fs::read(&manifest_path)?)?;
+    require(manifest.get("bundleId").and_then(Value::as_str)==Some("org.pfc.quiescence.integration")&&
+        manifest.get("executable").and_then(Value::as_str)==Some("Contents/MacOS/personal-finance-console")&&
+        manifest.get("runtimeGeneration").and_then(Value::as_u64)==Some(4)&&
+        manifest.get("minSupportedSchemaVersion").and_then(Value::as_u64)==Some(3)&&
+        manifest.get("maxSupportedSchemaVersion").and_then(Value::as_u64)==Some(4),"GATE_MANIFEST_BINDING")?;
+    require(managed["candidate"]["manifestSha256"].as_str()==Some(manifest_sha.as_str()),"GATE_C3_MANIFEST_DRIFT")?;
+    let db_identity=regular(&db)?;
+    let db_sha=string("productionDatabasePreMigrationSha256")?;
+    exact_hash(&db,&db_sha)?;
+    let backup_identity=regular(&backup)?;
+    let backup_sha=string("backupSha256")?;
+    exact_hash(&backup,&backup_sha)?;
+    require(db_sha==backup_sha,"GATE_BACKUP_NOT_EXACT")?;
+    let conn=Connection::open_with_flags(&db,OpenFlags::SQLITE_OPEN_READ_ONLY|OpenFlags::SQLITE_OPEN_NO_MUTEX|OpenFlags::SQLITE_OPEN_NOFOLLOW)?;
+    schema(&conn,3)?;
+    drop(conn);
+    sidecars(&root,false,&db_identity)?;
+    lease.validate()?;
+    let authorization_id=authorization["authorizationId"].as_str().ok_or_else(||Failure::new("GATE_AUTHORIZATION_ID_MISSING","authorizationId"))?.to_owned();
+    let ledger=json!({"formatVersion":1,"syntheticOnly":true,"domain":"UNIFIED_R2B_GATE_OWNED",
+        "permitSha256":permit_sha,"nonce":p["nonce"],"authorizationId":authorization_id,
+        "authorizationSha256":auth_sha,"candidateApprovalSha256":approval_sha,"receiptSha256":receipt_sha,
+        "candidateBundleId":"org.pfc.quiescence.integration","candidateSha256":candidate_sha,
+        "manifestSha256":manifest_sha,"databaseSha256":db_sha,"databaseIdentity":db_identity,
+        "backupSha256":backup_sha,"backupIdentity":backup_identity,"session":session,
+        "leasePath":root.join("maintenance.lock"),"leaseIdentity":lease.initial,
+        "consumerExecutableSha256":hash_file(&exe)?,
+        "expiresAtUnix":expires,"expiryValidated":true,"claimedAtUnix":now,"consumerPid":std::process::id()});
+    let claim_dir=root.join("gate-permit.claimed");
+    fs::create_dir(&claim_dir).map_err(|e|Failure::new("GATE_PERMIT_CLAIM_REFUSED",e))?;
+    fs::set_permissions(&claim_dir,fs::Permissions::from_mode(0o700))?;
+    sync_dir(&root)?;
+    let claim=claim_dir.join("permit.json");
+    fs::rename(&permit_path,&claim).map_err(|e|Failure::new("GATE_PERMIT_CLAIM_REFUSED",e))?;
+    sync_dir(&claim_dir)?;
+    sync_dir(&root)?;
+    require(hash_file(&claim)?==permit_sha&&regular(&claim)?==permit_identity,"GATE_PERMIT_CLAIM_DRIFT")?;
+    let ledger_path=root.join("consumed-ledger.json");
+    let mut file=OpenOptions::new().write(true).create_new(true).mode(0o600).custom_flags(libc::O_NOFOLLOW|libc::O_CLOEXEC).open(&ledger_path)
+        .map_err(|e|Failure::new("GATE_LEDGER_CREATE_REFUSED",e))?;
+    serde_json::to_writer(&mut file,&ledger)?;file.write_all(b"\n")?;file.sync_all()?;sync_dir(&root)?;
+    let ledger_bytes=fs::read(&ledger_path)?;
+    require(serde_json::from_slice::<Value>(&ledger_bytes)?==ledger,"GATE_LEDGER_READBACK")?;
+    lease.validate()?;
+    let authority=ValidatedGateAuthority{domain:AuthorityDomain::UnifiedR2bGateOwned,root:root.clone(),session,nonce:string("nonce")?,authorization_id,
+        permit_sha256:permit_sha,receipt_sha256:receipt_sha,authorization_sha256:auth_sha,
+        candidate_approval_sha256:approval_sha,candidate_sha256:candidate_sha,bundle_id:"org.pfc.quiescence.integration".into(),
+        manifest_sha256:manifest_sha,database_sha256:db_sha,backup_sha256:backup_sha,database_identity:db_identity,backup_identity,
+        expires_at_unix:expires,expiry_validated:true,lease};
+    let response=json!({"event":"gate_permit_consumed","status":"GATE_PERMIT_CONSUMED_NATIVE_S4_PENDING",
+        "syntheticOnly":true,"permitSha256":authority.permit_sha256,"ledgerPath":ledger_path});
+    Ok((authority,response))
+}
+
+#[cfg(feature="quiescence-fixture")]
+pub fn run_unified_gate_handoff(root:&str)->Result<Value> {
+    let (authority,mut result)=consume_unified_gate_permit(root)?;
+    require(authority.domain==AuthorityDomain::UnifiedR2bGateOwned&&authority.bundle_id=="org.pfc.quiescence.integration"&&
+        authority.expiry_validated&&!authority.nonce.is_empty()&&!authority.authorization_id.is_empty(),"RUNNER_AUTHORITY_INVALID")?;
+    let app=authority.root.join("managed/install/Installed.app");
+    let exe=app.join("Contents/MacOS/personal-finance-console");
+    let manifest=app.join("Contents/Resources/runtime-compatibility.json");
+    exact_hash(&exe,&authority.candidate_sha256)?;
+    exact_hash(&manifest,&authority.manifest_sha256)?;
+    exact_hash(&authority.root.join("release-receipt.json"),&authority.receipt_sha256)?;
+    exact_hash(&authority.root.join("gate-inputs/migration-authorization.json"),&authority.authorization_sha256)?;
+    exact_hash(&authority.root.join("gate-inputs/candidate-approval.json"),&authority.candidate_approval_sha256)?;
+    require(regular(&authority.root.join("backup.sqlite3"))?==authority.backup_identity,"S4_BACKUP_IDENTITY_DRIFT")?;
+    exact_hash(&authority.root.join("backup.sqlite3"),&authority.backup_sha256)?;
+    let now=std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).map_err(|e|Failure::new("CLOCK_INVALID",e))?.as_secs();
+    require(now<=authority.expires_at_unix,"S4_AUTHORITY_EXPIRED")?;
+    let db=authority.root.join(DB);
+    let before=regular(&db)?;
+    require(before==authority.database_identity&&hash_file(&db)?==authority.database_sha256,"S4_DATABASE_DRIFT")?;
+    let connection=Connection::open_with_flags(&db,OpenFlags::SQLITE_OPEN_READ_WRITE|OpenFlags::SQLITE_OPEN_NO_MUTEX|OpenFlags::SQLITE_OPEN_NOFOLLOW)?;
+    same_object(&connection,&authority.root,&authority.database_identity)?;
+    connection.busy_timeout(Duration::ZERO)?;
+    connection.execute_batch("PRAGMA locking_mode=EXCLUSIVE;")?;
+    let busy:i64=connection.query_row("PRAGMA busy_timeout",[],|r|r.get(0))?;
+    let locking:String=connection.query_row("PRAGMA locking_mode",[],|r|r.get(0))?;
+    let journal:String=connection.query_row("PRAGMA journal_mode",[],|r|r.get(0))?;
+    require(busy==0&&locking=="exclusive"&&journal=="delete","S4_SQLITE_PROFILE")?;
+    authority.lease.validate()?;
+    require(regular(&db)?==authority.database_identity,"S4_DATABASE_IDENTITY_DRIFT")?;
+    same_object(&connection,&authority.root,&authority.database_identity)?;
+    sidecars(&authority.root,false,&authority.database_identity)?;
+    schema(&connection,3)?;
+    drop(connection);
+    let post_hash=hash_file(&db)?;
+    require(post_hash==authority.database_sha256,"S4_DATABASE_BYTES_CHANGED")?;
+    authority.lease.validate()?;
+    result["status"]=json!("S4_CONNECTION_PREPARED");
+    result["highestState"]=json!("S4_CONNECTION_PREPARED");
+    result["beginExclusiveExecuted"]=json!(false);
+    result["migration4Executed"]=json!(false);
+    result["databaseSchema"]=json!({"userVersion":3,"migrationRows":[1,2,3]});
+    result["connection"]=json!({"opened":true,"busyTimeout":busy,"lockingMode":locking,"journalMode":journal,"create":false});
+    result["continuity"]=json!({"gatePermitSha256":authority.permit_sha256,"consumerInputSha256":authority.permit_sha256,
+        "claimedPermitSha256":authority.permit_sha256,"ledgerPermitSha256":authority.permit_sha256,
+        "runnerAuthorityPermitSha256":authority.permit_sha256,"receiptSha256":authority.receipt_sha256,
+        "authorizationSha256":authority.authorization_sha256,"candidateSha256":authority.candidate_sha256,
+        "manifestSha256":authority.manifest_sha256,"databaseSha256":authority.database_sha256,
+        "backupSha256":authority.backup_sha256,"backupIdentity":authority.backup_identity,
+        "databaseIdentity":authority.database_identity,"candidateBundleId":authority.bundle_id,
+        "domain":"UNIFIED_R2B_GATE_OWNED","session":authority.session,"nonce":authority.nonce,
+        "authorizationId":authority.authorization_id,"expiryValidated":authority.expiry_validated,
+        "expiresAtUnix":authority.expires_at_unix,"databaseSha256After":post_hash});
+    durable(&authority.root,"r2b1b-s4-stop.json",&json!({"state":"R2B1B_TEST_STOP_BEFORE_QUIESCENCE",
+        "highestState":"S4_CONNECTION_PREPARED","connectionOpenConfirmed":true,"busyTimeout":busy,
+        "lockingMode":locking,"journalMode":journal,"beginExclusiveExecuted":false,"migration4Executed":false,
+        "databaseSha256Before":authority.database_sha256,"databaseSha256After":post_hash,
+        "permitSha256":authority.permit_sha256,"receiptSha256":authority.receipt_sha256,
+        "authorizationSha256":authority.authorization_sha256,"session":authority.session}))?;
+    Ok(result)
+}
 
 #[cfg(test)]
 mod tests {
