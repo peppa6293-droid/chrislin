@@ -18,10 +18,12 @@ import type {
 import { completeOnboarding, getHomeApplicationState } from "../src/application/product-service.js";
 import { calculateMonthlyModel } from "../src/model/monthly-model.js";
 import { migrateDatabase } from "../src/persistence/migrations.js";
+import { getWp03PreviewTestDate, setWp03PreviewTestDate } from "../src/runtime/tauri-bootstrap.js";
 import { App } from "../src/ui/App.js";
 import type { ProductApplicationServices } from "../src/ui/contracts.js";
 import { HomeScreen } from "../src/ui/HomeScreen.js";
 import { MoneyAmount } from "../src/ui/MoneyAmount.js";
+import { WP03PreviewDateControl } from "../src/ui/WP03PreviewDateControl.js";
 import { makeInput } from "./fixtures/model-input.js";
 import { NodeSqliteDatabase } from "./helpers/node-sqlite.js";
 
@@ -256,6 +258,46 @@ function hasDisplayedMoney(amount: string): boolean {
 }
 
 describe("Phase 3 product UI", () => {
+  it("default build hides the WP-03 acceptance date control and refuses its API", async () => {
+    render(homeScreen(baselineHome));
+    expect(screen.queryByRole("region", { name: "WP-03 验收日期" })).toBeNull();
+    await expect(getWp03PreviewTestDate()).resolves.toBeNull();
+    await expect(setWp03PreviewTestDate("2026-11-01")).rejects.toThrow("仅在 WP-03 测试版中可用");
+  });
+
+  it("WP-03 acceptance date control applies the chosen session date", async () => {
+    const user = userEvent.setup();
+    const onApply = vi.fn(async () => {});
+    render(<WP03PreviewDateControl asOfDate="2026-10-12" onApply={onApply} />);
+    const date = document.querySelector<HTMLInputElement>(".wp03-preview-date input[type='date']");
+    if (!date) throw new Error("WP-03 acceptance date input is missing.");
+    fireEvent.change(date, { target: { value: "2026-11-01" } });
+    await user.click(screen.getByRole("button", { name: "应用测试日期" }));
+    expect(onApply).toHaveBeenCalledWith("2026-11-01");
+  });
+
+  it("pending new-month debt facts suppress stale Home totals and remain actionable", async () => {
+    const user = userEvent.setup();
+    render(
+      <HomeScreen
+        home={baselineHome}
+        asOfDate="2026-11-01"
+        pendingDebtFactNames={["房贷 A", "信用贷 B"]}
+        onRecordExpense={async () => {}}
+        onLoadFinancialMaintenance={async () => maintenanceState}
+        onGetFinancialMaintenanceRequirement={async () => ({
+          requiresSafetyRecoveryHorizon: false,
+        })}
+        onUpdateFinancialData={async () => maintenanceState}
+      />,
+    );
+    expect(screen.getByRole("heading", { name: "2026-11 本月债务待确认" })).toBeTruthy();
+    expect(screen.getByText(/首页暂不按上月应还金额估算/)).toBeTruthy();
+    expect(document.querySelector<HTMLElement>(".home-modules")?.hidden).toBe(true);
+    await user.click(screen.getByRole("button", { name: "逐笔确认本月债务" }));
+    expect(await screen.findByRole("heading", { name: "债务" })).toBeTruthy();
+  });
+
   it("renders exact money with an accessible sign and keeps display separate from edit inputs", () => {
     const { rerender } = render(<MoneyAmount value="-12345678901.2" size="hero" />);
     const largeNegative = screen.getByRole("img", { name: /负 .* 元人民币/ });

@@ -219,7 +219,7 @@ def main() -> int:
     save(manifest_path, manifest)
     vite_config = (
         "import base from %s;\n" % json.dumps((ROOT / "vite.config.ts").as_uri())
-        + "export default {...base,cacheDir:%s,build:{...base.build,outDir:%s,emptyOutDir:true}};\n"
+        + "export default {...base,define:{...base.define,__WP03_PREVIEW_BUILD__:true},cacheDir:%s,build:{...base.build,outDir:%s,emptyOutDir:true}};\n"
         % (json.dumps(str(output / "vite-cache")), json.dumps(str(frontend)))
     )
     vite_config_path.write_text(vite_config)

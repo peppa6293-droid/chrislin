@@ -4,7 +4,10 @@ import { join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import { afterEach, describe, expect, it } from "vitest";
 import { saveCurrentMonthDebtFact } from "../src/application/debt-fact-service.js";
-import { updateFinancialDataAndRecalculate } from "../src/application/financial-maintenance-service.js";
+import {
+  getFinancialMaintenanceState,
+  updateFinancialDataAndRecalculate,
+} from "../src/application/financial-maintenance-service.js";
 import { buildMonthlyModelInput } from "../src/application/monthly-model-service.js";
 import { completeOnboarding, getHomeApplicationState } from "../src/application/product-service.js";
 import type { SqlDatabase } from "../src/persistence/database.js";
@@ -77,6 +80,45 @@ afterEach(() => {
 });
 
 describe("single-domain current-month debt fact foundation", () => {
+  it("leaves both November debts pending and confirms only the selected debt", async () => {
+    const db = await database();
+    const secondDebtId = await addSecondDebt(db);
+    const october = await new Repositories(db).debtsAt("2026-10", "2026-10-03");
+    const firstDebtId = october.find((item) => item.name === "Loan A")?.id;
+    if (!firstDebtId) throw new Error("Synthetic first debt is missing.");
+
+    const november = await getFinancialMaintenanceState(db, "2026-11-01");
+    expect(november.debts.map((debt) => debt.id).sort()).toEqual(
+      [firstDebtId, secondDebtId].sort(),
+    );
+    expect(november.debts.every((debt) => debt.currentMonthDue === null)).toBe(true);
+    expect(november.debts.every((debt) => debt.needsCurrentMonthFact)).toBe(true);
+    expect(await db.select("SELECT * FROM debt_period_facts WHERE period_month='2026-11'")).toEqual(
+      [],
+    );
+
+    const first = await saveCurrentMonthDebtFact(
+      db,
+      { debtId: firstDebtId, currentBalance: "3900", currentMonthDue: "0" },
+      "2026-11-01",
+    );
+    expect(first.status).toBe("SAVED_NEEDS_CURRENT_MONTH_DEBT_FACTS");
+    const afterFirst = await getFinancialMaintenanceState(db, "2026-11-01");
+    expect(afterFirst.debts.find((debt) => debt.id === firstDebtId)).toMatchObject({
+      currentMonthDue: "0",
+      needsCurrentMonthFact: false,
+    });
+    expect(afterFirst.debts.find((debt) => debt.id === secondDebtId)).toMatchObject({
+      currentMonthDue: null,
+      needsCurrentMonthFact: true,
+    });
+    expect(
+      await db.select(
+        "SELECT debt_id,current_month_due FROM debt_revisions WHERE period_month='2026-11'",
+      ),
+    ).toEqual([{ debt_id: firstDebtId, current_month_due: "0" }]);
+  });
+
   it("commits one missing debt fact and reports the remaining IDs without a model", async () => {
     const db = await database();
     const secondDebtId = await addSecondDebt(db);

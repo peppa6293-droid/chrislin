@@ -1,3 +1,4 @@
+import { invoke } from "@tauri-apps/api/core";
 import {
   type SaveCurrentMonthDebtFactCommand,
   type SaveCurrentMonthDebtFactResult,
@@ -32,6 +33,18 @@ import {
 import { migrateDatabase } from "../persistence/migrations.js";
 import type { PlanningIncomeMonthDecision } from "../persistence/repositories.js";
 import { TauriSqlDatabase } from "../persistence/tauri-database.js";
+
+declare const __WP03_PREVIEW_BUILD__: boolean;
+
+export async function getWp03PreviewTestDate(): Promise<string | null> {
+  if (!__WP03_PREVIEW_BUILD__) return null;
+  return invoke<string | null>("wp03_preview_get_test_date");
+}
+
+export async function setWp03PreviewTestDate(testDate: string | null): Promise<void> {
+  if (!__WP03_PREVIEW_BUILD__) throw new Error("WP-03 验收日期仅在 WP-03 测试版中可用。");
+  await invoke("wp03_preview_set_test_date", { testDate });
+}
 
 export type ApplicationStartupState =
   | ApplicationInitializationState

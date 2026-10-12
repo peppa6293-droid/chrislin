@@ -102,6 +102,8 @@ export function HomeScreen({
   home,
   asOfDate,
   isSessionDateCurrent = () => true,
+  wp03PreviewDateControl = null,
+  pendingDebtFactNames = [],
   onRecordExpense,
   onLoadFinancialMaintenance,
   onGetFinancialMaintenanceRequirement,
@@ -117,6 +119,8 @@ export function HomeScreen({
   home: HomeApplicationState;
   asOfDate?: string;
   isSessionDateCurrent?: () => boolean;
+  wp03PreviewDateControl?: ReactNode;
+  pendingDebtFactNames?: string[];
   onRecordExpense: (expense: ExpenseSubmission, asOfDate: string) => Promise<void>;
   onLoadFinancialMaintenance: (asOfDate: string) => Promise<FinancialMaintenanceState>;
   onGetFinancialMaintenanceRequirement: (
@@ -152,7 +156,7 @@ export function HomeScreen({
       }) => Promise<SaveCurrentMonthDebtFactResult>)
     | undefined;
 }) {
-  const [sessionAsOfDate] = useState(() => asOfDate ?? home.asOfDate);
+  const sessionAsOfDate = asOfDate ?? home.asOfDate;
   const [route, setRoute] = useState<HomeRoute>("HOME");
   const [expenseOpen, setExpenseOpen] = useState(false);
   const [expenseError, setExpenseError] = useState("");
@@ -321,7 +325,9 @@ export function HomeScreen({
           <span className="local-chip">仅保存在本机</span>
         </div>
         <div className="header-actions">
-          <span className="current-period">{home.currentMonth.replace("-", " 年 ")} 月</span>
+          <span className="current-period">
+            {sessionAsOfDate.slice(0, 7).replace("-", " 年 ")} 月
+          </span>
           <button
             className="button button-primary add-expense"
             type="button"
@@ -334,12 +340,34 @@ export function HomeScreen({
           </button>
         </div>
       </header>
+      {wp03PreviewDateControl}
       <section className="home-intro" aria-labelledby="home-title">
         <h1 id="home-title">你好，今天也认真管理生活。</h1>
         <p>{trendCopy[home.trendState] ?? "查看本月财务概况"}</p>
       </section>
 
-      <section className="home-modules" aria-label="本月财务四个方面">
+      {pendingDebtFactNames.length > 0 && (
+        <section className="finance-state-card home-debt-facts-pending" role="status">
+          <h2>{sessionAsOfDate.slice(0, 7)} 本月债务待确认</h2>
+          <p>{pendingDebtFactNames.join("、")}</p>
+          <p>首页暂不按上月应还金额估算。逐笔确认本月余额和应还后，才会更新本月计算。</p>
+          <button
+            className="button button-primary"
+            type="button"
+            onClick={() => {
+              setRoute("DEBT_LIST");
+              void loadMaintenance();
+            }}
+          >
+            逐笔确认本月债务
+          </button>
+        </section>
+      )}
+      <section
+        className="home-modules"
+        aria-label="本月财务四个方面"
+        hidden={pendingDebtFactNames.length > 0}
+      >
         <article className="home-module module-spending" data-primary-module="spending">
           <ModuleHeading title="本月可变消费" onClick={() => setRoute("SPENDING_DETAIL")} />
           <div className="spending-main-line">

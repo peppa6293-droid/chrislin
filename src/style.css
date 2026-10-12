@@ -432,6 +432,33 @@ select:hover {
   justify-content: space-between;
   gap: 20px;
 }
+.wp03-preview-date {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  margin: 14px 0 6px;
+  padding: 11px 14px;
+  border: 1px solid #d7e1d9;
+  border-radius: 12px;
+  background: #f4f8f4;
+  color: #53635a;
+  font-size: 12px;
+}
+.wp03-preview-date > div {
+  display: grid;
+  gap: 3px;
+  margin-right: auto;
+}
+.wp03-preview-date input {
+  min-height: 34px;
+  border: 1px solid #cbd7cd;
+  border-radius: 8px;
+  padding: 4px 8px;
+  background: #fff;
+  color: #33443a;
+  font: inherit;
+}
 .header-actions {
   display: flex;
   align-items: center;

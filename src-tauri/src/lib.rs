@@ -8,6 +8,8 @@ use tauri::{Manager, State};
 mod cutover_startup;
 mod wp02_preview_isolation;
 mod wp03_preview_isolation;
+#[cfg(feature = "wp03-preview")]
+mod wp03_preview_test_date;
 
 #[cfg(any(all(feature = "wp02-preview", feature = "v4-acceptance"), all(feature = "wp02-preview", feature = "quiescence-tauri"), all(feature = "wp02-preview", feature = "quiescence-fixture")))]
 compile_error!("wp02-preview cannot be combined with another dedicated runtime feature");
@@ -998,7 +1000,7 @@ connection.close();
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    tauri::Builder::default()
+    let builder = tauri::Builder::default()
         .setup(|app| {
             let app_data = app.path().app_data_dir()?;
             let home = app.path().home_dir()?;
@@ -1030,6 +1032,8 @@ pub fn run() {
                 std::fs::create_dir_all(&app_data)?;
                 wp03_preview_isolation::ensure_isolated(&app.config().identifier, &app_data, &home)
                     .map_err(std::io::Error::other)?;
+                #[cfg(feature = "wp03-preview")]
+                app.manage(wp03_preview_test_date::SessionDate::default());
             } else if wp02_runtime {
                 wp02_preview_isolation::ensure_isolated(&app.config().identifier, &app_data, &home)
                     .map_err(std::io::Error::other)?;
@@ -1074,8 +1078,36 @@ pub fn run() {
             let database = DatabaseState::from_connection_with_runtime(connection, database_path, acceptance_runtime, production_runtime, migration_permitted, schema_ready).map_err(std::io::Error::other)?;
             app.manage(database);
             Ok(())
-        })
-        .invoke_handler(tauri::generate_handler![database_open, database_execute, database_select, database_begin, database_commit, database_rollback, database_schema_migration_begin, database_schema_migration_end, acceptance_runtime_info, acceptance_reset])
+        });
+    #[cfg(feature = "wp03-preview")]
+    let builder = builder.invoke_handler(tauri::generate_handler![
+        database_open,
+        database_execute,
+        database_select,
+        database_begin,
+        database_commit,
+        database_rollback,
+        database_schema_migration_begin,
+        database_schema_migration_end,
+        acceptance_runtime_info,
+        acceptance_reset,
+        wp03_preview_test_date::wp03_preview_get_test_date,
+        wp03_preview_test_date::wp03_preview_set_test_date,
+    ]);
+    #[cfg(not(feature = "wp03-preview"))]
+    let builder = builder.invoke_handler(tauri::generate_handler![
+        database_open,
+        database_execute,
+        database_select,
+        database_begin,
+        database_commit,
+        database_rollback,
+        database_schema_migration_begin,
+        database_schema_migration_end,
+        acceptance_runtime_info,
+        acceptance_reset,
+    ]);
+    builder
         .run(acceptance_context())
         .expect("failed to run Personal Finance Console");
 }

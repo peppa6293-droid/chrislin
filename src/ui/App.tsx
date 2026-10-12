@@ -10,12 +10,17 @@ import type {
 } from "../application/product-service.js";
 import type { PlanningIncomeMonthDecision } from "../persistence/repositories.js";
 import type { ApplicationStartupState } from "../runtime/tauri-bootstrap.js";
-import { getTauriProductServices } from "../runtime/tauri-bootstrap.js";
+import {
+  getTauriProductServices,
+  getWp03PreviewTestDate,
+  setWp03PreviewTestDate,
+} from "../runtime/tauri-bootstrap.js";
 import type { ProductApplicationServices } from "./contracts.js";
 import { localDate } from "./date.js";
 import { FinancialMaintenanceDialog } from "./FinancialMaintenanceDialog.js";
 import { HomeScreen } from "./HomeScreen.js";
 import { Onboarding } from "./Onboarding.js";
+import { WP03PreviewDateControl } from "./WP03PreviewDateControl.js";
 
 const defaultServices = getTauriProductServices();
 
@@ -25,7 +30,9 @@ type AppState =
   | { status: "PRODUCT_ERROR"; message: string };
 
 export function App({ services = defaultServices }: { services?: ProductApplicationServices }) {
-  const [sessionAsOfDate] = useState(() => localDate(new Date()));
+  const [sessionAsOfDate, setSessionAsOfDate] = useState(() => localDate(new Date()));
+  const [wp03PreviewDateEnabled, setWp03PreviewDateEnabled] = useState(false);
+  const [pendingDebtFactNames, setPendingDebtFactNames] = useState<string[]>([]);
   const [state, setState] = useState<AppState>({ status: "LOADING" });
   const [home, setHome] = useState<HomeApplicationState | null>(null);
   const [recoveryOpen, setRecoveryOpen] = useState(false);
@@ -35,18 +42,46 @@ export function App({ services = defaultServices }: { services?: ProductApplicat
 
   useEffect(() => {
     let mounted = true;
-    void services
-      .bootstrap()
-      .then((result) => {
+    void (async () => {
+      try {
+        let startupDate = localDate(new Date());
+        if (__WP03_PREVIEW_BUILD__) {
+          const configuredDate = await getWp03PreviewTestDate();
+          if (!mounted) return;
+          setWp03PreviewDateEnabled(true);
+          if (configuredDate) startupDate = configuredDate;
+        }
+        setSessionAsOfDate(startupDate);
+        const result = await services.bootstrap();
         if (mounted) setState(result);
-      })
-      .catch((error: unknown) => {
+      } catch (error) {
         if (mounted) setState({ status: "PRODUCT_ERROR", message: messageOf(error) });
-      });
+      }
+    })();
     return () => {
       mounted = false;
     };
   }, [services]);
+
+  async function updateWp03PreviewDate(nextDate: string | null) {
+    if (!wp03PreviewDateEnabled) throw new Error("WP-03 验收日期仅在 WP-03 测试版中可用。");
+    await setWp03PreviewTestDate(nextDate);
+    const effectiveDate = nextDate ?? localDate(new Date());
+    try {
+      const maintenance = await services.getFinancialMaintenanceState(effectiveDate);
+      const pending = maintenance.debts
+        .filter((debt) => debt.needsCurrentMonthFact)
+        .map((debt) => debt.name);
+      const refreshed =
+        pending.length === 0 ? await services.getHomeApplicationState(effectiveDate) : null;
+      setSessionAsOfDate(effectiveDate);
+      setPendingDebtFactNames(pending);
+      if (refreshed) setHome(refreshed);
+    } catch (error) {
+      await setWp03PreviewTestDate(null);
+      throw error;
+    }
+  }
 
   async function completeOnboarding(submission: OnboardingSubmission, asOfDate: string) {
     const result = await services.completeOnboarding(submission, asOfDate);
@@ -137,7 +172,16 @@ export function App({ services = defaultServices }: { services?: ProductApplicat
     currentMonthDue: string | null;
   }) {
     const result = await services.saveCurrentMonthDebtFact(command, sessionAsOfDate);
-    if (result.status === "SAVED_MODEL_READY") setHome(result.home);
+    if (result.status === "SAVED_MODEL_READY") {
+      setPendingDebtFactNames([]);
+      setHome(result.home);
+    }
+    if (result.status === "SAVED_NEEDS_CURRENT_MONTH_DEBT_FACTS") {
+      const maintenance = await services.getFinancialMaintenanceState(sessionAsOfDate);
+      setPendingDebtFactNames(
+        maintenance.debts.filter((debt) => debt.needsCurrentMonthFact).map((debt) => debt.name),
+      );
+    }
     if (
       result.status === "VALIDATION_FAILED" ||
       result.status === "CONFLICT_OR_UNKNOWN_ID" ||
@@ -242,7 +286,15 @@ export function App({ services = defaultServices }: { services?: ProductApplicat
     <HomeScreen
       home={home}
       asOfDate={sessionAsOfDate}
-      isSessionDateCurrent={() => localDate(new Date()) === sessionAsOfDate}
+      isSessionDateCurrent={() =>
+        wp03PreviewDateEnabled || localDate(new Date()) === sessionAsOfDate
+      }
+      wp03PreviewDateControl={
+        __WP03_PREVIEW_BUILD__ && wp03PreviewDateEnabled ? (
+          <WP03PreviewDateControl asOfDate={sessionAsOfDate} onApply={updateWp03PreviewDate} />
+        ) : null
+      }
+      pendingDebtFactNames={pendingDebtFactNames}
       onRecordExpense={recordExpense}
       onLoadFinancialMaintenance={loadFinancialMaintenance}
       onGetFinancialMaintenanceRequirement={getFinancialMaintenanceRequirement}
