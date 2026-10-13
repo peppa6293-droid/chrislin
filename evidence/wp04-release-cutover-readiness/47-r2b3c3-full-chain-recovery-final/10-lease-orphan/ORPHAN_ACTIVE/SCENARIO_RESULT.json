@@ -1,0 +1,57 @@
+{
+  "scenarioId": "ORPHAN_ACTIVE",
+  "scenarioRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-orphan_active-gtrgyk10/pfc-qic-r2b3c3-orphan_active-26ujsus2",
+  "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+  "candidateSha": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+  "manifestSha": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+  "migrationAuthorizationSha": "7305c60d893bdd686577595d3142b08de98e9d1e893abbaff190fade81c674ce",
+  "releaseReceiptSha": "9d881c71cbf7376baf96f9bc24fc9d2a45ca502feee1d7b5ab94b39c8c7423aa",
+  "permitSha": "bc8b7d96d7efe3373dde399821bf7d8a89d273c854460b73d56028f147bf3cb3",
+  "consumerPermitSha": "bc8b7d96d7efe3373dde399821bf7d8a89d273c854460b73d56028f147bf3cb3",
+  "consumedLedgerSha": "1971cd59f329bbbb3ba0293277a1cc4219859955317f268efc847e370b3a3c28",
+  "recoveryAuthorizationSha": "b0516cb0908ddac8b2e85c8babc74c1454490754b63fe2c7f67cef9472ffe7f3",
+  "injectionPoint": "ACTIVE_STATE_THEN_PROCESS_EXIT",
+  "stateReached": "ORPHAN_ACTIVE",
+  "databaseVersion": 3,
+  "migrationRows": [
+    1,
+    2,
+    3
+  ],
+  "migration4Count": 0,
+  "terminalBefore": null,
+  "diagnosticDisposition": "REFUSE",
+  "businessAccess": "REFUSE",
+  "permitReusable": false,
+  "migrationMayRerun": false,
+  "newAuthorizationRequired": true,
+  "restoreAllowed": false,
+  "terminalAfter": null,
+  "diagnosticMutationCount": 0,
+  "diagnosticCliReturnCode": 0,
+  "diagnosticStatus": "PASS",
+  "databaseFacts": {
+    "userVersion": 3,
+    "migrationRows": [
+      1,
+      2,
+      3
+    ],
+    "integrity": [
+      "ok"
+    ],
+    "foreignKeyViolations": []
+  },
+  "migrationCliReturnCode": 2,
+  "migrationExpected": "controlled hook interruption",
+  "competingLease": null,
+  "controlledMutation": null,
+  "expected": "ORPHAN_ACTIVE",
+  "actual": "ORPHAN_ACTIVE",
+  "passFail": "PASS",
+  "expectedVsActual": {
+    "expected": "ORPHAN_ACTIVE",
+    "actual": "ORPHAN_ACTIVE",
+    "diagnosticReasons": null
+  }
+}

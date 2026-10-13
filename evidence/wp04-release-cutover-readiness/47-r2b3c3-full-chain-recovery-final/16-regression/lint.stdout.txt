@@ -1,0 +1,8 @@
+
+> personal-finance-console@0.1.0 lint
+> biome check src tests
+
+The number of diagnostics exceeds the limit allowed. Use --max-diagnostics to increase it.
+Diagnostics not shown: 5.
+Checked 63 files in 78ms. No fixes applied.
+Found 25 warnings.

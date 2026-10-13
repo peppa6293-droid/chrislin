@@ -1,0 +1,14 @@
+{
+  "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+  "sourceArchiveSha256": "e2f06d023eca661079406821cac23373b874a81867c95dccb6f1e503ecef6ce3",
+  "sourceArchiveFileCount": 1323,
+  "runtimeTrackedDiff": "NONE",
+  "candidateExecutableSha256": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+  "manifestSha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+  "bundleId": "org.pfc.quiescence.integration",
+  "teamId": "SSRKA7A4TN",
+  "strictCodesign": "PASS",
+  "sourceChanged": false,
+  "candidateChanged": false,
+  "productionTouched": false
+}

@@ -1,0 +1,14 @@
+{
+  "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-candidate_drift-3tv0mifc/pfc-qic-r2b3c3-candidate_drift-0hw_u6v9",
+  "session": "session-fd67be833d1f4c1585adccf913a01803",
+  "installed_executable": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-candidate_drift-3tv0mifc/pfc-qic-r2b3c3-candidate_drift-0hw_u6v9/managed/install/Installed.app/Contents/MacOS/personal-finance-console",
+  "native_sha256": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+  "managed_contract_path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-candidate_drift-3tv0mifc/pfc-qic-r2b3c3-candidate_drift-0hw_u6v9/managed-contract.json",
+  "managed_isolated_receipt_path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-candidate_drift-3tv0mifc/pfc-qic-r2b3c3-candidate_drift-0hw_u6v9/SYNTHETIC_C3_MANAGED_ISOLATED.json",
+  "managed_isolated_receipt_sha256": "2669e53a1efb8a3f1ed0c0a589a02a553c1b9da852904219dd8d3cd95300a931",
+  "state": "MANAGED_ISOLATED",
+  "mode": "UNIFIED_R2B_GATE_OWNED",
+  "migration_authorization_created": false,
+  "migration_permit_created": false,
+  "consumed_ledger_created": false
+}

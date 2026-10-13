@@ -1,0 +1,6 @@
+{
+  "returnCode": 2,
+  "stdout": "",
+  "stderr": "{\"status\": \"BLOCKED\", \"errorType\": \"GateBlocked\", \"reasons\": [\"Production migration source must be consistent Schema V3.\", \"Production backup hash does not match the pre-migration database hash.\", \"Migration approval is not bound to the verified Production pre-migration hash.\"]}\n",
+  "expected": "REFUSE; consumed permit cannot be issued or consumed again"
+}

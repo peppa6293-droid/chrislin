@@ -1,0 +1,20 @@
+   Compiling personal-finance-console v0.1.0 (/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/regression-worktree/src-tauri)
+warning: unused import: `PathBuf`
+ --> src/wp02_preview_isolation.rs:2:23
+  |
+2 | use std::path::{Path, PathBuf};
+  |                       ^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: `personal-finance-console` (lib) generated 1 warning (run `cargo fix --lib -p personal-finance-console` to apply 1 suggestion)
+warning: function `hash_entrypoint` is never used
+   --> src/bin/../quiescence.rs:422:8
+    |
+422 | pub fn hash_entrypoint()->Option<Result<()>> {
+    |        ^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `personal-finance-console` (bin "quiescence-fixture") generated 1 warning
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.84s

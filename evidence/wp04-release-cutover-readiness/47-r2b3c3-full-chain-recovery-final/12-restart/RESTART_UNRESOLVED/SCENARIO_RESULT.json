@@ -1,0 +1,59 @@
+{
+  "scenarioId": "RESTART_UNRESOLVED",
+  "scenarioRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-restart_unresolved-dw739gsp/pfc-qic-r2b3c3-restart_unresolved-wct8e4_y",
+  "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+  "candidateSha": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+  "manifestSha": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+  "migrationAuthorizationSha": "565e48cee5ca77674c339fcca23b1311824039f85bcea69584c21ff2dac69b02",
+  "releaseReceiptSha": "59d8ac4bb137a9aa1c05efb25a009f2780a366c42d6b00e18742fcbeee3e96bb",
+  "permitSha": "e5e08fc39e092ab7f6ed0d8f977bded37bce7af5647c023f617c550008647c8c",
+  "consumerPermitSha": "e5e08fc39e092ab7f6ed0d8f977bded37bce7af5647c023f617c550008647c8c",
+  "consumedLedgerSha": "eceb70ca31cbb0b7b91338e92d9196a1931818f144121bf2b1c279db2a7238c5",
+  "recoveryAuthorizationSha": "4a363c0d12bd82f17befaa158072e179f9f3346d98dddd3dedfc05407177e55c",
+  "injectionPoint": "AFTER_COMMIT_BEFORE_VERIFIED_READBACK",
+  "stateReached": "COMMIT_OUTCOME_UNKNOWN",
+  "databaseVersion": 4,
+  "migrationRows": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "migration4Count": 1,
+  "terminalBefore": null,
+  "diagnosticDisposition": "MANUAL_DECISION_REQUIRED",
+  "businessAccess": "MANUAL_DECISION_REQUIRED",
+  "permitReusable": false,
+  "migrationMayRerun": false,
+  "newAuthorizationRequired": true,
+  "restoreAllowed": false,
+  "terminalAfter": null,
+  "diagnosticMutationCount": 0,
+  "diagnosticCliReturnCode": 0,
+  "diagnosticStatus": "PASS",
+  "databaseFacts": {
+    "userVersion": 4,
+    "migrationRows": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "integrity": [
+      "ok"
+    ],
+    "foreignKeyViolations": []
+  },
+  "migrationCliReturnCode": 2,
+  "migrationExpected": "controlled hook interruption",
+  "competingLease": null,
+  "controlledMutation": null,
+  "expected": "COMMIT_OUTCOME_UNKNOWN",
+  "actual": "COMMIT_OUTCOME_UNKNOWN",
+  "passFail": "PASS",
+  "expectedVsActual": {
+    "expected": "COMMIT_OUTCOME_UNKNOWN",
+    "actual": "COMMIT_OUTCOME_UNKNOWN",
+    "diagnosticReasons": null
+  }
+}

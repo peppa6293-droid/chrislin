@@ -1,0 +1,36 @@
+{
+  "workOrder": "WP-04R2B3C3",
+  "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+  "finalResults": {
+    "npm-ci": "PASS",
+    "typecheck": "PASS",
+    "lint": "PASS",
+    "product": "PASS",
+    "wp03-preview": "PASS",
+    "release-gate": "PASS",
+    "r2a-gate": "PASS",
+    "r2b1a-c3": "PASS",
+    "r2b1b-native": "PASS",
+    "r2b3a-diagnostic": "PASS",
+    "rust-default": "PASS",
+    "rust-quiescence-fixture": "PASS",
+    "rust-quiescence-tauri": "PASS",
+    "native-lease-build": "PASS",
+    "native-lease": "PASS",
+    "component-recovery-16": "PASS",
+    "forward-m4": "PASS",
+    "recovery-hooks-12": "PASS",
+    "frontend-dist": "PASS"
+  },
+  "allRequiredRegressionsPass": true,
+  "correctedReruns": [
+    "r2b1b-native",
+    "rust-quiescence-tauri"
+  ],
+  "initialEnvironmentFailuresRetained": true,
+  "componentRecovery": "16/16 PASS; COMPONENT_ONLY",
+  "fullChainMatrix": "17/17 PASS",
+  "qClosure": "BLOCKED_Q10_LOCKED_EVIDENCE_GAP",
+  "candidateLaunched": false,
+  "productionTouched": false
+}

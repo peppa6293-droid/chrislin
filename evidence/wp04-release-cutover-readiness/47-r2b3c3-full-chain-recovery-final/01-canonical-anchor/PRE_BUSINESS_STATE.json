@@ -1,0 +1,386 @@
+{
+  "snapshotKind": "PRE_BUSINESS_STATE",
+  "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/personal-finance-console.sqlite3",
+  "sha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+  "schema": {
+    "userVersion": 3,
+    "migrationRows": [
+      1,
+      2,
+      3
+    ],
+    "integrity": [
+      "ok"
+    ],
+    "foreignKeyViolations": []
+  },
+  "sidecars": [],
+  "tables": {
+    "app_metadata": [
+      [
+        "quiescence-sentinel",
+        "unchanged"
+      ]
+    ],
+    "asset_revisions": [
+      [
+        1,
+        "asset-liquid",
+        "2026-09-01",
+        "Liquid investment prior",
+        "LIQUID_INVESTMENT",
+        1,
+        "23000",
+        1,
+        "2026-09-01T00:00:00Z"
+      ],
+      [
+        2,
+        "asset-other",
+        "2026-09-01",
+        "Other asset prior",
+        "OTHER",
+        0,
+        "8500",
+        1,
+        "2026-09-01T00:00:00Z"
+      ]
+    ],
+    "asset_value_snapshots": [
+      [
+        "asset-liquid-snapshot",
+        "asset-liquid",
+        "2026-10-01",
+        "24000",
+        "2026-10-01T00:00:00Z"
+      ],
+      [
+        "asset-other-snapshot",
+        "asset-other",
+        "2026-10-01",
+        "9000",
+        "2026-10-01T00:00:00Z"
+      ]
+    ],
+    "assets": [
+      [
+        "asset-liquid",
+        "fixture",
+        "Liquid investment",
+        "LIQUID_INVESTMENT",
+        1,
+        1,
+        "2026-01-01T00:00:00Z"
+      ],
+      [
+        "asset-other",
+        "fixture",
+        "Other asset",
+        "OTHER",
+        0,
+        1,
+        "2026-01-01T00:00:00Z"
+      ]
+    ],
+    "cash_account_revisions": [
+      [
+        1,
+        "cash-eligible",
+        "2026-09-01",
+        "Eligible cash prior",
+        1,
+        "17500",
+        "2026-09-01T00:00:00Z"
+      ],
+      [
+        2,
+        "cash-excluded",
+        "2026-09-01",
+        "Excluded cash prior",
+        0,
+        "6500",
+        "2026-09-01T00:00:00Z"
+      ]
+    ],
+    "cash_accounts": [
+      [
+        "cash-eligible",
+        "fixture",
+        "Eligible cash",
+        1,
+        1,
+        "2026-01-01T00:00:00Z"
+      ],
+      [
+        "cash-excluded",
+        "fixture",
+        "Excluded cash",
+        0,
+        1,
+        "2026-01-01T00:00:00Z"
+      ]
+    ],
+    "cash_balance_snapshots": [
+      [
+        "cash-eligible-snapshot",
+        "cash-eligible",
+        "2026-10-01",
+        "18000",
+        "2026-10-01T00:00:00Z"
+      ],
+      [
+        "cash-excluded-snapshot",
+        "cash-excluded",
+        "2026-10-01",
+        "7000",
+        "2026-10-01T00:00:00Z"
+      ]
+    ],
+    "debt_period_facts": [
+      [
+        "debt-due-oct",
+        "debt-due",
+        "2026-10",
+        "2026-10-01",
+        "10000",
+        "500",
+        "2026-10-01T00:00:00Z"
+      ],
+      [
+        "debt-zero-oct",
+        "debt-zero",
+        "2026-10",
+        "2026-10-01",
+        "8000",
+        "0",
+        "2026-10-01T00:00:00Z"
+      ],
+      [
+        "debt-fallback-oct",
+        "debt-fallback",
+        "2026-10",
+        "2026-10-01",
+        "6000",
+        null,
+        "2026-10-01T00:00:00Z"
+      ]
+    ],
+    "debt_revisions": [
+      [
+        1,
+        "debt-due",
+        "2026-09",
+        "2026-09-01",
+        "Debt with current due prior",
+        "10500",
+        "500",
+        "900",
+        1,
+        "2026-09-01T00:00:00Z"
+      ],
+      [
+        2,
+        "debt-zero",
+        "2026-09",
+        "2026-09-01",
+        "Debt with explicit zero due prior",
+        "8500",
+        "0",
+        "700",
+        1,
+        "2026-09-01T00:00:00Z"
+      ],
+      [
+        3,
+        "debt-fallback",
+        "2026-09",
+        "2026-09-01",
+        "Debt with fixed fallback prior",
+        "6500",
+        null,
+        "450",
+        1,
+        "2026-09-01T00:00:00Z"
+      ]
+    ],
+    "debts": [
+      [
+        "debt-due",
+        "fixture",
+        "Debt with current due",
+        "900",
+        1,
+        "2026-01-01T00:00:00Z"
+      ],
+      [
+        "debt-zero",
+        "fixture",
+        "Debt with explicit zero due",
+        "700",
+        1,
+        "2026-01-01T00:00:00Z"
+      ],
+      [
+        "debt-fallback",
+        "fixture",
+        "Debt with fixed fallback",
+        "450",
+        1,
+        "2026-01-01T00:00:00Z"
+      ]
+    ],
+    "essential_expense_items": [
+      [
+        "essential-housing",
+        "fixture",
+        "HOUSING",
+        "Synthetic rent",
+        "2200",
+        1,
+        "2000-01-01",
+        "2000-01-01"
+      ]
+    ],
+    "essential_expense_revisions": [
+      [
+        1,
+        "essential-housing",
+        "2026-09-01",
+        "Prior synthetic rent",
+        "HOUSING",
+        "2100",
+        1,
+        "2026-09-01T00:00:00Z"
+      ]
+    ],
+    "essential_expense_snapshots": [
+      [
+        "essential-housing-snapshot",
+        "essential-housing",
+        "2026-10-01",
+        "2200",
+        "2026-10-01T00:00:00Z"
+      ]
+    ],
+    "expense_records": [
+      [
+        "expense-essential",
+        "fixture",
+        "2200",
+        "2026-10-02T08:00:00Z",
+        "ESSENTIAL",
+        "HOUSING",
+        "synthetic fixed housing",
+        "2026-10-02T08:00:00Z",
+        "2026-10-02"
+      ],
+      [
+        "expense-variable",
+        "fixture",
+        "125",
+        "2026-10-03T12:00:00Z",
+        "VARIABLE",
+        "FOOD",
+        "synthetic groceries",
+        "2026-10-03T12:00:00Z",
+        "2026-10-03"
+      ]
+    ],
+    "financial_settings": [
+      [
+        "fixture",
+        6.0,
+        2.0,
+        12.0,
+        "1800"
+      ]
+    ],
+    "income_records": [
+      [
+        "planning-income",
+        "fixture",
+        "PLANNING",
+        "EXPECTED",
+        "12000",
+        "2026-10-10",
+        "2026-10",
+        "2026-10-01T00:00:00Z"
+      ],
+      [
+        "actual-received",
+        "fixture",
+        "ACTUAL",
+        "RECEIVED",
+        "11800",
+        "2026-10-05",
+        "2026-10",
+        "2026-10-05T00:00:00Z"
+      ],
+      [
+        "actual-pending",
+        "fixture",
+        "ACTUAL",
+        "PENDING",
+        "300",
+        "2026-10-20",
+        "2026-10",
+        "2026-10-05T00:00:00Z"
+      ],
+      [
+        "actual-expected",
+        "fixture",
+        "ACTUAL",
+        "EXPECTED",
+        "500",
+        "2026-10-28",
+        "2026-10",
+        "2026-10-05T00:00:00Z"
+      ]
+    ],
+    "planning_income_revisions": [
+      [
+        1,
+        "fixture",
+        "2026-10",
+        "2026-09-01",
+        "11500",
+        "2026-09-01T00:00:00Z"
+      ]
+    ],
+    "profiles": [
+      [
+        "fixture",
+        1,
+        "Synthetic",
+        "2000-01-01"
+      ]
+    ],
+    "schema_migrations": [
+      [
+        1,
+        "2000-01-01T00:00:00.000Z"
+      ],
+      [
+        2,
+        "2000-01-01T00:00:00.000Z"
+      ],
+      [
+        3,
+        "2000-01-01T00:00:00.000Z"
+      ]
+    ],
+    "settings_revisions": [
+      [
+        1,
+        "fixture",
+        "2026-10",
+        "2026-09-01",
+        5.0,
+        2.0,
+        12.0,
+        "1700",
+        "2026-09-01T00:00:00Z"
+      ]
+    ]
+  }
+}

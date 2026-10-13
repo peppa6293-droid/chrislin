@@ -1,0 +1,57 @@
+{
+  "scenarioId": "GUARD_LOST_OR_UNPROVEN",
+  "scenarioRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-guard_lost_or_unproven-j7vmlzo1/pfc-qic-r2b3c3-guard_lost_or_unproven-qkw4tuak",
+  "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+  "candidateSha": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+  "manifestSha": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+  "migrationAuthorizationSha": "393e80846bd9afedb7c3e4bc5cf72e422f192e7e428d02a605f60f4a3de940d1",
+  "releaseReceiptSha": "1e42f3b81dd3beb26a778243a53bfe7402872c1b7423b25103ec7c048fc180c8",
+  "permitSha": "6d586210b5eaedc1b48ba2cb034895b826a35324530f2d74fe04e9d6f865849b",
+  "consumerPermitSha": "6d586210b5eaedc1b48ba2cb034895b826a35324530f2d74fe04e9d6f865849b",
+  "consumedLedgerSha": "d3d031c29023a6d4dd63c25ae7073f97e87c0d8d1285b585f25df370f274445f",
+  "recoveryAuthorizationSha": "649581dc89ec286641814601ea96c3af654a5ea3d5524c317c5e4f3e70023bd0",
+  "injectionPoint": "GUARD_LOST_AFTER_QUIESCENCE",
+  "stateReached": "GUARD_LOST_OR_UNPROVEN",
+  "databaseVersion": 3,
+  "migrationRows": [
+    1,
+    2,
+    3
+  ],
+  "migration4Count": 0,
+  "terminalBefore": null,
+  "diagnosticDisposition": "REFUSE",
+  "businessAccess": "REFUSE",
+  "permitReusable": false,
+  "migrationMayRerun": false,
+  "newAuthorizationRequired": true,
+  "restoreAllowed": false,
+  "terminalAfter": null,
+  "diagnosticMutationCount": 0,
+  "diagnosticCliReturnCode": 0,
+  "diagnosticStatus": "PASS",
+  "databaseFacts": {
+    "userVersion": 3,
+    "migrationRows": [
+      1,
+      2,
+      3
+    ],
+    "integrity": [
+      "ok"
+    ],
+    "foreignKeyViolations": []
+  },
+  "migrationCliReturnCode": 2,
+  "migrationExpected": "controlled hook interruption",
+  "competingLease": null,
+  "controlledMutation": null,
+  "expected": "GUARD_LOST_OR_UNPROVEN",
+  "actual": "GUARD_LOST_OR_UNPROVEN",
+  "passFail": "PASS",
+  "expectedVsActual": {
+    "expected": "GUARD_LOST_OR_UNPROVEN",
+    "actual": "GUARD_LOST_OR_UNPROVEN",
+    "diagnosticReasons": null
+  }
+}

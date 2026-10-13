@@ -1,0 +1,163 @@
+{
+  "snapshotKind": "POST_MODEL_STATE",
+  "readPath": "same current frozen model calculation; preserved business input rows revalidated after Migration 4",
+  "targetMonth": "2026-10",
+  "asOfDate": "2026-10-13",
+  "status": "READY",
+  "fullModelResult": {
+    "debt": {
+      "mandatoryDebtService": "950",
+      "totalDebtBalance": "24000",
+      "debtPayments": [
+        {
+          "debtId": "debt-due",
+          "amount": "500",
+          "source": "CURRENT_MONTH_DUE"
+        },
+        {
+          "debtId": "debt-fallback",
+          "amount": "450",
+          "source": "FIXED_MONTHLY_PAYMENT"
+        },
+        {
+          "debtId": "debt-zero",
+          "amount": "0",
+          "source": "CURRENT_MONTH_DUE"
+        }
+      ],
+      "rulesApplied": [
+        "For each debt, use current-month due when present; otherwise use fixed monthly payment.",
+        "Never count both payment fields for the same debt and month."
+      ]
+    },
+    "safety": {
+      "safetyResources": "42000",
+      "eligibleCash": "18000",
+      "eligibleLiquidInvestmentAssets": "24000",
+      "monthlyCoreObligations": "3150",
+      "coverageStatus": "NORMAL",
+      "safetyCoverageMonths": "13.33333333333333333333333333333333333333",
+      "cashCoverageMonths": "5.714285714285714285714285714285714285714",
+      "safetyTargetResources": "15750",
+      "safetyGap": "0",
+      "cashFloorMet": true,
+      "cashSafetyGateStatus": "CLEAR",
+      "requiredMonthlySafetyRecovery": "0",
+      "actualMonthlySafetyRecovery": "0",
+      "rulesApplied": [
+        "Safety Resources include eligible cash and eligible liquid investment assets.",
+        "Monthly Core Obligations include Essential Expenses and Mandatory Debt Service.",
+        "The cash safety gate is active for structural deficit or a cash coverage value below the user floor.",
+        "Safety recovery follows the user-selected target horizon and is capped at positive Base Surplus."
+      ]
+    },
+    "spending": {
+      "status": "NORMAL",
+      "baseSurplus": "8350",
+      "desiredMonthlyDiscretionarySpending": "1700",
+      "recommendedMonthlySpending": "1700",
+      "actualVariableSpending": "125",
+      "remainingOptionalSpendingCapacity": "1575",
+      "amountAboveRecommendation": "0",
+      "safeOptionalCapacity": "8350",
+      "unallocatedSurplus": "6650",
+      "recommendedNewInvestmentCapacity": "6650",
+      "rulesApplied": [
+        "Base Surplus is Planning Income less Monthly Core Obligations.",
+        "Structural deficit applies only below zero; exact zero is balanced with no surplus.",
+        "Recommended spending is capped at the user's desired spending target.",
+        "Overspending does not reduce the recommended monthly amount."
+      ]
+    },
+    "trend": {
+      "status": "COMPLETE",
+      "result": {
+        "state": "IMPROVING",
+        "dimensions": {
+          "LIQUIDITY_SAFETY": {
+            "direction": "WORSENING",
+            "reason": "Cash Coverage decreased from the prior snapshot."
+          },
+          "DEBT": {
+            "direction": "IMPROVING",
+            "reason": "Valid debt balance decreased."
+          },
+          "CONSUMPTION": {
+            "direction": "NEUTRAL",
+            "reason": "Utilization is not comparable for one period."
+          },
+          "WEALTH": {
+            "direction": "IMPROVING",
+            "reason": "Liquid-investable-asset value increased."
+          }
+        },
+        "validComparisonDimensionCount": 4,
+        "improvingCount": 2,
+        "worseningCount": 1,
+        "primaryImprovement": "DEBT",
+        "primaryDrag": "LIQUIDITY_SAFETY",
+        "rulesApplied": [
+          "NOT_APPLICABLE and NO_BASELINE dimensions are excluded from valid direction counts.",
+          "Primary Improvement and Primary Drag follow the approved dimension priority.",
+          "No cross-metric severity score or numeric weighted sum is used."
+        ]
+      }
+    },
+    "priorityAction": {
+      "action_code": "ADDRESS_PRIMARY_DRAG",
+      "dimension": "LIQUIDITY_SAFETY",
+      "reason": "The LIQUIDITY_SAFETY dimension is the highest-priority worsening signal."
+    },
+    "consumptionUtilization": {
+      "current": {
+        "status": "CALCULATED",
+        "value": "0.1753393665158371040723981900452488687783",
+        "actualSpend": "125",
+        "proratedRecommendedSpend": "712.9032258064516129032258064516129032258"
+      },
+      "previous": {
+        "status": "ZERO_RECOMMENDATION",
+        "value": null,
+        "actualSpend": "0",
+        "proratedRecommendedSpend": "0"
+      }
+    },
+    "snapshot": {
+      "currentMonth": "2026-10",
+      "eligibleCash": "18000",
+      "safetyResources": "42000",
+      "monthlyCoreObligations": "3150",
+      "totalDebtBalance": "24000",
+      "liquidInvestableAssets": "24000",
+      "actualVariableSpending": "125",
+      "recommendedMonthlySpending": "1700"
+    }
+  },
+  "revalidation": {
+    "classification": "PASS_REUSED_WITH_CURRENT_REVALIDATION",
+    "freshV3DatabaseSha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+    "matchesPreviouslyCalculatedV3FixtureSha256": true,
+    "modelSourceFilesUnchangedFromCalculationEvidence": true,
+    "priorCalculationEvidence": "evidence/wp04-release-cutover-readiness/44-r2b3b2-recovery-final-acceptance/01-canonical-anchor/PRE_MODEL_STATE.json",
+    "comparisonSourceCommit": "713e4c5c8a5c5ccfb1ad06481f4d6e138da294b2",
+    "currentFrozenSourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+    "sourceDiffCommand": "git diff --quiet 713e4c5c8a5c5ccfb1ad06481f4d6e138da294b2 c3da2f73c03b681957b4334751b7933d102caad1 -- src/model src/application/monthly-model-service.ts src/persistence/repositories.ts",
+    "limitations": "The model calculation was reused from the same exact V3 business database bytes and identical model source; no direct fresh TypeScript model invocation was performed in this C3 run.",
+    "postV4DatabaseSha256": "6f3e67ebd1b3f26d0395acd6b2f5b7a0f7b577e8daf3136e0ec64e2e294e98a6",
+    "schemaVersion": 4,
+    "businessTableDifferences": [
+      "schema_migrations"
+    ],
+    "newV4Tables": [
+      "actual_income_revisions",
+      "cash_account_lifecycle_revisions",
+      "planning_income_month_revisions"
+    ],
+    "newV4TableRows": {
+      "actual_income_revisions": 0,
+      "cash_account_lifecycle_revisions": 0,
+      "planning_income_month_revisions": 0
+    },
+    "calculationReusedBecause": "No pre-existing model input table changed; same source files; V4-only tables empty."
+  }
+}

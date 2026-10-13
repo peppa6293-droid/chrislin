@@ -1,0 +1,52 @@
+{
+  "receiptFormatVersion": 1,
+  "status": "PREFLIGHT_PASS_READY_FOR_SEPARATELY_AUTHORIZED_MIGRATION",
+  "observedAtUtc": "2026-10-13T07:21:04.088749+00:00",
+  "syntheticOnly": true,
+  "candidateApprovalSha256": "29cdd43f8dd4461819e44650eced2543cf31d117cdd6cdc68a5a75c7862e1f85",
+  "migrationAuthorizationSha256": "44fccd8e34a4f86320f4c3ddd7ceabad89bb36245b1f7b93257b69d8df8260aa",
+  "productionBundleId": "org.pfc.quiescence.integration",
+  "installedAppPath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-authorization_drift-e7k6r8v2/pfc-qic-r2b3c3-authorization_drift-st5bbfmk/managed/install/Installed.app",
+  "candidateExecutablePath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-authorization_drift-e7k6r8v2/pfc-qic-r2b3c3-authorization_drift-st5bbfmk/managed/install/Installed.app/Contents/MacOS/personal-finance-console",
+  "candidateExecutableSha256": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+  "compatibilityManifestSha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+  "maxSupportedSchemaVersion": 4,
+  "sidecarsAbsent": true,
+  "productionDatabasePath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-authorization_drift-e7k6r8v2/pfc-qic-r2b3c3-authorization_drift-st5bbfmk/personal-finance-console.sqlite3",
+  "productionDatabasePreMigrationSha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+  "productionSchema": {
+    "userVersion": 3,
+    "migrationVersion": 3
+  },
+  "backupPath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-authorization_drift-e7k6r8v2/pfc-qic-r2b3c3-authorization_drift-st5bbfmk/backup.sqlite3",
+  "backupSha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+  "ownerAuthorizationId": "synthetic-authorization_drift-migration",
+  "candidateApprovalId": "synthetic-authorization_drift-candidate",
+  "processInventory": {
+    "complete": true,
+    "processes": [],
+    "diagnostics": []
+  },
+  "productionAppInventory": [
+    {
+      "bundle_path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-authorization_drift-e7k6r8v2/pfc-qic-r2b3c3-authorization_drift-st5bbfmk/managed/install/Installed.app",
+      "bundle_id": "org.pfc.quiescence.integration",
+      "version": "0.1.0",
+      "executable_name": "personal-finance-console",
+      "executable_path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-authorization_drift-e7k6r8v2/pfc-qic-r2b3c3-authorization_drift-st5bbfmk/managed/install/Installed.app/Contents/MacOS/personal-finance-console",
+      "executable_sha256": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+      "executable_mode": 448,
+      "manifest": {
+        "manifestFormatVersion": 1,
+        "runtimeGeneration": 4,
+        "minSupportedSchemaVersion": 3,
+        "maxSupportedSchemaVersion": 4,
+        "bundleId": "org.pfc.quiescence.integration",
+        "executable": "Contents/MacOS/personal-finance-console"
+      },
+      "manifest_path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-authorization_drift-e7k6r8v2/pfc-qic-r2b3c3-authorization_drift-st5bbfmk/managed/install/Installed.app/Contents/Resources/runtime-compatibility.json",
+      "manifest_sha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc"
+    }
+  ],
+  "releaseReceiptPath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-authorization_drift-e7k6r8v2/pfc-qic-r2b3c3-authorization_drift-st5bbfmk/release-receipt.json"
+}

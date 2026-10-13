@@ -1,0 +1,113 @@
+{
+  "status": "NATIVE_CONSUMER_BOUND",
+  "receiptPath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-corrupt_ledger-466ng17j/pfc-qic-r2b3c3-corrupt_ledger-t0hyplqd/release-receipt.json",
+  "receiptSha256": "0ff20230c0fa7447d7de54eb96bd5970a5b1cc6df47f6ee68921fe5643535ce9",
+  "permitPath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-corrupt_ledger-466ng17j/pfc-qic-r2b3c3-corrupt_ledger-t0hyplqd/gate-permit.json",
+  "native": {
+    "beginExclusiveExecuted": true,
+    "connection": {
+      "busyTimeout": 0,
+      "create": false,
+      "journalMode": "delete",
+      "lockingMode": "exclusive",
+      "opened": true
+    },
+    "continuity": {
+      "authorizationId": "synthetic-corrupt_ledger-migration",
+      "authorizationSha256": "87e26630a13742b1d0264b0760260520ded5fb7264184c266de6a9e0701592d4",
+      "backupIdentity": {
+        "dev": 16777232,
+        "inode": 26308621,
+        "links": 1,
+        "size": 229376
+      },
+      "backupSha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+      "candidateBundleId": "org.pfc.quiescence.integration",
+      "candidateSha256": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+      "claimedPermitSha256": "fb0db50c0c35dc73acc862c46f71ccc5ff5cc8e75801542ad750bc41395af383",
+      "consumerInputSha256": "fb0db50c0c35dc73acc862c46f71ccc5ff5cc8e75801542ad750bc41395af383",
+      "databaseIdentity": {
+        "dev": 16777232,
+        "inode": 26308579,
+        "links": 1,
+        "size": 229376
+      },
+      "databaseSha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+      "databaseSha256After": "d92302e91a34790ba9243f6d8bd975e6d9b5aaebafc0b35e417d489098154e52",
+      "domain": "UNIFIED_R2B_GATE_OWNED",
+      "expiresAtUnix": 1791876206,
+      "expiryValidated": true,
+      "gatePermitSha256": "fb0db50c0c35dc73acc862c46f71ccc5ff5cc8e75801542ad750bc41395af383",
+      "ledgerPermitSha256": "fb0db50c0c35dc73acc862c46f71ccc5ff5cc8e75801542ad750bc41395af383",
+      "manifestSha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+      "nonce": "AkSYABc24QiGXAk7WGturSkJ_z1ML4_dvHWvC5WzHCs",
+      "receiptSha256": "0ff20230c0fa7447d7de54eb96bd5970a5b1cc6df47f6ee68921fe5643535ce9",
+      "runnerAuthorityPermitSha256": "fb0db50c0c35dc73acc862c46f71ccc5ff5cc8e75801542ad750bc41395af383",
+      "session": "session-180e55a222784186913fbf8db61ea55a",
+      "terminalSha256": "f5d34c582b64a00131a92503f876aca4d651204a539c785330bf1468c84c99b9"
+    },
+    "databaseSchema": {
+      "migration4Rows": 1,
+      "migrationRows": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "userVersion": 4
+    },
+    "event": "gate_permit_consumed",
+    "highestState": "S10_VERIFIED_HANDOFF",
+    "ledgerPath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-corrupt_ledger-466ng17j/pfc-qic-r2b3c3-corrupt_ledger-t0hyplqd/consumed-ledger.json",
+    "migration4Executed": true,
+    "migration4ExecutionCount": 1,
+    "permitSha256": "fb0db50c0c35dc73acc862c46f71ccc5ff5cc8e75801542ad750bc41395af383",
+    "status": "VERIFIED_HANDOFF",
+    "syntheticOnly": true,
+    "terminal": {
+      "authorizationId": "synthetic-corrupt_ledger-migration",
+      "authorizationSha256": "87e26630a13742b1d0264b0760260520ded5fb7264184c266de6a9e0701592d4",
+      "backupIdentity": {
+        "dev": 16777232,
+        "inode": 26308621,
+        "links": 1,
+        "size": 229376
+      },
+      "backupSha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+      "businessPreserved": true,
+      "candidateApprovalSha256": "8ca8ca47386b4af33010414fd0cab02bdcea0812202c159ad4b9b6bdcccafa2a",
+      "candidateSha256": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+      "connectionClosed": true,
+      "databaseIdentity": {
+        "dev": 16777232,
+        "inode": 26308579,
+        "links": 1,
+        "size": 229376
+      },
+      "databaseSha256After": "d92302e91a34790ba9243f6d8bd975e6d9b5aaebafc0b35e417d489098154e52",
+      "databaseSha256Before": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+      "domain": "UNIFIED_R2B_GATE_OWNED",
+      "leaseHeldAtHandoff": true,
+      "manifestSha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+      "migration4Executed": true,
+      "migration4ExecutionCount": 1,
+      "nonce": "AkSYABc24QiGXAk7WGturSkJ_z1ML4_dvHWvC5WzHCs",
+      "permitSha256": "fb0db50c0c35dc73acc862c46f71ccc5ff5cc8e75801542ad750bc41395af383",
+      "receiptSha256": "0ff20230c0fa7447d7de54eb96bd5970a5b1cc6df47f6ee68921fe5643535ce9",
+      "schema": {
+        "migration4Rows": 1,
+        "migrationRows": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "userVersion": 4
+      },
+      "session": "session-180e55a222784186913fbf8db61ea55a",
+      "state": "VERIFIED_HANDOFF",
+      "syntheticOnly": true
+    }
+  },
+  "stdout": "{\"beginExclusiveExecuted\":true,\"connection\":{\"busyTimeout\":0,\"create\":false,\"journalMode\":\"delete\",\"lockingMode\":\"exclusive\",\"opened\":true},\"continuity\":{\"authorizationId\":\"synthetic-corrupt_ledger-migration\",\"authorizationSha256\":\"87e26630a13742b1d0264b0760260520ded5fb7264184c266de6a9e0701592d4\",\"backupIdentity\":{\"dev\":16777232,\"inode\":26308621,\"links\":1,\"size\":229376},\"backupSha256\":\"5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b\",\"candidateBundleId\":\"org.pfc.quiescence.integration\",\"candidateSha256\":\"e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf\",\"claimedPermitSha256\":\"fb0db50c0c35dc73acc862c46f71ccc5ff5cc8e75801542ad750bc41395af383\",\"consumerInputSha256\":\"fb0db50c0c35dc73acc862c46f71ccc5ff5cc8e75801542ad750bc41395af383\",\"databaseIdentity\":{\"dev\":16777232,\"inode\":26308579,\"links\":1,\"size\":229376},\"databaseSha256\":\"5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b\",\"databaseSha256After\":\"d92302e91a34790ba9243f6d8bd975e6d9b5aaebafc0b35e417d489098154e52\",\"domain\":\"UNIFIED_R2B_GATE_OWNED\",\"expiresAtUnix\":1791876206,\"expiryValidated\":true,\"gatePermitSha256\":\"fb0db50c0c35dc73acc862c46f71ccc5ff5cc8e75801542ad750bc41395af383\",\"ledgerPermitSha256\":\"fb0db50c0c35dc73acc862c46f71ccc5ff5cc8e75801542ad750bc41395af383\",\"manifestSha256\":\"cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc\",\"nonce\":\"AkSYABc24QiGXAk7WGturSkJ_z1ML4_dvHWvC5WzHCs\",\"receiptSha256\":\"0ff20230c0fa7447d7de54eb96bd5970a5b1cc6df47f6ee68921fe5643535ce9\",\"runnerAuthorityPermitSha256\":\"fb0db50c0c35dc73acc862c46f71ccc5ff5cc8e75801542ad750bc41395af383\",\"session\":\"session-180e55a222784186913fbf8db61ea55a\",\"terminalSha256\":\"f5d34c582b64a00131a92503f876aca4d651204a539c785330bf1468c84c99b9\"},\"databaseSchema\":{\"migration4Rows\":1,\"migrationRows\":[1,2,3,4],\"userVersion\":4},\"event\":\"gate_permit_consumed\",\"highestState\":\"S10_VERIFIED_HANDOFF\",\"ledgerPath\":\"/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-corrupt_ledger-466ng17j/pfc-qic-r2b3c3-corrupt_ledger-t0hyplqd/consumed-ledger.json\",\"migration4Executed\":true,\"migration4ExecutionCount\":1,\"permitSha256\":\"fb0db50c0c35dc73acc862c46f71ccc5ff5cc8e75801542ad750bc41395af383\",\"status\":\"VERIFIED_HANDOFF\",\"syntheticOnly\":true,\"terminal\":{\"authorizationId\":\"synthetic-corrupt_ledger-migration\",\"authorizationSha256\":\"87e26630a13742b1d0264b0760260520ded5fb7264184c266de6a9e0701592d4\",\"backupIdentity\":{\"dev\":16777232,\"inode\":26308621,\"links\":1,\"size\":229376},\"backupSha256\":\"5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b\",\"businessPreserved\":true,\"candidateApprovalSha256\":\"8ca8ca47386b4af33010414fd0cab02bdcea0812202c159ad4b9b6bdcccafa2a\",\"candidateSha256\":\"e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf\",\"connectionClosed\":true,\"databaseIdentity\":{\"dev\":16777232,\"inode\":26308579,\"links\":1,\"size\":229376},\"databaseSha256After\":\"d92302e91a34790ba9243f6d8bd975e6d9b5aaebafc0b35e417d489098154e52\",\"databaseSha256Before\":\"5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b\",\"domain\":\"UNIFIED_R2B_GATE_OWNED\",\"leaseHeldAtHandoff\":true,\"manifestSha256\":\"cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc\",\"migration4Executed\":true,\"migration4ExecutionCount\":1,\"nonce\":\"AkSYABc24QiGXAk7WGturSkJ_z1ML4_dvHWvC5WzHCs\",\"permitSha256\":\"fb0db50c0c35dc73acc862c46f71ccc5ff5cc8e75801542ad750bc41395af383\",\"receiptSha256\":\"0ff20230c0fa7447d7de54eb96bd5970a5b1cc6df47f6ee68921fe5643535ce9\",\"schema\":{\"migration4Rows\":1,\"migrationRows\":[1,2,3,4],\"userVersion\":4},\"session\":\"session-180e55a222784186913fbf8db61ea55a\",\"state\":\"VERIFIED_HANDOFF\",\"syntheticOnly\":true}}\n"
+}

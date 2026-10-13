@@ -1,0 +1,34 @@
+{
+  "currentState": "QUIESCENCE_ACQUIRED",
+  "recoveryDisposition": "MANUAL_DECISION_REQUIRED",
+  "businessAccessDecision": "MANUAL_DECISION_REQUIRED",
+  "businessAccessAllowed": false,
+  "migrationMayRerun": false,
+  "oldPermitReusable": false,
+  "newAuthorizationRequired": true,
+  "restoreAllowed": false,
+  "readonlyConfirmationAllowed": true,
+  "action": "NONE",
+  "automaticRecovery": false,
+  "diagnosticMutationCount": 0,
+  "status": "PASS",
+  "domain": "UNIFIED_R2B_SYNTHETIC",
+  "authorizationId": "synthetic-quiescence_acquired-diagnostic",
+  "recoveryAuthorizationSha256": "7d21e1458b24ac331009976e1dedab0454cbfef7bfb4aa65a26d7cea2c130cf9",
+  "currentStateEvidence": {
+    "receiptSha256": "0168706f415c5b324f8b33f231542885ecc5828e93d2b98df72c2447cf77422d",
+    "gatePermitSha256": "104265197f553de7e9e18e8d623df9c3d3a7e871a2420a949d1502a2fc42a82e",
+    "consumedLedgerSha256": "33283b91ba136079d59e26df576a02e29c2ea4615361ec2cb5417bbfcceab5c4",
+    "candidateExecutableSha256": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+    "manifestSha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+    "databaseIdentity": {
+      "dev": 16777232,
+      "inode": 26303760,
+      "links": 1,
+      "size": 229376
+    },
+    "databaseSha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+    "backupSha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+    "terminalLineageSha256": "c53ed3e43bc0f8f38d775e62eecf65c4cc6f22f82728f14fdea83c801c915837"
+  }
+}

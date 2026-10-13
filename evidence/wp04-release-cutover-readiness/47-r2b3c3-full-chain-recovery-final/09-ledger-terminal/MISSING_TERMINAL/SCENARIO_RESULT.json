@@ -1,0 +1,67 @@
+{
+  "scenarioId": "MISSING_TERMINAL",
+  "scenarioRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-missing_terminal-5ocuiiu4/pfc-qic-r2b3c3-missing_terminal-lugv0qn8",
+  "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+  "candidateSha": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+  "manifestSha": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+  "migrationAuthorizationSha": "a1c29990385e6dbe0177f59fc628fbf402675839545246f337163016c87cb01f",
+  "releaseReceiptSha": "26ca0bcc48e052a2a8a4b6be7d7fe60ec8e39a328f1cb227710a1df53ee419db",
+  "permitSha": "b14c5a3c53cb4e233da574bd10cafe9d642ba29e49472a8797d45b2a4657d9a7",
+  "consumerPermitSha": "b14c5a3c53cb4e233da574bd10cafe9d642ba29e49472a8797d45b2a4657d9a7",
+  "consumedLedgerSha": "d161a3fd0e188c4824ee8436ac7513acee7af6cb1aff89e537f8e91c9906e46f",
+  "recoveryAuthorizationSha": "3545fdde46024272ce6d4b240605d57f60d3c9c43ca650416cba0a2003e6ed9c",
+  "injectionPoint": "terminal",
+  "stateReached": "UNVERIFIED",
+  "databaseVersion": 4,
+  "migrationRows": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "migration4Count": 1,
+  "terminalBefore": "c2243157cfdbd26fc87f523f56051e47f5e42f14dbe52ba2c9465d309810978e",
+  "diagnosticDisposition": "REFUSE",
+  "businessAccess": "REFUSE",
+  "permitReusable": false,
+  "migrationMayRerun": false,
+  "newAuthorizationRequired": true,
+  "restoreAllowed": false,
+  "terminalAfter": null,
+  "diagnosticMutationCount": 0,
+  "diagnosticCliReturnCode": 2,
+  "diagnosticStatus": "REFUSE",
+  "databaseFacts": {
+    "userVersion": 4,
+    "migrationRows": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "integrity": [
+      "ok"
+    ],
+    "foreignKeyViolations": []
+  },
+  "migrationCliReturnCode": 0,
+  "migrationExpected": "success",
+  "competingLease": null,
+  "controlledMutation": {
+    "object": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-missing_terminal-5ocuiiu4/pfc-qic-r2b3c3-missing_terminal-lugv0qn8/verified-handoff.json",
+    "action": "controlled mutation under this scenario root only",
+    "beforeSha256": "c2243157cfdbd26fc87f523f56051e47f5e42f14dbe52ba2c9465d309810978e",
+    "afterSha256": null,
+    "missing": true
+  },
+  "expected": "REFUSE",
+  "actual": "REFUSE",
+  "passFail": "PASS",
+  "expectedVsActual": {
+    "expected": "REFUSE",
+    "actual": "REFUSE",
+    "diagnosticReasons": [
+      "GateBlocked: Production V4 release gate blocked: Recovery authorization binding mismatch: terminalLineageSha256."
+    ]
+  }
+}

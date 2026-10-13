@@ -1,0 +1,5 @@
+{
+  "result": "REFUSED",
+  "exitCode": 2,
+  "stderr": "{\"status\": \"BLOCKED\", \"errorType\": \"GateBlocked\", \"reasons\": [\"Path is missing or not a single-link regular file: /private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-r2b3c1-hooks-uj36qmdr/pfc-qic-r2b3c1-z4w4sojk/SYNTHETIC_ONLY\"]}\n"
+}

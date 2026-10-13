@@ -1,0 +1,1064 @@
+{
+  "workOrder": "WP-04R2B3C3",
+  "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+  "candidateSha": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+  "manifestSha": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+  "scenarioCount": 17,
+  "passed": 17,
+  "failed": 0,
+  "scenarios": [
+    {
+      "scenarioId": "AUTHORIZATION_DRIFT",
+      "scenarioRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-authorization_drift-e7k6r8v2/pfc-qic-r2b3c3-authorization_drift-st5bbfmk",
+      "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+      "candidateSha": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+      "manifestSha": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+      "migrationAuthorizationSha": "44fccd8e34a4f86320f4c3ddd7ceabad89bb36245b1f7b93257b69d8df8260aa",
+      "releaseReceiptSha": "608373f91268f8f98b64b0e40e46ac10dfd19825b0718c7098af0602e40554a8",
+      "permitSha": "6e857334efcf4859b29dd80f718f6b7c926eed11dca448652eee2f8a5f756744",
+      "consumerPermitSha": "6e857334efcf4859b29dd80f718f6b7c926eed11dca448652eee2f8a5f756744",
+      "consumedLedgerSha": "fedb3adf8660e4219c4032cf1c228a87ce60933294dc38ca92b6205b4044c906",
+      "recoveryAuthorizationSha": "6be55459515e549d5603ccf8ebda48d319c9f208b9257672ada8f198145abe2b",
+      "injectionPoint": "authorization",
+      "stateReached": "UNVERIFIED",
+      "databaseVersion": 4,
+      "migrationRows": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "migration4Count": 1,
+      "terminalBefore": "4a08cdda54876a3d7c0ee75efbd15b6192f1fe56437a1f79cded0e4e064cf400",
+      "diagnosticDisposition": "REFUSE",
+      "businessAccess": "REFUSE",
+      "permitReusable": false,
+      "migrationMayRerun": false,
+      "newAuthorizationRequired": true,
+      "restoreAllowed": false,
+      "terminalAfter": "4a08cdda54876a3d7c0ee75efbd15b6192f1fe56437a1f79cded0e4e064cf400",
+      "diagnosticMutationCount": 0,
+      "diagnosticCliReturnCode": 2,
+      "diagnosticStatus": "REFUSE",
+      "databaseFacts": {
+        "userVersion": 4,
+        "migrationRows": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "integrity": [
+          "ok"
+        ],
+        "foreignKeyViolations": []
+      },
+      "migrationCliReturnCode": 0,
+      "migrationExpected": "success",
+      "competingLease": null,
+      "controlledMutation": {
+        "object": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-authorization_drift-e7k6r8v2/pfc-qic-r2b3c3-authorization_drift-st5bbfmk/gate-inputs/migration-authorization.json",
+        "action": "controlled mutation under this scenario root only",
+        "beforeSha256": "44fccd8e34a4f86320f4c3ddd7ceabad89bb36245b1f7b93257b69d8df8260aa",
+        "afterSha256": "61011f3a098ee5d31c5e8d9593da245dc70c582f31fd42e9673503403f7e9b93",
+        "missing": false
+      },
+      "expected": "REFUSE",
+      "actual": "REFUSE",
+      "passFail": "PASS",
+      "expectedVsActual": {
+        "expected": "REFUSE",
+        "actual": "REFUSE",
+        "diagnosticReasons": [
+          "GateBlocked: Production V4 release gate blocked: Receipt authorization bytes do not match current exact authorization files."
+        ]
+      }
+    },
+    {
+      "scenarioId": "BACKUP_DRIFT",
+      "scenarioRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-backup_drift-o0p8e0cl/pfc-qic-r2b3c3-backup_drift-8i22lyly",
+      "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+      "candidateSha": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+      "manifestSha": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+      "migrationAuthorizationSha": "64724cd6a83ce39a303232a7d0eb1f839c0a99cf3a4e691c465b31b678910411",
+      "releaseReceiptSha": "8b24cb37737170ea1244edb6bffa4b2a4db2f4122c0b75fc2849e895e93debf9",
+      "permitSha": "cc384b2ef6c416c857f1a85392ca5b96bd2f4ecce07d5f2eb821795eb9b0506b",
+      "consumerPermitSha": "cc384b2ef6c416c857f1a85392ca5b96bd2f4ecce07d5f2eb821795eb9b0506b",
+      "consumedLedgerSha": "0595c0aaeb0b5d1bb2ef8c09d2bd385228d218393afdea1b13b019255be267b0",
+      "recoveryAuthorizationSha": "464293e407a2b90eaf1089c0b58aa0648c66c66c53de3ba2ef73fbfbb8ab11e6",
+      "injectionPoint": "backup",
+      "stateReached": "UNVERIFIED",
+      "databaseVersion": 4,
+      "migrationRows": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "migration4Count": 1,
+      "terminalBefore": "5c3b30203d7e37f5f443ad74ba52e08f37def7137e3c41c90c5369916718e4c6",
+      "diagnosticDisposition": "REFUSE",
+      "businessAccess": "REFUSE",
+      "permitReusable": false,
+      "migrationMayRerun": false,
+      "newAuthorizationRequired": true,
+      "restoreAllowed": false,
+      "terminalAfter": "5c3b30203d7e37f5f443ad74ba52e08f37def7137e3c41c90c5369916718e4c6",
+      "diagnosticMutationCount": 0,
+      "diagnosticCliReturnCode": 2,
+      "diagnosticStatus": "REFUSE",
+      "databaseFacts": {
+        "userVersion": 4,
+        "migrationRows": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "integrity": [
+          "ok"
+        ],
+        "foreignKeyViolations": []
+      },
+      "migrationCliReturnCode": 0,
+      "migrationExpected": "success",
+      "competingLease": null,
+      "controlledMutation": {
+        "object": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-backup_drift-o0p8e0cl/pfc-qic-r2b3c3-backup_drift-8i22lyly/backup.sqlite3",
+        "action": "controlled mutation under this scenario root only",
+        "beforeSha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+        "afterSha256": "b6e99bf1f5004d388d2b89a7f293fee233ee6d02a79b4e73d34663ccddb329a0",
+        "missing": false
+      },
+      "expected": "REFUSE",
+      "actual": "REFUSE",
+      "passFail": "PASS",
+      "expectedVsActual": {
+        "expected": "REFUSE",
+        "actual": "REFUSE",
+        "diagnosticReasons": [
+          "GateBlocked: Production V4 release gate blocked: Database or backup object identity drifted from the consumed ledger."
+        ]
+      }
+    },
+    {
+      "scenarioId": "CANDIDATE_DRIFT",
+      "scenarioRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-candidate_drift-3tv0mifc/pfc-qic-r2b3c3-candidate_drift-0hw_u6v9",
+      "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+      "candidateSha": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+      "manifestSha": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+      "migrationAuthorizationSha": "8dde0ac3575ab533a8a296997d1a73da1e91678d2589320fc6bd2b8a057e87a1",
+      "releaseReceiptSha": "4e33b4e9955ca01460f7f2c0bf0d3f44a307363e5d3d6bb8bdb757f0a3cb201a",
+      "permitSha": "4d5eed554dfc0a4e6b185f43621fb06bd43217a8a5b70fab32daf5d3a8789aa0",
+      "consumerPermitSha": "4d5eed554dfc0a4e6b185f43621fb06bd43217a8a5b70fab32daf5d3a8789aa0",
+      "consumedLedgerSha": "35343fcc6040feecda1afcb57e109e066c6a6d55e9dd576335204e9e8e08f47e",
+      "recoveryAuthorizationSha": "33d615c057a89c60ef70d20647b687a397eacd2482b7b385e70207afd6bfbcfc",
+      "injectionPoint": "candidate",
+      "stateReached": "UNVERIFIED",
+      "databaseVersion": 4,
+      "migrationRows": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "migration4Count": 1,
+      "terminalBefore": "4ff201858bfe9536975e8a2733fa5951dbdb31bb793eb6633f613641012cadc6",
+      "diagnosticDisposition": "REFUSE",
+      "businessAccess": "REFUSE",
+      "permitReusable": false,
+      "migrationMayRerun": false,
+      "newAuthorizationRequired": true,
+      "restoreAllowed": false,
+      "terminalAfter": "4ff201858bfe9536975e8a2733fa5951dbdb31bb793eb6633f613641012cadc6",
+      "diagnosticMutationCount": 0,
+      "diagnosticCliReturnCode": 2,
+      "diagnosticStatus": "REFUSE",
+      "databaseFacts": {
+        "userVersion": 4,
+        "migrationRows": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "integrity": [
+          "ok"
+        ],
+        "foreignKeyViolations": []
+      },
+      "migrationCliReturnCode": 0,
+      "migrationExpected": "success",
+      "competingLease": null,
+      "controlledMutation": {
+        "object": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-candidate_drift-3tv0mifc/pfc-qic-r2b3c3-candidate_drift-0hw_u6v9/managed/candidate/Candidate.app/Contents/MacOS/personal-finance-console",
+        "action": "controlled mutation under this scenario root only",
+        "beforeSha256": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+        "afterSha256": "774d3aaad16db1be09f4fd6f2e8c5b0f5ee2029100257b9c54fea8c5719191dd",
+        "missing": false
+      },
+      "expected": "REFUSE",
+      "actual": "REFUSE",
+      "passFail": "PASS",
+      "expectedVsActual": {
+        "expected": "REFUSE",
+        "actual": "REFUSE",
+        "diagnosticReasons": [
+          "GateBlocked: Production V4 release gate blocked: Candidate executable identity/hash drifted from receipt or approval."
+        ]
+      }
+    },
+    {
+      "scenarioId": "COMMIT_OUTCOME_UNKNOWN",
+      "scenarioRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-commit_outcome_unknown-2z9xwrkz/pfc-qic-r2b3c3-commit_outcome_unknown-jjhv5fli",
+      "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+      "candidateSha": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+      "manifestSha": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+      "migrationAuthorizationSha": "9339667b331b150a94c4b48fbc779c454ebb82be6ae5418553223682927f961b",
+      "releaseReceiptSha": "47aa2e5e6e735f1e62d3e781f3f5a13981ceb076c7d5c282f7783504943d8c92",
+      "permitSha": "0009ab376f1c418a93846bb8d77aea874bce6e0a2f603049db02defc6f7eb1ae",
+      "consumerPermitSha": "0009ab376f1c418a93846bb8d77aea874bce6e0a2f603049db02defc6f7eb1ae",
+      "consumedLedgerSha": "66c3692a690fa2b05dc615bb12b4afa59e5406f98a9ae1ba317184a8069e2962",
+      "recoveryAuthorizationSha": "c100e9e8b865363ceb35dd58e03932621447974b62c67605ab41dbefde64363f",
+      "injectionPoint": "AFTER_COMMIT_BEFORE_VERIFIED_READBACK",
+      "stateReached": "COMMIT_OUTCOME_UNKNOWN",
+      "databaseVersion": 4,
+      "migrationRows": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "migration4Count": 1,
+      "terminalBefore": null,
+      "diagnosticDisposition": "MANUAL_DECISION_REQUIRED",
+      "businessAccess": "MANUAL_DECISION_REQUIRED",
+      "permitReusable": false,
+      "migrationMayRerun": false,
+      "newAuthorizationRequired": true,
+      "restoreAllowed": false,
+      "terminalAfter": null,
+      "diagnosticMutationCount": 0,
+      "diagnosticCliReturnCode": 0,
+      "diagnosticStatus": "PASS",
+      "databaseFacts": {
+        "userVersion": 4,
+        "migrationRows": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "integrity": [
+          "ok"
+        ],
+        "foreignKeyViolations": []
+      },
+      "migrationCliReturnCode": 2,
+      "migrationExpected": "controlled hook interruption",
+      "competingLease": null,
+      "controlledMutation": null,
+      "expected": "COMMIT_OUTCOME_UNKNOWN",
+      "actual": "COMMIT_OUTCOME_UNKNOWN",
+      "passFail": "PASS",
+      "expectedVsActual": {
+        "expected": "COMMIT_OUTCOME_UNKNOWN",
+        "actual": "COMMIT_OUTCOME_UNKNOWN",
+        "diagnosticReasons": null
+      }
+    },
+    {
+      "scenarioId": "CORRUPT_LEDGER",
+      "scenarioRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-corrupt_ledger-466ng17j/pfc-qic-r2b3c3-corrupt_ledger-t0hyplqd",
+      "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+      "candidateSha": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+      "manifestSha": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+      "migrationAuthorizationSha": "87e26630a13742b1d0264b0760260520ded5fb7264184c266de6a9e0701592d4",
+      "releaseReceiptSha": "0ff20230c0fa7447d7de54eb96bd5970a5b1cc6df47f6ee68921fe5643535ce9",
+      "permitSha": "fb0db50c0c35dc73acc862c46f71ccc5ff5cc8e75801542ad750bc41395af383",
+      "consumerPermitSha": "fb0db50c0c35dc73acc862c46f71ccc5ff5cc8e75801542ad750bc41395af383",
+      "consumedLedgerSha": "8034256bb08319ea49fd13b7c2085c67dbc231327d2fcec6f97640e411d07270",
+      "recoveryAuthorizationSha": "4e748de567f39509d79eb202e0c581c7d650ed35fff9c76805e40f5043a32a11",
+      "injectionPoint": "ledger",
+      "stateReached": "UNVERIFIED",
+      "databaseVersion": 4,
+      "migrationRows": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "migration4Count": 1,
+      "terminalBefore": "f5d34c582b64a00131a92503f876aca4d651204a539c785330bf1468c84c99b9",
+      "diagnosticDisposition": "REFUSE",
+      "businessAccess": "REFUSE",
+      "permitReusable": false,
+      "migrationMayRerun": false,
+      "newAuthorizationRequired": true,
+      "restoreAllowed": false,
+      "terminalAfter": "f5d34c582b64a00131a92503f876aca4d651204a539c785330bf1468c84c99b9",
+      "diagnosticMutationCount": 0,
+      "diagnosticCliReturnCode": 2,
+      "diagnosticStatus": "REFUSE",
+      "databaseFacts": {
+        "userVersion": 4,
+        "migrationRows": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "integrity": [
+          "ok"
+        ],
+        "foreignKeyViolations": []
+      },
+      "migrationCliReturnCode": 0,
+      "migrationExpected": "success",
+      "competingLease": null,
+      "controlledMutation": {
+        "object": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-corrupt_ledger-466ng17j/pfc-qic-r2b3c3-corrupt_ledger-t0hyplqd/consumed-ledger.json",
+        "action": "controlled mutation under this scenario root only",
+        "beforeSha256": "8034256bb08319ea49fd13b7c2085c67dbc231327d2fcec6f97640e411d07270",
+        "afterSha256": "e7a5e54795fc174030764f4cd448c2c627f5b5107290970998c79f0f24dff4b5",
+        "missing": false
+      },
+      "expected": "REFUSE",
+      "actual": "REFUSE",
+      "passFail": "PASS",
+      "expectedVsActual": {
+        "expected": "REFUSE",
+        "actual": "REFUSE",
+        "diagnosticReasons": [
+          "GateBlocked: Production V4 release gate blocked: Consumed ledger is corrupt JSON: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)"
+        ]
+      }
+    },
+    {
+      "scenarioId": "DB_DRIFT",
+      "scenarioRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-db_drift-ws7bpqx2/pfc-qic-r2b3c3-db_drift-c77h247e",
+      "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+      "candidateSha": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+      "manifestSha": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+      "migrationAuthorizationSha": "1201e298becf4d985b0af746c9a059a781245b8928a1cce52c8b3e9fe420a078",
+      "releaseReceiptSha": "dc10cf6e18122f407431964a7a2e77e9cbdaac5ca8145bf9c6a0535650e6ffa6",
+      "permitSha": "06b51af32612a780a9cb582349f6410a2f29d169b942a0c854de4b856e022cc4",
+      "consumerPermitSha": "06b51af32612a780a9cb582349f6410a2f29d169b942a0c854de4b856e022cc4",
+      "consumedLedgerSha": "c8270ddfebcfecc68334a571c7af4a60ff23536e56797f7a7d0a01c46861e258",
+      "recoveryAuthorizationSha": "ec94b9b027d9a01c541bbf5bbe8181c64b5431a404c00469ac0afad624e2b482",
+      "injectionPoint": "database",
+      "stateReached": "UNVERIFIED",
+      "databaseVersion": 4,
+      "migrationRows": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "migration4Count": 1,
+      "terminalBefore": "ea23744a88eb565b05de28fa427686733d02f23b7e206537427ce518fcc9a88b",
+      "diagnosticDisposition": "REFUSE",
+      "businessAccess": "REFUSE",
+      "permitReusable": false,
+      "migrationMayRerun": false,
+      "newAuthorizationRequired": true,
+      "restoreAllowed": false,
+      "terminalAfter": "ea23744a88eb565b05de28fa427686733d02f23b7e206537427ce518fcc9a88b",
+      "diagnosticMutationCount": 0,
+      "diagnosticCliReturnCode": 2,
+      "diagnosticStatus": "REFUSE",
+      "databaseFacts": {
+        "userVersion": 4,
+        "migrationRows": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "integrity": [
+          "ok"
+        ],
+        "foreignKeyViolations": []
+      },
+      "migrationCliReturnCode": 0,
+      "migrationExpected": "success",
+      "competingLease": null,
+      "controlledMutation": {
+        "object": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-db_drift-ws7bpqx2/pfc-qic-r2b3c3-db_drift-c77h247e/personal-finance-console.sqlite3",
+        "action": "controlled mutation under this scenario root only",
+        "beforeSha256": "2d506a75bae2e9886985fdd9958a36f206bc01955393e8e7bc9c9714223492c2",
+        "afterSha256": "885af78ceb5ddbebcd61a7b4525314bab28e657c5b92bf4a2052a91caef38195",
+        "missing": false
+      },
+      "expected": "REFUSE",
+      "actual": "REFUSE",
+      "passFail": "PASS",
+      "expectedVsActual": {
+        "expected": "REFUSE",
+        "actual": "REFUSE",
+        "diagnosticReasons": [
+          "GateBlocked: Production V4 release gate blocked: Recovery authorization binding mismatch: databaseSha256."
+        ]
+      }
+    },
+    {
+      "scenarioId": "FAILED_V3_CONFIRMED",
+      "scenarioRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-failed_v3_confirmed-6pp7wsg4/pfc-qic-r2b3c3-failed_v3_confirmed-girqzc5h",
+      "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+      "candidateSha": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+      "manifestSha": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+      "migrationAuthorizationSha": "a73ae71e2cedb840f1690e29ee551b83d892fc742c3c573e262c2b6cd9f1a0ec",
+      "releaseReceiptSha": "97cae3bec3d527d318edeed7492b108490118bc2ea2b07b3bcd09939e6cefbd6",
+      "permitSha": "a3c4ea947599a7a0d9465bba6017fa0aa9fec08eea6a9cd5978bc1ac9e3748b1",
+      "consumerPermitSha": "a3c4ea947599a7a0d9465bba6017fa0aa9fec08eea6a9cd5978bc1ac9e3748b1",
+      "consumedLedgerSha": "3d82e7d7aba1f5637f0317c4f38ee7c2c2570df069cc9935222fd8f5f6ff4387",
+      "recoveryAuthorizationSha": "046d012370599a7c47b753335885fb0b5cd72c7a2fd1bfd5e198694a325cd4c3",
+      "injectionPoint": "BEFORE_M4_FAIL_V3_CONFIRMED",
+      "stateReached": "FAILED_V3_CONFIRMED",
+      "databaseVersion": 3,
+      "migrationRows": [
+        1,
+        2,
+        3
+      ],
+      "migration4Count": 0,
+      "terminalBefore": "3420a55bebf8df6fc546fabd79c8e9c7f0ea3ffd2c67477c9e767fcbde8671f9",
+      "diagnosticDisposition": "MANUAL_DECISION_REQUIRED",
+      "businessAccess": "MANUAL_DECISION_REQUIRED",
+      "permitReusable": false,
+      "migrationMayRerun": true,
+      "newAuthorizationRequired": true,
+      "restoreAllowed": "AUTHORIZATION_REQUIRED",
+      "terminalAfter": "3420a55bebf8df6fc546fabd79c8e9c7f0ea3ffd2c67477c9e767fcbde8671f9",
+      "diagnosticMutationCount": 0,
+      "diagnosticCliReturnCode": 0,
+      "diagnosticStatus": "PASS",
+      "databaseFacts": {
+        "userVersion": 3,
+        "migrationRows": [
+          1,
+          2,
+          3
+        ],
+        "integrity": [
+          "ok"
+        ],
+        "foreignKeyViolations": []
+      },
+      "migrationCliReturnCode": 2,
+      "migrationExpected": "controlled hook interruption",
+      "competingLease": null,
+      "controlledMutation": null,
+      "expected": "FAILED_V3_CONFIRMED",
+      "actual": "FAILED_V3_CONFIRMED",
+      "passFail": "PASS",
+      "expectedVsActual": {
+        "expected": "FAILED_V3_CONFIRMED",
+        "actual": "FAILED_V3_CONFIRMED",
+        "diagnosticReasons": null,
+        "acceptanceNote": "Fresh migration authorization is required before any future rerun; restoreAllowed=AUTHORIZATION_REQUIRED is not automatic restore."
+      }
+    },
+    {
+      "scenarioId": "GUARD_LOST_OR_UNPROVEN",
+      "scenarioRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-guard_lost_or_unproven-j7vmlzo1/pfc-qic-r2b3c3-guard_lost_or_unproven-qkw4tuak",
+      "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+      "candidateSha": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+      "manifestSha": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+      "migrationAuthorizationSha": "393e80846bd9afedb7c3e4bc5cf72e422f192e7e428d02a605f60f4a3de940d1",
+      "releaseReceiptSha": "1e42f3b81dd3beb26a778243a53bfe7402872c1b7423b25103ec7c048fc180c8",
+      "permitSha": "6d586210b5eaedc1b48ba2cb034895b826a35324530f2d74fe04e9d6f865849b",
+      "consumerPermitSha": "6d586210b5eaedc1b48ba2cb034895b826a35324530f2d74fe04e9d6f865849b",
+      "consumedLedgerSha": "d3d031c29023a6d4dd63c25ae7073f97e87c0d8d1285b585f25df370f274445f",
+      "recoveryAuthorizationSha": "649581dc89ec286641814601ea96c3af654a5ea3d5524c317c5e4f3e70023bd0",
+      "injectionPoint": "GUARD_LOST_AFTER_QUIESCENCE",
+      "stateReached": "GUARD_LOST_OR_UNPROVEN",
+      "databaseVersion": 3,
+      "migrationRows": [
+        1,
+        2,
+        3
+      ],
+      "migration4Count": 0,
+      "terminalBefore": null,
+      "diagnosticDisposition": "REFUSE",
+      "businessAccess": "REFUSE",
+      "permitReusable": false,
+      "migrationMayRerun": false,
+      "newAuthorizationRequired": true,
+      "restoreAllowed": false,
+      "terminalAfter": null,
+      "diagnosticMutationCount": 0,
+      "diagnosticCliReturnCode": 0,
+      "diagnosticStatus": "PASS",
+      "databaseFacts": {
+        "userVersion": 3,
+        "migrationRows": [
+          1,
+          2,
+          3
+        ],
+        "integrity": [
+          "ok"
+        ],
+        "foreignKeyViolations": []
+      },
+      "migrationCliReturnCode": 2,
+      "migrationExpected": "controlled hook interruption",
+      "competingLease": null,
+      "controlledMutation": null,
+      "expected": "GUARD_LOST_OR_UNPROVEN",
+      "actual": "GUARD_LOST_OR_UNPROVEN",
+      "passFail": "PASS",
+      "expectedVsActual": {
+        "expected": "GUARD_LOST_OR_UNPROVEN",
+        "actual": "GUARD_LOST_OR_UNPROVEN",
+        "diagnosticReasons": null
+      }
+    },
+    {
+      "scenarioId": "LEASE_CONFLICT",
+      "scenarioRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-lease_conflict-fxmwbgn_/pfc-qic-r2b3c3-lease_conflict-p4x0j6oh",
+      "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+      "candidateSha": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+      "manifestSha": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+      "migrationAuthorizationSha": "067adc234c5bb317abd538aeaefb3fef195c079730625b58d6bab15805436527",
+      "releaseReceiptSha": "0c482a8b329b07ead0269cf3eac6e432b621221bdc1c7deb5eab0f47148f0af3",
+      "permitSha": "9dab073a7cdf5c1b3c29aa388af97c16fa7c1f91f2e9a38b3fd3a46f27397ad5",
+      "consumerPermitSha": "9dab073a7cdf5c1b3c29aa388af97c16fa7c1f91f2e9a38b3fd3a46f27397ad5",
+      "consumedLedgerSha": "460b00eed03ab7cf91cad08432073f03dcb080beceafd8bbe63309d3aeb4b5f1",
+      "recoveryAuthorizationSha": "8ddf73259690927318c27e8e36035c5f71fee442f6d0cf1489f42aae68973be6",
+      "injectionPoint": "lease-conflict",
+      "stateReached": "V4_VERIFIED",
+      "databaseVersion": 4,
+      "migrationRows": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "migration4Count": 1,
+      "terminalBefore": "bb1a2b7b22db2c1503ee14049899ebe479b80eb28be7fcffbde844e434c08ab9",
+      "diagnosticDisposition": "READONLY_CONFIRMATION_ONLY",
+      "businessAccess": "READONLY_CONFIRMATION_ONLY",
+      "permitReusable": false,
+      "migrationMayRerun": false,
+      "newAuthorizationRequired": true,
+      "restoreAllowed": false,
+      "terminalAfter": "bb1a2b7b22db2c1503ee14049899ebe479b80eb28be7fcffbde844e434c08ab9",
+      "diagnosticMutationCount": 0,
+      "diagnosticCliReturnCode": 0,
+      "diagnosticStatus": "PASS",
+      "databaseFacts": {
+        "userVersion": 4,
+        "migrationRows": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "integrity": [
+          "ok"
+        ],
+        "foreignKeyViolations": []
+      },
+      "migrationCliReturnCode": 0,
+      "migrationExpected": "success",
+      "competingLease": {
+        "returnCode": 0,
+        "output": "REFUSED BlockingIOError [Errno 35] Resource temporarily unavailable\n"
+      },
+      "controlledMutation": null,
+      "expected": "V4_VERIFIED",
+      "actual": "V4_VERIFIED",
+      "passFail": "PASS",
+      "expectedVsActual": {
+        "expected": "V4_VERIFIED",
+        "actual": "V4_VERIFIED",
+        "diagnosticReasons": null
+      }
+    },
+    {
+      "scenarioId": "MISSING_TERMINAL",
+      "scenarioRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-missing_terminal-5ocuiiu4/pfc-qic-r2b3c3-missing_terminal-lugv0qn8",
+      "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+      "candidateSha": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+      "manifestSha": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+      "migrationAuthorizationSha": "a1c29990385e6dbe0177f59fc628fbf402675839545246f337163016c87cb01f",
+      "releaseReceiptSha": "26ca0bcc48e052a2a8a4b6be7d7fe60ec8e39a328f1cb227710a1df53ee419db",
+      "permitSha": "b14c5a3c53cb4e233da574bd10cafe9d642ba29e49472a8797d45b2a4657d9a7",
+      "consumerPermitSha": "b14c5a3c53cb4e233da574bd10cafe9d642ba29e49472a8797d45b2a4657d9a7",
+      "consumedLedgerSha": "d161a3fd0e188c4824ee8436ac7513acee7af6cb1aff89e537f8e91c9906e46f",
+      "recoveryAuthorizationSha": "3545fdde46024272ce6d4b240605d57f60d3c9c43ca650416cba0a2003e6ed9c",
+      "injectionPoint": "terminal",
+      "stateReached": "UNVERIFIED",
+      "databaseVersion": 4,
+      "migrationRows": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "migration4Count": 1,
+      "terminalBefore": "c2243157cfdbd26fc87f523f56051e47f5e42f14dbe52ba2c9465d309810978e",
+      "diagnosticDisposition": "REFUSE",
+      "businessAccess": "REFUSE",
+      "permitReusable": false,
+      "migrationMayRerun": false,
+      "newAuthorizationRequired": true,
+      "restoreAllowed": false,
+      "terminalAfter": null,
+      "diagnosticMutationCount": 0,
+      "diagnosticCliReturnCode": 2,
+      "diagnosticStatus": "REFUSE",
+      "databaseFacts": {
+        "userVersion": 4,
+        "migrationRows": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "integrity": [
+          "ok"
+        ],
+        "foreignKeyViolations": []
+      },
+      "migrationCliReturnCode": 0,
+      "migrationExpected": "success",
+      "competingLease": null,
+      "controlledMutation": {
+        "object": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-missing_terminal-5ocuiiu4/pfc-qic-r2b3c3-missing_terminal-lugv0qn8/verified-handoff.json",
+        "action": "controlled mutation under this scenario root only",
+        "beforeSha256": "c2243157cfdbd26fc87f523f56051e47f5e42f14dbe52ba2c9465d309810978e",
+        "afterSha256": null,
+        "missing": true
+      },
+      "expected": "REFUSE",
+      "actual": "REFUSE",
+      "passFail": "PASS",
+      "expectedVsActual": {
+        "expected": "REFUSE",
+        "actual": "REFUSE",
+        "diagnosticReasons": [
+          "GateBlocked: Production V4 release gate blocked: Recovery authorization binding mismatch: terminalLineageSha256."
+        ]
+      }
+    },
+    {
+      "scenarioId": "ORPHAN_ACTIVE",
+      "scenarioRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-orphan_active-gtrgyk10/pfc-qic-r2b3c3-orphan_active-26ujsus2",
+      "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+      "candidateSha": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+      "manifestSha": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+      "migrationAuthorizationSha": "7305c60d893bdd686577595d3142b08de98e9d1e893abbaff190fade81c674ce",
+      "releaseReceiptSha": "9d881c71cbf7376baf96f9bc24fc9d2a45ca502feee1d7b5ab94b39c8c7423aa",
+      "permitSha": "bc8b7d96d7efe3373dde399821bf7d8a89d273c854460b73d56028f147bf3cb3",
+      "consumerPermitSha": "bc8b7d96d7efe3373dde399821bf7d8a89d273c854460b73d56028f147bf3cb3",
+      "consumedLedgerSha": "1971cd59f329bbbb3ba0293277a1cc4219859955317f268efc847e370b3a3c28",
+      "recoveryAuthorizationSha": "b0516cb0908ddac8b2e85c8babc74c1454490754b63fe2c7f67cef9472ffe7f3",
+      "injectionPoint": "ACTIVE_STATE_THEN_PROCESS_EXIT",
+      "stateReached": "ORPHAN_ACTIVE",
+      "databaseVersion": 3,
+      "migrationRows": [
+        1,
+        2,
+        3
+      ],
+      "migration4Count": 0,
+      "terminalBefore": null,
+      "diagnosticDisposition": "REFUSE",
+      "businessAccess": "REFUSE",
+      "permitReusable": false,
+      "migrationMayRerun": false,
+      "newAuthorizationRequired": true,
+      "restoreAllowed": false,
+      "terminalAfter": null,
+      "diagnosticMutationCount": 0,
+      "diagnosticCliReturnCode": 0,
+      "diagnosticStatus": "PASS",
+      "databaseFacts": {
+        "userVersion": 3,
+        "migrationRows": [
+          1,
+          2,
+          3
+        ],
+        "integrity": [
+          "ok"
+        ],
+        "foreignKeyViolations": []
+      },
+      "migrationCliReturnCode": 2,
+      "migrationExpected": "controlled hook interruption",
+      "competingLease": null,
+      "controlledMutation": null,
+      "expected": "ORPHAN_ACTIVE",
+      "actual": "ORPHAN_ACTIVE",
+      "passFail": "PASS",
+      "expectedVsActual": {
+        "expected": "ORPHAN_ACTIVE",
+        "actual": "ORPHAN_ACTIVE",
+        "diagnosticReasons": null
+      }
+    },
+    {
+      "scenarioId": "PERMIT_REPLAY",
+      "scenarioRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-permit_replay-sjysdazj/pfc-qic-r2b3c3-permit_replay-n6h0gq3i",
+      "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+      "candidateSha": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+      "manifestSha": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+      "migrationAuthorizationSha": "e48189b5e19f12e638c328bab479ed21d7b5929066209ac427c0fc074de16379",
+      "releaseReceiptSha": "587e671369d3975dcba5bc7e5753d5125d193020f1b33fb741c6899c41a3173f",
+      "permitSha": "fdbeb9e57c03009e73c3486637d82fab1aab8657e70031a8c0562af4c76fcb5a",
+      "consumerPermitSha": "fdbeb9e57c03009e73c3486637d82fab1aab8657e70031a8c0562af4c76fcb5a",
+      "consumedLedgerSha": "c1ef4531d90aa7b8e13cf558f6554df8a2f88a05fb5f07c3187447d4cc1256db",
+      "recoveryAuthorizationSha": "8a81ad27f962c541d8ae938d5b826991b49600aa6be1db1821219f6048159728",
+      "injectionPoint": "permit-replay",
+      "stateReached": "V4_VERIFIED",
+      "databaseVersion": 4,
+      "migrationRows": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "migration4Count": 1,
+      "terminalBefore": "8d73b5f0328e3e868f67d01fb630d90b0724d9e1c51210db3b763d34875ad242",
+      "diagnosticDisposition": "READONLY_CONFIRMATION_ONLY",
+      "businessAccess": "READONLY_CONFIRMATION_ONLY",
+      "permitReusable": false,
+      "migrationMayRerun": false,
+      "newAuthorizationRequired": true,
+      "restoreAllowed": false,
+      "terminalAfter": "8d73b5f0328e3e868f67d01fb630d90b0724d9e1c51210db3b763d34875ad242",
+      "diagnosticMutationCount": 0,
+      "diagnosticCliReturnCode": 0,
+      "diagnosticStatus": "PASS",
+      "databaseFacts": {
+        "userVersion": 4,
+        "migrationRows": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "integrity": [
+          "ok"
+        ],
+        "foreignKeyViolations": []
+      },
+      "migrationCliReturnCode": 0,
+      "migrationExpected": "success",
+      "competingLease": null,
+      "controlledMutation": null,
+      "expected": "V4_VERIFIED",
+      "actual": "V4_VERIFIED",
+      "passFail": "PASS",
+      "expectedVsActual": {
+        "expected": "V4_VERIFIED",
+        "actual": "V4_VERIFIED",
+        "diagnosticReasons": null
+      }
+    },
+    {
+      "scenarioId": "PRE_COMMIT_INTERRUPTION",
+      "scenarioRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-pre_commit_interruption-yqsdcnb5/pfc-qic-r2b3c3-pre_commit_interruption-w4plibwe",
+      "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+      "candidateSha": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+      "manifestSha": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+      "migrationAuthorizationSha": "6c9eaa095b165628089df70d87aa681719b9b9d7e8a44cace1886495455d0817",
+      "releaseReceiptSha": "2d9cd7372083133c4559e374c83b52a1500c3b3d085bd235460a5a0ae3370669",
+      "permitSha": "1d7fd6edaf2ec989720c52c241cb8da8c328cdea8e0b4483b0a4e47872a78cb2",
+      "consumerPermitSha": "1d7fd6edaf2ec989720c52c241cb8da8c328cdea8e0b4483b0a4e47872a78cb2",
+      "consumedLedgerSha": "eb53e9a2912eb57f46db2eeb0c5830eae6596fbc4fb340107ca893fc3f30538f",
+      "recoveryAuthorizationSha": "c71cdff3407d5e1ea006fdde37e4e1c0831e221ea1b936b1995cd012ebdc4060",
+      "injectionPoint": "AFTER_S7_BEFORE_COMMIT",
+      "stateReached": "M4_IN_TRANSACTION",
+      "databaseVersion": 3,
+      "migrationRows": [
+        1,
+        2,
+        3
+      ],
+      "migration4Count": 0,
+      "terminalBefore": null,
+      "diagnosticDisposition": "MANUAL_DECISION_REQUIRED",
+      "businessAccess": "MANUAL_DECISION_REQUIRED",
+      "permitReusable": false,
+      "migrationMayRerun": false,
+      "newAuthorizationRequired": true,
+      "restoreAllowed": false,
+      "terminalAfter": null,
+      "diagnosticMutationCount": 0,
+      "diagnosticCliReturnCode": 0,
+      "diagnosticStatus": "PASS",
+      "databaseFacts": {
+        "userVersion": 3,
+        "migrationRows": [
+          1,
+          2,
+          3
+        ],
+        "integrity": [
+          "ok"
+        ],
+        "foreignKeyViolations": []
+      },
+      "migrationCliReturnCode": 2,
+      "migrationExpected": "controlled hook interruption",
+      "competingLease": null,
+      "controlledMutation": null,
+      "expected": "M4_IN_TRANSACTION",
+      "actual": "M4_IN_TRANSACTION",
+      "passFail": "PASS",
+      "expectedVsActual": {
+        "expected": "M4_IN_TRANSACTION",
+        "actual": "M4_IN_TRANSACTION",
+        "diagnosticReasons": null
+      }
+    },
+    {
+      "scenarioId": "QUIESCENCE_ACQUIRED",
+      "scenarioRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-quiescence_acquired-4xw03qbw/pfc-qic-r2b3c3-quiescence_acquired-3wco4hs5",
+      "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+      "candidateSha": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+      "manifestSha": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+      "migrationAuthorizationSha": "a06331bab3e53a393abbd8175145641fe18a9fa84699daf43b0b8d8ba6cf2889",
+      "releaseReceiptSha": "0168706f415c5b324f8b33f231542885ecc5828e93d2b98df72c2447cf77422d",
+      "permitSha": "104265197f553de7e9e18e8d623df9c3d3a7e871a2420a949d1502a2fc42a82e",
+      "consumerPermitSha": "104265197f553de7e9e18e8d623df9c3d3a7e871a2420a949d1502a2fc42a82e",
+      "consumedLedgerSha": "33283b91ba136079d59e26df576a02e29c2ea4615361ec2cb5417bbfcceab5c4",
+      "recoveryAuthorizationSha": "7d21e1458b24ac331009976e1dedab0454cbfef7bfb4aa65a26d7cea2c130cf9",
+      "injectionPoint": "AFTER_S5_QUIESCENCE_ACQUIRED",
+      "stateReached": "QUIESCENCE_ACQUIRED",
+      "databaseVersion": 3,
+      "migrationRows": [
+        1,
+        2,
+        3
+      ],
+      "migration4Count": 0,
+      "terminalBefore": null,
+      "diagnosticDisposition": "MANUAL_DECISION_REQUIRED",
+      "businessAccess": "MANUAL_DECISION_REQUIRED",
+      "permitReusable": false,
+      "migrationMayRerun": false,
+      "newAuthorizationRequired": true,
+      "restoreAllowed": false,
+      "terminalAfter": null,
+      "diagnosticMutationCount": 0,
+      "diagnosticCliReturnCode": 0,
+      "diagnosticStatus": "PASS",
+      "databaseFacts": {
+        "userVersion": 3,
+        "migrationRows": [
+          1,
+          2,
+          3
+        ],
+        "integrity": [
+          "ok"
+        ],
+        "foreignKeyViolations": []
+      },
+      "migrationCliReturnCode": 2,
+      "migrationExpected": "controlled hook interruption",
+      "competingLease": null,
+      "controlledMutation": null,
+      "expected": "QUIESCENCE_ACQUIRED",
+      "actual": "QUIESCENCE_ACQUIRED",
+      "passFail": "PASS",
+      "expectedVsActual": {
+        "expected": "QUIESCENCE_ACQUIRED",
+        "actual": "QUIESCENCE_ACQUIRED",
+        "diagnosticReasons": null
+      }
+    },
+    {
+      "scenarioId": "REPLY_LOST_AFTER_DURABLE_TERMINAL",
+      "scenarioRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-reply_lost_after_durable_terminal-arvjpp8n/pfc-qic-r2b3c3-reply_lost_after_durable_terminal-aceci54l",
+      "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+      "candidateSha": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+      "manifestSha": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+      "migrationAuthorizationSha": "a2460c568f36634d924c4814727b06510950a5fd7d2ee4bf3af406412b7b61f8",
+      "releaseReceiptSha": "4b4c95d498494fe138123eb5ce68c11c695fe8998029eecbbbcba0f4826c9f0c",
+      "permitSha": "9103b88df7a19cba6be0c4b02625ee18b8f463ffe5705197c5c59af62673aa69",
+      "consumerPermitSha": "9103b88df7a19cba6be0c4b02625ee18b8f463ffe5705197c5c59af62673aa69",
+      "consumedLedgerSha": "0560f6289eb54f893f271e60c8a530ab1de42f0b0bbea7fbf1d4259128fa971d",
+      "recoveryAuthorizationSha": "27921c5765239f63eae4aa76212289a4c4208756f35e247b50df352b01b2cdef",
+      "injectionPoint": "AFTER_S10_BEFORE_CALLER_REPLY",
+      "stateReached": "V4_VERIFIED",
+      "databaseVersion": 4,
+      "migrationRows": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "migration4Count": 1,
+      "terminalBefore": "51fb58ec645725da1680c9c3b1c1df1bbab466b2f89664caf33ddeb54f569e40",
+      "diagnosticDisposition": "READONLY_CONFIRMATION_ONLY",
+      "businessAccess": "READONLY_CONFIRMATION_ONLY",
+      "permitReusable": false,
+      "migrationMayRerun": false,
+      "newAuthorizationRequired": true,
+      "restoreAllowed": false,
+      "terminalAfter": "51fb58ec645725da1680c9c3b1c1df1bbab466b2f89664caf33ddeb54f569e40",
+      "diagnosticMutationCount": 0,
+      "diagnosticCliReturnCode": 0,
+      "diagnosticStatus": "PASS",
+      "databaseFacts": {
+        "userVersion": 4,
+        "migrationRows": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "integrity": [
+          "ok"
+        ],
+        "foreignKeyViolations": []
+      },
+      "migrationCliReturnCode": 2,
+      "migrationExpected": "controlled hook interruption",
+      "competingLease": null,
+      "controlledMutation": null,
+      "expected": "V4_VERIFIED",
+      "actual": "V4_VERIFIED",
+      "passFail": "PASS",
+      "expectedVsActual": {
+        "expected": "V4_VERIFIED",
+        "actual": "V4_VERIFIED",
+        "diagnosticReasons": null
+      }
+    },
+    {
+      "scenarioId": "RESTART_UNRESOLVED",
+      "scenarioRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-restart_unresolved-dw739gsp/pfc-qic-r2b3c3-restart_unresolved-wct8e4_y",
+      "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+      "candidateSha": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+      "manifestSha": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+      "migrationAuthorizationSha": "565e48cee5ca77674c339fcca23b1311824039f85bcea69584c21ff2dac69b02",
+      "releaseReceiptSha": "59d8ac4bb137a9aa1c05efb25a009f2780a366c42d6b00e18742fcbeee3e96bb",
+      "permitSha": "e5e08fc39e092ab7f6ed0d8f977bded37bce7af5647c023f617c550008647c8c",
+      "consumerPermitSha": "e5e08fc39e092ab7f6ed0d8f977bded37bce7af5647c023f617c550008647c8c",
+      "consumedLedgerSha": "eceb70ca31cbb0b7b91338e92d9196a1931818f144121bf2b1c279db2a7238c5",
+      "recoveryAuthorizationSha": "4a363c0d12bd82f17befaa158072e179f9f3346d98dddd3dedfc05407177e55c",
+      "injectionPoint": "AFTER_COMMIT_BEFORE_VERIFIED_READBACK",
+      "stateReached": "COMMIT_OUTCOME_UNKNOWN",
+      "databaseVersion": 4,
+      "migrationRows": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "migration4Count": 1,
+      "terminalBefore": null,
+      "diagnosticDisposition": "MANUAL_DECISION_REQUIRED",
+      "businessAccess": "MANUAL_DECISION_REQUIRED",
+      "permitReusable": false,
+      "migrationMayRerun": false,
+      "newAuthorizationRequired": true,
+      "restoreAllowed": false,
+      "terminalAfter": null,
+      "diagnosticMutationCount": 0,
+      "diagnosticCliReturnCode": 0,
+      "diagnosticStatus": "PASS",
+      "databaseFacts": {
+        "userVersion": 4,
+        "migrationRows": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "integrity": [
+          "ok"
+        ],
+        "foreignKeyViolations": []
+      },
+      "migrationCliReturnCode": 2,
+      "migrationExpected": "controlled hook interruption",
+      "competingLease": null,
+      "controlledMutation": null,
+      "expected": "COMMIT_OUTCOME_UNKNOWN",
+      "actual": "COMMIT_OUTCOME_UNKNOWN",
+      "passFail": "PASS",
+      "expectedVsActual": {
+        "expected": "COMMIT_OUTCOME_UNKNOWN",
+        "actual": "COMMIT_OUTCOME_UNKNOWN",
+        "diagnosticReasons": null
+      }
+    },
+    {
+      "scenarioId": "V4_VERIFIED",
+      "scenarioRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-v4_verified-3qnbn5_q/pfc-qic-r2b3c3-v4_verified-v44grc7g",
+      "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+      "candidateSha": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+      "manifestSha": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+      "migrationAuthorizationSha": "4c7862cdf51fc9c7bbb7f2b5084045bcaf1f6da6a99d9308f0945059013508fa",
+      "releaseReceiptSha": "315b4accac3ec1ecd0719aef67ab95b4ca323653cfa1e41b197a4b5258ba467c",
+      "permitSha": "1ec3162c51aab21dce590a5a7b236432d0fb5e3988f6400352915d23ba4212f3",
+      "consumerPermitSha": "1ec3162c51aab21dce590a5a7b236432d0fb5e3988f6400352915d23ba4212f3",
+      "consumedLedgerSha": "414b66ee45e5163462b716683d5415491edddf9c6d26bf7226f7f740cab87991",
+      "recoveryAuthorizationSha": "1b5230b859ba630c56840188927d30ac8b82879200b95b5220c68c5c8ee8f67b",
+      "injectionPoint": "CANONICAL_FORMAL_SUCCESS",
+      "stateReached": "V4_VERIFIED",
+      "databaseVersion": 4,
+      "migrationRows": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "migration4Count": 1,
+      "terminalBefore": "78873936a585925b58aaf0c96ad5d060f7ea822b422263f342495508e579f172",
+      "diagnosticDisposition": "READONLY_CONFIRMATION_ONLY",
+      "businessAccess": "READONLY_CONFIRMATION_ONLY",
+      "permitReusable": false,
+      "migrationMayRerun": false,
+      "newAuthorizationRequired": true,
+      "restoreAllowed": false,
+      "terminalAfter": "78873936a585925b58aaf0c96ad5d060f7ea822b422263f342495508e579f172",
+      "diagnosticMutationCount": 0,
+      "diagnosticCliReturnCode": 0,
+      "diagnosticStatus": "PASS",
+      "databaseFacts": {
+        "userVersion": 4,
+        "migrationRows": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "integrity": [
+          "ok"
+        ],
+        "foreignKeyViolations": []
+      },
+      "migrationCliReturnCode": 0,
+      "migrationExpected": "success",
+      "competingLease": null,
+      "controlledMutation": null,
+      "expected": "V4_VERIFIED",
+      "actual": "V4_VERIFIED",
+      "passFail": "PASS",
+      "expectedVsActual": {
+        "expected": "V4_VERIFIED",
+        "actual": "V4_VERIFIED",
+        "diagnosticReasons": null
+      }
+    }
+  ],
+  "safetyAssertions": {
+    "permitResurrectionPossible": "NO",
+    "automaticM4RerunPossible": "NO",
+    "automaticRestore": "NO",
+    "automaticV4ToV3": "NO",
+    "deleteLedgerToRetry": "NO",
+    "unknownCommitAutoResolution": "NO"
+  }
+}

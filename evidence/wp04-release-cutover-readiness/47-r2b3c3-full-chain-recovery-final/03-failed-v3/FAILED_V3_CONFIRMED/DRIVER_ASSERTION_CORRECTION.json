@@ -1,0 +1,22 @@
+{
+  "initialHarnessClassification": "FAIL",
+  "reason": "generic assertion incorrectly required restoreAllowed=false and migrationMayRerun=false for FAILED_V3_CONFIRMED",
+  "contractualExpected": "fresh authorization may permit a new migration attempt; restore remains authorization-gated",
+  "observedFacts": {
+    "stateReached": "FAILED_V3_CONFIRMED",
+    "databaseVersion": 3,
+    "migrationRows": [
+      1,
+      2,
+      3
+    ],
+    "migration4Count": 0,
+    "permitReusable": false,
+    "migrationMayRerun": true,
+    "newAuthorizationRequired": true,
+    "restoreAllowed": "AUTHORIZATION_REQUIRED",
+    "diagnosticMutationCount": 0
+  },
+  "correctedClassification": "PASS",
+  "sourceOrTestModified": false
+}

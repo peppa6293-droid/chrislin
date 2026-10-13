@@ -1,0 +1,7 @@
+{
+  "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac-recovery-authorization.json",
+  "sha256": "6069a329c025d895435e3100cc14b5103816439af2c4f63867269f056b815a85",
+  "formatVersion": 1,
+  "authorizationId": "synthetic-wp04r2b3c3-canonical-diagnostic-external",
+  "source": "fresh synthetic authorization bound to this root; stored outside diagnostic root"
+}

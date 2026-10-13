@@ -1,0 +1,67 @@
+{
+  "scenarioId": "CORRUPT_LEDGER",
+  "scenarioRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-corrupt_ledger-466ng17j/pfc-qic-r2b3c3-corrupt_ledger-t0hyplqd",
+  "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+  "candidateSha": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+  "manifestSha": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+  "migrationAuthorizationSha": "87e26630a13742b1d0264b0760260520ded5fb7264184c266de6a9e0701592d4",
+  "releaseReceiptSha": "0ff20230c0fa7447d7de54eb96bd5970a5b1cc6df47f6ee68921fe5643535ce9",
+  "permitSha": "fb0db50c0c35dc73acc862c46f71ccc5ff5cc8e75801542ad750bc41395af383",
+  "consumerPermitSha": "fb0db50c0c35dc73acc862c46f71ccc5ff5cc8e75801542ad750bc41395af383",
+  "consumedLedgerSha": "8034256bb08319ea49fd13b7c2085c67dbc231327d2fcec6f97640e411d07270",
+  "recoveryAuthorizationSha": "4e748de567f39509d79eb202e0c581c7d650ed35fff9c76805e40f5043a32a11",
+  "injectionPoint": "ledger",
+  "stateReached": "UNVERIFIED",
+  "databaseVersion": 4,
+  "migrationRows": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "migration4Count": 1,
+  "terminalBefore": "f5d34c582b64a00131a92503f876aca4d651204a539c785330bf1468c84c99b9",
+  "diagnosticDisposition": "REFUSE",
+  "businessAccess": "REFUSE",
+  "permitReusable": false,
+  "migrationMayRerun": false,
+  "newAuthorizationRequired": true,
+  "restoreAllowed": false,
+  "terminalAfter": "f5d34c582b64a00131a92503f876aca4d651204a539c785330bf1468c84c99b9",
+  "diagnosticMutationCount": 0,
+  "diagnosticCliReturnCode": 2,
+  "diagnosticStatus": "REFUSE",
+  "databaseFacts": {
+    "userVersion": 4,
+    "migrationRows": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "integrity": [
+      "ok"
+    ],
+    "foreignKeyViolations": []
+  },
+  "migrationCliReturnCode": 0,
+  "migrationExpected": "success",
+  "competingLease": null,
+  "controlledMutation": {
+    "object": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-corrupt_ledger-466ng17j/pfc-qic-r2b3c3-corrupt_ledger-t0hyplqd/consumed-ledger.json",
+    "action": "controlled mutation under this scenario root only",
+    "beforeSha256": "8034256bb08319ea49fd13b7c2085c67dbc231327d2fcec6f97640e411d07270",
+    "afterSha256": "e7a5e54795fc174030764f4cd448c2c627f5b5107290970998c79f0f24dff4b5",
+    "missing": false
+  },
+  "expected": "REFUSE",
+  "actual": "REFUSE",
+  "passFail": "PASS",
+  "expectedVsActual": {
+    "expected": "REFUSE",
+    "actual": "REFUSE",
+    "diagnosticReasons": [
+      "GateBlocked: Production V4 release gate blocked: Consumed ledger is corrupt JSON: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)"
+    ]
+  }
+}

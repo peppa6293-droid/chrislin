@@ -1,0 +1,7 @@
+{
+  "object": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-backup_drift-o0p8e0cl/pfc-qic-r2b3c3-backup_drift-8i22lyly/backup.sqlite3",
+  "action": "controlled mutation under this scenario root only",
+  "beforeSha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+  "afterSha256": "b6e99bf1f5004d388d2b89a7f293fee233ee6d02a79b4e73d34663ccddb329a0",
+  "missing": false
+}

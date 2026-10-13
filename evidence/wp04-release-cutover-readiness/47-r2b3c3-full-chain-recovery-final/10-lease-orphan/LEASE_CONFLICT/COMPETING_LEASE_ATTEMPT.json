@@ -1,0 +1,6 @@
+{
+  "returnCode": 0,
+  "stdout": "REFUSED BlockingIOError [Errno 35] Resource temporarily unavailable\n",
+  "stderr": "",
+  "expected": "REFUSED while gate-owned lease remains held"
+}

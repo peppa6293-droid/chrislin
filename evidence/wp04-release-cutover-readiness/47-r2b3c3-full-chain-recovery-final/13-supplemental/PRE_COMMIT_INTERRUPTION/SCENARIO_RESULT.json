@@ -1,0 +1,57 @@
+{
+  "scenarioId": "PRE_COMMIT_INTERRUPTION",
+  "scenarioRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-pre_commit_interruption-yqsdcnb5/pfc-qic-r2b3c3-pre_commit_interruption-w4plibwe",
+  "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+  "candidateSha": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+  "manifestSha": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+  "migrationAuthorizationSha": "6c9eaa095b165628089df70d87aa681719b9b9d7e8a44cace1886495455d0817",
+  "releaseReceiptSha": "2d9cd7372083133c4559e374c83b52a1500c3b3d085bd235460a5a0ae3370669",
+  "permitSha": "1d7fd6edaf2ec989720c52c241cb8da8c328cdea8e0b4483b0a4e47872a78cb2",
+  "consumerPermitSha": "1d7fd6edaf2ec989720c52c241cb8da8c328cdea8e0b4483b0a4e47872a78cb2",
+  "consumedLedgerSha": "eb53e9a2912eb57f46db2eeb0c5830eae6596fbc4fb340107ca893fc3f30538f",
+  "recoveryAuthorizationSha": "c71cdff3407d5e1ea006fdde37e4e1c0831e221ea1b936b1995cd012ebdc4060",
+  "injectionPoint": "AFTER_S7_BEFORE_COMMIT",
+  "stateReached": "M4_IN_TRANSACTION",
+  "databaseVersion": 3,
+  "migrationRows": [
+    1,
+    2,
+    3
+  ],
+  "migration4Count": 0,
+  "terminalBefore": null,
+  "diagnosticDisposition": "MANUAL_DECISION_REQUIRED",
+  "businessAccess": "MANUAL_DECISION_REQUIRED",
+  "permitReusable": false,
+  "migrationMayRerun": false,
+  "newAuthorizationRequired": true,
+  "restoreAllowed": false,
+  "terminalAfter": null,
+  "diagnosticMutationCount": 0,
+  "diagnosticCliReturnCode": 0,
+  "diagnosticStatus": "PASS",
+  "databaseFacts": {
+    "userVersion": 3,
+    "migrationRows": [
+      1,
+      2,
+      3
+    ],
+    "integrity": [
+      "ok"
+    ],
+    "foreignKeyViolations": []
+  },
+  "migrationCliReturnCode": 2,
+  "migrationExpected": "controlled hook interruption",
+  "competingLease": null,
+  "controlledMutation": null,
+  "expected": "M4_IN_TRANSACTION",
+  "actual": "M4_IN_TRANSACTION",
+  "passFail": "PASS",
+  "expectedVsActual": {
+    "expected": "M4_IN_TRANSACTION",
+    "actual": "M4_IN_TRANSACTION",
+    "diagnosticReasons": null
+  }
+}

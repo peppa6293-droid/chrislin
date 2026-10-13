@@ -1,0 +1,93 @@
+[
+  {
+    "details": {
+      "busyTimeout": 0,
+      "databaseIdentity": {
+        "dev": 16777232,
+        "inode": 26296982,
+        "links": 1,
+        "size": 229376
+      },
+      "journalMode": "delete",
+      "lockingMode": "exclusive"
+    },
+    "permitSha256": "fa1745e0d2c9d1175b9dea9b6f35357b4e737219bdd95c95a4c340274a6f502b",
+    "session": "session-4638211e3d104e9aa908ed7b50eb95c4",
+    "stage": "S4_CONNECTION_PREPARED"
+  },
+  {
+    "details": {
+      "lockState": 4
+    },
+    "permitSha256": "fa1745e0d2c9d1175b9dea9b6f35357b4e737219bdd95c95a4c340274a6f502b",
+    "session": "session-4638211e3d104e9aa908ed7b50eb95c4",
+    "stage": "S5_QUIESCENCE_ACQUIRED"
+  },
+  {
+    "details": {
+      "businessSnapshotSha256": "2326dbe871bce29bfcf23f643a73b70b68e585ec100e85a34d82d6f791e430a0",
+      "databaseSha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b"
+    },
+    "permitSha256": "fa1745e0d2c9d1175b9dea9b6f35357b4e737219bdd95c95a4c340274a6f502b",
+    "session": "session-4638211e3d104e9aa908ed7b50eb95c4",
+    "stage": "S6_V3_REVALIDATED"
+  },
+  {
+    "details": {
+      "migration": "migrations/004.sql",
+      "migration4Rows": 1,
+      "migrationStatements": 7,
+      "transactionOpen": true
+    },
+    "permitSha256": "fa1745e0d2c9d1175b9dea9b6f35357b4e737219bdd95c95a4c340274a6f502b",
+    "session": "session-4638211e3d104e9aa908ed7b50eb95c4",
+    "stage": "S7_M4_IN_TRANSACTION"
+  },
+  {
+    "details": {
+      "commitAttempted": false,
+      "transactionOpen": true
+    },
+    "permitSha256": "fa1745e0d2c9d1175b9dea9b6f35357b4e737219bdd95c95a4c340274a6f502b",
+    "session": "session-4638211e3d104e9aa908ed7b50eb95c4",
+    "stage": "S8_COMMIT_OUTCOME_UNKNOWN"
+  },
+  {
+    "details": {
+      "committed": true,
+      "migration4Rows": 1,
+      "userVersion": 4
+    },
+    "permitSha256": "fa1745e0d2c9d1175b9dea9b6f35357b4e737219bdd95c95a4c340274a6f502b",
+    "session": "session-4638211e3d104e9aa908ed7b50eb95c4",
+    "stage": "S8_COMMIT_VERIFIED"
+  },
+  {
+    "details": {
+      "businessPreserved": true,
+      "foreignKeys": [],
+      "integrity": "ok",
+      "migration4Rows": 1,
+      "migrationRows": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "schema": 4,
+      "sidecars": {
+        "-journal": {
+          "dev": 16777232,
+          "inode": 26297118,
+          "links": 1,
+          "size": 21032
+        },
+        "-shm": null,
+        "-wal": null
+      }
+    },
+    "permitSha256": "fa1745e0d2c9d1175b9dea9b6f35357b4e737219bdd95c95a4c340274a6f502b",
+    "session": "session-4638211e3d104e9aa908ed7b50eb95c4",
+    "stage": "S9_POST_READBACK_GUARDED"
+  }
+]

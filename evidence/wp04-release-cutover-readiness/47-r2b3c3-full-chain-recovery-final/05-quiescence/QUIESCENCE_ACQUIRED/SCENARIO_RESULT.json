@@ -1,0 +1,57 @@
+{
+  "scenarioId": "QUIESCENCE_ACQUIRED",
+  "scenarioRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-quiescence_acquired-4xw03qbw/pfc-qic-r2b3c3-quiescence_acquired-3wco4hs5",
+  "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+  "candidateSha": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+  "manifestSha": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+  "migrationAuthorizationSha": "a06331bab3e53a393abbd8175145641fe18a9fa84699daf43b0b8d8ba6cf2889",
+  "releaseReceiptSha": "0168706f415c5b324f8b33f231542885ecc5828e93d2b98df72c2447cf77422d",
+  "permitSha": "104265197f553de7e9e18e8d623df9c3d3a7e871a2420a949d1502a2fc42a82e",
+  "consumerPermitSha": "104265197f553de7e9e18e8d623df9c3d3a7e871a2420a949d1502a2fc42a82e",
+  "consumedLedgerSha": "33283b91ba136079d59e26df576a02e29c2ea4615361ec2cb5417bbfcceab5c4",
+  "recoveryAuthorizationSha": "7d21e1458b24ac331009976e1dedab0454cbfef7bfb4aa65a26d7cea2c130cf9",
+  "injectionPoint": "AFTER_S5_QUIESCENCE_ACQUIRED",
+  "stateReached": "QUIESCENCE_ACQUIRED",
+  "databaseVersion": 3,
+  "migrationRows": [
+    1,
+    2,
+    3
+  ],
+  "migration4Count": 0,
+  "terminalBefore": null,
+  "diagnosticDisposition": "MANUAL_DECISION_REQUIRED",
+  "businessAccess": "MANUAL_DECISION_REQUIRED",
+  "permitReusable": false,
+  "migrationMayRerun": false,
+  "newAuthorizationRequired": true,
+  "restoreAllowed": false,
+  "terminalAfter": null,
+  "diagnosticMutationCount": 0,
+  "diagnosticCliReturnCode": 0,
+  "diagnosticStatus": "PASS",
+  "databaseFacts": {
+    "userVersion": 3,
+    "migrationRows": [
+      1,
+      2,
+      3
+    ],
+    "integrity": [
+      "ok"
+    ],
+    "foreignKeyViolations": []
+  },
+  "migrationCliReturnCode": 2,
+  "migrationExpected": "controlled hook interruption",
+  "competingLease": null,
+  "controlledMutation": null,
+  "expected": "QUIESCENCE_ACQUIRED",
+  "actual": "QUIESCENCE_ACQUIRED",
+  "passFail": "PASS",
+  "expectedVsActual": {
+    "expected": "QUIESCENCE_ACQUIRED",
+    "actual": "QUIESCENCE_ACQUIRED",
+    "diagnosticReasons": null
+  }
+}

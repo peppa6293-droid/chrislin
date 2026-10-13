@@ -1,0 +1,13 @@
+{
+  "sha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+  "userVersion": 3,
+  "migrationRows": [
+    1,
+    2,
+    3
+  ],
+  "integrity": [
+    "ok"
+  ],
+  "foreignKeyCheck": []
+}

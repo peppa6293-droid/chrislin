@@ -1,0 +1,67 @@
+{
+  "scenarioId": "BACKUP_DRIFT",
+  "scenarioRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-backup_drift-o0p8e0cl/pfc-qic-r2b3c3-backup_drift-8i22lyly",
+  "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+  "candidateSha": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+  "manifestSha": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+  "migrationAuthorizationSha": "64724cd6a83ce39a303232a7d0eb1f839c0a99cf3a4e691c465b31b678910411",
+  "releaseReceiptSha": "8b24cb37737170ea1244edb6bffa4b2a4db2f4122c0b75fc2849e895e93debf9",
+  "permitSha": "cc384b2ef6c416c857f1a85392ca5b96bd2f4ecce07d5f2eb821795eb9b0506b",
+  "consumerPermitSha": "cc384b2ef6c416c857f1a85392ca5b96bd2f4ecce07d5f2eb821795eb9b0506b",
+  "consumedLedgerSha": "0595c0aaeb0b5d1bb2ef8c09d2bd385228d218393afdea1b13b019255be267b0",
+  "recoveryAuthorizationSha": "464293e407a2b90eaf1089c0b58aa0648c66c66c53de3ba2ef73fbfbb8ab11e6",
+  "injectionPoint": "backup",
+  "stateReached": "UNVERIFIED",
+  "databaseVersion": 4,
+  "migrationRows": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "migration4Count": 1,
+  "terminalBefore": "5c3b30203d7e37f5f443ad74ba52e08f37def7137e3c41c90c5369916718e4c6",
+  "diagnosticDisposition": "REFUSE",
+  "businessAccess": "REFUSE",
+  "permitReusable": false,
+  "migrationMayRerun": false,
+  "newAuthorizationRequired": true,
+  "restoreAllowed": false,
+  "terminalAfter": "5c3b30203d7e37f5f443ad74ba52e08f37def7137e3c41c90c5369916718e4c6",
+  "diagnosticMutationCount": 0,
+  "diagnosticCliReturnCode": 2,
+  "diagnosticStatus": "REFUSE",
+  "databaseFacts": {
+    "userVersion": 4,
+    "migrationRows": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "integrity": [
+      "ok"
+    ],
+    "foreignKeyViolations": []
+  },
+  "migrationCliReturnCode": 0,
+  "migrationExpected": "success",
+  "competingLease": null,
+  "controlledMutation": {
+    "object": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-backup_drift-o0p8e0cl/pfc-qic-r2b3c3-backup_drift-8i22lyly/backup.sqlite3",
+    "action": "controlled mutation under this scenario root only",
+    "beforeSha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+    "afterSha256": "b6e99bf1f5004d388d2b89a7f293fee233ee6d02a79b4e73d34663ccddb329a0",
+    "missing": false
+  },
+  "expected": "REFUSE",
+  "actual": "REFUSE",
+  "passFail": "PASS",
+  "expectedVsActual": {
+    "expected": "REFUSE",
+    "actual": "REFUSE",
+    "diagnosticReasons": [
+      "GateBlocked: Production V4 release gate blocked: Database or backup object identity drifted from the consumed ledger."
+    ]
+  }
+}

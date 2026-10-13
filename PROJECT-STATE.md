@@ -136,3 +136,12 @@
 - Frozen source `453fdb05b6457a4e9362c98308ca384c10f5d8b4`、candidate executable/manifest hashes与 strict code signature经保存后复核不变。Production、真实授权/备份/permit、WP02、WP03 business writes、Financial Model均未触碰。
 - 正式报告：`evidence/wp04-release-cutover-readiness/33-r2b-full-synthetic/WP04R2B_FULL_SYNTHETIC_CUTOVER_REPORT.md`；回读：`evidence/wp04-release-cutover-readiness/40-r2b-final-acceptance-v3-compatible/attempt-02/19-final-readback/FINAL_ACCEPTANCE_READBACK.json`。
 - 下一责任人：Planning/Owner 提供或批准 full-chain-bound recovery matrix 入口；之后 Execution 补跑 recovery/Q closure。当前不启动 WP04R2C。
+
+
+## WP-04R2B3C3 Full-Chain Recovery Final Acceptance — 2026-10-13
+
+- 状态：`WP04R2B3C3_BLOCKED`。Frozen source `c3da2f73c03b681957b4334751b7933d102caad1` 与其 1,323-file archive SHA、唯一绑定 candidate executable/manifest SHA 和 strict codesign 在最终回读一致；runtime diff 无。
+- Fresh canonical C0–C10、S0–S10、M4 exactly once、业务保持及只读 recovery diagnostic 通过；17/17 full-chain recovery scenarios 通过。最终冻结源码回归各组通过，component recovery 16/16 仍仅作 COMPONENT_ONLY。
+- Q01–Q18 closure 被 Q10 阻断：现有权威定义要求专门 `SQLITE_LOCKED` 注入，当前验收没有该证据；这是 evidence gap，不是已确认实现缺陷。Q11 renderer-only 仍 `DEFERRED_TO_WP04R2C`。
+- Production、WP02、Financial Model V1.0 未触碰；WP03 acceptance 保留。未运行 renderer。
+- 报告：`WP04R2B3C3_FULL_CHAIN_RECOVERY_FINAL_REPORT.md`；证据：`evidence/wp04-release-cutover-readiness/47-r2b3c3-full-chain-recovery-final/`。下一责任人：Planning/Owner 决定是否另立 Q10 专项验收范围。

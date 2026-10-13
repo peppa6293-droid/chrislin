@@ -1,0 +1,318 @@
+{
+  "workOrder": "WP-04R2B3C3",
+  "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+  "results": [
+    {
+      "name": "npm-ci",
+      "command": [
+        "npm",
+        "ci"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "stdout": "npm-ci.stdout.txt",
+      "stderr": "npm-ci.stderr.txt",
+      "seconds": 2.74
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "stdout": "typecheck.stdout.txt",
+      "stderr": "typecheck.stderr.txt",
+      "seconds": 0.71
+    },
+    {
+      "name": "lint",
+      "command": [
+        "npm",
+        "run",
+        "lint"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "stdout": "lint.stdout.txt",
+      "stderr": "lint.stderr.txt",
+      "seconds": 0.9
+    },
+    {
+      "name": "product",
+      "command": [
+        "npm",
+        "run",
+        "test:product"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "stdout": "product.stdout.txt",
+      "stderr": "product.stderr.txt",
+      "seconds": 3.82
+    },
+    {
+      "name": "wp03-preview",
+      "command": [
+        "npm",
+        "run",
+        "test:wp03-preview"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "stdout": "wp03-preview.stdout.txt",
+      "stderr": "wp03-preview.stderr.txt",
+      "seconds": 0.14
+    },
+    {
+      "name": "release-gate",
+      "command": [
+        "npm",
+        "run",
+        "test:release-gate"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "stdout": "release-gate.stdout.txt",
+      "stderr": "release-gate.stderr.txt",
+      "seconds": 0.5
+    },
+    {
+      "name": "r2a-gate",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "scripts.test_production_gate_wiring_integration",
+        "-v"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "stdout": "r2a-gate.stdout.txt",
+      "stderr": "r2a-gate.stderr.txt",
+      "seconds": 1.42
+    },
+    {
+      "name": "r2b1a-c3",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "scripts.test_quiescence_gate_owned",
+        "-v"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "stdout": "r2b1a-c3.stdout.txt",
+      "stderr": "r2b1a-c3.stderr.txt",
+      "seconds": 10.46
+    },
+    {
+      "name": "r2b1b-native",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "scripts.test_wp04r2b1b_native_handoff",
+        "-v"
+      ],
+      "exitCode": 1,
+      "status": "FAIL",
+      "stdout": "r2b1b-native.stdout.txt",
+      "stderr": "r2b1b-native.stderr.txt",
+      "seconds": 3.69
+    },
+    {
+      "name": "r2b3a-diagnostic",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "scripts.test_unified_r2b_recovery",
+        "-v"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "stdout": "r2b3a-diagnostic.stdout.txt",
+      "stderr": "r2b3a-diagnostic.stderr.txt",
+      "seconds": 0.96
+    },
+    {
+      "name": "rust-default",
+      "command": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "src-tauri/Cargo.toml",
+        "--bins"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "stdout": "rust-default.stdout.txt",
+      "stderr": "rust-default.stderr.txt",
+      "seconds": 1.87
+    },
+    {
+      "name": "rust-quiescence-fixture",
+      "command": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "src-tauri/Cargo.toml",
+        "--features",
+        "quiescence-fixture",
+        "--bins"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "stdout": "rust-quiescence-fixture.stdout.txt",
+      "stderr": "rust-quiescence-fixture.stderr.txt",
+      "seconds": 6.24
+    },
+    {
+      "name": "rust-quiescence-tauri",
+      "command": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "src-tauri/Cargo.toml",
+        "--features",
+        "quiescence-tauri",
+        "--bins"
+      ],
+      "exitCode": 101,
+      "status": "FAIL",
+      "stdout": "rust-quiescence-tauri.stdout.txt",
+      "stderr": "rust-quiescence-tauri.stderr.txt",
+      "seconds": 5.65
+    },
+    {
+      "name": "native-lease-build",
+      "command": [
+        "cargo",
+        "build",
+        "--manifest-path",
+        "src-tauri/Cargo.toml",
+        "--features",
+        "quiescence-fixture,wp04-r2b-recovery-test-hooks",
+        "--bin",
+        "quiescence-fixture"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "stdout": "native-lease-build.stdout.txt",
+      "stderr": "native-lease-build.stderr.txt",
+      "seconds": 1.87
+    },
+    {
+      "name": "frontend-dist",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "stdout": "frontend-dist.stdout.txt",
+      "stderr": "frontend-dist.stderr.txt",
+      "seconds": 1.13
+    },
+    {
+      "name": "r2b1b-native-corrected",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "scripts.test_wp04r2b1b_native_handoff",
+        "-v"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "stdout": "r2b1b-native-corrected.stdout.txt",
+      "stderr": "r2b1b-native-corrected.stderr.txt",
+      "seconds": 33.73
+    },
+    {
+      "name": "rust-quiescence-tauri-corrected",
+      "command": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "src-tauri/Cargo.toml",
+        "--features",
+        "quiescence-tauri",
+        "--bins"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "stdout": "rust-quiescence-tauri-corrected.stdout.txt",
+      "stderr": "rust-quiescence-tauri-corrected.stderr.txt",
+      "seconds": 13.94
+    },
+    {
+      "name": "native-lease",
+      "command": [
+        "python3",
+        "scripts/quiescence_native_lease_tests.py",
+        "--native",
+        "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/regression-worktree/src-tauri/target/debug/quiescence-fixture",
+        "--output",
+        "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/wp04-release-cutover-readiness/47-r2b3c3-full-chain-recovery-final/16-regression/native-lease-results.json"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "stdout": "native-lease.stdout.txt",
+      "stderr": "native-lease.stderr.txt",
+      "seconds": 36.56
+    },
+    {
+      "name": "component-recovery-16",
+      "command": [
+        "python3",
+        "scripts/quiescence_recovery_matrix.py",
+        "--native",
+        "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/regression-worktree/src-tauri/target/debug/quiescence-fixture",
+        "--signing-identity",
+        "Apple Development: 8619814730147 (FW5KHTFNZ6)",
+        "--output",
+        "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/wp04-release-cutover-readiness/47-r2b3c3-full-chain-recovery-final/16-regression/component-recovery-16.json"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "stdout": "component-recovery-16.stdout.txt",
+      "stderr": "component-recovery-16.stderr.txt",
+      "seconds": 231.92
+    },
+    {
+      "name": "forward-m4",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff.test_formal_gate_cli_rust_claim_ledger_runner_completes_s10",
+        "-v"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "stdout": "forward-m4.stdout.txt",
+      "stderr": "forward-m4.stderr.txt",
+      "seconds": 6.89
+    },
+    {
+      "name": "recovery-hooks-12",
+      "command": [
+        "python3",
+        "<in-memory module with evidence path redirected>"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "stdout": "recovery-hooks-12.stdout.txt",
+      "stderr": "recovery-hooks-12.stderr.txt",
+      "testsRun": 12,
+      "failures": 0,
+      "errors": 0
+    }
+  ]
+}

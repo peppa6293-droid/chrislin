@@ -1,0 +1,67 @@
+{
+  "scenarioId": "AUTHORIZATION_DRIFT",
+  "scenarioRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-authorization_drift-e7k6r8v2/pfc-qic-r2b3c3-authorization_drift-st5bbfmk",
+  "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+  "candidateSha": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+  "manifestSha": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+  "migrationAuthorizationSha": "44fccd8e34a4f86320f4c3ddd7ceabad89bb36245b1f7b93257b69d8df8260aa",
+  "releaseReceiptSha": "608373f91268f8f98b64b0e40e46ac10dfd19825b0718c7098af0602e40554a8",
+  "permitSha": "6e857334efcf4859b29dd80f718f6b7c926eed11dca448652eee2f8a5f756744",
+  "consumerPermitSha": "6e857334efcf4859b29dd80f718f6b7c926eed11dca448652eee2f8a5f756744",
+  "consumedLedgerSha": "fedb3adf8660e4219c4032cf1c228a87ce60933294dc38ca92b6205b4044c906",
+  "recoveryAuthorizationSha": "6be55459515e549d5603ccf8ebda48d319c9f208b9257672ada8f198145abe2b",
+  "injectionPoint": "authorization",
+  "stateReached": "UNVERIFIED",
+  "databaseVersion": 4,
+  "migrationRows": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "migration4Count": 1,
+  "terminalBefore": "4a08cdda54876a3d7c0ee75efbd15b6192f1fe56437a1f79cded0e4e064cf400",
+  "diagnosticDisposition": "REFUSE",
+  "businessAccess": "REFUSE",
+  "permitReusable": false,
+  "migrationMayRerun": false,
+  "newAuthorizationRequired": true,
+  "restoreAllowed": false,
+  "terminalAfter": "4a08cdda54876a3d7c0ee75efbd15b6192f1fe56437a1f79cded0e4e064cf400",
+  "diagnosticMutationCount": 0,
+  "diagnosticCliReturnCode": 2,
+  "diagnosticStatus": "REFUSE",
+  "databaseFacts": {
+    "userVersion": 4,
+    "migrationRows": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "integrity": [
+      "ok"
+    ],
+    "foreignKeyViolations": []
+  },
+  "migrationCliReturnCode": 0,
+  "migrationExpected": "success",
+  "competingLease": null,
+  "controlledMutation": {
+    "object": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-authorization_drift-e7k6r8v2/pfc-qic-r2b3c3-authorization_drift-st5bbfmk/gate-inputs/migration-authorization.json",
+    "action": "controlled mutation under this scenario root only",
+    "beforeSha256": "44fccd8e34a4f86320f4c3ddd7ceabad89bb36245b1f7b93257b69d8df8260aa",
+    "afterSha256": "61011f3a098ee5d31c5e8d9593da245dc70c582f31fd42e9673503403f7e9b93",
+    "missing": false
+  },
+  "expected": "REFUSE",
+  "actual": "REFUSE",
+  "passFail": "PASS",
+  "expectedVsActual": {
+    "expected": "REFUSE",
+    "actual": "REFUSE",
+    "diagnosticReasons": [
+      "GateBlocked: Production V4 release gate blocked: Receipt authorization bytes do not match current exact authorization files."
+    ]
+  }
+}

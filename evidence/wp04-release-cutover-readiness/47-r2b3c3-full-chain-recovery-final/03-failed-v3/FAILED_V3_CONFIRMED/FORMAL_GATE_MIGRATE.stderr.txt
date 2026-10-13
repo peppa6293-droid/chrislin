@@ -1,0 +1,1 @@
+{"status": "BLOCKED", "errorType": "GateBlocked", "reasons": ["Native migration consumer refused or failed (exit=2): {\"error\":{\"code\":\"INJECTED_SAFE_PRE_M4_FAILURE\",\"detail\":\"native rollback confirmed V3 while the real maintenance lease remained held\",\"sqlite_extended\":null,\"sqlite_primary\":null},\"event\":\"blocked\"}"]}

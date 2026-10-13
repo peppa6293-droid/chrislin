@@ -1,0 +1,67 @@
+{
+  "scenarioId": "CANDIDATE_DRIFT",
+  "scenarioRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-candidate_drift-3tv0mifc/pfc-qic-r2b3c3-candidate_drift-0hw_u6v9",
+  "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+  "candidateSha": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+  "manifestSha": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+  "migrationAuthorizationSha": "8dde0ac3575ab533a8a296997d1a73da1e91678d2589320fc6bd2b8a057e87a1",
+  "releaseReceiptSha": "4e33b4e9955ca01460f7f2c0bf0d3f44a307363e5d3d6bb8bdb757f0a3cb201a",
+  "permitSha": "4d5eed554dfc0a4e6b185f43621fb06bd43217a8a5b70fab32daf5d3a8789aa0",
+  "consumerPermitSha": "4d5eed554dfc0a4e6b185f43621fb06bd43217a8a5b70fab32daf5d3a8789aa0",
+  "consumedLedgerSha": "35343fcc6040feecda1afcb57e109e066c6a6d55e9dd576335204e9e8e08f47e",
+  "recoveryAuthorizationSha": "33d615c057a89c60ef70d20647b687a397eacd2482b7b385e70207afd6bfbcfc",
+  "injectionPoint": "candidate",
+  "stateReached": "UNVERIFIED",
+  "databaseVersion": 4,
+  "migrationRows": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "migration4Count": 1,
+  "terminalBefore": "4ff201858bfe9536975e8a2733fa5951dbdb31bb793eb6633f613641012cadc6",
+  "diagnosticDisposition": "REFUSE",
+  "businessAccess": "REFUSE",
+  "permitReusable": false,
+  "migrationMayRerun": false,
+  "newAuthorizationRequired": true,
+  "restoreAllowed": false,
+  "terminalAfter": "4ff201858bfe9536975e8a2733fa5951dbdb31bb793eb6633f613641012cadc6",
+  "diagnosticMutationCount": 0,
+  "diagnosticCliReturnCode": 2,
+  "diagnosticStatus": "REFUSE",
+  "databaseFacts": {
+    "userVersion": 4,
+    "migrationRows": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "integrity": [
+      "ok"
+    ],
+    "foreignKeyViolations": []
+  },
+  "migrationCliReturnCode": 0,
+  "migrationExpected": "success",
+  "competingLease": null,
+  "controlledMutation": {
+    "object": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-candidate_drift-3tv0mifc/pfc-qic-r2b3c3-candidate_drift-0hw_u6v9/managed/candidate/Candidate.app/Contents/MacOS/personal-finance-console",
+    "action": "controlled mutation under this scenario root only",
+    "beforeSha256": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+    "afterSha256": "774d3aaad16db1be09f4fd6f2e8c5b0f5ee2029100257b9c54fea8c5719191dd",
+    "missing": false
+  },
+  "expected": "REFUSE",
+  "actual": "REFUSE",
+  "passFail": "PASS",
+  "expectedVsActual": {
+    "expected": "REFUSE",
+    "actual": "REFUSE",
+    "diagnosticReasons": [
+      "GateBlocked: Production V4 release gate blocked: Candidate executable identity/hash drifted from receipt or approval."
+    ]
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "before": {
+    "release-receipt.json": "4e33b4e9955ca01460f7f2c0bf0d3f44a307363e5d3d6bb8bdb757f0a3cb201a",
+    "gate-permit.claimed/permit.json": "4d5eed554dfc0a4e6b185f43621fb06bd43217a8a5b70fab32daf5d3a8789aa0",
+    "consumed-ledger.json": "35343fcc6040feecda1afcb57e109e066c6a6d55e9dd576335204e9e8e08f47e",
+    "verified-handoff.json": "4ff201858bfe9536975e8a2733fa5951dbdb31bb793eb6633f613641012cadc6",
+    "gate-inputs/migration-authorization.json": "8dde0ac3575ab533a8a296997d1a73da1e91678d2589320fc6bd2b8a057e87a1",
+    "gate-inputs/candidate-approval.json": "30d52774f6a990f06b676b6fa61a530a485d8a0c8e666aa07242e623aeec45f3",
+    "personal-finance-console.sqlite3": "0bc29465d0321b5604f3567def26281ab26ad6b7236c779c4d62fb7f425648d6",
+    "backup.sqlite3": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+    "managed/candidate/Candidate.app/Contents/MacOS/personal-finance-console": "774d3aaad16db1be09f4fd6f2e8c5b0f5ee2029100257b9c54fea8c5719191dd",
+    "managed/install/Installed.app/Contents/MacOS/personal-finance-console": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+    "managed/install/Installed.app/Contents/Resources/runtime-compatibility.json": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+    "r2b-s0-s10.jsonl": "1778363707384f79031f4ab7af61771ff90c67312b458630b8e16e65ba23fd87",
+    "managed-contract.json": "b764a88ebad1014eb69aa26a6a818b84e22ea86b83202a4bb195376d99993493",
+    "SYNTHETIC_C3_MANAGED_ISOLATED.json": "2669e53a1efb8a3f1ed0c0a589a02a553c1b9da852904219dd8d3cd95300a931"
+  },
+  "after": {
+    "release-receipt.json": "4e33b4e9955ca01460f7f2c0bf0d3f44a307363e5d3d6bb8bdb757f0a3cb201a",
+    "gate-permit.claimed/permit.json": "4d5eed554dfc0a4e6b185f43621fb06bd43217a8a5b70fab32daf5d3a8789aa0",
+    "consumed-ledger.json": "35343fcc6040feecda1afcb57e109e066c6a6d55e9dd576335204e9e8e08f47e",
+    "verified-handoff.json": "4ff201858bfe9536975e8a2733fa5951dbdb31bb793eb6633f613641012cadc6",
+    "gate-inputs/migration-authorization.json": "8dde0ac3575ab533a8a296997d1a73da1e91678d2589320fc6bd2b8a057e87a1",
+    "gate-inputs/candidate-approval.json": "30d52774f6a990f06b676b6fa61a530a485d8a0c8e666aa07242e623aeec45f3",
+    "personal-finance-console.sqlite3": "0bc29465d0321b5604f3567def26281ab26ad6b7236c779c4d62fb7f425648d6",
+    "backup.sqlite3": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+    "managed/candidate/Candidate.app/Contents/MacOS/personal-finance-console": "774d3aaad16db1be09f4fd6f2e8c5b0f5ee2029100257b9c54fea8c5719191dd",
+    "managed/install/Installed.app/Contents/MacOS/personal-finance-console": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+    "managed/install/Installed.app/Contents/Resources/runtime-compatibility.json": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+    "r2b-s0-s10.jsonl": "1778363707384f79031f4ab7af61771ff90c67312b458630b8e16e65ba23fd87",
+    "managed-contract.json": "b764a88ebad1014eb69aa26a6a818b84e22ea86b83202a4bb195376d99993493",
+    "SYNTHETIC_C3_MANAGED_ISOLATED.json": "2669e53a1efb8a3f1ed0c0a589a02a553c1b9da852904219dd8d3cd95300a931"
+  },
+  "observedMutationCount": 0,
+  "status": "REFUSE",
+  "recoveryDisposition": "REFUSE"
+}

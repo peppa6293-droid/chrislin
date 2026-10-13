@@ -1,0 +1,26 @@
+{
+  "preStatus": "READY",
+  "postStatus": "READY",
+  "sameFullModelResult": true,
+  "classification": "PASS_REUSED_WITH_CURRENT_REVALIDATION",
+  "changedExistingBusinessTables": [],
+  "newV4Tables": [
+    "actual_income_revisions",
+    "cash_account_lifecycle_revisions",
+    "planning_income_month_revisions"
+  ],
+  "newV4TableRows": {
+    "actual_income_revisions": 0,
+    "cash_account_lifecycle_revisions": 0,
+    "planning_income_month_revisions": 0
+  },
+  "directModelRecalculationPerformed": false,
+  "recalculationLimitation": "The model was reused only after current frozen source-file comparison and exact V3 fixture DB hash match; no product/runtime calculation was run in this C3 acceptance.",
+  "schemaMigrationsUpdatedAsExpected": true,
+  "businessPreservation": "PASS",
+  "emptyV4Tables": {
+    "actual_income_revisions": 0,
+    "cash_account_lifecycle_revisions": 0,
+    "planning_income_month_revisions": 0
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "object": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-candidate_drift-3tv0mifc/pfc-qic-r2b3c3-candidate_drift-0hw_u6v9/managed/candidate/Candidate.app/Contents/MacOS/personal-finance-console",
+  "action": "controlled mutation under this scenario root only",
+  "beforeSha256": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+  "afterSha256": "774d3aaad16db1be09f4fd6f2e8c5b0f5ee2029100257b9c54fea8c5719191dd",
+  "missing": false
+}

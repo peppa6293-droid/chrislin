@@ -1,0 +1,69 @@
+{
+  "testPoint": "AFTER_COMMIT_BEFORE_VERIFIED_READBACK",
+  "expectedState": "COMMIT_OUTCOME_UNKNOWN",
+  "exitCode": 2,
+  "stdout": "",
+  "stderr": "{\"status\": \"BLOCKED\", \"errorType\": \"GateBlocked\", \"reasons\": [\"Native migration consumer refused or failed (exit=86): \"]}\n",
+  "stageRows": [
+    "{\"details\":{\"busyTimeout\":0,\"databaseIdentity\":{\"dev\":16777232,\"inode\":26347914,\"links\":1,\"size\":229376},\"journalMode\":\"delete\",\"lockingMode\":\"exclusive\"},\"permitSha256\":\"a5f1a658c39b99a23b18b61cf22f7fd4af2fbfdf6285a527563fb274ae1b3737\",\"session\":\"session-f099f2e54fb6487e95e40d63dc22a659\",\"stage\":\"S4_CONNECTION_PREPARED\"}",
+    "{\"details\":{\"lockState\":4},\"permitSha256\":\"a5f1a658c39b99a23b18b61cf22f7fd4af2fbfdf6285a527563fb274ae1b3737\",\"session\":\"session-f099f2e54fb6487e95e40d63dc22a659\",\"stage\":\"S5_QUIESCENCE_ACQUIRED\"}",
+    "{\"details\":{\"businessSnapshotSha256\":\"2326dbe871bce29bfcf23f643a73b70b68e585ec100e85a34d82d6f791e430a0\",\"databaseSha256\":\"5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b\"},\"permitSha256\":\"a5f1a658c39b99a23b18b61cf22f7fd4af2fbfdf6285a527563fb274ae1b3737\",\"session\":\"session-f099f2e54fb6487e95e40d63dc22a659\",\"stage\":\"S6_V3_REVALIDATED\"}",
+    "{\"details\":{\"migration\":\"migrations/004.sql\",\"migration4Rows\":1,\"migrationStatements\":7,\"transactionOpen\":true},\"permitSha256\":\"a5f1a658c39b99a23b18b61cf22f7fd4af2fbfdf6285a527563fb274ae1b3737\",\"session\":\"session-f099f2e54fb6487e95e40d63dc22a659\",\"stage\":\"S7_M4_IN_TRANSACTION\"}",
+    "{\"details\":{\"commitAttempted\":false,\"transactionOpen\":true},\"permitSha256\":\"a5f1a658c39b99a23b18b61cf22f7fd4af2fbfdf6285a527563fb274ae1b3737\",\"session\":\"session-f099f2e54fb6487e95e40d63dc22a659\",\"stage\":\"S8_COMMIT_OUTCOME_UNKNOWN\"}"
+  ],
+  "injection": {
+    "authority": false,
+    "candidateIdentity": {
+      "bundleId": "org.pfc.quiescence.integration",
+      "executableSha256": "a3027cd7625f78d537b752725397d830ea0a479353087968220bd2eb78a159b6",
+      "manifestSha256": "2f59feda46f841cfbf6ecafc8f75e8b9c2cfcbdb24a585239c0ae09960350733"
+    },
+    "consumedLedgerSha256": "cc9c70f26988bb10f63c693227b6ad2c58f58a417d4c593d19b3b32eb04f20a4",
+    "databaseSha256": "df74d29114398a8b2e2b095cae00fa87e0b38da8024e3b86b78f3a7ec8ab6dfb",
+    "databaseUserVersion": 4,
+    "formatVersion": 1,
+    "migrationRowCount": 4,
+    "permitSha256": "a5f1a658c39b99a23b18b61cf22f7fd4af2fbfdf6285a527563fb274ae1b3737",
+    "processBehavior": "PROCESS_EXIT_AFTER_COMMIT_BEFORE_VERIFIED_READBACK",
+    "session": "session-f099f2e54fb6487e95e40d63dc22a659",
+    "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+    "stateReached": "COMMIT_DURABLE_BEFORE_VERIFIED_READBACK",
+    "syntheticOnly": true,
+    "testPoint": "AFTER_COMMIT_BEFORE_VERIFIED_READBACK",
+    "timestampUnix": 1791876964
+  },
+  "recoveryDiagnostic": {
+    "currentState": "COMMIT_OUTCOME_UNKNOWN",
+    "recoveryDisposition": "MANUAL_DECISION_REQUIRED",
+    "businessAccessDecision": "MANUAL_DECISION_REQUIRED",
+    "businessAccessAllowed": false,
+    "migrationMayRerun": false,
+    "oldPermitReusable": false,
+    "newAuthorizationRequired": true,
+    "restoreAllowed": false,
+    "readonlyConfirmationAllowed": true,
+    "action": "NONE",
+    "automaticRecovery": false,
+    "diagnosticMutationCount": 0,
+    "status": "PASS",
+    "domain": "UNIFIED_R2B_SYNTHETIC",
+    "authorizationId": "synthetic-r2b3c1-diagnostic",
+    "recoveryAuthorizationSha256": "3142eecc90bb538372f571d8190ba73bcab6c149af29986a543dbe9bee29e12f",
+    "currentStateEvidence": {
+      "receiptSha256": "7b184e6c2f1364c177d366da3eb6dc3818916ce06c80f6cca6a27eb4bb02a90d",
+      "gatePermitSha256": "a5f1a658c39b99a23b18b61cf22f7fd4af2fbfdf6285a527563fb274ae1b3737",
+      "consumedLedgerSha256": "cc9c70f26988bb10f63c693227b6ad2c58f58a417d4c593d19b3b32eb04f20a4",
+      "candidateExecutableSha256": "a3027cd7625f78d537b752725397d830ea0a479353087968220bd2eb78a159b6",
+      "manifestSha256": "2f59feda46f841cfbf6ecafc8f75e8b9c2cfcbdb24a585239c0ae09960350733",
+      "databaseIdentity": {
+        "dev": 16777232,
+        "inode": 26347914,
+        "links": 1,
+        "size": 258048
+      },
+      "databaseSha256": "df74d29114398a8b2e2b095cae00fa87e0b38da8024e3b86b78f3a7ec8ab6dfb",
+      "backupSha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+      "terminalLineageSha256": "91282615081f3ecb0390a4036a3a389fdc273148a32ca9003e4c570f7dd55528"
+    }
+  }
+}

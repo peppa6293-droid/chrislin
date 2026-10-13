@@ -1,0 +1,59 @@
+{
+  "scenarioId": "V4_VERIFIED",
+  "scenarioRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-v4_verified-3qnbn5_q/pfc-qic-r2b3c3-v4_verified-v44grc7g",
+  "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+  "candidateSha": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+  "manifestSha": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+  "migrationAuthorizationSha": "4c7862cdf51fc9c7bbb7f2b5084045bcaf1f6da6a99d9308f0945059013508fa",
+  "releaseReceiptSha": "315b4accac3ec1ecd0719aef67ab95b4ca323653cfa1e41b197a4b5258ba467c",
+  "permitSha": "1ec3162c51aab21dce590a5a7b236432d0fb5e3988f6400352915d23ba4212f3",
+  "consumerPermitSha": "1ec3162c51aab21dce590a5a7b236432d0fb5e3988f6400352915d23ba4212f3",
+  "consumedLedgerSha": "414b66ee45e5163462b716683d5415491edddf9c6d26bf7226f7f740cab87991",
+  "recoveryAuthorizationSha": "1b5230b859ba630c56840188927d30ac8b82879200b95b5220c68c5c8ee8f67b",
+  "injectionPoint": "CANONICAL_FORMAL_SUCCESS",
+  "stateReached": "V4_VERIFIED",
+  "databaseVersion": 4,
+  "migrationRows": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "migration4Count": 1,
+  "terminalBefore": "78873936a585925b58aaf0c96ad5d060f7ea822b422263f342495508e579f172",
+  "diagnosticDisposition": "READONLY_CONFIRMATION_ONLY",
+  "businessAccess": "READONLY_CONFIRMATION_ONLY",
+  "permitReusable": false,
+  "migrationMayRerun": false,
+  "newAuthorizationRequired": true,
+  "restoreAllowed": false,
+  "terminalAfter": "78873936a585925b58aaf0c96ad5d060f7ea822b422263f342495508e579f172",
+  "diagnosticMutationCount": 0,
+  "diagnosticCliReturnCode": 0,
+  "diagnosticStatus": "PASS",
+  "databaseFacts": {
+    "userVersion": 4,
+    "migrationRows": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "integrity": [
+      "ok"
+    ],
+    "foreignKeyViolations": []
+  },
+  "migrationCliReturnCode": 0,
+  "migrationExpected": "success",
+  "competingLease": null,
+  "controlledMutation": null,
+  "expected": "V4_VERIFIED",
+  "actual": "V4_VERIFIED",
+  "passFail": "PASS",
+  "expectedVsActual": {
+    "expected": "V4_VERIFIED",
+    "actual": "V4_VERIFIED",
+    "diagnosticReasons": null
+  }
+}

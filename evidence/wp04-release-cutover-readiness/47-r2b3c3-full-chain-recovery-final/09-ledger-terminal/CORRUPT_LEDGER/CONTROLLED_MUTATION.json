@@ -1,0 +1,7 @@
+{
+  "object": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-corrupt_ledger-466ng17j/pfc-qic-r2b3c3-corrupt_ledger-t0hyplqd/consumed-ledger.json",
+  "action": "controlled mutation under this scenario root only",
+  "beforeSha256": "8034256bb08319ea49fd13b7c2085c67dbc231327d2fcec6f97640e411d07270",
+  "afterSha256": "e7a5e54795fc174030764f4cd448c2c627f5b5107290970998c79f0f24dff4b5",
+  "missing": false
+}

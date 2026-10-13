@@ -1,0 +1,460 @@
+{
+  "before": {
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/SYNTHETIC_ONLY": [
+      "5a341fc3217830486b6e798dbab847b133e5072b80de4525b917582eded48de1",
+      {
+        "dev": 16777232,
+        "inode": 26296939,
+        "links": 1,
+        "size": 30
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/release-receipt.json": [
+      "e1c8078d050dbd3385e4f7e07685e9aeab3c4cd8a24590a4558f6e309723d8c5",
+      {
+        "dev": 16777232,
+        "inode": 26297085,
+        "links": 1,
+        "size": 3511
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/gate-permit.claimed/permit.json": [
+      "fa1745e0d2c9d1175b9dea9b6f35357b4e737219bdd95c95a4c340274a6f502b",
+      {
+        "dev": 16777232,
+        "inode": 26297090,
+        "links": 1,
+        "size": 3714
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/consumed-ledger.json": [
+      "9850b1050616bc109092276057cf6d93ff2ddb67b8db9877cff748db9832117c",
+      {
+        "dev": 16777232,
+        "inode": 26297112,
+        "links": 1,
+        "size": 1553
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/gate-inputs/candidate-approval.json": [
+      "91da021634a0fd245d724f1eb1e12689be7a8a36f3bb9737480055590affd869",
+      {
+        "dev": 16777232,
+        "inode": 26297082,
+        "links": 1,
+        "size": 413
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/gate-inputs/migration-authorization.json": [
+      "035e3af777f4b99ade51a1db80c5819bae870cf9ec51079c825f36df08cfbe57",
+      {
+        "dev": 16777232,
+        "inode": 26297083,
+        "links": 1,
+        "size": 504
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/personal-finance-console.sqlite3": [
+      "6f3e67ebd1b3f26d0395acd6b2f5b7a0f7b577e8daf3136e0ec64e2e294e98a6",
+      {
+        "dev": 16777232,
+        "inode": 26296982,
+        "links": 1,
+        "size": 258048
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/backup.sqlite3": [
+      "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+      {
+        "dev": 16777232,
+        "inode": 26297024,
+        "links": 1,
+        "size": 229376
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/managed/install/Installed.app/Contents/MacOS/personal-finance-console": [
+      "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+      {
+        "dev": 16777232,
+        "inode": 26297068,
+        "links": 1,
+        "size": 21325216
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/managed/candidate/Candidate.app/Contents/MacOS/personal-finance-console": [
+      "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+      {
+        "dev": 16777232,
+        "inode": 26296978,
+        "links": 1,
+        "size": 21325216
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/managed/install/Installed.app/Contents/Resources/runtime-compatibility.json": [
+      "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+      {
+        "dev": 16777232,
+        "inode": 26297071,
+        "links": 1,
+        "size": 234
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/managed/candidate/Candidate.app/Contents/Resources/runtime-compatibility.json": [
+      "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+      {
+        "dev": 16777232,
+        "inode": 26296979,
+        "links": 1,
+        "size": 234
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/SYNTHETIC_C3_MANAGED_ISOLATED.json": [
+      "c1f633c292f0f018f696278c99c29ce65cdcc52baf7cc537e0568ff376289e9f",
+      {
+        "dev": 16777232,
+        "inode": 26297079,
+        "links": 1,
+        "size": 2561
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/managed-contract.json": [
+      "c9350a1b7eaed0e05a7beb7092c0de2998ead4e22473eec0811322062b2e3e92",
+      {
+        "dev": 16777232,
+        "inode": 26297078,
+        "links": 1,
+        "size": 24660
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/managed-progress.json": [
+      "2b037b9997a774451be0b2fe5d5cbf0e5cdb4ff4c3e9396321e7c7ccacb134a6",
+      {
+        "dev": 16777232,
+        "inode": 26297077,
+        "links": 1,
+        "size": 2571
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/r2b-s0-s10.jsonl": [
+      "d1dbfccaf57c68e90a50975e0ea104cc56aa4959d9583c93c25a5a05f0a6b0ba",
+      {
+        "dev": 16777232,
+        "inode": 26297116,
+        "links": 1,
+        "size": 2018
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/managed-state-S0_VERIFIED_CANDIDATE.json": [
+      "24ef6f2a51f0134a773bdee7f0331fad8837bb26971d67e2f530bebf37778b42",
+      {
+        "dev": 16777232,
+        "inode": 26297030,
+        "links": 1,
+        "size": 4273
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/managed-state-S1_ARCHIVE_VERIFIED.json": [
+      "abbfd0b5e71a289ce5b70eece1b0cf24ea9807e23234f7ac3c1a85f8fbae69dc",
+      {
+        "dev": 16777232,
+        "inode": 26297048,
+        "links": 1,
+        "size": 11452
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/managed-state-S1_ENTRIES_DISABLED.json": [
+      "f2ecf2b0225f1a60c0804650aa5427a9da2b3d1482a215b9237e94c5d5e8549d",
+      {
+        "dev": 16777232,
+        "inode": 26297044,
+        "links": 1,
+        "size": 15334
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/managed-state-S1_INSTALLED_DISABLED.json": [
+      "7fc7a4ed7e2fb8c34127f4ab7fa87b7192d9e424f1f7b5e82141c2b057d4ac43",
+      {
+        "dev": 16777232,
+        "inode": 26297072,
+        "links": 1,
+        "size": 2120
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/managed-state-S1_MANAGED_ISOLATED.json": [
+      "8b5ead322b8793c782d1eb66c153f295fc82b176e7c3cff3b9f7958ee7ae5d22",
+      {
+        "dev": 16777232,
+        "inode": 26297076,
+        "links": 1,
+        "size": 31382
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/managed-state-S1_OLD_RUNTIME_RETAINED.json": [
+      "dd7b7a091a6b70ca1cab8245502b8901752048133ab97b91e12557046a241a89",
+      {
+        "dev": 16777232,
+        "inode": 26297042,
+        "links": 1,
+        "size": 3530
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/managed-state-S1_STAGING_VERIFIED.json": [
+      "4e2490a58b1f5825650b77730fa06cee83d55afa0a14944dc68dace88fb1f41b",
+      {
+        "dev": 16777232,
+        "inode": 26297059,
+        "links": 1,
+        "size": 2113
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/managed-state-S1_TARGET_EXIT_VERIFIED.json": [
+      "0e23b3aee42d6b5ea65f22edee1a8e22ed96f2a63c83a7bb81348434eeba6310",
+      {
+        "dev": 16777232,
+        "inode": 26297046,
+        "links": 1,
+        "size": 2957
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/verified-handoff.json": [
+      "b2ea606c45689c8b6a1fc21ea578d2f50e5520421667b2f29082566c1963514e",
+      {
+        "dev": 16777232,
+        "inode": 26297121,
+        "links": 1,
+        "size": 1383
+      }
+    ]
+  },
+  "after": {
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/SYNTHETIC_ONLY": [
+      "5a341fc3217830486b6e798dbab847b133e5072b80de4525b917582eded48de1",
+      {
+        "dev": 16777232,
+        "inode": 26296939,
+        "links": 1,
+        "size": 30
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/release-receipt.json": [
+      "e1c8078d050dbd3385e4f7e07685e9aeab3c4cd8a24590a4558f6e309723d8c5",
+      {
+        "dev": 16777232,
+        "inode": 26297085,
+        "links": 1,
+        "size": 3511
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/gate-permit.claimed/permit.json": [
+      "fa1745e0d2c9d1175b9dea9b6f35357b4e737219bdd95c95a4c340274a6f502b",
+      {
+        "dev": 16777232,
+        "inode": 26297090,
+        "links": 1,
+        "size": 3714
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/consumed-ledger.json": [
+      "9850b1050616bc109092276057cf6d93ff2ddb67b8db9877cff748db9832117c",
+      {
+        "dev": 16777232,
+        "inode": 26297112,
+        "links": 1,
+        "size": 1553
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/gate-inputs/candidate-approval.json": [
+      "91da021634a0fd245d724f1eb1e12689be7a8a36f3bb9737480055590affd869",
+      {
+        "dev": 16777232,
+        "inode": 26297082,
+        "links": 1,
+        "size": 413
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/gate-inputs/migration-authorization.json": [
+      "035e3af777f4b99ade51a1db80c5819bae870cf9ec51079c825f36df08cfbe57",
+      {
+        "dev": 16777232,
+        "inode": 26297083,
+        "links": 1,
+        "size": 504
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/personal-finance-console.sqlite3": [
+      "6f3e67ebd1b3f26d0395acd6b2f5b7a0f7b577e8daf3136e0ec64e2e294e98a6",
+      {
+        "dev": 16777232,
+        "inode": 26296982,
+        "links": 1,
+        "size": 258048
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/backup.sqlite3": [
+      "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+      {
+        "dev": 16777232,
+        "inode": 26297024,
+        "links": 1,
+        "size": 229376
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/managed/install/Installed.app/Contents/MacOS/personal-finance-console": [
+      "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+      {
+        "dev": 16777232,
+        "inode": 26297068,
+        "links": 1,
+        "size": 21325216
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/managed/candidate/Candidate.app/Contents/MacOS/personal-finance-console": [
+      "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+      {
+        "dev": 16777232,
+        "inode": 26296978,
+        "links": 1,
+        "size": 21325216
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/managed/install/Installed.app/Contents/Resources/runtime-compatibility.json": [
+      "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+      {
+        "dev": 16777232,
+        "inode": 26297071,
+        "links": 1,
+        "size": 234
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/managed/candidate/Candidate.app/Contents/Resources/runtime-compatibility.json": [
+      "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+      {
+        "dev": 16777232,
+        "inode": 26296979,
+        "links": 1,
+        "size": 234
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/SYNTHETIC_C3_MANAGED_ISOLATED.json": [
+      "c1f633c292f0f018f696278c99c29ce65cdcc52baf7cc537e0568ff376289e9f",
+      {
+        "dev": 16777232,
+        "inode": 26297079,
+        "links": 1,
+        "size": 2561
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/managed-contract.json": [
+      "c9350a1b7eaed0e05a7beb7092c0de2998ead4e22473eec0811322062b2e3e92",
+      {
+        "dev": 16777232,
+        "inode": 26297078,
+        "links": 1,
+        "size": 24660
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/managed-progress.json": [
+      "2b037b9997a774451be0b2fe5d5cbf0e5cdb4ff4c3e9396321e7c7ccacb134a6",
+      {
+        "dev": 16777232,
+        "inode": 26297077,
+        "links": 1,
+        "size": 2571
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/r2b-s0-s10.jsonl": [
+      "d1dbfccaf57c68e90a50975e0ea104cc56aa4959d9583c93c25a5a05f0a6b0ba",
+      {
+        "dev": 16777232,
+        "inode": 26297116,
+        "links": 1,
+        "size": 2018
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/managed-state-S0_VERIFIED_CANDIDATE.json": [
+      "24ef6f2a51f0134a773bdee7f0331fad8837bb26971d67e2f530bebf37778b42",
+      {
+        "dev": 16777232,
+        "inode": 26297030,
+        "links": 1,
+        "size": 4273
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/managed-state-S1_ARCHIVE_VERIFIED.json": [
+      "abbfd0b5e71a289ce5b70eece1b0cf24ea9807e23234f7ac3c1a85f8fbae69dc",
+      {
+        "dev": 16777232,
+        "inode": 26297048,
+        "links": 1,
+        "size": 11452
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/managed-state-S1_ENTRIES_DISABLED.json": [
+      "f2ecf2b0225f1a60c0804650aa5427a9da2b3d1482a215b9237e94c5d5e8549d",
+      {
+        "dev": 16777232,
+        "inode": 26297044,
+        "links": 1,
+        "size": 15334
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/managed-state-S1_INSTALLED_DISABLED.json": [
+      "7fc7a4ed7e2fb8c34127f4ab7fa87b7192d9e424f1f7b5e82141c2b057d4ac43",
+      {
+        "dev": 16777232,
+        "inode": 26297072,
+        "links": 1,
+        "size": 2120
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/managed-state-S1_MANAGED_ISOLATED.json": [
+      "8b5ead322b8793c782d1eb66c153f295fc82b176e7c3cff3b9f7958ee7ae5d22",
+      {
+        "dev": 16777232,
+        "inode": 26297076,
+        "links": 1,
+        "size": 31382
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/managed-state-S1_OLD_RUNTIME_RETAINED.json": [
+      "dd7b7a091a6b70ca1cab8245502b8901752048133ab97b91e12557046a241a89",
+      {
+        "dev": 16777232,
+        "inode": 26297042,
+        "links": 1,
+        "size": 3530
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/managed-state-S1_STAGING_VERIFIED.json": [
+      "4e2490a58b1f5825650b77730fa06cee83d55afa0a14944dc68dace88fb1f41b",
+      {
+        "dev": 16777232,
+        "inode": 26297059,
+        "links": 1,
+        "size": 2113
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/managed-state-S1_TARGET_EXIT_VERIFIED.json": [
+      "0e23b3aee42d6b5ea65f22edee1a8e22ed96f2a63c83a7bb81348434eeba6310",
+      {
+        "dev": 16777232,
+        "inode": 26297046,
+        "links": 1,
+        "size": 2957
+      }
+    ],
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-canonical-pd_1zoeb/pfc-qic-r2b3c3-canonical-anchor-rbf13aac/verified-handoff.json": [
+      "b2ea606c45689c8b6a1fc21ea578d2f50e5520421667b2f29082566c1963514e",
+      {
+        "dev": 16777232,
+        "inode": 26297121,
+        "links": 1,
+        "size": 1383
+      }
+    ]
+  },
+  "mutationCount": 0,
+  "status": "PASS",
+  "currentState": "V4_VERIFIED",
+  "recoveryDisposition": "READONLY_CONFIRMATION_ONLY"
+}

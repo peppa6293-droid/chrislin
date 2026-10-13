@@ -1,0 +1,17 @@
+test_default_feature_consumer_cannot_trigger_hook (hooks_acceptance.DefaultBuildHookNegative) ... ok
+test_production_default_binary_excludes_hook_symbols (hooks_acceptance.DefaultBuildHookNegative) ... ok
+test_after_commit_before_verified_readback (hooks_acceptance.UnifiedRecoveryHooks) ... ok
+test_after_s10_reply_lost (hooks_acceptance.UnifiedRecoveryHooks) ... ok
+test_after_s5_quiescence_acquired (hooks_acceptance.UnifiedRecoveryHooks) ... ok
+test_after_s7_before_commit (hooks_acceptance.UnifiedRecoveryHooks) ... ok
+test_guard_lost_after_quiescence (hooks_acceptance.UnifiedRecoveryHooks) ... ok
+test_orphan_active_after_real_native_state (hooks_acceptance.UnifiedRecoveryHooks) ... ok
+test_safe_failed_v3_before_m4 (hooks_acceptance.UnifiedRecoveryHooks) ... ok
+test_unknown_point_is_refused_without_fallback (hooks_acceptance.UnifiedRecoveryHooks) ... ok
+test_wrong_domain_is_refused_before_hook (hooks_acceptance.UnifiedRecoveryHooks) ... ok
+test_wrong_missing_and_symlink_markers_refuse_formal_gate (hooks_acceptance.UnifiedRecoveryHooks) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 41.071s
+
+OK

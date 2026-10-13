@@ -1,0 +1,71 @@
+{
+  "testPoint": "AFTER_S10_BEFORE_CALLER_REPLY",
+  "expectedState": "V4_VERIFIED",
+  "exitCode": 2,
+  "stdout": "",
+  "stderr": "{\"status\": \"BLOCKED\", \"errorType\": \"GateBlocked\", \"reasons\": [\"Native migration consumer refused or failed (exit=86): \"]}\n",
+  "stageRows": [
+    "{\"details\":{\"busyTimeout\":0,\"databaseIdentity\":{\"dev\":16777232,\"inode\":26348080,\"links\":1,\"size\":229376},\"journalMode\":\"delete\",\"lockingMode\":\"exclusive\"},\"permitSha256\":\"8d29ef550e4a789c98b362671c1ce917b86dfd159c599a2b249059a03b358310\",\"session\":\"session-f2175520c4dd402f962e247c820a74d6\",\"stage\":\"S4_CONNECTION_PREPARED\"}",
+    "{\"details\":{\"lockState\":4},\"permitSha256\":\"8d29ef550e4a789c98b362671c1ce917b86dfd159c599a2b249059a03b358310\",\"session\":\"session-f2175520c4dd402f962e247c820a74d6\",\"stage\":\"S5_QUIESCENCE_ACQUIRED\"}",
+    "{\"details\":{\"businessSnapshotSha256\":\"2326dbe871bce29bfcf23f643a73b70b68e585ec100e85a34d82d6f791e430a0\",\"databaseSha256\":\"5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b\"},\"permitSha256\":\"8d29ef550e4a789c98b362671c1ce917b86dfd159c599a2b249059a03b358310\",\"session\":\"session-f2175520c4dd402f962e247c820a74d6\",\"stage\":\"S6_V3_REVALIDATED\"}",
+    "{\"details\":{\"migration\":\"migrations/004.sql\",\"migration4Rows\":1,\"migrationStatements\":7,\"transactionOpen\":true},\"permitSha256\":\"8d29ef550e4a789c98b362671c1ce917b86dfd159c599a2b249059a03b358310\",\"session\":\"session-f2175520c4dd402f962e247c820a74d6\",\"stage\":\"S7_M4_IN_TRANSACTION\"}",
+    "{\"details\":{\"commitAttempted\":false,\"transactionOpen\":true},\"permitSha256\":\"8d29ef550e4a789c98b362671c1ce917b86dfd159c599a2b249059a03b358310\",\"session\":\"session-f2175520c4dd402f962e247c820a74d6\",\"stage\":\"S8_COMMIT_OUTCOME_UNKNOWN\"}",
+    "{\"details\":{\"committed\":true,\"migration4Rows\":1,\"userVersion\":4},\"permitSha256\":\"8d29ef550e4a789c98b362671c1ce917b86dfd159c599a2b249059a03b358310\",\"session\":\"session-f2175520c4dd402f962e247c820a74d6\",\"stage\":\"S8_COMMIT_VERIFIED\"}",
+    "{\"details\":{\"businessPreserved\":true,\"foreignKeys\":[],\"integrity\":\"ok\",\"migration4Rows\":1,\"migrationRows\":[1,2,3,4],\"schema\":4,\"sidecars\":{\"-journal\":{\"dev\":16777232,\"inode\":26348187,\"links\":1,\"size\":21032},\"-shm\":null,\"-wal\":null}},\"permitSha256\":\"8d29ef550e4a789c98b362671c1ce917b86dfd159c599a2b249059a03b358310\",\"session\":\"session-f2175520c4dd402f962e247c820a74d6\",\"stage\":\"S9_POST_READBACK_GUARDED\"}"
+  ],
+  "injection": {
+    "authority": false,
+    "candidateIdentity": {
+      "bundleId": "org.pfc.quiescence.integration",
+      "executableSha256": "30d54d3f44823afab98d4a539bf4eced50eb8c48cf084929a2a6e63e01e00f47",
+      "manifestSha256": "2f59feda46f841cfbf6ecafc8f75e8b9c2cfcbdb24a585239c0ae09960350733"
+    },
+    "consumedLedgerSha256": "3ab5367b22a8911c34ab2affc6364f229183dfe7bdef7c9a7221bd7ed8bd8512",
+    "databaseSha256": "a45e733d147e643d8b81d5e7a1935a9a757cd5c38ca646bf5b8f33d1c69cabf1",
+    "databaseUserVersion": 4,
+    "formatVersion": 1,
+    "migrationRowCount": 4,
+    "permitSha256": "8d29ef550e4a789c98b362671c1ce917b86dfd159c599a2b249059a03b358310",
+    "processBehavior": "PROCESS_EXIT_AFTER_DURABLE_S10_BEFORE_CALLER_REPLY",
+    "session": "session-f2175520c4dd402f962e247c820a74d6",
+    "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+    "stateReached": "S10_VERIFIED_HANDOFF",
+    "syntheticOnly": true,
+    "testPoint": "AFTER_S10_BEFORE_CALLER_REPLY",
+    "timestampUnix": 1791876968
+  },
+  "recoveryDiagnostic": {
+    "currentState": "V4_VERIFIED",
+    "recoveryDisposition": "READONLY_CONFIRMATION_ONLY",
+    "businessAccessDecision": "READONLY_CONFIRMATION_ONLY",
+    "businessAccessAllowed": false,
+    "migrationMayRerun": false,
+    "oldPermitReusable": false,
+    "newAuthorizationRequired": true,
+    "restoreAllowed": false,
+    "readonlyConfirmationAllowed": true,
+    "action": "NONE",
+    "automaticRecovery": false,
+    "diagnosticMutationCount": 0,
+    "status": "PASS",
+    "domain": "UNIFIED_R2B_SYNTHETIC",
+    "authorizationId": "synthetic-r2b3c1-diagnostic",
+    "recoveryAuthorizationSha256": "85d0e5f6ee744f216b09db0372de735a9a5bc0a9b4e80b65b1ccd71ca1f299ce",
+    "currentStateEvidence": {
+      "receiptSha256": "a36b0079fecaa85ebb102048245aaac0834d3469894ecdac4e77891efd08abf8",
+      "gatePermitSha256": "8d29ef550e4a789c98b362671c1ce917b86dfd159c599a2b249059a03b358310",
+      "consumedLedgerSha256": "3ab5367b22a8911c34ab2affc6364f229183dfe7bdef7c9a7221bd7ed8bd8512",
+      "candidateExecutableSha256": "30d54d3f44823afab98d4a539bf4eced50eb8c48cf084929a2a6e63e01e00f47",
+      "manifestSha256": "2f59feda46f841cfbf6ecafc8f75e8b9c2cfcbdb24a585239c0ae09960350733",
+      "databaseIdentity": {
+        "dev": 16777232,
+        "inode": 26348080,
+        "links": 1,
+        "size": 258048
+      },
+      "databaseSha256": "a45e733d147e643d8b81d5e7a1935a9a757cd5c38ca646bf5b8f33d1c69cabf1",
+      "backupSha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+      "terminalLineageSha256": "2f95f8450cda08919745b5b8a76a2051879fb7c22bc983b6d8abc0f3a6034c57"
+    }
+  }
+}

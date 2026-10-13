@@ -1,0 +1,11 @@
+{
+  "result": "PRODUCTION_TEST_HOOK_REACHABILITY_NONE",
+  "binary": "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/regression-worktree/src-tauri/target/debug/personal-finance-console",
+  "binarySha256": "8c7a0f01d3945b14d7d8a8664a2ab1e5e1b3317bb4af20a30ecdefce9fbd89d9",
+  "checkedSymbols": [
+    "PFC_R2B_RECOVERY_TEST_POINT",
+    "PFC_R2B_RECOVERY_TEST_DOMAIN",
+    "RECOVERY_TEST_INJECTION.json"
+  ],
+  "foundSymbols": []
+}

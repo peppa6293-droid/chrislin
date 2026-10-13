@@ -1,0 +1,7 @@
+{
+  "object": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-authorization_drift-e7k6r8v2/pfc-qic-r2b3c3-authorization_drift-st5bbfmk/gate-inputs/migration-authorization.json",
+  "action": "controlled mutation under this scenario root only",
+  "beforeSha256": "44fccd8e34a4f86320f4c3ddd7ceabad89bb36245b1f7b93257b69d8df8260aa",
+  "afterSha256": "61011f3a098ee5d31c5e8d9593da245dc70c582f31fd42e9673503403f7e9b93",
+  "missing": false
+}

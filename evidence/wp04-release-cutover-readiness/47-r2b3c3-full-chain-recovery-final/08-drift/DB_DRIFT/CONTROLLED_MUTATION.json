@@ -1,0 +1,7 @@
+{
+  "object": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3c3-db_drift-ws7bpqx2/pfc-qic-r2b3c3-db_drift-c77h247e/personal-finance-console.sqlite3",
+  "action": "controlled mutation under this scenario root only",
+  "beforeSha256": "2d506a75bae2e9886985fdd9958a36f206bc01955393e8e7bc9c9714223492c2",
+  "afterSha256": "885af78ceb5ddbebcd61a7b4525314bab28e657c5b92bf4a2052a91caef38195",
+  "missing": false
+}

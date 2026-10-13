@@ -1,0 +1,34 @@
+{
+  "currentState": "COMMIT_OUTCOME_UNKNOWN",
+  "recoveryDisposition": "MANUAL_DECISION_REQUIRED",
+  "businessAccessDecision": "MANUAL_DECISION_REQUIRED",
+  "businessAccessAllowed": false,
+  "migrationMayRerun": false,
+  "oldPermitReusable": false,
+  "newAuthorizationRequired": true,
+  "restoreAllowed": false,
+  "readonlyConfirmationAllowed": true,
+  "action": "NONE",
+  "automaticRecovery": false,
+  "diagnosticMutationCount": 0,
+  "status": "PASS",
+  "domain": "UNIFIED_R2B_SYNTHETIC",
+  "authorizationId": "synthetic-commit_outcome_unknown-diagnostic",
+  "recoveryAuthorizationSha256": "c100e9e8b865363ceb35dd58e03932621447974b62c67605ab41dbefde64363f",
+  "currentStateEvidence": {
+    "receiptSha256": "47aa2e5e6e735f1e62d3e781f3f5a13981ceb076c7d5c282f7783504943d8c92",
+    "gatePermitSha256": "0009ab376f1c418a93846bb8d77aea874bce6e0a2f603049db02defc6f7eb1ae",
+    "consumedLedgerSha256": "66c3692a690fa2b05dc615bb12b4afa59e5406f98a9ae1ba317184a8069e2962",
+    "candidateExecutableSha256": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+    "manifestSha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+    "databaseIdentity": {
+      "dev": 16777232,
+      "inode": 26304573,
+      "links": 1,
+      "size": 258048
+    },
+    "databaseSha256": "a9d9d2a7e20838cb1af7ed3e0d35f70d6c0591b0208cd475f88cb57050f21822",
+    "backupSha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+    "terminalLineageSha256": "07f1498d1f5e04e799fd96482b4bda7137b636e45d4487d18aef237d1b775598"
+  }
+}
