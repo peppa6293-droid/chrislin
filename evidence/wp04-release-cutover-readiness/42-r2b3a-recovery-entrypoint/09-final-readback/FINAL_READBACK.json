@@ -4,7 +4,7 @@
   "startingHead": "df335e5f199b8ad082dd2e42ee148c625ebe788d",
   "recoveryImplementationCommit": "60be80a0c91bdc867fd5c08a66f69b3e0b498838",
   "finalSourceCommit": "713e4c5c8a5c5ccfb1ad06481f4d6e138da294b2",
-  "reportCommit": "PENDING_REPORT_EVIDENCE_COMMIT",
+  "reportCommit": "a0c067d642c32d12189ff2a9574ff626933b2945",
   "unifiedRecoveryEntrypoint": "IMPLEMENTED",
   "command": "production_v4_release_gate.py recover-diagnostic --domain UNIFIED_R2B_SYNTHETIC",
   "unifiedRecoveryAuthorization": "IMPLEMENTED_SYNTHETIC_ONLY_EXACT_BYTE_PINNED",
@@ -232,5 +232,6 @@
       }
     ],
     "passed": true
-  }
+  },
+  "postCommitReportAndSourceReadback": "PASS"
 }
