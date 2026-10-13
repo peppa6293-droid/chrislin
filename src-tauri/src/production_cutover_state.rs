@@ -156,6 +156,7 @@ where F: FnMut(WriteCheckpoint) -> Result<(), String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::path::PathBuf;
     use std::os::unix::fs::{symlink, PermissionsExt};
 
     fn temp_dir() -> PathBuf {
