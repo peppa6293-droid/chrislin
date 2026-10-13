@@ -36,5 +36,10 @@
   "realAuthorizationCreated": false,
   "realBackupCreated": false,
   "realPermitCreated": false,
-  "capturedAt": 1791859140.629519
+  "capturedAt": 1791859140.629519,
+  "finalReportCommit": "8e5847d148ee00db537529b5998e1de3dab1c93a",
+  "finalReportCommitScope": "commit that added final report, PROJECT-STATE, and complete evidence root",
+  "finalReportSha256": "db7306e10dcb263c4a5c8364de99b49635f14c2ba380a8021980fe807fa26cd5",
+  "projectStateSha256": "0379bcb2aa777f13ec0f119fc0ce009d59fa09f8fee6541fa2d5a0b099f85c35",
+  "finalReadbackUpdatedInCommit": "pending"
 }
