@@ -15,6 +15,7 @@ quiescence-fixture = []
 quiescence-tauri = ["quiescence-fixture", "tauri/custom-protocol"]
 wp04-r2b-synthetic = []
 wp04-r2b-recovery-test-hooks = ["wp04-r2b-synthetic"]
+wp04-r2c3a-startup-exclusion-test-hooks = ["wp04-r2b-recovery-test-hooks"]
 
 [[bin]]
 name = "quiescence-tauri"

@@ -3,6 +3,10 @@
 //! replace a target, manufacture a permit, or acquire the cutover connection C.
 #[path = "../quiescence.rs"]
 mod quiescence;
+#[path = "../startup_exclusion.rs"]
+mod startup_exclusion;
+#[path = "../cutover_startup.rs"]
+mod cutover_startup;
 
 use serde::Serialize;
 use serde_json::{json, Value};
@@ -374,6 +378,41 @@ fn main() {
         if let Err(error)=result {eprintln!("{}",serde_json::to_string(&error).unwrap());std::process::exit(1);}
         return;
     }
+    let args: Vec<String> = std::env::args().collect();
+    if args.get(1).map(String::as_str) == Some("--pfc-startup-exclusion-probe") {
+        if args.len() != 2 && args.len() != 4 && args.len() != 5 && args.len() != 6 { eprintln!("STARTUP_EXCLUSION_PROBE_ARGUMENTS_INVALID"); std::process::exit(2); }
+        if args.len() >= 4 { std::env::set_var("PFC_STARTUP_EXCLUSION_PROBE_LOG", &args[3]); }
+        if args.len() >= 5 { std::env::set_var("PFC_STARTUP_EXCLUSION_PROBE_HOLD_SECONDS", &args[4]); }
+        if args.len() == 6 {
+            if args[5] != "--check-durable" { eprintln!("STARTUP_EXCLUSION_PROBE_DURABLE_FLAG_INVALID"); std::process::exit(2); }
+            std::env::set_var("PFC_IPC_CHECK_DURABLE_STARTUP", "1");
+        }
+        let root_raw = if args.len() >= 4 { args[2].clone() } else {
+            match std::env::var("PFC_IPC_ROOT") { Ok(value) => value, Err(_) => { eprintln!("STARTUP_EXCLUSION_PROBE_ROOT_MISSING"); std::process::exit(2); } }
+        };
+        let root = PathBuf::from(&root_raw);
+        let temp = match std::env::temp_dir().canonicalize() { Ok(value) => value, Err(error) => { eprintln!("STARTUP_EXCLUSION_TEMP_UNAVAILABLE: {error}"); std::process::exit(2); } };
+        if root.canonicalize().ok().as_deref() != Some(root.as_path()) || !root.starts_with(&temp) || root == temp
+            || fs::read_to_string(root.join("SYNTHETIC_ONLY")).ok().as_deref() != Some("PFC_WP04_SYNTHETIC_CUTOVER_V1\n") {
+            eprintln!("STARTUP_EXCLUSION_PROBE_NOT_MARKED_SYNTHETIC"); std::process::exit(2);
+        }
+        let _startup_guard = match startup_exclusion::acquire(&root, startup_exclusion::LockMode::Shared) {
+            Ok(value) => value,
+            Err(error) => { eprintln!("STARTUP_EXCLUSION_PROBE_BLOCKED: {error}"); probe_log("blocked",json!({"error":error})); std::process::exit(3); }
+        };
+        if std::env::var("PFC_IPC_CHECK_DURABLE_STARTUP").ok().as_deref() == Some("1") {
+            let startup = cutover_startup::inspect(&root);
+            if !startup.ordinary_startup_allowed {
+                eprintln!("STARTUP_EXCLUSION_PROBE_DURABLE_STATE_BLOCKED: {}", serde_json::to_string(&startup).unwrap_or_default());
+                probe_log("durable_state_blocked",serde_json::to_value(&startup).unwrap_or_default());
+                std::process::exit(4);
+            }
+        }
+        eprintln!("STARTUP_EXCLUSION_PROBE_GUARD_ACQUIRED_BEFORE_TAURI_BUILDER");
+        probe_log("guard_acquired_before_builder",json!({"pid":std::process::id()}));
+        launch_startup_exclusion_probe();
+        return;
+    }
     // Validate generated context BEFORE Builder::build/app event loop. Tauri
     // creates config-declared windows before calling the user setup hook.
     let context=tauri::generate_context!("tauri.quiescence.conf.json");
@@ -425,4 +464,34 @@ fn main() {
             let _=state.journal.append("real_app_exit_event",json!({"prevented":protected,"code":code,"source":"Tauri.RunEvent.ExitRequested"}));
         }
     });
+}
+
+fn probe_log(event:&str,details:serde_json::Value) {
+    let Ok(raw)=std::env::var("PFC_STARTUP_EXCLUSION_PROBE_LOG") else { return; };
+    let result=(||->std::io::Result<()> {
+        let mut file=OpenOptions::new().create(true).append(true).mode(0o600)
+            .custom_flags(libc::O_NOFOLLOW|libc::O_CLOEXEC).open(raw)?;
+        serde_json::to_writer(&mut file,&json!({"event":event,"pid":std::process::id(),"details":details})).map_err(std::io::Error::other)?;
+        file.write_all(b"\n")?;file.sync_all()
+    })();
+    if let Err(error)=result { eprintln!("STARTUP_EXCLUSION_PROBE_LOG_FAILED: {error}"); }
+}
+
+fn launch_startup_exclusion_probe() {
+    let context=tauri::generate_context!("tauri.quiescence.conf.json");
+    if context.config().identifier != APP_ID {
+        eprintln!("STARTUP_EXCLUSION_PROBE_CONTEXT_INVALID: identifier={}", context.config().identifier); std::process::exit(2);
+    }
+    let app=tauri::Builder::default().setup(|app| {
+        WebviewWindowBuilder::new(app,"startup-exclusion-probe",WebviewUrl::App("index.html".into()))
+            .title("Isolated startup exclusion probe").inner_size(420.0,180.0).incognito(true).build()?;
+        eprintln!("STARTUP_EXCLUSION_PROBE_WEBVIEW_CREATED");
+        probe_log("webview_created",serde_json::json!({}));
+        let handle=app.handle().clone();
+        let hold=std::env::var("PFC_STARTUP_EXCLUSION_PROBE_HOLD_SECONDS").ok()
+            .and_then(|value|value.parse::<u64>().ok()).filter(|value|*value<=30).unwrap_or(4);
+        std::thread::spawn(move || { std::thread::sleep(Duration::from_secs(hold)); handle.exit(0); });
+        Ok(())
+    }).build(context).expect("isolated startup exclusion probe build");
+    app.run(|_,_|{});
 }

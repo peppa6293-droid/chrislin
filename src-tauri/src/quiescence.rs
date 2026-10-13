@@ -659,6 +659,7 @@ pub fn run_unified_gate_handoff(root:&str)->Result<Value> {
     connection.execute_batch("BEGIN EXCLUSIVE")?;
     guarded(&connection,&authority.root,&authority.database_identity)?;
     record_stage("S5_QUIESCENCE_ACQUIRED",json!({"lockState":file_control(&connection,rusqlite::ffi::SQLITE_FCNTL_LOCKSTATE)?}))?;
+    startup_exclusion_test_pause(&authority, "AFTER_S5_QUIESCENCE_ACQUIRED")?;
     if recovery_test_point==Some(RecoveryTestPoint::AfterS5QuiescenceAcquired) {
         fire_recovery_test_hook(&authority,recovery_test_point.unwrap(),"S5_QUIESCENCE_ACQUIRED",Some(&connection),"PROCESS_EXIT_AFTER_DURABLE_S5");
     }
@@ -722,6 +723,7 @@ pub fn run_unified_gate_handoff(root:&str)->Result<Value> {
     record_stage("S8_COMMIT_OUTCOME_UNKNOWN",json!({"commitAttempted":false,"transactionOpen":!connection.is_autocommit()}))?;
     connection.execute_batch("COMMIT")?;
     require(connection.is_autocommit(),"GATE_COMMIT_NOT_AUTOCOMMIT")?;
+    startup_exclusion_test_pause(&authority, "AFTER_COMMIT_BEFORE_VERIFIED_READBACK")?;
     if recovery_test_point==Some(RecoveryTestPoint::AfterCommitBeforeVerifiedReadback) {
         fire_recovery_test_hook(&authority,recovery_test_point.unwrap(),"COMMIT_DURABLE_BEFORE_VERIFIED_READBACK",Some(&connection),"PROCESS_EXIT_AFTER_COMMIT_BEFORE_VERIFIED_READBACK");
     }
@@ -777,6 +779,38 @@ pub fn run_unified_gate_handoff(root:&str)->Result<Value> {
     }
     Ok(result)
 }
+
+#[cfg(feature="wp04-r2c3a-startup-exclusion-test-hooks")]
+fn startup_exclusion_test_pause(authority:&ValidatedGateAuthority, phase:&str)->Result<()> {
+    let requested=std::env::var("PFC_R2C3A_STARTUP_EXCLUSION_PAUSE_AT").unwrap_or_default();
+    if !requested.split(',').any(|requested_phase|requested_phase==phase) { return Ok(()); }
+    require(std::env::var("PFC_R2C3A_STARTUP_EXCLUSION_TEST_DOMAIN").ok().as_deref()==Some("UNIFIED_R2B_SYNTHETIC")
+        &&authority.domain==AuthorityDomain::UnifiedR2bGateOwned,"STARTUP_EXCLUSION_TEST_DOMAIN_REFUSED")?;
+    let raw=PathBuf::from(std::env::var_os("PFC_R2C3A_STARTUP_EXCLUSION_HOOK_DIR")
+        .ok_or_else(||Failure::new("STARTUP_EXCLUSION_TEST_HOOK_DIR_MISSING","test hook directory is required"))?);
+    let dir=raw.canonicalize()?;
+    let temp=std::env::temp_dir().canonicalize()?;
+    require(raw==dir&&dir.starts_with(&temp)&&dir!=temp&&!dir.starts_with(&authority.root),"STARTUP_EXCLUSION_TEST_HOOK_DIR_INVALID")?;
+    let reached=dir.join(format!("{phase}.reached"));
+    let resume=dir.join(format!("{phase}.resume"));
+    let mut file=OpenOptions::new().write(true).create_new(true).mode(0o600)
+        .custom_flags(libc::O_NOFOLLOW|libc::O_CLOEXEC).open(&reached)?;
+    file.write_all(phase.as_bytes())?;file.sync_all()?;drop(file);
+    sync_dir(&dir)?;
+    let deadline=std::time::Instant::now()+Duration::from_secs(120);
+    loop {
+        if present_or_unreadable(&resume) {
+            regular(&resume)?;
+            require(fs::read_to_string(&resume)?==phase,"STARTUP_EXCLUSION_TEST_RESUME_MISMATCH")?;
+            return Ok(());
+        }
+        if std::time::Instant::now()>=deadline { return Err(Failure::new("STARTUP_EXCLUSION_TEST_HOOK_TIMEOUT",phase)); }
+        std::thread::sleep(Duration::from_millis(10));
+    }
+}
+
+#[cfg(not(feature="wp04-r2c3a-startup-exclusion-test-hooks"))]
+fn startup_exclusion_test_pause(_: &ValidatedGateAuthority,_:&str)->Result<()> { Ok(()) }
 
 #[cfg(feature="wp04-r2b-recovery-test-hooks")]
 #[derive(Debug,Clone,Copy,PartialEq,Eq)]

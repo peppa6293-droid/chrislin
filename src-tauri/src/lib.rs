@@ -6,6 +6,7 @@ use std::{io::{Read, Write}, os::unix::fs::MetadataExt, path::{Path, PathBuf}, s
 use tauri::{Manager, State};
 
 mod cutover_startup;
+mod startup_exclusion;
 mod wp02_preview_isolation;
 mod wp03_preview_isolation;
 #[cfg(feature = "wp03-preview")]
@@ -483,7 +484,10 @@ fn run_production_migration_command() -> Result<JsonValue, String> {
     let expected_executable = Path::new(PRODUCTION_APP_BUNDLE).join("Contents/MacOS").join(PRODUCTION_EXECUTABLE);
     if executable != expected_executable { return Err("Native migration role must run from the exact installed Production executable.".into()); }
     let home = PathBuf::from(std::env::var_os("HOME").ok_or("Home directory is unavailable.")?);
-    let app_data = home.join("Library/Application Support").join(PRODUCTION_IDENTIFIER);
+    let app_data = startup_exclusion::production_authority(&home, PRODUCTION_IDENTIFIER)?;
+    // This exclusive lease precedes permit inspection/claim and remains alive
+    // across the complete native Migration 4 transaction and readback.
+    let _migration_guard = startup_exclusion::acquire(&app_data, startup_exclusion::LockMode::Exclusive)?;
     let database_path = app_data.join(PRODUCTION_DATABASE);
     let permit_path = app_data.join(PRODUCTION_MIGRATION_AUTHORIZATION);
     let permit_meta = std::fs::symlink_metadata(&permit_path).map_err(|_| "REFUSE_NO_AUTHORIZATION: no unconsumed gate permit is present.".to_string())?;
@@ -1132,6 +1136,18 @@ pub fn run() {
             Err(error) => { eprintln!("{}", serde_json::json!({"event":"blocked","error":error})); std::process::exit(2); }
         }
     }
+    let context = acceptance_context();
+    let startup_guard = if context.config().identifier == PRODUCTION_IDENTIFIER {
+        let home = PathBuf::from(std::env::var_os("HOME").expect("Production home directory is unavailable"));
+        let authority = startup_exclusion::production_authority(&home, &context.config().identifier)
+            .expect("Production startup authority is unavailable");
+        let guard = startup_exclusion::acquire(&authority, startup_exclusion::LockMode::Shared)
+            .expect("Production startup is excluded by the native migration lease");
+        // Preserve the durable crash boundary while still before Tauri can
+        // construct any configured WebViewWindow.
+        ensure_no_unresolved_cutover(&authority).expect("Unresolved cutover state blocks Production startup");
+        Some(guard)
+    } else { None };
     let builder = tauri::Builder::default()
         .setup(|app| {
             let app_data = app.path().app_data_dir()?;
@@ -1240,8 +1256,9 @@ pub fn run() {
         acceptance_reset,
     ]);
     builder
-        .run(acceptance_context())
+        .run(context)
         .expect("failed to run Personal Finance Console");
+    drop(startup_guard);
 }
 
 #[cfg(feature = "v4-acceptance")]
