@@ -1,0 +1,44 @@
+{
+  "authorizationId": "synthetic-migration-authorization-r2b1b",
+  "authorizationSha256": "6ab0d80a542fdada1b3659252e01bf91a9ac7e2c6aa6f6e5cce8f8289bb5d56c",
+  "backupIdentity": {
+    "dev": 16777232,
+    "inode": 26394385,
+    "links": 1,
+    "size": 229376
+  },
+  "backupSha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+  "businessPreserved": true,
+  "candidateApprovalSha256": "53785977a40d993e33060b71f80abb16d3881cfb0ccd9151c3cfb4ec51aa8d81",
+  "candidateSha256": "21752baeb124fe276cfc7181f09f997ee9fccb62723c5d4b3d3499bc70cef335",
+  "connectionClosed": true,
+  "databaseIdentity": {
+    "dev": 16777232,
+    "inode": 26394342,
+    "links": 1,
+    "size": 229376
+  },
+  "databaseSha256After": "129a89fed896ca5b1d1d41ba9f5693e042017a780d3c2d460bdde0b7330ea893",
+  "databaseSha256Before": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+  "domain": "UNIFIED_R2B_GATE_OWNED",
+  "leaseHeldAtHandoff": true,
+  "manifestSha256": "2f59feda46f841cfbf6ecafc8f75e8b9c2cfcbdb24a585239c0ae09960350733",
+  "migration4Executed": true,
+  "migration4ExecutionCount": 1,
+  "nonce": "eHt6c2JWAsu9OxZcfxsQK5gNpRMglJd4-1dcV4qxHSg",
+  "permitSha256": "5a40f5b1cc31e169030c8d2445c11ca04fe36875a86a63f9676ac833484129c4",
+  "receiptSha256": "db0c342d246603a9d42791e717f637f4fed8a7b57f10c7c3106828ff79163fcf",
+  "schema": {
+    "migration4Rows": 1,
+    "migrationRows": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "userVersion": 4
+  },
+  "session": "session-2d9c183345344978824c414d7ff9c477",
+  "state": "VERIFIED_HANDOFF",
+  "syntheticOnly": true
+}

@@ -1,0 +1,12 @@
+	type = pid
+	handle = 89133
+	originator = /System/Library/Frameworks/WebKit.framework/Versions/A/XPCServices/com.apple.WebKit.WebContent.xpc
+	uniqueid = 8203901
+	resource coalition = {
+		ID = 275316
+		name = application.org.pfc.quiescence.integration.26259321.26259331.98D2D8BD-DAA0-4EE2-8F56-3CB57C55B54E
+		bundle ID = org.pfc.quiescence.integration
+	jetsam coalition = {
+		ID = 275317
+		name = application.org.pfc.quiescence.integration.26259321.26259331.98D2D8BD-DAA0-4EE2-8F56-3CB57C55B54E
+		bundle ID = org.pfc.quiescence.integration

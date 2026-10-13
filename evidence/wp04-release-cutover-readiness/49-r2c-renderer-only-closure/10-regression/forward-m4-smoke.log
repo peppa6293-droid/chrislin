@@ -1,0 +1,18 @@
+test_formal_gate_cli_rust_claim_ledger_runner_completes_s10 (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ERROR
+
+======================================================================
+ERROR: test_formal_gate_cli_rust_claim_ledger_runner_completes_s10 (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/test_wp04r2b1b_native_handoff.py", line 45, in setUp
+    self.fixture = qic.create_fixture(self.parent, NATIVE, scenario="r2b1b", mode=MODE)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 545, in create_fixture
+    signing_identity = _configured_signing_identity(signing_identity)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 52, in _configured_signing_identity
+    raise Blocked("MACOS_SIGNING_PREREQUISITE_REQUIRED", "Apple Development identity was not configured")
+quiescence_gate.Blocked: MACOS_SIGNING_PREREQUISITE_REQUIRED: Apple Development identity was not configured
+
+----------------------------------------------------------------------
+Ran 1 test in 3.646s
+
+FAILED (errors=1)

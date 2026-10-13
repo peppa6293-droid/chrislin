@@ -1,0 +1,2 @@
+synthetic_home=/tmp/pfc-wp04r2c-home.8Daz3g
+removed=True

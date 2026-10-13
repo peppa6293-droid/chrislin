@@ -1,0 +1,55 @@
+COMMAND     PID  USER   FD   TYPE             DEVICE  SIZE/OFF                NODE NAME
+personal- 89125 linte  cwd    DIR               1,16       704                   2 /
+personal- 89125 linte  txt    REG               1,16  21325216            26259331 /Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/candidate-build-02/cargo-target/release/bundle/macos/小钱家.app/Contents/MacOS/personal-finance-console
+personal- 89125 linte  txt    REG               1,16     73028            18756132 /Library/Preferences/Logging/.plist-cache.obCGUr4w
+personal- 89125 linte  txt    REG               1,16       110 1152921500312103375 /System/Library/CoreServices/SystemVersion.bundle/English.lproj/SystemVersion.strings
+personal- 89125 linte  txt    REG               1,16    234224             7236261 /private/var/db/timezone/tz/2026c.1.0/icutz/icutz44l.dat
+personal- 89125 linte  txt    REG               1,16    161586            25631770 /private/var/db/analyticsd/events.allowlist
+personal- 89125 linte  txt    REG               1,16    137016 1152921500312103064 /System/Library/CoreServices/SystemAppearance.bundle/Contents/Resources/SystemAppearance.car
+personal- 89125 linte  txt    REG               1,16    248192 1152921500312573273 /usr/lib/libobjc-trampolines.dylib
+personal- 89125 linte  txt    REG               1,16      6918 1152921500312144377 /System/Library/Frameworks/AppKit.framework/Versions/C/Resources/InputManager.loctable
+personal- 89125 linte  txt    REG               1,16      4978 1152921500312144351 /System/Library/Frameworks/AppKit.framework/Versions/C/Resources/DictationManager.loctable
+personal- 89125 linte  txt    REG               1,16    177510 1152921500312144383 /System/Library/Frameworks/AppKit.framework/Versions/C/Resources/MenuCommands.loctable
+personal- 89125 linte  txt    REG               1,16    139252            11641740 /System/Library/Caches/com.apple.IntlDataCache.le.kbdx
+personal- 89125 linte  txt    REG               1,16     15375 1152921500312211192 /System/Library/Input Methods/SCIM.app/Contents/PlugIns/SCIM_Extension.appex/Contents/Resources/InfoPlist.loctable
+personal- 89125 linte  txt    REG               1,16    250306 1152921500312212660 /System/Library/Keyboard Layouts/AppleKeyboardLayouts.bundle/Contents/Resources/InfoPlist.loctable
+personal- 89125 linte  txt    REG               1,16     60821 1152921500312144299 /System/Library/Frameworks/AppKit.framework/Versions/C/Resources/Common.loctable
+personal- 89125 linte  txt    REG               1,16       339             1359129 /private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/C/com.apple.WebPrivacy/STORAGE_ACCESS_PROMPT_QUIRKS.wplist
+personal- 89125 linte  txt    REG               1,16      4242             1359172 /private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/C/com.apple.WebPrivacy/FINGERPRINTING_SCRIPTS.wplist
+personal- 89125 linte  txt    REG               1,16       471            21997351 /private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/C/com.apple.WebPrivacy/QUERY_PARAM.wplist
+personal- 89125 linte  txt    REG               1,16       204             1359128 /private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/C/com.apple.WebPrivacy/STORAGE_ACCESS_USER_AGENT_STRING_QUIRKS.wplist
+personal- 89125 linte  txt    REG               1,16      1340 1152921500312330100 /System/Library/PrivateFrameworks/MarkupUI.framework/PlugIns/Markup.appex/Contents/Resources/InfoPlist.loctable
+personal- 89125 linte  txt    REG               1,16       706 1152921500312356692 /System/Library/PrivateFrameworks/ShareKit.framework/Versions/A/PlugIns/ShareSheetUI.appex/Contents/Resources/InfoPlist.loctable
+personal- 89125 linte  txt    REG               1,16       862             1359347 /private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/C/com.apple.WebPrivacy/ALLOWED_QUERY_PARAM.wplist
+personal- 89125 linte  txt    REG               1,16   2562000 1152921500312573255 /usr/lib/dyld
+personal- 89125 linte  txt    REG               1,16        89             1359176 /private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/C/com.apple.WebPrivacy/RESTRICTED_OPENER_DOMAINS.wplist
+personal- 89125 linte  txt    REG               1,16  35444880 1152921500312583756 /usr/share/icu/icudt78l.dat
+personal- 89125 linte  txt    REG               1,16  15351808            26385207 /private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/0/com.apple.LaunchServices.dv/com.apple.LaunchServices-20971545-v2.csstore
+personal- 89125 linte  txt    REG               1,16   7912984 1152921500312103025 /System/Library/CoreServices/SystemAppearance.bundle/Contents/Resources/Aqua.car
+personal- 89125 linte  txt    REG               1,16   2976648 1152921500312103053 /System/Library/CoreServices/SystemAppearance.bundle/Contents/Resources/FauxVibrantLight.car
+personal- 89125 linte  txt    REG               1,16   6223976 1152921500312103078 /System/Library/CoreServices/SystemAppearance.bundle/Contents/Resources/VibrantLight.car
+personal- 89125 linte  txt    REG               1,16 160168520 1152921500312351718 /System/Library/PrivateFrameworks/SFSymbols.framework/Versions/A/Resources/CoreGlyphs.bundle/Contents/Resources/Assets.car
+personal- 89125 linte  txt    REG               1,16   7795064 1152921500312103037 /System/Library/CoreServices/SystemAppearance.bundle/Contents/Resources/DarkAqua.car
+personal- 89125 linte  txt    REG               1,16   7909644 1152921500312142422 /System/Library/Fonts/SFNS.ttf
+personal- 89125 linte  txt    REG               1,16   1561920 1152921500312212658 /System/Library/Keyboard Layouts/AppleKeyboardLayouts.bundle/Contents/Resources/AppleKeyboardLayouts-L.dat
+personal- 89125 linte  txt    REG               1,16   3364296 1152921500312103031 /System/Library/CoreServices/SystemAppearance.bundle/Contents/Resources/Assets.car
+personal- 89125 linte  txt    REG               1,16   2044376 1152921500312144209 /System/Library/Frameworks/AppKit.framework/Versions/C/Resources/Assets.car
+personal- 89125 linte  txt    REG               1,16     38776 1152921500312144385 /System/Library/Frameworks/AppKit.framework/Versions/C/Resources/Menus.loctable
+personal- 89125 linte  txt    REG               1,16     85336 1152921500312284788 /System/Library/PrivateFrameworks/DesignLibrary.framework/Versions/A/Resources/Assets.car
+personal- 89125 linte  txt    REG               1,16   1228288 1152921500312133327 /System/Library/Extensions/AppleMetalOpenGLRenderer.bundle/Contents/MacOS/AppleMetalOpenGLRenderer
+personal- 89125 linte  txt    REG               1,16   2369592 1152921500312142346 /System/Library/Fonts/Helvetica.ttc
+personal- 89125 linte  txt    REG               1,16    111273 1152921500312356926 /System/Library/PrivateFrameworks/ShareKit.framework/Versions/A/Resources/ShareKit.loctable
+personal- 89125 linte  txt    REG               1,16   1212416            22964454 /private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/C/com.apple.iconservices/store.index
+personal- 89125 linte  txt    REG               1,16    705512 1152921500312148839 /System/Library/Frameworks/CFNetwork.framework/Versions/A/Resources/DafsaData.bin
+personal- 89125 linte  txt    REG               1,16    634288            26201023 /private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/C/com.apple.Safari.SafeBrowsing/Tencent/social_engineering,any_platform,url_expression
+personal- 89125 linte  txt    REG               1,16   1579578            26371706 /private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/C/com.apple.Safari.SafeBrowsing/Apple/social_engineering,any_platform,url_expression
+personal- 89125 linte  txt    REG               1,16  28359824 1152921500312129937 /System/Library/Extensions/AGXMetalG17G.bundle/Contents/MacOS/AGXMetalG17G
+personal- 89125 linte  txt    REG               1,16  30682320 1152921500312129942 /System/Library/Extensions/AGXMetalG17G.bundle/Contents/Resources/ds.g17g
+personal- 89125 linte  txt    REG               1,16  61080840 1152921500312298710 /System/Library/PrivateFrameworks/FontServices.framework/Versions/A/Resources/Reserved/PingFangUI.ttc
+personal- 89125 linte    0r   CHR                3,2       0t0                 336 /dev/null
+personal- 89125 linte    1u   CHR                3,2       0t0                 336 /dev/null
+personal- 89125 linte    2u   CHR                3,2       0t0                 336 /dev/null
+personal- 89125 linte    3u  unix 0x102b327f68e8b98e       0t0                     ->0x92140b88d1634ee2
+personal- 89125 linte    4r   REG               1,16    359928 1152921500312133335 /System/Library/Extensions/AppleMetalOpenGLRenderer.bundle/Contents/Resources/default.metallib
+personal- 89125 linte    5r   REG               1,16     36296 1152921500312133333 /System/Library/Extensions/AppleMetalOpenGLRenderer.bundle/Contents/Resources/PixelConverter.metallib
+personal- 89125 linte    6u   REG               1,16    258048            26385022 /private/tmp/pfc-wp04r2c-home.8Daz3g/Library/Application Support/org.pfc.quiescence.integration/personal-finance-console.sqlite3

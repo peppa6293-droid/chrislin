@@ -1,0 +1,39 @@
+{
+  "productAutomated": {
+    "command": "npm run test:product",
+    "status": "PASS",
+    "files": 17,
+    "testsPassed": 300,
+    "testsFailed": 0
+  },
+  "nativeRecoveryQuiescence": {
+    "command": "cargo test --manifest-path src-tauri/Cargo.toml --features wp04-r2b-recovery-test-hooks --bin personal-finance-console",
+    "status": "PASS",
+    "testsPassed": 33,
+    "testsFailed": 0
+  },
+  "recoveryDiagnostic": {
+    "firstAttempt": "python3 -m unittest scripts.test_unified_r2b_recovery",
+    "firstAttemptStatus": "FAILED_IMPORT_PATH",
+    "correctedCommand": "python3 scripts/test_unified_r2b_recovery.py",
+    "status": "PASS",
+    "testsPassed": 9,
+    "testsFailed": 0
+  },
+  "forwardFormalGateM4Smoke": {
+    "target": "test_formal_gate_cli_rust_claim_ledger_runner_completes_s10",
+    "firstAttemptStatus": "BLOCKED_SIGNING_IDENTITY_NOT_CONFIGURED",
+    "correctedStatus": "PASS",
+    "m4ExecutionCount": 1,
+    "durableTerminal": "S10_VERIFIED_HANDOFF",
+    "syntheticOnly": true,
+    "recoveryMatrixRerun": false
+  },
+  "renderer": {
+    "R01": "PASS_CURRENT",
+    "R02_S5": "BLOCKED_NEEDS_RENDERER_TESTABILITY",
+    "R03_commit_boundary": "BLOCKED_NEEDS_RENDERER_TESTABILITY",
+    "R04_S10_reply_loss": "PASS_REUSED_NATIVE_ONLY",
+    "R05": "PROCESS_RESPAWN_PASS_UI_IPC_UNKNOWN"
+  }
+}

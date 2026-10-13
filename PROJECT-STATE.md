@@ -1,6 +1,18 @@
 # 小钱家｜项目经理当前状态
 
-更新：2026-10-13（Asia/Shanghai）。状态修订：19。状态维护者：本接管任务。
+更新：2026-10-13（Asia/Shanghai）。状态修订：20。状态维护者：本接管任务。
+
+
+## 最新执行状态：WP-04R2C Renderer-Only Closure（2026-10-13）
+
+- 状态：`WP04R2C_BLOCKED_NEEDS_RENDERER_TESTABILITY`。WP04R2B Planning 接受状态复用；本轮仅处理 Q11 renderer-only。
+- 已验证 R01 idle kill：当前冻结候选 native PID 89125，WebContent PID 89133 由 launchd coalition / exact bundle identity 归属到 `org.pfc.quiescence.integration`；两者 PPID 均为 1。只对 renderer 发 SIGTERM 后 native 仍活，新 WebContent PID 89807 在相同候选 coalition 下出现。renderer process attribution 可用，未以 PPID 单独归属。
+- 阻断：正式 Gate→Rust→M4 是 `main.rs` 的独立 CLI 分支，并在 Tauri Builder/WebView 创建前返回；普通 UI 未注册 Gate handoff IPC。无法在当前冻结候选同一 Tauri 会话中把 renderer 置于 S5 或 post-COMMIT barrier。本轮未执行该两项，不将 R01 冒报为 critical-section closure。
+- 架构核验：Tauri 2.12.1 / Wry 0.57.0 / system WKWebView。formal Gate 的 permit、ledger、lease、SQLite transaction、M4、COMMIT、durable S10 由 Rust native consumer 持有；当前 Tauri renderer 没有 Gate handoff authority path。UI/IPC rebootstrap 未验证。
+- 回归：产品 300/300；native recovery/quiescence 33/33；recovery diagnostic 9/9；synthetic Gate→Rust→S10 forward M4 smoke PASS、M4 count=1。未重跑 17 场景。
+- Frozen source `c3da2f73c03b681957b4334751b7933d102caad1`，runtime source diff 无；candidate executable / manifest SHA 保持 `e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf` / `cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc`，strict codesign PASS。Production app/DB、WP02、Financial Model 未触碰；WP03 acceptance 保留。未创建真实 Production authorization/permit。
+- Q11 native `PASS_REUSED`；renderer subfinding `OPEN`；`RB-V4-CUTOVER-QUIESCENCE-01` 仍 OPEN。最终报告 `WP04R2C_RENDERER_ONLY_CLOSURE_REPORT.md`，证据 `evidence/wp04-release-cutover-readiness/49-r2c-renderer-only-closure/`。
+- 下一责任人：Planning/Owner 决定是否新增 renderer-bearing synthetic testability work order，或修订 separate native CLI architecture 的验收方式；在此之前不进入 Final Production Pre-Candidate Freeze。
 
 
 ## 最新执行状态：WP-04R2B3C2（2026-10-13）

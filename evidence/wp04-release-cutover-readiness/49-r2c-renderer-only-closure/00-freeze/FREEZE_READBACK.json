@@ -1,0 +1,20 @@
+{
+  "workOrder": "WP-04R2C",
+  "status": "WP04R2C_BLOCKED_NEEDS_RENDERER_TESTABILITY",
+  "frozenSourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+  "sourceArchiveSha256": "e2f06d023eca661079406821cac23373b874a81867c95dccb6f1e503ecef6ce3",
+  "candidateBundle": "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/candidate-build-02/cargo-target/release/bundle/macos/小钱家.app",
+  "bundleId": "org.pfc.quiescence.integration",
+  "candidateExecutableSha256": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+  "manifestSha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+  "strictCodesign": "PASS",
+  "currentRepositoryHeadAtFreeze": "ca9e55ef50789e03af3b699e0b664614c1824f68",
+  "trackedRuntimeDiffFromFrozenCommit": "NONE",
+  "candidateChanged": false,
+  "candidateRebuiltOrResigned": false,
+  "productionTouched": false,
+  "financialModelChanged": false,
+  "wp02Touched": false,
+  "wp03AcceptancePreserved": true,
+  "frozenAt": "2026-10-13 Asia/Shanghai"
+}

@@ -1,0 +1,27 @@
+{
+  "candidatePath": "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/candidate-build-02/cargo-target/release/bundle/macos/小钱家.app",
+  "bundleId": "org.pfc.quiescence.integration",
+  "expectedBundleFileSha256": {
+    "Contents/Info.plist": "e0ff7eec111f8d9af87461519148d5fc5f0f9efd294da5d161979b7cb5c0772a",
+    "Contents/MacOS/personal-finance-console": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+    "Contents/Resources/runtime-compatibility.json": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+    "Contents/_CodeSignature/CodeResources": "aebbfaf7e36104bd9755dbf876001682eb5d67e95dbd3f95c1dfda94d13bf26d"
+  },
+  "actualBundleFileSha256": {
+    "Contents/Info.plist": "e0ff7eec111f8d9af87461519148d5fc5f0f9efd294da5d161979b7cb5c0772a",
+    "Contents/MacOS/personal-finance-console": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+    "Contents/Resources/runtime-compatibility.json": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+    "Contents/_CodeSignature/CodeResources": "aebbfaf7e36104bd9755dbf876001682eb5d67e95dbd3f95c1dfda94d13bf26d"
+  },
+  "allBundleFilesMatch": true,
+  "executableSha256": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+  "manifestSha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+  "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+  "strictCodesignCommand": [
+    "codesign",
+    "--verify",
+    "--deep",
+    "--strict"
+  ],
+  "strictCodesign": "PASS"
+}

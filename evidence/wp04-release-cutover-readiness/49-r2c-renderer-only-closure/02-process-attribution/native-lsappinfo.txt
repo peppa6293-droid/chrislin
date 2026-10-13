@@ -1,0 +1,9 @@
+"小钱家" ASN:0x0-0x61f21ec:
+    bundleID="org.pfc.quiescence.integration"
+    bundle path="/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/candidate-build-02/cargo-target/release/bundle/macos/小钱家.app"
+    executable path="/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/candidate-build-02/cargo-target/release/bundle/macos/小钱家.app/Contents/MacOS/personal-finance-console"
+    pid = 89125 type="Foreground" flavor=3 Version="0.1.0" fileType="APPL" creator="????" Arch=ARM64
+    coalition: 275317
+    launch time =  34 seconds ago, 2026/10/13 16:26:24 ( 34.4485 seconds ago )
+    checkin time = 34 seconds ago, 2026/10/13 16:26:24 ( 34.3935 seconds ago )
+    launch to checkin time: 0.0549483 seconds

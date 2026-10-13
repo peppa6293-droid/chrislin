@@ -1,0 +1,2 @@
+/tmp/pfc-wp04r2c-home.8Daz3g/Library/Application Support/org.pfc.quiescence.integration/personal-finance-console.sqlite3 dev=16777232 ino=26385022 size=258048 mode=-rw-r--r--
+8fdd8a970677810c0e2d6c4d140e2cea69e8776e85a0bbe3d3feebe5e3a9d4d5  /tmp/pfc-wp04r2c-home.8Daz3g/Library/Application Support/org.pfc.quiescence.integration/personal-finance-console.sqlite3

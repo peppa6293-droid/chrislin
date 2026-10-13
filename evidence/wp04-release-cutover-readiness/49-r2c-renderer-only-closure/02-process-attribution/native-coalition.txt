@@ -1,0 +1,12 @@
+	type = pid
+	handle = 89125
+	originator = /Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/candidate-build-02/cargo-target/release/bundle/macos/小钱家.app
+	uniqueid = 8203893
+	resource coalition = {
+		ID = 275316
+		name = application.org.pfc.quiescence.integration.26259321.26259331.98D2D8BD-DAA0-4EE2-8F56-3CB57C55B54E
+		bundle ID = org.pfc.quiescence.integration
+	jetsam coalition = {
+		ID = 275317
+		name = application.org.pfc.quiescence.integration.26259321.26259331.98D2D8BD-DAA0-4EE2-8F56-3CB57C55B54E
+		bundle ID = org.pfc.quiescence.integration

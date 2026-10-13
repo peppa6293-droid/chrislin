@@ -1,0 +1,21 @@
+Executable=/System/Volumes/Preboot/Cryptexes/OS/System/Library/Frameworks/WebKit.framework/Versions/A/XPCServices/com.apple.WebKit.WebContent.xpc/Contents/MacOS/com.apple.WebKit.WebContent
+Identifier=com.apple.WebKit.WebContent
+Format=bundle with Mach-O universal (x86_64 arm64e)
+CodeDirectory v=20400 size=436 flags=0x2000(library-validation) hashes=3+7 location=embedded
+Platform identifier=26
+Hash type=sha256 size=32
+CandidateCDHash sha256=efc5ad98b76b6d6d7ddf77a953523a46e9e27d34
+CandidateCDHashFull sha256=efc5ad98b76b6d6d7ddf77a953523a46e9e27d34dffaec77ac5dfcec263a9994
+Hash choices=sha256
+CMSDigest=efc5ad98b76b6d6d7ddf77a953523a46e9e27d34dffaec77ac5dfcec263a9994
+CMSDigestType=2
+CDHash=efc5ad98b76b6d6d7ddf77a953523a46e9e27d34
+Signature size=4567
+Authority=macOS Software Signing
+Authority=Apple Code Signing Certification Authority
+Authority=Apple Root CA
+Signed Time=Aug 13, 2026 at 08:28:41
+Info.plist entries=33
+TeamIdentifier=not set
+Sealed Resources version=2 rules=2 files=0
+Internal requirements count=1 size=76

@@ -1,0 +1,28 @@
+COMMAND     PID  USER   FD   TYPE DEVICE SIZE/OFF                NODE NAME
+com.apple 89133 linte  cwd    DIR   1,17       96              152519 /System/Volumes/Preboot/Cryptexes/OS/System/Library/Frameworks/WebKit.framework/Versions/A/XPCServices/com.apple.WebKit.WebContent.xpc
+com.apple 89133 linte  txt    REG   1,17   134448              152524 /System/Volumes/Preboot/Cryptexes/OS/System/Library/Frameworks/WebKit.framework/Versions/A/XPCServices/com.apple.WebKit.WebContent.xpc/Contents/MacOS/com.apple.WebKit.WebContent
+com.apple 89133 linte  txt    REG   1,16      110 1152921500312103375 /System/Library/CoreServices/SystemVersion.bundle/English.lproj/SystemVersion.strings
+com.apple 89133 linte  txt    REG   1,17      759              151897 /System/Volumes/Preboot/Cryptexes/OS/System/Library/Frameworks/WebKit.framework/Versions/A/Frameworks/WebCore.framework/Versions/A/Resources/en.lproj/Localizable.stringsdict
+com.apple 89133 linte  txt    REG   1,17    34325              151895 /System/Volumes/Preboot/Cryptexes/OS/System/Library/Frameworks/WebKit.framework/Versions/A/Frameworks/WebCore.framework/Versions/A/Resources/en.lproj/Localizable.strings
+com.apple 89133 linte  txt    REG   1,16  2562000 1152921500312573255 /usr/lib/dyld
+com.apple 89133 linte  txt    REG   1,16   919104 1152921500312143021 /System/Library/Fonts/Times.ttc
+com.apple 89133 linte  txt    REG   1,16   137016 1152921500312103064 /System/Library/CoreServices/SystemAppearance.bundle/Contents/Resources/SystemAppearance.car
+com.apple 89133 linte  txt    REG   1,16   234224             7236261 /private/var/db/timezone/tz/2026c.1.0/icutz/icutz44l.dat
+com.apple 89133 linte  txt    REG   1,16 35444880 1152921500312583756 /usr/share/icu/icudt78l.dat
+com.apple 89133 linte  txt    REG   1,16 61080840 1152921500312298710 /System/Library/PrivateFrameworks/FontServices.framework/Versions/A/Resources/Reserved/PingFangUI.ttc
+com.apple 89133 linte  txt    REG   1,16  6223976 1152921500312103078 /System/Library/CoreServices/SystemAppearance.bundle/Contents/Resources/VibrantLight.car
+com.apple 89133 linte  txt    REG   1,16  7992004            11647562 /private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/0/com.apple.LaunchServices.dv/SystemDataOnly-com.apple.LaunchServices-20971545-v2.csstore
+com.apple 89133 linte  txt    REG   1,16  7912984 1152921500312103025 /System/Library/CoreServices/SystemAppearance.bundle/Contents/Resources/Aqua.car
+com.apple 89133 linte  txt    REG   1,16  2976648 1152921500312103053 /System/Library/CoreServices/SystemAppearance.bundle/Contents/Resources/FauxVibrantLight.car
+com.apple 89133 linte  txt    REG   1,16  2369592 1152921500312142346 /System/Library/Fonts/Helvetica.ttc
+com.apple 89133 linte  txt    REG   1,16   722504 1152921500312142396 /System/Library/Fonts/SFArabic.ttf
+com.apple 89133 linte  txt    REG   1,16   920420 1152921500312142380 /System/Library/Fonts/NotoNastaliq.ttc
+com.apple 89133 linte  txt    REG   1,16   790260 1152921500312142334 /System/Library/Fonts/CJKSymbolsFallback.ttc
+com.apple 89133 linte  txt    REG   1,16   897936 1152921500312142320 /System/Library/Fonts/Apple Symbols.ttf
+com.apple 89133 linte  txt    REG   1,16  7909644 1152921500312142422 /System/Library/Fonts/SFNS.ttf
+com.apple 89133 linte  txt    REG   1,16  7965696 1152921500312143043 /System/Library/Fonts/ヒラギノ角ゴシック W6.ttc
+com.apple 89133 linte  txt    REG   1,16  4472716 1152921500312142348 /System/Library/Fonts/HelveticaNeue.ttc
+com.apple 89133 linte  txt    REG   1,16    96976 1152921500312142412 /System/Library/Fonts/SFGeorgian.ttf
+com.apple 89133 linte    0r   CHR    3,2      0t0                 336 /dev/null
+com.apple 89133 linte    1u   CHR    3,2      0t0                 336 /dev/null
+com.apple 89133 linte    2u   CHR    3,2      0t0                 336 /dev/null

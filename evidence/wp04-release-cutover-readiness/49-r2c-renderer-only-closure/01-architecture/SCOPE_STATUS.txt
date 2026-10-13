@@ -1,0 +1,1 @@
+当前 runtime 架构与原生权属见 RENDERER_ARCHITECTURE_READBACK.md。
