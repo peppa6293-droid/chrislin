@@ -1,3 +1,13 @@
+## 最新执行状态：WP-04R2C2 Renderer Architecture Applicability（2026-10-13）
+
+- 状态：`WP04R2C_BLOCKED_ARCHITECTURE_BOUNDARY_UNPROVEN`。R2C 原 `WP04R2C_BLOCKED_NEEDS_RENDERER_TESTABILITY` 保留为历史。
+- 已验证 Gate 消费者本身在创建 Tauri Builder 前处理 Production `--pfc-internal-v4-migrate` 与 synthetic unified Gate；Gate 进程在 S5–S10 内没有自己的 WebView/WebContent。Permit、consumed ledger、lease、SQLite/M4/commit/readback/S10 均由 native 持有，renderer 无 formal Gate/permit/ledger/M4 IPC。
+- 未能证明 Production UI 与 Gate 在整个 S5–S10 全局互斥：Tauri 2.12.1 先创建配置 WebviewWindow，再调用 lib.rs 的 app setup；V3 schema 拒绝发生于 setup。Gate process inventory 是启动前快照，当前源码未证明能阻止快照后并发启动的 WebContent。因此 S5/post-COMMIT renderer applicability 不能定为 `NOT_APPLICABLE_BY_ARCHITECTURE`；Q11 renderer critical-section 保持 OPEN。未确认 runtime defect。
+- 回归：product 300/300、native 33/33、recovery diagnostic 9/9、forward synthetic Gate S0–S10/M4 smoke PASS（M4 count=1）、IPC contract 6/6。17-case matrix 未重跑。针对性 forward smoke 的测试 harness 编译/复用 debug fixture，并刷新写入既有未跟踪 `37-r2b-final-rerun` 证据；没有 release candidate rebuild/resign，具体限制见本轮回归收据。
+- frozen source `c3da2f73c03b681957b4334751b7933d102caad1` 无变化；candidate executable SHA `e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf`、manifest SHA `cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc`、strict codesign PASS；candidate 未变化。
+- Production 未触碰；未创建真实 authorization/permit；WP03 acceptance 保留；Financial Model 与 WP02 未改。`RB-V4-CUTOVER-QUIESCENCE-01` 仍 OPEN。
+- 报告：`WP04R2C2_ARCHITECTURE_APPLICABILITY_REPORT.md`；证据：`evidence/wp04-release-cutover-readiness/50-r2c2-architecture-applicability/`。下一责任人：Planning/Owner，需补出现有架构的全窗口互斥证据，或另行批准范围明确的修复/测试工作单。
+
 # 小钱家｜项目经理当前状态
 
 更新：2026-10-13（Asia/Shanghai）。状态修订：20。状态维护者：本接管任务。

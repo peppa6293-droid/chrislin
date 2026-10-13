@@ -1,0 +1,1 @@
+Native critical-section failures: PASS_REUSED_FROM_R2B. Authoritative machine-readable Q / recovery results are retained under evidence/wp04-release-cutover-readiness/47-r2b3c3-full-chain-recovery-final/ and 48-r2b-q10-sqlite-locked/. Scope: the full-chain native failure/recovery matrix previously accepted for R2B; this does not test renderer participation.

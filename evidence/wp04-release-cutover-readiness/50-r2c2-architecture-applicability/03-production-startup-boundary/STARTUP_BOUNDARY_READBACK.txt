@@ -1,0 +1,112 @@
+Production Gate process boundary:
+386: def validate_preflight(facts: dict[str, Any], *, synthetic_fixture_root: Path | None = None,
+387:                        unified_r2b: bool = False) -> list[str]:
+388:     errors: list[str] = []
+389:     if facts.get("platform") != "darwin":
+390:         errors.append("Production release gate requires macOS.")
+391:     processes = facts.get("running_production_processes")
+392:     if not isinstance(processes, list):
+393:         errors.append("Production process inventory is unknown.")
+394:     elif processes:
+395:         errors.append("A Production-identity process or unknown matching executable is still running.")
+396:
+397:     expected_app = Path(str(facts.get("expected_installed_app", "")))
+398:     if synthetic_fixture_root is None:
+399:         required_app_path = APP_PATH.resolve()
+400:         required_database_path = DATABASE_PATH.resolve()
+401:     elif unified_r2b:
+402:         fixture_root = synthetic_fixture_root.resolve()
+403:         required_app_path = (fixture_root / "managed/install/Installed.app").resolve()
+404:         required_database_path = (fixture_root / DATABASE_NAME).resolve()
+405:     else:
+406:         fixture_root = synthetic_fixture_root.resolve()
+407:         protected_paths = [Path("/Applications").resolve(), APP_DATA.resolve()]
+408:         if any(fixture_root == protected or protected in fixture_root.parents or fixture_root in protected.parents for protected in protected_paths):
+409:             errors.append("Synthetic fixture root overlaps a protected Production path.")
+410:         required_app_path = (fixture_root / "Applications" / APP_NAME).resolve()
+411:         required_database_path = (fixture_root / "Library/Application Support" / PRODUCTION_BUNDLE_ID / DATABASE_NAME).resolve()
+412:     if expected_app.resolve() != required_app_path:
+413:         errors.append("Production candidate app path does not match the fixed or synthetic-contract location.")
+414:     apps = facts.get("production_apps")
+415:     if not isinstance(apps, list):
+416:         errors.append("Installed Production bundle inventory is unknown.")
+417:         apps = []
+418:     if facts.get("app_inventory_complete") is not True:
+419:         errors.append("Installed Production bundle inventory is incomplete or unknown.")
+420:     if facts.get("process_inventory_complete") is not True:
+421:         errors.append("Production process inventory is incomplete or unknown.")
+422:     process_inventory = facts.get("process_inventory")
+423:     if not isinstance(process_inventory, dict) or process_inventory.get("complete") is not True or not isinstance(process_inventory.get("processes"), list):
+424:         errors.append("Production process inventory completeness facts are missing or unknown.")
+425:     elif process_inventory.get("processes") != processes:
+426:         errors.append("Production process inventory facts do not match the process list being evaluated.")
+427:     if len(apps) != 1:
+
+901:     permit_path = (
+902:         _validate_synthetic_gate_root(synthetic_fixture_root, unified_r2b=True) / "gate-permit.json"
+903:         if unified_r2b else
+904:         _validate_synthetic_gate_root(synthetic_fixture_root) / "Library" / "Application Support" /
+905:         PRODUCTION_BUNDLE_ID / PRODUCTION_MIGRATION_AUTHORIZATION
+906:         if synthetic_only else GATE_AUTH_PATH
+907:     )
+908:     try:
+909:         permit_path, _nonce = write_migration_permit(
+910:             receipt, migration_authorization, permit_path, synthetic_fixture_root=synthetic_fixture_root,
+911:             unified_r2b=unified_r2b
+912:         )
+913:     except Exception as error:
+914:         raise
+915:     executable = Path(receipt["candidateExecutablePath"])
+916:     command = (
+917:         [str(executable), "--pfc-r2b1-unified-synthetic", str(_validate_synthetic_gate_root(synthetic_fixture_root, unified_r2b=True))]
+918:         if unified_r2b else [str(executable), "--pfc-synthetic-gate-consume", str(_validate_synthetic_gate_root(synthetic_fixture_root))]
+919:         if synthetic_only else [str(executable), "--pfc-internal-v4-migrate"]
+920:     )
+921:     try:
+922:         child_options: dict[str, Any] = {}
+923:         if unified_r2b:
+924:             try:
+925:                 lease_fd = int(os.environ["PFC_QUIESCENCE_LEASE_FD"])
+926:                 lease_session = os.environ["PFC_QUIESCENCE_SESSION"]
+927:                 lease_path = os.environ["PFC_QUIESCENCE_LEASE_PATH"]
+928:             except (KeyError, ValueError) as error:
+929:                 raise GateBlocked(["Unified native handoff requires the live C3 maintenance lease descriptor."]) from error
+930:             if lease_fd <= 2 or lease_path != str(_validate_synthetic_gate_root(synthetic_fixture_root, unified_r2b=True) / "maintenance.lock"):
+931:                 raise GateBlocked(["Unified native handoff lease binding is invalid."])
+932:             child_options["pass_fds"] = (lease_fd,)
+933:             child_options["env"] = {**os.environ, "PFC_QUIESCENCE_SESSION": lease_session,
+934:                                      "PFC_GATE_PERMIT_SHA256": sha256_file(permit_path)}
+935:         result = subprocess.run(command, cwd=str(executable.parent), capture_output=True, text=True, timeout=120, **child_options)
+936:     except (OSError, subprocess.TimeoutExpired) as error:
+937:         raise GateBlocked([f"Native migration consumer did not complete; permit remains a one-time unresolved attempt: {type(error).__name__}: {error}"]) from error
+938:     if result.returncode != 0:
+939:         raise GateBlocked([f"Native migration consumer refused or failed (exit={result.returncode}): {result.stderr.strip() or result.stdout.strip()}"])
+940:     try:
+941:         native_result = json.loads(result.stdout.strip().splitlines()[-1])
+942:     except (IndexError, json.JSONDecodeError) as error:
+943:         raise GateBlocked(["Native migration consumer returned no valid terminal JSON result."]) from error
+944:     expected_native_status = ("VERIFIED_HANDOFF" if unified_r2b else "AUTHORIZATION_CONSUMED_NATIVE_MIGRATION_PENDING") if synthetic_only else "V4_MIGRATION_VERIFIED_NATIVE"
+945:     if native_result.get("event") != "gate_permit_consumed" or native_result.get("status") != expected_native_status or native_result.get("syntheticOnly") is not synthetic_only:
+946:         raise GateBlocked(["Native migration consumer did not confirm the expected domain-specific permit/ledger boundary."])
+947:     return {"status": "NATIVE_CONSUMER_BOUND", "receiptPath": str(receipt_path), "receiptSha256": persisted_receipt_sha256,
+948:             "permitPath": str(permit_path), "native": native_result, "stdout": result.stdout}
+
+
+Tauri 2.12.1 setup order from installed crate source:
+2687: #[cfg_attr(feature = "tracing", tracing::instrument(name = "app::setup"))]
+2688: fn setup<R: Runtime>(app: &mut App<R>) -> crate::Result<()> {
+2689:   app.ran_setup = true;
+2690:
+2691:   for window_config in app.config().app.windows.iter().filter(|w| w.create) {
+2692:     WebviewWindowBuilder::from_config(app.handle(), window_config)?.build()?;
+2693:   }
+2694:
+2695:   app.manager.assets.setup(app);
+2696:
+2697:   if let Some(setup) = app.setup.take() {
+2698:     (setup)(app).map_err(|e| crate::Error::Setup(e.into()))?;
+2699:   }
+2700:
+2701:   Ok(())
+
+Finding: Tauri setup creates configured WebviewWindow(s) before calling the application setup closure. The Production V3 schema refusal is inside lib.rs application setup. This prevents reaching normal database-ready UI state, but does not establish that a WebContent process cannot be created in a concurrent launch after the gate process-inventory snapshot. No lock/handshake in the inspected source closes that post-snapshot launch window.

@@ -1,0 +1,34 @@
+src-tauri/src/lib.rs registered handlers (1215-1241):
+1215:     let builder = builder.invoke_handler(tauri::generate_handler![
+1216:         database_open,
+1217:         database_execute,
+1218:         database_select,
+1219:         database_begin,
+1220:         database_commit,
+1221:         database_rollback,
+1222:         database_schema_migration_begin,
+1223:         database_schema_migration_end,
+1224:         acceptance_runtime_info,
+1225:         acceptance_reset,
+1226:         wp03_preview_test_date::wp03_preview_get_test_date,
+1227:         wp03_preview_test_date::wp03_preview_set_test_date,
+1228:     ]);
+1229:     #[cfg(not(feature = "wp03-preview"))]
+1230:     let builder = builder.invoke_handler(tauri::generate_handler![
+1231:         database_open,
+1232:         database_execute,
+1233:         database_select,
+1234:         database_begin,
+1235:         database_commit,
+1236:         database_rollback,
+1237:         database_schema_migration_begin,
+1238:         database_schema_migration_end,
+1239:         acceptance_runtime_info,
+1240:         acceptance_reset,
+1241:     ]);
+
+Relevant native gate and IPC facts:
+- No formal run_unified_gate_handoff / --pfc-internal-v4-migrate / permit-claim / consumed-ledger command appears in generate_handler!.
+- database_schema_migration_begin and database_schema_migration_end are registered generic IPC; Production initializes migration_permitted=false at lib.rs:1178.
+- Production DDL/schema_migrations authorizer restriction is implemented in DatabaseState::from_connection_with_runtime at lib.rs:570-597 and migration permission is consumed at :600-630.
+- Gate permit consumption and native_migration4 are private native functions called by the CLI branch before Builder construction.

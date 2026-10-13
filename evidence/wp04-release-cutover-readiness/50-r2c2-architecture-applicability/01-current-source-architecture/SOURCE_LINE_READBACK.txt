@@ -1,0 +1,289 @@
+Frozen source c3da2f73c03b681957b4334751b7933d102caad1
+
+src-tauri/src/main.rs (1-27):
+1: #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+2:
+3: #[cfg(feature = "wp04-r2b-synthetic")]
+4: #[path = "quiescence.rs"]
+5: mod quiescence;
+6:
+7: fn main() {
+8:     #[cfg(feature = "wp04-r2b-synthetic")]
+9:     {
+10:         let args: Vec<String> = std::env::args().collect();
+11:         if args.get(1).map(String::as_str) == Some("--pfc-r2b1-unified-synthetic") {
+12:             if args.len() != 3 {
+13:                 eprintln!("unified synthetic consumer accepts only its fixed role and marked root");
+14:                 std::process::exit(2);
+15:             }
+16:             match quiescence::run_unified_gate_handoff(&args[2]) {
+17:                 Ok(value) => println!("{value}"),
+18:                 Err(error) => {
+19:                     println!("{}", serde_json::json!({"event":"blocked", "error":error}));
+20:                     std::process::exit(2);
+21:                 }
+22:             }
+23:             return;
+24:         }
+25:     }
+26:     personal_finance_console_lib::run();
+27: }
+
+src-tauri/src/lib.rs (1126-1135, 1177-1200, 1230-1245):
+1126: #[cfg_attr(mobile, tauri::mobile_entry_point)]
+1127: pub fn run() {
+1128:     let command_args: Vec<String> = std::env::args().collect();
+1129:     if command_args.get(1).map(String::as_str) == Some("--pfc-internal-v4-migrate") {
+1130:         match run_production_migration_command() {
+1131:             Ok(result) => { println!("{result}"); std::process::exit(0); }
+1132:             Err(error) => { eprintln!("{}", serde_json::json!({"event":"blocked","error":error})); std::process::exit(2); }
+1133:         }
+1134:     }
+1135:     let builder = tauri::Builder::default()
+
+1177:             let database_path = if acceptance_runtime { app_data.join(ACCEPTANCE_DATABASE) } else { app_data.join(wp03_preview_isolation::DATABASE) };
+1178:             let migration_permitted = false;
+1179:             let schema_ready = true;
+1180:             // This gate precedes every ordinary runtime's first SQLite access.
+1181:             // The dedicated synthetic maintenance binary is a separate entry.
+1182:             ensure_no_unresolved_cutover(&app_data).map_err(std::io::Error::other)?;
+1183:             if production_runtime {
+1184:                 if app_data != home.join("Library/Application Support").join(PRODUCTION_IDENTIFIER) {
+1185:                     return Err(std::io::Error::other("Production runtime refused an unexpected application-data path.").into());
+1186:                 }
+1187:                 let executable = std::env::current_exe()?;
+1188:                 let expected_executable = Path::new(PRODUCTION_APP_BUNDLE).join("Contents/MacOS").join(PRODUCTION_EXECUTABLE);
+1189:                 if executable != expected_executable {
+1190:                     return Err(std::io::Error::other("Production identity may run only from the verified normal installed app path.").into());
+1191:                 }
+1192:                 validate_runtime_compatibility_manifest(&executable).map_err(std::io::Error::other)?;
+1193:                 let schema = production_schema_version_from_path(&database_path).map_err(std::io::Error::other)?;
+1194:                 ensure_supported_schema(schema).map_err(std::io::Error::other)?;
+1195:                 if schema.user_version > 0 && schema.user_version < CURRENT_SCHEMA_VERSION {
+1196:                     return Err(std::io::Error::other("QUIESCENCE_IMPLEMENTATION_NOT_PRODUCTION_AUTHORIZED: legacy TS-driven Production migration is disabled; isolated verification is not Production cutover authority.").into());
+1197:                 } else if schema.user_version == 0 {
+1198:                     return Err(std::io::Error::other("Production runtime refuses an uninitialized database; use an approved, separately gated bootstrap.").into());
+1199:                 }
+1200:             }
+
+1230:     let builder = builder.invoke_handler(tauri::generate_handler![
+1231:         database_open,
+1232:         database_execute,
+1233:         database_select,
+1234:         database_begin,
+1235:         database_commit,
+1236:         database_rollback,
+1237:         database_schema_migration_begin,
+1238:         database_schema_migration_end,
+1239:         acceptance_runtime_info,
+1240:         acceptance_reset,
+1241:     ]);
+1242:     builder
+1243:         .run(acceptance_context())
+1244:         .expect("failed to run Personal Finance Console");
+1245: }
+
+src-tauri/src/quiescence.rs (465-510, 587-610, 614-744):
+465: fn consume_unified_gate_permit(raw:&str)->Result<(ValidatedGateAuthority,Value)> {
+466:     let supplied=Path::new(raw);
+467:     let root=fs::canonicalize(supplied)?;
+468:     let temporary=fs::canonicalize(std::env::temp_dir())?;
+469:     require(supplied==root&&root!=temporary&&root.starts_with(&temporary)&&!root.to_string_lossy().contains("com.personalfinance.console"),"UNIFIED_ROOT_INVALID")?;
+470:     let marker=root.join("SYNTHETIC_ONLY");
+471:     regular(&marker)?;
+472:     require(fs::read(&marker)?==UNIFIED_MARKER,"UNIFIED_MARKER_INVALID")?;
+473:     for name in ["authorization.json","permit.json","consumed.json","migration-authorization.json","migration-permit.json","permit.claimed.json","gate-permit.claimed.json","gate-permit.claimed","consumed.json","migration-terminal.json","outcome.json"] {
+474:         require(!present_or_unreadable(&root.join(name)),"UNIFIED_DOMAIN_AUTHORITY_CONFLICT")?;
+475:     }
+476:     require(!present_or_unreadable(&root.join("consumed-ledger.json")),"UNIFIED_LEDGER_ALREADY_EXISTS")?;
+477:     let permit_path=root.join("gate-permit.json");
+478:     let permit_identity=regular(&permit_path)?;
+479:     let permit_bytes=fs::read(&permit_path)?;
+480:     let permit_sha=format!("{:x}",Sha256::digest(&permit_bytes));
+481:     require(std::env::var("PFC_GATE_PERMIT_SHA256").ok().as_deref()==Some(permit_sha.as_str()),"GATE_PERMIT_EXACT_BYTES_DRIFT")?;
+482:     let p:Value=serde_json::from_slice(&permit_bytes)?;
+483:     let string=|key:&str|->Result<String>{p.get(key).and_then(Value::as_str).map(str::to_owned).ok_or_else(||Failure::new("GATE_PERMIT_INVALID",key))};
+484:     let root_s=root.to_string_lossy().to_string();
+485:     let app=root.join("managed/install/Installed.app");
+486:     let exe=app.join("Contents/MacOS/personal-finance-console");
+487:     let db=root.join(DB);
+488:     let backup=root.join("backup.sqlite3");
+489:     let receipt_path=root.join("release-receipt.json");
+490:     let auth_path=root.join("gate-inputs/migration-authorization.json");
+491:     let approval_path=root.join("gate-inputs/candidate-approval.json");
+492:     require(string("status")?=="ONE_TIME_PRODUCTION_V4_MIGRATION_AUTHORIZATION","GATE_PERMIT_STATUS")?;
+493:     require(p.get("syntheticOnly").and_then(Value::as_bool)==Some(true),"GATE_PERMIT_DOMAIN")?;
+494:     require(string("productionBundleId")?=="org.pfc.quiescence.integration","GATE_BUNDLE_ID")?;
+495:     require(string("installedAppPath")?==app.to_string_lossy().as_ref(),"GATE_CANDIDATE_PATH")?;
+496:     require(string("candidateExecutablePath")?==exe.to_string_lossy().as_ref(),"GATE_EXECUTABLE_PATH")?;
+497:     require(fs::canonicalize(std::env::current_exe()?)?==exe,"GATE_EXECUTABLE_IDENTITY")?;
+498:     require(string("productionDatabasePath")?==db.to_string_lossy().as_ref(),"GATE_DATABASE_PATH")?;
+499:     require(string("backupPath")?==backup.to_string_lossy().as_ref(),"GATE_BACKUP_PATH")?;
+500:     require(string("releaseReceiptPath")?==receipt_path.to_string_lossy().as_ref(),"GATE_RECEIPT_PATH")?;
+501:     require(p.get("sidecarsAbsent").and_then(Value::as_bool)==Some(true),"GATE_SIDECARS")?;
+502:     require(p.get("maxSupportedSchemaVersion").and_then(Value::as_i64)==Some(4),"GATE_SCHEMA_RANGE")?;
+503:     let issued=p.get("issuedAtUnix").and_then(Value::as_u64).ok_or_else(||Failure::new("GATE_PERMIT_INVALID","issuedAtUnix"))?;
+504:     let expires=p.get("expiresAtUnix").and_then(Value::as_u64).ok_or_else(||Failure::new("GATE_PERMIT_INVALID","expiresAtUnix"))?;
+505:     let now=std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).map_err(|e|Failure::new("CLOCK_INVALID",e))?.as_secs();
+506:     require(issued<=now&&expires>=now&&expires-issued<=120,"GATE_PERMIT_EXPIRED")?;
+507:     require(!string("nonce")?.is_empty()&&!string("ownerAuthorizationId")?.is_empty(),"GATE_PERMIT_BINDING")?;
+508:     let receipt_sha=string("releaseReceiptSha256")?;
+509:     let auth_sha=string("migrationAuthorizationSha256")?;
+510:     let approval_sha=string("candidateApprovalSha256")?;
+
+587:     let claim_dir=root.join("gate-permit.claimed");
+588:     fs::create_dir(&claim_dir).map_err(|e|Failure::new("GATE_PERMIT_CLAIM_REFUSED",e))?;
+589:     fs::set_permissions(&claim_dir,fs::Permissions::from_mode(0o700))?;
+590:     sync_dir(&root)?;
+591:     let claim=claim_dir.join("permit.json");
+592:     fs::rename(&permit_path,&claim).map_err(|e|Failure::new("GATE_PERMIT_CLAIM_REFUSED",e))?;
+593:     sync_dir(&claim_dir)?;
+594:     sync_dir(&root)?;
+595:     require(hash_file(&claim)?==permit_sha&&regular(&claim)?==permit_identity,"GATE_PERMIT_CLAIM_DRIFT")?;
+596:     let ledger_path=root.join("consumed-ledger.json");
+597:     let mut file=OpenOptions::new().write(true).create_new(true).mode(0o600).custom_flags(libc::O_NOFOLLOW|libc::O_CLOEXEC).open(&ledger_path)
+598:         .map_err(|e|Failure::new("GATE_LEDGER_CREATE_REFUSED",e))?;
+599:     serde_json::to_writer(&mut file,&ledger)?;file.write_all(b"\n")?;file.sync_all()?;sync_dir(&root)?;
+600:     let ledger_bytes=fs::read(&ledger_path)?;
+601:     require(serde_json::from_slice::<Value>(&ledger_bytes)?==ledger,"GATE_LEDGER_READBACK")?;
+602:     lease.validate()?;
+603:     let authority=ValidatedGateAuthority{domain:AuthorityDomain::UnifiedR2bGateOwned,root:root.clone(),session,nonce:string("nonce")?,authorization_id,
+604:         permit_sha256:permit_sha,receipt_sha256:receipt_sha,authorization_sha256:auth_sha,
+605:         candidate_approval_sha256:approval_sha,candidate_sha256:candidate_sha,bundle_id:"org.pfc.quiescence.integration".into(),
+606:         manifest_sha256:manifest_sha,database_sha256:db_sha,backup_sha256:backup_sha,database_identity:db_identity,backup_identity,
+607:         expires_at_unix:expires,expiry_validated:true,lease};
+608:     let response=json!({"event":"gate_permit_consumed","status":"GATE_PERMIT_CONSUMED_NATIVE_S4_PENDING",
+609:         "syntheticOnly":true,"permitSha256":authority.permit_sha256,"ledgerPath":ledger_path});
+610:     Ok((authority,response))
+
+614: pub fn run_unified_gate_handoff(root:&str)->Result<Value> {
+615:     let (authority,mut result)=consume_unified_gate_permit(root)?;
+616:     require(authority.domain==AuthorityDomain::UnifiedR2bGateOwned&&authority.bundle_id=="org.pfc.quiescence.integration"&&
+617:         authority.expiry_validated&&!authority.nonce.is_empty()&&!authority.authorization_id.is_empty(),"RUNNER_AUTHORITY_INVALID")?;
+618:     let recovery_test_point=selected_recovery_test_point(&authority)?;
+619:     let app=authority.root.join("managed/install/Installed.app");
+620:     let exe=app.join("Contents/MacOS/personal-finance-console");
+621:     let manifest=app.join("Contents/Resources/runtime-compatibility.json");
+622:     exact_hash(&exe,&authority.candidate_sha256)?;
+623:     exact_hash(&manifest,&authority.manifest_sha256)?;
+624:     exact_hash(&authority.root.join("release-receipt.json"),&authority.receipt_sha256)?;
+625:     exact_hash(&authority.root.join("gate-inputs/migration-authorization.json"),&authority.authorization_sha256)?;
+626:     exact_hash(&authority.root.join("gate-inputs/candidate-approval.json"),&authority.candidate_approval_sha256)?;
+627:     require(regular(&authority.root.join("backup.sqlite3"))?==authority.backup_identity,"S4_BACKUP_IDENTITY_DRIFT")?;
+628:     exact_hash(&authority.root.join("backup.sqlite3"),&authority.backup_sha256)?;
+629:     let now=std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).map_err(|e|Failure::new("CLOCK_INVALID",e))?.as_secs();
+630:     require(now<=authority.expires_at_unix,"S4_AUTHORITY_EXPIRED")?;
+631:     let db=authority.root.join(DB);
+632:     let before=regular(&db)?;
+633:     require(before==authority.database_identity&&hash_file(&db)?==authority.database_sha256,"S4_DATABASE_DRIFT")?;
+634:     let connection=Connection::open_with_flags(&db,OpenFlags::SQLITE_OPEN_READ_WRITE|OpenFlags::SQLITE_OPEN_NO_MUTEX|OpenFlags::SQLITE_OPEN_NOFOLLOW)?;
+635:     same_object(&connection,&authority.root,&authority.database_identity)?;
+636:     connection.busy_timeout(Duration::ZERO)?;
+637:     connection.execute_batch("PRAGMA locking_mode=EXCLUSIVE;")?;
+638:     let busy:i64=connection.query_row("PRAGMA busy_timeout",[],|r|r.get(0))?;
+639:     let locking:String=connection.query_row("PRAGMA locking_mode",[],|r|r.get(0))?;
+640:     let journal:String=connection.query_row("PRAGMA journal_mode",[],|r|r.get(0))?;
+641:     require(busy==0&&locking=="exclusive"&&journal=="delete","S4_SQLITE_PROFILE")?;
+642:     authority.lease.validate()?;
+643:     require(regular(&db)?==authority.database_identity,"S4_DATABASE_IDENTITY_DRIFT")?;
+644:     same_object(&connection,&authority.root,&authority.database_identity)?;
+645:     sidecars(&authority.root,false,&authority.database_identity)?;
+646:     schema(&connection,3)?;
+647:     let post_hash=hash_file(&db)?;
+648:     require(post_hash==authority.database_sha256,"S4_DATABASE_BYTES_CHANGED")?;
+649:     authority.lease.validate()?;
+650:     let stages_path=authority.root.join("r2b-s0-s10.jsonl");
+651:     let mut stages=OpenOptions::new().write(true).create_new(true).mode(0o600).custom_flags(libc::O_NOFOLLOW|libc::O_CLOEXEC).open(&stages_path)?;
+652:     let mut record_stage=|stage:&str, details:Value|->Result<()> {
+653:         authority.lease.validate()?;
+654:         serde_json::to_writer(&mut stages,&json!({"stage":stage,"details":details,"permitSha256":authority.permit_sha256,"session":authority.session}))?;
+655:         stages.write_all(b"\n")?; stages.sync_all()?; sync_dir(&authority.root)?;
+656:         authority.lease.validate()?; Ok(())
+657:     };
+658:     record_stage("S4_CONNECTION_PREPARED",json!({"busyTimeout":busy,"lockingMode":locking,"journalMode":journal,"databaseIdentity":authority.database_identity}))?;
+659:     connection.execute_batch("BEGIN EXCLUSIVE")?;
+660:     guarded(&connection,&authority.root,&authority.database_identity)?;
+661:     record_stage("S5_QUIESCENCE_ACQUIRED",json!({"lockState":file_control(&connection,rusqlite::ffi::SQLITE_FCNTL_LOCKSTATE)?}))?;
+662:     if recovery_test_point==Some(RecoveryTestPoint::AfterS5QuiescenceAcquired) {
+663:         fire_recovery_test_hook(&authority,recovery_test_point.unwrap(),"S5_QUIESCENCE_ACQUIRED",Some(&connection),"PROCESS_EXIT_AFTER_DURABLE_S5");
+664:     }
+665:     #[cfg(feature="wp04-r2b-recovery-test-hooks")]
+666:     {
+667:         if recovery_test_point==Some(RecoveryTestPoint::GuardLostAfterQuiescence) {
+668:             authority.lease.release_for_synthetic_guard_loss()?;
+669:             let failed_guard=authority.lease.validate().err().ok_or_else(||Failure::new("TEST_HOOK_GUARD_LOSS_NOT_OBSERVED","real maintenance lease remained valid"))?;
+670:             let mut state=recovery_binding_record(&authority,&connection,"GUARD_LOST_OR_UNPROVEN")?;
+671:             state["guardValidationFailure"]=json!(failed_guard.code);
+672:             durable(&authority.root,"unified-recovery-state.json",&state)?;
+673:             persist_recovery_test_injection(&authority,recovery_test_point.unwrap(),"GUARD_LOST_OR_UNPROVEN",Some(&connection),"REAL_MAINTENANCE_FLOCK_RELEASED_THEN_NATIVE_VALIDATION_FAILED")?;
+674:             std::process::exit(86);
+675:         }
+676:         if recovery_test_point==Some(RecoveryTestPoint::ActiveStateThenProcessExit) {
+677:             let mut active=recovery_binding_record(&authority,&connection,"ACTIVE")?;
+678:             active["nativeStage"]=json!("S5_QUIESCENCE_ACQUIRED");
+679:             active["pid"]=json!(std::process::id());
+680:             durable(&authority.root,"recovery-active.json",&active)?;
+681:             persist_recovery_test_injection(&authority,recovery_test_point.unwrap(),"ORPHAN_ACTIVE",Some(&connection),"PROCESS_EXIT_WITH_DURABLE_NATIVE_ACTIVE_STATE")?;
+682:             std::process::exit(86);
+683:         }
+684:     }
+685:     schema(&connection,3)?;
+686:     let pre_business=business_snapshot(&connection)?;
+687:     record_stage("S6_V3_REVALIDATED",json!({"databaseSha256":authority.database_sha256,"businessSnapshotSha256":format!("{:x}",Sha256::digest(serde_json::to_vec(&pre_business)?))}))?;
+688:     #[cfg(feature="wp04-r2b-recovery-test-hooks")]
+689:     {
+690:         if recovery_test_point==Some(RecoveryTestPoint::BeforeM4FailV3Confirmed) {
+691:             connection.execute_batch("ROLLBACK")?;
+692:             require(connection.is_autocommit(),"TEST_HOOK_ROLLBACK_NOT_CONFIRMED")?;
+693:             schema(&connection,3)?;
+694:             let rows:i64=connection.query_row("SELECT COUNT(*) FROM schema_migrations WHERE version=4",[],|row|row.get(0))?;
+695:             require(rows==0&&hash_file(&db)?==authority.database_sha256,"TEST_HOOK_V3_NOT_CONFIRMED")?;
+696:             authority.lease.validate()?;
+697:             let mut terminal=recovery_binding_record(&authority,&connection,"FAILED_V3_CONFIRMED")?;
+698:             terminal["rollbackConfirmed"]=json!(true);
+699:             terminal["guard"]=json!("known-held");
+700:             terminal["migration4Rows"]=json!(rows);
+701:             durable(&authority.root,"unified-recovery-terminal.json",&terminal)?;
+702:             persist_recovery_test_injection(&authority,recovery_test_point.unwrap(),"FAILED_V3_CONFIRMED",Some(&connection),"DETERMINISTIC_SAFE_FAILURE_AFTER_CONFIRMED_ROLLBACK")?;
+703:             return Err(Failure::new("INJECTED_SAFE_PRE_M4_FAILURE","native rollback confirmed V3 while the real maintenance lease remained held"));
+704:         }
+705:     }
+706:     guarded(&connection,&authority.root,&authority.database_identity)?;
+707:     let mut migration_statements=0usize;
+708:     for sql in M4.split(';').filter(|statement|!statement.trim().is_empty()) {
+709:         connection.execute_batch(sql)?; migration_statements+=1;
+710:         guarded(&connection,&authority.root,&authority.database_identity)?;
+711:     }
+712:     connection.execute("INSERT INTO schema_migrations(version,applied_at) VALUES(4,strftime('%Y-%m-%dT%H:%M:%fZ','now'))",[])?;
+713:     schema(&connection,4)?;
+714:     require(business_snapshot(&connection)?==pre_business,"GATE_M4_BUSINESS_CHANGED")?;
+715:     let migration_rows:i64=connection.query_row("SELECT COUNT(*) FROM schema_migrations WHERE version=4",[],|row|row.get(0))?;
+716:     require(migration_rows==1,"GATE_M4_ROW_NOT_EXACTLY_ONCE")?;
+717:     record_stage("S7_M4_IN_TRANSACTION",json!({"migration":"migrations/004.sql","migrationStatements":migration_statements,"migration4Rows":migration_rows,"transactionOpen":!connection.is_autocommit()}))?;
+718:     if recovery_test_point==Some(RecoveryTestPoint::AfterS7BeforeCommit) {
+719:         fire_recovery_test_hook(&authority,recovery_test_point.unwrap(),"S7_M4_IN_TRANSACTION",Some(&connection),"PROCESS_EXIT_BEFORE_COMMIT");
+720:     }
+721:     guarded(&connection,&authority.root,&authority.database_identity)?;
+722:     record_stage("S8_COMMIT_OUTCOME_UNKNOWN",json!({"commitAttempted":false,"transactionOpen":!connection.is_autocommit()}))?;
+723:     connection.execute_batch("COMMIT")?;
+724:     require(connection.is_autocommit(),"GATE_COMMIT_NOT_AUTOCOMMIT")?;
+725:     if recovery_test_point==Some(RecoveryTestPoint::AfterCommitBeforeVerifiedReadback) {
+726:         fire_recovery_test_hook(&authority,recovery_test_point.unwrap(),"COMMIT_DURABLE_BEFORE_VERIFIED_READBACK",Some(&connection),"PROCESS_EXIT_AFTER_COMMIT_BEFORE_VERIFIED_READBACK");
+727:     }
+728:     schema(&connection,4)?;
+729:     require(business_snapshot(&connection)?==pre_business,"GATE_POST_COMMIT_BUSINESS_CHANGED")?;
+730:     record_stage("S8_COMMIT_VERIFIED",json!({"committed":true,"userVersion":4,"migration4Rows":migration_rows}))?;
+731:     guarded(&connection,&authority.root,&authority.database_identity)?;
+732:     schema(&connection,4)?;
+733:     let post_business=business_snapshot(&connection)?;
+734:     require(post_business==pre_business,"GATE_S9_BUSINESS_CHANGED")?;
+735:     let sides=sidecars(&authority.root,true,&authority.database_identity)?;
+736:     require(sides["-wal"].is_null()&&sides["-shm"].is_null(),"GATE_S9_UNEXPECTED_SIDECAR")?;
+737:     record_stage("S9_POST_READBACK_GUARDED",json!({"schema":4,"migrationRows":[1,2,3,4],"migration4Rows":migration_rows,"integrity":"ok","foreignKeys":[],"businessPreserved":true,"sidecars":sides}))?;
+738:     authority.lease.validate()?;
+739:     drop(record_stage);
+740:     drop(connection);
+741:     drop(stages);
+742:     let post_hash=hash_file(&db)?;
+743:     let terminal_path=authority.root.join("verified-handoff.json");
+744:     require(!present_or_unreadable(&terminal_path),"GATE_TERMINAL_ALREADY_EXISTS")?;

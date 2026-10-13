@@ -1,0 +1,42 @@
+{
+  "productRegression": {
+    "command": "npm run test:product",
+    "status": "PASS",
+    "files": 17,
+    "testsPassed": 300,
+    "testsFailed": 0
+  },
+  "nativeRecoveryQuiescence": {
+    "command": "cargo test --manifest-path src-tauri/Cargo.toml --features wp04-r2b-recovery-test-hooks --bin personal-finance-console",
+    "status": "PASS",
+    "testsPassed": 33,
+    "testsFailed": 0,
+    "warnings": [
+      "pre-existing unused import/dead code warnings"
+    ]
+  },
+  "recoveryDiagnosticSmoke": {
+    "command": "python3 scripts/test_unified_r2b_recovery.py",
+    "status": "PASS",
+    "testsPassed": 9,
+    "testsFailed": 0
+  },
+  "forwardFormalGateSmoke": {
+    "command": "APPLE_SIGNING_IDENTITY='Apple Development: 8619814730147 (FW5KHTFNZ6)' python3 -m unittest scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff.test_formal_gate_cli_rust_claim_ledger_runner_completes_s10 -v",
+    "status": "PASS",
+    "testsPassed": 1,
+    "m4ExecutionCount": 1,
+    "durableTerminal": "S10_VERIFIED_HANDOFF",
+    "syntheticOnly": true,
+    "caveat": "Test harness rebuilt/reused its debug fixture target and wrote fresh result files under pre-existing untracked 37-r2b-final-rerun evidence path; no release candidate rebuild/resign. The prior bytes of those untracked outputs were not snapshotted before execution."
+  },
+  "relevantIpcContract": {
+    "command": "npx vitest run tests/quiescence-ipc-contract.test.ts",
+    "status": "PASS",
+    "files": 1,
+    "testsPassed": 6,
+    "testsFailed": 0
+  },
+  "finalRegression": "PASS_REUSED_WITH_CURRENT_REVALIDATION",
+  "full17ScenarioRecoveryRerun": false
+}

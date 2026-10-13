@@ -1,0 +1,6 @@
+npm run test:product: PASS, 17 files / 300 tests
+cargo test ... --bin personal-finance-console: PASS, 33 tests
+python3 scripts/test_unified_r2b_recovery.py: PASS, 9 tests
+Targeted forward Formal Gate S0-S10/M4 exactly-once smoke: PASS, 1 test, M4 count=1, S10_VERIFIED_HANDOFF
+npx vitest run tests/quiescence-ipc-contract.test.ts: PASS, 1 file / 6 tests
+No 17-scenario recovery matrix rerun. No release-candidate rebuild/resign. See REGRESSION_SUMMARY.json for debug fixture/evidence write caveat.
