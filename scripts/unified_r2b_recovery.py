@@ -521,4 +521,3 @@ def diagnose(root: Path, authorization_path: Path, expected_authorization_sha256
     if auth_after_sha != auth_sha or auth_after_id != auth_identity:
         raise GateBlocked(["Recovery authorization changed during diagnostic."])
     return result
-
