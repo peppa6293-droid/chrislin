@@ -1,0 +1,5 @@
+src-tauri/src/startup_exclusion.rs: shared/exclusive flock, canonical namespace and lock object checks
+src-tauri/src/lib.rs::run_production_migration_command: exclusive guard before permit inspection/claim and Migration 4
+src-tauri/src/lib.rs::run: shared guard and durable startup check before tauri::Builder; guard dropped after event loop returns
+src-tauri/src/quiescence.rs: feature-only S5 and post-COMMIT deterministic pause points
+scripts/test_wp04r2c3a_startup_exclusion.py: full-chain isolated Tauri UI launch, renderer attribution, crash and namespace negative cases

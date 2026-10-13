@@ -1,0 +1,21 @@
+{
+  "report_sha256": "6a59a1aaa1f3565219e7a038241522919ea53a1677f844b9db96f933bbadbb13",
+  "project_state_sha256": "7b352d4954e745ff6a33c3244f949ffe6d2b29accc03cbe9da3192257948fec1",
+  "implementation_head": "7b4a9c16bbbfc6ad1cd602af479d8aaa9a11f756",
+  "implementation_commit": "7b4a9c16bbbfc6ad1cd602af479d8aaa9a11f756",
+  "implementation_commit_matches_head": true,
+  "report_exists": true,
+  "state_saved_and_read_back": true,
+  "required_evidence_directories_present": true,
+  "s5_renderer_count": 0,
+  "post_commit_renderer_count": 0,
+  "s10_renderer_count": 1,
+  "migration4_rows": 1,
+  "race_iterations": 50,
+  "double_win_count": 0,
+  "regression_status": "PASS",
+  "signed_synthetic_ui_probe_codesign": "PASS",
+  "signed_probe_executable_sha256": "d808d2c8783a17c4e3a75b268f31388b2d2346f6ad1d64ab03b040114546ad2e",
+  "production_touched": false,
+  "final_candidate_built": false
+}

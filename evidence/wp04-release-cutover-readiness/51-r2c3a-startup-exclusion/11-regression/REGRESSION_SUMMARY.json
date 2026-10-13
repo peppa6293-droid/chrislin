@@ -1,0 +1,121 @@
+{
+  "status": "PASS",
+  "scope": "synthetic-only runtime implementation validation",
+  "production_touched": false,
+  "starting_head": "266c55d77ee4ca1cee5f6ef40300c9c637c83664",
+  "implementation_commit": "7b4a9c16bbbfc6ad1cd602af479d8aaa9a11f756",
+  "regressions": [
+    {
+      "name": "typecheck",
+      "command": "npm run typecheck",
+      "status": "PASS"
+    },
+    {
+      "name": "lint",
+      "command": "npm run lint",
+      "status": "PASS_WITH_25_EXISTING_STYLE_WARNINGS"
+    },
+    {
+      "name": "product",
+      "command": "npm run test:product",
+      "passed": 300,
+      "failed": 0,
+      "status": "PASS"
+    },
+    {
+      "name": "wp03_preview_packaging",
+      "command": "npm run test:wp03-preview",
+      "passed": 5,
+      "failed": 0,
+      "status": "PASS"
+    },
+    {
+      "name": "release_gate",
+      "command": "npm run test:release-gate",
+      "passed": 40,
+      "failed": 0,
+      "status": "PASS"
+    },
+    {
+      "name": "r2a_r2b1a_contract_recovery_diagnostic",
+      "command": "python3 -m unittest scripts.test_production_gate_wiring_integration scripts.test_quiescence_gate_owned scripts.test_unified_synthetic_contract scripts.test_unified_r2b_recovery -v",
+      "passed": 34,
+      "failed": 0,
+      "status": "PASS",
+      "includes_recovery_diagnostic_tests": 9
+    },
+    {
+      "name": "rust_default",
+      "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib",
+      "passed": 40,
+      "failed": 0,
+      "status": "PASS"
+    },
+    {
+      "name": "quiescence_fixture",
+      "command": "cargo test --manifest-path src-tauri/Cargo.toml --features quiescence-fixture,wp04-r2c3a-startup-exclusion-test-hooks --bin quiescence-fixture",
+      "passed": 33,
+      "failed": 0,
+      "status": "PASS"
+    },
+    {
+      "name": "quiescence_tauri",
+      "command": "TAURI_CONFIG={} cargo test --manifest-path src-tauri/Cargo.toml --features quiescence-tauri --bin quiescence-tauri",
+      "passed": 44,
+      "failed": 0,
+      "status": "PASS"
+    },
+    {
+      "name": "r2b1b_native_handoff",
+      "passed": 16,
+      "failed": 0,
+      "status": "PASS",
+      "evidence": "11-regression/r2b1b-native-handoff-rerun/"
+    },
+    {
+      "name": "recovery_test_hooks",
+      "passed": 12,
+      "failed": 0,
+      "status": "PASS",
+      "evidence": "11-regression/recovery-hooks-rerun/"
+    },
+    {
+      "name": "native_lease",
+      "passed": 15,
+      "failed": 0,
+      "status": "PASS",
+      "evidence": "11-regression/native-lease-rerun-02.json"
+    },
+    {
+      "name": "startup_exclusion_end_to_end",
+      "passed": 4,
+      "failed": 0,
+      "status": "PASS",
+      "evidence": "scripts/test_wp04r2c3a_startup_exclusion.py"
+    },
+    {
+      "name": "startup_exclusion_race",
+      "iterations": 50,
+      "double_win_count": 0,
+      "status": "PASS",
+      "evidence": "09-race/STARTUP_EXCLUSION_RACE_MATRIX.json"
+    },
+    {
+      "name": "forward_migration4",
+      "status": "PASS",
+      "migration4_rows": 1,
+      "s10": "VERIFIED_HANDOFF",
+      "source": "r2b1b_native_handoff positive synthetic full-chain test"
+    }
+  ],
+  "known_attempts": [
+    "Initial R2B1B and native-lease re-runs stopped at the declared missing signing-identity prerequisite; reruns with the configured Apple Development identity passed.",
+    "A failed native-lease attempt wrote native-lease-rerun.json and it was preserved; successful rerun is native-lease-rerun-02.json."
+  ],
+  "not_run": [
+    "full 17-case recovery matrix; not required because startup patch does not change recovery or migration-state semantics",
+    "final Release Candidate build/freeze",
+    "Production app or database",
+    "R2C final acceptance/audit"
+  ]
+}

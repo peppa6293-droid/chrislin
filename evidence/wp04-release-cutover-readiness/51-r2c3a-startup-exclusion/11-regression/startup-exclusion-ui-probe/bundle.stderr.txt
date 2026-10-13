@@ -1,0 +1,2 @@
+failed to bundle project: can't open main binary /Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/wp04-release-cutover-readiness/51-r2c3a-startup-exclusion/11-regression/startup-exclusion-ui-probe/cargo-target/release/quiescence-tauri: No such file or directory (os error 2)
+       Error failed to bundle project: can't open main binary /Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/wp04-release-cutover-readiness/51-r2c3a-startup-exclusion/11-regression/startup-exclusion-ui-probe/cargo-target/release/quiescence-tauri: No such file or directory (os error 2)

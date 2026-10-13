@@ -1,0 +1,609 @@
+{
+  "format_version": 1,
+  "synthetic_only": true,
+  "transport": "native-v2-cli-barrier-NOT-Q11",
+  "source_sha256": "2e3074342a59243b74a8ed7a40b0f8b3f4c190e07c7e3ad0356db3d19c6a157a",
+  "native_sha256": "389e1437abaf09bd50d96208ebef95e75c1c100556ab9d4b785b61e87ac9b66f",
+  "retained_root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-native-lease-13t89ryv",
+  "cases": [
+    {
+      "name": "duplicate-native-and-gate",
+      "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-native-lease-13t89ryv/pfc-qic-native-duplicate-a3cy7oky",
+      "native_pid": 72949,
+      "duplicate_pid": 72958,
+      "owner_ack": {
+        "details": {
+          "authorization_id": "synthetic-integration-3416243de2844140b35112e84f6dcd3f",
+          "format_version": 2,
+          "lease_dev": 16777232,
+          "lease_inode": 26551605,
+          "managed_contract_sha256": "31d92ad5e994afcfcc93c8d13a1708e6f47cb9478c13f1d70074a37ca9b4c601",
+          "nonce": "80f25a8038ac4cf3977d85b7afbf9a08",
+          "parent_pid": 72908,
+          "pid": 72949,
+          "session": "session-57d566148d50477789107f9c83df3de6",
+          "synthetic_only": true
+        },
+        "event": "lease_native_owned"
+      },
+      "gate_duplicate_probe": {
+        "acquired": false,
+        "blocked": true
+      },
+      "duplicate_result": {
+        "error": {
+          "code": "PERMIT_REPLAY_OR_PENDING",
+          "detail": "PERMIT_REPLAY_OR_PENDING",
+          "sqlite_extended": null,
+          "sqlite_primary": null
+        },
+        "event": "blocked"
+      },
+      "native_log": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-native-lease-13t89ryv/pfc-qic-native-duplicate-a3cy7oky/lease-native-events.jsonl",
+      "passed": true
+    },
+    {
+      "name": "native-child-death",
+      "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-native-lease-13t89ryv/pfc-qic-native-child-death-b726nsdb",
+      "native_pid": 73006,
+      "acquired": {
+        "details": {
+          "lockstate": 4
+        },
+        "event": "quiescence_acquired"
+      },
+      "parent_retained_after_child_death": true,
+      "lease_released_after_parent_close": true,
+      "persistent_diagnostic": {
+        "format_version": 2,
+        "outcome": {
+          "authorization_id": "synthetic-integration-6ee2da3d380e42e8ab1c0059ae4f4606",
+          "authorization_sha256": "172d96e2a5ac5758425e8f4d9673ebe28dd030e1f4ccfc0b104032cc221d528a",
+          "details": {
+            "guard": "known-held"
+          },
+          "format_version": 2,
+          "managed_contract_sha256": "c9b689d507e5e6a8da36070ae4b144b6805710b70501e528a639e5031ac8d605",
+          "nonce": "c8333aa19016449f93a5b7f003c09eb0",
+          "object_binding": {
+            "backup_sha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+            "database_c0_sha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+            "executable_path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-native-lease-13t89ryv/pfc-qic-native-child-death-b726nsdb/managed/install/Installed.app/Contents/MacOS/personal-finance-console",
+            "executable_sha256": "de42937a56fc72d4a71fcb8c027671c899fb4f283e63ebf197c02272f61486c3",
+            "lease_dev": 16777232,
+            "lease_inode": 26551750,
+            "manifest_sha256": "2f59feda46f841cfbf6ecafc8f75e8b9c2cfcbdb24a585239c0ae09960350733"
+          },
+          "phase": 5,
+          "pid": 73006,
+          "previous_record_sha256": "5c1db46f54a871d2f72bb63060f688f28165c82a7146cbabcdb3249d2355a9d1",
+          "restart": "ordinary-startup-blocked; explicit diagnostic/recovery authorization required",
+          "sequence": 5,
+          "session": "session-49eb3fe6af81469ca738d8c30d9ac28e",
+          "state": "QUIESCENCE_ACQUIRED",
+          "state_contract": {
+            "allowed_next": 6,
+            "entry": "same C BEGIN EXCLUSIVE and native file-control guard checked",
+            "evidence": "immutable hash-linked native-state-NNN.json, atomically replaced outcome.json, callback events",
+            "failure": "preserve consumed permit, exact latest durable phase and failure; never restore runtime/DB or infer outcome from schema",
+            "restart": "ordinary financial startup blocked; read-only diagnosis, then separately-authorized independent recovery"
+          },
+          "synthetic_only": true
+        },
+        "phase": 5,
+        "reason": "UNRESOLVED_CUTOVER_REQUIRES_EXPLICIT_RECOVERY",
+        "recovery_required": true,
+        "startupBlocked": true,
+        "startup_allowed": false,
+        "state": "QUIESCENCE_ACQUIRED",
+        "synthetic_only": true
+      },
+      "native_log": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-native-lease-13t89ryv/pfc-qic-native-child-death-b726nsdb/lease-native-events.jsonl",
+      "passed": true
+    },
+    {
+      "name": "native-death-after-ack-before-gate-close",
+      "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-native-lease-13t89ryv/pfc-qic-native-death-after-ack-tr4k8xge",
+      "native_pid": 73057,
+      "ack": {
+        "authorization_id": "synthetic-integration-862d99e1aef941aeacc7a721d464d700",
+        "format_version": 2,
+        "lease_dev": 16777232,
+        "lease_inode": 26551899,
+        "managed_contract_sha256": "0bde918f3c2e00e202c24e5bb1e0c42bd000425b335e651c933760dd621f2ef9",
+        "nonce": "e6404f7fc6bc459ba4004f1ea4021b32",
+        "parent_pid": 72908,
+        "pid": 73057,
+        "session": "session-123b292ab9234dea820c473f61214af3",
+        "synthetic_only": true
+      },
+      "ack_event": {
+        "details": {
+          "authorization_id": "synthetic-integration-862d99e1aef941aeacc7a721d464d700",
+          "format_version": 2,
+          "lease_dev": 16777232,
+          "lease_inode": 26551899,
+          "managed_contract_sha256": "0bde918f3c2e00e202c24e5bb1e0c42bd000425b335e651c933760dd621f2ef9",
+          "nonce": "e6404f7fc6bc459ba4004f1ea4021b32",
+          "parent_pid": 72908,
+          "pid": 73057,
+          "session": "session-123b292ab9234dea820c473f61214af3",
+          "synthetic_only": true
+        },
+        "event": "lease_native_owned"
+      },
+      "persistent_diagnostic": {
+        "format_version": 2,
+        "outcome": {
+          "authorization_id": "synthetic-integration-862d99e1aef941aeacc7a721d464d700",
+          "authorization_sha256": "4f5ffd6818c162b53c1a2463199f2ad9ba846942579f8c48693ff904ee169ecf",
+          "details": {
+            "entry_verified": "exact authorization/session/nonce/contract hash bound",
+            "lease": "held",
+            "managed_contract_sha256": "0bde918f3c2e00e202c24e5bb1e0c42bd000425b335e651c933760dd621f2ef9"
+          },
+          "format_version": 2,
+          "managed_contract_sha256": "0bde918f3c2e00e202c24e5bb1e0c42bd000425b335e651c933760dd621f2ef9",
+          "nonce": "e6404f7fc6bc459ba4004f1ea4021b32",
+          "object_binding": {
+            "backup_sha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+            "database_c0_sha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+            "executable_path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-native-lease-13t89ryv/pfc-qic-native-death-after-ack-tr4k8xge/managed/install/Installed.app/Contents/MacOS/personal-finance-console",
+            "executable_sha256": "fab5684edcb405dfbd8623e874ad4b8b6251d43936a10f4e4d9fe584110dee86",
+            "lease_dev": 16777232,
+            "lease_inode": 26551899,
+            "manifest_sha256": "2f59feda46f841cfbf6ecafc8f75e8b9c2cfcbdb24a585239c0ae09960350733"
+          },
+          "phase": 2,
+          "pid": 73057,
+          "previous_record_sha256": "5cd1350accf8c1465a357177b6030f51724059eb8eadcca2a0b26bb8995d1850",
+          "restart": "ordinary-startup-blocked; explicit diagnostic/recovery authorization required",
+          "sequence": 2,
+          "session": "session-123b292ab9234dea820c473f61214af3",
+          "state": "OWNER_AUTHORIZED",
+          "state_contract": {
+            "allowed_next": 3,
+            "entry": "exact session/nonce/authorization and contract hashes bound; live lease",
+            "evidence": "immutable hash-linked native-state-NNN.json, atomically replaced outcome.json, callback events",
+            "failure": "preserve consumed permit, exact latest durable phase and failure; never restore runtime/DB or infer outcome from schema",
+            "restart": "ordinary financial startup blocked; read-only diagnosis, then separately-authorized independent recovery"
+          },
+          "synthetic_only": true
+        },
+        "phase": 2,
+        "reason": {
+          "code": "IO_ERROR",
+          "detail": "No such file or directory (os error 2)",
+          "sqlite_extended": null,
+          "sqlite_primary": null
+        },
+        "recovery_required": true,
+        "startupBlocked": true,
+        "startup_allowed": false,
+        "state": "GUARD_LOST_OR_UNPROVEN",
+        "synthetic_only": true
+      },
+      "gate_retained_until_close": true,
+      "persistent_ack_after_release": true,
+      "native_log": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-native-lease-13t89ryv/pfc-qic-native-death-after-ack-tr4k8xge/lease-native-events.jsonl",
+      "passed": true
+    },
+    {
+      "name": "gate-death-before-native-launch-ack-absent",
+      "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-native-lease-13t89ryv/pfc-qic-gate-death-before-ack-d2qy_ei1",
+      "gate_pid": 73079,
+      "native_launched": false,
+      "ack_absent": true,
+      "handoff_receipt_absent": true,
+      "lease_reacquired_after_gate_death": true,
+      "passed": true
+    },
+    {
+      "name": "native-exit-before-ack-wrong-session",
+      "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-native-lease-13t89ryv/pfc-qic-native-exit-before-ack-wjonp7xk",
+      "native_returncode": 2,
+      "native_exited_before_ack": true,
+      "observed": {
+        "error": {
+          "code": "SESSION_MISMATCH",
+          "detail": "SESSION_MISMATCH",
+          "sqlite_extended": null,
+          "sqlite_primary": null
+        },
+        "event": "blocked"
+      },
+      "gate_retained_lease": true,
+      "passed": true
+    },
+    {
+      "name": "native-kill-before-ack",
+      "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-native-lease-13t89ryv/pfc-qic-native-kill-before-ack-2fb0tpi4",
+      "boundary": {
+        "details": {
+          "authorization_id": "synthetic-integration-d8ac402f10fd49588feffe19970af616",
+          "format_version": 2,
+          "lease_dev": 16777232,
+          "lease_inode": 26552308,
+          "managed_contract_sha256": "ec99fda13911362f2f137798e88ad51d1f21123674a5365e9bc84e9eb4dd6a5d",
+          "nonce": "e0ebe22ee767490b85eee8bd2d5ebea2",
+          "parent_pid": 72908,
+          "pid": 73193,
+          "session": "session-28a4f6cbcfc748a7b9fb52ccdd3b7650",
+          "synthetic_only": true
+        },
+        "event": "native_ack_pre_write"
+      },
+      "native_returncode": -9,
+      "gate_retained_until_close": true,
+      "database_unchanged": true,
+      "ack_absent": true,
+      "permit_not_consumed": true,
+      "passed": true
+    },
+    {
+      "name": "gate-death-during-ack",
+      "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-native-lease-13t89ryv/pfc-qic-gate-death-during-ack-cmti1sx0",
+      "gate_pid": 73215,
+      "actual_native_pid": 73242,
+      "native_ack": {
+        "details": {
+          "authorization_id": "synthetic-integration-26c9f34b28414531b180b3073e744636",
+          "format_version": 2,
+          "lease_dev": 16777232,
+          "lease_inode": 26552452,
+          "managed_contract_sha256": "4677659be37b0a15ff42a901389ed6f469a8f26f8af369bf5e994f0130c560cd",
+          "nonce": "e4de5f93772a4b029813df886801cabd",
+          "parent_pid": 73215,
+          "pid": 73242,
+          "session": "session-7014496b08f5418a82d299ef5e395986",
+          "synthetic_only": true
+        },
+        "event": "lease_native_owned"
+      },
+      "incomplete_ack_boundary": {
+        "details": {
+          "authorization_id": "synthetic-integration-26c9f34b28414531b180b3073e744636",
+          "format_version": 2,
+          "lease_dev": 16777232,
+          "lease_inode": 26552452,
+          "managed_contract_sha256": "4677659be37b0a15ff42a901389ed6f469a8f26f8af369bf5e994f0130c560cd",
+          "nonce": "e4de5f93772a4b029813df886801cabd",
+          "parent_pid": 73215,
+          "pid": 73242,
+          "session": "session-7014496b08f5418a82d299ef5e395986",
+          "synthetic_only": true
+        },
+        "event": "native_ack_created"
+      },
+      "post_parent_death_quiescence": {
+        "details": {
+          "lockstate": 4
+        },
+        "event": "quiescence_acquired"
+      },
+      "same_session_inode_retained": true,
+      "persistent_diagnostic": {
+        "format_version": 2,
+        "outcome": {
+          "authorization_id": "synthetic-integration-26c9f34b28414531b180b3073e744636",
+          "authorization_sha256": "c5e1cf97d158924527518c14ae29d1a1c14f4a28313411f67dda859db20e59fe",
+          "details": {
+            "guard": "known-held"
+          },
+          "format_version": 2,
+          "managed_contract_sha256": "4677659be37b0a15ff42a901389ed6f469a8f26f8af369bf5e994f0130c560cd",
+          "nonce": "e4de5f93772a4b029813df886801cabd",
+          "object_binding": {
+            "backup_sha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+            "database_c0_sha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+            "executable_path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-native-lease-13t89ryv/pfc-qic-gate-death-during-ack-cmti1sx0/managed/install/Installed.app/Contents/MacOS/personal-finance-console",
+            "executable_sha256": "883e9092f0c824f22b20d776606e6c30fbc2fda314aec8586c2627e440607ef8",
+            "lease_dev": 16777232,
+            "lease_inode": 26552452,
+            "manifest_sha256": "2f59feda46f841cfbf6ecafc8f75e8b9c2cfcbdb24a585239c0ae09960350733"
+          },
+          "phase": 5,
+          "pid": 73242,
+          "previous_record_sha256": "36a17c18381a328f0e6df77bd8c56de2283a6a6ecfd938726600b0e1a13515a2",
+          "restart": "ordinary-startup-blocked; explicit diagnostic/recovery authorization required",
+          "sequence": 5,
+          "session": "session-7014496b08f5418a82d299ef5e395986",
+          "state": "QUIESCENCE_ACQUIRED",
+          "state_contract": {
+            "allowed_next": 6,
+            "entry": "same C BEGIN EXCLUSIVE and native file-control guard checked",
+            "evidence": "immutable hash-linked native-state-NNN.json, atomically replaced outcome.json, callback events",
+            "failure": "preserve consumed permit, exact latest durable phase and failure; never restore runtime/DB or infer outcome from schema",
+            "restart": "ordinary financial startup blocked; read-only diagnosis, then separately-authorized independent recovery"
+          },
+          "synthetic_only": true
+        },
+        "phase": 5,
+        "reason": "UNRESOLVED_CUTOVER_REQUIRES_EXPLICIT_RECOVERY",
+        "recovery_required": true,
+        "startupBlocked": true,
+        "startup_allowed": false,
+        "state": "QUIESCENCE_ACQUIRED",
+        "synthetic_only": true
+      },
+      "native_log": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-native-lease-13t89ryv/pfc-qic-gate-death-during-ack-cmti1sx0/lease-native-events.jsonl",
+      "passed": true
+    },
+    {
+      "name": "acknowledged-handoff-no-gap",
+      "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-native-lease-13t89ryv/pfc-qic-native-handoff-jk580rnk",
+      "gate_handoff": {
+        "format_version": 2,
+        "synthetic_only": true,
+        "session": "session-07e8c61b66704e6f8aac15dd8b601e57",
+        "nonce": "0c4ba07b4c794a10a9baf3a0849f4fc6",
+        "authorization_id": "synthetic-integration-67689de61955481aaebc1c960832f697",
+        "managed_contract_sha256": "91206e34d076f49cdab048d3dff9697f9c0a80502a7c46283c7c53d05db7ae32",
+        "pid": 73301,
+        "parent_pid": 72908,
+        "lease_dev": 16777232,
+        "lease_inode": 26552604,
+        "state": "NATIVE_OWNERSHIP_ACKNOWLEDGED",
+        "native_ack_sha256": "62fc592a477049c4d2c09bc53f0013e421f38ed63f07904fdeebaf1df5090d76",
+        "native_ack_path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-native-lease-13t89ryv/pfc-qic-native-handoff-jk580rnk/native-launch.json",
+        "child_alive_at_ack_readback": true,
+        "gate_action": "close-own-FD-only; never LOCK_UN",
+        "persistent_attempt_preserved": true
+      },
+      "native_alive_retained_same_lease": true,
+      "persistent_diagnostic": {
+        "format_version": 2,
+        "outcome": {
+          "authorization_id": "synthetic-integration-67689de61955481aaebc1c960832f697",
+          "authorization_sha256": "037bf1a42f98c96eaed9145db5e72c7ddc4809ddc5731d935096bd2ab5caabb5",
+          "details": {
+            "guard": "known-held"
+          },
+          "format_version": 2,
+          "managed_contract_sha256": "91206e34d076f49cdab048d3dff9697f9c0a80502a7c46283c7c53d05db7ae32",
+          "nonce": "0c4ba07b4c794a10a9baf3a0849f4fc6",
+          "object_binding": {
+            "backup_sha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+            "database_c0_sha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+            "executable_path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-native-lease-13t89ryv/pfc-qic-native-handoff-jk580rnk/managed/install/Installed.app/Contents/MacOS/personal-finance-console",
+            "executable_sha256": "b90ebbeaac98babd1b552231ef987dd4002fbb95ca243c04e2d1a5948644f196",
+            "lease_dev": 16777232,
+            "lease_inode": 26552604,
+            "manifest_sha256": "2f59feda46f841cfbf6ecafc8f75e8b9c2cfcbdb24a585239c0ae09960350733"
+          },
+          "phase": 5,
+          "pid": 73301,
+          "previous_record_sha256": "61ef89e631d490e8110d00c60bfd5adcada7cf3dceb49c75cca6d2dd29b89edf",
+          "restart": "ordinary-startup-blocked; explicit diagnostic/recovery authorization required",
+          "sequence": 5,
+          "session": "session-07e8c61b66704e6f8aac15dd8b601e57",
+          "state": "QUIESCENCE_ACQUIRED",
+          "state_contract": {
+            "allowed_next": 6,
+            "entry": "same C BEGIN EXCLUSIVE and native file-control guard checked",
+            "evidence": "immutable hash-linked native-state-NNN.json, atomically replaced outcome.json, callback events",
+            "failure": "preserve consumed permit, exact latest durable phase and failure; never restore runtime/DB or infer outcome from schema",
+            "restart": "ordinary financial startup blocked; read-only diagnosis, then separately-authorized independent recovery"
+          },
+          "synthetic_only": true
+        },
+        "phase": 5,
+        "reason": "UNRESOLVED_CUTOVER_REQUIRES_EXPLICIT_RECOVERY",
+        "recovery_required": true,
+        "startupBlocked": true,
+        "startup_allowed": false,
+        "state": "QUIESCENCE_ACQUIRED",
+        "synthetic_only": true
+      },
+      "native_log": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-native-lease-13t89ryv/pfc-qic-native-handoff-jk580rnk/lease-native-events.jsonl",
+      "passed": true
+    },
+    {
+      "name": "actual-parent-death",
+      "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-native-lease-13t89ryv/pfc-qic-native-parent-death-k92insyr",
+      "gate_pid": 73326,
+      "actual_native_pid": 73352,
+      "native_ack": {
+        "details": {
+          "authorization_id": "synthetic-integration-d95501ff399040e3b6d5500ad4a5c33a",
+          "format_version": 2,
+          "lease_dev": 16777232,
+          "lease_inode": 26552758,
+          "managed_contract_sha256": "4e233ae93a64414acdc3d8de4ad2025f50cf4d368366a15edccff022fb42a35d",
+          "nonce": "a5bb238c82354aaa9818dac1a174b2a8",
+          "parent_pid": 73326,
+          "pid": 73352,
+          "session": "session-e43d4c964487497093b34c0436fed79b",
+          "synthetic_only": true
+        },
+        "event": "lease_native_owned"
+      },
+      "incomplete_ack_boundary": null,
+      "post_parent_death_quiescence": {
+        "details": {
+          "lockstate": 4
+        },
+        "event": "quiescence_acquired"
+      },
+      "same_session_inode_retained": true,
+      "persistent_diagnostic": {
+        "format_version": 2,
+        "outcome": {
+          "authorization_id": "synthetic-integration-d95501ff399040e3b6d5500ad4a5c33a",
+          "authorization_sha256": "5c790468e3c0f6b106206a6c19016a30fef4bef2d339d5fb02a131526925a6ac",
+          "details": {
+            "guard": "known-held"
+          },
+          "format_version": 2,
+          "managed_contract_sha256": "4e233ae93a64414acdc3d8de4ad2025f50cf4d368366a15edccff022fb42a35d",
+          "nonce": "a5bb238c82354aaa9818dac1a174b2a8",
+          "object_binding": {
+            "backup_sha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+            "database_c0_sha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+            "executable_path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-native-lease-13t89ryv/pfc-qic-native-parent-death-k92insyr/managed/install/Installed.app/Contents/MacOS/personal-finance-console",
+            "executable_sha256": "e06743ca99dc0c2d4f3fc81e652f0129400a3d95302abcfd8b2a4513d5b83207",
+            "lease_dev": 16777232,
+            "lease_inode": 26552758,
+            "manifest_sha256": "2f59feda46f841cfbf6ecafc8f75e8b9c2cfcbdb24a585239c0ae09960350733"
+          },
+          "phase": 5,
+          "pid": 73352,
+          "previous_record_sha256": "b73fff41f8c4bb4e5d04a29c325407761d9a7a6aa9c3fde41d3d5d5c8484691c",
+          "restart": "ordinary-startup-blocked; explicit diagnostic/recovery authorization required",
+          "sequence": 5,
+          "session": "session-e43d4c964487497093b34c0436fed79b",
+          "state": "QUIESCENCE_ACQUIRED",
+          "state_contract": {
+            "allowed_next": 6,
+            "entry": "same C BEGIN EXCLUSIVE and native file-control guard checked",
+            "evidence": "immutable hash-linked native-state-NNN.json, atomically replaced outcome.json, callback events",
+            "failure": "preserve consumed permit, exact latest durable phase and failure; never restore runtime/DB or infer outcome from schema",
+            "restart": "ordinary financial startup blocked; read-only diagnosis, then separately-authorized independent recovery"
+          },
+          "synthetic_only": true
+        },
+        "phase": 5,
+        "reason": "UNRESOLVED_CUTOVER_REQUIRES_EXPLICIT_RECOVERY",
+        "recovery_required": true,
+        "startupBlocked": true,
+        "startup_allowed": false,
+        "state": "QUIESCENCE_ACQUIRED",
+        "synthetic_only": true
+      },
+      "native_log": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-native-lease-13t89ryv/pfc-qic-native-parent-death-k92insyr/lease-native-events.jsonl",
+      "passed": true
+    },
+    {
+      "name": "wrong-inode",
+      "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-native-lease-13t89ryv/pfc-qic-native-reject-wrong-inode-zbnb6zia",
+      "expected_code": "LEASE_IDENTITY_MISMATCH",
+      "observed": {
+        "error": {
+          "code": "LEASE_IDENTITY_MISMATCH",
+          "detail": "LEASE_IDENTITY_MISMATCH",
+          "sqlite_extended": null,
+          "sqlite_primary": null
+        },
+        "event": "blocked"
+      },
+      "permit_not_consumed": true,
+      "passed": true
+    },
+    {
+      "name": "unlocked-fd",
+      "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-native-lease-13t89ryv/pfc-qic-native-reject-unlocked-fd-ugw4umnq",
+      "expected_code": "LEASE_HANDOFF_UNPROVEN",
+      "observed": {
+        "error": {
+          "code": "LEASE_HANDOFF_UNPROVEN",
+          "detail": "LEASE_HANDOFF_UNPROVEN",
+          "sqlite_extended": null,
+          "sqlite_primary": null
+        },
+        "event": "blocked"
+      },
+      "permit_not_consumed": true,
+      "passed": true
+    },
+    {
+      "name": "unrelated-holder",
+      "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-native-lease-13t89ryv/pfc-qic-native-reject-unrelated-holder-6ok8i0ht",
+      "expected_code": "LEASE_NOT_HELD",
+      "observed": {
+        "error": {
+          "code": "LEASE_NOT_HELD",
+          "detail": "LEASE_NOT_HELD",
+          "sqlite_extended": null,
+          "sqlite_primary": null
+        },
+        "event": "blocked"
+      },
+      "permit_not_consumed": true,
+      "passed": true
+    },
+    {
+      "name": "recreated-file",
+      "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-native-lease-13t89ryv/pfc-qic-native-reject-recreated-file-paefalzp",
+      "expected_code": "LEASE_IDENTITY_MISMATCH",
+      "observed": {
+        "error": {
+          "code": "LEASE_IDENTITY_MISMATCH",
+          "detail": "LEASE_IDENTITY_MISMATCH",
+          "sqlite_extended": null,
+          "sqlite_primary": null
+        },
+        "event": "blocked"
+      },
+      "permit_not_consumed": true,
+      "passed": true
+    },
+    {
+      "name": "stale-session",
+      "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-native-lease-13t89ryv/pfc-qic-native-reject-stale-session-_at2q2si",
+      "expected_code": "LEASE_SESSION_BODY_MISMATCH",
+      "observed": {
+        "error": {
+          "code": "LEASE_SESSION_BODY_MISMATCH",
+          "detail": "LEASE_SESSION_BODY_MISMATCH",
+          "sqlite_extended": null,
+          "sqlite_primary": null
+        },
+        "event": "blocked"
+      },
+      "permit_not_consumed": true,
+      "passed": true
+    },
+    {
+      "name": "wrong-session",
+      "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-native-lease-13t89ryv/pfc-qic-native-reject-wrong-session-6pj7qn95",
+      "expected_code": "SESSION_MISMATCH",
+      "observed": {
+        "error": {
+          "code": "SESSION_MISMATCH",
+          "detail": "SESSION_MISMATCH",
+          "sqlite_extended": null,
+          "sqlite_primary": null
+        },
+        "event": "blocked"
+      },
+      "permit_not_consumed": true,
+      "passed": true
+    }
+  ],
+  "status": "PASS",
+  "coverage_matrix": {
+    "overlapping_gate_native_handoff": "PASS",
+    "exact_inode_session_ack": "PASS",
+    "gate_close_only_after_exact_ack": "PASS",
+    "no_LOCK_UN_gap": "PASS",
+    "wrong_recreated_stale_lock": "PASS",
+    "duplicate_gate_and_native": "PASS",
+    "gate_death_before_ack_no_native_started": "PASS",
+    "gate_death_during_ack": "PASS",
+    "native_exit_before_ack_wrong_session": "PASS",
+    "native_kill_before_ack": "PASS",
+    "native_death_after_ack": "PASS",
+    "unrelated_lock_contention": "PASS",
+    "persistent_state_after_release": "PASS"
+  },
+  "known_limitations": [
+    "Process-death tests are not machine power-loss or storage-fsync fault tests; native-v2 CLI evidence is not Q11."
+  ],
+  "selected_cases": [
+    "duplicate-native-and-gate",
+    "native-child-death",
+    "native-death-after-ack-before-gate-close",
+    "gate-death-before-native-launch-ack-absent",
+    "native-exit-before-ack-wrong-session",
+    "native-kill-before-ack",
+    "gate-death-during-ack",
+    "acknowledged-handoff-no-gap",
+    "actual-parent-death",
+    "wrong-inode",
+    "unlocked-fd",
+    "unrelated-holder",
+    "recreated-file",
+    "stale-session",
+    "wrong-session"
+  ]
+}

@@ -1,0 +1,4 @@
+codesign --verify --deep --strict --verbose=2 /private/tmp/PFC-WP04R2C3A-Synthetic-UI-Probe.app
+valid on disk
+satisfies its Designated Requirement
+PASS

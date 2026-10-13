@@ -1,0 +1,8 @@
+        Warn Skipping binary patching for /Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/wp04-release-cutover-readiness/51-r2c3a-startup-exclusion/11-regression/startup-exclusion-ui-probe/cargo-target/release/quiescence-tauri due to --no-binary-patching flag.
+    Bundling PFC Isolated Quiescence IPC.app (/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/wp04-release-cutover-readiness/51-r2c3a-startup-exclusion/11-regression/startup-exclusion-ui-probe/cargo-target/release/bundle/macos/PFC Isolated Quiescence IPC.app)
+     Signing with identity "Apple Development: 8619814730147 (FW5KHTFNZ6)"
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/wp04-release-cutover-readiness/51-r2c3a-startup-exclusion/11-regression/startup-exclusion-ui-probe/cargo-target/release/bundle/macos/PFC Isolated Quiescence IPC.app/Contents/MacOS/quiescence-tauri: replacing existing signature
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/wp04-release-cutover-readiness/51-r2c3a-startup-exclusion/11-regression/startup-exclusion-ui-probe/cargo-target/release/bundle/macos/PFC Isolated Quiescence IPC.app/Contents/MacOS/quiescence-tauri: replacing existing signature
+/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/wp04-release-cutover-readiness/51-r2c3a-startup-exclusion/11-regression/startup-exclusion-ui-probe/cargo-target/release/bundle/macos/PFC Isolated Quiescence IPC.app/Contents/MacOS/quiescence-tauri: resource fork, Finder information, or similar detritus not allowed
+failed to bundle project: failed codesign application: failed to run command codesign: failed to sign app
+       Error failed to bundle project: failed codesign application: failed to run command codesign: failed to sign app

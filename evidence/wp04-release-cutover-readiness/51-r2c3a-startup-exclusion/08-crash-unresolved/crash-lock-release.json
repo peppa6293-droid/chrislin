@@ -1,0 +1,24 @@
+{
+  "holder_exit": "SIGKILL",
+  "os_exclusive_lock_released": true,
+  "ui_exit_code": 0,
+  "startup_decision": {
+    "details": {
+      "databaseAccessed": false,
+      "ordinaryStartupAllowed": false,
+      "reasonCodes": [
+        "UNRESOLVED_CUTOVER_BLOCKS_ORDINARY_STARTUP"
+      ],
+      "records": [
+        "outcome.json"
+      ],
+      "recoveryRequired": true,
+      "requiredAction": "AUTHORIZED_DIAGNOSTIC_OR_HANDOFF_REQUIRED",
+      "state": "COMMIT_OUTCOME_UNKNOWN"
+    },
+    "event": "durable_state_blocked",
+    "pid": 69523
+  },
+  "unresolved_state": "COMMIT_OUTCOME_UNKNOWN",
+  "ui_blocked_before_builder": true
+}

@@ -1,0 +1,11 @@
+{
+  "result": "PRODUCTION_TEST_HOOK_REACHABILITY_NONE",
+  "binary": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri/target/debug/personal-finance-console",
+  "binarySha256": "fe6cf9b00de4a15f714360ac2d8169471d39ba34dc413f09f5c83ca8301583d4",
+  "checkedSymbols": [
+    "PFC_R2B_RECOVERY_TEST_POINT",
+    "PFC_R2B_RECOVERY_TEST_DOMAIN",
+    "RECOVERY_TEST_INJECTION.json"
+  ],
+  "foundSymbols": []
+}

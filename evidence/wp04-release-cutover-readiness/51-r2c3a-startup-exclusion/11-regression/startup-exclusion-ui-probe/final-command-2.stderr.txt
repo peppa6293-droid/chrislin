@@ -1,0 +1,10 @@
+        Warn Skipping binary patching for /private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-r2c3a-ui-bundle-l2kpe125/release/quiescence-tauri due to --no-binary-patching flag.
+    Bundling PFC Isolated Quiescence IPC.app (/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-r2c3a-ui-bundle-l2kpe125/release/bundle/macos/PFC Isolated Quiescence IPC.app)
+     Signing with identity "Apple Development: 8619814730147 (FW5KHTFNZ6)"
+/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-r2c3a-ui-bundle-l2kpe125/release/bundle/macos/PFC Isolated Quiescence IPC.app/Contents/MacOS/quiescence-tauri: replacing existing signature
+/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-r2c3a-ui-bundle-l2kpe125/release/bundle/macos/PFC Isolated Quiescence IPC.app/Contents/MacOS/quiescence-tauri: replacing existing signature
+/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-r2c3a-ui-bundle-l2kpe125/release/bundle/macos/PFC Isolated Quiescence IPC.app: replacing existing signature
+        Warn skipping app notarization, no APPLE_ID & APPLE_PASSWORD & APPLE_TEAM_ID or APPLE_API_KEY & APPLE_API_ISSUER & APPLE_API_KEY_PATH environment variables found
+    Finished 1 bundle at:
+        /private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-r2c3a-ui-bundle-l2kpe125/release/bundle/macos/PFC Isolated Quiescence IPC.app (13.50 MiB)
+

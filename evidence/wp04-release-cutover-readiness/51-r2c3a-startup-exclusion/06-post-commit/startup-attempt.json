@@ -1,0 +1,25 @@
+{
+  "phase": "AFTER_COMMIT_BEFORE_VERIFIED_READBACK",
+  "ui_exit_code": 0,
+  "ui_event": {
+    "details": {
+      "error": "STARTUP_EXCLUSION_BUSY"
+    },
+    "event": "blocked",
+    "pid": 69590
+  },
+  "native_migration_still_active": true,
+  "renderer_created": false,
+  "renderer_count": 0,
+  "renderer_attribution": {
+    "bundle_id": "org.pfc.quiescence.integration",
+    "webcontent_processes_seen": 3,
+    "attributed_pids": [],
+    "attributed_count": 0,
+    "unknown_pid_count": 0,
+    "unknown": [],
+    "lsappinfo": {},
+    "method": "ps executable identity + launchctl pid coalition bundle ID"
+  },
+  "renderer_basis": "UI probe exits at shared-lock contention before Tauri context/Builder/WebView creation"
+}

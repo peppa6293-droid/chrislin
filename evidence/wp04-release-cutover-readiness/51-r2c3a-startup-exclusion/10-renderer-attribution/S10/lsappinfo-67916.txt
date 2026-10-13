@@ -1,0 +1,8 @@
+"PFC Isolated Quiescence IPC Web Content" ASN:0x0-0x63ae3a8: 
+    bundleID="com.apple.WebKit.WebContent"
+    bundle path=[ NULL ] 
+    executable path="com.apple.WebKit.WebContent"
+    pid = 67916 !cgsConnection !signalled type="UIElement" flavor=[ NULL ]  Version="21624.5.1.11.3" fileType="XPC!" creator="????" Arch=ARM64 
+    parentASN="PFC Isolated Quiescence IPC Networking" ASN:0x0-0x63ac3a6: 
+    checkin time = now-ish 2026/10/13 20:16:51 ( 0.105626 seconds ago )
+

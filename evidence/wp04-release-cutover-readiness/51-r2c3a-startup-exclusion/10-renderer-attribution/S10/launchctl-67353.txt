@@ -1,0 +1,161 @@
+pid/67353 = {
+	type = pid
+	handle = 67353
+	active count = 1
+	on-demand count = 1
+	originator = /System/Library/Frameworks/WebKit.framework/Versions/A/XPCServices/com.apple.WebKit.WebContent.xpc
+	creator = com.apple.WebKi[67353]
+	creator euid = 501
+	uniqueid = 8281197
+	security context = {
+		uid = 501
+		asid = 100025
+	}
+
+	bringup time = 0 ms
+	death port = 0x13f02b
+
+	environment = {
+		LANG => C.UTF-8
+		PATH => /usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Users/linte/.local/bin:/Applications/ChatGPT.app/Contents/Resources/codex-cli/codex-path:/Users/linte/.codex/tmp/arg0/codex-arg0oTDPxL:/Users/linte/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/linte/.cargo/bin:/Users/linte/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Applications/ChatGPT.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS
+		SSH_AUTH_SOCK => /var/run/com.apple.launchd.WrQjPMmDXt/Listeners
+		HOME => /Users/linte
+		__CF_USER_TEXT_ENCODING => 0x1F5:0x19:0x34
+		TMPDIR => /var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/
+	}
+
+	services = {
+	}
+
+	service stubs = {
+		com.apple.automator.xpc.workflowServiceRunner
+		com.apple.audio.DriverHelper
+		com.apple.xpc.TypographyPanelService
+		com.apple.XProtectBridgeService
+		com.apple.CloudTelemetryService.xpc
+		com.apple.audio.SandboxHelper
+		com.apple.desktopservices.QuarantineService
+		com.apple.appkit.xpc.LegacyExternalColorPickerService.x86_64
+		com.apple.audio.AudioConverterService
+		com.apple.WebKit.GPU
+		com.apple.intents.intents-helper
+		com.apple.audio.ComponentTagHelper
+		com.apple.appkit.xpc.documentPopoverViewService
+		com.apple.speech.SpeechSynthesisServerXPC
+		com.apple.SetStoreUpdateService
+		com.apple.BiomeWriteService
+		com.apple.StreamingUnzipService
+		com.apple.coremedia.videoencoder
+		com.apple.ColorSyncXPCAgent
+		com.apple.CoreMLModelSecurityService
+		com.apple.desktopservices.ArchiveService
+		com.apple.AppleDeviceQueryService
+		com.apple.MediaLibraryBrowser
+		com.apple.WebKit.Networking
+		com.apple.appkit.xpc.TrustedUIService
+		com.apple.CGXPCServicesAgent
+		com.apple.appkit.xpc.ThemeWidgetControlViewService
+		com.apple.coremedia.videodecoder
+		com.apple.audio.Core-Audio-Driver-Service
+		com.apple.textkit.nsattributedstringagent
+		com.apple.internal.DataDetectorsRemoteScanner
+		com.apple.audio.AudioConverterService.HighCapacity
+		com.apple.audio.AUCrashHandlerService
+		com.apple.audio.AUHostingService.arm64e
+		com.apple.audio.CarbonComponentScanner.x86-64
+		com.apple.WebKit.WebContent.EnhancedSecurity
+		com.apple.appkit.xpc.defaultSyncService
+		com.apple.ModelIO.AssetLoader
+		com.apple.appkit.xpc.openAndSavePanelService
+		com.apple.appkit.xpc.LegacyExternalColorPickerService.arm64
+		com.apple.WebKit.WebContent
+		com.apple.StreamingUnzipService.privileged
+		com.apple.OSLogService
+		com.apple.security.XPCAcmeService
+		com.apple.foundation.UserScriptService
+		com.apple.coremedia.videodecoder.zonto
+		com.apple.XProtectFramework.UpdateService
+		com.apple.corelocation.GNSSLocationService
+		com.apple.SceneKit.C3DColladaResourcesCoordinator
+		com.apple.scenekit.SCNSceneLoader
+		com.apple.MessageSecurity.MSTimestampXPCService
+		com.apple.coremedia.pluginformatreader.zonto
+		com.apple.corelocation.maphelperservice
+		com.apple.audio.AudioConverterService.Hardened
+		com.apple.CoreDisplay.XPCService
+		com.apple.mlcompiler.services.compiler
+		com.apple.CoreGraphics.CGPDFService
+		com.apple.appkit.xpc.sandboxedServiceRunner
+		com.apple.coremedia.pluginformatreader
+		com.apple.LoginUserService
+		com.apple.MTLCompilerService
+		com.apple.CMValidateMovieDataReferenceService
+		com.apple.filesystems.netfs.PlugInLibraryService
+		com.apple.lighthouse.SAExtensionOrchestrator
+		com.apple.USDLib.FormatLoader
+		com.apple.ImageIOXPCService
+		com.apple.extensionkitservice
+		com.apple.audio.InfoHelper
+		com.apple.XprotectFramework.AnalysisService
+		com.apple.coremedia.videoencoder.zonto
+		com.apple.audio.AUHostingService.x86-64
+		com.apple.WebKit.WebContent.Development
+		com.apple.backboard.BKSEndpointProviderService
+		com.apple.private.ANEStorageMaintainer
+		com.apple.ANECompilerService
+		com.apple.appkit.xpc.VersionsUIHelper
+		com.apple.WebKit.WebContent.CaptivePortal
+		com.apple.appkit.xpc.ColorPickerImageLoader
+		com.apple.IPConfiguration.IPConfigurationHelper
+		com.apple.audio.Core-Audio-Driver-Service.helper
+	}
+
+	unmanaged processes = {
+	}
+
+	endpoints = {
+		 0x2a38b    A   A   com.apple.PerfPowerTelemetryClientRegistrationService
+		 0x27b37    A   A   com.apple.CodeSigningHelper
+		 0xba8e3    A   A   com.apple.security.XPCTimeStampingService
+		       0    A   D   com.apple.appkit.xpc.ColorSampler
+		       0    A   D   com.apple.iokit.IOServiceAuthorizeAgent
+		 0xc349f    A   D   com.apple.DictionaryServiceHelper
+		       0    A   D   com.apple.iokit.ioserviceauthorized
+		 0x5500b    A   A   com.apple.TrustedPeersHelper
+		 0x5dd13    A   A   com.apple.geod
+		       0    A   D   com.apple.internal.aupbregistrarservice
+		 0x20d03    A   A   com.apple.authd
+		 0x5610b    A   A   com.apple.hiservices-xpcservice
+		 0xb1d03    A   A   com.apple.accessibility.mediaaccessibilityd
+		 0x6b067    A   A   com.apple.ViewBridgeAuxiliary
+		 0xd24b3    A   D   com.apple.security.XPCKeychainSandboxCheck
+		 0x6c833    A   D   com.apple.carboncore.csnameddata
+		       0    A   D   com.apple.MobileAsset.ManifestStorageService
+	}
+
+	task-special ports = {
+			 0x19703 4       bootstrap  (unknown)
+			  0x3f03 9          access  (unknown)
+	}
+
+	resource coalition = {
+		ID = 278057
+		type = resource
+		state = active
+		active count = 2
+		name = application.org.pfc.quiescence.integration.26523669.26523681.6D1E32E5-4E90-4B2C-B9E8-93BAF1625CDF
+		bundle ID = org.pfc.quiescence.integration
+	}
+
+	jetsam coalition = {
+		ID = 278058
+		type = jetsam
+		state = active
+		active count = 1
+		name = application.org.pfc.quiescence.integration.26523669.26523681.6D1E32E5-4E90-4B2C-B9E8-93BAF1625CDF
+		bundle ID = org.pfc.quiescence.integration
+	}
+
+
+	properties = uncorked
+}

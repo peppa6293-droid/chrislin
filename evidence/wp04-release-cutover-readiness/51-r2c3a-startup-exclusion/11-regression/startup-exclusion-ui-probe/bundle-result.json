@@ -1,0 +1,18 @@
+{
+  "command": [
+    "npx",
+    "tauri",
+    "bundle",
+    "--config",
+    "src-tauri/tauri.quiescence.conf.json",
+    "--config",
+    "src-tauri/tauri.quiescence.package.conf.json",
+    "--features",
+    "quiescence-tauri",
+    "--bundles",
+    "app",
+    "--no-binary-patching"
+  ],
+  "exit_code": 1,
+  "target_dir": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/wp04-release-cutover-readiness/51-r2c3a-startup-exclusion/11-regression/startup-exclusion-ui-probe/cargo-target"
+}

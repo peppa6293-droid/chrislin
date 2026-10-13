@@ -1,0 +1,302 @@
+"PFC Isolated Quiescence IPC" ASN:0x0-0x63aa3a4: (in front) 
+    bundleID="org.pfc.quiescence.integration"
+    bundle path="/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-r2c3a-ui-bundle-l2kpe125/release/bundle/macos/PFC Isolated Quiescence IPC.app"
+    executable path="/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-r2c3a-ui-bundle-l2kpe125/release/bundle/macos/PFC Isolated Quiescence IPC.app/Contents/MacOS/quiescence-tauri"
+    pid = 67912 type="Foreground" flavor=3 Version="0.1.0" fileType="APPL" creator="????" Arch=ARM64 
+    coalition: 278090
+    launch time =  now-ish 2026/10/13 20:16:50 ( 0.463387 seconds ago )
+    checkin time = now-ish 2026/10/13 20:16:50 ( 0.404023 seconds ago )
+    launch to checkin time: 0.0593679 seconds
+
+pid/67912 = {
+	type = pid
+	handle = 67912
+	active count = 7
+	on-demand count = 1
+	service count = 6
+	active service count = 3
+	originator = /private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-r2c3a-ui-bundle-l2kpe125/release/bundle/macos/PFC Isolated Quiescence IPC.app
+	creator = quiescence-taur[67912]
+	creator euid = 501
+	uniqueid = 8281750
+	security context = {
+		uid = 501
+		asid = 100025
+	}
+
+	bringup time = 0 ms
+	death port = 0xbb863
+
+	environment = {
+		LANG => C.UTF-8
+		PATH => /usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Users/linte/.local/bin:/Applications/ChatGPT.app/Contents/Resources/codex-cli/codex-path:/Users/linte/.codex/tmp/arg0/codex-arg0oTDPxL:/Users/linte/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/linte/.cargo/bin:/Users/linte/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Applications/ChatGPT.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS
+		SSH_AUTH_SOCK => /var/run/com.apple.launchd.WrQjPMmDXt/Listeners
+		HOME => /Users/linte
+		__CF_USER_TEXT_ENCODING => 0x1F5:0x19:0x34
+		TMPDIR => /var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/
+	}
+
+	services = {
+		       0      - 	com.apple.WebKit.WebContent
+		       0      - 	com.apple.WebKit.GPU
+		       0      - 	com.apple.WebKit.Networking
+		   67914      - 	com.apple.WebKit.GPU.1A24D0D2-CBDB-4E22-90B1-69FA3BE4A631
+		   67915      - 	com.apple.WebKit.Networking.32D4E076-7FA6-49DF-8FAF-B8A460330B07
+		   67916      - 	com.apple.WebKit.WebContent.4DB22699-BB45-48D0-BD4D-8374929F8E0F
+	}
+
+	service stubs = {
+		com.apple.automator.xpc.workflowServiceRunner
+		com.apple.LocalAuthenticationRemoteService
+		com.apple.cloudsettings.mouse
+		com.apple.remotemanagement.PowerSubscriber
+		com.apple.icloud.FindMyDevice.FindMyDeviceEraseXPCService
+		com.apple.SafariServices.ExtensionHelper
+		com.apple.xpc.TypographyPanelService
+		com.apple.WritingTools.xpc.WritingToolsViewService
+		com.apple.managedclient.pds.SystemPolicy
+		com.apple.CloudTelemetryService.xpc
+		com.apple.SafariServices
+		com.apple.AddressBook.ABPersonViewService
+		com.apple.managedclient.pds.CardDAV
+		com.apple.managedclient.pds.SampleService
+		com.apple.desktopservices.QuarantineService
+		com.apple.ContactsUI.ContactPickerService
+		com.apple.FinanceImageProcessingService
+		com.apple.appkit.xpc.LegacyExternalColorPickerService.x86_64
+		com.apple.remotemanagement.LegacyProfilesSubscriber
+		com.apple.audio.AudioConverterService
+		com.apple.DataDetectorsViewService
+		com.apple.audio.ComponentTagHelper
+		com.apple.remotemanagement.DiskManagementSubscriber
+		com.apple.DPSubmissionService
+		com.apple.BiomeWriteService
+		com.apple.managedclient.pds.MAIDService
+		com.apple.coremedia.videoencoder
+		com.apple.ColorSyncXPCAgent
+		com.apple.CoreMLModelSecurityService
+		com.apple.MediaLibraryBrowser
+		com.apple.FeatureFlagsProfileService
+		com.apple.appkit.xpc.ThemeWidgetControlViewService
+		com.apple.CGXPCServicesAgent
+		com.apple.coremedia.videodecoder
+		com.apple.textkit.nsattributedstringagent
+		com.apple.FTLivePhotoService
+		com.apple.SiriTTSService.TrialProxy
+		com.apple.internal.DataDetectorsRemoteScanner
+		com.apple.ClassroomKit.ClassroomMCXService
+		com.apple.audio.AudioConverterService.HighCapacity
+		com.apple.audio.AUCrashHandlerService
+		com.apple.CommerceKit.TransactionService
+		com.apple.remotemanagement.ManagedAppsSubscriber
+		com.apple.appkit.xpc.defaultSyncService
+		com.apple.AssetCacheProfilePlugin
+		com.apple.cloudsettings.gamecontroller
+		com.apple.spotlight.CSExattrCryptoService
+		com.apple.systempreferences.legacyLoader.arm64
+		com.apple.remotemanagement.ManagedPreferencesSubscriber
+		com.apple.AuthenticationServices.Helper
+		com.apple.cloudsettings.appearance
+		com.apple.ModelIO.AssetLoader
+		com.apple.managedclient.pds.AirPlay
+		com.apple.appkit.xpc.openAndSavePanelService
+		com.apple.AuthenticationServices.ASConfigurationSubscriber
+		com.apple.icloud.FindMyDevice.FindMyDeviceIdentityXPCService
+		com.apple.remotemanagement.ManagementTestSubscriber
+		com.apple.StreamingUnzipService.privileged
+		com.apple.OSLogService
+		com.apple.managedclient.pds.Exchange
+		com.apple.remotemanagement.ScreenSharingSubscriber
+		com.apple.security.XPCAcmeService
+		com.apple.corelocation.GNSSLocationService
+		com.apple.managedclient.pds.Certificate
+		com.apple.LookupViewService
+		com.apple.managedclient.pds.FileVaultEscrow
+		com.apple.MessageSecurity.MSTimestampXPCService
+		com.apple.scenekit.SCNSceneLoader
+		com.apple.audio.AudioConverterService.Hardened
+		com.apple.CoreDisplay.XPCService
+		com.apple.externalaccessory.WACEAService
+		com.apple.managedclient.pds.FirmwarePassword
+		com.apple.HasTRB
+		com.apple.appkit.xpc.sandboxedServiceRunner
+		com.apple.managedclient.pds.MDM
+		com.apple.coremedia.pluginformatreader
+		com.apple.MTLCompilerService
+		com.apple.CMValidateMovieDataReferenceService
+		com.apple.BackgroundTaskManagementSubscriber
+		com.apple.TCCProfileService
+		com.apple.remotemanagement.SecuritySubscriber
+		com.apple.tailspin.symbolicationserver
+		com.apple.remotemanagement.ManagedSettingsSubscriber
+		com.apple.XprotectFramework.AnalysisService
+		com.apple.RemoteManagementMCXProfile
+		com.apple.remotemanagement.SoftwareUpdateSubscriber
+		com.apple.Photos.Migration.Reader
+		com.apple.managedclient.pds.AppleService
+		com.apple.ANECompilerService
+		com.apple.systempreferences.legacyLoader.x86_64
+		com.apple.photos.VideoConversionService
+		com.apple.icloud.FindMyDevice.FindMyDeviceSharedConfigurationXPCService
+		com.apple.appkit.xpc.ColorPickerImageLoader
+		com.apple.WebKit.WebContent.CaptivePortal
+		com.apple.ScreenTimeViewService
+		com.apple.audio.Core-Audio-Driver-Service.helper
+		com.apple.BTMProfileService
+		com.apple.siri.media-indexer
+		com.apple.remotemanagement.MigrationSubscriber
+		com.apple.audio.DriverHelper
+		com.apple.Photos.Migration
+		com.apple.XProtectBridgeService
+		com.apple.StorageManagement.MessagesHelper
+		com.apple.MediaLibraryService
+		com.apple.audio.SandboxHelper
+		com.apple.remotemanagement.AccountSubscriber
+		com.apple.remotemanagement.InteractiveLegacyProfilesSubscriber
+		com.apple.mscamerad-xpc
+		com.apple.managedclient.pds.EraseDevice
+		com.apple.intents.intents-helper
+		com.apple.appkit.xpc.documentPopoverViewService
+		com.apple.speech.SpeechSynthesisServerXPC
+		com.apple.SetStoreUpdateService
+		com.apple.StreamingUnzipService
+		com.apple.desktopservices.ArchiveService
+		com.apple.speech.localspeechrecognition
+		com.apple.AppleDeviceQueryService
+		com.apple.iTunesCloud.SharedListeningConnectionService
+		com.apple.appkit.xpc.TrustedUIService
+		com.apple.audio.Core-Audio-Driver-Service
+		com.apple.cloudsettings.sound
+		com.apple.Photos.CPLDiagnose
+		com.apple.audio.CarbonComponentScanner.x86-64
+		com.apple.audio.AUHostingService.arm64e
+		com.apple.WebKit.WebContent.EnhancedSecurity
+		com.apple.SafariShared.SafariConfigurationSubscriber
+		com.apple.AppStoreDaemon.StoreAEService
+		com.apple.photos.ImageConversionService
+		com.apple.ImageKit.PictureTakerService
+		com.apple.managedclient.pds.SingleSignOn
+		com.apple.managedclient.pds.Assessment
+		com.apple.cloudsettings.international
+		com.apple.AssetCacheLocatorService
+		com.apple.remotemanagement.PasscodeSettingsSubscriber
+		com.apple.appkit.xpc.LegacyExternalColorPickerService.arm64
+		com.apple.ExecutionPolicyService
+		com.apple.foundation.UserScriptService
+		com.apple.coremedia.videodecoder.zonto
+		com.apple.LOMXPCService
+		com.apple.XProtectFramework.UpdateService
+		com.apple.cloudsettings.keyboard
+		com.apple.DataDetectorsActionService
+		com.apple.CommerceKit.StoreAEService
+		com.apple.SceneKit.C3DColladaResourcesCoordinator
+		com.apple.managedclient.pds.Firewall
+		com.apple.SharePlay.GroupSessionService
+		com.apple.AccountProfileRemoteViewService
+		com.apple.coremedia.pluginformatreader.zonto
+		com.apple.corelocation.maphelperservice
+		com.apple.LinkPresentation.LinkSnapshotGeneratorService
+		com.apple.StorageManagement.CloudStorageHelper
+		com.apple.managedclient.pds.PlugInKit
+		com.apple.mlcompiler.services.compiler
+		com.apple.CoreGraphics.CGPDFService
+		com.apple.RemoteManagementMCXService
+		com.apple.diskimagescontroller
+		com.apple.LoginUserService
+		com.apple.SystemExtensionsMDM
+		com.apple.lighthouse.SAExtensionOrchestrator
+		com.apple.filesystems.netfs.PlugInLibraryService
+		com.apple.USDLib.FormatLoader
+		com.apple.preferencepanessupport.WallpaperHelper
+		com.apple.AppleMediaServicesUI.EngagementViewExtension
+		com.apple.managedclient.pds.Font
+		com.apple.ImageIOXPCService
+		com.apple.extensionkitservice
+		com.apple.audio.InfoHelper
+		com.apple.quicklook.satellite
+		com.apple.coremedia.videoencoder.zonto
+		com.apple.FaceTime.FTConversationService
+		com.apple.audio.AUHostingService.x86-64
+		com.apple.remotemanagement.ManagedConfigurationFilesSubscriber
+		com.apple.WebKit.WebContent.Development
+		com.apple.backboard.BKSEndpointProviderService
+		com.apple.private.ANEStorageMaintainer
+		com.apple.AuthKitUI.AKAuthorizationRemoteViewService
+		com.apple.SafariFoundation.CredentialProviderExtensionHelper
+		com.apple.testmanagerd.appintentsservices
+		com.apple.appkit.xpc.VersionsUIHelper
+		com.apple.sidecar.DisplayMarkup
+		com.apple.quicklook.QuickLookUIService
+		com.apple.StocksKitService
+		com.apple.IPConfiguration.IPConfigurationHelper
+	}
+
+	unmanaged processes = {
+	}
+
+	endpoints = {
+		 0xc7a0b    A   D   com.apple.CloudPhotosConfiguration
+		 0x2a38b    A   A   com.apple.PerfPowerTelemetryClientRegistrationService
+		 0x27b37    A   A   com.apple.CodeSigningHelper
+		 0xba8e3    A   A   com.apple.security.XPCTimeStampingService
+		       0    A   D   com.apple.appkit.xpc.ColorSampler
+		       0    A   D   com.apple.iokit.IOServiceAuthorizeAgent
+		 0x90303    A   A   com.apple.TextInputUI.xpc.CursorUIViewService
+		 0xc349f    A   D   com.apple.DictionaryServiceHelper
+		 0xe9503    A   D   com.apple.ctcategories.service
+		0x1550c7    A   D   com.apple.tonelibraryd
+		       0    A   D   com.apple.iokit.ioserviceauthorized
+		 0x5500b    A   A   com.apple.TrustedPeersHelper
+		 0x5dd13    A   A   com.apple.geod
+		 0x9627b    A   D   com.apple.AppStoreDaemon.StorePrivilegedTaskService
+		       0    A   D   com.apple.internal.aupbregistrarservice
+		 0xa0aa7    A   D   com.apple.siri.context.service
+		 0x20d03    A   A   com.apple.authd
+		       0    A   D   com.apple.systempreferences.cacheAssistant
+		 0x62227    A   A   com.apple.imdpersistence.IMDPersistenceAgent
+		       0    M   D   com.apple.WebKit.Networking
+		 0x99b73    A   D   com.apple.MobileInstallationHelperService
+		       0    A   D   com.apple.DistributionKit.DistributionHelper
+		 0x5610b    A   A   com.apple.hiservices-xpcservice
+		       0    A   D   com.apple.siri.acousticsignature
+		 0x3a003    A   D   com.apple.systemadministration.writeconfig
+		       0    M   D   com.apple.WebKit.WebContent
+		 0xb1d03    A   A   com.apple.accessibility.mediaaccessibilityd
+		 0xc7c77    A   D   com.apple.iCloudHelper
+		       0    M   D   com.apple.WebKit.GPU
+		 0x6b067    A   A   com.apple.ViewBridgeAuxiliary
+		 0xd24b3    A   D   com.apple.security.XPCKeychainSandboxCheck
+		 0x5db5b    A   D   com.apple.CoreRoutine.helperservice
+		       0    A   D   com.apple.package-script-service
+		       0    A   D   com.apple.accounts.dom
+		 0xd0d07    A   D   com.apple.AppStoreDaemon.StorePrivilegedODRService
+		 0x6c833    A   D   com.apple.carboncore.csnameddata
+		       0    A   D   com.apple.MobileAsset.ManifestStorageService
+	}
+
+	task-special ports = {
+			 0x19703 4       bootstrap  (unknown)
+			  0x3f03 9          access  (unknown)
+	}
+
+	resource coalition = {
+		ID = 278089
+		type = resource
+		state = active
+		active count = 2
+		name = application.org.pfc.quiescence.integration.26523669.26523681.29A5EC8F-209B-47C5-BCFD-B0F777DE98BF
+		bundle ID = org.pfc.quiescence.integration
+	}
+
+	jetsam coalition = {
+		ID = 278090
+		type = jetsam
+		state = active
+		active count = 1
+		name = application.org.pfc.quiescence.integration.26523669.26523681.29A5EC8F-209B-47C5-BCFD-B0F777DE98BF
+		bundle ID = org.pfc.quiescence.integration
+	}
+
+
+	properties = uncorked
+}

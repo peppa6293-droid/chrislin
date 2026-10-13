@@ -1,0 +1,6 @@
+{
+  "result": "REFUSED",
+  "error": "{\"status\": \"BLOCKED\", \"errorType\": \"GateBlocked\", \"reasons\": [\"Native migration consumer refused or failed (exit=2): {\\\"error\\\":{\\\"code\\\":\\\"RECOVERY_TEST_POINT_UNKNOWN\\\",\\\"detail\\\":\\\"unknown point refused; no fallback\\\",\\\"sqlite_extended\\\":null,\\\"sqlite_primary\\\":null},\\\"event\\\":\\\"blocked\\\"}\"]}\n",
+  "injectionReceipt": false,
+  "nativeStageLog": false
+}

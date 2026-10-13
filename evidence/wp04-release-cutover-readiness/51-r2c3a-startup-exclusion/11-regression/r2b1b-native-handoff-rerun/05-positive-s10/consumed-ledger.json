@@ -1,0 +1,41 @@
+{
+  "authorizationId": "synthetic-migration-authorization-r2b1b",
+  "authorizationSha256": "977e192170b3ff0be6eaa64d5229062452d5c6ae962f5619baddab5176f46afa",
+  "backupIdentity": {
+    "dev": 16777232,
+    "inode": 26542874,
+    "links": 1,
+    "size": 229376
+  },
+  "backupSha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+  "candidateApprovalSha256": "1a2d544c34743c65be8819c12146c3c85d39c8d465800c9d35aca586a7d4394e",
+  "candidateBundleId": "org.pfc.quiescence.integration",
+  "candidateSha256": "9d897c316c675b01679eaf1c437abc74fbca6e526867bd790d64a7c7b4a7c69f",
+  "claimedAtUnix": 1791894128,
+  "consumerExecutableSha256": "9d897c316c675b01679eaf1c437abc74fbca6e526867bd790d64a7c7b4a7c69f",
+  "consumerPid": 70625,
+  "databaseIdentity": {
+    "dev": 16777232,
+    "inode": 26542832,
+    "links": 1,
+    "size": 229376
+  },
+  "databaseSha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+  "domain": "UNIFIED_R2B_GATE_OWNED",
+  "expiresAtUnix": 1791894247,
+  "expiryValidated": true,
+  "formatVersion": 1,
+  "leaseIdentity": {
+    "dev": 16777232,
+    "inode": 26542877,
+    "links": 1,
+    "size": 0
+  },
+  "leasePath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-r2b1b-parent-ilnk9zyx/pfc-qic-r2b1b-6tc3dzca/maintenance.lock",
+  "manifestSha256": "2f59feda46f841cfbf6ecafc8f75e8b9c2cfcbdb24a585239c0ae09960350733",
+  "nonce": "nGfBvVW0Kq8olXauvVH5XWJ7IdzABPBaiMAO19FViWY",
+  "permitSha256": "4e2a96e809f9baf53881eb9f659aa1f13b3f1232f1fa1bf8a4751a320446690b",
+  "receiptSha256": "af3d54cd3ab279ae40b107cd1c9ab03d1a92413362843f4b98a59906de98de3d",
+  "session": "session-5598838816044126963a5b9a3ed3d38a",
+  "syntheticOnly": true
+}

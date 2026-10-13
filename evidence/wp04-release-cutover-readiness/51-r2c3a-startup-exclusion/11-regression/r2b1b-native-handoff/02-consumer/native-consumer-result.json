@@ -1,0 +1,106 @@
+{
+  "beginExclusiveExecuted": true,
+  "connection": {
+    "busyTimeout": 0,
+    "create": false,
+    "journalMode": "delete",
+    "lockingMode": "exclusive",
+    "opened": true
+  },
+  "continuity": {
+    "authorizationId": "synthetic-migration-authorization-r2b1b",
+    "authorizationSha256": "41bd4f0b896c4703c8edaa6823bdc222a0c161c9405558fec104b65b7f7eef0c",
+    "backupIdentity": {
+      "dev": 16777232,
+      "inode": 26474579,
+      "links": 1,
+      "size": 229376
+    },
+    "backupSha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+    "candidateBundleId": "org.pfc.quiescence.integration",
+    "candidateSha256": "f9dd1b081d9504f68a5f968b3d4928191f79a71fc3c374575fc7262b8443210e",
+    "claimedPermitSha256": "c4d8db6eaa2c3b1bf4735b179ffeba215e5365be088017a203ccfb7cf4d1070c",
+    "consumerInputSha256": "c4d8db6eaa2c3b1bf4735b179ffeba215e5365be088017a203ccfb7cf4d1070c",
+    "databaseIdentity": {
+      "dev": 16777232,
+      "inode": 26474535,
+      "links": 1,
+      "size": 229376
+    },
+    "databaseSha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+    "databaseSha256After": "e566acb4979a163300071d8d472c81e037513ddc223650d0f8adec609463a076",
+    "domain": "UNIFIED_R2B_GATE_OWNED",
+    "expiresAtUnix": 1791892599,
+    "expiryValidated": true,
+    "gatePermitSha256": "c4d8db6eaa2c3b1bf4735b179ffeba215e5365be088017a203ccfb7cf4d1070c",
+    "ledgerPermitSha256": "c4d8db6eaa2c3b1bf4735b179ffeba215e5365be088017a203ccfb7cf4d1070c",
+    "manifestSha256": "2f59feda46f841cfbf6ecafc8f75e8b9c2cfcbdb24a585239c0ae09960350733",
+    "nonce": "qYtbw5aM6zbqNGEVXgI1wqaP8CHw7AAUy83iXJsJIkM",
+    "receiptSha256": "6d4521c93a1e66d66c82db1a3af449830557f39d78fc27e4e99cf14723b847fe",
+    "runnerAuthorityPermitSha256": "c4d8db6eaa2c3b1bf4735b179ffeba215e5365be088017a203ccfb7cf4d1070c",
+    "session": "session-521d42a220084e9b889310c5c9fd0fa0",
+    "terminalSha256": "e9d9c78daa7a0ad01476e8ae1a3b9ac5b45e0cd834f1236d4ec232dd2a6d9be0"
+  },
+  "databaseSchema": {
+    "migration4Rows": 1,
+    "migrationRows": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "userVersion": 4
+  },
+  "event": "gate_permit_consumed",
+  "highestState": "S10_VERIFIED_HANDOFF",
+  "ledgerPath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-r2b1b-parent-klrxzixr/pfc-qic-r2b1b-x4pndwel/consumed-ledger.json",
+  "migration4Executed": true,
+  "migration4ExecutionCount": 1,
+  "permitSha256": "c4d8db6eaa2c3b1bf4735b179ffeba215e5365be088017a203ccfb7cf4d1070c",
+  "status": "VERIFIED_HANDOFF",
+  "syntheticOnly": true,
+  "terminal": {
+    "authorizationId": "synthetic-migration-authorization-r2b1b",
+    "authorizationSha256": "41bd4f0b896c4703c8edaa6823bdc222a0c161c9405558fec104b65b7f7eef0c",
+    "backupIdentity": {
+      "dev": 16777232,
+      "inode": 26474579,
+      "links": 1,
+      "size": 229376
+    },
+    "backupSha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+    "businessPreserved": true,
+    "candidateApprovalSha256": "e11bb933adf181c17128f812c37c8411ae791b03f73af7c8540f5518c01ad41b",
+    "candidateSha256": "f9dd1b081d9504f68a5f968b3d4928191f79a71fc3c374575fc7262b8443210e",
+    "connectionClosed": true,
+    "databaseIdentity": {
+      "dev": 16777232,
+      "inode": 26474535,
+      "links": 1,
+      "size": 229376
+    },
+    "databaseSha256After": "e566acb4979a163300071d8d472c81e037513ddc223650d0f8adec609463a076",
+    "databaseSha256Before": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+    "domain": "UNIFIED_R2B_GATE_OWNED",
+    "leaseHeldAtHandoff": true,
+    "manifestSha256": "2f59feda46f841cfbf6ecafc8f75e8b9c2cfcbdb24a585239c0ae09960350733",
+    "migration4Executed": true,
+    "migration4ExecutionCount": 1,
+    "nonce": "qYtbw5aM6zbqNGEVXgI1wqaP8CHw7AAUy83iXJsJIkM",
+    "permitSha256": "c4d8db6eaa2c3b1bf4735b179ffeba215e5365be088017a203ccfb7cf4d1070c",
+    "receiptSha256": "6d4521c93a1e66d66c82db1a3af449830557f39d78fc27e4e99cf14723b847fe",
+    "schema": {
+      "migration4Rows": 1,
+      "migrationRows": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "userVersion": 4
+    },
+    "session": "session-521d42a220084e9b889310c5c9fd0fa0",
+    "state": "VERIFIED_HANDOFF",
+    "syntheticOnly": true
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "s5": {
+    "renderer_count": 0,
+    "renderer_attribution": {
+      "bundle_id": "org.pfc.quiescence.integration",
+      "webcontent_processes_seen": 3,
+      "attributed_pids": [],
+      "attributed_count": 0,
+      "unknown_pid_count": 0,
+      "unknown": [],
+      "lsappinfo": {},
+      "method": "ps executable identity + launchctl pid coalition bundle ID"
+    }
+  },
+  "post_commit": {
+    "renderer_count": 0,
+    "renderer_attribution": {
+      "bundle_id": "org.pfc.quiescence.integration",
+      "webcontent_processes_seen": 3,
+      "attributed_pids": [],
+      "attributed_count": 0,
+      "unknown_pid_count": 0,
+      "unknown": [],
+      "lsappinfo": {},
+      "method": "ps executable identity + launchctl pid coalition bundle ID"
+    }
+  },
+  "s10": {
+    "renderer_count": 1,
+    "renderer_attribution": {
+      "bundle_id": "org.pfc.quiescence.integration",
+      "webcontent_processes_seen": 4,
+      "attributed_pids": [
+        69601
+      ],
+      "attributed_count": 1,
+      "unknown_pid_count": 0,
+      "unknown": [],
+      "lsappinfo": {
+        "69601": "\"PFC Isolated Quiescence IPC Web Content\" ASN:0x0-0x63c73c1: \n    bundleID=\"com.apple.WebKit.WebContent\"\n    bundle path=[ NULL ] \n    executable path=\"com.apple.WebKit.WebContent\"\n    pid = 69601 !cgsConnection !signalled type=\"UIElement\" flavor=[ NULL ]  Version=\"21624.5.1.11.3\" fileType=\"XPC!\" creator=\"????\" Arch=ARM64 \n    parentASN=\"PFC Isolated Quiescence IPC Networking\" ASN:0x0-0x63c53bf: \n    checkin time = now-ish 2026/10/13 20:20:27 ( 0.0826029 seconds ago )\n\n"
+      },
+      "method": "ps executable identity + launchctl pid coalition bundle ID"
+    },
+    "webview_created_marker": {
+      "details": {},
+      "event": "webview_created",
+      "pid": 69597
+    }
+  },
+  "launchservices_coalition_capture": "captured per visible WebContent PID"
+}

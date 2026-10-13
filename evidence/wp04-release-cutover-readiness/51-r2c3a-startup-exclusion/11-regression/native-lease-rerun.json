@@ -1,0 +1,52 @@
+{
+  "format_version": 1,
+  "synthetic_only": true,
+  "transport": "native-v2-cli-barrier-NOT-Q11",
+  "source_sha256": "2e3074342a59243b74a8ed7a40b0f8b3f4c190e07c7e3ad0356db3d19c6a157a",
+  "native_sha256": "389e1437abaf09bd50d96208ebef95e75c1c100556ab9d4b785b61e87ac9b66f",
+  "retained_root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-native-lease-2gh9fwvo",
+  "cases": [
+    {
+      "name": "duplicate-native-and-gate",
+      "passed": false,
+      "error": "MACOS_SIGNING_PREREQUISITE_REQUIRED: Apple Development identity was not configured",
+      "error_type": "Blocked"
+    }
+  ],
+  "status": "FAILED",
+  "coverage_matrix": {
+    "overlapping_gate_native_handoff": "BLOCKED_NOT_RUN",
+    "exact_inode_session_ack": "BLOCKED_NOT_RUN",
+    "gate_close_only_after_exact_ack": "BLOCKED_NOT_RUN",
+    "no_LOCK_UN_gap": "BLOCKED_NOT_RUN",
+    "wrong_recreated_stale_lock": "BLOCKED_NOT_RUN",
+    "duplicate_gate_and_native": "BLOCKED_NOT_RUN",
+    "gate_death_before_ack_no_native_started": "BLOCKED_NOT_RUN",
+    "gate_death_during_ack": "BLOCKED_NOT_RUN",
+    "native_exit_before_ack_wrong_session": "BLOCKED_NOT_RUN",
+    "native_kill_before_ack": "BLOCKED_NOT_RUN",
+    "native_death_after_ack": "BLOCKED_NOT_RUN",
+    "unrelated_lock_contention": "BLOCKED_NOT_RUN",
+    "persistent_state_after_release": "BLOCKED_NOT_RUN"
+  },
+  "known_limitations": [
+    "Process-death tests are not machine power-loss or storage-fsync fault tests; native-v2 CLI evidence is not Q11."
+  ],
+  "selected_cases": [
+    "duplicate-native-and-gate",
+    "native-child-death",
+    "native-death-after-ack-before-gate-close",
+    "gate-death-before-native-launch-ack-absent",
+    "native-exit-before-ack-wrong-session",
+    "native-kill-before-ack",
+    "gate-death-during-ack",
+    "acknowledged-handoff-no-gap",
+    "actual-parent-death",
+    "wrong-inode",
+    "unlocked-fd",
+    "unrelated-holder",
+    "recreated-file",
+    "stale-session",
+    "wrong-session"
+  ]
+}

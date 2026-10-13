@@ -1,3 +1,15 @@
+# 最新执行状态：WP-04R2C3A Startup / Migration Mutual Exclusion（2026-10-13）
+
+- 状态：`WP04R2C3A_STARTUP_EXCLUSION_READY`。本阶段是 implementation + synthetic validation；R2C2 的 `WP04R2C_BLOCKED_ARCHITECTURE_BOUNDARY_UNPROVEN` 保留在历史记录。
+- Production normal UI 在 `tauri::Builder` 前取得共享 `maintenance.lock`，durable unresolved check 也在 Builder 前；共享 guard 跨越整个 Tauri run loop。Production migration 命令在 permit 检查/claim 与数据库打开前取得同 authority 的排他 guard，并持有至 M4 commit/post-readback。
+- Synthetic 真实 UI / WebKit 验收：Gate 持锁期间 S5 与 post-COMMIT UI launch 均在 Builder 前拒绝，归属 renderer 数均为 0；S10 `VERIFIED_HANDOFF` 后释放锁，UI launch 成功并归属到 1 个 renderer。crash 后 flock 释放，但 `COMMIT_OUTCOME_UNKNOWN` durable state 仍在数据库访问前阻止 UI。
+- 50 次共享/排他锁竞争：double-win=0。R2C3A 专项 4/4；产品 300/300；WP03 preview 5/5；Release Gate 40/40；R2A/R2B1A/unified contract/recovery diagnostic 共 34/34；Rust default 40/40、fixture 33/33、Tauri 44/44；R2B1B 16/16、recovery hooks 12/12、native lease 15/15。Lint exit 0，25 条既有 CSS specificity warnings。Forward synthetic Migration4 exactly once，S10=`VERIFIED_HANDOFF`。
+- 实现提交：`7b4a9c16bbbfc6ad1cd602af479d8aaa9a11f756`；本轮起始 HEAD `266c55d77ee4ca1cee5f6ef40300c9c637c83664`。无 amend。旧 executable `e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf` 分类 `R2C_PRE_STARTUP_EXCLUSION_BASELINE`。
+- Production App/DB 未触碰；真实 authorization/permit 未创建；WP03 acceptance 保留，WP02 未触碰；Financial Model 和产品业务语义未改。未构建 final candidate、未做 final freeze 或 R2C final acceptance。
+- 报告：`WP04R2C3A_STARTUP_EXCLUSION_REPORT.md`；证据：`evidence/wp04-release-cutover-readiness/51-r2c3a-startup-exclusion/`。下一责任人 Planning/Owner，决定并启动 R2C final freeze / final acceptance 阶段。
+
+---
+
 ## 最新执行状态：WP-04R2C2 Renderer Architecture Applicability（2026-10-13）
 
 - 状态：`WP04R2C_BLOCKED_ARCHITECTURE_BOUNDARY_UNPROVEN`。R2C 原 `WP04R2C_BLOCKED_NEEDS_RENDERER_TESTABILITY` 保留为历史。

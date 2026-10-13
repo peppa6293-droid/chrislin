@@ -1,0 +1,9 @@
+{
+  "ui_guard": "HELD",
+  "tauri_builder_reached": true,
+  "ui_event": {
+    "details": {},
+    "event": "webview_created",
+    "pid": 69670
+  }
+}

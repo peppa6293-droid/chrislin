@@ -1,0 +1,4 @@
+Signing with identity "Apple Development: 8619814730147 (FW5KHTFNZ6)"
+Signing /Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/wp04-release-cutover-readiness/51-r2c3a-startup-exclusion/11-regression/startup-exclusion-ui-probe/cargo-target/release/bundle/macos/PFC Isolated Quiescence IPC.app/Contents/MacOS/quiescence-tauri
+Signing with identity "Apple Development: 8619814730147 (FW5KHTFNZ6)"
+Signing /Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/wp04-release-cutover-readiness/51-r2c3a-startup-exclusion/11-regression/startup-exclusion-ui-probe/cargo-target/release/bundle/macos/PFC Isolated Quiescence IPC.app/Contents/MacOS/quiescence-tauri
