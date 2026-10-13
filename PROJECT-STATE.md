@@ -111,7 +111,7 @@
 
 ## WP-04R2B Final Acceptance Run — blocked (2026-10-13)
 
-- 状态：`WP04R2B_FINAL_ACCEPTANCE_BLOCKED`。冻结候选 source commit/archive、candidate executable/manifest、Team ID 与 strict codesign 预检通过；C0/C1 仅对最初 V3 fixture 状态通过。
+- 状态：`WP04R2B_SYNTHETIC_CUTOVER_BLOCKED`。冻结候选 source commit/archive、candidate executable/manifest、Team ID 与 strict codesign 预检通过；C0/C1 仅对最初 V3 fixture 状态通过。
 - 阻断证据：V3 fixture 上正式 Repository 方法 `resolvePlanningIncomeForMonth` 报 `no such table: planning_income_month_revisions`。为检查 stable/month-scoped Planning 样本而调用的两个 Repository 写入已留在本轮合成 root；当前 DB 与写入前 snapshot/fixture backup 不同。没有继续验收、修复或恢复。
 - C2–C10、S0–S10、Migration 4、failure/recovery matrix、Q closure 与本轮 regression 均未运行。Production 未触碰。
 - 报告：`evidence/wp04-release-cutover-readiness/33-r2b-full-synthetic/WP04R2B_FULL_SYNTHETIC_CUTOVER_REPORT.md`。本轮阻断回读：`evidence/wp04-release-cutover-readiness/39-r2b-final-acceptance/18-final-readback/acceptance-blocker.json`。

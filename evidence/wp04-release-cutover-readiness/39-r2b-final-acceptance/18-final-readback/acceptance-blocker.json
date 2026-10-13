@@ -1,6 +1,6 @@
 {
   "capturedAt": "2026-10-13T02:03:11.318438+00:00",
-  "status": "WP04R2B_FINAL_ACCEPTANCE_BLOCKED",
+  "status": "WP04R2B_SYNTHETIC_CUTOVER_BLOCKED",
   "defectCode": "V3_PLANNING_OVERRIDE_INHERIT_READ_PATH_UNSUPPORTED",
   "exactError": "ERR_SQLITE_ERROR: no such table: planning_income_month_revisions",
   "operation": "Application Repository read path Repositories.resolvePlanningIncomeForMonth(periodMonth, asOfDate) on the fresh V3 fixture, after writes via Repositories.saveStablePlanningIncome and Repositories.saveIncome.",

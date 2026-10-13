@@ -114,7 +114,7 @@ This records source/candidate readiness only. Historical `WP04R2B_SYNTHETIC_CUTO
 
 ## Final Frozen-Candidate Acceptance Run (2026-10-13)
 
-**Final Status: `WP04R2B_FINAL_ACCEPTANCE_BLOCKED`**
+**Final Status: `WP04R2B_SYNTHETIC_CUTOVER_BLOCKED`**
 
 本轮只运行到冻结候选预检和 V3 fixture 读路径检查；发现阻断后按工单停止。历史 BLOCKED 章节以上内容保留。
 
