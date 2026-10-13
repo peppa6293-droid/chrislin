@@ -1260,6 +1260,12 @@ def main() -> int:
         subparser.add_argument("--receipt", type=Path, help="fixed gate receipt path; overrides are rejected")
         subparser.add_argument("--synthetic-root", type=Path, help="explicit, marked temporary namespace for isolated integration")
         subparser.add_argument("--synthetic-mode", choices=("legacy-component", "unified-r2b"), default="legacy-component")
+    recover = subparsers.add_parser("recover-diagnostic", help="read-only unified R2B recovery disposition; Production is refused")
+    recover.add_argument("--domain", choices=("UNIFIED_R2B_SYNTHETIC", "PRODUCTION"), required=True)
+    recover.add_argument("--root", type=Path, required=True)
+    recover.add_argument("--recovery-authorization", type=Path, required=True)
+    recover.add_argument("--authorization-sha256", required=True,
+                         help="independently pinned exact-byte SHA-256 of the supplied synthetic recovery authorization")
     retire = subparsers.add_parser("retire")
     retire.add_argument("--candidate-app", type=Path, required=True)
     retire.add_argument("--replacement-authorization", type=Path, required=True)
@@ -1270,6 +1276,13 @@ def main() -> int:
             # fixtures, but the supported Production CLI must not use the
             # superseded split-connection/runtime-restoration contract.
             raise GateBlocked(["Runtime retirement remains a separate, explicitly authorized operation and is not this migration command."])
+        if args.command == "recover-diagnostic":
+            from unified_r2b_recovery import AUTH_DOMAIN, diagnose
+            if args.domain != AUTH_DOMAIN:
+                raise GateBlocked(["Production recovery diagnostic is not authorized; only marked synthetic roots are supported."])
+            result = diagnose(args.root, args.recovery_authorization, args.authorization_sha256, domain=args.domain)
+            print(json.dumps(result, ensure_ascii=False, indent=2))
+            return 0
         receipt_path = args.receipt
         if args.synthetic_root is not None:
             unified = args.synthetic_mode == "unified-r2b"
@@ -1286,6 +1299,16 @@ def main() -> int:
         return 0
     except Exception as error:
         reasons = error.reasons if isinstance(error, GateBlocked) else [f"{type(error).__name__}: {error}"]
+        if args.command == "recover-diagnostic":
+            refusal = {"status": "REFUSE", "currentState": "UNVERIFIED",
+                       "recoveryDisposition": "REFUSE", "businessAccessDecision": "REFUSE",
+                       "businessAccessAllowed": False, "migrationMayRerun": False,
+                       "oldPermitReusable": False, "newAuthorizationRequired": True,
+                       "restoreAllowed": False, "readonlyConfirmationAllowed": False,
+                       "automaticRecovery": False, "diagnosticMutationCount": 0,
+                       "reasons": reasons}
+            print(json.dumps(refusal, ensure_ascii=False), file=sys.stderr)
+            return 2
         print(json.dumps({"status": "BLOCKED", "errorType": type(error).__name__, "reasons": reasons}, ensure_ascii=False), file=sys.stderr)
         return 2
 
