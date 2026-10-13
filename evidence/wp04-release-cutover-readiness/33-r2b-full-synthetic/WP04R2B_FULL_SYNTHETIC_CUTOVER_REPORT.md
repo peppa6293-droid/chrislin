@@ -104,3 +104,10 @@ Partial implementation groundwork was committed in the follow-up source change: 
 New WP-04R2B1 status: `BLOCKED` (not `WP04R2B1_SYNTHETIC_CONTRACT_UNIFIED_READY`). No formal CLI → compiled Rust → native S4 proof exists. The R2B overall status remains `WP04R2B_SYNTHETIC_CUTOVER_BLOCKED`; this update is not a full cutover pass, Production authorization, or release readiness.
 
 See `WP04R2B1_UNIFIED_SYNTHETIC_CONTRACT_REPORT.md` and `evidence/wp04-release-cutover-readiness/34-r2b1-contract-unification/` for scope and evidence.
+
+
+## Final-chain source freeze
+
+Source freeze report: [WP04R2B2A_SOURCE_FREEZE_REPORT.md](../../../WP04R2B2A_SOURCE_FREEZE_REPORT.md). The final-chain source commit `453fdb05b6457a4e9362c98308ca384c10f5d8b4` was rebuilt into a fresh, strict-code-signed synthetic candidate bound in `evidence/wp04-release-cutover-readiness/38-r2b2a-source-freeze/08-source-candidate-binding/SOURCE_CANDIDATE_BINDING.json`. Prior build-02 executable `09c12af103f68a5c5a7061c14188546e5862ad3a34893e9c18606ffc61b687a4` is `DEVELOPMENT_PROBE_ONLY`.
+
+This records source/candidate readiness only. Historical `WP04R2B_SYNTHETIC_CUTOVER_BLOCKED` remains in force; full C0–C10 and Production remain NOT RUN / NOT AUTHORIZED.

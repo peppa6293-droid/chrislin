@@ -98,3 +98,13 @@
 - 关闭态 DB v4/migrations 1–4、integrity ok、FK 空；同包重启后系统日期恢复，UI及全表回读一致；重启前后 DB hash 和所有表行均相同，无新增业务 revisions。
 - 实际收入 UI 没有名称字段，D 按金额、状态、日期和作废历史通过。Planning Review 尚待 Owner；Production、WP-02 未触碰，Financial Model V1.0 未改。
 - 权威报告：`evidence/wp03-product-daily-use/final-r2-closure/r5-completion/WP03R3_FINAL_ACCEPTANCE.md`；机器可读 L/M readbacks 与 J/M UI matrices 在同目录。下一步由 Owner 做 Planning Review；不开始 WP-04。
+
+
+## WP-04R2B2A — Source Freeze & Candidate Rebuild (2026-10-13)
+
+- 状态：`WP04R2B2A_SOURCE_FREEZE_READY`。runtime commit `453fdb05b6457a4e9362c98308ca384c10f5d8b4`；运行时跟踪源码干净。
+- WP03 R5 产品目录相对基线无差异；产品、R2A、C3、R2B1B、Rust default/fixture/Tauri、native lease 和 recovery 16/16 均通过。隔离组件测试恰好执行一次合成 M4；完整 C0–C10 未运行。
+- 新候选由提交 `453fdb05b6457a4e9362c98308ca384c10f5d8b4` 构建，source archive SHA `00cb89aedb0e21205c316c68a8ae3bb1c2a16100abd6a111769378a8b0c9f09b`，strict codesign PASS；binding 位于 `evidence/wp04-release-cutover-readiness/38-r2b2a-source-freeze/08-source-candidate-binding/SOURCE_CANDIDATE_BINDING.json`。
+- 旧 build-02 降级为 `DEVELOPMENT_PROBE_ONLY`。Production、WP-02、Financial Model V1.0 未触碰；真实 authorization/backup/receipt/permit 未创建。
+- 报告：`WP04R2B2A_SOURCE_FREEZE_REPORT.md`；证据根：`evidence/wp04-release-cutover-readiness/38-r2b2a-source-freeze/`。
+- 下一责任人：Planning/Owner 下发独立 `WP-04R2B FINAL ACCEPTANCE RUN`；Execution 仅使用上述绑定候选并遵守下一轮边界。
