@@ -1,0 +1,30 @@
+{
+  "format_version": 1,
+  "exact_runtime_commit": "670c880db104fc5c95594a4a6c3eeeeef37c6ab5",
+  "tree": "2947626063e4b1cef1a5f925d2031d84c90ebb9c",
+  "cargo_lock_sha256": "5a58d1e21d6de8bbfdb3d3cb0332e2fe06516ea0790f2e9c14127b0943f054c8",
+  "package_lock_sha256": "3f2152b71eba56701d63ae1c39b1c583543f8109a146bf5dc2e955256cbfba16",
+  "base_tauri_config_sha256": "0c442bf8421f16d737d086d5036de3f56237f6f01033867e14e6c5cd04baf425",
+  "effective_synthetic_tauri_config_sha256": "f1467c059d49ff2d141aee5b8dc2fe32997813ac9804f1d84246739001061de7",
+  "effective_vite_config_sha256": "39d37dc0b703ad7c3462f0bfd58773bc74cc3799dd571c4d53bc2f8d77f962c9",
+  "key_source_sha256": {
+    "src-tauri/Cargo.lock": "5a58d1e21d6de8bbfdb3d3cb0332e2fe06516ea0790f2e9c14127b0943f054c8",
+    "package-lock.json": "3f2152b71eba56701d63ae1c39b1c583543f8109a146bf5dc2e955256cbfba16",
+    "src-tauri/tauri.conf.json": "0c442bf8421f16d737d086d5036de3f56237f6f01033867e14e6c5cd04baf425",
+    "vite.config.ts": "39d37dc0b703ad7c3462f0bfd58773bc74cc3799dd571c4d53bc2f8d77f962c9",
+    "src-tauri/src/lib.rs": "d01172113d5ecc1c9018d9050cae4cc49f0bf6f1e842769199257e9c9aeedb7e",
+    "src-tauri/src/main.rs": "61a94b2d12bed3d02db3e4ee6d4306e0f2ed0169ce59c85a8b872e1b4de9e894",
+    "src-tauri/src/quiescence.rs": "f2e71f5d017363454c11cc8e72973ed5dede8e7bfd82501842d6897c7f84ff77",
+    "src-tauri/src/production_cutover_state.rs": "b3343a0d0deb9194e9c5e6d50d82bdc075d32ff31238bb468a41eeebb82de478",
+    "src-tauri/src/startup_exclusion.rs": "9eb7788843bfb7181b6b139b0a1d831e8b593cb5bc0ebdd2565313406078c560",
+    "src-tauri/src/cutover_startup.rs": "ac48769928c455bbe290873297de2962c4faa86911c00a2e907f1dee82e0e956",
+    "src-tauri/src/quiescence_recovery.rs": "505bac32ddf059d99b66968c8df22c29c32023a96df54b35a347811b07ee9242",
+    "scripts/production_v4_release_gate.py": "8586506e7e15a2e046c6eab739944728f7a699d4fa636d56d1e6ac59acdb286e",
+    "migrations/004.sql": "5e6bdb826475b7a066541937a232e6b903d9d94b2782fc0f09d6d1adf7a9b7c5",
+    "src/persistence/migrations.ts": "98ea510a13fdf8e6334fcd2f0c2f5de938e62306b3f7413d93326ea098808b8a",
+    "effective_synthetic_tauri_config": "f1467c059d49ff2d141aee5b8dc2fe32997813ac9804f1d84246739001061de7",
+    "effective_vite_config": "39d37dc0b703ad7c3462f0bfd58773bc74cc3799dd571c4d53bc2f8d77f962c9"
+  },
+  "untracked_source_added_to_archive": false,
+  "cargo_fmt": "UNAVAILABLE_ENVIRONMENT"
+}

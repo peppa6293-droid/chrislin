@@ -1,0 +1,19 @@
+{
+  "source_commit": "670c880db104fc5c95594a4a6c3eeeeef37c6ab5",
+  "source_tree": "2947626063e4b1cef1a5f925d2031d84c90ebb9c",
+  "archive_format": "gzip-compressed git archive tar",
+  "archive_sha256": "0459a3625a315d1e4ed00adefdbf61cd4559983fb159ceeb3af619120428ee60",
+  "archive_bytes": 71381746,
+  "uncompressed_tar_sha256": "04051e0182f60eac7e0891d634c7fca668139991aa38c4253284e142fe10be80",
+  "uncompressed_tar_bytes": 199720960,
+  "git_tree_entries": 2071,
+  "extracted_entries": 2071,
+  "missing_count": 0,
+  "extra_count": 0,
+  "entry_mismatch_count": 0,
+  "git_tree_mismatch_count": 0,
+  "clean_extraction_mismatch_count": 0,
+  "missing_sample": [],
+  "extra_sample": [],
+  "mismatch_sample": []
+}

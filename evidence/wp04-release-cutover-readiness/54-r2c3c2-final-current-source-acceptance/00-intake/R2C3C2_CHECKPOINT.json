@@ -1,0 +1,98 @@
+{
+  "format_version": 1,
+  "work_order": "WP-04R2C3C2",
+  "status": "WP04R2C3C2_BLOCKED",
+  "updated_at": "2026-10-13T23:18:00+08:00",
+  "chris_os_preflight": "NONE",
+  "project_root": "/Users/linte/Documents/ChatGPT/个人财务模型app开发",
+  "starting_head": "87ec81b32dd629807bfed38a26c0ad96ac3730a6",
+  "exact_runtime_commit": "670c880db104fc5c95594a4a6c3eeeeef37c6ab5",
+  "runtime_tree": "2947626063e4b1cef1a5f925d2031d84c90ebb9c",
+  "runtime_commit_on_branch": "main",
+  "tracked_runtime_test_config_diff": "NONE",
+  "untracked_classification": "existing reports/docs/evidence; no untracked runtime/test/config source found",
+  "production_authorization": "NOT_AUTHORIZED",
+  "production_touched": false,
+  "completed": [
+    "exact commit resolution",
+    "branch containment",
+    "starting HEAD/log/status snapshot",
+    "Chris-OS read preflight",
+    "clean npm ci exit 0 in archive extraction",
+    "clean npm ci; typecheck PASS; frontend build PASS",
+    "fresh signed synthetic candidate build exit 0",
+    "strict codesign PASS; candidate hash/manifest/team/feature set bound before launch"
+  ],
+  "next": "Planning/Owner: issue a narrowly scoped source repair for the missing PathBuf import, then create a new exact source freeze/candidate and rerun remaining acceptance.",
+  "blocked_items": [
+    "Current frozen-source Rust unit-test build fails with E0425 PathBuf unresolved in production_cutover_state.rs test module. Per work order, no source/test/config repair performed.",
+    "Q11 real Tauri IPC Native ACK timed out before renderer assertions.",
+    "Required recovery contract is 17 scenarios; available current-source matrix executed 16, so 17/17 and formal Gate lineage remain unproven."
+  ],
+  "source_freeze": {
+    "status": "PASS",
+    "archive_sha256": "0459a3625a315d1e4ed00adefdbf61cd4559983fb159ceeb3af619120428ee60",
+    "archive_bytes": 71381746,
+    "git_tree_entries": 2071,
+    "missing": 0,
+    "extra": 0,
+    "entry_mismatch": 0,
+    "clean_extraction_mismatch": 0
+  },
+  "candidate": {
+    "status": "BUILT_BOUND_NOT_YET_LAUNCHED",
+    "path": "/private/tmp/pfc-r2c3c2-freeze-20261013/cargo-target/release/bundle/macos/PFC R2C3C2 Synthetic Acceptance.app",
+    "bundle_id": "org.pfc.quiescence.integration",
+    "executable_sha256": "7a2799b9300cf488e5419475adfc77df5e0dbce442775fe36b390205ce8842d3",
+    "manifest_sha256": "d9b4488609c1a08d28f9d285eb2c0e9136b29feca26c35599629723b6e192231",
+    "team_id": "SSRKA7A4TN",
+    "strict_codesign": "PASS",
+    "candidate_launched": false,
+    "binding_path": "04-binding/R2C_FINAL_SOURCE_CANDIDATE_BINDING.json"
+  },
+  "canonical": {
+    "cli_gate_chain": "PASS",
+    "state": "V4_VERIFIED",
+    "C0_C10": "PASS",
+    "S0_S10": "PASS",
+    "transport": "native-cli-NOT-Q11",
+    "business_model_preservation": "NOT_ESTABLISHED",
+    "evidence": "05-canonical/C0-C10-S0-S10-run6.stdout.json"
+  },
+  "recovery_17": {
+    "status": "PARTIAL_COVERAGE",
+    "passed": 16,
+    "required": 17,
+    "matrix_cases": 16,
+    "formal_gate_lineage": "NOT_ESTABLISHED",
+    "evidence": "07-recovery-17/recovery-matrix-current.json"
+  },
+  "renderer_q11": null,
+  "q01_q18": {
+    "status": "NOT_RUN"
+  },
+  "full_regression": {
+    "status": "NOT_RUN_AFTER_BLOCKER"
+  },
+  "q11": {
+    "status": "BLOCKED",
+    "error": "BLOCKED_NATIVE_HANDOFF_TIMEOUT: durable native ACK was not established; gate lease retained",
+    "reached": "S2_OWNER_AUTHORIZED",
+    "candidate_renderer_assertions": "NOT_REACHED",
+    "evidence": "11-q11/Q11-real-tauri-ipc.stdout.json",
+    "retained_root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-r2c3c2-ipc-parent/pfc-qic-q11-c2-sk351n3e"
+  },
+  "production_terminal": {
+    "status": "BLOCKED_COMPILE",
+    "test_command": "cargo test --manifest-path src-tauri/Cargo.toml --lib production_terminal_tests -- --nocapture",
+    "compiler_error": "E0425 cannot find type PathBuf in scope at src/production_cutover_state.rs:161; test module lacks std::path::PathBuf import",
+    "evidence": "06-production-terminal/cargo-production-terminal.stderr.txt"
+  },
+  "startup_exclusion": {
+    "status": "NOT_RUN_CURRENT_SOURCE_TESTS",
+    "reason": "stopped on current-source unit-test compilation defect; no claim of current acceptance"
+  },
+  "cargo_fmt": "UNAVAILABLE_ENVIRONMENT",
+  "runtime_dirty_source": "NO",
+  "candidate_changed_after_signing": "NO"
+}

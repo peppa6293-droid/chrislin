@@ -1,0 +1,18 @@
+{
+  "format_version": 1,
+  "source_chain": [
+    {"commit": "c3da2f73c03b681957b4334751b7933d102caad1", "role": "accepted R2B recovery baseline"},
+    {"commit": "7b4a9c16bbbfc6ad1cd602af479d8aaa9a11f756", "role": "R2C3A startup exclusion implementation"},
+    {"commit": "670c880db104fc5c95594a4a6c3eeeeef37c6ab5", "role": "R2C3C1 Production durable terminal runtime"}
+  ],
+  "allowed_runtime_delta": ["Production startup/migration shared-exclusive exclusion", "Builder-preflight durable unresolved checks", "Production durable terminal binding/write/readback", "required synthetic hooks and test harness"],
+  "product_paths_changed_vs_wp03_r5": [],
+  "permit_schema_changed": false,
+  "consumed_ledger_schema_changed": false,
+  "migration4_sql_changed": false,
+  "recovery_disposition_changed": false,
+  "ui_to_gate_ipc_added": false,
+  "automatic_restore_added": false,
+  "automatic_m4_rerun_added": false,
+  "notes": ["R2C3C1 changes runtime logic only in src-tauri/src/lib.rs and adds src-tauri/src/production_cutover_state.rs; startup_exclusion.rs only redirects race evidence output.", "R2C3A introduces the authorized startup exclusion module and hooks. No product source path differs from WP03 R5."]
+}

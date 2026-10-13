@@ -1,0 +1,67 @@
+{
+  "format_version": 1,
+  "purpose": "R2C FINAL SYNTHETIC ACCEPTANCE",
+  "sourceCommit": "670c880db104fc5c95594a4a6c3eeeeef37c6ab5",
+  "sourceTree": "2947626063e4b1cef1a5f925d2031d84c90ebb9c",
+  "sourceArchiveSha256": "0459a3625a315d1e4ed00adefdbf61cd4559983fb159ceeb3af619120428ee60",
+  "sourceArchiveFileCount": 2071,
+  "cargoLockSha256": "5a58d1e21d6de8bbfdb3d3cb0332e2fe06516ea0790f2e9c14127b0943f054c8",
+  "packageLockSha256": "3f2152b71eba56701d63ae1c39b1c583543f8109a146bf5dc2e955256cbfba16",
+  "baseTauriConfigSha256": "0c442bf8421f16d737d086d5036de3f56237f6f01033867e14e6c5cd04baf425",
+  "effectiveSyntheticTauriConfigSha256": "f1467c059d49ff2d141aee5b8dc2fe32997813ac9804f1d84246739001061de7",
+  "effectiveViteConfigSha256": "39d37dc0b703ad7c3462f0bfd58773bc74cc3799dd571c4d53bc2f8d77f962c9",
+  "candidatePath": "/private/tmp/pfc-r2c3c2-freeze-20261013/cargo-target/release/bundle/macos/PFC R2C3C2 Synthetic Acceptance.app",
+  "bundleId": "org.pfc.quiescence.integration",
+  "CFBundleExecutable": "personal-finance-console",
+  "executableSha256": "7a2799b9300cf488e5419475adfc77df5e0dbce442775fe36b390205ce8842d3",
+  "manifestSha256": "d9b4488609c1a08d28f9d285eb2c0e9136b29feca26c35599629723b6e192231",
+  "manifest": {
+    "manifestFormatVersion": 1,
+    "runtimeGeneration": 4,
+    "minSupportedSchemaVersion": 3,
+    "maxSupportedSchemaVersion": 4,
+    "bundleId": "org.pfc.quiescence.integration",
+    "executable": "Contents/MacOS/quiescence-tauri"
+  },
+  "teamId": "SSRKA7A4TN",
+  "signingIdentity": "Apple Development: 8619814730147 (FW5KHTFNZ6)",
+  "strictCodesign": "PASS",
+  "strictCodesignOutput": "/private/tmp/pfc-r2c3c2-freeze-20261013/cargo-target/release/bundle/macos/PFC R2C3C2 Synthetic Acceptance.app: valid on disk\n/private/tmp/pfc-r2c3c2-freeze-20261013/cargo-target/release/bundle/macos/PFC R2C3C2 Synthetic Acceptance.app: satisfies its Designated Requirement\n",
+  "designatedRequirement": "designated => identifier \"org.pfc.quiescence.integration\" and anchor apple generic and certificate leaf[subject.CN] = \"Apple Development: 8619814730147 (FW5KHTFNZ6)\" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */\nExecutable=/private/tmp/pfc-r2c3c2-freeze-20261013/cargo-target/release/bundle/macos/PFC R2C3C2 Synthetic Acceptance.app/Contents/MacOS/personal-finance-console\n",
+  "featureSet": [
+    "wp04-r2b-synthetic",
+    "wp04-r2b-recovery-test-hooks",
+    "tauri/custom-protocol"
+  ],
+  "startupExclusionPresent": true,
+  "productionDurableTerminalPresent": true,
+  "recoveryDiagnosticPresent": true,
+  "recoveryHooksPresent": true,
+  "candidateLaunched": false,
+  "bundleFiles": [
+    {
+      "path": "Contents/Info.plist",
+      "sha256": "f29065e671ea2c6d05394225a19a2f4708bddad4f313e72b45041fe0fb468c70",
+      "bytes": 1064
+    },
+    {
+      "path": "Contents/MacOS/personal-finance-console",
+      "sha256": "7a2799b9300cf488e5419475adfc77df5e0dbce442775fe36b390205ce8842d3",
+      "bytes": 21429936
+    },
+    {
+      "path": "Contents/Resources/runtime-compatibility.json",
+      "sha256": "d9b4488609c1a08d28f9d285eb2c0e9136b29feca26c35599629723b6e192231",
+      "bytes": 226
+    },
+    {
+      "path": "Contents/_CodeSignature/CodeResources",
+      "sha256": "61b502b0a613d575b013c3f35f8edd7e21a31a34578e77d9e935f6de934b1e2b",
+      "bytes": 2474
+    }
+  ],
+  "recoveryDiagnosticSourceSha256": "8586506e7e15a2e046c6eab739944728f7a699d4fa636d56d1e6ac59acdb286e",
+  "startupExclusionEvidence": true,
+  "productionDurableTerminalEvidence": true,
+  "bindingCreatedBeforeFirstLaunch": true
+}

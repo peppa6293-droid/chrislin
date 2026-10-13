@@ -1,0 +1,26 @@
+{
+  "bundle_id": "org.pfc.quiescence.integration",
+  "executable": "personal-finance-console",
+  "files": [
+    {
+      "path": "Contents/Info.plist",
+      "sha256": "f29065e671ea2c6d05394225a19a2f4708bddad4f313e72b45041fe0fb468c70",
+      "bytes": 1064
+    },
+    {
+      "path": "Contents/MacOS/personal-finance-console",
+      "sha256": "7a2799b9300cf488e5419475adfc77df5e0dbce442775fe36b390205ce8842d3",
+      "bytes": 21429936
+    },
+    {
+      "path": "Contents/Resources/runtime-compatibility.json",
+      "sha256": "d9b4488609c1a08d28f9d285eb2c0e9136b29feca26c35599629723b6e192231",
+      "bytes": 226
+    },
+    {
+      "path": "Contents/_CodeSignature/CodeResources",
+      "sha256": "61b502b0a613d575b013c3f35f8edd7e21a31a34578e77d9e935f6de934b1e2b",
+      "bytes": 2474
+    }
+  ]
+}

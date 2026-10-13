@@ -1,0 +1,2 @@
+/private/tmp/pfc-r2c3c2-freeze-20261013/cargo-target/release/bundle/macos/PFC R2C3C2 Synthetic Acceptance.app: valid on disk
+/private/tmp/pfc-r2c3c2-freeze-20261013/cargo-target/release/bundle/macos/PFC R2C3C2 Synthetic Acceptance.app: satisfies its Designated Requirement

@@ -1,0 +1,34 @@
+/private/tmp/pfc-r2c3c2-freeze-20261013/cargo-target/release/bundle/macos/PFC R2C3C2 Synthetic Acceptance.app: valid on disk
+/private/tmp/pfc-r2c3c2-freeze-20261013/cargo-target/release/bundle/macos/PFC R2C3C2 Synthetic Acceptance.app: satisfies its Designated Requirement
+
+Executable=/private/tmp/pfc-r2c3c2-freeze-20261013/cargo-target/release/bundle/macos/PFC R2C3C2 Synthetic Acceptance.app/Contents/MacOS/personal-finance-console
+Identifier=org.pfc.quiescence.integration
+Format=app bundle with Mach-O thin (arm64)
+CodeDirectory v=20500 size=41994 flags=0x10000(runtime) hashes=1305+3 location=embedded
+VersionPlatform=1
+VersionMin=720896
+VersionSDK=1769472
+Hash type=sha256 size=32
+CandidateCDHash sha256=c3fdfe2c652fcb08d2d5a42c3b00f92f7ac6aa40
+CandidateCDHashFull sha256=c3fdfe2c652fcb08d2d5a42c3b00f92f7ac6aa4079e35b376fc19a4cfe278fb5
+Hash choices=sha256
+CMSDigest=c3fdfe2c652fcb08d2d5a42c3b00f92f7ac6aa4079e35b376fc19a4cfe278fb5
+CMSDigestType=2
+Executable Segment base=0
+Executable Segment limit=17301504
+Executable Segment flags=0x1
+Page size=16384
+CDHash=c3fdfe2c652fcb08d2d5a42c3b00f92f7ac6aa40
+Signature size=4777
+Authority=Apple Development: 8619814730147 (FW5KHTFNZ6)
+Authority=Apple Worldwide Developer Relations Certification Authority
+Authority=Apple Root CA
+Signed Time=Oct 13, 2026 at 22:52:04
+Info.plist entries=14
+TeamIdentifier=SSRKA7A4TN
+Runtime Version=27.0.0
+Sealed Resources version=2 rules=13 files=1
+Internal requirements count=1 size=196
+
+designated => identifier "org.pfc.quiescence.integration" and anchor apple generic and certificate leaf[subject.CN] = "Apple Development: 8619814730147 (FW5KHTFNZ6)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */
+Executable=/private/tmp/pfc-r2c3c2-freeze-20261013/cargo-target/release/bundle/macos/PFC R2C3C2 Synthetic Acceptance.app/Contents/MacOS/personal-finance-console

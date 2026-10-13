@@ -207,3 +207,13 @@
 - 结论：`Guard Release Before Durable Terminal Possible = YES`，不满足工单要求的 `NO`。依据工作单立即停止，未冻结源码、未构建候选、未运行本轮 cutover/recovery/renderer/Q/regression 验收；未修改 runtime source/tests。
 - Production App/DB 未触碰；真实 authorization/backup/receipt/permit 未创建；WP03 acceptance 保留、Financial Model 未改、WP02 未触碰。`RB-V4-CUTOVER-QUIESCENCE-01` 仍 OPEN，Production V4 仍 NOT AUTHORIZED。
 - 报告：`WP04R2C3B_FINAL_SYNTHETIC_ACCEPTANCE_REPORT.md`。证据：`evidence/wp04-release-cutover-readiness/52-r2c3b-final-synthetic-acceptance/`。下一责任人：Planning/Owner 下发独立源码修复及后续 freeze/acceptance 工作单。
+
+
+# 最新执行状态：WP-04R2C3C2 Final Source Freeze + Current-Source Full Acceptance（2026-10-13）
+
+- 状态：`WP04R2C3C2_BLOCKED`。R2C3C1 精确 runtime commit `670c880db104fc5c95594a4a6c3eeeeef37c6ab5` 已 clean-archive 冻结并构建 signed synthetic candidate。
+- 阻断：冻结源码 `cargo test --manifest-path src-tauri/Cargo.toml --lib production_terminal_tests -- --nocapture` 编译失败，`src-tauri/src/production_cutover_state.rs:161` 测试模块缺少 `PathBuf` 导入（E0425）。按 WP-04R2C3C2 不修改源码/测试，停止后续 full regression。
+- 已验证：archive/tree/extraction 完整一致；npm ci、typecheck、frontend build、Tauri build、strict codesign 通过；native CLI canonical C0–C10/S0–S10=`V4_VERIFIED`；recovery runner 16/16，但不满足指定 17/17。Q11 IPC 尝试在 S2 后 native ACK timeout，renderer assertions未到达。
+- 未完成：Production terminal matrix、startup exclusion当前源码重验、17场 recovery、Q11 renderer、Q01–Q18、完整回归。不得标记 R2C READY。
+- Production App/DB 未触碰；真实授权/backup/permit/terminal 未创建；WP02 未触碰；WP03 acceptance 保留；Financial Model 未改变。`RB-V4-CUTOVER-QUIESCENCE-01` 仍 OPEN，Production V4 仍 NOT AUTHORIZED。
+- 报告：`WP04R2C3C2_FINAL_CURRENT_SOURCE_ACCEPTANCE_REPORT.md`；证据：`evidence/wp04-release-cutover-readiness/54-r2c3c2-final-current-source-acceptance/`；Checkpoint：`00-intake/R2C3C2_CHECKPOINT.json`。下一责任人：Planning/Owner，下发 PathBuf 测试编译缺陷修复工作单，再重新 freeze/acceptance。

@@ -1,0 +1,17 @@
+{"case": "v4-success-confirm", "passed": true, "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-takeover-recovery-8ypxbajn/pfc-qic-recovery-v4-success-confirm-hoxjjqil"}
+{"case": "v3-terminal", "passed": true, "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-takeover-recovery-8ypxbajn/pfc-qic-recovery-v3-terminal-vaylp7v7"}
+{"case": "busy-new-authorization", "passed": true, "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-takeover-recovery-8ypxbajn/pfc-qic-recovery-busy-new-authorization-e56wlm_5"}
+{"case": "before-terminal", "passed": true, "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-takeover-recovery-8ypxbajn/pfc-qic-recovery-before-terminal-mjiubwxd"}
+{"case": "after-terminal", "passed": true, "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-takeover-recovery-8ypxbajn/pfc-qic-recovery-after-terminal-yjwdgi1m"}
+{"case": "ledger-missing", "passed": true, "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-takeover-recovery-8ypxbajn/pfc-qic-recovery-ledger-missing-5ietxyyu"}
+{"case": "ledger-corrupt", "passed": true, "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-takeover-recovery-8ypxbajn/pfc-qic-recovery-ledger-corrupt-khs9nqf1"}
+{"case": "pending", "passed": true, "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-takeover-recovery-8ypxbajn/pfc-qic-recovery-pending-6mabmxkb"}
+{"case": "candidate-changed", "passed": true, "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-takeover-recovery-8ypxbajn/pfc-qic-recovery-candidate-changed-sruvqn6d"}
+{"case": "database-changed", "passed": true, "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-takeover-recovery-8ypxbajn/pfc-qic-recovery-database-changed-ndm9q71y"}
+{"case": "authorization-parse-semantic", "passed": true, "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-takeover-recovery-8ypxbajn/pfc-qic-recovery-authorization-parse-semantic-geb_5n1w"}
+{"case": "authorization-parse-bytes", "passed": true, "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-takeover-recovery-8ypxbajn/pfc-qic-recovery-authorization-parse-bytes-rs8vvbtf"}
+{"case": "authorization-callback-semantic", "passed": true, "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-takeover-recovery-8ypxbajn/pfc-qic-recovery-authorization-callback-semantic-hw4t16q3"}
+{"case": "authorization-callback-bytes", "passed": true, "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-takeover-recovery-8ypxbajn/pfc-qic-recovery-authorization-callback-bytes-gf0133_7"}
+{"case": "authorization-callback-unchanged", "passed": true, "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-takeover-recovery-8ypxbajn/pfc-qic-recovery-authorization-callback-unchanged-79atxcfm"}
+{"case": "terminal-new-authority-refused", "passed": true, "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-takeover-recovery-8ypxbajn/pfc-qic-recovery-terminal-new-authority-refused-lbmocs4z"}
+{"status": "PASS", "report": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/wp04-release-cutover-readiness/54-r2c3c2-final-current-source-acceptance/07-recovery-17/recovery-matrix-current.json", "cases": 16}
