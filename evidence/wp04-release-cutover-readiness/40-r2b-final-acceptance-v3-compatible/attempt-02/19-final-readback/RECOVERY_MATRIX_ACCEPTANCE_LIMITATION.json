@@ -1,0 +1,8 @@
+{
+  "status": "BLOCKED",
+  "componentEvidence": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/wp04-release-cutover-readiness/40-r2b-final-acceptance-v3-compatible/attempt-02/16-recovery/RECOVERY_MATRIX_CURRENT_SOURCE.json",
+  "componentCaseCount": 16,
+  "componentResult": "PASS",
+  "reason": "The requested recovery matrix must be bound to this rerun full Gate C0-C10 / S0-S10 artifact. The available recovery script creates independent component fixtures; its 16/16 PASS is retained without promoting it to full-chain acceptance.",
+  "nextStep": "Provide or authorize a full-chain-bound recovery matrix entrypoint, then rerun recovery and Q closure without modifying source/candidate."
+}

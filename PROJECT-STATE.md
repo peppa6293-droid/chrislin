@@ -1,6 +1,6 @@
 # 小钱家｜项目经理当前状态
 
-更新：2026-10-12（Asia/Shanghai）。状态修订：17。状态维护者：本接管任务。
+更新：2026-10-13（Asia/Shanghai）。状态修订：18。状态维护者：本接管任务。
 
 ## 给Owner的简明进度
 
@@ -116,3 +116,14 @@
 - C2–C10、S0–S10、Migration 4、failure/recovery matrix、Q closure 与本轮 regression 均未运行。Production 未触碰。
 - 报告：`evidence/wp04-release-cutover-readiness/33-r2b-full-synthetic/WP04R2B_FULL_SYNTHETIC_CUTOVER_REPORT.md`。本轮阻断回读：`evidence/wp04-release-cutover-readiness/39-r2b-final-acceptance/18-final-readback/acceptance-blocker.json`。
 - 下一责任人：Planning / Owner 决定是否新开修订范围；之后 Execution 在全新 synthetic root 重新运行。
+
+
+## WP-04R2B Final Acceptance Rerun — V3-Compatible Scope (2026-10-13)
+
+- 状态：`WP04R2B_SYNTHETIC_CUTOVER_BLOCKED`。第二个 fresh synthetic root 已通过 C0–C10、S0–S10、Migration 4 exactly once、C9 post-close readback、V3 business preservation、V4 legacy/stable Planning fallback、PRE/POST Model equivalence 和冻结源码回归。
+- Previous blocker `V3_PLANNING_OVERRIDE_INHERIT_READ_PATH_UNSUPPORTED` 已分类为 `ACCEPTANCE_SCOPE_DEFECT`；V3 PRE 不调用 M4-only resolver，也不要求 M4-only table。
+- 首次新 root 因 C5 backup path 不符合 native 固定契约，在 C7 permit claim 前被拒且 M4 未执行；证据保留。第二次 root 成功，路径为 `evidence/wp04-release-cutover-readiness/40-r2b-final-acceptance-v3-compatible/attempt-02/`。
+- 当前剩余阻断：Recovery Matrix 虽有当前源码 16/16 component PASS，但没有绑定本轮 C0–C10/Gate receipt/ledger，按工单不能提升为 full-chain recovery PASS。Q07/Q10/Q11 full-chain failure binding 亦未完全收口；Q01–Q18 总体 BLOCKED。Renderer-only deferred to WP04R2C。
+- Frozen source `453fdb05b6457a4e9362c98308ca384c10f5d8b4`、candidate executable/manifest hashes与 strict code signature经保存后复核不变。Production、真实授权/备份/permit、WP02、WP03 business writes、Financial Model均未触碰。
+- 正式报告：`evidence/wp04-release-cutover-readiness/33-r2b-full-synthetic/WP04R2B_FULL_SYNTHETIC_CUTOVER_REPORT.md`；回读：`evidence/wp04-release-cutover-readiness/40-r2b-final-acceptance-v3-compatible/attempt-02/19-final-readback/FINAL_ACCEPTANCE_READBACK.json`。
+- 下一责任人：Planning/Owner 提供或批准 full-chain-bound recovery matrix 入口；之后 Execution 补跑 recovery/Q closure。当前不启动 WP04R2C。

@@ -1,0 +1,4 @@
+
+> personal-finance-console@0.1.0 test:wp03-preview
+> python3 -m unittest discover -s scripts -p test_wp03_preview_packaging.py -v
+

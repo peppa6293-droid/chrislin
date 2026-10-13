@@ -1,0 +1,47 @@
+{
+  "status": "PASS",
+  "controlledClose": true,
+  "openHandlesBeforeIndependentReadback": [],
+  "sidecarsAfterClose": [],
+  "queryOnlyIndependentReadback": true,
+  "userVersion": 4,
+  "migrationVersions": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "migration4Rows": 1,
+  "planningIncomeMonthRevisionRows": 0,
+  "integrity": [
+    "ok"
+  ],
+  "foreignKeyViolations": [],
+  "tableNames": [
+    "actual_income_revisions",
+    "app_metadata",
+    "asset_revisions",
+    "asset_value_snapshots",
+    "assets",
+    "cash_account_lifecycle_revisions",
+    "cash_account_revisions",
+    "cash_accounts",
+    "cash_balance_snapshots",
+    "debt_period_facts",
+    "debt_revisions",
+    "debts",
+    "essential_expense_items",
+    "essential_expense_revisions",
+    "essential_expense_snapshots",
+    "expense_records",
+    "financial_settings",
+    "income_records",
+    "planning_income_month_revisions",
+    "planning_income_revisions",
+    "profiles",
+    "schema_migrations",
+    "settings_revisions",
+    "sqlite_sequence"
+  ],
+  "capturedAt": 1791858334.05603
+}

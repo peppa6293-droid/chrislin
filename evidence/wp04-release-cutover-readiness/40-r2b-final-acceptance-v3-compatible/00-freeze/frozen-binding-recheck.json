@@ -1,0 +1,15 @@
+{
+  "capturedAt": "2026-10-13T02:10:22.874642+00:00",
+  "sourceCommit": "453fdb05b6457a4e9362c98308ca384c10f5d8b4",
+  "sourceArchiveSha256": "00cb89aedb0e21205c316c68a8ae3bb1c2a16100abd6a111769378a8b0c9f09b",
+  "candidatePath": "/Users/linte/Library/Caches/pfc-wp04r2b2a-453fdb05/build/cargo-target/release/bundle/macos/小钱家.app",
+  "bundleId": "org.pfc.quiescence.integration",
+  "executableSha256": "f7625ec29e69ac527a830e9a622f0a7568d9a4556b1d9db005f19e29d623bdff",
+  "manifestSha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+  "teamId": "SSRKA7A4TN",
+  "strictCodesign": "PASS",
+  "candidateLaunchedBeforeRun": false,
+  "runtimeDiffFromFrozenSource": [],
+  "stagedPaths": [],
+  "gitHeadAtPreflight": "bad01771d601d0896bcdfb2dd9d116fa67871667"
+}

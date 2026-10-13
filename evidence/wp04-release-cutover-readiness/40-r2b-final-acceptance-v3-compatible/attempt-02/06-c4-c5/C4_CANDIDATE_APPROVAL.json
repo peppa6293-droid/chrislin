@@ -1,0 +1,9 @@
+{
+  "status": "OWNER_APPROVED_SYNTHETIC_R2B_CANDIDATE",
+  "authorizationId": "synthetic-candidate-approval-405424d712884aa8bc209e005a9fcbc1",
+  "candidateExecutableSha256": "f7625ec29e69ac527a830e9a622f0a7568d9a4556b1d9db005f19e29d623bdff",
+  "compatibilityManifestSha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+  "bundleId": "org.pfc.quiescence.integration",
+  "maxSupportedSchemaVersion": 4,
+  "syntheticOnly": true
+}

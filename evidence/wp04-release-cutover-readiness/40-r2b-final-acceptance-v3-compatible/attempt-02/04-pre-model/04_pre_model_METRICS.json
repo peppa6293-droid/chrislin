@@ -1,0 +1,18 @@
+{
+  "Core Obligations": "3150",
+  "Safety Resources": "42000",
+  "Eligible Cash": "18000",
+  "Safety Coverage": "13.33333333333333333333333333333333333333",
+  "Cash Coverage": "5.714285714285714285714285714285714285714",
+  "cashFloorMet": true,
+  "Cash Safety Gate": "CLEAR",
+  "Base Surplus": "8350",
+  "Structural Deficit": "NORMAL",
+  "Priority": {
+    "action_code": "ADDRESS_PRIMARY_DRAG",
+    "dimension": "LIQUIDITY_SAFETY",
+    "reason": "The LIQUIDITY_SAFETY dimension is the highest-priority worsening signal."
+  },
+  "Recommended Spending": "1700",
+  "Remaining Spending": "1575"
+}

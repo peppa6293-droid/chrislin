@@ -1,0 +1,27 @@
+{
+  "formatVersion": 1,
+  "status": "OWNER_AUTHORIZED_SYNTHETIC_RUNTIME_REPLACEMENT",
+  "authorizationId": "synthetic-runtime-replacement-033183e30cf743898c080a88e35bfdf8",
+  "syntheticOnly": true,
+  "scope": "this synthetic root C3 managed isolation only",
+  "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz",
+  "rootDevInode": {
+    "dev": 16777232,
+    "inode": 25730582
+  },
+  "oldRuntime": {
+    "bundlePath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/managed/install/Installed.app",
+    "bundleId": "org.pfc.quiescence.oldruntime",
+    "executableSha256": "72efc1f514248cd63eae50aaa633eab4ba92973bbc2dd76fa06c3138e581fd91"
+  },
+  "candidate": {
+    "bundlePath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/managed/candidate/Candidate.app",
+    "bundleId": "org.pfc.quiescence.integration",
+    "executableSha256": "f7625ec29e69ac527a830e9a622f0a7568d9a4556b1d9db005f19e29d623bdff",
+    "manifestSha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc"
+  },
+  "archivePath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/managed/archive/Archived.app",
+  "installPath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/managed/install/Installed.app",
+  "expiresAtUnix": 1791861771,
+  "productionTouched": false
+}

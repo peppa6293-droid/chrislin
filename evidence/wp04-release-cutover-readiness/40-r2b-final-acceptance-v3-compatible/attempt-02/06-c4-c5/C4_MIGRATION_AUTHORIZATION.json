@@ -1,0 +1,8 @@
+{
+  "status": "OWNER_AUTHORIZED_SYNTHETIC_R2B_MIGRATION",
+  "authorizationId": "synthetic-migration-authorization-abedcc76f3d946cd8033ae6a508892c8",
+  "productionDbPreMigrationSha256": "2c3b4dceae32955a572939ed5dabf63164f3add5facc8b4d634eab4f3f8b2851",
+  "candidateExecutableSha256": "f7625ec29e69ac527a830e9a622f0a7568d9a4556b1d9db005f19e29d623bdff",
+  "backupPath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/backup.sqlite3",
+  "syntheticOnly": true
+}

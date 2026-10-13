@@ -1,0 +1,16 @@
+{
+  "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif",
+  "session": "session-8042b624c4b44837b4a64ffe9e591b2a",
+  "installed_executable": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/install/Installed.app/Contents/MacOS/personal-finance-console",
+  "native_sha256": "f7625ec29e69ac527a830e9a622f0a7568d9a4556b1d9db005f19e29d623bdff",
+  "managed_contract_path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed-contract.json",
+  "managed_isolated_receipt_path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/SYNTHETIC_C3_MANAGED_ISOLATED.json",
+  "managed_isolated_receipt_sha256": "ad7b884f3f0a1a2527011e7c20cce1e4f3268cc828c3ee18d8ec0bd6eca5ca66",
+  "state": "MANAGED_ISOLATED",
+  "mode": "UNIFIED_R2B_GATE_OWNED",
+  "migration_authorization_created": false,
+  "migration_permit_created": false,
+  "consumed_ledger_created": false,
+  "c2AuthorizationSha256": "689ef0709f3bfd765d4eb63db92fc146312091b50e90be8bdbd1f623b49c6452",
+  "capturedAt": 1791857785.179894
+}

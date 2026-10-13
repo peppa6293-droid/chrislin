@@ -1,0 +1,19 @@
+{
+  "status": "V4_PLANNING_INHERIT_COMPATIBILITY_PASS",
+  "postMigrationDecisionTableExists": true,
+  "exactMonthDecisionRows": 0,
+  "noSyntheticOverrideCreated": true,
+  "september": {
+    "source": "LEGACY_V3_COMPATIBILITY",
+    "amount": "10400",
+    "recordId": "legacy-planning-sep"
+  },
+  "october": {
+    "source": "STABLE_BASELINE",
+    "amount": "11500",
+    "revisionId": 1
+  },
+  "defaultBehaviorInterpretation": "No persisted exact-month decision; resolver falls back to legacy V3 month-scoped fact or stable planning baseline. This is the project-native implicit inheritance path, not an explicit decision row.",
+  "evidenceSha256": "48a5550ca1e6a00956500899b81eb2b4e37652b1ff70f4c9adb1137a77c9b9ae",
+  "capturedAt": 1791858400.334218
+}

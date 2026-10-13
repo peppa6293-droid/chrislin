@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "sourceDatabase": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/personal-finance-console.sqlite3",
+  "sourceSha256": "2c3b4dceae32955a572939ed5dabf63164f3add5facc8b4d634eab4f3f8b2851",
+  "backupPath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/backup.sqlite3",
+  "backupSha256": "2c3b4dceae32955a572939ed5dabf63164f3add5facc8b4d634eab4f3f8b2851",
+  "byteIdentical": true,
+  "bootstrapBackupOriginalSha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+  "uniqueForThisRoot": true,
+  "createdAfterC3": true,
+  "createdAt": 1791858194.7995121
+}

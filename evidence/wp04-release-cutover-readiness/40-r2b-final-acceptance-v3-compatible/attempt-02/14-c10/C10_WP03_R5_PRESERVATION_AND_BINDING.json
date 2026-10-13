@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "reusedWP03Baseline": "WP03_PRODUCT_DAILY_USE_READY_FOR_PLANNING_REVIEW",
+  "acceptanceReport": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/wp03-product-daily-use/final-r2-closure/r5-completion/WP03R3_FINAL_ACCEPTANCE.md",
+  "acceptanceReportSha256": "6a5687aebb960c5cf31bde36fdd20eae56511051233c061bed3b60e233c16468",
+  "frozenSourceCommit": "453fdb05b6457a4e9362c98308ca384c10f5d8b4",
+  "sourceArchiveSha256": "00cb89aedb0e21205c316c68a8ae3bb1c2a16100abd6a111769378a8b0c9f09b",
+  "candidateExecutableSha256": "f7625ec29e69ac527a830e9a622f0a7568d9a4556b1d9db005f19e29d623bdff",
+  "candidateManifestSha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+  "noProductBusinessWritesPerformed": true,
+  "sourceAndCandidateReadbackSha256": "4cdef06b16f232ef7f30be736084d2c7298a549f92c86412c349fe0c120a11d1",
+  "capturedAt": 1791858400.3348281
+}

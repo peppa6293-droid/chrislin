@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "testsRun": 16,
+  "failures": [],
+  "errors": [],
+  "capturedAt": 1791858522.399471,
+  "scope": "current-source full formal CLI -> Rust consumer -> native runner contract cases; separate fixture roots"
+}

@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "requiredStates": [
+    "S0_VERIFIED_CANDIDATE",
+    "S1_MANAGED_ISOLATED",
+    "S2_OWNER_AUTHORIZED",
+    "S3_PERMIT_CONSUMED",
+    "S4_CONNECTION_PREPARED",
+    "S5_QUIESCENCE_ACQUIRED",
+    "S6_V3_REVALIDATED",
+    "S7_M4_IN_TRANSACTION",
+    "S8_COMMIT_OR_ROLLBACK",
+    "S9_POST_READBACK_GUARDED",
+    "S10_VERIFIED_HANDOFF"
+  ],
+  "nativeHighestState": "S10_VERIFIED_HANDOFF",
+  "nativeMigration4Executed": true,
+  "nativeMigration4ExecutionCount": 1,
+  "schema": {
+    "migration4Rows": 1,
+    "migrationRows": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "userVersion": 4
+  },
+  "permitSha256": "9cdf6bf7e49c55bc6395e64c6813049a7c535729f94b52deb3da933278eb61a9",
+  "receiptSha256": "4f8935f4b4a329cd1245fd1e9e4947d791fcb8ea35d402e3b017510e41512dc2",
+  "ledgerSha256": "c8a386d6ea427e1a811720ab178082ef77b66797930966f3d86a63c2fe288a2d",
+  "S4toS9EventStream": true,
+  "S10VerifiedHandoff": true,
+  "capturedAt": 1791858333.6871428
+}

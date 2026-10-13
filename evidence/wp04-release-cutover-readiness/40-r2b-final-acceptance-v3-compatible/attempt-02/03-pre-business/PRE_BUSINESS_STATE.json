@@ -1,0 +1,458 @@
+{
+  "capturedAt": 1791858157.079502,
+  "snapshotKind": "PRE_BUSINESS_STATE",
+  "database": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/personal-finance-console.sqlite3",
+  "databaseSha256": "2c3b4dceae32955a572939ed5dabf63164f3add5facc8b4d634eab4f3f8b2851",
+  "databaseIdentity": {
+    "dev": 16777232,
+    "inode": 25730635,
+    "size": 229376,
+    "mtimeNs": 1791858004278444819,
+    "mode": "0o600"
+  },
+  "schema": {
+    "userVersion": 3,
+    "migrationVersions": [
+      1,
+      2,
+      3
+    ],
+    "integrity": [
+      "ok"
+    ],
+    "foreignKeyViolations": [],
+    "tableNames": [
+      "app_metadata",
+      "asset_revisions",
+      "asset_value_snapshots",
+      "assets",
+      "cash_account_revisions",
+      "cash_accounts",
+      "cash_balance_snapshots",
+      "debt_period_facts",
+      "debt_revisions",
+      "debts",
+      "essential_expense_items",
+      "essential_expense_revisions",
+      "essential_expense_snapshots",
+      "expense_records",
+      "financial_settings",
+      "income_records",
+      "planning_income_revisions",
+      "profiles",
+      "schema_migrations",
+      "settings_revisions"
+    ]
+  },
+  "tableCounts": {
+    "app_metadata": 1,
+    "asset_revisions": 2,
+    "asset_value_snapshots": 2,
+    "assets": 2,
+    "cash_account_revisions": 2,
+    "cash_accounts": 2,
+    "cash_balance_snapshots": 2,
+    "debt_period_facts": 3,
+    "debt_revisions": 3,
+    "debts": 3,
+    "essential_expense_items": 1,
+    "essential_expense_revisions": 1,
+    "essential_expense_snapshots": 1,
+    "expense_records": 2,
+    "financial_settings": 1,
+    "income_records": 6,
+    "planning_income_revisions": 1,
+    "profiles": 1,
+    "schema_migrations": 3,
+    "settings_revisions": 1
+  },
+  "tableRows": {
+    "app_metadata": [
+      {
+        "key": "quiescence-sentinel",
+        "value": "unchanged"
+      }
+    ],
+    "asset_revisions": [
+      {
+        "revision_id": 1,
+        "asset_id": "asset-liquid",
+        "as_of_date": "2026-09-01",
+        "name": "Liquid investment prior",
+        "kind": "LIQUID_INVESTMENT",
+        "include_in_safety_resources": 1,
+        "current_value": "23000",
+        "active": 1,
+        "created_at": "2026-09-01T00:00:00Z"
+      },
+      {
+        "revision_id": 2,
+        "asset_id": "asset-other",
+        "as_of_date": "2026-09-01",
+        "name": "Other asset prior",
+        "kind": "OTHER",
+        "include_in_safety_resources": 0,
+        "current_value": "8500",
+        "active": 1,
+        "created_at": "2026-09-01T00:00:00Z"
+      }
+    ],
+    "asset_value_snapshots": [
+      {
+        "id": "asset-liquid-snapshot",
+        "asset_id": "asset-liquid",
+        "as_of_date": "2026-10-01",
+        "value": "24000",
+        "created_at": "2026-10-01T00:00:00Z"
+      },
+      {
+        "id": "asset-other-snapshot",
+        "asset_id": "asset-other",
+        "as_of_date": "2026-10-01",
+        "value": "9000",
+        "created_at": "2026-10-01T00:00:00Z"
+      }
+    ],
+    "assets": [
+      {
+        "id": "asset-liquid",
+        "profile_id": "fixture",
+        "name": "Liquid investment",
+        "kind": "LIQUID_INVESTMENT",
+        "include_in_safety_resources": 1,
+        "active": 1,
+        "created_at": "2026-01-01T00:00:00Z"
+      },
+      {
+        "id": "asset-other",
+        "profile_id": "fixture",
+        "name": "Other asset",
+        "kind": "OTHER",
+        "include_in_safety_resources": 0,
+        "active": 1,
+        "created_at": "2026-01-01T00:00:00Z"
+      }
+    ],
+    "cash_account_revisions": [
+      {
+        "revision_id": 1,
+        "account_id": "cash-eligible",
+        "as_of_date": "2026-09-01",
+        "name": "Eligible cash prior",
+        "include_in_safety_resources": 1,
+        "balance": "17500",
+        "created_at": "2026-09-01T00:00:00Z"
+      },
+      {
+        "revision_id": 2,
+        "account_id": "cash-excluded",
+        "as_of_date": "2026-09-01",
+        "name": "Excluded cash prior",
+        "include_in_safety_resources": 0,
+        "balance": "6500",
+        "created_at": "2026-09-01T00:00:00Z"
+      }
+    ],
+    "cash_accounts": [
+      {
+        "id": "cash-eligible",
+        "profile_id": "fixture",
+        "name": "Eligible cash",
+        "include_in_safety_resources": 1,
+        "active": 1,
+        "created_at": "2026-01-01T00:00:00Z"
+      },
+      {
+        "id": "cash-excluded",
+        "profile_id": "fixture",
+        "name": "Excluded cash",
+        "include_in_safety_resources": 0,
+        "active": 1,
+        "created_at": "2026-01-01T00:00:00Z"
+      }
+    ],
+    "cash_balance_snapshots": [
+      {
+        "id": "cash-eligible-snapshot",
+        "account_id": "cash-eligible",
+        "as_of_date": "2026-10-01",
+        "balance": "18000",
+        "created_at": "2026-10-01T00:00:00Z"
+      },
+      {
+        "id": "cash-excluded-snapshot",
+        "account_id": "cash-excluded",
+        "as_of_date": "2026-10-01",
+        "balance": "7000",
+        "created_at": "2026-10-01T00:00:00Z"
+      }
+    ],
+    "debt_period_facts": [
+      {
+        "id": "debt-due-oct",
+        "debt_id": "debt-due",
+        "period_month": "2026-10",
+        "as_of_date": "2026-10-01",
+        "current_balance": "10000",
+        "current_month_due": "500",
+        "created_at": "2026-10-01T00:00:00Z"
+      },
+      {
+        "id": "debt-zero-oct",
+        "debt_id": "debt-zero",
+        "period_month": "2026-10",
+        "as_of_date": "2026-10-01",
+        "current_balance": "8000",
+        "current_month_due": "0",
+        "created_at": "2026-10-01T00:00:00Z"
+      },
+      {
+        "id": "debt-fallback-oct",
+        "debt_id": "debt-fallback",
+        "period_month": "2026-10",
+        "as_of_date": "2026-10-01",
+        "current_balance": "6000",
+        "current_month_due": null,
+        "created_at": "2026-10-01T00:00:00Z"
+      }
+    ],
+    "debt_revisions": [
+      {
+        "revision_id": 1,
+        "debt_id": "debt-due",
+        "period_month": "2026-09",
+        "as_of_date": "2026-09-01",
+        "name": "Debt with current due prior",
+        "current_balance": "10500",
+        "current_month_due": "500",
+        "fixed_monthly_payment": "900",
+        "active": 1,
+        "created_at": "2026-09-01T00:00:00Z"
+      },
+      {
+        "revision_id": 2,
+        "debt_id": "debt-zero",
+        "period_month": "2026-09",
+        "as_of_date": "2026-09-01",
+        "name": "Debt with explicit zero due prior",
+        "current_balance": "8500",
+        "current_month_due": "0",
+        "fixed_monthly_payment": "700",
+        "active": 1,
+        "created_at": "2026-09-01T00:00:00Z"
+      },
+      {
+        "revision_id": 3,
+        "debt_id": "debt-fallback",
+        "period_month": "2026-09",
+        "as_of_date": "2026-09-01",
+        "name": "Debt with fixed fallback prior",
+        "current_balance": "6500",
+        "current_month_due": null,
+        "fixed_monthly_payment": "450",
+        "active": 1,
+        "created_at": "2026-09-01T00:00:00Z"
+      }
+    ],
+    "debts": [
+      {
+        "id": "debt-due",
+        "profile_id": "fixture",
+        "name": "Debt with current due",
+        "fixed_monthly_payment": "900",
+        "active": 1,
+        "created_at": "2026-01-01T00:00:00Z"
+      },
+      {
+        "id": "debt-zero",
+        "profile_id": "fixture",
+        "name": "Debt with explicit zero due",
+        "fixed_monthly_payment": "700",
+        "active": 1,
+        "created_at": "2026-01-01T00:00:00Z"
+      },
+      {
+        "id": "debt-fallback",
+        "profile_id": "fixture",
+        "name": "Debt with fixed fallback",
+        "fixed_monthly_payment": "450",
+        "active": 1,
+        "created_at": "2026-01-01T00:00:00Z"
+      }
+    ],
+    "essential_expense_items": [
+      {
+        "id": "essential-housing",
+        "profile_id": "fixture",
+        "category": "HOUSING",
+        "name": "Synthetic rent",
+        "monthly_amount": "2200",
+        "active": 1,
+        "created_at": "2000-01-01",
+        "updated_at": "2000-01-01"
+      }
+    ],
+    "essential_expense_revisions": [
+      {
+        "revision_id": 1,
+        "item_id": "essential-housing",
+        "as_of_date": "2026-09-01",
+        "name": "Prior synthetic rent",
+        "category": "HOUSING",
+        "monthly_amount": "2100",
+        "active": 1,
+        "created_at": "2026-09-01T00:00:00Z"
+      }
+    ],
+    "essential_expense_snapshots": [
+      {
+        "id": "essential-housing-snapshot",
+        "item_id": "essential-housing",
+        "as_of_date": "2026-10-01",
+        "monthly_amount": "2200",
+        "created_at": "2026-10-01T00:00:00Z"
+      }
+    ],
+    "expense_records": [
+      {
+        "id": "expense-essential",
+        "profile_id": "fixture",
+        "amount": "2200",
+        "occurred_at": "2026-10-02T08:00:00Z",
+        "kind": "ESSENTIAL",
+        "category": "HOUSING",
+        "note": "synthetic fixed housing",
+        "created_at": "2026-10-02T08:00:00Z",
+        "business_date": "2026-10-02"
+      },
+      {
+        "id": "expense-variable",
+        "profile_id": "fixture",
+        "amount": "125",
+        "occurred_at": "2026-10-03T12:00:00Z",
+        "kind": "VARIABLE",
+        "category": "FOOD",
+        "note": "synthetic groceries",
+        "created_at": "2026-10-03T12:00:00Z",
+        "business_date": "2026-10-03"
+      }
+    ],
+    "financial_settings": [
+      {
+        "profile_id": "fixture",
+        "safety_coverage_target_months": 6.0,
+        "minimum_cash_coverage_months": 2.0,
+        "safety_recovery_horizon_months": 12.0,
+        "desired_monthly_discretionary_spending": "1800"
+      }
+    ],
+    "income_records": [
+      {
+        "id": "planning-income",
+        "profile_id": "fixture",
+        "kind": "PLANNING",
+        "status": "EXPECTED",
+        "amount": "12000",
+        "date": "2026-10-10",
+        "period_month": "2026-10",
+        "created_at": "2026-10-01T00:00:00Z"
+      },
+      {
+        "id": "actual-received",
+        "profile_id": "fixture",
+        "kind": "ACTUAL",
+        "status": "RECEIVED",
+        "amount": "11800",
+        "date": "2026-10-05",
+        "period_month": "2026-10",
+        "created_at": "2026-10-05T00:00:00Z"
+      },
+      {
+        "id": "actual-pending",
+        "profile_id": "fixture",
+        "kind": "ACTUAL",
+        "status": "PENDING",
+        "amount": "300",
+        "date": "2026-10-20",
+        "period_month": "2026-10",
+        "created_at": "2026-10-05T00:00:00Z"
+      },
+      {
+        "id": "actual-expected",
+        "profile_id": "fixture",
+        "kind": "ACTUAL",
+        "status": "EXPECTED",
+        "amount": "500",
+        "date": "2026-10-28",
+        "period_month": "2026-10",
+        "created_at": "2026-10-05T00:00:00Z"
+      },
+      {
+        "id": "stable-planning-base",
+        "profile_id": "fixture",
+        "kind": "PLANNING",
+        "status": "EXPECTED",
+        "amount": "11000",
+        "date": "2026-01-01",
+        "period_month": null,
+        "created_at": "2026-01-01T00:00:00.000Z"
+      },
+      {
+        "id": "legacy-planning-sep",
+        "profile_id": "fixture",
+        "kind": "PLANNING",
+        "status": "EXPECTED",
+        "amount": "10400",
+        "date": "2026-09-01",
+        "period_month": "2026-09",
+        "created_at": "2026-09-01T00:00:00.000Z"
+      }
+    ],
+    "planning_income_revisions": [
+      {
+        "revision_id": 1,
+        "profile_id": "fixture",
+        "effective_month": "2026-10",
+        "as_of_date": "2026-09-01",
+        "amount": "11500",
+        "created_at": "2026-09-01T00:00:00Z"
+      }
+    ],
+    "profiles": [
+      {
+        "id": "fixture",
+        "singleton_id": 1,
+        "display_name": "Synthetic",
+        "created_at": "2000-01-01"
+      }
+    ],
+    "schema_migrations": [
+      {
+        "version": 1,
+        "applied_at": "2000-01-01T00:00:00.000Z"
+      },
+      {
+        "version": 2,
+        "applied_at": "2000-01-01T00:00:00.000Z"
+      },
+      {
+        "version": 3,
+        "applied_at": "2000-01-01T00:00:00.000Z"
+      }
+    ],
+    "settings_revisions": [
+      {
+        "revision_id": 1,
+        "profile_id": "fixture",
+        "effective_month": "2026-10",
+        "as_of_date": "2026-09-01",
+        "safety_coverage_target_months": 5.0,
+        "minimum_cash_coverage_months": 2.0,
+        "safety_recovery_horizon_months": 12.0,
+        "desired_monthly_discretionary_spending": "1700",
+        "created_at": "2026-09-01T00:00:00Z"
+      }
+    ]
+  },
+  "planningClassification": "V3_NATIVE_STABLE_AND_LEGACY_PLANNING_FACTS; no V4 exact-month decision table"
+}

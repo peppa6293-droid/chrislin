@@ -1,0 +1,28 @@
+{
+  "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz",
+  "dbSha256": "2c3b4dceae32955a572939ed5dabf63164f3add5facc8b4d634eab4f3f8b2851",
+  "definitionSha256": "8095b53a6908341b6f1d746b765044efd31b44da61913f3ca0489b8069d638f3",
+  "sourceFixtureSha256": "1ea7ef84431311c05fd91e0b1959720dd9ca24d06c1a596b34e6c4c21ec2a424",
+  "tableNames": [
+    "app_metadata",
+    "asset_revisions",
+    "asset_value_snapshots",
+    "assets",
+    "cash_account_revisions",
+    "cash_accounts",
+    "cash_balance_snapshots",
+    "debt_period_facts",
+    "debt_revisions",
+    "debts",
+    "essential_expense_items",
+    "essential_expense_revisions",
+    "essential_expense_snapshots",
+    "expense_records",
+    "financial_settings",
+    "income_records",
+    "planning_income_revisions",
+    "profiles",
+    "settings_revisions"
+  ],
+  "note": "Fresh schema from qic bootstrap migrations 1-3; synthetic business rows copied from fully built V3 fixture before C0."
+}

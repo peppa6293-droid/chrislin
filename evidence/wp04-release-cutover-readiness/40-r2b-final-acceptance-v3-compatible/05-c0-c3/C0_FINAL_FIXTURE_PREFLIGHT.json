@@ -1,0 +1,468 @@
+{
+  "capturedAt": "2026-10-13T02:14:20.791830+00:00",
+  "status": "PASS",
+  "sourceCommit": "453fdb05b6457a4e9362c98308ca384c10f5d8b4",
+  "sourceArchiveSha256": "00cb89aedb0e21205c316c68a8ae3bb1c2a16100abd6a111769378a8b0c9f09b",
+  "candidate": {
+    "bundle_path": "/Users/linte/Library/Caches/pfc-wp04r2b2a-453fdb05/build/cargo-target/release/bundle/macos/小钱家.app",
+    "bundle_id": "org.pfc.quiescence.integration",
+    "version": "0.1.0",
+    "executable_name": "personal-finance-console",
+    "executable_path": "/Users/linte/Library/Caches/pfc-wp04r2b2a-453fdb05/build/cargo-target/release/bundle/macos/小钱家.app/Contents/MacOS/personal-finance-console",
+    "executable_sha256": "f7625ec29e69ac527a830e9a622f0a7568d9a4556b1d9db005f19e29d623bdff",
+    "executable_mode": 493,
+    "manifest": {
+      "manifestFormatVersion": 1,
+      "runtimeGeneration": 4,
+      "minSupportedSchemaVersion": 3,
+      "maxSupportedSchemaVersion": 4,
+      "bundleId": "org.pfc.quiescence.integration",
+      "executable": "Contents/MacOS/personal-finance-console"
+    },
+    "manifest_path": "/Users/linte/Library/Caches/pfc-wp04r2b2a-453fdb05/build/cargo-target/release/bundle/macos/小钱家.app/Contents/Resources/runtime-compatibility.json",
+    "manifest_sha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc"
+  },
+  "candidateExecutableSha256": "f7625ec29e69ac527a830e9a622f0a7568d9a4556b1d9db005f19e29d623bdff",
+  "candidateManifestSha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+  "frozenCandidateLaunched": false,
+  "syntheticRoot": {
+    "realpath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif",
+    "dev": 16777232,
+    "inode": 25720582,
+    "mode": "0o700",
+    "markerSha256": "5a341fc3217830486b6e798dbab847b133e5072b80de4525b917582eded48de1"
+  },
+  "database": {
+    "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/personal-finance-console.sqlite3",
+    "sha256": "1ea7ef84431311c05fd91e0b1959720dd9ca24d06c1a596b34e6c4c21ec2a424",
+    "user_version": 3,
+    "migration_version": 3,
+    "integrity": [
+      "ok"
+    ],
+    "foreign_key_violations": [],
+    "sidecars": []
+  },
+  "exactV3Schema": true,
+  "migrationVersions": [
+    1,
+    2,
+    3
+  ],
+  "v4PlanningDecisionTableExists": false,
+  "sidecarsAbsent": true,
+  "managedRuntimeInventory": [
+    {
+      "role": "managed_container",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed",
+      "kind": "directory",
+      "dev": 16777232,
+      "inode": 25720584,
+      "size": 192,
+      "links": 6,
+      "mode": 493,
+      "sha256": null
+    },
+    {
+      "role": "managed_container",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/archive",
+      "kind": "directory",
+      "dev": 16777232,
+      "inode": 25720588,
+      "size": 64,
+      "links": 2,
+      "mode": 448,
+      "sha256": null
+    },
+    {
+      "role": "managed_container",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/candidate",
+      "kind": "directory",
+      "dev": 16777232,
+      "inode": 25720586,
+      "size": 96,
+      "links": 3,
+      "mode": 448,
+      "sha256": null
+    },
+    {
+      "role": "candidate",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/candidate/Candidate.app",
+      "kind": "directory",
+      "dev": 16777232,
+      "inode": 25720624,
+      "size": 96,
+      "links": 3,
+      "mode": 448,
+      "sha256": null
+    },
+    {
+      "role": "candidate",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/candidate/Candidate.app/Contents",
+      "kind": "directory",
+      "dev": 16777232,
+      "inode": 25720625,
+      "size": 192,
+      "links": 6,
+      "mode": 448,
+      "sha256": null
+    },
+    {
+      "role": "candidate",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/candidate/Candidate.app/Contents/Info.plist",
+      "kind": "file",
+      "dev": 16777232,
+      "inode": 25720629,
+      "size": 1020,
+      "links": 1,
+      "mode": 384,
+      "sha256": "e0ff7eec111f8d9af87461519148d5fc5f0f9efd294da5d161979b7cb5c0772a"
+    },
+    {
+      "role": "candidate",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/candidate/Candidate.app/Contents/MacOS",
+      "kind": "directory",
+      "dev": 16777232,
+      "inode": 25720627,
+      "size": 96,
+      "links": 3,
+      "mode": 448,
+      "sha256": null
+    },
+    {
+      "role": "candidate",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/candidate/Candidate.app/Contents/MacOS/personal-finance-console",
+      "kind": "file",
+      "dev": 16777232,
+      "inode": 25720631,
+      "size": 21288608,
+      "links": 1,
+      "mode": 384,
+      "sha256": "f7625ec29e69ac527a830e9a622f0a7568d9a4556b1d9db005f19e29d623bdff"
+    },
+    {
+      "role": "candidate",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/candidate/Candidate.app/Contents/Resources",
+      "kind": "directory",
+      "dev": 16777232,
+      "inode": 25720628,
+      "size": 96,
+      "links": 3,
+      "mode": 448,
+      "sha256": null
+    },
+    {
+      "role": "candidate",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/candidate/Candidate.app/Contents/Resources/runtime-compatibility.json",
+      "kind": "file",
+      "dev": 16777232,
+      "inode": 25720632,
+      "size": 234,
+      "links": 1,
+      "mode": 384,
+      "sha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc"
+    },
+    {
+      "role": "candidate",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/candidate/Candidate.app/Contents/_CodeSignature",
+      "kind": "directory",
+      "dev": 16777232,
+      "inode": 25720626,
+      "size": 96,
+      "links": 3,
+      "mode": 448,
+      "sha256": null
+    },
+    {
+      "role": "candidate",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/candidate/Candidate.app/Contents/_CodeSignature/CodeResources",
+      "kind": "file",
+      "dev": 16777232,
+      "inode": 25720630,
+      "size": 2474,
+      "links": 1,
+      "mode": 384,
+      "sha256": "aebbfaf7e36104bd9755dbf876001682eb5d67e95dbd3f95c1dfda94d13bf26d"
+    },
+    {
+      "role": "managed_container",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/install",
+      "kind": "directory",
+      "dev": 16777232,
+      "inode": 25720585,
+      "size": 96,
+      "links": 3,
+      "mode": 448,
+      "sha256": null
+    },
+    {
+      "role": "installed",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/install/Installed.app",
+      "kind": "directory",
+      "dev": 16777232,
+      "inode": 25720589,
+      "size": 96,
+      "links": 3,
+      "mode": 493,
+      "sha256": null
+    },
+    {
+      "role": "installed",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/install/Installed.app/Contents",
+      "kind": "directory",
+      "dev": 16777232,
+      "inode": 25720590,
+      "size": 192,
+      "links": 6,
+      "mode": 493,
+      "sha256": null
+    },
+    {
+      "role": "installed",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/install/Installed.app/Contents/Info.plist",
+      "kind": "file",
+      "dev": 16777232,
+      "inode": 25720593,
+      "size": 628,
+      "links": 1,
+      "mode": 384,
+      "sha256": "87256c53079b5500bf6edf184fabd332568448b31305332e5a892bdf7b88cfed"
+    },
+    {
+      "role": "installed",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/install/Installed.app/Contents/MacOS",
+      "kind": "directory",
+      "dev": 16777232,
+      "inode": 25720591,
+      "size": 96,
+      "links": 3,
+      "mode": 448,
+      "sha256": null
+    },
+    {
+      "role": "installed",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/install/Installed.app/Contents/MacOS/personal-finance-console",
+      "kind": "file",
+      "dev": 16777232,
+      "inode": 25720613,
+      "size": 801456,
+      "links": 1,
+      "mode": 448,
+      "sha256": "e7452fea31fd573b41a4852972f3ebffbeb993a45e1fce27e809f4fd563757e7"
+    },
+    {
+      "role": "installed",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/install/Installed.app/Contents/Resources",
+      "kind": "directory",
+      "dev": 16777232,
+      "inode": 25720592,
+      "size": 160,
+      "links": 5,
+      "mode": 448,
+      "sha256": null
+    },
+    {
+      "role": "installed",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/install/Installed.app/Contents/Resources/Outer",
+      "kind": "directory",
+      "dev": 16777232,
+      "inode": 25720596,
+      "size": 96,
+      "links": 3,
+      "mode": 493,
+      "sha256": null
+    },
+    {
+      "role": "installed",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/install/Installed.app/Contents/Resources/Outer/Contents",
+      "kind": "directory",
+      "dev": 16777232,
+      "inode": 25720597,
+      "size": 96,
+      "links": 3,
+      "mode": 493,
+      "sha256": null
+    },
+    {
+      "role": "installed",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/install/Installed.app/Contents/Resources/Outer/Contents/Resources",
+      "kind": "directory",
+      "dev": 16777232,
+      "inode": 25720598,
+      "size": 96,
+      "links": 3,
+      "mode": 493,
+      "sha256": null
+    },
+    {
+      "role": "installed",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/install/Installed.app/Contents/Resources/Outer/Contents/Resources/Nested.app",
+      "kind": "directory",
+      "dev": 16777232,
+      "inode": 25720599,
+      "size": 96,
+      "links": 3,
+      "mode": 493,
+      "sha256": null
+    },
+    {
+      "role": "installed",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/install/Installed.app/Contents/Resources/Outer/Contents/Resources/Nested.app/Contents",
+      "kind": "directory",
+      "dev": 16777232,
+      "inode": 25720600,
+      "size": 192,
+      "links": 6,
+      "mode": 493,
+      "sha256": null
+    },
+    {
+      "role": "installed",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/install/Installed.app/Contents/Resources/Outer/Contents/Resources/Nested.app/Contents/Info.plist",
+      "kind": "file",
+      "dev": 16777232,
+      "inode": 25720603,
+      "size": 628,
+      "links": 1,
+      "mode": 384,
+      "sha256": "87256c53079b5500bf6edf184fabd332568448b31305332e5a892bdf7b88cfed"
+    },
+    {
+      "role": "installed",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/install/Installed.app/Contents/Resources/Outer/Contents/Resources/Nested.app/Contents/MacOS",
+      "kind": "directory",
+      "dev": 16777232,
+      "inode": 25720601,
+      "size": 96,
+      "links": 3,
+      "mode": 448,
+      "sha256": null
+    },
+    {
+      "role": "installed",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/install/Installed.app/Contents/Resources/Outer/Contents/Resources/Nested.app/Contents/MacOS/personal-finance-console",
+      "kind": "file",
+      "dev": 16777232,
+      "inode": 25720610,
+      "size": 801456,
+      "links": 1,
+      "mode": 448,
+      "sha256": "9939739b06afc5c496f23fb5839e9c18038cbb3d9e8625272f3cc29bdcb4d43e"
+    },
+    {
+      "role": "installed",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/install/Installed.app/Contents/Resources/Outer/Contents/Resources/Nested.app/Contents/Resources",
+      "kind": "directory",
+      "dev": 16777232,
+      "inode": 25720602,
+      "size": 96,
+      "links": 3,
+      "mode": 448,
+      "sha256": null
+    },
+    {
+      "role": "installed",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/install/Installed.app/Contents/Resources/Outer/Contents/Resources/Nested.app/Contents/Resources/runtime-compatibility.json",
+      "kind": "file",
+      "dev": 16777232,
+      "inode": 25720604,
+      "size": 208,
+      "links": 1,
+      "mode": 384,
+      "sha256": "8a2b1571dce13002a4bd060930f74e1a8e1baaecb39abe6b0b7f53890c0be6c2"
+    },
+    {
+      "role": "installed",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/install/Installed.app/Contents/Resources/Outer/Contents/Resources/Nested.app/Contents/_CodeSignature",
+      "kind": "directory",
+      "dev": 16777232,
+      "inode": 25720608,
+      "size": 96,
+      "links": 3,
+      "mode": 493,
+      "sha256": null
+    },
+    {
+      "role": "installed",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/install/Installed.app/Contents/Resources/Outer/Contents/Resources/Nested.app/Contents/_CodeSignature/CodeResources",
+      "kind": "file",
+      "dev": 16777232,
+      "inode": 25720609,
+      "size": 2474,
+      "links": 1,
+      "mode": 420,
+      "sha256": "050c5a795d4958a4729d252a19bb220e687282555b8460f6bc1f4480fbb0dc74"
+    },
+    {
+      "role": "installed",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/install/Installed.app/Contents/Resources/legacy-helper",
+      "kind": "file",
+      "dev": 16777232,
+      "inode": 25720607,
+      "size": 801424,
+      "links": 1,
+      "mode": 448,
+      "sha256": "6a2b9abeed3665b3fdde65ebc2526ea11fb754034e8cc173b82cf0e56d503a2e"
+    },
+    {
+      "role": "installed",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/install/Installed.app/Contents/Resources/runtime-compatibility.json",
+      "kind": "file",
+      "dev": 16777232,
+      "inode": 25720594,
+      "size": 208,
+      "links": 1,
+      "mode": 384,
+      "sha256": "8a2b1571dce13002a4bd060930f74e1a8e1baaecb39abe6b0b7f53890c0be6c2"
+    },
+    {
+      "role": "installed",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/install/Installed.app/Contents/_CodeSignature",
+      "kind": "directory",
+      "dev": 16777232,
+      "inode": 25720611,
+      "size": 96,
+      "links": 3,
+      "mode": 493,
+      "sha256": null
+    },
+    {
+      "role": "installed",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/install/Installed.app/Contents/_CodeSignature/CodeResources",
+      "kind": "file",
+      "dev": 16777232,
+      "inode": 25720612,
+      "size": 4098,
+      "links": 1,
+      "mode": 420,
+      "sha256": "596c1bbe33164241bc2b5b65bd10710a85a35360f74b57ba82349a026b7baa77"
+    },
+    {
+      "role": "managed_container",
+      "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/managed/staging",
+      "kind": "directory",
+      "dev": 16777232,
+      "inode": 25720587,
+      "size": 64,
+      "links": 2,
+      "mode": 448,
+      "sha256": null
+    }
+  ],
+  "syntheticRootProcessInventory": {
+    "complete": true,
+    "processes": []
+  },
+  "preSnapshots": {
+    "businessSha256": "d36cbedb463ea8644716e33fb0f28e292a51c269e74cb2f68181ae78cf623178",
+    "modelSha256": "68ac9782c92288ca90a9f78b8bdaf4aaca8007712b3203da4b0fa8a527b9e108"
+  },
+  "fixtureDefinitionBinding": {
+    "capturedAt": "2026-10-13T02:14:20.667235+00:00",
+    "fixtureDefinitionPath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/fixture-definition.json",
+    "oldSha256": "2b2b5b45d83602c610fb6144eff3b5e0a204c82051ee33ab089cab51da586552",
+    "newSha256": "debb189cd70b60cd1fc866b9de4b541d61a916caf6bc236db200ecdd6cbcb519",
+    "boundDatabaseSha256": "1ea7ef84431311c05fd91e0b1959720dd9ca24d06c1a596b34e6c4c21ec2a424",
+    "businessDatabaseModified": false
+  }
+}

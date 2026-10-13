@@ -1,0 +1,1 @@
+{"status": "BLOCKED", "errorType": "GateBlocked", "reasons": ["Native migration consumer refused or failed (exit=2): {\"error\":{\"code\":\"GATE_BACKUP_PATH\",\"detail\":\"GATE_BACKUP_PATH\",\"sqlite_extended\":null,\"sqlite_primary\":null},\"event\":\"blocked\"}"]}

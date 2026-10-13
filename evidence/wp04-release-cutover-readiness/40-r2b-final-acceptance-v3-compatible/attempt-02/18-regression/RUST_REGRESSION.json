@@ -1,0 +1,52 @@
+{
+  "capturedAt": 1791858864.2117918,
+  "results": [
+    {
+      "name": "06-rust-default",
+      "command": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "src-tauri/Cargo.toml",
+        "--bins"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "stdoutSha256": "df166913f47ff1f04202cae9b31df67ed272d692d99a0023a8117dc3029100dd",
+      "stderrSha256": "976de73204561599183bf6043d53e63d3184a66f9fc95287772f933fe9c997d7"
+    },
+    {
+      "name": "07-rust-quiescence-fixture",
+      "command": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "src-tauri/Cargo.toml",
+        "--features",
+        "quiescence-fixture",
+        "--bins"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "stdoutSha256": "6b9c1e5b100ebfb0c36946f840748d086fd699e5617336a433c95a0b5968d523",
+      "stderrSha256": "8e396c6f1a27db6a2daa731368058143997e5b2ac92bc57e07772a5f2b9bd451"
+    },
+    {
+      "name": "08-rust-quiescence-tauri",
+      "command": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "src-tauri/Cargo.toml",
+        "--features",
+        "quiescence-tauri",
+        "--bins"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "stdoutSha256": "220e1c1c82b17ca53c16b609cc94639fba50197c55b3b266a34f0f1ce70e048e",
+      "stderrSha256": "4ac8f31c72f2934c0130a2bdcf229b57bd66c7314c8589b197d744c802f97950"
+    }
+  ],
+  "overall": "PASS"
+}

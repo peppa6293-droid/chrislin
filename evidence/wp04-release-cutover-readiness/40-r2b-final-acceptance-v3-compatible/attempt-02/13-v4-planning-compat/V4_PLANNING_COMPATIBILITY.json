@@ -1,0 +1,51 @@
+{
+  "capturedAt": "2026-10-13T02:25:51.383Z",
+  "resolutions": {
+    "september": {
+      "amount": "10400",
+      "source": "LEGACY_V3_COMPATIBILITY",
+      "periodMonth": "2026-09",
+      "asOfDate": "2026-09-13",
+      "effectiveDate": "2026-09-01",
+      "recordId": "legacy-planning-sep"
+    },
+    "october": {
+      "amount": "11500",
+      "source": "STABLE_BASELINE",
+      "periodMonth": "2026-10",
+      "asOfDate": "2026-10-13",
+      "effectiveDate": "2026-09-01",
+      "revisionId": 1
+    }
+  },
+  "incomes": {
+    "september": [
+      {
+        "id": "legacy-planning-sep",
+        "kind": "PLANNING",
+        "status": "EXPECTED",
+        "amount": "10400",
+        "date": "2026-09-01"
+      }
+    ],
+    "october": [
+      {
+        "id": "actual-received",
+        "kind": "ACTUAL",
+        "status": "RECEIVED",
+        "amount": "11800",
+        "date": "2026-10-05",
+        "periodMonth": "2026-10",
+        "active": true
+      },
+      {
+        "id": "planning-revision-1",
+        "kind": "PLANNING",
+        "status": "EXPECTED",
+        "amount": "11500",
+        "date": "2026-09-01"
+      }
+    ]
+  },
+  "decisionTableExpectedEmpty": true
+}

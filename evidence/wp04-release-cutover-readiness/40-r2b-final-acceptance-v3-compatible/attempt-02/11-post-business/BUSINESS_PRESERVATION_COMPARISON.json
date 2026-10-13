@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "allPreexistingNonMigrationTablesIdentical": true,
+  "preexistingTableComparisons": {
+    "app_metadata": true,
+    "asset_revisions": true,
+    "asset_value_snapshots": true,
+    "assets": true,
+    "cash_account_revisions": true,
+    "cash_accounts": true,
+    "cash_balance_snapshots": true,
+    "debt_period_facts": true,
+    "debt_revisions": true,
+    "debts": true,
+    "essential_expense_items": true,
+    "essential_expense_revisions": true,
+    "essential_expense_snapshots": true,
+    "expense_records": true,
+    "financial_settings": true,
+    "income_records": true,
+    "planning_income_revisions": true,
+    "profiles": true,
+    "settings_revisions": true
+  },
+  "migrationVersion4ExactlyOnce": true,
+  "userVersion": 4,
+  "capturedAt": 1791858351.51648
+}

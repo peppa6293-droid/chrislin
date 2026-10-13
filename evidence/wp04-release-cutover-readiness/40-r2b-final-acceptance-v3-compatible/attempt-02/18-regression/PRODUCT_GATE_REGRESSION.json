@@ -1,0 +1,66 @@
+{
+  "capturedAt": 1791858792.1432261,
+  "results": [
+    {
+      "name": "01-typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "stdoutSha256": "bcc4bdc987f92c30bcd08ea02d64a96afb0be1228d277b7eb5e1d3bf9d2be448",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "02-lint",
+      "command": [
+        "npm",
+        "run",
+        "lint"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "stdoutSha256": "34ab5383a7a8bc39bb81b6fa864a95c421933512038a5304e19a78a9d5301801",
+      "stderrSha256": "14d0a29f571bc1dcb5193cb0849b1ca3456dd04797e1843bc448c2e82c819dcd"
+    },
+    {
+      "name": "03-product",
+      "command": [
+        "npm",
+        "run",
+        "test:product"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "stdoutSha256": "3554245bdd8422e5458c36ee2223e5b39ffe1f2ad1d349ac98bc7afb6a6abd55",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "04-wp03-preview",
+      "command": [
+        "npm",
+        "run",
+        "test:wp03-preview"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "stdoutSha256": "4f8c9ce2795fed119768f1f75ebd59124d90c26e0e517c2607f522167a0e9b0c",
+      "stderrSha256": "0abebba3d2b1d052650d9da371b7752c01391501edff4fed0c50a82bb8b9355d"
+    },
+    {
+      "name": "05-release-gate",
+      "command": [
+        "npm",
+        "run",
+        "test:release-gate"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "stdoutSha256": "004eafda3fa49a6510d68cae83669c27742e0a1debfc2d386d56a569eeb0ed19",
+      "stderrSha256": "4d92b10189a6c81fe48d553c1d51ea34cd8d68acb7adf39ad9433e42de8ae964"
+    }
+  ],
+  "overall": "PASS"
+}

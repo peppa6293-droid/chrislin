@@ -1,0 +1,8 @@
+{
+  "capturedAt": "2026-10-13T02:14:20.667235+00:00",
+  "fixtureDefinitionPath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/fixture-definition.json",
+  "oldSha256": "2b2b5b45d83602c610fb6144eff3b5e0a204c82051ee33ab089cab51da586552",
+  "newSha256": "debb189cd70b60cd1fc866b9de4b541d61a916caf6bc236db200ecdd6cbcb519",
+  "boundDatabaseSha256": "1ea7ef84431311c05fd91e0b1959720dd9ca24d06c1a596b34e6c4c21ec2a424",
+  "businessDatabaseModified": false
+}

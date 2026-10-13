@@ -1,0 +1,11 @@
+{
+  "attempt01": {
+    "status": "BLOCKED_BEFORE_M4",
+    "cause": "C5 backupPath was set below root/backups, while frozen native contract requires <root>/backup.sqlite3. Formal Gate preflight succeeded, native consumer rejected before permit claim; original root and permit preserved."
+  },
+  "failureMatrixSetup": {
+    "firstAttempt": "16 setup errors because APPLE_SIGNING_IDENTITY was not inherited; zero tests executed.",
+    "correctedAttempt": "PASS 16/16 with existing Apple Development signing identity; source and candidate unchanged."
+  },
+  "retryBoundary": "Each rerun used a different fresh synthetic root; no authorization/permit/receipt/ledger was edited or replayed after issuance."
+}

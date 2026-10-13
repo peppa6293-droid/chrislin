@@ -1,0 +1,19 @@
+{
+  "capturedAt": 1791858761.402296,
+  "results": [
+    {
+      "name": "r2a_gate_wiring",
+      "status": "PASS",
+      "testsRun": 5,
+      "failures": [],
+      "errors": []
+    },
+    {
+      "name": "r2b1a_c3_gate_owned",
+      "status": "PASS",
+      "testsRun": 15,
+      "failures": [],
+      "errors": []
+    }
+  ]
+}

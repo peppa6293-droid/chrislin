@@ -1,0 +1,20 @@
+{
+  "status": "BLOCKED",
+  "exitCode": 2,
+  "command": [
+    "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+    "scripts/production_v4_release_gate.py",
+    "migrate",
+    "--candidate-approval",
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/gate-inputs/candidate-approval.json",
+    "--migration-authorization",
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif/gate-inputs/migration-authorization.json",
+    "--synthetic-root",
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-v3compat-85f2ad993c21442bb38d1780cb596096/pfc-qic-wp04r2b-v3compat-hl0x2vif",
+    "--synthetic-mode",
+    "unified-r2b"
+  ],
+  "stdout": "",
+  "stderr": "{\"status\": \"BLOCKED\", \"errorType\": \"GateBlocked\", \"reasons\": [\"Native migration consumer refused or failed (exit=2): {\\\"error\\\":{\\\"code\\\":\\\"GATE_BACKUP_PATH\\\",\\\"detail\\\":\\\"GATE_BACKUP_PATH\\\",\\\"sqlite_extended\\\":null,\\\"sqlite_primary\\\":null},\\\"event\\\":\\\"blocked\\\"}\"]}\n",
+  "capturedAt": 1791857850.3087711
+}

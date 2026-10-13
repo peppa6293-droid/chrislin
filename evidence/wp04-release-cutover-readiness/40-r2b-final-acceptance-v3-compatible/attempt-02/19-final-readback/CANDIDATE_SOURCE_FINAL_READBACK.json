@@ -1,0 +1,28 @@
+{
+  "capturedAt": 1791859249.7787561,
+  "status": "PASS",
+  "sourceCommit": "453fdb05b6457a4e9362c98308ca384c10f5d8b4",
+  "sourceArchivePath": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/wp04-release-cutover-readiness/38-r2b2a-source-freeze/05-source-provenance/source-453fdb05.tar",
+  "sourceArchiveSha256": "00cb89aedb0e21205c316c68a8ae3bb1c2a16100abd6a111769378a8b0c9f09b",
+  "runtimeSourceDiffFromFrozenCommit": [],
+  "candidatePath": "/Users/linte/Library/Caches/pfc-wp04r2b2a-453fdb05/build/cargo-target/release/bundle/macos/\u5c0f\u94b1\u5bb6.app",
+  "candidateExecutableSha256": "f7625ec29e69ac527a830e9a622f0a7568d9a4556b1d9db005f19e29d623bdff",
+  "candidateManifestSha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+  "teamId": "SSRKA7A4TN",
+  "strictCodesign": "PASS",
+  "candidateChanged": false,
+  "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz",
+  "rootMarkerSha256": "5a341fc3217830486b6e798dbab847b133e5072b80de4525b917582eded48de1",
+  "releaseReceiptSha256": "4f8935f4b4a329cd1245fd1e9e4947d791fcb8ea35d402e3b017510e41512dc2",
+  "consumedLedgerSha256": "c8a386d6ea427e1a811720ab178082ef77b66797930966f3d86a63c2fe288a2d",
+  "verifiedHandoffSha256": "43f4e0e0046f9ba1039d88372f28d6d8e023791ff1bedd0af7ea8fd61c8b398d",
+  "databaseUserVersion": 4,
+  "migrationVersions": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "migration4ExecutionCount": 1,
+  "productionTouched": false
+}

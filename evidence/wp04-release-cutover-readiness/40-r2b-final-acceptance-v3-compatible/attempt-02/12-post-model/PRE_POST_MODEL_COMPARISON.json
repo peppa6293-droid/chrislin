@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "semanticsIdentical": true,
+  "planningAndActualSeparation": true,
+  "debtDuePrecedence": true,
+  "cashAndAssetEligibilityPreserved": true,
+  "safetyAndSpendingMetricsIdentical": true,
+  "noNaNOrInfinity": true,
+  "preModelSha256": "7bf129fca15645ecfa3eb318f26184137b1a679789c76db6ab1af5eb72ece6a9",
+  "postModelSha256": "c29c01d67e0f1ba90256f23e8ea8a0423c20ff3db79b9c8755a7eaef3de7e5bb",
+  "capturedAt": 1791858400.333998
+}

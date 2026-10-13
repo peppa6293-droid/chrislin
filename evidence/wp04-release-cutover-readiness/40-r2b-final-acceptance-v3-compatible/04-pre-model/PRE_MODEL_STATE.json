@@ -1,0 +1,293 @@
+{
+  "capturedAt": "2026-10-13T02:11:42.982Z",
+  "snapshotKind": "PRE_MODEL_STATE",
+  "readPath": "calculateMonthlyModelFromDatabase; Repositories.listIncome V3 path",
+  "asOfDate": "2026-10-13",
+  "targetMonth": "2026-10",
+  "status": "READY",
+  "metrics": {
+    "Core Obligations": "3150",
+    "Safety Resources": "42000",
+    "Eligible Cash": "18000",
+    "Safety Coverage": "13.33333333333333333333333333333333333333",
+    "Cash Coverage": "5.714285714285714285714285714285714285714",
+    "cashFloorMet": true,
+    "Cash Safety Gate": "CLEAR",
+    "Base Surplus": "8350",
+    "Structural Deficit": {
+      "status": "NORMAL",
+      "separateAmountExposedByModel": null
+    },
+    "Priority": {
+      "action_code": "ADDRESS_PRIMARY_DRAG",
+      "dimension": "LIQUIDITY_SAFETY",
+      "reason": "The LIQUIDITY_SAFETY dimension is the highest-priority worsening signal."
+    },
+    "Recommended Spending": "1700",
+    "Remaining Spending": "1575"
+  },
+  "planningAndActualInputs": {
+    "planningIncome": "11500",
+    "actualIncomeRecords": [
+      {
+        "id": "actual-received",
+        "kind": "ACTUAL",
+        "status": "RECEIVED",
+        "amount": "11800",
+        "date": "2026-10-05"
+      }
+    ],
+    "legacySeptemberPlanningRows": [
+      {
+        "id": "legacy-planning-sep",
+        "kind": "PLANNING",
+        "status": "EXPECTED",
+        "amount": "10400",
+        "date": "2026-09-01"
+      }
+    ],
+    "v3OctoberPlanningRows": [
+      {
+        "id": "planning-revision-1",
+        "kind": "PLANNING",
+        "status": "EXPECTED",
+        "amount": "11500",
+        "date": "2026-09-01"
+      }
+    ]
+  },
+  "modelInput": {
+    "profile": {
+      "id": "fixture",
+      "displayName": "Synthetic"
+    },
+    "settings": {
+      "safetyCoverageTargetMonths": 5,
+      "minimumCashCoverageMonths": 2,
+      "safetyRecoveryHorizonMonths": 12,
+      "desiredMonthlyDiscretionarySpending": "1700"
+    },
+    "facts": {
+      "asOfDate": "2026-10-13",
+      "currentMonth": "2026-10",
+      "planningIncome": "11500",
+      "actualIncomeRecords": [
+        {
+          "id": "actual-received",
+          "kind": "ACTUAL",
+          "status": "RECEIVED",
+          "amount": "11800",
+          "date": "2026-10-05"
+        }
+      ],
+      "essentialExpenses": "2200",
+      "cashAccounts": [
+        {
+          "id": "cash-eligible",
+          "balance": "18000",
+          "includeInSafetyResources": true
+        },
+        {
+          "id": "cash-excluded",
+          "balance": "7000",
+          "includeInSafetyResources": false
+        }
+      ],
+      "assets": [
+        {
+          "id": "asset-liquid",
+          "currentValue": "24000",
+          "kind": "LIQUID_INVESTMENT",
+          "includeInSafetyResources": true
+        },
+        {
+          "id": "asset-other",
+          "currentValue": "9000",
+          "kind": "OTHER",
+          "includeInSafetyResources": false
+        }
+      ],
+      "debts": [
+        {
+          "id": "debt-due",
+          "name": "Debt with current due prior",
+          "currentBalance": "10000",
+          "currentMonthDue": "500",
+          "fixedMonthlyPayment": "900"
+        },
+        {
+          "id": "debt-fallback",
+          "name": "Debt with fixed fallback prior",
+          "currentBalance": "6000",
+          "fixedMonthlyPayment": "450"
+        },
+        {
+          "id": "debt-zero",
+          "name": "Debt with explicit zero due prior",
+          "currentBalance": "8000",
+          "currentMonthDue": "0",
+          "fixedMonthlyPayment": "700"
+        }
+      ],
+      "expenses": [
+        {
+          "id": "expense-essential",
+          "amount": "2200",
+          "dateTime": "2026-10-02T08:00:00Z",
+          "businessDate": "2026-10-02",
+          "kind": "ESSENTIAL",
+          "category": "HOUSING",
+          "note": "synthetic fixed housing"
+        },
+        {
+          "id": "expense-variable",
+          "amount": "125",
+          "dateTime": "2026-10-03T12:00:00Z",
+          "businessDate": "2026-10-03",
+          "kind": "VARIABLE",
+          "category": "FOOD",
+          "note": "synthetic groceries"
+        }
+      ],
+      "previousSnapshot": {
+        "asOfDate": "2026-09-13",
+        "eligibleCash": "17500",
+        "safetyResources": "40500",
+        "monthlyCoreObligations": "3050",
+        "debtBalance": "25500",
+        "liquidInvestableAssets": "23000",
+        "samePeriodVariableSpending": "0",
+        "recommendedMonthlySpending": "1800"
+      }
+    }
+  },
+  "fullModelResult": {
+    "debt": {
+      "mandatoryDebtService": "950",
+      "totalDebtBalance": "24000",
+      "debtPayments": [
+        {
+          "debtId": "debt-due",
+          "amount": "500",
+          "source": "CURRENT_MONTH_DUE"
+        },
+        {
+          "debtId": "debt-fallback",
+          "amount": "450",
+          "source": "FIXED_MONTHLY_PAYMENT"
+        },
+        {
+          "debtId": "debt-zero",
+          "amount": "0",
+          "source": "CURRENT_MONTH_DUE"
+        }
+      ],
+      "rulesApplied": [
+        "For each debt, use current-month due when present; otherwise use fixed monthly payment.",
+        "Never count both payment fields for the same debt and month."
+      ]
+    },
+    "safety": {
+      "safetyResources": "42000",
+      "eligibleCash": "18000",
+      "eligibleLiquidInvestmentAssets": "24000",
+      "monthlyCoreObligations": "3150",
+      "coverageStatus": "NORMAL",
+      "safetyCoverageMonths": "13.33333333333333333333333333333333333333",
+      "cashCoverageMonths": "5.714285714285714285714285714285714285714",
+      "safetyTargetResources": "15750",
+      "safetyGap": "0",
+      "cashFloorMet": true,
+      "cashSafetyGateStatus": "CLEAR",
+      "requiredMonthlySafetyRecovery": "0",
+      "actualMonthlySafetyRecovery": "0",
+      "rulesApplied": [
+        "Safety Resources include eligible cash and eligible liquid investment assets.",
+        "Monthly Core Obligations include Essential Expenses and Mandatory Debt Service.",
+        "The cash safety gate is active for structural deficit or a cash coverage value below the user floor.",
+        "Safety recovery follows the user-selected target horizon and is capped at positive Base Surplus."
+      ]
+    },
+    "spending": {
+      "status": "NORMAL",
+      "baseSurplus": "8350",
+      "desiredMonthlyDiscretionarySpending": "1700",
+      "recommendedMonthlySpending": "1700",
+      "actualVariableSpending": "125",
+      "remainingOptionalSpendingCapacity": "1575",
+      "amountAboveRecommendation": "0",
+      "safeOptionalCapacity": "8350",
+      "unallocatedSurplus": "6650",
+      "recommendedNewInvestmentCapacity": "6650",
+      "rulesApplied": [
+        "Base Surplus is Planning Income less Monthly Core Obligations.",
+        "Structural deficit applies only below zero; exact zero is balanced with no surplus.",
+        "Recommended spending is capped at the user's desired spending target.",
+        "Overspending does not reduce the recommended monthly amount."
+      ]
+    },
+    "trend": {
+      "status": "COMPLETE",
+      "result": {
+        "state": "IMPROVING",
+        "dimensions": {
+          "LIQUIDITY_SAFETY": {
+            "direction": "WORSENING",
+            "reason": "Cash Coverage decreased from the prior snapshot."
+          },
+          "DEBT": {
+            "direction": "IMPROVING",
+            "reason": "Valid debt balance decreased."
+          },
+          "CONSUMPTION": {
+            "direction": "NEUTRAL",
+            "reason": "Spending has not worsened beyond the prorated recommendation trajectory."
+          },
+          "WEALTH": {
+            "direction": "IMPROVING",
+            "reason": "Liquid-investable-asset value increased."
+          }
+        },
+        "validComparisonDimensionCount": 4,
+        "improvingCount": 2,
+        "worseningCount": 1,
+        "primaryImprovement": "DEBT",
+        "primaryDrag": "LIQUIDITY_SAFETY",
+        "rulesApplied": [
+          "NOT_APPLICABLE and NO_BASELINE dimensions are excluded from valid direction counts.",
+          "Primary Improvement and Primary Drag follow the approved dimension priority.",
+          "No cross-metric severity score or numeric weighted sum is used."
+        ]
+      }
+    },
+    "priorityAction": {
+      "action_code": "ADDRESS_PRIMARY_DRAG",
+      "dimension": "LIQUIDITY_SAFETY",
+      "reason": "The LIQUIDITY_SAFETY dimension is the highest-priority worsening signal."
+    },
+    "consumptionUtilization": {
+      "current": {
+        "status": "CALCULATED",
+        "value": "0.1753393665158371040723981900452488687783",
+        "actualSpend": "125",
+        "proratedRecommendedSpend": "712.9032258064516129032258064516129032258"
+      },
+      "previous": {
+        "status": "CALCULATED",
+        "value": "0",
+        "actualSpend": "0",
+        "proratedRecommendedSpend": "780"
+      }
+    },
+    "snapshot": {
+      "currentMonth": "2026-10",
+      "eligibleCash": "18000",
+      "safetyResources": "42000",
+      "monthlyCoreObligations": "3150",
+      "totalDebtBalance": "24000",
+      "liquidInvestableAssets": "24000",
+      "actualVariableSpending": "125",
+      "recommendedMonthlySpending": "1700"
+    }
+  }
+}

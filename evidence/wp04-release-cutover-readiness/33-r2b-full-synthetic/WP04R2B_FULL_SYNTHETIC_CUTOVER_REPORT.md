@@ -127,3 +127,41 @@ This records source/candidate readiness only. Historical `WP04R2B_SYNTHETIC_CUTO
 - 本轮 root：`/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-final-acceptance-5054137e7c2348cabc00cd1a22b29fcb/pfc-qic-wp04r2b-final-acceptance-9xdlx43n`。失败与部分写入回读：`evidence/wp04-release-cutover-readiness/39-r2b-final-acceptance/18-final-readback/acceptance-blocker.json`。
 - Production App / DB 未触碰；真实 authorization、backup、receipt、permit 均未创建；Migration 4 未执行；WP03 accepted baseline、Financial Model 与 WP02 未修改。
 - 下一责任人：Planning / Owner 决定是否批准针对该 V3 read-path / 验收样本缺口的独立修订任务，再由 Execution 用全新 root 重跑。不得复用本轮 root 作为新的 C0 起点。
+
+
+## Final Acceptance Rerun — V3-Compatible Scope (2026-10-13)
+
+**Final Status: `WP04R2B_SYNTHETIC_CUTOVER_BLOCKED`**
+
+上一轮 `V3_PLANNING_OVERRIDE_INHERIT_READ_PATH_UNSUPPORTED` 已按 Planning 决策分类为 `ACCEPTANCE_SCOPE_DEFECT`，不是 runtime、Migration 4 或 Financial Model defect。本轮 V3 PRE 仅使用 V3-native stable Planning、legacy `PLANNING` income rows 和 `planning_income_revisions`；Migration 4 前未访问 `planning_income_month_revisions` 或调用 V4-only resolver。
+
+### 冻结与边界
+
+- Frozen source commit：`453fdb05b6457a4e9362c98308ca384c10f5d8b4`；source archive SHA-256：`00cb89aedb0e21205c316c68a8ae3bb1c2a16100abd6a111769378a8b0c9f09b`。
+- 唯一 candidate：`/Users/linte/Library/Caches/pfc-wp04r2b2a-453fdb05/build/cargo-target/release/bundle/macos/小钱家.app`；executable SHA-256 `f7625ec29e69ac527a830e9a622f0a7568d9a4556b1d9db005f19e29d623bdff`；manifest SHA-256 `cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc`；Team ID `SSRKA7A4TN`；strict codesign PASS。
+- 源码与原始 candidate 未改、未重建、未重签。Production App/DB 未触碰；真实授权、真实备份、真实 permit 未创建；WP03、WP02 和 Financial Model 未修改。
+
+### Root 与主链结果
+
+- 证据根：`evidence/wp04-release-cutover-readiness/40-r2b-final-acceptance-v3-compatible/`。顶层阶段目录保存首次 fresh-root 尝试；`attempt-02/` 保存更正后第二个 fresh-root 的完整主链证据。两次都使用新的 synthetic root，未复用 39 号 root。
+- 首次尝试在 C7 前置校验被拒：C5 备份文件路径误放在 `<root>/backups/`；冻结 native contract 要求 `<root>/backup.sqlite3`。native 在领取 permit 前拒绝，M4 未运行；原 receipt/permit 与失败证据保留，未修补或复用该 root。
+- 第二次 fresh V3 DB 通过正式 migrations 1–3 建 schema，V3 业务行在 C0 前装配并逐行回读；PRE Business 和 `calculateMonthlyModelFromDatabase` V3-compatible PRE Model 均 READY。V3 不存在 `planning_income_month_revisions`，C0/C1 通过。
+- C0–C10：全部 PASS。C3 `MANAGED_ISOLATED` 且无 migration authorization/permit/ledger；C4 synthetic approval、C5 与 DB 字节一致的 root 固定路径 backup、C6 正式 Gate CLI preflight 唯一 receipt、C7 正式 Gate CLI migrate。
+- C7：正式 Gate → 单一 permit → Rust consumer → 原子 claim → 单一 consumed ledger → native runner。Migration 4 exactly once；`user_version=4`、`schema_migrations=[1,2,3,4]`、M4 row count=1；native 返回 `VERIFIED_HANDOFF`。
+- S0–S10：全部 PASS。C9 controlled close、DB handles=0、无 WAL/SHM/journal，之后 query-only 独立读回通过。
+- POST Business：所有 V3 既有业务表行、IDs、金额、日期、状态、eligibility、active flags、revision 和 snapshot 均与 PRE 相同；只新增 Migration 4 规定的表及 migration row。Migration 4 新表 `planning_income_month_revisions` 存在且初始为空，没有 synthetic override。
+- V4 Planning：正式 resolver 保留 legacy September `10400`（`LEGACY_V3_COMPATIBILITY`）和 stable October `11500`（`STABLE_BASELINE`）。表为空时项目当前合同通过 legacy/stable fallback 实现隐式继承；未写 explicit INHERIT 或 OVERRIDE 业务行。PRE/POST Financial Model 完全一致。
+- C10 复用 WP03 R5 已保存验收及本轮 frozen source/candidate binding；没有重放 Owner business writes。WP03 报告状态为 `WP03_PRODUCT_DAILY_USE_READY_FOR_PLANNING_REVIEW`，Owner Planning Review 仍是其自身边界。
+
+### Failure、Recovery、Q 与 Regression
+
+- Failure：当前源 Gate→Rust→native 16 项矩阵 PASS；native lease 15 项 PASS；C3 Gate-owned 15 项 PASS；release-gate、quiescence integration 与其他回归中所有已执行支持项 PASS。renderer-only cases 仍为 `DEFERRED_TO_WP04R2C`。
+- Recovery：本轮当前源独立 recovery matrix 为 16/16 PASS，但该脚本创建的是独立 recovery component fixtures，**没有绑定第二次验收的 C0–C10 / Gate receipt / consumed ledger**。按工单要求不把它提升为 full-chain recovery PASS；完整链路恢复矩阵仍 `PARTIAL/BLOCKED`。
+- Q01–Q18：主链可直接覆盖项与当前源 Gate/native/lease 回归已更新；恢复绑定依赖项仍开放；WAL 迁移与 WAL-reader coexistence 仍是既定 unsupported；renderer-only deferred；总体 `Q01-Q18 Closure = BLOCKED`。
+- Product、WP03 preview、release-gate、R2A Gate wiring、R2B1A C3-owned、R2B1B native handoff、Rust default/quiescence/Tauri、recovery 和 quiescence integration regression 全部按冻结源码运行并通过；没有源码 drift。
+
+### 最终判定与下一责任人
+
+核心 synthetic migration 与日常数据兼容闭环通过，但 READY 条件中的“绑定本次 full Gate chain 的 Recovery Matrix / Q closure”尚未完成。总状态因此保持 `WP04R2B_SYNTHETIC_CUTOVER_BLOCKED`，不启动 WP04R2C。下一责任人：Planning/Owner 提供或批准 full-chain-bound recovery matrix 的执行入口；Execution 随后在保留当前成功证据的前提下补跑恢复与 Q closure。Production 仍未授权。
+
+详细逐阶段证据、机器回读、失败的首次尝试及回归日志见 `evidence/wp04-release-cutover-readiness/40-r2b-final-acceptance-v3-compatible/`。最终验收字段回读：`attempt-02/19-final-readback/FINAL_ACCEPTANCE_READBACK.json`。Final report commit 在该目录的最终 readback 收据中记录。

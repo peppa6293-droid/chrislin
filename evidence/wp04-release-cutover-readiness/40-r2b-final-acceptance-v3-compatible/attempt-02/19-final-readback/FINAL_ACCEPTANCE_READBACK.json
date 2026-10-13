@@ -1,0 +1,40 @@
+{
+  "finalStatus": "WP04R2B_SYNTHETIC_CUTOVER_BLOCKED",
+  "previousBlockerClassification": "ACCEPTANCE_SCOPE_DEFECT",
+  "acceptedRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz",
+  "frozenSourceCommit": "453fdb05b6457a4e9362c98308ca384c10f5d8b4",
+  "sourceArchiveSha256": "00cb89aedb0e21205c316c68a8ae3bb1c2a16100abd6a111769378a8b0c9f09b",
+  "candidateExecutableSha256": "f7625ec29e69ac527a830e9a622f0a7568d9a4556b1d9db005f19e29d623bdff",
+  "manifestSha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+  "sourceChanged": false,
+  "candidateChanged": false,
+  "c0ToC10": "PASS",
+  "s0ToS10": "PASS",
+  "migration4ExactlyOnce": true,
+  "legacyPlanningPreserved": "PASS",
+  "v4PlanningImplicitInheritance": "PASS",
+  "businessDataPreservation": "PASS",
+  "prePostModelSemantics": "PASS",
+  "failureMatrix": {
+    "r2bGateNativeCases": 16,
+    "status": "PASS",
+    "nativeLeaseCases": 15,
+    "nativeLeaseStatus": "PASS",
+    "quiescenceIntegrationRegression": true,
+    "statusOverall": "PASS"
+  },
+  "recoveryMatrix": {
+    "componentStatus": "PASS",
+    "componentCases": 16,
+    "fullChainBoundToAcceptedRoot": false,
+    "acceptance": "PARTIAL_BLOCKED"
+  },
+  "q01Q18Closure": "BLOCKED_RECOVERY_BINDING_GAP",
+  "regressionStatus": "PASS",
+  "rendererOnlyCases": "DEFERRED_TO_WP04R2C",
+  "productionTouched": false,
+  "realAuthorizationCreated": false,
+  "realBackupCreated": false,
+  "realPermitCreated": false,
+  "capturedAt": 1791859140.629519
+}

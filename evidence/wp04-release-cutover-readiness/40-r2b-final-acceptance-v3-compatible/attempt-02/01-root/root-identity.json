@@ -1,0 +1,11 @@
+{
+  "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz",
+  "realpath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz",
+  "dev": 16777232,
+  "inode": 25730582,
+  "mode": "0o700",
+  "markerSha256": "5a341fc3217830486b6e798dbab847b133e5072b80de4525b917582eded48de1",
+  "databaseSha256": "2c3b4dceae32955a572939ed5dabf63164f3add5facc8b4d634eab4f3f8b2851",
+  "freshDatabaseCreatedByOfficialMigrations": true,
+  "businessRowsCopiedFromPriorSyntheticFixture": true
+}
