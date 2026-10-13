@@ -1,0 +1,21 @@
+{
+  "formatVersion": 1,
+  "authorizationId": "synthetic-only unique identifier",
+  "domain": "UNIFIED_R2B_SYNTHETIC",
+  "syntheticOnly": true,
+  "recoveryScope": "READ_ONLY_DIAGNOSTIC",
+  "expiresAtUnix": "future Unix timestamp",
+  "originalMigrationAuthorizationId": "exact current migration authorization ID",
+  "originalMigrationAuthorizationSha256": "64 lowercase hex",
+  "releaseReceiptSha256": "64 lowercase hex",
+  "gatePermitSha256": "64 lowercase hex",
+  "consumedLedgerSha256": "64 lowercase hex",
+  "candidateExecutableSha256": "64 lowercase hex",
+  "manifestSha256": "64 lowercase hex",
+  "databaseIdentity": {"dev": "integer", "inode": "integer", "links": 1},
+  "databaseSha256": "64 lowercase hex",
+  "backupIdentity": {"dev": "integer", "inode": "integer", "links": 1, "size": "integer"},
+  "backupSha256": "64 lowercase hex",
+  "terminalLineageSha256": "64 lowercase hex",
+  "exactBytePin": "--authorization-sha256 supplied independently by caller"
+}

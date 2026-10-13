@@ -1,0 +1,470 @@
+{
+  "capturedAt": "2026-10-13T03:26:40.802270+00:00",
+  "domain": "UNIFIED_R2B_SYNTHETIC",
+  "canonicalRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz",
+  "status": "PASS",
+  "currentState": "V4_VERIFIED",
+  "recoveryDisposition": "READONLY_CONFIRMATION_ONLY",
+  "businessAccessDecision": "READONLY_CONFIRMATION_ONLY",
+  "diagnosticMutationCount": 0,
+  "objectsBefore": {
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/SYNTHETIC_ONLY": {
+      "sha256": "5a341fc3217830486b6e798dbab847b133e5072b80de4525b917582eded48de1",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25730583,
+        "links": 1,
+        "size": 30
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/release-receipt.json": {
+      "sha256": "4f8935f4b4a329cd1245fd1e9e4947d791fcb8ea35d402e3b017510e41512dc2",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25732781,
+        "links": 1,
+        "size": 3278
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/gate-permit.claimed/permit.json": {
+      "sha256": "9cdf6bf7e49c55bc6395e64c6813049a7c535729f94b52deb3da933278eb61a9",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25733851,
+        "links": 1,
+        "size": 3481
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/consumed-ledger.json": {
+      "sha256": "c8a386d6ea427e1a811720ab178082ef77b66797930966f3d86a63c2fe288a2d",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25733910,
+        "links": 1,
+        "size": 1544
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/gate-inputs/candidate-approval.json": {
+      "sha256": "1e041d4415f6a8dbe06fdd2f59553575551eecb1f9f868a605d41abc124d9ab7",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25732755,
+        "links": 1,
+        "size": 450
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/gate-inputs/migration-authorization.json": {
+      "sha256": "aedc34b410530e718c0ccadda03b14d904140427e24aa6ef1cf8fe431bb9d131",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25732756,
+        "links": 1,
+        "size": 509
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/personal-finance-console.sqlite3": {
+      "sha256": "b4bde265f1ec72571cbaf868f1e5b0c011b2809c2e642f0a4b5f055f92264647",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25730635,
+        "links": 1,
+        "size": 258048
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/backup.sqlite3": {
+      "sha256": "2c3b4dceae32955a572939ed5dabf63164f3add5facc8b4d634eab4f3f8b2851",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25730677,
+        "links": 1,
+        "size": 229376
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/managed/install/Installed.app/Contents/MacOS/personal-finance-console": {
+      "sha256": "f7625ec29e69ac527a830e9a622f0a7568d9a4556b1d9db005f19e29d623bdff",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25731350,
+        "links": 1,
+        "size": 21288608
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/managed/candidate/Candidate.app/Contents/MacOS/personal-finance-console": {
+      "sha256": "f7625ec29e69ac527a830e9a622f0a7568d9a4556b1d9db005f19e29d623bdff",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25730625,
+        "links": 1,
+        "size": 21288608
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/managed/install/Installed.app/Contents/Resources/runtime-compatibility.json": {
+      "sha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25731351,
+        "links": 1,
+        "size": 234
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/managed/candidate/Candidate.app/Contents/Resources/runtime-compatibility.json": {
+      "sha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25730626,
+        "links": 1,
+        "size": 234
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/SYNTHETIC_C3_MANAGED_ISOLATED.json": {
+      "sha256": "a7510c842f50badb59d2c3bc057f28e91220b61a0fcd635a21726dff52cff55f",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25731369,
+        "links": 1,
+        "size": 2281
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/managed-contract.json": {
+      "sha256": "ef8aa10b2741c4cac190c596360828f9cd55601b52420215b76772c1cbb9dc9b",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25731368,
+        "links": 1,
+        "size": 21895
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/managed-progress.json": {
+      "sha256": "60e1267cc00c804611812c7830a987b88c88ab607ab81d245384d3a3136d411d",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25731358,
+        "links": 1,
+        "size": 2291
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/r2b-s0-s10.jsonl": {
+      "sha256": "a1c9fa926d637619e263919939dc879c3acd3cacce5597cf967445b00a9e15d8",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25733911,
+        "links": 1,
+        "size": 2018
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/managed-state-S0_VERIFIED_CANDIDATE.json": {
+      "sha256": "5f542feaf581ff720704716856d60682fe79801df0a07b01f8f6047570ab5c81",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25731321,
+        "links": 1,
+        "size": 4061
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/managed-state-S1_ARCHIVE_VERIFIED.json": {
+      "sha256": "eba35ef3913f8c5a266e62bba3e53ab8734dd650ea79441791fc200931296e3b",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25731330,
+        "links": 1,
+        "size": 10717
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/managed-state-S1_ENTRIES_DISABLED.json": {
+      "sha256": "5178a22859e9a2bab562bbc30c22c782f631ad06a611fd67e15a7c1ff640cb95",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25731326,
+        "links": 1,
+        "size": 13969
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/managed-state-S1_INSTALLED_DISABLED.json": {
+      "sha256": "11394322db51821b85332f3a7a7c96b91aa354d770d186dd7561aba532d8a021",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25731352,
+        "links": 1,
+        "size": 2015
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/managed-state-S1_MANAGED_ISOLATED.json": {
+      "sha256": "4929cbe6847a5c93c1cfaf7d9ad4510543b893ddab8d299eb157066a38c9df9c",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25731356,
+        "links": 1,
+        "size": 28401
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/managed-state-S1_OLD_RUNTIME_RETAINED.json": {
+      "sha256": "ddeeee5be9e98a18c3cf646ee272d5cdda39dc769cd83b6987fb9e594cff641c",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25731324,
+        "links": 1,
+        "size": 3390
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/managed-state-S1_STAGING_VERIFIED.json": {
+      "sha256": "78cec2042850d6f9aa177ff59374d2b013bdab3b660d6b24f3d41ca8166dffb8",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25731341,
+        "links": 1,
+        "size": 2008
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/managed-state-S1_TARGET_EXIT_VERIFIED.json": {
+      "sha256": "3c9757f338ccd524fc4e31509c99bcd30fe186ec5dd193e0bc7c511c5c44cb7e",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25731328,
+        "links": 1,
+        "size": 2852
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/verified-handoff.json": {
+      "sha256": "43f4e0e0046f9ba1039d88372f28d6d8e023791ff1bedd0af7ea8fd61c8b398d",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25733913,
+        "links": 1,
+        "size": 1409
+      }
+    }
+  },
+  "objectsAfter": {
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/SYNTHETIC_ONLY": {
+      "sha256": "5a341fc3217830486b6e798dbab847b133e5072b80de4525b917582eded48de1",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25730583,
+        "links": 1,
+        "size": 30
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/release-receipt.json": {
+      "sha256": "4f8935f4b4a329cd1245fd1e9e4947d791fcb8ea35d402e3b017510e41512dc2",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25732781,
+        "links": 1,
+        "size": 3278
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/gate-permit.claimed/permit.json": {
+      "sha256": "9cdf6bf7e49c55bc6395e64c6813049a7c535729f94b52deb3da933278eb61a9",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25733851,
+        "links": 1,
+        "size": 3481
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/consumed-ledger.json": {
+      "sha256": "c8a386d6ea427e1a811720ab178082ef77b66797930966f3d86a63c2fe288a2d",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25733910,
+        "links": 1,
+        "size": 1544
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/gate-inputs/candidate-approval.json": {
+      "sha256": "1e041d4415f6a8dbe06fdd2f59553575551eecb1f9f868a605d41abc124d9ab7",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25732755,
+        "links": 1,
+        "size": 450
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/gate-inputs/migration-authorization.json": {
+      "sha256": "aedc34b410530e718c0ccadda03b14d904140427e24aa6ef1cf8fe431bb9d131",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25732756,
+        "links": 1,
+        "size": 509
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/personal-finance-console.sqlite3": {
+      "sha256": "b4bde265f1ec72571cbaf868f1e5b0c011b2809c2e642f0a4b5f055f92264647",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25730635,
+        "links": 1,
+        "size": 258048
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/backup.sqlite3": {
+      "sha256": "2c3b4dceae32955a572939ed5dabf63164f3add5facc8b4d634eab4f3f8b2851",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25730677,
+        "links": 1,
+        "size": 229376
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/managed/install/Installed.app/Contents/MacOS/personal-finance-console": {
+      "sha256": "f7625ec29e69ac527a830e9a622f0a7568d9a4556b1d9db005f19e29d623bdff",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25731350,
+        "links": 1,
+        "size": 21288608
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/managed/candidate/Candidate.app/Contents/MacOS/personal-finance-console": {
+      "sha256": "f7625ec29e69ac527a830e9a622f0a7568d9a4556b1d9db005f19e29d623bdff",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25730625,
+        "links": 1,
+        "size": 21288608
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/managed/install/Installed.app/Contents/Resources/runtime-compatibility.json": {
+      "sha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25731351,
+        "links": 1,
+        "size": 234
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/managed/candidate/Candidate.app/Contents/Resources/runtime-compatibility.json": {
+      "sha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25730626,
+        "links": 1,
+        "size": 234
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/SYNTHETIC_C3_MANAGED_ISOLATED.json": {
+      "sha256": "a7510c842f50badb59d2c3bc057f28e91220b61a0fcd635a21726dff52cff55f",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25731369,
+        "links": 1,
+        "size": 2281
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/managed-contract.json": {
+      "sha256": "ef8aa10b2741c4cac190c596360828f9cd55601b52420215b76772c1cbb9dc9b",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25731368,
+        "links": 1,
+        "size": 21895
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/managed-progress.json": {
+      "sha256": "60e1267cc00c804611812c7830a987b88c88ab607ab81d245384d3a3136d411d",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25731358,
+        "links": 1,
+        "size": 2291
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/r2b-s0-s10.jsonl": {
+      "sha256": "a1c9fa926d637619e263919939dc879c3acd3cacce5597cf967445b00a9e15d8",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25733911,
+        "links": 1,
+        "size": 2018
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/managed-state-S0_VERIFIED_CANDIDATE.json": {
+      "sha256": "5f542feaf581ff720704716856d60682fe79801df0a07b01f8f6047570ab5c81",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25731321,
+        "links": 1,
+        "size": 4061
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/managed-state-S1_ARCHIVE_VERIFIED.json": {
+      "sha256": "eba35ef3913f8c5a266e62bba3e53ab8734dd650ea79441791fc200931296e3b",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25731330,
+        "links": 1,
+        "size": 10717
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/managed-state-S1_ENTRIES_DISABLED.json": {
+      "sha256": "5178a22859e9a2bab562bbc30c22c782f631ad06a611fd67e15a7c1ff640cb95",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25731326,
+        "links": 1,
+        "size": 13969
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/managed-state-S1_INSTALLED_DISABLED.json": {
+      "sha256": "11394322db51821b85332f3a7a7c96b91aa354d770d186dd7561aba532d8a021",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25731352,
+        "links": 1,
+        "size": 2015
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/managed-state-S1_MANAGED_ISOLATED.json": {
+      "sha256": "4929cbe6847a5c93c1cfaf7d9ad4510543b893ddab8d299eb157066a38c9df9c",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25731356,
+        "links": 1,
+        "size": 28401
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/managed-state-S1_OLD_RUNTIME_RETAINED.json": {
+      "sha256": "ddeeee5be9e98a18c3cf646ee272d5cdda39dc769cd83b6987fb9e594cff641c",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25731324,
+        "links": 1,
+        "size": 3390
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/managed-state-S1_STAGING_VERIFIED.json": {
+      "sha256": "78cec2042850d6f9aa177ff59374d2b013bdab3b660d6b24f3d41ca8166dffb8",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25731341,
+        "links": 1,
+        "size": 2008
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/managed-state-S1_TARGET_EXIT_VERIFIED.json": {
+      "sha256": "3c9757f338ccd524fc4e31509c99bcd30fe186ec5dd193e0bc7c511c5c44cb7e",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25731328,
+        "links": 1,
+        "size": 2852
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/verified-handoff.json": {
+      "sha256": "43f4e0e0046f9ba1039d88372f28d6d8e023791ff1bedd0af7ea8fd61c8b398d",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25733913,
+        "links": 1,
+        "size": 1409
+      }
+    }
+  },
+  "objectsUnchanged": true,
+  "candidateExecutableSha256": "f7625ec29e69ac527a830e9a622f0a7568d9a4556b1d9db005f19e29d623bdff",
+  "manifestSha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+  "databaseSha256": "b4bde265f1ec72571cbaf868f1e5b0c011b2809c2e642f0a4b5f055f92264647",
+  "recoveryAuthorizationCreated": "SYNTHETIC_TEST_ONLY_EPHEMERAL",
+  "productionTouched": false
+}

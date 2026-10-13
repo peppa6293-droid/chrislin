@@ -1,0 +1,19 @@
+{
+  "status": "WP04R2B3_BLOCKED_NEEDS_RECOVERY_ENTRYPOINT_IMPLEMENTATION",
+  "sourceCommit": "453fdb05b6457a4e9362c98308ca384c10f5d8b4",
+  "repositoryHeadAtReadback": "df335e5f199b8ad082dd2e42ee148c625ebe788d",
+  "sourceChanged": false,
+  "candidateExecutableSha256": "f7625ec29e69ac527a830e9a622f0a7568d9a4556b1d9db005f19e29d623bdff",
+  "candidateManifestSha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+  "candidateChanged": false,
+  "canonicalAcceptedRootPreserved": true,
+  "fullChainRecoveryScenarioCount": 0,
+  "componentRecoveryRegression": "16/16 PASS; COMPONENT_ONLY; NOT PROMOTED",
+  "missingEntrypoint": "Unified R2B recovery/diagnostic entrypoint bound to Gate release receipt, Gate permit, Rust consumer, consumed ledger, native terminal and S-state lineage",
+  "qClosure": "NOT RUN; prior Q01-Q18 closure remains BLOCKED",
+  "productionTouched": false,
+  "runtimeSourceEdited": false,
+  "candidateRebuilt": false,
+  "nextOwner": "Planning / Owner to decide whether to authorize a minimal R2B3A frozen-source recovery-entrypoint implementation",
+  "map": "01-entrypoint-map/RECOVERY_ENTRYPOINT_MAP.md"
+}

@@ -1,0 +1,64 @@
+diff --git a/evidence/wp04-release-cutover-readiness/33-r2b-full-synthetic/WP04R2B_FULL_SYNTHETIC_CUTOVER_REPORT.md b/evidence/wp04-release-cutover-readiness/33-r2b-full-synthetic/WP04R2B_FULL_SYNTHETIC_CUTOVER_REPORT.md
+index 2844130..a5d6603 100644
+--- a/evidence/wp04-release-cutover-readiness/33-r2b-full-synthetic/WP04R2B_FULL_SYNTHETIC_CUTOVER_REPORT.md
++++ b/evidence/wp04-release-cutover-readiness/33-r2b-full-synthetic/WP04R2B_FULL_SYNTHETIC_CUTOVER_REPORT.md
+@@ -165,3 +165,11 @@ This records source/candidate readiness only. Historical `WP04R2B_SYNTHETIC_CUTO
+ 核心 synthetic migration 与日常数据兼容闭环通过，但 READY 条件中的“绑定本次 full Gate chain 的 Recovery Matrix / Q closure”尚未完成。总状态因此保持 `WP04R2B_SYNTHETIC_CUTOVER_BLOCKED`，不启动 WP04R2C。下一责任人：Planning/Owner 提供或批准 full-chain-bound recovery matrix 的执行入口；Execution 随后在保留当前成功证据的前提下补跑恢复与 Q closure。Production 仍未授权。
+ 
+ 详细逐阶段证据、机器回读、失败的首次尝试及回归日志见 `evidence/wp04-release-cutover-readiness/40-r2b-final-acceptance-v3-compatible/`。最终验收字段回读：`attempt-02/19-final-readback/FINAL_ACCEPTANCE_READBACK.json`。Final report commit 在该目录的最终 readback 收据中记录。
++
++## WP-04R2B3 Full-Chain Recovery Binding — BLOCKED
++
++2026-10-13 能力核对结论：`WP04R2B3_BLOCKED_NEEDS_RECOVERY_ENTRYPOINT_IMPLEMENTATION`。冻结源码提供 unified Gate `preflight/migrate` 与 C7 permit consumer 的正向主链，也提供另一套 quiescence `recover-integrated`；后者使用自己的 `managed-contract.json`、`consumed.json`、`outcome.json` 和 `recovery-authorization.json`，没有验证/消费统一 R2B 的 `release-receipt.json`、`gate-permit.json`、`consumed-ledger.json` 与 S-state/native terminal lineage 的入口。
++
++现有 `scripts/quiescence_recovery_matrix.py` 建立独立 component fixtures，当前 16/16 PASS 仅作 `COMPONENT_ONLY` 回归。它没有绑定 canonical C0–C10 Gate 主链，不能构成本工单要求的 full-chain-bound scenario。Canonical `attempt-02` 成功 root 保持只读且未修改。
++
++按 WP-04R2B3 第37节停止：未运行 recovery scenarios，未做 Q01–Q18 final closure，未重跑 regressions。冻结源码未修改，候选未修改/重建，Production 未访问。入口能力图：`evidence/wp04-release-cutover-readiness/41-r2b-full-chain-recovery/01-entrypoint-map/RECOVERY_ENTRYPOINT_MAP.md`；阻断回读：`evidence/wp04-release-cutover-readiness/41-r2b-full-chain-recovery/16-final-readback/WP04R2B3_BLOCKER_READBACK.json`。下一责任人：Planning / Owner 决定是否单独授权最小 R2B3A recovery-entrypoint 实现。
+diff --git a/scripts/production_v4_release_gate.py b/scripts/production_v4_release_gate.py
+index 0570cb3..24a2e81 100644
+--- a/scripts/production_v4_release_gate.py
++++ b/scripts/production_v4_release_gate.py
+@@ -1260,6 +1260,12 @@ def main() -> int:
+         subparser.add_argument("--receipt", type=Path, help="fixed gate receipt path; overrides are rejected")
+         subparser.add_argument("--synthetic-root", type=Path, help="explicit, marked temporary namespace for isolated integration")
+         subparser.add_argument("--synthetic-mode", choices=("legacy-component", "unified-r2b"), default="legacy-component")
++    recover = subparsers.add_parser("recover-diagnostic", help="read-only unified R2B recovery disposition; Production is refused")
++    recover.add_argument("--domain", choices=("UNIFIED_R2B_SYNTHETIC", "PRODUCTION"), required=True)
++    recover.add_argument("--root", type=Path, required=True)
++    recover.add_argument("--recovery-authorization", type=Path, required=True)
++    recover.add_argument("--authorization-sha256", required=True,
++                         help="independently pinned exact-byte SHA-256 of the supplied synthetic recovery authorization")
+     retire = subparsers.add_parser("retire")
+     retire.add_argument("--candidate-app", type=Path, required=True)
+     retire.add_argument("--replacement-authorization", type=Path, required=True)
+@@ -1270,6 +1276,13 @@ def main() -> int:
+             # fixtures, but the supported Production CLI must not use the
+             # superseded split-connection/runtime-restoration contract.
+             raise GateBlocked(["Runtime retirement remains a separate, explicitly authorized operation and is not this migration command."])
++        if args.command == "recover-diagnostic":
++            from unified_r2b_recovery import AUTH_DOMAIN, diagnose
++            if args.domain != AUTH_DOMAIN:
++                raise GateBlocked(["Production recovery diagnostic is not authorized; only marked synthetic roots are supported."])
++            result = diagnose(args.root, args.recovery_authorization, args.authorization_sha256, domain=args.domain)
++            print(json.dumps(result, ensure_ascii=False, indent=2))
++            return 0
+         receipt_path = args.receipt
+         if args.synthetic_root is not None:
+             unified = args.synthetic_mode == "unified-r2b"
+@@ -1286,6 +1299,16 @@ def main() -> int:
+         return 0
+     except Exception as error:
+         reasons = error.reasons if isinstance(error, GateBlocked) else [f"{type(error).__name__}: {error}"]
++        if args.command == "recover-diagnostic":
++            refusal = {"status": "REFUSE", "currentState": "UNVERIFIED",
++                       "recoveryDisposition": "REFUSE", "businessAccessDecision": "REFUSE",
++                       "businessAccessAllowed": False, "migrationMayRerun": False,
++                       "oldPermitReusable": False, "newAuthorizationRequired": True,
++                       "restoreAllowed": False, "readonlyConfirmationAllowed": False,
++                       "automaticRecovery": False, "diagnosticMutationCount": 0,
++                       "reasons": reasons}
++            print(json.dumps(refusal, ensure_ascii=False), file=sys.stderr)
++            return 2
+         print(json.dumps({"status": "BLOCKED", "errorType": type(error).__name__, "reasons": reasons}, ensure_ascii=False), file=sys.stderr)
+         return 2
+ 

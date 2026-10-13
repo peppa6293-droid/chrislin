@@ -1,0 +1,6 @@
+test_formal_gate_cli_rust_claim_ledger_runner_completes_s10 (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 3.318s
+
+OK

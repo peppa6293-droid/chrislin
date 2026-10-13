@@ -1,0 +1,213 @@
+test_authorization_byte_drift_is_refused (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ERROR
+test_backup_drift_is_refused (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ERROR
+test_candidate_executable_drift_is_refused (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ERROR
+test_concurrent_consumers_have_exactly_one_s4_winner (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ERROR
+test_database_drift_is_refused (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ERROR
+test_exact_permit_byte_mutation_is_refused (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ERROR
+test_expired_permit_is_refused_by_unified_consumer (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ERROR
+test_formal_gate_cli_rust_claim_ledger_runner_completes_s10 (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ERROR
+test_formal_gate_replay_is_refused_after_native_claim (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ERROR
+test_manifest_drift_is_refused (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ERROR
+test_production_domain_permit_is_refused_by_unified_consumer (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ERROR
+test_receipt_drift_is_refused (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ERROR
+test_unified_domain_cannot_use_legacy_component_raw_permit_entry (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ERROR
+test_unmarked_arbitrary_synthetic_root_is_refused (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ERROR
+test_wrong_bundle_id_approval_is_refused (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ERROR
+test_wrong_unified_marker_is_refused_before_gate_receipt (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ERROR
+
+======================================================================
+ERROR: test_authorization_byte_drift_is_refused (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/test_wp04r2b1b_native_handoff.py", line 45, in setUp
+    self.fixture = qic.create_fixture(self.parent, NATIVE, scenario="r2b1b", mode=MODE)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 545, in create_fixture
+    signing_identity = _configured_signing_identity(signing_identity)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 52, in _configured_signing_identity
+    raise Blocked("MACOS_SIGNING_PREREQUISITE_REQUIRED", "Apple Development identity was not configured")
+quiescence_gate.Blocked: MACOS_SIGNING_PREREQUISITE_REQUIRED: Apple Development identity was not configured
+
+======================================================================
+ERROR: test_backup_drift_is_refused (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/test_wp04r2b1b_native_handoff.py", line 45, in setUp
+    self.fixture = qic.create_fixture(self.parent, NATIVE, scenario="r2b1b", mode=MODE)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 545, in create_fixture
+    signing_identity = _configured_signing_identity(signing_identity)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 52, in _configured_signing_identity
+    raise Blocked("MACOS_SIGNING_PREREQUISITE_REQUIRED", "Apple Development identity was not configured")
+quiescence_gate.Blocked: MACOS_SIGNING_PREREQUISITE_REQUIRED: Apple Development identity was not configured
+
+======================================================================
+ERROR: test_candidate_executable_drift_is_refused (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/test_wp04r2b1b_native_handoff.py", line 45, in setUp
+    self.fixture = qic.create_fixture(self.parent, NATIVE, scenario="r2b1b", mode=MODE)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 545, in create_fixture
+    signing_identity = _configured_signing_identity(signing_identity)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 52, in _configured_signing_identity
+    raise Blocked("MACOS_SIGNING_PREREQUISITE_REQUIRED", "Apple Development identity was not configured")
+quiescence_gate.Blocked: MACOS_SIGNING_PREREQUISITE_REQUIRED: Apple Development identity was not configured
+
+======================================================================
+ERROR: test_concurrent_consumers_have_exactly_one_s4_winner (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/test_wp04r2b1b_native_handoff.py", line 45, in setUp
+    self.fixture = qic.create_fixture(self.parent, NATIVE, scenario="r2b1b", mode=MODE)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 545, in create_fixture
+    signing_identity = _configured_signing_identity(signing_identity)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 52, in _configured_signing_identity
+    raise Blocked("MACOS_SIGNING_PREREQUISITE_REQUIRED", "Apple Development identity was not configured")
+quiescence_gate.Blocked: MACOS_SIGNING_PREREQUISITE_REQUIRED: Apple Development identity was not configured
+
+======================================================================
+ERROR: test_database_drift_is_refused (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/test_wp04r2b1b_native_handoff.py", line 45, in setUp
+    self.fixture = qic.create_fixture(self.parent, NATIVE, scenario="r2b1b", mode=MODE)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 545, in create_fixture
+    signing_identity = _configured_signing_identity(signing_identity)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 52, in _configured_signing_identity
+    raise Blocked("MACOS_SIGNING_PREREQUISITE_REQUIRED", "Apple Development identity was not configured")
+quiescence_gate.Blocked: MACOS_SIGNING_PREREQUISITE_REQUIRED: Apple Development identity was not configured
+
+======================================================================
+ERROR: test_exact_permit_byte_mutation_is_refused (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/test_wp04r2b1b_native_handoff.py", line 45, in setUp
+    self.fixture = qic.create_fixture(self.parent, NATIVE, scenario="r2b1b", mode=MODE)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 545, in create_fixture
+    signing_identity = _configured_signing_identity(signing_identity)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 52, in _configured_signing_identity
+    raise Blocked("MACOS_SIGNING_PREREQUISITE_REQUIRED", "Apple Development identity was not configured")
+quiescence_gate.Blocked: MACOS_SIGNING_PREREQUISITE_REQUIRED: Apple Development identity was not configured
+
+======================================================================
+ERROR: test_expired_permit_is_refused_by_unified_consumer (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/test_wp04r2b1b_native_handoff.py", line 45, in setUp
+    self.fixture = qic.create_fixture(self.parent, NATIVE, scenario="r2b1b", mode=MODE)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 545, in create_fixture
+    signing_identity = _configured_signing_identity(signing_identity)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 52, in _configured_signing_identity
+    raise Blocked("MACOS_SIGNING_PREREQUISITE_REQUIRED", "Apple Development identity was not configured")
+quiescence_gate.Blocked: MACOS_SIGNING_PREREQUISITE_REQUIRED: Apple Development identity was not configured
+
+======================================================================
+ERROR: test_formal_gate_cli_rust_claim_ledger_runner_completes_s10 (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/test_wp04r2b1b_native_handoff.py", line 45, in setUp
+    self.fixture = qic.create_fixture(self.parent, NATIVE, scenario="r2b1b", mode=MODE)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 545, in create_fixture
+    signing_identity = _configured_signing_identity(signing_identity)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 52, in _configured_signing_identity
+    raise Blocked("MACOS_SIGNING_PREREQUISITE_REQUIRED", "Apple Development identity was not configured")
+quiescence_gate.Blocked: MACOS_SIGNING_PREREQUISITE_REQUIRED: Apple Development identity was not configured
+
+======================================================================
+ERROR: test_formal_gate_replay_is_refused_after_native_claim (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/test_wp04r2b1b_native_handoff.py", line 45, in setUp
+    self.fixture = qic.create_fixture(self.parent, NATIVE, scenario="r2b1b", mode=MODE)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 545, in create_fixture
+    signing_identity = _configured_signing_identity(signing_identity)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 52, in _configured_signing_identity
+    raise Blocked("MACOS_SIGNING_PREREQUISITE_REQUIRED", "Apple Development identity was not configured")
+quiescence_gate.Blocked: MACOS_SIGNING_PREREQUISITE_REQUIRED: Apple Development identity was not configured
+
+======================================================================
+ERROR: test_manifest_drift_is_refused (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/test_wp04r2b1b_native_handoff.py", line 45, in setUp
+    self.fixture = qic.create_fixture(self.parent, NATIVE, scenario="r2b1b", mode=MODE)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 545, in create_fixture
+    signing_identity = _configured_signing_identity(signing_identity)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 52, in _configured_signing_identity
+    raise Blocked("MACOS_SIGNING_PREREQUISITE_REQUIRED", "Apple Development identity was not configured")
+quiescence_gate.Blocked: MACOS_SIGNING_PREREQUISITE_REQUIRED: Apple Development identity was not configured
+
+======================================================================
+ERROR: test_production_domain_permit_is_refused_by_unified_consumer (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/test_wp04r2b1b_native_handoff.py", line 45, in setUp
+    self.fixture = qic.create_fixture(self.parent, NATIVE, scenario="r2b1b", mode=MODE)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 545, in create_fixture
+    signing_identity = _configured_signing_identity(signing_identity)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 52, in _configured_signing_identity
+    raise Blocked("MACOS_SIGNING_PREREQUISITE_REQUIRED", "Apple Development identity was not configured")
+quiescence_gate.Blocked: MACOS_SIGNING_PREREQUISITE_REQUIRED: Apple Development identity was not configured
+
+======================================================================
+ERROR: test_receipt_drift_is_refused (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/test_wp04r2b1b_native_handoff.py", line 45, in setUp
+    self.fixture = qic.create_fixture(self.parent, NATIVE, scenario="r2b1b", mode=MODE)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 545, in create_fixture
+    signing_identity = _configured_signing_identity(signing_identity)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 52, in _configured_signing_identity
+    raise Blocked("MACOS_SIGNING_PREREQUISITE_REQUIRED", "Apple Development identity was not configured")
+quiescence_gate.Blocked: MACOS_SIGNING_PREREQUISITE_REQUIRED: Apple Development identity was not configured
+
+======================================================================
+ERROR: test_unified_domain_cannot_use_legacy_component_raw_permit_entry (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/test_wp04r2b1b_native_handoff.py", line 45, in setUp
+    self.fixture = qic.create_fixture(self.parent, NATIVE, scenario="r2b1b", mode=MODE)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 545, in create_fixture
+    signing_identity = _configured_signing_identity(signing_identity)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 52, in _configured_signing_identity
+    raise Blocked("MACOS_SIGNING_PREREQUISITE_REQUIRED", "Apple Development identity was not configured")
+quiescence_gate.Blocked: MACOS_SIGNING_PREREQUISITE_REQUIRED: Apple Development identity was not configured
+
+======================================================================
+ERROR: test_unmarked_arbitrary_synthetic_root_is_refused (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/test_wp04r2b1b_native_handoff.py", line 45, in setUp
+    self.fixture = qic.create_fixture(self.parent, NATIVE, scenario="r2b1b", mode=MODE)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 545, in create_fixture
+    signing_identity = _configured_signing_identity(signing_identity)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 52, in _configured_signing_identity
+    raise Blocked("MACOS_SIGNING_PREREQUISITE_REQUIRED", "Apple Development identity was not configured")
+quiescence_gate.Blocked: MACOS_SIGNING_PREREQUISITE_REQUIRED: Apple Development identity was not configured
+
+======================================================================
+ERROR: test_wrong_bundle_id_approval_is_refused (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/test_wp04r2b1b_native_handoff.py", line 45, in setUp
+    self.fixture = qic.create_fixture(self.parent, NATIVE, scenario="r2b1b", mode=MODE)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 545, in create_fixture
+    signing_identity = _configured_signing_identity(signing_identity)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 52, in _configured_signing_identity
+    raise Blocked("MACOS_SIGNING_PREREQUISITE_REQUIRED", "Apple Development identity was not configured")
+quiescence_gate.Blocked: MACOS_SIGNING_PREREQUISITE_REQUIRED: Apple Development identity was not configured
+
+======================================================================
+ERROR: test_wrong_unified_marker_is_refused_before_gate_receipt (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/test_wp04r2b1b_native_handoff.py", line 45, in setUp
+    self.fixture = qic.create_fixture(self.parent, NATIVE, scenario="r2b1b", mode=MODE)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 545, in create_fixture
+    signing_identity = _configured_signing_identity(signing_identity)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发/scripts/quiescence_integration.py", line 52, in _configured_signing_identity
+    raise Blocked("MACOS_SIGNING_PREREQUISITE_REQUIRED", "Apple Development identity was not configured")
+quiescence_gate.Blocked: MACOS_SIGNING_PREREQUISITE_REQUIRED: Apple Development identity was not configured
+
+----------------------------------------------------------------------
+Ran 16 tests in 4.186s
+
+FAILED (errors=16)

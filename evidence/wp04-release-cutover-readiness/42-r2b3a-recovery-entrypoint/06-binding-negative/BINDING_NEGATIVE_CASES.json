@@ -1,0 +1,90 @@
+{
+  "testSuite": "scripts.test_unified_r2b_recovery",
+  "cases": [
+    {
+      "case": "wrong receipt SHA",
+      "binding": "releaseReceiptSha256",
+      "expected": "REFUSE",
+      "observed": "GateBlocked / CLI REFUSE"
+    },
+    {
+      "case": "wrong gate permit SHA",
+      "binding": "gatePermitSha256",
+      "expected": "REFUSE",
+      "observed": "GateBlocked / CLI REFUSE"
+    },
+    {
+      "case": "wrong consumed ledger SHA",
+      "binding": "consumedLedgerSha256",
+      "expected": "REFUSE",
+      "observed": "GateBlocked / CLI REFUSE"
+    },
+    {
+      "case": "wrong candidate executable",
+      "binding": "candidateExecutableSha256",
+      "expected": "REFUSE",
+      "observed": "GateBlocked / CLI REFUSE"
+    },
+    {
+      "case": "wrong manifest",
+      "binding": "manifestSha256",
+      "expected": "REFUSE",
+      "observed": "GateBlocked / CLI REFUSE"
+    },
+    {
+      "case": "wrong DB identity/hash",
+      "binding": "databaseIdentity / databaseSha256",
+      "expected": "REFUSE",
+      "observed": "GateBlocked / CLI REFUSE"
+    },
+    {
+      "case": "wrong backup identity/hash",
+      "binding": "backupIdentity / backupSha256",
+      "expected": "REFUSE",
+      "observed": "GateBlocked / CLI REFUSE"
+    },
+    {
+      "case": "wrong original migration authorization ID/hash",
+      "binding": "originalMigrationAuthorizationId / originalMigrationAuthorizationSha256",
+      "expected": "REFUSE",
+      "observed": "GateBlocked / CLI REFUSE"
+    },
+    {
+      "case": "wrong recovery authorization exact bytes",
+      "binding": "exact authorization SHA pin",
+      "expected": "REFUSE",
+      "observed": "GateBlocked / CLI REFUSE"
+    },
+    {
+      "case": "recovery authorization semantic-equivalent byte replacement",
+      "binding": "exact authorization SHA pin",
+      "expected": "REFUSE",
+      "observed": "GateBlocked / CLI REFUSE"
+    },
+    {
+      "case": "expired authorization",
+      "binding": "expiresAtUnix",
+      "expected": "REFUSE",
+      "observed": "GateBlocked / CLI REFUSE"
+    },
+    {
+      "case": "scope mismatch",
+      "binding": "recoveryScope",
+      "expected": "REFUSE",
+      "observed": "GateBlocked / CLI REFUSE"
+    },
+    {
+      "case": "Production domain mismatch",
+      "binding": "domain",
+      "expected": "REFUSE",
+      "observed": "GateBlocked / CLI REFUSE"
+    },
+    {
+      "case": "receipt semantic-equivalent byte hash",
+      "binding": "receiptSha256 exact bytes",
+      "expected": "REFUSE",
+      "observed": "GateBlocked / CLI REFUSE"
+    }
+  ],
+  "result": "PASS; all covered by automated tests; no canonical chain object modified"
+}

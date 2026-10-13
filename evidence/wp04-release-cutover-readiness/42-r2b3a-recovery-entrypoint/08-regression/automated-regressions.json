@@ -1,0 +1,196 @@
+{
+  "runStartedAt": "2026-10-13T03:24:03.584580+00:00",
+  "runCompletedAt": "2026-10-13T03:24:46.463884+00:00",
+  "results": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAt": "2026-10-13T03:24:03.584580+00:00",
+      "exitCode": 0,
+      "outputFile": "typecheck.log",
+      "outputBytes": 60
+    },
+    {
+      "name": "lint",
+      "command": [
+        "npm",
+        "run",
+        "lint"
+      ],
+      "startedAt": "2026-10-13T03:24:03.966084+00:00",
+      "exitCode": 0,
+      "outputFile": "lint.log",
+      "outputBytes": 18452
+    },
+    {
+      "name": "product",
+      "command": [
+        "npm",
+        "run",
+        "test:product"
+      ],
+      "startedAt": "2026-10-13T03:24:04.242241+00:00",
+      "exitCode": 0,
+      "outputFile": "product.log",
+      "outputBytes": 563
+    },
+    {
+      "name": "wp03-preview",
+      "command": [
+        "npm",
+        "run",
+        "test:wp03-preview"
+      ],
+      "startedAt": "2026-10-13T03:24:09.042937+00:00",
+      "exitCode": 0,
+      "outputFile": "wp03-preview.log",
+      "outputBytes": 849
+    },
+    {
+      "name": "release-gate",
+      "command": [
+        "npm",
+        "run",
+        "test:release-gate"
+      ],
+      "startedAt": "2026-10-13T03:24:09.197564+00:00",
+      "exitCode": 0,
+      "outputFile": "release-gate.log",
+      "outputBytes": 5203
+    },
+    {
+      "name": "r2a-integration",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "scripts.test_production_gate_wiring_integration",
+        "-v"
+      ],
+      "startedAt": "2026-10-13T03:24:09.697472+00:00",
+      "exitCode": 0,
+      "outputFile": "r2a-integration.log",
+      "outputBytes": 821
+    },
+    {
+      "name": "r2b1a-c3",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "scripts.test_quiescence_gate_owned",
+        "-v"
+      ],
+      "startedAt": "2026-10-13T03:24:11.296617+00:00",
+      "exitCode": 0,
+      "outputFile": "r2b1a-c3.log",
+      "outputBytes": 1838
+    },
+    {
+      "name": "r2b1b-native-handoff",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "scripts.test_wp04r2b1b_native_handoff",
+        "-v"
+      ],
+      "startedAt": "2026-10-13T03:24:21.921135+00:00",
+      "exitCode": 0,
+      "outputFile": "r2b1b-native-handoff-retry.log",
+      "outputBytes": 19067,
+      "configuredSigningIdentity": "existing local Apple Development identity"
+    },
+    {
+      "name": "forward-m4-component",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "scripts.test_wp04r2b1b_native_handoff",
+        "-v"
+      ],
+      "startedAt": "2026-10-13T03:24:26.190535+00:00",
+      "exitCode": 0,
+      "outputFile": "forward-m4-component.log",
+      "outputBytes": 19067,
+      "scope": "formal Gate -> Rust claim -> S0-S10; Migration 4 exactly once"
+    },
+    {
+      "name": "rust-default",
+      "command": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "src-tauri/Cargo.toml",
+        "--bins"
+      ],
+      "startedAt": "2026-10-13T03:24:26.601113+00:00",
+      "exitCode": 0,
+      "outputFile": "rust-default.log",
+      "outputBytes": 776
+    },
+    {
+      "name": "rust-quiescence-fixture",
+      "command": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "src-tauri/Cargo.toml",
+        "--features",
+        "quiescence-fixture",
+        "--bins"
+      ],
+      "startedAt": "2026-10-13T03:24:28.702900+00:00",
+      "exitCode": 0,
+      "outputFile": "rust-quiescence-fixture.log",
+      "outputBytes": 5611
+    },
+    {
+      "name": "rust-quiescence-tauri",
+      "command": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "src-tauri/Cargo.toml",
+        "--features",
+        "quiescence-tauri",
+        "--bins"
+      ],
+      "startedAt": "2026-10-13T03:24:35.029736+00:00",
+      "exitCode": 0,
+      "outputFile": "rust-quiescence-tauri.log",
+      "outputBytes": 10285
+    },
+    {
+      "name": "unified-r2b3a-recovery-tests",
+      "command": [
+        "PYTHONPATH=scripts",
+        "python3 -m unittest test_unified_r2b_recovery -v"
+      ],
+      "exitCode": 0,
+      "outputFile": "unified-recovery-tests.log",
+      "testCount": 9
+    },
+    {
+      "name": "recovery-component-matrix",
+      "command": [
+        "python3",
+        "scripts/quiescence_recovery_matrix.py",
+        "--native",
+        "src-tauri/target/debug/quiescence-fixture",
+        "--signing-identity",
+        "existing local Apple Development identity"
+      ],
+      "exitCode": 0,
+      "outputFile": "recovery-component-16.json",
+      "passedCases": 16,
+      "scope": "COMPONENT_ONLY"
+    }
+  ],
+  "passed": true
+}

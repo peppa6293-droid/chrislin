@@ -1,0 +1,468 @@
+
+> personal-finance-console@0.1.0 lint
+> biome check src tests
+
+src/style.css:1862:1 lint/style/noDescendingSpecificity ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 1, 1)
+  
+    1860 │   overflow-wrap: anywhere;
+    1861 │ }
+  > 1862 │ .stable-income-revision > strong {
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    1863 │   flex-shrink: 0;
+    1864 │ }
+  
+  i This selector specificity is (0, 2, 2)
+  
+    1716 │ }
+    1717 │ .detail-page .debt-detail-title strong,
+  > 1718 │ .detail-page .debt-detail-row p strong {
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    1719 │   color: #3d4d41;
+    1720 │   font-size: 13px;
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+src/style.css:2263:1 lint/style/noDescendingSpecificity ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 1, 0)
+  
+    2261 │   margin-top: 8px;
+    2262 │ }
+  > 2263 │ .cashflow-flow {
+         │ ^^^^^^^^^^^^^^
+    2264 │   grid-template-columns: 70px minmax(0, 1fr) 16px minmax(0, 1.15fr) 16px minmax(0, 1fr);
+    2265 │   padding: 12px 0 0;
+  
+  i This selector specificity is (0, 2, 0)
+  
+    1472 │   color: #94633e;
+    1473 │ }
+  > 1474 │ .home-page .cashflow-flow {
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^
+    1475 │   display: grid;
+    1476 │   grid-template-columns: minmax(0, 1fr) 18px minmax(0, 1.15fr) 18px minmax(0, 1fr);
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+src/style.css:2279:1 lint/style/noDescendingSpecificity ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 2, 1)
+  
+    2277 │   font-size: 23px;
+    2278 │ }
+  > 2279 │ .home-page .flow-value strong,
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    2280 │ .home-page .flow-balance strong {
+    2281 │   color: #152b49;
+  
+  i This selector specificity is (0, 3, 1)
+  
+    1869 │   gap: 16px 20px;
+    1870 │ }
+  > 1871 │ .home-page.finance-page .finance-list-card > strong {
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    1872 │   color: #3c5142;
+    1873 │   font-size: 20px;
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+src/style.css:2280:1 lint/style/noDescendingSpecificity ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 2, 1)
+  
+    2278 │ }
+    2279 │ .home-page .flow-value strong,
+  > 2280 │ .home-page .flow-balance strong {
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    2281 │   color: #152b49;
+    2282 │   font-size: clamp(16px, 1.9vw, 23px);
+  
+  i This selector specificity is (0, 3, 1)
+  
+    1869 │   gap: 16px 20px;
+    1870 │ }
+  > 1871 │ .home-page.finance-page .finance-list-card > strong {
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    1872 │   color: #3c5142;
+    1873 │   font-size: 20px;
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+src/style.css:2284:1 lint/style/noDescendingSpecificity ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 1, 0)
+  
+    2282 │   font-size: clamp(16px, 1.9vw, 23px);
+    2283 │ }
+  > 2284 │ .flow-balance {
+         │ ^^^^^^^^^^^^^
+    2285 │   padding: 12px 11px;
+    2286 │ }
+  
+  i This selector specificity is (0, 2, 0)
+  
+    2270 │   object-fit: contain;
+    2271 │ }
+  > 2272 │ .cashflow-flow .flow-balance {
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    2273 │   background: #fff0f0;
+    2274 │ }
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+src/style.css:2294:1 lint/style/noDescendingSpecificity ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 2, 1)
+  
+    2292 │   height: 82px;
+    2293 │ }
+  > 2294 │ .home-page .safety-coverage strong {
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    2295 │   color: #152b49;
+    2296 │ }
+  
+  i This selector specificity is (0, 3, 1)
+  
+    1869 │   gap: 16px 20px;
+    1870 │ }
+  > 1871 │ .home-page.finance-page .finance-list-card > strong {
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    1872 │   color: #3c5142;
+    1873 │   font-size: 20px;
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+src/style.css:2454:1 lint/style/noDescendingSpecificity ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 1, 2)
+  
+    2452 │   min-width: 0;
+    2453 │ }
+  > 2454 │ .finance-list-summary > div > span {
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    2455 │   color: #647889;
+    2456 │   font-size: 12px;
+  
+  i This selector specificity is (0, 2, 1)
+  
+    1666 │   border-bottom: 1px solid #edf0eb;
+    1667 │ }
+  > 1668 │ .detail-page .detail-row > span {
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    1669 │   color: #7b887e;
+    1670 │   font-size: 12px;
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+src/style.css:2458:1 lint/style/noDescendingSpecificity ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 1, 2)
+  
+    2456 │   font-size: 12px;
+    2457 │ }
+  > 2458 │ .finance-list-summary > div > strong {
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    2459 │   color: #152a47;
+    2460 │   font-size: clamp(24px, 3vw, 32px);
+  
+  i This selector specificity is (0, 3, 1)
+  
+    1869 │   gap: 16px 20px;
+    1870 │ }
+  > 1871 │ .home-page.finance-page .finance-list-card > strong {
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    1872 │   color: #3c5142;
+    1873 │   font-size: 20px;
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+src/style.css:2496:1 lint/style/noDescendingSpecificity ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 1, 1)
+  
+    2494 │   margin-top: 7px;
+    2495 │ }
+  > 2496 │ .finance-list-heading h2 {
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^
+    2497 │   color: #172d49;
+    2498 │ }
+  
+  i This selector specificity is (0, 2, 1)
+  
+    2479 │   grid-row: 1 / span 2;
+    2480 │ }
+  > 2481 │ .finance-page .planning-income-summary h2 {
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    2482 │   color: #182d49;
+    2483 │   font-size: 18px;
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+src/style.css:2509:1 lint/style/noDescendingSpecificity ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 1, 1)
+  
+    2507 │   text-align: center;
+    2508 │ }
+  > 2509 │ .finance-empty-state strong {
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    2510 │   color: #172d49;
+    2511 │   font-size: 15px;
+  
+  i This selector specificity is (0, 3, 1)
+  
+    1869 │   gap: 16px 20px;
+    1870 │ }
+  > 1871 │ .home-page.finance-page .finance-list-card > strong {
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    1872 │   color: #3c5142;
+    1873 │   font-size: 20px;
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+src/style.css:2513:1 lint/style/noDescendingSpecificity ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 1, 1)
+  
+    2511 │   font-size: 15px;
+    2512 │ }
+  > 2513 │ .finance-empty-state > span {
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    2514 │   color: #637789;
+    2515 │   font-size: 12px;
+  
+  i This selector specificity is (0, 2, 1)
+  
+    1666 │   border-bottom: 1px solid #edf0eb;
+    1667 │ }
+  > 1668 │ .detail-page .detail-row > span {
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    1669 │   color: #7b887e;
+    1670 │   font-size: 12px;
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+src/style.css:2829:1 lint/style/noDescendingSpecificity ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 1, 0)
+  
+    2827 │ .debt-detail-title,
+    2828 │ .spending-main-line,
+  > 2829 │ .cashflow-flow,
+         │ ^^^^^^^^^^^^^^
+    2830 │ .flow-step,
+    2831 │ .flow-balance {
+  
+  i This selector specificity is (0, 2, 0)
+  
+    1472 │   color: #94633e;
+    1473 │ }
+  > 1474 │ .home-page .cashflow-flow {
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^
+    1475 │   display: grid;
+    1476 │   grid-template-columns: minmax(0, 1fr) 18px minmax(0, 1.15fr) 18px minmax(0, 1fr);
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+src/style.css:2831:1 lint/style/noDescendingSpecificity ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 1, 0)
+  
+    2829 │ .cashflow-flow,
+    2830 │ .flow-step,
+  > 2831 │ .flow-balance {
+         │ ^^^^^^^^^^^^^
+    2832 │   min-width: 0;
+    2833 │ }
+  
+  i This selector specificity is (0, 2, 0)
+  
+    2270 │   object-fit: contain;
+    2271 │ }
+  > 2272 │ .cashflow-flow .flow-balance {
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    2273 │   background: #fff0f0;
+    2274 │ }
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+src/style.css:2835:1 lint/style/noDescendingSpecificity ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 1, 1)
+  
+    2833 │ }
+    2834 │ .finance-card-primary,
+  > 2835 │ .finance-data-row > strong,
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    2836 │ .finance-list-card > strong,
+    2837 │ .detail-row > strong {
+  
+  i This selector specificity is (0, 3, 1)
+  
+    1869 │   gap: 16px 20px;
+    1870 │ }
+  > 1871 │ .home-page.finance-page .finance-list-card > strong {
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    1872 │   color: #3c5142;
+    1873 │   font-size: 20px;
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+src/style.css:2836:1 lint/style/noDescendingSpecificity ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 1, 1)
+  
+    2834 │ .finance-card-primary,
+    2835 │ .finance-data-row > strong,
+  > 2836 │ .finance-list-card > strong,
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    2837 │ .detail-row > strong {
+    2838 │   max-width: 100%;
+  
+  i This selector specificity is (0, 3, 1)
+  
+    1869 │   gap: 16px 20px;
+    1870 │ }
+  > 1871 │ .home-page.finance-page .finance-list-card > strong {
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    1872 │   color: #3c5142;
+    1873 │   font-size: 20px;
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+src/style.css:2837:1 lint/style/noDescendingSpecificity ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 1, 1)
+  
+    2835 │ .finance-data-row > strong,
+    2836 │ .finance-list-card > strong,
+  > 2837 │ .detail-row > strong {
+         │ ^^^^^^^^^^^^^^^^^^^^
+    2838 │   max-width: 100%;
+    2839 │ }
+  
+  i This selector specificity is (0, 3, 1)
+  
+    1869 │   gap: 16px 20px;
+    1870 │ }
+  > 1871 │ .home-page.finance-page .finance-list-card > strong {
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    1872 │   color: #3c5142;
+    1873 │   font-size: 20px;
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+src/style.css:2840:1 lint/style/noDescendingSpecificity ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 2, 1)
+  
+    2838 │   max-width: 100%;
+    2839 │ }
+  > 2840 │ .finance-page .finance-data-row > strong {
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    2841 │   flex: 0 0 auto;
+    2842 │   overflow-wrap: normal;
+  
+  i This selector specificity is (0, 3, 1)
+  
+    1869 │   gap: 16px 20px;
+    1870 │ }
+  > 1871 │ .home-page.finance-page .finance-list-card > strong {
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    1872 │   color: #3c5142;
+    1873 │   font-size: 20px;
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+src/style.css:2845:1 lint/style/noDescendingSpecificity ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 2, 1)
+  
+    2843 │   white-space: nowrap;
+    2844 │ }
+  > 2845 │ .detail-page .detail-row > strong {
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    2846 │   flex-shrink: 0;
+    2847 │   overflow-wrap: normal;
+  
+  i This selector specificity is (0, 3, 1)
+  
+    1869 │   gap: 16px 20px;
+    1870 │ }
+  > 1871 │ .home-page.finance-page .finance-list-card > strong {
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    1872 │   color: #3c5142;
+    1873 │   font-size: 20px;
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+src/style.css:2961:1 lint/style/noDescendingSpecificity ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 2, 0)
+  
+    2959 │   margin-inline: auto;
+    2960 │ }
+  > 2961 │ .planning-income-form .finance-row-eyebrow {
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    2962 │   font-size: 11px;
+    2963 │   letter-spacing: 0.01em;
+  
+  i This selector specificity is (0, 3, 0)
+  
+    2951 │   transform: scale(1.06);
+    2952 │ }
+  > 2953 │ .home-page.finance-page .finance-row-eyebrow,
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    2954 │ .home-page.finance-page .planning-effective-note {
+    2955 │   color: #78857e;
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+src/style.css:3003:1 lint/style/noDescendingSpecificity ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 2, 1)
+  
+    3001 │   width: 100%;
+    3002 │ }
+  > 3003 │ .flow-step .flow-value strong {
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    3004 │   display: block;
+    3005 │   white-space: nowrap;
+  
+  i This selector specificity is (0, 3, 1)
+  
+    1869 │   gap: 16px 20px;
+    1870 │ }
+  > 1871 │ .home-page.finance-page .finance-list-card > strong {
+         │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    1872 │   color: #3c5142;
+    1873 │   font-size: 20px;
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+The number of diagnostics exceeds the limit allowed. Use --max-diagnostics to increase it.
+Diagnostics not shown: 5.
+Checked 63 files in 101ms. No fixes applied.
+Found 25 warnings.

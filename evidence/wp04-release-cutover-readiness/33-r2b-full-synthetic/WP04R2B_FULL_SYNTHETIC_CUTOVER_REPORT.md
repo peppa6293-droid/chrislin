@@ -165,3 +165,21 @@ This records source/candidate readiness only. Historical `WP04R2B_SYNTHETIC_CUTO
 核心 synthetic migration 与日常数据兼容闭环通过，但 READY 条件中的“绑定本次 full Gate chain 的 Recovery Matrix / Q closure”尚未完成。总状态因此保持 `WP04R2B_SYNTHETIC_CUTOVER_BLOCKED`，不启动 WP04R2C。下一责任人：Planning/Owner 提供或批准 full-chain-bound recovery matrix 的执行入口；Execution 随后在保留当前成功证据的前提下补跑恢复与 Q closure。Production 仍未授权。
 
 详细逐阶段证据、机器回读、失败的首次尝试及回归日志见 `evidence/wp04-release-cutover-readiness/40-r2b-final-acceptance-v3-compatible/`。最终验收字段回读：`attempt-02/19-final-readback/FINAL_ACCEPTANCE_READBACK.json`。Final report commit 在该目录的最终 readback 收据中记录。
+
+## WP-04R2B3 Full-Chain Recovery Binding — BLOCKED
+
+2026-10-13 能力核对结论：`WP04R2B3_BLOCKED_NEEDS_RECOVERY_ENTRYPOINT_IMPLEMENTATION`。冻结源码提供 unified Gate `preflight/migrate` 与 C7 permit consumer 的正向主链，也提供另一套 quiescence `recover-integrated`；后者使用自己的 `managed-contract.json`、`consumed.json`、`outcome.json` 和 `recovery-authorization.json`，没有验证/消费统一 R2B 的 `release-receipt.json`、`gate-permit.json`、`consumed-ledger.json` 与 S-state/native terminal lineage 的入口。
+
+现有 `scripts/quiescence_recovery_matrix.py` 建立独立 component fixtures，当前 16/16 PASS 仅作 `COMPONENT_ONLY` 回归。它没有绑定 canonical C0–C10 Gate 主链，不能构成本工单要求的 full-chain-bound scenario。Canonical `attempt-02` 成功 root 保持只读且未修改。
+
+按 WP-04R2B3 第37节停止：未运行 recovery scenarios，未做 Q01–Q18 final closure，未重跑 regressions。冻结源码未修改，候选未修改/重建，Production 未访问。入口能力图：`evidence/wp04-release-cutover-readiness/41-r2b-full-chain-recovery/01-entrypoint-map/RECOVERY_ENTRYPOINT_MAP.md`；阻断回读：`evidence/wp04-release-cutover-readiness/41-r2b-full-chain-recovery/16-final-readback/WP04R2B3_BLOCKER_READBACK.json`。下一责任人：Planning / Owner 决定是否单独授权最小 R2B3A recovery-entrypoint 实现。
+
+## R2B3A Unified Recovery Entrypoint
+
+**`WP04R2B3A_RECOVERY_ENTRYPOINT_READY` — 2026-10-13.** A read-only `recover-diagnostic` subcommand was added to the existing `scripts/production_v4_release_gate.py` surface. It validates the unified R2B receipt → consumed permit → ledger → candidate/manifest/DB/backup → native S-state and terminal lineage, with a separately exact-byte-pinned, synthetic-only recovery authorization. Production is refused before root access. No recovery action is performed; consumed permits cannot be reused, automatic Migration 4 rerun and restore are disabled, and `diagnosticMutationCount=0` is returned.
+
+Verification: unified diagnostic 9/9; canonical V4 success root read-only with 25 object hashes/identities unchanged; prescribed recovery component 16/16 (`COMPONENT_ONLY`, not promoted to full-chain); product 300/300, typecheck, WP03 preview, release gate, R2A, C3, R2B1B, Rust default/fixture/Tauri and forward S0–S10 Migration 4 exactly-once regression passed. Lint exited 0 with 25 style warnings. The first R2B1B invocation lacked the configured signing identity; its retry with the existing local identity passed and both logs are retained.
+
+No final candidate, new C0–C10 acceptance, full-chain recovery scenarios, Q closure, renderer, audit or Production operation was performed. Production App/DB, WP-02, WP-03 accepted artifacts and Financial Model V1.0 were not changed. The previous `WP04R2B3_BLOCKED_NEEDS_RECOVERY_ENTRYPOINT_IMPLEMENTATION` record above remains as historical status; this implementation resolves only that entrypoint blocker. The old candidate is now `R2B_PRE_RECOVERY_ENTRYPOINT_BASELINE` and is retained.
+
+Report: `WP04R2B3A_RECOVERY_ENTRYPOINT_REPORT.md`. Evidence: `evidence/wp04-release-cutover-readiness/42-r2b3a-recovery-entrypoint/`. Next: Planning/Owner may issue WP04R2B3B final acceptance and Q closure against a new candidate; this R2B3A result does not claim final-chain acceptance or Production readiness.

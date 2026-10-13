@@ -1,0 +1,14 @@
+test_canonical_success_root_is_read_only_v4_verified (test_unified_r2b_recovery.UnifiedR2BRecoveryTests) ... ok
+test_corrupt_json_state_fails_closed (test_unified_r2b_recovery.UnifiedR2BRecoveryTests) ... ok
+test_existing_gate_cli_runs_read_only_diagnostic (test_unified_r2b_recovery.UnifiedR2BRecoveryTests) ... ok
+test_production_domain_is_refused (test_unified_r2b_recovery.UnifiedR2BRecoveryTests) ... ok
+test_receipt_semantic_equivalent_byte_replacement_breaks_binding (test_unified_r2b_recovery.UnifiedR2BRecoveryTests) ... ok
+test_typed_disposition_fixtures_are_fail_closed (test_unified_r2b_recovery.UnifiedR2BRecoveryTests) ... ok
+test_wrong_chain_bindings_refuse (test_unified_r2b_recovery.UnifiedR2BRecoveryTests) ... ok
+test_wrong_recovery_authorization_binding_and_expiry_refuse (test_unified_r2b_recovery.UnifiedR2BRecoveryTests) ... ok
+test_wrong_recovery_authorization_exact_bytes_refuses (test_unified_r2b_recovery.UnifiedR2BRecoveryTests) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 1.423s
+
+OK
