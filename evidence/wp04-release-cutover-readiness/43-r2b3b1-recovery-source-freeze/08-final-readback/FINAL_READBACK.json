@@ -3,7 +3,7 @@
   "workOrder": "WP-04R2B3B1",
   "startingHead": "ef23dbc7c375fed8d82901b78989c5ceae58c9a7",
   "frozenRuntimeSourceCommit": "713e4c5c8a5c5ccfb1ad06481f4d6e138da294b2",
-  "finalReportCommit": "PENDING_REPORT_EVIDENCE_COMMIT",
+  "finalReportCommit": "800dc5f4e69e39bb2fdc4dc5c4720456fa265203",
   "sourceReviewed": "PASS",
   "productBehaviorChanged": false,
   "financialModelChanged": false,
@@ -642,5 +642,6 @@
   "overallWP04R2BStatus": "WP04R2B_SYNTHETIC_CUTOVER_BLOCKED",
   "readyForWP04R2B3B2": true,
   "report": "WP04R2B3B1_RECOVERY_SOURCE_FREEZE_REPORT.md",
-  "evidenceRoot": "evidence/wp04-release-cutover-readiness/43-r2b3b1-recovery-source-freeze"
+  "evidenceRoot": "evidence/wp04-release-cutover-readiness/43-r2b3b1-recovery-source-freeze",
+  "postCommitReportAndEvidenceReadback": "PASS"
 }
