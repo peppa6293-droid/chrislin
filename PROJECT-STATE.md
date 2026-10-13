@@ -1,3 +1,14 @@
+# 最新执行状态：WP-04R2C3C1 Production Durable Terminal（2026-10-13）
+
+- 状态：`WP04R2C3C1_PRODUCTION_DURABLE_TERMINAL_READY`。当前源码实现和 synthetic-only 验证完成；R2C2 BLOCKED、R2C3A READY、R2C3B BLOCKED 均保留为历史状态。本状态不授权 Production、候选构建或 source freeze。
+- 实现提交：`670c880`。Production 固定 authority namespace 新增 `production-v4-cutover-terminal.json`。复用 receipt、permit、consumed ledger、candidate/manifest、DB 与 backup；permit/ledger schema、Migration4、R2B recovery contract 与产品行为均未改。
+- Exclusive RAII guard 覆盖 permit/ledger、DB、M4、COMMIT、post-readback、terminal 文件/目录持久化及精确回读。启动在 Builder 前验证 durable authority。terminal failure、corrupt/stale、消费后缺 terminal 均 fail closed；never-started V3 与已开始 cutover 分开分类。
+- 合成回归：Production terminal 7/7；Rust default 50/50；startup hooks 50/50（含 50 race）；fixture 33/33；Tauri 44/44；R2C3A 4/4；R2B1B 16/16；recovery hooks 12/12；产品 300/300；WP03 preview 5/5；Release Gate 40/40。Native lease 15/15 使用脚本 hash 一致的既有证据。typecheck PASS；lint PASS（25 条既有 CSS specificity warnings）。未重跑 17-case matrix。`cargo fmt` 因 cargo-fmt 未安装未运行。
+- Production App/DB、真实 authorization/backup/permit/terminal 均未触碰或创建。无 final candidate、无 source freeze。
+- 报告：`WP04R2C3C1_PRODUCTION_DURABLE_TERMINAL_REPORT.md`；证据：`evidence/wp04-release-cutover-readiness/53-r2c3c1-production-durable-terminal/`。下一责任人 Planning/Owner，发出 WP-04R2C3C2 Final Source Freeze + Current-Source Final Acceptance。
+
+---
+
 # 最新执行状态：WP-04R2C3A Startup / Migration Mutual Exclusion（2026-10-13）
 
 - 状态：`WP04R2C3A_STARTUP_EXCLUSION_READY`。本阶段是 implementation + synthetic validation；R2C2 的 `WP04R2C_BLOCKED_ARCHITECTURE_BOUNDARY_UNPROVEN` 保留在历史记录。
@@ -188,3 +199,11 @@
 - Q01–Q18 `PASS_FOR_R2B`；Q11 renderer-only 仍 `DEFERRED_TO_WP04R2C`。C0–C10、S0–S10、17/17 recovery 和完整回归复用 C3D frozen identity，本轮未重跑。
 - Source/candidate 未变；未重建/启动 candidate；Production、WP02、Financial Model V1.0 未触碰；WP03 acceptance 保留。
 - 报告：`WP04R2B_Q10_SQLITE_LOCKED_CLOSURE_REPORT.md`；证据：`evidence/wp04-release-cutover-readiness/48-r2b-q10-sqlite-locked/`。到 synthetic readiness 停止，不代表 Production 授权或 Owner final acceptance。
+
+## WP-04R2C3B Final Source Freeze + Synthetic Acceptance — BLOCKED (2026-10-13)
+
+- 状态：`WP04R2C3B_BLOCKED_GUARD_TERMINAL_GAP`。起始 HEAD `af717492b127aa3ef2360391d7cce867323a0ba3`；目标 runtime source `7b4a9c16bbbfc6ad1cd602af479d8aaa9a11f756`，源码 tracked working tree clean。
+- 源码边界复核发现：Production migration exclusive guard 覆盖 permit 检查/claim、DB open、Migration4、COMMIT/rollback 与 post-commit readback；`native_migration4` 随后返回 `V4_MIGRATION_VERIFIED_NATIVE`，调用者返回时 RAII guard 即释放。该 Production 路径没有 durable final terminal 写入；synthetic quiescence 的 `VERIFIED_HANDOFF` 不能证明 Production 终态。
+- 结论：`Guard Release Before Durable Terminal Possible = YES`，不满足工单要求的 `NO`。依据工作单立即停止，未冻结源码、未构建候选、未运行本轮 cutover/recovery/renderer/Q/regression 验收；未修改 runtime source/tests。
+- Production App/DB 未触碰；真实 authorization/backup/receipt/permit 未创建；WP03 acceptance 保留、Financial Model 未改、WP02 未触碰。`RB-V4-CUTOVER-QUIESCENCE-01` 仍 OPEN，Production V4 仍 NOT AUTHORIZED。
+- 报告：`WP04R2C3B_FINAL_SYNTHETIC_ACCEPTANCE_REPORT.md`。证据：`evidence/wp04-release-cutover-readiness/52-r2c3b-final-synthetic-acceptance/`。下一责任人：Planning/Owner 下发独立源码修复及后续 freeze/acceptance 工作单。
