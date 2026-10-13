@@ -1,0 +1,15 @@
+{
+  "workOrder": "WP-04R2B3C2",
+  "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+  "archivePath": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/wp04-release-cutover-readiness/46-r2b3c2-source-freeze/06-source-provenance/source-c3da2f73.tar",
+  "archiveSha256": "e2f06d023eca661079406821cac23373b874a81867c95dccb6f1e503ecef6ce3",
+  "archiveBytes": 97146880,
+  "archiveFileCount": 1323,
+  "gitTreeFileCount": 1323,
+  "cleanExtractionPath": "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source",
+  "sourceTreeMismatchCount": 0,
+  "cleanExtractionExtraFileCount": 0,
+  "mismatches": [],
+  "extraFiles": [],
+  "status": "PASS"
+}

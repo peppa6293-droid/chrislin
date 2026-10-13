@@ -1,0 +1,10 @@
+{
+  "candidatePath": "/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/candidate-build/cargo-target/release/bundle/macos/\u5c0f\u94b1\u5bb6.app",
+  "classification": "R2B_PRE_RECOVERY_TEST_HOOKS_BASELINE",
+  "executableSha256": "7c640378b10a8bbdb40cd5f9b65069de19443b8e65b9e6cc2f704a69e7f578d4",
+  "manifestSha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+  "strictCodesign": true,
+  "strictCodesignExitCode": 0,
+  "strictCodesignStdout": "",
+  "strictCodesignStderr": ""
+}

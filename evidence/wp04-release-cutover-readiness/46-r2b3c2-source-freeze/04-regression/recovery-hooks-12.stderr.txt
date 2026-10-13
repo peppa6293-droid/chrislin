@@ -1,0 +1,169 @@
+test_default_feature_consumer_cannot_trigger_hook (__main__.DefaultBuildHookNegative) ... ok
+test_production_default_binary_excludes_hook_symbols (__main__.DefaultBuildHookNegative) ... ok
+test_after_commit_before_verified_readback (__main__.UnifiedRecoveryHooks) ... ERROR
+test_after_s10_reply_lost (__main__.UnifiedRecoveryHooks) ... ERROR
+test_after_s5_quiescence_acquired (__main__.UnifiedRecoveryHooks) ... ERROR
+test_after_s7_before_commit (__main__.UnifiedRecoveryHooks) ... ERROR
+test_guard_lost_after_quiescence (__main__.UnifiedRecoveryHooks) ... ERROR
+test_orphan_active_after_real_native_state (__main__.UnifiedRecoveryHooks) ... ERROR
+test_safe_failed_v3_before_m4 (__main__.UnifiedRecoveryHooks) ... ERROR
+test_unknown_point_is_refused_without_fallback (__main__.UnifiedRecoveryHooks) ... ERROR
+test_wrong_domain_is_refused_before_hook (__main__.UnifiedRecoveryHooks) ... ERROR
+test_wrong_missing_and_symlink_markers_refuse_formal_gate (__main__.UnifiedRecoveryHooks) ... ERROR
+
+======================================================================
+ERROR: test_after_commit_before_verified_readback (__main__.UnifiedRecoveryHooks)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 154, in test_after_commit_before_verified_readback
+    self._run_hook("AFTER_COMMIT_BEFORE_VERIFIED_READBACK", "05-after-commit", "COMMIT_OUTCOME_UNKNOWN", exit_code=86)
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 123, in _run_hook
+    self._preflight()
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 98, in _preflight
+    result = self._cli("preflight")
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 91, in _cli
+    env["PFC_R2B_RECOVERY_TEST_SOURCE_COMMIT"] = subprocess.run(
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+======================================================================
+ERROR: test_after_s10_reply_lost (__main__.UnifiedRecoveryHooks)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 157, in test_after_s10_reply_lost
+    self._run_hook("AFTER_S10_BEFORE_CALLER_REPLY", "06-reply-lost", "V4_VERIFIED", exit_code=86)
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 123, in _run_hook
+    self._preflight()
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 98, in _preflight
+    result = self._cli("preflight")
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 91, in _cli
+    env["PFC_R2B_RECOVERY_TEST_SOURCE_COMMIT"] = subprocess.run(
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+======================================================================
+ERROR: test_after_s5_quiescence_acquired (__main__.UnifiedRecoveryHooks)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 148, in test_after_s5_quiescence_acquired
+    self._run_hook("AFTER_S5_QUIESCENCE_ACQUIRED", "03-s5", "QUIESCENCE_ACQUIRED", exit_code=86)
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 123, in _run_hook
+    self._preflight()
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 98, in _preflight
+    result = self._cli("preflight")
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 91, in _cli
+    env["PFC_R2B_RECOVERY_TEST_SOURCE_COMMIT"] = subprocess.run(
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+======================================================================
+ERROR: test_after_s7_before_commit (__main__.UnifiedRecoveryHooks)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 151, in test_after_s7_before_commit
+    self._run_hook("AFTER_S7_BEFORE_COMMIT", "04-before-commit", "M4_IN_TRANSACTION", exit_code=86)
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 123, in _run_hook
+    self._preflight()
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 98, in _preflight
+    result = self._cli("preflight")
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 91, in _cli
+    env["PFC_R2B_RECOVERY_TEST_SOURCE_COMMIT"] = subprocess.run(
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+======================================================================
+ERROR: test_guard_lost_after_quiescence (__main__.UnifiedRecoveryHooks)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 160, in test_guard_lost_after_quiescence
+    diag = self._run_hook("GUARD_LOST_AFTER_QUIESCENCE", "07-guard-lost", "GUARD_LOST_OR_UNPROVEN", exit_code=86)
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 123, in _run_hook
+    self._preflight()
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 98, in _preflight
+    result = self._cli("preflight")
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 91, in _cli
+    env["PFC_R2B_RECOVERY_TEST_SOURCE_COMMIT"] = subprocess.run(
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+======================================================================
+ERROR: test_orphan_active_after_real_native_state (__main__.UnifiedRecoveryHooks)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 165, in test_orphan_active_after_real_native_state
+    diag = self._run_hook("ACTIVE_STATE_THEN_PROCESS_EXIT", "08-orphan-active", "ORPHAN_ACTIVE", exit_code=86)
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 123, in _run_hook
+    self._preflight()
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 98, in _preflight
+    result = self._cli("preflight")
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 91, in _cli
+    env["PFC_R2B_RECOVERY_TEST_SOURCE_COMMIT"] = subprocess.run(
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+======================================================================
+ERROR: test_safe_failed_v3_before_m4 (__main__.UnifiedRecoveryHooks)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 170, in test_safe_failed_v3_before_m4
+    diag = self._run_hook("BEFORE_M4_FAIL_V3_CONFIRMED", "09-failed-v3", "FAILED_V3_CONFIRMED")
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 123, in _run_hook
+    self._preflight()
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 98, in _preflight
+    result = self._cli("preflight")
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 91, in _cli
+    env["PFC_R2B_RECOVERY_TEST_SOURCE_COMMIT"] = subprocess.run(
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+======================================================================
+ERROR: test_unknown_point_is_refused_without_fallback (__main__.UnifiedRecoveryHooks)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 187, in test_unknown_point_is_refused_without_fallback
+    self._preflight()
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 98, in _preflight
+    result = self._cli("preflight")
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 91, in _cli
+    env["PFC_R2B_RECOVERY_TEST_SOURCE_COMMIT"] = subprocess.run(
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+======================================================================
+ERROR: test_wrong_domain_is_refused_before_hook (__main__.UnifiedRecoveryHooks)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 175, in test_wrong_domain_is_refused_before_hook
+    self._preflight()
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 98, in _preflight
+    result = self._cli("preflight")
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 91, in _cli
+    env["PFC_R2B_RECOVERY_TEST_SOURCE_COMMIT"] = subprocess.run(
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+======================================================================
+ERROR: test_wrong_missing_and_symlink_markers_refuse_formal_gate (__main__.UnifiedRecoveryHooks)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 203, in test_wrong_missing_and_symlink_markers_refuse_formal_gate
+    cases.append(("wrong-marker", self._cli("preflight")))
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source/scripts/test_wp04r2b3c1_recovery_hooks.py", line 91, in _cli
+    env["PFC_R2B_RECOVERY_TEST_SOURCE_COMMIT"] = subprocess.run(
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+----------------------------------------------------------------------
+Ran 12 tests in 25.136s
+
+FAILED (errors=10)

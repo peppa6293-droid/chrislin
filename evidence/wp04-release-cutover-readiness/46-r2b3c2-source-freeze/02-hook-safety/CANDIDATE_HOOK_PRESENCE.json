@@ -1,0 +1,32 @@
+{
+  "syntheticCandidate": "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/candidate-build-02/cargo-target/release/bundle/macos/\u5c0f\u94b1\u5bb6.app/Contents/MacOS/personal-finance-console",
+  "syntheticExecutableSha256": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+  "syntheticFeatureSet": "wp04-r2b-synthetic,wp04-r2b-recovery-test-hooks,tauri/custom-protocol",
+  "recoveryDiagnosticPresent": true,
+  "recoveryTestHooksPresent": true,
+  "checkedSyntheticMarkers": [
+    "PFC_R2B_RECOVERY_TEST_POINT",
+    "PFC_R2B_RECOVERY_TEST_DOMAIN",
+    "RECOVERY_TEST_INJECTION.json",
+    "AFTER_S5_QUIESCENCE_ACQUIRED"
+  ],
+  "presentSyntheticMarkers": [
+    "PFC_R2B_RECOVERY_TEST_POINT",
+    "PFC_R2B_RECOVERY_TEST_DOMAIN",
+    "RECOVERY_TEST_INJECTION.json",
+    "AFTER_S5_QUIESCENCE_ACQUIRED"
+  ],
+  "defaultProductionBinary": "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/regression-worktree/src-tauri/target/debug/personal-finance-console",
+  "defaultExecutableSha256": "a1651770de47d71e2534540cfc60a465be762e704831254e601c941820291599",
+  "checkedDefaultMarkers": [
+    "PFC_R2B_RECOVERY_TEST_POINT",
+    "PFC_R2B_RECOVERY_TEST_DOMAIN",
+    "RECOVERY_TEST_INJECTION.json",
+    "AFTER_S5_QUIESCENCE_ACQUIRED"
+  ],
+  "presentDefaultMarkers": [],
+  "productionHookReachability": "NONE",
+  "candidateLaunched": false,
+  "recoveryDiagnosticSourceSha256": "5b29659c7258662ac517c2aecf1d1b8ed7622e4a4eacc56478a1e6b3887260dc",
+  "recoveryDiagnosticScope": "Frozen source toolchain; diagnostic is not embedded as a separate native executable."
+}

@@ -1,0 +1,50 @@
+   Device Identifier:         disk3s5
+   Device Node:               /dev/disk3s5
+   Whole:                     No
+   Part of Whole:             disk3
+
+   Volume Name:               Data
+   Mounted:                   Yes
+   Mount Point:               /System/Volumes/Data
+
+   Partition Type:            41504653-0000-11AA-AA11-00306543ECAC
+   File System Personality:   APFS
+   Type (Bundle):             apfs
+   Name (User Visible):       APFS
+   Owners:                    Enabled
+
+   OS Can Be Installed:       Yes
+   Booter Disk:               disk3s2
+   Recovery Disk:             disk3s3
+   Media Type:                通用
+   Protocol:                  Apple Fabric
+   SMART Status:              Verified
+   Volume UUID:               52C9C307-2528-4A04-ACAA-7CF623EE2511
+   Disk / Partition UUID:     52C9C307-2528-4A04-ACAA-7CF623EE2511
+
+   Disk Size:                 494.3 GB (494332366848 Bytes) (exactly 965492904 512-Byte-Units)
+   Device Block Size:         4096 Bytes
+
+   Volume Used Space:         423.2 GB (423218204672 Bytes) (exactly 826598056 512-Byte-Units)
+   Container Total Space:     494.3 GB (494332366848 Bytes) (exactly 965492904 512-Byte-Units)
+   Container Free Space:      33.6 GB (33631428608 Bytes) (exactly 65686384 512-Byte-Units)
+   Allocation Block Size:     4096 Bytes
+
+   Media OS Use Only:         No
+   Media Read-Only:           No
+   Volume Read-Only:          No
+
+   Device Location:           Internal
+   Removable Media:           Fixed
+
+   Solid State:               Yes
+   Hardware AES Support:      Yes
+
+   This disk is an APFS Volume.  APFS Information:
+   APFS Container:            disk3
+   APFS Physical Store:       disk0s2
+   APFS Volume Group:         52C9C307-2528-4A04-ACAA-7CF623EE2511
+   FileVault:                 Yes
+   Sealed:                    No
+   Locked:                    No
+

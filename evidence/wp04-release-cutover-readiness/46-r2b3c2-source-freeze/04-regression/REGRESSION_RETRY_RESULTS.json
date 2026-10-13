@@ -1,0 +1,97 @@
+{
+  "workOrder": "WP-04R2B3C2",
+  "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+  "executionRoot": "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/regression-worktree",
+  "environment": {
+    "APPLE_SIGNING_IDENTITY": "Apple Development: 8619814730147 (FW5KHTFNZ6)",
+    "PYTHONPATH": "scripts"
+  },
+  "results": [
+    {
+      "name": "r2b1b-native",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "scripts.test_wp04r2b1b_native_handoff",
+        "-v"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "stdout": "r2b1b-native.retry.stdout.txt",
+      "stderr": "r2b1b-native.retry.stderr.txt"
+    },
+    {
+      "name": "r2b3a-diagnostic",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "scripts.test_unified_r2b_recovery",
+        "-v"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "stdout": "r2b3a-diagnostic.retry.stdout.txt",
+      "stderr": "r2b3a-diagnostic.retry.stderr.txt"
+    },
+    {
+      "name": "native-lease-build",
+      "command": [
+        "cargo",
+        "build",
+        "--manifest-path",
+        "src-tauri/Cargo.toml",
+        "--features",
+        "quiescence-fixture,wp04-r2b-recovery-test-hooks",
+        "--bin",
+        "quiescence-fixture"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "stdout": "native-lease-build.retry.stdout.txt",
+      "stderr": "native-lease-build.retry.stderr.txt"
+    },
+    {
+      "name": "native-lease",
+      "command": [
+        "python3",
+        "scripts/quiescence_native_lease_tests.py",
+        "--native",
+        "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/regression-worktree/src-tauri/target/debug/quiescence-fixture",
+        "--output",
+        "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/wp04-release-cutover-readiness/46-r2b3c2-source-freeze/04-regression/native-lease-results-retry.json"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "stdout": "native-lease.retry.stdout.txt",
+      "stderr": "native-lease.retry.stderr.txt"
+    },
+    {
+      "name": "forward-m4",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff.test_formal_gate_cli_rust_claim_ledger_runner_completes_s10",
+        "-v"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "stdout": "forward-m4.retry.stdout.txt",
+      "stderr": "forward-m4.retry.stderr.txt"
+    },
+    {
+      "name": "recovery-hooks-12",
+      "command": [
+        "python3",
+        "scripts/test_wp04r2b3c1_recovery_hooks.py"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "stdout": "recovery-hooks-12.retry.stdout.txt",
+      "stderr": "recovery-hooks-12.retry.stderr.txt"
+    }
+  ],
+  "allPassed": true
+}

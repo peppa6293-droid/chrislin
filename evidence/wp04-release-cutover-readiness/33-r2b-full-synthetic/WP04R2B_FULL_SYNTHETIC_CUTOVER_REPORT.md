@@ -215,3 +215,12 @@ All 7 native hook points were reached through formal Gate → Rust consumer → 
 Implementation source commit: `c3da2f73c03b681957b4334751b7933d102caad1`. The previous candidate hashes are unchanged and it is classified `R2B_PRE_RECOVERY_TEST_HOOKS_BASELINE`; no final candidate package was built. Production and its database were not touched; WP02 and Financial Model V1.0 were not changed; WP03 acceptance was preserved. Full-chain recovery matrix, Q01–Q18 closure, renderer, audit and final candidate build remain NOT RUN. Overall WP04R2B remains BLOCKED.
 
 Report: `WP04R2B3C1_RECOVERY_TEST_HOOKS_REPORT.md`. Evidence root: `evidence/wp04-release-cutover-readiness/45-r2b3c1-recovery-test-hooks/`. Next: WP04R2B3C2 source freeze and candidate rebuild.
+
+
+## R2B3C2 Recovery-Hooks Source Freeze
+
+**`WP04R2B3C2_SOURCE_FREEZE_READY` — 2026-10-13.** Recovery-hook runtime source frozen at `c3da2f73c03b681957b4334751b7933d102caad1`. Runtime source review passed; WP03 R5 product directories are unchanged; Financial Model V1.0 unchanged; tracked runtime tree clean. Full prescribed regressions passed after correcting test execution context: product 300/300, R2B3A diagnostic 9/9, Recovery Hooks 12/12, native lease 15/15, component recovery 16/16 (`COMPONENT_ONLY`), and formal Gate → Rust → S0–S10 → Migration 4 exactly once.
+
+A fresh clean-archive synthetic candidate was built with `wp04-r2b-synthetic,wp04-r2b-recovery-test-hooks,tauri/custom-protocol`, bound to the frozen source archive (1,323 files, SHA-256 `e2f06d023eca661079406821cac23373b874a81867c95dccb6f1e503ecef6ce3`), bundle ID `org.pfc.quiescence.integration`, executable SHA-256 `e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf`, manifest SHA-256 `cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc`. Apple Development strict codesign PASS (Team ID `SSRKA7A4TN`). Synthetic candidate hook markers present; default Production binary hook reachability NONE. Candidate not launched. An initial misconfigured candidate build was rejected and preserved; only the corrected attempt is bound.
+
+Full-chain recovery matrix, Q01–Q18 closure and Renderer were not run. Overall WP04R2B remains `WP04R2B_SYNTHETIC_CUTOVER_BLOCKED`; Production, WP02 and Financial Model were not touched; WP03 acceptance preserved. Report: `WP04R2B3C2_SOURCE_FREEZE_REPORT.md`; binding and evidence: `evidence/wp04-release-cutover-readiness/46-r2b3c2-source-freeze/`. Next: Planning / Owner issues the WP04R2B3C3 acceptance work order.

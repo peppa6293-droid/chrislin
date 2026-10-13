@@ -1,0 +1,12 @@
+{
+  "workOrder": "WP-04R2B3C2",
+  "defaultBuildFeatureSet": "default (no wp04-r2b-recovery-test-hooks)",
+  "defaultExecutable": "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/regression-worktree/src-tauri/target/debug/personal-finance-console",
+  "defaultExecutableSha256": "a1651770de47d71e2534540cfc60a465be762e704831254e601c941820291599",
+  "hookParametersTried": true,
+  "negativeHarness": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/wp04-release-cutover-readiness/46-r2b3c2-source-freeze/05-production-negative/default-feature-parameters-ignored.json",
+  "defaultBinarySymbolCheck": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/wp04-release-cutover-readiness/46-r2b3c2-source-freeze/05-production-negative/production-default-build-symbols.json",
+  "hookReachability": "NONE",
+  "evidenceReadback": "PASS",
+  "candidateLaunched": false
+}

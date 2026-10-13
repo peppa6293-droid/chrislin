@@ -1,0 +1,9 @@
+{
+  "cargoLockSha256": "5a58d1e21d6de8bbfdb3d3cb0332e2fe06516ea0790f2e9c14127b0943f054c8",
+  "packageLockSha256": "3f2152b71eba56701d63ae1c39b1c583543f8109a146bf5dc2e955256cbfba16",
+  "baseTauriConfigSha256": "0c442bf8421f16d737d086d5036de3f56237f6f01033867e14e6c5cd04baf425",
+  "recoveryDiagnosticSourceSha256": "5b29659c7258662ac517c2aecf1d1b8ed7622e4a4eacc56478a1e6b3887260dc",
+  "recoveryTestHooksSourceSha256": "9499a065e33c5ca87544dff494b6a59d9d5e81fe4b6c4df2e95b3a5c3d09f7ec",
+  "releaseGateSourceSha256": "8586506e7e15a2e046c6eab739944728f7a699d4fa636d56d1e6ac59acdb286e",
+  "nativeRunnerSourceSha256": "9499a065e33c5ca87544dff494b6a59d9d5e81fe4b6c4df2e95b3a5c3d09f7ec"
+}

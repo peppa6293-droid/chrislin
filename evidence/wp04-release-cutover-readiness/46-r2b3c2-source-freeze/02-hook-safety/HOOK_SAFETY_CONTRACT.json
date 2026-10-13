@@ -1,0 +1,9 @@
+{
+  "cargoFeature": "wp04-r2b-recovery-test-hooks",
+  "dependsOn": "wp04-r2b-synthetic",
+  "exactDomain": "UNIFIED_R2B_SYNTHETIC",
+  "exactMarker": "PFC_WP04_SYNTHETIC_CUTOVER_V1\\n",
+  "unknownPoint": "REFUSE",
+  "defaultBuildReachability": "must be established by executable regression",
+  "sourceReview": "feature-gated readers/handlers; default compile stubs no-op"
+}

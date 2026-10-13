@@ -1,0 +1,18 @@
+{
+  "candidateSourceRoot": "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/candidate-source-02/source",
+  "candidateBuildRoot": "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/candidate-build-02",
+  "candidateBuildTarget": "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/candidate-build-02/cargo-target",
+  "candidatePath": "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/candidate-build-02/cargo-target/release/bundle/macos/小钱家.app",
+  "runtimeCompatibilityPath": "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/candidate-build-02/build/runtime-compatibility.json",
+  "runtimeCompatibilitySha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+  "tauriSyntheticConfigPath": "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/candidate-build-02/tauri.effective.synthetic.json",
+  "effectiveSyntheticConfigSha256": "98599f692bf27a6c2a88f81d43aef12ffaa4fe0e7bc0e382b8debe5fb23f5355",
+  "effectiveSyntheticViteConfigPath": "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/candidate-build-02/vite.synthetic.config.mjs",
+  "effectiveSyntheticViteConfigSha256": "7244158dee5a7fc3b9d2eea4efc43cfc737247d17b6073973beba44c8f58609b",
+  "bundleId": "org.pfc.quiescence.integration",
+  "executable": "personal-finance-console",
+  "signingIdentity": "Apple Development: 8619814730147 (FW5KHTFNZ6)",
+  "featureSet": "wp04-r2b-synthetic,wp04-r2b-recovery-test-hooks,tauri/custom-protocol",
+  "candidateLaunched": false,
+  "candidateConfigAppliedInSourceCopy": true
+}

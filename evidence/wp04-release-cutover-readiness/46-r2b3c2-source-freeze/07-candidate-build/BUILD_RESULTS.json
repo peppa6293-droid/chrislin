@@ -1,0 +1,65 @@
+{
+  "workOrder": "WP-04R2B3C2",
+  "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+  "sourceArchiveSha256": "e2f06d023eca661079406821cac23373b874a81867c95dccb6f1e503ecef6ce3",
+  "candidatePath": "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/candidate-build-02/cargo-target/release/bundle/macos/\u5c0f\u94b1\u5bb6.app",
+  "buildStartedAt": "2026-10-13T06:47:40.931146+00:00",
+  "buildFinishedAt": "2026-10-13T06:48:56.111922+00:00",
+  "commands": [
+    {
+      "name": "npm-ci-02",
+      "command": [
+        "npm",
+        "ci"
+      ],
+      "workingDirectory": "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/candidate-source-02/source",
+      "startedAt": "2026-10-13T06:47:40.931146+00:00",
+      "exitCode": 0,
+      "status": "PASS",
+      "stdout": "npm-ci-02.stdout.txt",
+      "stderr": "npm-ci-02.stderr.txt"
+    },
+    {
+      "name": "vite-production-02",
+      "command": [
+        "npx",
+        "vite",
+        "build",
+        "--config",
+        "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/candidate-build-02/vite.synthetic.config.mjs"
+      ],
+      "workingDirectory": "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/candidate-source-02/source",
+      "startedAt": "2026-10-13T06:47:42.968681+00:00",
+      "exitCode": 0,
+      "status": "PASS",
+      "stdout": "vite-production-02.stdout.txt",
+      "stderr": "vite-production-02.stderr.txt"
+    },
+    {
+      "name": "tauri-synthetic-build-02",
+      "command": [
+        "npx",
+        "tauri",
+        "build",
+        "--bundles",
+        "app",
+        "--features",
+        "wp04-r2b-synthetic,wp04-r2b-recovery-test-hooks,tauri/custom-protocol",
+        "--ci"
+      ],
+      "workingDirectory": "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/candidate-source-02/source",
+      "startedAt": "2026-10-13T06:47:44.268554+00:00",
+      "exitCode": 0,
+      "status": "PASS",
+      "stdout": "tauri-synthetic-build-02.stdout.txt",
+      "stderr": "tauri-synthetic-build-02.stderr.txt"
+    }
+  ],
+  "allCommandsPassed": true,
+  "candidateExists": true,
+  "candidateLaunched": false,
+  "executableSha256": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+  "manifestSha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+  "featureSet": "wp04-r2b-synthetic,wp04-r2b-recovery-test-hooks,tauri/custom-protocol",
+  "activeTauriConfigReplacement": true
+}

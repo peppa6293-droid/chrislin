@@ -1,0 +1,26 @@
+{
+  "buildRoot": "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/candidate-build-02",
+  "outsideCloudDocs": true,
+  "df": {
+    "command": [
+      "df",
+      "-P",
+      "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/candidate-build-02"
+    ],
+    "exitCode": 0,
+    "stdout": "Filesystem   512-blocks      Used Available Capacity  Mounted on\n/dev/disk3s5  965492904 826598056  65686384    93%    /System/Volumes/Data\n",
+    "stderr": ""
+  },
+  "volumeInfo": {
+    "command": [
+      "diskutil",
+      "info",
+      "/System/Volumes/Data"
+    ],
+    "exitCode": 0,
+    "stdout": "   Device Identifier:         disk3s5\n   Device Node:               /dev/disk3s5\n   Whole:                     No\n   Part of Whole:             disk3\n\n   Volume Name:               Data\n   Mounted:                   Yes\n   Mount Point:               /System/Volumes/Data\n\n   Partition Type:            41504653-0000-11AA-AA11-00306543ECAC\n   File System Personality:   APFS\n   Type (Bundle):             apfs\n   Name (User Visible):       APFS\n   Owners:                    Enabled\n\n   OS Can Be Installed:       Yes\n   Booter Disk:               disk3s2\n   Recovery Disk:             disk3s3\n   Media Type:                \u901a\u7528\n   Protocol:                  Apple Fabric\n   SMART Status:              Verified\n   Volume UUID:               52C9C307-2528-4A04-ACAA-7CF623EE2511\n   Disk / Partition UUID:     52C9C307-2528-4A04-ACAA-7CF623EE2511\n\n   Disk Size:                 494.3 GB (494332366848 Bytes) (exactly 965492904 512-Byte-Units)\n   Device Block Size:         4096 Bytes\n\n   Volume Used Space:         423.2 GB (423218204672 Bytes) (exactly 826598056 512-Byte-Units)\n   Container Total Space:     494.3 GB (494332366848 Bytes) (exactly 965492904 512-Byte-Units)\n   Container Free Space:      33.6 GB (33631428608 Bytes) (exactly 65686384 512-Byte-Units)\n   Allocation Block Size:     4096 Bytes\n\n   Media OS Use Only:         No\n   Media Read-Only:           No\n   Volume Read-Only:          No\n\n   Device Location:           Internal\n   Removable Media:           Fixed\n\n   Solid State:               Yes\n   Hardware AES Support:      Yes\n\n   This disk is an APFS Volume.  APFS Information:\n   APFS Container:            disk3\n   APFS Physical Store:       disk0s2\n   APFS Volume Group:         52C9C307-2528-4A04-ACAA-7CF623EE2511\n   FileVault:                 Yes\n   Sealed:                    No\n   Locked:                    No\n\n",
+    "stderr": ""
+  },
+  "apfsConfirmed": true,
+  "candidateLaunched": false
+}

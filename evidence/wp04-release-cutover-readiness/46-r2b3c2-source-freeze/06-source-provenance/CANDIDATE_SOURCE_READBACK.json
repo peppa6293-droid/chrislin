@@ -1,0 +1,17 @@
+{
+  "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+  "candidateSourceRoot": "/Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/candidate-source-02/source",
+  "archiveTrackedFileCount": 1323,
+  "sourceBlobMismatchCount": 0,
+  "intentionalConfigOverlayCount": 1,
+  "intentionalConfigOverlay": [
+    {
+      "path": "src-tauri/tauri.conf.json",
+      "status": "INTENTIONAL_BUILD_CONFIG_OVERLAY",
+      "sourceBlobSha": "1226460eca7c69439859abedac2ef5ffd67f71e0",
+      "effectiveConfigSha256": "98599f692bf27a6c2a88f81d43aef12ffaa4fe0e7bc0e382b8debe5fb23f5355"
+    }
+  ],
+  "mismatches": [],
+  "result": "PASS"
+}

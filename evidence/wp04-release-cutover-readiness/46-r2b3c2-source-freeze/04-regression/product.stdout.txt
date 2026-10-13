@@ -1,0 +1,13 @@
+
+> personal-finance-console@0.1.0 test:product
+> vitest run tests
+
+
+ RUN  v5.0.3 /Users/linte/Library/Caches/pfc-wp04r2b3c2-c3da2f7/source
+
+
+ Test Files  17 passed (17)
+      Tests  300 passed (300)
+   Start at  14:31:20
+   Duration  3.22s (tests 62%, transform 22%, import 9%, environment 7%, worker 1%)
+

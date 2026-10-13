@@ -1,0 +1,15 @@
+{
+  "runtimeSourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+  "startingHead": "622ecece2b27a88d2ada85bbbc33427794fbabb3",
+  "trackedRuntimeDirty": false,
+  "currentHeadAfterSource": "report/evidence commits only",
+  "sourceChangesFromPreviousFreeze": [
+    "A\tscripts/test_wp04r2b3c1_recovery_hooks.py",
+    "M\tsrc-tauri/Cargo.toml",
+    "M\tsrc-tauri/src/quiescence.rs"
+  ],
+  "productBehaviorChanged": "NO",
+  "financialModelChanged": "NO",
+  "wp03ProductDiffBytes": 0,
+  "review": "Only the recovery test hook feature gate, unified native runner hook points, and dedicated test harness are present in this runtime change slice."
+}
