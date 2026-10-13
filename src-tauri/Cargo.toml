@@ -13,6 +13,7 @@ wp02-preview = []
 wp03-preview = []
 quiescence-fixture = []
 quiescence-tauri = ["quiescence-fixture", "tauri/custom-protocol"]
+wp04-r2b-synthetic = []
 
 [[bin]]
 name = "quiescence-tauri"

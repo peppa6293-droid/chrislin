@@ -20,6 +20,7 @@ from quiescence_gate import MaintenanceLease
 REPO = Path(__file__).resolve().parents[1]
 NATIVE = REPO / "src-tauri/target/debug/quiescence-fixture"
 MODE = qic.UNIFIED_R2B_GATE_OWNED
+EVIDENCE = REPO / "evidence/wp04-release-cutover-readiness/37-r2b-final-rerun/17-regression/native-handoff-component"
 
 
 def digest(path: Path) -> str:
@@ -122,11 +123,11 @@ class UnifiedNativeHandoff(unittest.TestCase):
         self.assertTrue(mutation_result["called"])
         self.assertFalse((self.root / "consumed-ledger.json").exists())
         self.assertFalse((self.root / "r2b1b-s4-stop.json").exists())
-        evidence = REPO / "evidence/wp04-release-cutover-readiness/36-r2b1b-native-handoff/08-drift-negative/results.json"
+        evidence = EVIDENCE / "08-drift-negative/results.json"
         evidence.parent.mkdir(parents=True, exist_ok=True)
         cases = json.loads(evidence.read_text()) if evidence.exists() else {}
         cases[self._testMethodName] = {"result": "REFUSED", "reason": str(blocked.exception),
-                                       "consumedLedgerCount": 0, "s4ReceiptCount": 0}
+                                       "consumedLedgerCount": 0, "terminalCount": 0}
         evidence.write_text(json.dumps(cases, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
         return blocked.exception, mutation_result
 
@@ -233,27 +234,31 @@ class UnifiedNativeHandoff(unittest.TestCase):
                                    synthetic_mode="unified-r2b")
         self.assertEqual(race["winner_count"], 1)
         self.assertEqual(race["loser_count"], 1)
-        self.assertEqual(result["native"]["status"], "S4_CONNECTION_PREPARED")
+        self.assertEqual(result["native"]["status"], "VERIFIED_HANDOFF")
+        self.assertEqual(result["native"]["highestState"], "S10_VERIFIED_HANDOFF")
+        self.assertTrue(result["native"]["migration4Executed"])
+        self.assertEqual(result["native"]["migration4ExecutionCount"], 1)
         self.assertTrue((self.root / "consumed-ledger.json").is_file())
         self.assertFalse((self.root / "gate-permit.json").exists())
         self._save_case("07-replay", "double-consumer-race", {"winnerCount":1,"refusalCount":1,"ledgerCount":1,
-                                                               "runnerS4Count":1})
+                                                               "runnerVerifiedHandoffCount":1})
 
-    def test_formal_gate_cli_rust_claim_ledger_runner_stops_at_s4(self) -> None:
+    def test_formal_gate_cli_rust_claim_ledger_runner_completes_s10(self) -> None:
         before = digest(self.root / "personal-finance-console.sqlite3")
         receipt = self._preflight()
         migrate = self._cli("migrate")
         self.assertEqual(migrate.returncode, 0, migrate.stderr)
         result = json.loads(migrate.stdout)
         native = result["native"]
-        self.assertEqual(native["status"], "S4_CONNECTION_PREPARED")
-        self.assertEqual(native["highestState"], "S4_CONNECTION_PREPARED")
+        self.assertEqual(native["status"], "VERIFIED_HANDOFF")
+        self.assertEqual(native["highestState"], "S10_VERIFIED_HANDOFF")
         self.assertTrue(native["connection"]["opened"])
         self.assertEqual(native["connection"]["busyTimeout"], 0)
         self.assertEqual(native["connection"]["lockingMode"], "exclusive")
-        self.assertFalse(native["beginExclusiveExecuted"])
-        self.assertFalse(native["migration4Executed"])
-        self.assertEqual(native["databaseSchema"], {"userVersion": 3, "migrationRows": [1, 2, 3]})
+        self.assertTrue(native["beginExclusiveExecuted"])
+        self.assertTrue(native["migration4Executed"])
+        self.assertEqual(native["migration4ExecutionCount"], 1)
+        self.assertEqual(native["databaseSchema"], {"userVersion": 4, "migrationRows": [1, 2, 3, 4], "migration4Rows": 1})
         self.assertFalse((self.root / "gate-permit.json").exists())
         self.assertTrue((self.root / "gate-permit.claimed/permit.json").is_file())
         ledger = json.loads((self.root / "consumed-ledger.json").read_text())
@@ -264,15 +269,16 @@ class UnifiedNativeHandoff(unittest.TestCase):
         self.assertEqual(native["continuity"]["gatePermitSha256"], native["continuity"]["runnerAuthorityPermitSha256"])
         self.assertEqual(native["continuity"]["receiptSha256"], digest(self.root / "release-receipt.json"))
         self.assertEqual(native["continuity"]["authorizationSha256"], digest(self.authorization_path))
-        self.assertEqual(digest(self.root / "personal-finance-console.sqlite3"), before)
+        self.assertNotEqual(digest(self.root / "personal-finance-console.sqlite3"), before)
         self.assertEqual(ledger["syntheticOnly"], True)
         self.assertEqual((self.root / "consumed-ledger.json").stat().st_mode & 0o077, 0)
         self.assertEqual(ledger["expiryValidated"], True)
         self.assertFalse((self.root / "permit.json").exists())
         self.assertFalse((self.root / "consumed.json").exists())
-        s4 = json.loads((self.root / "r2b1b-s4-stop.json").read_text())
-        self.assertEqual(s4["state"], "R2B1B_TEST_STOP_BEFORE_QUIESCENCE")
-        self._save_evidence(self.root, receipt, result, ledger, s4)
+        terminal = json.loads((self.root / "verified-handoff.json").read_text())
+        self.assertEqual(terminal["state"], "VERIFIED_HANDOFF")
+        self.assertEqual(terminal["migration4ExecutionCount"], 1)
+        self._save_evidence(self.root, receipt, result, ledger, terminal)
 
     def test_formal_gate_replay_is_refused_after_native_claim(self) -> None:
         self._preflight()
@@ -281,9 +287,9 @@ class UnifiedNativeHandoff(unittest.TestCase):
         ledger_before = (self.root / "consumed-ledger.json").read_bytes()
         replay = self._cli("migrate")
         self.assertNotEqual(replay.returncode, 0)
-        self.assertIn("already claimed", replay.stderr)
+        self.assertTrue(any(message in replay.stderr for message in ("already claimed", "Production migration source must be consistent Schema V3")))
         self.assertEqual((self.root / "consumed-ledger.json").read_bytes(), ledger_before)
-        self._save_case("07-replay", "formal-gate-replay", {"result":"REFUSED","ledgerCountAfter":1,"secondS4":False})
+        self._save_case("07-replay", "formal-gate-replay", {"result":"REFUSED","ledgerCountAfter":1,"secondVerifiedHandoff":False})
 
     def test_unified_domain_cannot_use_legacy_component_raw_permit_entry(self) -> None:
         self._preflight()
@@ -303,14 +309,14 @@ class UnifiedNativeHandoff(unittest.TestCase):
         self._save_case("09-domain-negative", "legacy-runner-bypass", {"result":"REFUSED","exitCode":legacy.returncode,"ledgerCount":0})
 
     @staticmethod
-    def _save_evidence(fixture_root: Path, receipt: dict, result: dict, ledger: dict, s4: dict) -> None:
-        evidence_positive = REPO / "evidence/wp04-release-cutover-readiness/36-r2b1b-native-handoff/05-positive-s4"
+    def _save_evidence(fixture_root: Path, receipt: dict, result: dict, ledger: dict, terminal: dict) -> None:
+        evidence_positive = EVIDENCE / "05-positive-s10"
         evidence_positive.mkdir(parents=True, exist_ok=True)
-        for name, value in (("release-receipt-summary.json", receipt), ("gate-to-s4-result.json", result),
-                            ("consumed-ledger.json", ledger), ("s4-stop.json", s4)):
+        for name, value in (("release-receipt-summary.json", receipt), ("gate-to-s10-result.json", result),
+                            ("consumed-ledger.json", ledger), ("verified-handoff.json", terminal)):
             (evidence_positive / name).write_text(json.dumps(value, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
         source_root = fixture_root
-        evidence_root = REPO / "evidence/wp04-release-cutover-readiness/36-r2b1b-native-handoff"
+        evidence_root = EVIDENCE
         (evidence_root / "06-continuity").mkdir(parents=True, exist_ok=True)
         (evidence_root / "02-consumer").mkdir(parents=True, exist_ok=True)
         (evidence_root / "03-ledger").mkdir(parents=True, exist_ok=True)
@@ -321,10 +327,10 @@ class UnifiedNativeHandoff(unittest.TestCase):
         (evidence_root / "06-continuity/migration-authorization.raw.json").write_bytes((source_root / "gate-inputs/migration-authorization.json").read_bytes())
         (evidence_root / "02-consumer/native-consumer-result.json").write_text(json.dumps(result["native"], indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
         (evidence_root / "03-ledger/consumed-ledger.json").write_text(json.dumps(ledger, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-        (evidence_root / "04-runner-authority/s4-stop-receipt.json").write_text(json.dumps(s4, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-        (evidence_root / "05-positive-s4/c3-managed-isolated-receipt.json").write_bytes((source_root / "SYNTHETIC_C3_MANAGED_ISOLATED.json").read_bytes())
-        (evidence_root / "05-positive-s4/c3-managed-contract.json").write_bytes((source_root / "managed-contract.json").read_bytes())
-        (evidence_root / "05-positive-s4/c3-managed-state-S1.json").write_bytes((source_root / "managed-state-S1_MANAGED_ISOLATED.json").read_bytes())
+        (evidence_root / "04-runner-authority/verified-handoff.json").write_text(json.dumps(terminal, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        (evidence_positive / "c3-managed-isolated-receipt.json").write_bytes((source_root / "SYNTHETIC_C3_MANAGED_ISOLATED.json").read_bytes())
+        (evidence_positive / "c3-managed-contract.json").write_bytes((source_root / "managed-contract.json").read_bytes())
+        (evidence_positive / "c3-managed-state-S1.json").write_bytes((source_root / "managed-state-S1_MANAGED_ISOLATED.json").read_bytes())
         continuity = {**result["native"]["continuity"], "exactBytePermitPreserved": True,
                       "claimedPermitSha256": digest(evidence_root / "06-continuity/gate-issued-permit.raw.json"),
                       "releaseReceiptSha256Readback": digest(evidence_root / "06-continuity/release-receipt.raw.json"),
@@ -336,7 +342,7 @@ class UnifiedNativeHandoff(unittest.TestCase):
 
     @staticmethod
     def _save_case(folder: str, name: str, value: dict) -> None:
-        path = REPO / "evidence/wp04-release-cutover-readiness/36-r2b1b-native-handoff" / folder / "results.json"
+        path = EVIDENCE / folder / "results.json"
         path.parent.mkdir(parents=True, exist_ok=True)
         current = json.loads(path.read_text()) if path.exists() else {}
         current[name] = value

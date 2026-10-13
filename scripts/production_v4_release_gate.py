@@ -941,7 +941,7 @@ def run_gate(
         native_result = json.loads(result.stdout.strip().splitlines()[-1])
     except (IndexError, json.JSONDecodeError) as error:
         raise GateBlocked(["Native migration consumer returned no valid terminal JSON result."]) from error
-    expected_native_status = ("S4_CONNECTION_PREPARED" if unified_r2b else "AUTHORIZATION_CONSUMED_NATIVE_MIGRATION_PENDING") if synthetic_only else "V4_MIGRATION_VERIFIED_NATIVE"
+    expected_native_status = ("VERIFIED_HANDOFF" if unified_r2b else "AUTHORIZATION_CONSUMED_NATIVE_MIGRATION_PENDING") if synthetic_only else "V4_MIGRATION_VERIFIED_NATIVE"
     if native_result.get("event") != "gate_permit_consumed" or native_result.get("status") != expected_native_status or native_result.get("syntheticOnly") is not synthetic_only:
         raise GateBlocked(["Native migration consumer did not confirm the expected domain-specific permit/ledger boundary."])
     return {"status": "NATIVE_CONSUMER_BOUND", "receiptPath": str(receipt_path), "receiptSha256": persisted_receipt_sha256,

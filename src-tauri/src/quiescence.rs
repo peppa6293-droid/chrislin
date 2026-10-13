@@ -423,11 +423,11 @@ pub fn hash_entrypoint()->Option<Result<()>> {
 pub fn diagnostic_integrated(root:&str)->Result<Value> {recovery::diagnostic(root)}
 pub fn recover_integrated(root:&str,authorization_path:&str,event:&EventCallback)->Result<Value> {recovery::recover(root,authorization_path,event)}
 
-#[cfg(feature="quiescence-fixture")]
+#[cfg(any(feature="quiescence-fixture", feature="wp04-r2b-synthetic"))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum AuthorityDomain { UnifiedR2bGateOwned }
 
-#[cfg(feature="quiescence-fixture")]
+#[cfg(any(feature="quiescence-fixture", feature="wp04-r2b-synthetic"))]
 struct ValidatedGateAuthority {
     domain: AuthorityDomain,
     root: PathBuf,
@@ -450,14 +450,14 @@ struct ValidatedGateAuthority {
     lease: Lease,
 }
 
-#[cfg(feature="quiescence-fixture")]
+#[cfg(any(feature="quiescence-fixture", feature="wp04-r2b-synthetic"))]
 fn exact_hash(path:&Path, expected:&str)->Result<String> {
     let actual=hash_file(path)?;
     require(actual==expected,"GATE_AUTHORITY_HASH_MISMATCH")?;
     Ok(actual)
 }
 
-#[cfg(feature="quiescence-fixture")]
+#[cfg(any(feature="quiescence-fixture", feature="wp04-r2b-synthetic"))]
 fn consume_unified_gate_permit(raw:&str)->Result<(ValidatedGateAuthority,Value)> {
     let supplied=Path::new(raw);
     let root=fs::canonicalize(supplied)?;
@@ -606,7 +606,7 @@ fn consume_unified_gate_permit(raw:&str)->Result<(ValidatedGateAuthority,Value)>
     Ok((authority,response))
 }
 
-#[cfg(feature="quiescence-fixture")]
+#[cfg(any(feature="quiescence-fixture", feature="wp04-r2b-synthetic"))]
 pub fn run_unified_gate_handoff(root:&str)->Result<Value> {
     let (authority,mut result)=consume_unified_gate_permit(root)?;
     require(authority.domain==AuthorityDomain::UnifiedR2bGateOwned&&authority.bundle_id=="org.pfc.quiescence.integration"&&
@@ -639,15 +639,75 @@ pub fn run_unified_gate_handoff(root:&str)->Result<Value> {
     same_object(&connection,&authority.root,&authority.database_identity)?;
     sidecars(&authority.root,false,&authority.database_identity)?;
     schema(&connection,3)?;
-    drop(connection);
     let post_hash=hash_file(&db)?;
     require(post_hash==authority.database_sha256,"S4_DATABASE_BYTES_CHANGED")?;
     authority.lease.validate()?;
-    result["status"]=json!("S4_CONNECTION_PREPARED");
-    result["highestState"]=json!("S4_CONNECTION_PREPARED");
-    result["beginExclusiveExecuted"]=json!(false);
-    result["migration4Executed"]=json!(false);
-    result["databaseSchema"]=json!({"userVersion":3,"migrationRows":[1,2,3]});
+    let stages_path=authority.root.join("r2b-s0-s10.jsonl");
+    let mut stages=OpenOptions::new().write(true).create_new(true).mode(0o600).custom_flags(libc::O_NOFOLLOW|libc::O_CLOEXEC).open(&stages_path)?;
+    let mut record_stage=|stage:&str, details:Value|->Result<()> {
+        authority.lease.validate()?;
+        serde_json::to_writer(&mut stages,&json!({"stage":stage,"details":details,"permitSha256":authority.permit_sha256,"session":authority.session}))?;
+        stages.write_all(b"\n")?; stages.sync_all()?; sync_dir(&authority.root)?;
+        authority.lease.validate()?; Ok(())
+    };
+    record_stage("S4_CONNECTION_PREPARED",json!({"busyTimeout":busy,"lockingMode":locking,"journalMode":journal,"databaseIdentity":authority.database_identity}))?;
+    connection.execute_batch("BEGIN EXCLUSIVE")?;
+    guarded(&connection,&authority.root,&authority.database_identity)?;
+    record_stage("S5_QUIESCENCE_ACQUIRED",json!({"lockState":file_control(&connection,rusqlite::ffi::SQLITE_FCNTL_LOCKSTATE)?}))?;
+    schema(&connection,3)?;
+    let pre_business=business_snapshot(&connection)?;
+    record_stage("S6_V3_REVALIDATED",json!({"databaseSha256":authority.database_sha256,"businessSnapshotSha256":format!("{:x}",Sha256::digest(serde_json::to_vec(&pre_business)?))}))?;
+    guarded(&connection,&authority.root,&authority.database_identity)?;
+    let mut migration_statements=0usize;
+    for sql in M4.split(';').filter(|statement|!statement.trim().is_empty()) {
+        connection.execute_batch(sql)?; migration_statements+=1;
+        guarded(&connection,&authority.root,&authority.database_identity)?;
+    }
+    connection.execute("INSERT INTO schema_migrations(version,applied_at) VALUES(4,strftime('%Y-%m-%dT%H:%M:%fZ','now'))",[])?;
+    schema(&connection,4)?;
+    require(business_snapshot(&connection)?==pre_business,"GATE_M4_BUSINESS_CHANGED")?;
+    let migration_rows:i64=connection.query_row("SELECT COUNT(*) FROM schema_migrations WHERE version=4",[],|row|row.get(0))?;
+    require(migration_rows==1,"GATE_M4_ROW_NOT_EXACTLY_ONCE")?;
+    record_stage("S7_M4_IN_TRANSACTION",json!({"migration":"migrations/004.sql","migrationStatements":migration_statements,"migration4Rows":migration_rows,"transactionOpen":!connection.is_autocommit()}))?;
+    guarded(&connection,&authority.root,&authority.database_identity)?;
+    record_stage("S8_COMMIT_OUTCOME_UNKNOWN",json!({"commitAttempted":false,"transactionOpen":!connection.is_autocommit()}))?;
+    connection.execute_batch("COMMIT")?;
+    require(connection.is_autocommit(),"GATE_COMMIT_NOT_AUTOCOMMIT")?;
+    schema(&connection,4)?;
+    require(business_snapshot(&connection)?==pre_business,"GATE_POST_COMMIT_BUSINESS_CHANGED")?;
+    record_stage("S8_COMMIT_VERIFIED",json!({"committed":true,"userVersion":4,"migration4Rows":migration_rows}))?;
+    guarded(&connection,&authority.root,&authority.database_identity)?;
+    schema(&connection,4)?;
+    let post_business=business_snapshot(&connection)?;
+    require(post_business==pre_business,"GATE_S9_BUSINESS_CHANGED")?;
+    let sides=sidecars(&authority.root,true,&authority.database_identity)?;
+    require(sides["-wal"].is_null()&&sides["-shm"].is_null(),"GATE_S9_UNEXPECTED_SIDECAR")?;
+    record_stage("S9_POST_READBACK_GUARDED",json!({"schema":4,"migrationRows":[1,2,3,4],"migration4Rows":migration_rows,"integrity":"ok","foreignKeys":[],"businessPreserved":true,"sidecars":sides}))?;
+    authority.lease.validate()?;
+    drop(record_stage);
+    drop(connection);
+    drop(stages);
+    let post_hash=hash_file(&db)?;
+    let terminal_path=authority.root.join("verified-handoff.json");
+    require(!present_or_unreadable(&terminal_path),"GATE_TERMINAL_ALREADY_EXISTS")?;
+    let terminal=json!({"state":"VERIFIED_HANDOFF","syntheticOnly":true,"domain":"UNIFIED_R2B_GATE_OWNED","session":authority.session,"nonce":authority.nonce,
+        "authorizationId":authority.authorization_id,"permitSha256":authority.permit_sha256,"receiptSha256":authority.receipt_sha256,"authorizationSha256":authority.authorization_sha256,
+        "candidateApprovalSha256":authority.candidate_approval_sha256,"candidateSha256":authority.candidate_sha256,"manifestSha256":authority.manifest_sha256,
+        "databaseIdentity":authority.database_identity,"databaseSha256Before":authority.database_sha256,"databaseSha256After":post_hash,
+        "backupIdentity":authority.backup_identity,"backupSha256":authority.backup_sha256,"schema":{"userVersion":4,"migrationRows":[1,2,3,4],"migration4Rows":1},
+        "migration4Executed":true,"migration4ExecutionCount":1,"businessPreserved":true,"connectionClosed":true,"leaseHeldAtHandoff":true});
+    durable(&authority.root,"verified-handoff.json",&terminal)?;
+    let terminal_readback:Value=serde_json::from_slice(&fs::read(&terminal_path)?)?;
+    require(terminal_readback==terminal,"GATE_TERMINAL_READBACK")?;
+    authority.lease.validate()?;
+    let stages_readback=fs::read_to_string(&stages_path)?;
+    for required in ["S4_CONNECTION_PREPARED","S5_QUIESCENCE_ACQUIRED","S6_V3_REVALIDATED","S7_M4_IN_TRANSACTION","S8_COMMIT_VERIFIED","S9_POST_READBACK_GUARDED"] {require(stages_readback.contains(required),"GATE_STAGE_LOG_INCOMPLETE")?;}
+    result["status"]=json!("VERIFIED_HANDOFF");
+    result["highestState"]=json!("S10_VERIFIED_HANDOFF");
+    result["beginExclusiveExecuted"]=json!(true);
+    result["migration4Executed"]=json!(true);
+    result["migration4ExecutionCount"]=json!(1);
+    result["databaseSchema"]=json!({"userVersion":4,"migrationRows":[1,2,3,4],"migration4Rows":1});
     result["connection"]=json!({"opened":true,"busyTimeout":busy,"lockingMode":locking,"journalMode":journal,"create":false});
     result["continuity"]=json!({"gatePermitSha256":authority.permit_sha256,"consumerInputSha256":authority.permit_sha256,
         "claimedPermitSha256":authority.permit_sha256,"ledgerPermitSha256":authority.permit_sha256,
@@ -658,13 +718,8 @@ pub fn run_unified_gate_handoff(root:&str)->Result<Value> {
         "databaseIdentity":authority.database_identity,"candidateBundleId":authority.bundle_id,
         "domain":"UNIFIED_R2B_GATE_OWNED","session":authority.session,"nonce":authority.nonce,
         "authorizationId":authority.authorization_id,"expiryValidated":authority.expiry_validated,
-        "expiresAtUnix":authority.expires_at_unix,"databaseSha256After":post_hash});
-    durable(&authority.root,"r2b1b-s4-stop.json",&json!({"state":"R2B1B_TEST_STOP_BEFORE_QUIESCENCE",
-        "highestState":"S4_CONNECTION_PREPARED","connectionOpenConfirmed":true,"busyTimeout":busy,
-        "lockingMode":locking,"journalMode":journal,"beginExclusiveExecuted":false,"migration4Executed":false,
-        "databaseSha256Before":authority.database_sha256,"databaseSha256After":post_hash,
-        "permitSha256":authority.permit_sha256,"receiptSha256":authority.receipt_sha256,
-        "authorizationSha256":authority.authorization_sha256,"session":authority.session}))?;
+        "expiresAtUnix":authority.expires_at_unix,"databaseSha256After":post_hash,"terminalSha256":hash_file(&terminal_path)?});
+    result["terminal"]=terminal_readback;
     Ok(result)
 }
 
