@@ -1,0 +1,20 @@
+af71749 Record R2C3A startup exclusion validation
+7b4a9c1 Add native exclusion for Production startup and migration
+266c55d docs: assess WP04R2C2 renderer applicability boundary
+3f70929 docs: record WP04R2C renderer testability block
+ca9e55e Document R2B Q10 SQLITE_LOCKED closure
+ed73e97 Document R2B3C3 full-chain acceptance closure
+fc35cac Record WP04R2B3C2 final readback
+1d8c675 Record WP04R2B3C2 source freeze and candidate
+622ecec Record R2B3C1 final readback
+e296049 Document R2B3C1 recovery hook readiness
+c3da2f7 Add unified synthetic recovery test hooks
+4d91e44 Add R2B3B2 final readback receipt
+30e8cc1 Record R2B3B2 recovery acceptance blocker
+1c2a305 Record WP04R2B3B1 final candidate readback
+800dc5f Report WP04R2B3B1 frozen recovery candidate
+ef23dbc Record WP04R2B3A post-commit readback
+a0c067d Report WP04R2B3A recovery diagnostic readiness
+713e4c5 Trim recovery diagnostic source whitespace
+60be80a Add unified R2B recovery diagnostic entrypoint
+df335e5 Finalize WP04R2B evidence readback receipt

@@ -6,6 +6,7 @@ use std::{io::{Read, Write}, os::unix::fs::MetadataExt, path::{Path, PathBuf}, s
 use tauri::{Manager, State};
 
 mod cutover_startup;
+mod production_cutover_state;
 mod startup_exclusion;
 mod wp02_preview_isolation;
 mod wp03_preview_isolation;
@@ -68,7 +69,7 @@ struct ProductionMigrationAuthorization {
     owner_authorization_id: Option<String>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 struct ConsumedAuthorization {
     authorization_id: String,
@@ -76,6 +77,80 @@ struct ConsumedAuthorization {
     consumed_at_unix: u64,
     candidate_executable_sha256: String,
     compatibility_manifest_sha256: String,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(rename_all = "camelCase")]
+struct ProductionCutoverTerminal {
+    format_version: u32,
+    domain: String,
+    synthetic_only: bool,
+    state: String,
+    authorization_id: String,
+    nonce: String,
+    consumed_at_unix: u64,
+    migration_authorization_sha256: String,
+    migration_authorization_contract_sha256: String,
+    release_receipt_path: String,
+    release_receipt_sha256: String,
+    consumed_ledger_path: String,
+    consumed_ledger_sha256: String,
+    candidate_executable_path: String,
+    candidate_executable_sha256: String,
+    compatibility_manifest_path: String,
+    compatibility_manifest_sha256: String,
+    database_path: String,
+    database_device: u64,
+    database_inode: u64,
+    database_pre_migration_sha256: String,
+    database_post_migration_sha256: String,
+    backup_path: String,
+    backup_device: u64,
+    backup_inode: u64,
+    backup_sha256: String,
+    source_user_version: i64,
+    source_migration_version: i64,
+    target_user_version: i64,
+    target_migration_version: i64,
+    migration_rows: Vec<i64>,
+    migration4_row_count: u32,
+    integrity_check: String,
+    foreign_key_violation_count: u64,
+    sidecars_absent: bool,
+}
+
+#[derive(Clone, Debug)]
+struct ProductionMigrationAuthority {
+    authorization: ConsumedAuthorization,
+    migration_authorization_sha256: String,
+    migration_authorization_contract_sha256: String,
+    release_receipt_path: PathBuf,
+    release_receipt_sha256: String,
+    consumed_ledger_path: PathBuf,
+    consumed_ledger_sha256: String,
+    candidate_executable_path: PathBuf,
+    compatibility_manifest_path: PathBuf,
+    database_path: PathBuf,
+    database_device: u64,
+    database_inode: u64,
+    database_pre_migration_sha256: String,
+    backup_path: PathBuf,
+    backup_device: u64,
+    backup_inode: u64,
+    backup_sha256: String,
+}
+
+#[derive(Clone, Debug)]
+struct ProductionMigrationReadback {
+    schema: DatabaseSchemaVersion,
+    migration_rows: Vec<i64>,
+    migration4_row_count: u32,
+    integrity_check: String,
+    foreign_key_violation_count: u64,
+    sidecars_absent: bool,
+    database_sha256: String,
+    database_device: u64,
+    database_inode: u64,
 }
 
 #[derive(Debug, Deserialize)]
@@ -170,19 +245,6 @@ fn validate_runtime_compatibility_manifest(executable: &Path) -> Result<(PathBuf
     Ok((manifest_path, digest))
 }
 
-fn consume_production_migration_authorization(
-    app_data: &Path,
-    database_path: &Path,
-    home: &Path,
-    schema: DatabaseSchemaVersion,
-    executable: &Path,
-    manifest_sha256: &str,
-) -> Result<String, String> {
-    let expected_app = Path::new(PRODUCTION_APP_BUNDLE);
-    let expected_database = home.join("Library/Application Support").join(PRODUCTION_IDENTIFIER).join(PRODUCTION_DATABASE);
-    consume_production_migration_authorization_at(app_data, database_path, expected_app, &expected_database, schema, executable, executable, manifest_sha256, false)
-}
-
 fn database_sidecars(database_path: &Path) -> Result<Vec<PathBuf>, String> {
     let mut found = Vec::new();
     for suffix in ["-wal", "-shm", "-journal"] {
@@ -263,7 +325,7 @@ fn consume_production_migration_authorization_at(
     runtime_executable: &Path,
     manifest_sha256: &str,
     allow_synthetic: bool,
-) -> Result<String, String> {
+) -> Result<ProductionMigrationAuthority, String> {
     if schema != (DatabaseSchemaVersion { user_version: 3, migration_version: 3 }) {
         return Err("Production V4 migration is supported only from a consistent V3 database.".into());
     }
@@ -283,13 +345,11 @@ fn consume_production_migration_authorization_at(
     let claimed_path = app_data.join(format!(".{PRODUCTION_MIGRATION_AUTHORIZATION}.claimed-{}-{claim_nonce}", std::process::id()));
     std::fs::rename(&authorization_path, &claimed_path).map_err(|_| "Production V4 migration is blocked: no unconsumed release-gate authorization is present.".to_string())?;
     let result = (|| {
-        let metadata = std::fs::metadata(&claimed_path).map_err(|error| error.to_string())?;
-        #[cfg(unix)]
-        {
-            use std::os::unix::fs::PermissionsExt;
-            if metadata.permissions().mode() & 0o077 != 0 { return Err("Production migration authorization file permissions must be Owner-only.".into()); }
-        }
-        let authorization: ProductionMigrationAuthorization = serde_json::from_slice(&std::fs::read(&claimed_path).map_err(|error| error.to_string())?).map_err(|error| error.to_string())?;
+        let claimed_name = claimed_path.file_name().and_then(|name| name.to_str()).ok_or("Production authorization claim name is invalid.")?;
+        let authorization_bytes = production_cutover_state::read_authority_file(app_data, claimed_name)?
+            .ok_or("Production migration authorization claim disappeared.")?;
+        let migration_authorization_sha256 = format!("{:x}", Sha256::digest(&authorization_bytes));
+        let authorization: ProductionMigrationAuthorization = serde_json::from_slice(&authorization_bytes).map_err(|error| error.to_string())?;
         let now = std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).map_err(|error| error.to_string())?.as_secs();
         let current_executable = runtime_executable;
         let current_executable_hash = sha256_file(&current_executable)?;
@@ -362,14 +422,37 @@ fn consume_production_migration_authorization_at(
             return Err("Production V4 migration authorization facts no longer match the runtime, database, backup, manifest, or Owner authorization.".into());
         }
         let authorization_id = authorization.owner_authorization_id.clone().filter(|value| !value.trim().is_empty()).ok_or("Owner migration authorization ID is missing.")?;
-        persist_consumed_authorization(&app_data.join(CONSUMED_AUTHORIZATION_LEDGER), ConsumedAuthorization {
+        let consumed = ConsumedAuthorization {
             authorization_id,
-            nonce: authorization.nonce,
+            nonce: authorization.nonce.clone(),
             consumed_at_unix: now,
             candidate_executable_sha256: current_executable_hash,
             compatibility_manifest_sha256: current_manifest_hash,
-        })?;
-        Ok(current_database_hash)
+        };
+        let ledger_path = app_data.join(CONSUMED_AUTHORIZATION_LEDGER);
+        persist_consumed_authorization(&ledger_path, consumed.clone())?;
+        let consumed_ledger_sha256 = sha256_file(&ledger_path)?;
+        let database_metadata = std::fs::symlink_metadata(database_path).map_err(|error| error.to_string())?;
+        let backup_metadata = std::fs::symlink_metadata(&backup_path).map_err(|error| error.to_string())?;
+        Ok(ProductionMigrationAuthority {
+            authorization: consumed,
+            migration_authorization_sha256,
+            migration_authorization_contract_sha256: authorization.migration_authorization_sha256,
+            release_receipt_path: release_receipt_path.canonicalize().map_err(|error| error.to_string())?,
+            release_receipt_sha256: receipt_hash,
+            consumed_ledger_path: ledger_path,
+            consumed_ledger_sha256,
+            candidate_executable_path: current_executable.to_path_buf(),
+            compatibility_manifest_path: manifest_path,
+            database_path: database_path.to_path_buf(),
+            database_device: database_metadata.dev(),
+            database_inode: database_metadata.ino(),
+            database_pre_migration_sha256: current_database_hash,
+            backup_path: backup_path.canonicalize().map_err(|error| error.to_string())?,
+            backup_device: backup_metadata.dev(),
+            backup_inode: backup_metadata.ino(),
+            backup_sha256: authorization.backup_sha256,
+        })
     })();
     let _ = std::fs::remove_file(&claimed_path);
     result
@@ -411,7 +494,51 @@ pub fn consume_synthetic_gate_authorization(root: &Path) -> Result<JsonValue, St
     }))
 }
 
-fn native_migration4(database_path: &Path, expected_sha256: &str) -> Result<JsonValue, String> {
+fn read_production_v4_readback(database_path: &Path) -> Result<ProductionMigrationReadback, String> {
+    let sidecars = database_sidecars(database_path)?;
+    if !sidecars.is_empty() { return Err("SQLite sidecar appeared after native Migration 4.".into()); }
+    let metadata = std::fs::symlink_metadata(database_path).map_err(|error| error.to_string())?;
+    if !metadata.is_file() || metadata.file_type().is_symlink() || metadata.nlink() != 1 {
+        return Err("Production database identity is unsafe after Migration 4.".into());
+    }
+    let connection = Connection::open_with_flags(database_path,
+        OpenFlags::SQLITE_OPEN_READ_ONLY | OpenFlags::SQLITE_OPEN_NO_MUTEX | OpenFlags::SQLITE_OPEN_NOFOLLOW)
+        .map_err(|error| error.to_string())?;
+    let schema = schema_version_from_connection(&connection)?;
+    let migration_rows = {
+        let mut statement = connection.prepare("SELECT version FROM schema_migrations ORDER BY version")
+            .map_err(|error| error.to_string())?;
+        let values = statement.query_map([], |row| row.get::<_, i64>(0)).map_err(|error| error.to_string())?;
+        values.collect::<Result<Vec<_>, _>>().map_err(|error| error.to_string())?
+    };
+    let migration4_row_count: u32 = connection.query_row("SELECT COUNT(*) FROM schema_migrations WHERE version=4", [], |row| row.get::<_, i64>(0))
+        .map_err(|error| error.to_string())?.try_into().map_err(|_| "Migration 4 row count is invalid.")?;
+    let integrity_check: String = connection.query_row("PRAGMA integrity_check", [], |row| row.get(0)).map_err(|error| error.to_string())?;
+    let foreign_key_violation_count = {
+        let mut statement = connection.prepare("PRAGMA foreign_key_check").map_err(|error| error.to_string())?;
+        let rows = statement.query_map([], |_| Ok(())).map_err(|error| error.to_string())?;
+        rows.collect::<Result<Vec<_>, _>>().map_err(|error| error.to_string())?.len() as u64
+    };
+    drop(connection);
+    if schema != (DatabaseSchemaVersion { user_version: 4, migration_version: 4 }) || migration_rows != [1, 2, 3, 4]
+        || migration4_row_count != 1 || integrity_check != "ok" || foreign_key_violation_count != 0 {
+        return Err("Production Migration 4 readback did not satisfy the durable V4 terminal contract.".into());
+    }
+    let final_metadata = std::fs::symlink_metadata(database_path).map_err(|error| error.to_string())?;
+    if !database_sidecars(database_path)?.is_empty() {
+        return Err("SQLite sidecar appeared during post-migration readback.".into());
+    }
+    if (metadata.dev(), metadata.ino(), metadata.nlink()) != (final_metadata.dev(), final_metadata.ino(), final_metadata.nlink()) {
+        return Err("Production database identity changed during post-migration readback.".into());
+    }
+    Ok(ProductionMigrationReadback {
+        schema, migration_rows, migration4_row_count, integrity_check, foreign_key_violation_count,
+        sidecars_absent: true, database_sha256: sha256_file(database_path)?,
+        database_device: final_metadata.dev(), database_inode: final_metadata.ino(),
+    })
+}
+
+fn native_migration4(database_path: &Path, expected_sha256: &str) -> Result<ProductionMigrationReadback, String> {
     if !database_sidecars(database_path)?.is_empty() {
         return Err("Production SQLite sidecar exists before native Migration 4.".into());
     }
@@ -459,19 +586,213 @@ fn native_migration4(database_path: &Path, expected_sha256: &str) -> Result<Json
         return Err(error);
     }
     drop(connection);
-    let final_schema = production_schema_version_from_path(database_path)?;
-    if final_schema != (DatabaseSchemaVersion { user_version: 4, migration_version: 4 }) {
-        return Err("Native Migration 4 post-commit readback did not verify V4.".into());
+    read_production_v4_readback(database_path)
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum ProductionMigrationCheckpoint { AfterPostReadbackBeforeTerminal, BeforeTerminalWrite, BeforeTerminalFileSync, BeforeTerminalDirectorySync, AfterTerminalDurableReadback }
+
+fn make_production_terminal(authority: &ProductionMigrationAuthority, post: &ProductionMigrationReadback, synthetic_only: bool) -> ProductionCutoverTerminal {
+    ProductionCutoverTerminal {
+        format_version: 1, domain: "PRODUCTION".into(), synthetic_only, state: "V4_VERIFIED".into(),
+        authorization_id: authority.authorization.authorization_id.clone(), nonce: authority.authorization.nonce.clone(),
+        consumed_at_unix: authority.authorization.consumed_at_unix,
+        migration_authorization_sha256: authority.migration_authorization_sha256.clone(),
+        migration_authorization_contract_sha256: authority.migration_authorization_contract_sha256.clone(),
+        release_receipt_path: authority.release_receipt_path.to_string_lossy().into_owned(),
+        release_receipt_sha256: authority.release_receipt_sha256.clone(),
+        consumed_ledger_path: authority.consumed_ledger_path.to_string_lossy().into_owned(),
+        consumed_ledger_sha256: authority.consumed_ledger_sha256.clone(),
+        candidate_executable_path: authority.candidate_executable_path.to_string_lossy().into_owned(),
+        candidate_executable_sha256: authority.authorization.candidate_executable_sha256.clone(),
+        compatibility_manifest_path: authority.compatibility_manifest_path.to_string_lossy().into_owned(),
+        compatibility_manifest_sha256: authority.authorization.compatibility_manifest_sha256.clone(),
+        database_path: authority.database_path.to_string_lossy().into_owned(),
+        database_device: post.database_device, database_inode: post.database_inode,
+        database_pre_migration_sha256: authority.database_pre_migration_sha256.clone(),
+        database_post_migration_sha256: post.database_sha256.clone(),
+        backup_path: authority.backup_path.to_string_lossy().into_owned(),
+        backup_device: authority.backup_device, backup_inode: authority.backup_inode, backup_sha256: authority.backup_sha256.clone(),
+        source_user_version: 3, source_migration_version: 3,
+        target_user_version: post.schema.user_version, target_migration_version: post.schema.migration_version,
+        migration_rows: post.migration_rows.clone(), migration4_row_count: post.migration4_row_count,
+        integrity_check: post.integrity_check.clone(), foreign_key_violation_count: post.foreign_key_violation_count,
+        sidecars_absent: post.sidecars_absent,
     }
-    let post_sidecars = database_sidecars(database_path)?;
-    if !post_sidecars.is_empty() { return Err("SQLite sidecar appeared after native Migration 4.".into()); }
+}
+
+fn validate_production_terminal(
+    app_data: &Path, database_path: &Path, executable: &Path, terminal: &ProductionCutoverTerminal, synthetic_only: bool,
+) -> Result<(), String> {
+    if terminal.format_version != 1 || terminal.domain != "PRODUCTION" || terminal.synthetic_only != synthetic_only
+        || terminal.state != "V4_VERIFIED" || terminal.authorization_id.is_empty() || terminal.nonce.is_empty()
+        || terminal.source_user_version != 3 || terminal.source_migration_version != 3
+        || terminal.target_user_version != 4 || terminal.target_migration_version != 4
+        || terminal.migration_rows != [1, 2, 3, 4] || terminal.migration4_row_count != 1
+        || terminal.integrity_check != "ok" || terminal.foreign_key_violation_count != 0 || !terminal.sidecars_absent {
+        return Err("PRODUCTION_TERMINAL_CONTRACT_INVALID".into());
+    }
+    let canonical_app_data = app_data.canonicalize().map_err(|error| error.to_string())?;
+    if canonical_app_data != app_data || terminal.database_path != database_path.to_string_lossy()
+        || database_path.parent() != Some(app_data) || database_path.file_name().and_then(|name| name.to_str()) != Some(PRODUCTION_DATABASE) {
+        return Err("PRODUCTION_TERMINAL_DATABASE_PATH_MISMATCH".into());
+    }
+    let expected_manifest = production_manifest_path(executable)?;
+    if terminal.candidate_executable_path != executable.to_string_lossy()
+        || terminal.compatibility_manifest_path != expected_manifest.to_string_lossy()
+        || sha256_file(executable)? != terminal.candidate_executable_sha256
+        || sha256_file(&expected_manifest)? != terminal.compatibility_manifest_sha256 {
+        return Err("PRODUCTION_TERMINAL_CANDIDATE_BINDING_MISMATCH".into());
+    }
+    let receipt_path = app_data.join(PRODUCTION_RELEASE_RECEIPT);
+    if terminal.release_receipt_path != receipt_path.to_string_lossy() {
+        return Err("PRODUCTION_TERMINAL_RECEIPT_PATH_MISMATCH".into());
+    }
+    let receipt_bytes = production_cutover_state::read_authority_file(app_data, PRODUCTION_RELEASE_RECEIPT)?
+        .ok_or("PRODUCTION_TERMINAL_RELEASE_RECEIPT_MISSING")?;
+    if format!("{:x}", Sha256::digest(&receipt_bytes)) != terminal.release_receipt_sha256 {
+        return Err("PRODUCTION_TERMINAL_RELEASE_RECEIPT_STALE".into());
+    }
+    let receipt: JsonValue = serde_json::from_slice(&receipt_bytes).map_err(|_| "PRODUCTION_TERMINAL_RELEASE_RECEIPT_CORRUPT")?;
+    let installed_app_path = executable.parent().and_then(Path::parent).and_then(Path::parent)
+        .ok_or("PRODUCTION_TERMINAL_CANDIDATE_APP_PATH_INVALID")?;
+    let expected_backup_path = app_data.join("production-v4-backups").join(PRODUCTION_DATABASE);
+    for (field, expected) in [
+        ("productionBundleId", PRODUCTION_IDENTIFIER),
+        ("installedAppPath", installed_app_path.to_string_lossy().as_ref()),
+        ("candidateExecutablePath", executable.to_string_lossy().as_ref()),
+        ("productionDatabasePath", database_path.to_string_lossy().as_ref()),
+        ("releaseReceiptPath", receipt_path.to_string_lossy().as_ref()),
+        ("backupPath", expected_backup_path.to_string_lossy().as_ref()),
+        ("candidateExecutableSha256", terminal.candidate_executable_sha256.as_str()),
+        ("compatibilityManifestSha256", terminal.compatibility_manifest_sha256.as_str()),
+        ("productionDatabasePreMigrationSha256", terminal.database_pre_migration_sha256.as_str()),
+        ("backupSha256", terminal.backup_sha256.as_str()),
+        ("migrationAuthorizationSha256", terminal.migration_authorization_contract_sha256.as_str()),
+        ("ownerAuthorizationId", terminal.authorization_id.as_str()),
+    ] {
+        if receipt.get(field).and_then(JsonValue::as_str) != Some(expected) {
+            return Err(format!("PRODUCTION_TERMINAL_RECEIPT_BINDING_MISMATCH:{field}"));
+        }
+    }
+    if receipt.get("syntheticOnly").and_then(JsonValue::as_bool) != Some(synthetic_only)
+        || receipt.get("sidecarsAbsent").and_then(JsonValue::as_bool) != Some(true)
+        || receipt["productionSchema"]["userVersion"].as_i64() != Some(3)
+        || receipt["productionSchema"]["migrationVersion"].as_i64() != Some(3)
+    {
+        return Err("PRODUCTION_TERMINAL_RELEASE_RECEIPT_SCOPE_MISMATCH".into());
+    }
+    let ledger_path = app_data.join(CONSUMED_AUTHORIZATION_LEDGER);
+    if terminal.consumed_ledger_path != ledger_path.to_string_lossy() {
+        return Err("PRODUCTION_TERMINAL_LEDGER_PATH_MISMATCH".into());
+    }
+    let ledger_bytes = production_cutover_state::read_authority_file(app_data, CONSUMED_AUTHORIZATION_LEDGER)?
+        .ok_or("PRODUCTION_TERMINAL_CONSUMED_LEDGER_MISSING")?;
+    if format!("{:x}", Sha256::digest(&ledger_bytes)) != terminal.consumed_ledger_sha256 {
+        return Err("PRODUCTION_TERMINAL_CONSUMED_LEDGER_STALE".into());
+    }
+    let ledger: Vec<ConsumedAuthorization> = serde_json::from_slice(&ledger_bytes).map_err(|_| "PRODUCTION_TERMINAL_CONSUMED_LEDGER_CORRUPT")?;
+    if ledger.len() != 1 || ledger[0] != (ConsumedAuthorization {
+        authorization_id: terminal.authorization_id.clone(), nonce: terminal.nonce.clone(),
+        consumed_at_unix: terminal.consumed_at_unix,
+        candidate_executable_sha256: terminal.candidate_executable_sha256.clone(),
+        compatibility_manifest_sha256: terminal.compatibility_manifest_sha256.clone(),
+    }) {
+        return Err("PRODUCTION_TERMINAL_CONSUMED_LEDGER_BINDING_MISMATCH".into());
+    }
+    if production_cutover_state::read_authority_file(app_data, PRODUCTION_MIGRATION_AUTHORIZATION)?.is_some() {
+        return Err("PRODUCTION_TERMINAL_PERMIT_RESURRECTED".into());
+    }
+    let backup_path = expected_backup_path;
+    if terminal.backup_path != backup_path.canonicalize().map_err(|error| error.to_string())?.to_string_lossy() {
+        return Err("PRODUCTION_TERMINAL_BACKUP_PATH_MISMATCH".into());
+    }
+    let backup_meta = std::fs::symlink_metadata(&backup_path).map_err(|_| "PRODUCTION_TERMINAL_BACKUP_MISSING")?;
+    if !backup_meta.is_file() || backup_meta.file_type().is_symlink() || backup_meta.nlink() != 1
+        || backup_meta.dev() != terminal.backup_device || backup_meta.ino() != terminal.backup_inode
+        || sha256_file(&backup_path)? != terminal.backup_sha256
+        || terminal.backup_sha256 != terminal.database_pre_migration_sha256 {
+        return Err("PRODUCTION_TERMINAL_BACKUP_BINDING_MISMATCH".into());
+    }
+    let database_meta = std::fs::symlink_metadata(database_path).map_err(|_| "PRODUCTION_TERMINAL_DATABASE_MISSING")?;
+    if !database_meta.is_file() || database_meta.file_type().is_symlink() || database_meta.nlink() != 1
+        || database_meta.dev() != terminal.database_device || database_meta.ino() != terminal.database_inode {
+        return Err("PRODUCTION_TERMINAL_DATABASE_IDENTITY_MISMATCH".into());
+    }
+    let current = read_production_v4_readback(database_path)?;
+    if current.schema.user_version != terminal.target_user_version || current.schema.migration_version != terminal.target_migration_version
+        || current.migration_rows != terminal.migration_rows || current.migration4_row_count != terminal.migration4_row_count
+        || current.integrity_check != terminal.integrity_check || current.foreign_key_violation_count != terminal.foreign_key_violation_count
+        || !current.sidecars_absent {
+        return Err("PRODUCTION_TERMINAL_DATABASE_READBACK_MISMATCH".into());
+    }
+    Ok(())
+}
+
+fn ensure_production_cutover_startup(app_data: &Path, database_path: &Path, executable: &Path, synthetic_only: bool) -> Result<(), String> {
+    let claimed = production_cutover_state::claimed_authorization_present(app_data)?;
+    let terminal_bytes = production_cutover_state::read_terminal(app_data)?;
+    let ledger = production_cutover_state::read_authority_file(app_data, CONSUMED_AUTHORIZATION_LEDGER)?;
+    let has_permit = production_cutover_state::read_authority_file(app_data, PRODUCTION_MIGRATION_AUTHORIZATION)?.is_some();
+    if claimed { return Err("PRODUCTION_CUTOVER_AUTHORIZATION_CLAIM_UNRESOLVED".into()); }
+    if let Some(bytes) = terminal_bytes {
+        if ledger.is_none() || has_permit { return Err("PRODUCTION_CUTOVER_TERMINAL_AUTHORITY_INCOMPLETE".into()); }
+        let terminal: ProductionCutoverTerminal = serde_json::from_slice(&bytes).map_err(|_| "PRODUCTION_CUTOVER_TERMINAL_CORRUPT")?;
+        return validate_production_terminal(app_data, database_path, executable, &terminal, synthetic_only);
+    }
+    if ledger.is_some() { return Err("PRODUCTION_CUTOVER_TERMINAL_MISSING_AFTER_AUTHORIZATION_CONSUMPTION".into()); }
+    let schema = production_schema_version_from_path(database_path)?;
+    if schema.user_version != schema.migration_version || schema.user_version > 3 || schema.user_version < 0 {
+        return Err("PRODUCTION_CUTOVER_TERMINAL_REQUIRED_FOR_V4_OR_UNKNOWN_DATABASE".into());
+    }
+    Ok(())
+}
+
+fn run_production_migration_at<F>(
+    app_data: &Path, database_path: &Path, expected_app: &Path, executable: &Path, allow_synthetic: bool,
+    mut inject: F,
+) -> Result<JsonValue, String>
+where F: FnMut(ProductionMigrationCheckpoint) -> Result<(), String> {
+    let _migration_guard = startup_exclusion::acquire(app_data, startup_exclusion::LockMode::Exclusive)?;
+    if ensure_no_unresolved_cutover(app_data).is_err() { return Err("Existing cutover state blocks a new Production migration.".into()); }
+    ensure_production_cutover_startup(app_data, database_path, executable, allow_synthetic)?;
+    let (_, manifest_sha256) = validate_runtime_compatibility_manifest(executable)?;
+    let schema = production_schema_version_from_path(database_path)?;
+    let permit_path = app_data.join(PRODUCTION_MIGRATION_AUTHORIZATION);
+    let permit_meta = std::fs::symlink_metadata(&permit_path).map_err(|_| "REFUSE_NO_AUTHORIZATION: no unconsumed gate permit is present.".to_string())?;
+    // SAFETY: geteuid only reads the current process owner id.
+    let effective_uid = unsafe { libc::geteuid() };
+    if !permit_meta.is_file() || permit_meta.file_type().is_symlink() || permit_meta.nlink() != 1
+        || permit_meta.uid() != effective_uid || permit_meta.mode() & 0o077 != 0 {
+        return Err("REFUSE_NO_AUTHORIZATION: gate permit has an unsafe identity.".into());
+    }
+    let authority = consume_production_migration_authorization_at(
+        app_data, database_path, expected_app, database_path, schema, executable, executable, &manifest_sha256, allow_synthetic,
+    )?;
+    let post = native_migration4(database_path, &authority.database_pre_migration_sha256)?;
+    if (post.database_device, post.database_inode) != (authority.database_device, authority.database_inode) {
+        return Err("PRODUCTION_DATABASE_IDENTITY_CHANGED_DURING_MIGRATION".into());
+    }
+    inject(ProductionMigrationCheckpoint::AfterPostReadbackBeforeTerminal)?;
+    let terminal = make_production_terminal(&authority, &post, allow_synthetic);
+    let mut bytes = serde_json::to_vec_pretty(&terminal).map_err(|error| error.to_string())?;
+    bytes.push(b'\n');
+    let readback = production_cutover_state::write_terminal(app_data, &bytes, |checkpoint| match checkpoint {
+        production_cutover_state::WriteCheckpoint::BeforeWrite => inject(ProductionMigrationCheckpoint::BeforeTerminalWrite),
+        production_cutover_state::WriteCheckpoint::BeforeFileSync => inject(ProductionMigrationCheckpoint::BeforeTerminalFileSync),
+        production_cutover_state::WriteCheckpoint::BeforeDirectorySync => inject(ProductionMigrationCheckpoint::BeforeTerminalDirectorySync),
+        production_cutover_state::WriteCheckpoint::AfterDurableReadback => inject(ProductionMigrationCheckpoint::AfterTerminalDurableReadback),
+    })?;
+    if readback != bytes { return Err("PRODUCTION_TERMINAL_EXACT_READBACK_MISMATCH".into()); }
+    validate_production_terminal(app_data, database_path, executable, &terminal, allow_synthetic)?;
     Ok(serde_json::json!({
-        "event": "gate_permit_consumed",
-        "status": "V4_MIGRATION_VERIFIED_NATIVE",
-        "syntheticOnly": false,
-        "migrationOwner": "native-rusqlite-runner",
-        "schema": {"userVersion": final_schema.user_version, "migrationVersion": final_schema.migration_version},
-        "databaseSha256": sha256_file(database_path)?,
+        "event": "gate_permit_consumed", "status": "V4_MIGRATION_VERIFIED_NATIVE", "syntheticOnly": allow_synthetic,
+        "migrationOwner": "native-rusqlite-runner", "terminalState": terminal.state,
+        "terminalPath": app_data.join(production_cutover_state::TERMINAL_NAME),
+        "terminalSha256": format!("{:x}", Sha256::digest(&readback)),
+        "schema": {"userVersion": post.schema.user_version, "migrationVersion": post.schema.migration_version,
+            "migrationRows": post.migration_rows, "migration4RowCount": post.migration4_row_count},
+        "databaseSha256": post.database_sha256,
     }))
 }
 
@@ -485,19 +806,8 @@ fn run_production_migration_command() -> Result<JsonValue, String> {
     if executable != expected_executable { return Err("Native migration role must run from the exact installed Production executable.".into()); }
     let home = PathBuf::from(std::env::var_os("HOME").ok_or("Home directory is unavailable.")?);
     let app_data = startup_exclusion::production_authority(&home, PRODUCTION_IDENTIFIER)?;
-    // This exclusive lease precedes permit inspection/claim and remains alive
-    // across the complete native Migration 4 transaction and readback.
-    let _migration_guard = startup_exclusion::acquire(&app_data, startup_exclusion::LockMode::Exclusive)?;
     let database_path = app_data.join(PRODUCTION_DATABASE);
-    let permit_path = app_data.join(PRODUCTION_MIGRATION_AUTHORIZATION);
-    let permit_meta = std::fs::symlink_metadata(&permit_path).map_err(|_| "REFUSE_NO_AUTHORIZATION: no unconsumed gate permit is present.".to_string())?;
-    if !permit_meta.is_file() || permit_meta.file_type().is_symlink() || permit_meta.nlink() != 1 {
-        return Err("REFUSE_NO_AUTHORIZATION: gate permit has an unsafe identity.".into());
-    }
-    let (_, manifest_sha256) = validate_runtime_compatibility_manifest(&executable)?;
-    let schema = production_schema_version_from_path(&database_path)?;
-    let authorized_database_sha256 = consume_production_migration_authorization(&app_data, &database_path, &home, schema, &executable, &manifest_sha256)?;
-    native_migration4(&database_path, &authorized_database_sha256)
+    run_production_migration_at(&app_data, &database_path, &PathBuf::from(PRODUCTION_APP_BUNDLE), &executable, false, |_| Ok(()))
 }
 
 fn ensure_smoke_data_dir_isolated(identifier: &str, data_dir: &Path, home_dir: &Path) -> Result<(), String> {
@@ -816,7 +1126,7 @@ fn database_rollback(state: State<'_, DatabaseState>, transaction_id: String) ->
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::{fs, process::Command, time::{SystemTime, UNIX_EPOCH}};
+    use std::{fs, time::{SystemTime, UNIX_EPOCH}};
 
     fn memory_db() -> DatabaseState {
         DatabaseState::from_connection(Connection::open_in_memory().unwrap(), PathBuf::from(":memory:"), false).unwrap()
@@ -1146,6 +1456,11 @@ pub fn run() {
         // Preserve the durable crash boundary while still before Tauri can
         // construct any configured WebViewWindow.
         ensure_no_unresolved_cutover(&authority).expect("Unresolved cutover state blocks Production startup");
+        let executable = std::env::current_exe().expect("Production executable path is unavailable");
+        let expected_executable = Path::new(PRODUCTION_APP_BUNDLE).join("Contents/MacOS").join(PRODUCTION_EXECUTABLE);
+        if executable != expected_executable { panic!("Production identity may run only from the verified normal installed app path."); }
+        ensure_production_cutover_startup(&authority, &authority.join(PRODUCTION_DATABASE), &executable, false)
+            .expect("Production durable cutover terminal check failed before Builder");
         Some(guard)
     } else { None };
     let builder = tauri::Builder::default()
@@ -1205,6 +1520,7 @@ pub fn run() {
                 if executable != expected_executable {
                     return Err(std::io::Error::other("Production identity may run only from the verified normal installed app path.").into());
                 }
+                ensure_production_cutover_startup(&app_data, &database_path, &executable, false).map_err(std::io::Error::other)?;
                 validate_runtime_compatibility_manifest(&executable).map_err(std::io::Error::other)?;
                 let schema = production_schema_version_from_path(&database_path).map_err(std::io::Error::other)?;
                 ensure_supported_schema(schema).map_err(std::io::Error::other)?;
@@ -1259,6 +1575,271 @@ pub fn run() {
         .run(context)
         .expect("failed to run Personal Finance Console");
     drop(startup_guard);
+}
+
+#[cfg(test)]
+mod production_terminal_tests {
+    use super::*;
+    use std::{fs, os::unix::fs::PermissionsExt, process::{Command, Stdio}, time::{SystemTime, UNIX_EPOCH}};
+    use std::sync::atomic::{AtomicU64, Ordering};
+    static FIXTURE_COUNTER: AtomicU64 = AtomicU64::new(0);
+
+    struct Fixture { root: PathBuf, app_data: PathBuf, database: PathBuf, app: PathBuf, executable: PathBuf }
+    impl Fixture {
+        fn new() -> Self {
+            let nonce = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_nanos();
+            let root = std::env::temp_dir().join(format!("pfc-r2c3c1-terminal-{}-{nonce}-{}", std::process::id(), FIXTURE_COUNTER.fetch_add(1, Ordering::Relaxed)));
+            fs::create_dir(&root).unwrap();
+            let root = root.canonicalize().unwrap();
+            let marker = root.join("SYNTHETIC_ONLY"); fs::write(&marker, b"PFC_WP04R2A_GATE_SYNTHETIC_V1\n").unwrap();
+            fs::set_permissions(&marker, fs::Permissions::from_mode(0o600)).unwrap();
+            let app = root.join("Applications").join("Personal Finance Console.app");
+            let executable = app.join("Contents/MacOS").join(PRODUCTION_EXECUTABLE);
+            fs::create_dir_all(executable.parent().unwrap()).unwrap();
+            let current = std::env::current_exe().unwrap();
+            if fs::hard_link(&current, &executable).is_err() { fs::copy(&current, &executable).unwrap(); }
+            let manifest_path = production_manifest_path(&executable).unwrap();
+            fs::create_dir_all(manifest_path.parent().unwrap()).unwrap();
+            fs::write(&manifest_path, serde_json::to_vec(&serde_json::json!({
+                "manifestFormatVersion":1,"runtimeGeneration":4,"minSupportedSchemaVersion":1,
+                "maxSupportedSchemaVersion":4,"bundleId":PRODUCTION_IDENTIFIER,
+                "executable":format!("Contents/MacOS/{PRODUCTION_EXECUTABLE}")
+            })).unwrap()).unwrap();
+            fs::set_permissions(&manifest_path, fs::Permissions::from_mode(0o600)).unwrap();
+            let app_data = root.join("Library/Application Support").join(PRODUCTION_IDENTIFIER);
+            fs::create_dir_all(&app_data).unwrap();
+            let database = app_data.join(PRODUCTION_DATABASE);
+            let connection = Connection::open(&database).unwrap();
+            connection.execute_batch("CREATE TABLE profiles(id TEXT PRIMARY KEY); CREATE TABLE income_records(id TEXT PRIMARY KEY); CREATE TABLE cash_accounts(id TEXT PRIMARY KEY); CREATE TABLE schema_migrations(version INTEGER PRIMARY KEY, applied_at TEXT NOT NULL); INSERT INTO schema_migrations VALUES(1,'fixture'),(2,'fixture'),(3,'fixture'); PRAGMA user_version=3;").unwrap();
+            drop(connection);
+            let backup = app_data.join("production-v4-backups").join(PRODUCTION_DATABASE);
+            fs::create_dir_all(backup.parent().unwrap()).unwrap(); fs::copy(&database, &backup).unwrap();
+            let candidate_hash = sha256_file(&executable).unwrap();
+            let manifest_hash = sha256_file(&manifest_path).unwrap();
+            let db_hash = sha256_file(&database).unwrap();
+            let backup_hash = sha256_file(&backup).unwrap();
+            let receipt_path = app_data.join(PRODUCTION_RELEASE_RECEIPT);
+            let receipt = serde_json::json!({
+                "status":"PREFLIGHT_PASS_READY_FOR_SEPARATELY_AUTHORIZED_MIGRATION", "syntheticOnly":true,
+                "productionBundleId":PRODUCTION_IDENTIFIER,"installedAppPath":app.to_string_lossy(),
+                "candidateExecutablePath":executable.to_string_lossy(),"productionDatabasePath":database.to_string_lossy(),
+                "releaseReceiptPath":receipt_path.to_string_lossy(), "candidateApprovalSha256":"approval-bytes-sha",
+                "migrationAuthorizationSha256":"migration-authorization-contract-sha", "productionDatabasePreMigrationSha256":db_hash,
+                "candidateExecutableSha256":candidate_hash,"compatibilityManifestSha256":manifest_hash,
+                "backupPath":backup.to_string_lossy(),"backupSha256":backup_hash,"ownerAuthorizationId":"owner-auth-r2c3c1",
+                "sidecarsAbsent":true,"productionSchema":{"userVersion":3,"migrationVersion":3}
+            });
+            Self::write_owner_json(&receipt_path, &receipt);
+            let receipt_hash = sha256_file(&receipt_path).unwrap();
+            let now = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs();
+            let permit_path = app_data.join(PRODUCTION_MIGRATION_AUTHORIZATION);
+            let permit = serde_json::json!({
+                "receiptFormatVersion":1,"status":"ONE_TIME_PRODUCTION_V4_MIGRATION_AUTHORIZATION","syntheticOnly":true,
+                "nonce":"nonce-r2c3c1", "issuedAtUnix":now,"expiresAtUnix":now+60,
+                "productionBundleId":PRODUCTION_IDENTIFIER,"installedAppPath":app.to_string_lossy(),
+                "candidateExecutablePath":executable.to_string_lossy(),"candidateExecutableSha256":candidate_hash,
+                "compatibilityManifestSha256":manifest_hash,"maxSupportedSchemaVersion":4,
+                "productionDatabasePath":database.to_string_lossy(),"productionDatabasePreMigrationSha256":db_hash,
+                "productionSchema":{"userVersion":3,"migrationVersion":3},
+                "backupPath":backup.to_string_lossy(),"backupSha256":backup_hash,"sidecarsAbsent":true,
+                "releaseReceiptPath":receipt_path.to_string_lossy(),"releaseReceiptSha256":receipt_hash,
+                "candidateApprovalSha256":"approval-bytes-sha","migrationAuthorizationSha256":"migration-authorization-contract-sha",
+                "ownerAuthorizationId":"owner-auth-r2c3c1"
+            });
+            Self::write_owner_json(&permit_path, &permit);
+            Self { root, app_data, database, app, executable }
+        }
+
+        fn open_existing(root: PathBuf) -> Self {
+            let root = root.canonicalize().unwrap();
+            let app_data = root.join("Library/Application Support").join(PRODUCTION_IDENTIFIER);
+            let database = app_data.join(PRODUCTION_DATABASE);
+            let app = root.join("Applications").join("Personal Finance Console.app");
+            let executable = app.join("Contents/MacOS").join(PRODUCTION_EXECUTABLE);
+            Self { root, app_data, database, app, executable }
+        }
+
+        fn write_owner_json(path: &Path, value: &JsonValue) {
+            fs::write(path, serde_json::to_vec_pretty(value).unwrap()).unwrap();
+            fs::set_permissions(path, fs::Permissions::from_mode(0o600)).unwrap();
+        }
+
+        fn migrate(&self) -> Result<JsonValue, String> {
+            run_production_migration_at(&self.app_data, &self.database, &self.app, &self.executable, true, |_| Ok(()))
+        }
+
+        fn startup(&self) -> Result<(), String> {
+            ensure_production_cutover_startup(&self.app_data, &self.database, &self.executable, true)
+        }
+
+        fn m4_count(&self) -> i64 {
+            Connection::open_with_flags(&self.database, OpenFlags::SQLITE_OPEN_READ_ONLY).unwrap()
+                .query_row("SELECT COUNT(*) FROM schema_migrations WHERE version=4", [], |row| row.get(0)).unwrap()
+        }
+    }
+    impl Drop for Fixture { fn drop(&mut self) { let _ = fs::remove_dir_all(&self.root); } }
+
+    #[test]
+    fn never_started_v3_is_distinguished_and_remains_eligible() {
+        let fixture = Fixture::new();
+        assert!(fixture.startup().is_ok());
+        assert!(!fixture.app_data.join(CONSUMED_AUTHORIZATION_LEDGER).exists());
+        assert!(!fixture.app_data.join(production_cutover_state::TERMINAL_NAME).exists());
+    }
+
+    #[test]
+    fn normal_success_durably_binds_terminal_before_guard_release() {
+        let fixture = Fixture::new();
+        assert!(startup_exclusion::acquire(&fixture.app_data, startup_exclusion::LockMode::Shared).is_ok());
+        let order_path = PathBuf::from("../evidence/wp04-release-cutover-readiness/53-r2c3c1-production-durable-terminal/10-ordering/GUARD_TERMINAL_ORDERING.json");
+        let mut events = Vec::<JsonValue>::new();
+        let result = run_production_migration_at(&fixture.app_data, &fixture.database, &fixture.app, &fixture.executable, true, |point| {
+            if point == ProductionMigrationCheckpoint::AfterTerminalDurableReadback {
+                assert!(startup_exclusion::acquire(&fixture.app_data, startup_exclusion::LockMode::Shared).is_err());
+                events.push(serde_json::json!({"sequence":1,"event":"terminal_durable_exact_readback","exclusiveGuard":"held"}));
+            }
+            Ok(())
+        }).unwrap();
+        assert_eq!(result["terminalState"], "V4_VERIFIED");
+        assert_eq!(result["schema"]["migration4RowCount"], 1);
+        assert_eq!(fixture.m4_count(), 1);
+        let ui_guard = startup_exclusion::acquire(&fixture.app_data, startup_exclusion::LockMode::Shared).unwrap();
+        assert!(fixture.startup().is_ok());
+        events.push(serde_json::json!({"sequence":2,"event":"exclusiveGuardReleased_and_UI_sharedGuardAcquired"}));
+        drop(ui_guard);
+        fs::write(&order_path, serde_json::to_vec_pretty(&serde_json::json!({
+            "format_version":1,"synthetic_only":true,"terminalDurableAt":1,"guardReleasedAt":2,
+            "terminalDurableBeforeGuardRelease":true,"migration4Rows":1,"startupAllowedAfterRelease":true,"events":events
+        })).unwrap()).unwrap();
+    }
+
+    #[test]
+    fn preterminal_process_exit_and_terminal_write_failures_remain_blocked() {
+        let fixture = Fixture::new();
+        let failure = run_production_migration_at(&fixture.app_data, &fixture.database, &fixture.app, &fixture.executable, true, |point| {
+            if point == ProductionMigrationCheckpoint::AfterPostReadbackBeforeTerminal { Err("synthetic process stopped before terminal".into()) } else { Ok(()) }
+        });
+        assert!(failure.is_err()); assert_eq!(fixture.m4_count(), 1);
+        assert!(fixture.app_data.join(CONSUMED_AUTHORIZATION_LEDGER).exists());
+        assert!(production_cutover_state::read_terminal(&fixture.app_data).unwrap().is_none());
+        assert!(fixture.startup().is_err());
+
+        let fixture = Fixture::new();
+        let failure = run_production_migration_at(&fixture.app_data, &fixture.database, &fixture.app, &fixture.executable, true, |point| {
+            if point == ProductionMigrationCheckpoint::BeforeTerminalWrite { Err("injected terminal write failure".into()) } else { Ok(()) }
+        });
+        assert!(failure.is_err()); assert_eq!(fixture.m4_count(), 1);
+        assert!(production_cutover_state::read_terminal(&fixture.app_data).unwrap().is_none());
+        assert!(fixture.startup().is_err());
+
+        let fixture = Fixture::new();
+        let failure = run_production_migration_at(&fixture.app_data, &fixture.database, &fixture.app, &fixture.executable, true, |point| {
+            if point == ProductionMigrationCheckpoint::BeforeTerminalFileSync { Err("injected terminal fsync failure".into()) } else { Ok(()) }
+        });
+        assert!(failure.is_err()); assert_eq!(fixture.m4_count(), 1);
+        assert!(production_cutover_state::read_terminal(&fixture.app_data).unwrap().is_none());
+        assert!(fixture.startup().is_err());
+
+        let fixture = Fixture::new();
+        let failure = run_production_migration_at(&fixture.app_data, &fixture.database, &fixture.app, &fixture.executable, true, |point| {
+            if point == ProductionMigrationCheckpoint::BeforeTerminalDirectorySync { Err("injected terminal directory fsync failure".into()) } else { Ok(()) }
+        });
+        assert!(failure.is_err()); assert_eq!(fixture.m4_count(), 1);
+        assert!(production_cutover_state::read_terminal(&fixture.app_data).unwrap().is_none());
+        assert!(fixture.startup().is_err());
+    }
+
+    #[test]
+    fn child_process_exits_after_commit_before_terminal_and_restart_is_blocked() {
+        if let Ok(root) = std::env::var("PFC_R2C3C1_CRASH_CHILD_ROOT") {
+            let fixture = Fixture::open_existing(PathBuf::from(root));
+            let _ = run_production_migration_at(&fixture.app_data, &fixture.database, &fixture.app, &fixture.executable, true, |point| {
+                if point == ProductionMigrationCheckpoint::AfterPostReadbackBeforeTerminal { std::process::exit(86); }
+                Ok(())
+            });
+            panic!("crash child did not reach the injected process-exit boundary");
+        }
+        let fixture = Fixture::new();
+        let test_binary = std::env::current_exe().unwrap();
+        let child = Command::new(test_binary)
+            .args(["--exact", "production_terminal_tests::child_process_exits_after_commit_before_terminal_and_restart_is_blocked", "--nocapture"])
+            .env("PFC_R2C3C1_CRASH_CHILD_ROOT", &fixture.root)
+            .stdin(Stdio::null()).stdout(Stdio::null()).stderr(Stdio::null()).status().unwrap();
+        assert_eq!(child.code(), Some(86));
+        assert_eq!(schema_version_from_path(&fixture.database).unwrap(), DatabaseSchemaVersion { user_version: 4, migration_version: 4 });
+        assert!(fixture.app_data.join(CONSUMED_AUTHORIZATION_LEDGER).exists());
+        assert!(production_cutover_state::read_terminal(&fixture.app_data).unwrap().is_none());
+        assert!(fixture.startup().is_err());
+    }
+
+    #[test]
+    fn corrupt_or_stale_terminal_fails_closed() {
+        let fixture = Fixture::new(); fixture.migrate().unwrap();
+        let terminal_path = fixture.app_data.join(production_cutover_state::TERMINAL_NAME);
+        fs::write(&terminal_path, b"{corrupt").unwrap();
+        fs::set_permissions(&terminal_path, fs::Permissions::from_mode(0o600)).unwrap();
+        assert!(fixture.startup().is_err());
+
+        let fixture = Fixture::new(); fixture.migrate().unwrap();
+        fs::write(production_manifest_path(&fixture.executable).unwrap(), b"stale manifest").unwrap();
+        assert!(fixture.startup().is_err());
+
+        let fixture = Fixture::new(); fixture.migrate().unwrap();
+        fs::write(fixture.app_data.join("production-v4-backups").join(PRODUCTION_DATABASE), b"stale backup").unwrap();
+        assert!(fixture.startup().is_err());
+
+        let fixture = Fixture::new(); fixture.migrate().unwrap();
+        let permit = fixture.app_data.join(PRODUCTION_MIGRATION_AUTHORIZATION);
+        assert!(!permit.exists());
+        fs::write(&permit, b"resurrected permit").unwrap();
+        fs::set_permissions(&permit, fs::Permissions::from_mode(0o600)).unwrap();
+        assert!(fixture.startup().is_err());
+
+        let fixture = Fixture::new(); fixture.migrate().unwrap();
+        let terminal = fixture.app_data.join(production_cutover_state::TERMINAL_NAME);
+        let connection = Connection::open(&fixture.database).unwrap();
+        connection.execute("DELETE FROM schema_migrations WHERE version=4", []).unwrap();
+        connection.pragma_update(None, "user_version", 3).unwrap();
+        drop(connection);
+        assert!(fixture.startup().is_err());
+        assert!(terminal.exists());
+
+        let fixture = Fixture::new(); fixture.migrate().unwrap();
+        let candidate = fixture.executable.clone();
+        fs::remove_file(&candidate).unwrap();
+        fs::write(&candidate, b"different candidate identity").unwrap();
+        fs::set_permissions(&candidate, fs::Permissions::from_mode(0o700)).unwrap();
+        assert!(fixture.startup().is_err());
+    }
+
+    #[test]
+    fn verified_v4_restart_does_not_replay_migration_and_reply_loss_keeps_terminal() {
+        let fixture = Fixture::new(); fixture.migrate().unwrap();
+        assert!(fixture.startup().is_ok());
+        assert!(fixture.migrate().is_err());
+        assert_eq!(fixture.m4_count(), 1);
+
+        let fixture = Fixture::new();
+        let lost_reply = run_production_migration_at(&fixture.app_data, &fixture.database, &fixture.app, &fixture.executable, true, |point| {
+            if point == ProductionMigrationCheckpoint::AfterTerminalDurableReadback { Err("synthetic caller reply lost after durable terminal".into()) } else { Ok(()) }
+        });
+        assert!(lost_reply.is_err());
+        assert!(fixture.startup().is_ok());
+        assert_eq!(fixture.m4_count(), 1);
+    }
+
+    #[test]
+    fn stale_or_missing_terminal_authority_blocks_before_database_mutation() {
+        let fixture = Fixture::new();
+        let claimed = fixture.app_data.join(format!("{}fixture", production_cutover_state::CLAIMED_AUTHORIZATION_PREFIX));
+        fs::write(&claimed, b"{}").unwrap(); fs::set_permissions(&claimed, fs::Permissions::from_mode(0o600)).unwrap();
+        assert!(fixture.startup().is_err()); assert_eq!(schema_version_from_path(&fixture.database).unwrap().user_version, 3);
+        fs::remove_file(claimed).unwrap();
+
+        let fixture = Fixture::new(); fixture.migrate().unwrap();
+        fs::remove_file(fixture.app_data.join(production_cutover_state::TERMINAL_NAME)).unwrap();
+        assert!(fixture.startup().is_err()); assert_eq!(fixture.m4_count(), 1);
+    }
 }
 
 #[cfg(feature = "v4-acceptance")]

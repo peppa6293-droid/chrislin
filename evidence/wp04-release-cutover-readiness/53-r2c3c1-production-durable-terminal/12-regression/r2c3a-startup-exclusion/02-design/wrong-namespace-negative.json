@@ -1,0 +1,12 @@
+{
+  "gate_lock_root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-r2c3a-namespaces-1mckvg_7/pfc-r2c3a-2ul9npew",
+  "ui_lock_root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-r2c3a-namespaces-1mckvg_7/pfc-r2c3a-2v93vd5y",
+  "ui_started": true,
+  "ui_event": {
+    "details": {},
+    "event": "webview_created",
+    "pid": 10599
+  },
+  "counted_as_exclusion_pass": false,
+  "reason": "the roots differ"
+}

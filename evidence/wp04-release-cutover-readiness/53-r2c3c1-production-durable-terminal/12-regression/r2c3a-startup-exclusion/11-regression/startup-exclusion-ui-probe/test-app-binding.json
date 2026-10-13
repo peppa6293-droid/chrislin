@@ -1,0 +1,8 @@
+{
+  "synthetic_only": true,
+  "bundle_path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-r2c3a-ui-bundle-l2kpe125/release/bundle/macos/PFC Isolated Quiescence IPC.app",
+  "bundle_id": "org.pfc.quiescence.integration",
+  "executable_sha256": "d808d2c8783a17c4e3a75b268f31388b2d2346f6ad1d64ab03b040114546ad2e",
+  "target_dir": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-r2c3a-ui-bundle-l2kpe125",
+  "retained_bundle_path": "/private/tmp/PFC-WP04R2C3A-Synthetic-UI-Probe.app"
+}

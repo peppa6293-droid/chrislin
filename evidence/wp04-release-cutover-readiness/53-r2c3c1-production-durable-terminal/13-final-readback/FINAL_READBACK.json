@@ -1,0 +1,19 @@
+{
+  "format_version": 1,
+  "synthetic_only": true,
+  "production_touched": false,
+  "real_authorization_created": false,
+  "real_backup_created": false,
+  "real_permit_created": false,
+  "real_terminal_created": false,
+  "final_candidate_built": false,
+  "source_freeze_performed": false,
+  "production_terminal_is_synthetic_only": false,
+  "terminal_path": "<canonical Production authority>/production-v4-cutover-terminal.json",
+  "permit_contract_changed": false,
+  "consumed_ledger_contract_changed": false,
+  "migration4_changed": false,
+  "recovery_contract_changed": false,
+  "product_behavior_changed": false,
+  "financial_model_changed": false
+}

@@ -1,0 +1,12 @@
+{
+  "state": "VERIFIED_HANDOFF",
+  "ui_exit_code": 0,
+  "ui_event": {
+    "details": {},
+    "event": "webview_created",
+    "pid": 10232
+  },
+  "renderer_created": true,
+  "migration4_rows": 1,
+  "authority": "isolated unified synthetic Gate"
+}

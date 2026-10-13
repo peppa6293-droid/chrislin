@@ -1,0 +1,3 @@
+{
+  "gate_exclusive_acquire": "REFUSED_WHILE_UI_SHARED_LOCK_HELD"
+}

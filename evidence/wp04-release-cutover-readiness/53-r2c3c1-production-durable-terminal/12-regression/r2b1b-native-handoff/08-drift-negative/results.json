@@ -1,0 +1,56 @@
+{
+  "test_authorization_byte_drift_is_refused": {
+    "result": "REFUSED",
+    "reason": "Production V4 release gate blocked: Native migration consumer refused or failed (exit=2): {\"error\":{\"code\":\"GATE_AUTHORITY_HASH_MISMATCH\",\"detail\":\"GATE_AUTHORITY_HASH_MISMATCH\",\"sqlite_extended\":null,\"sqlite_primary\":null},\"event\":\"blocked\"}",
+    "consumedLedgerCount": 0,
+    "terminalCount": 0
+  },
+  "test_backup_drift_is_refused": {
+    "result": "REFUSED",
+    "reason": "Production V4 release gate blocked: Native migration consumer refused or failed (exit=2): {\"error\":{\"code\":\"GATE_AUTHORITY_HASH_MISMATCH\",\"detail\":\"GATE_AUTHORITY_HASH_MISMATCH\",\"sqlite_extended\":null,\"sqlite_primary\":null},\"event\":\"blocked\"}",
+    "consumedLedgerCount": 0,
+    "terminalCount": 0
+  },
+  "test_candidate_executable_drift_is_refused": {
+    "result": "REFUSED",
+    "reason": "Production V4 release gate blocked: Native migration consumer refused or failed (exit=2): {\"error\":{\"code\":\"GATE_AUTHORITY_HASH_MISMATCH\",\"detail\":\"GATE_AUTHORITY_HASH_MISMATCH\",\"sqlite_extended\":null,\"sqlite_primary\":null},\"event\":\"blocked\"}",
+    "consumedLedgerCount": 0,
+    "terminalCount": 0
+  },
+  "test_database_drift_is_refused": {
+    "result": "REFUSED",
+    "reason": "Production V4 release gate blocked: Native migration consumer refused or failed (exit=2): {\"error\":{\"code\":\"GATE_AUTHORITY_HASH_MISMATCH\",\"detail\":\"GATE_AUTHORITY_HASH_MISMATCH\",\"sqlite_extended\":null,\"sqlite_primary\":null},\"event\":\"blocked\"}",
+    "consumedLedgerCount": 0,
+    "terminalCount": 0
+  },
+  "test_exact_permit_byte_mutation_is_refused": {
+    "result": "REFUSED",
+    "reason": "Production V4 release gate blocked: Native migration consumer refused or failed (exit=2): {\"error\":{\"code\":\"GATE_PERMIT_EXACT_BYTES_DRIFT\",\"detail\":\"GATE_PERMIT_EXACT_BYTES_DRIFT\",\"sqlite_extended\":null,\"sqlite_primary\":null},\"event\":\"blocked\"}",
+    "consumedLedgerCount": 0,
+    "terminalCount": 0
+  },
+  "test_expired_permit_is_refused_by_unified_consumer": {
+    "result": "REFUSED",
+    "reason": "Production V4 release gate blocked: Native migration consumer refused or failed (exit=2): {\"error\":{\"code\":\"GATE_PERMIT_EXPIRED\",\"detail\":\"GATE_PERMIT_EXPIRED\",\"sqlite_extended\":null,\"sqlite_primary\":null},\"event\":\"blocked\"}",
+    "consumedLedgerCount": 0,
+    "terminalCount": 0
+  },
+  "test_manifest_drift_is_refused": {
+    "result": "REFUSED",
+    "reason": "Production V4 release gate blocked: Native migration consumer refused or failed (exit=2): {\"error\":{\"code\":\"GATE_AUTHORITY_HASH_MISMATCH\",\"detail\":\"GATE_AUTHORITY_HASH_MISMATCH\",\"sqlite_extended\":null,\"sqlite_primary\":null},\"event\":\"blocked\"}",
+    "consumedLedgerCount": 0,
+    "terminalCount": 0
+  },
+  "test_production_domain_permit_is_refused_by_unified_consumer": {
+    "result": "REFUSED",
+    "reason": "Production V4 release gate blocked: Native migration consumer refused or failed (exit=2): {\"error\":{\"code\":\"GATE_PERMIT_DOMAIN\",\"detail\":\"GATE_PERMIT_DOMAIN\",\"sqlite_extended\":null,\"sqlite_primary\":null},\"event\":\"blocked\"}",
+    "consumedLedgerCount": 0,
+    "terminalCount": 0
+  },
+  "test_receipt_drift_is_refused": {
+    "result": "REFUSED",
+    "reason": "Production V4 release gate blocked: Native migration consumer refused or failed (exit=2): {\"error\":{\"code\":\"GATE_AUTHORITY_HASH_MISMATCH\",\"detail\":\"GATE_AUTHORITY_HASH_MISMATCH\",\"sqlite_extended\":null,\"sqlite_primary\":null},\"event\":\"blocked\"}",
+    "consumedLedgerCount": 0,
+    "terminalCount": 0
+  }
+}

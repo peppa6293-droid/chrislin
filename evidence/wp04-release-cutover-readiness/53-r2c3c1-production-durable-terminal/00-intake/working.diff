@@ -1,0 +1,16 @@
+diff --git a/PROJECT-STATE.md b/PROJECT-STATE.md
+index 8b16851..86622e5 100644
+--- a/PROJECT-STATE.md
++++ b/PROJECT-STATE.md
+@@ -188,3 +188,11 @@
+ - Q01–Q18 `PASS_FOR_R2B`；Q11 renderer-only 仍 `DEFERRED_TO_WP04R2C`。C0–C10、S0–S10、17/17 recovery 和完整回归复用 C3D frozen identity，本轮未重跑。
+ - Source/candidate 未变；未重建/启动 candidate；Production、WP02、Financial Model V1.0 未触碰；WP03 acceptance 保留。
+ - 报告：`WP04R2B_Q10_SQLITE_LOCKED_CLOSURE_REPORT.md`；证据：`evidence/wp04-release-cutover-readiness/48-r2b-q10-sqlite-locked/`。到 synthetic readiness 停止，不代表 Production 授权或 Owner final acceptance。
++
++## WP-04R2C3B Final Source Freeze + Synthetic Acceptance — BLOCKED (2026-10-13)
++
++- 状态：`WP04R2C3B_BLOCKED_GUARD_TERMINAL_GAP`。起始 HEAD `af717492b127aa3ef2360391d7cce867323a0ba3`；目标 runtime source `7b4a9c16bbbfc6ad1cd602af479d8aaa9a11f756`，源码 tracked working tree clean。
++- 源码边界复核发现：Production migration exclusive guard 覆盖 permit 检查/claim、DB open、Migration4、COMMIT/rollback 与 post-commit readback；`native_migration4` 随后返回 `V4_MIGRATION_VERIFIED_NATIVE`，调用者返回时 RAII guard 即释放。该 Production 路径没有 durable final terminal 写入；synthetic quiescence 的 `VERIFIED_HANDOFF` 不能证明 Production 终态。
++- 结论：`Guard Release Before Durable Terminal Possible = YES`，不满足工单要求的 `NO`。依据工作单立即停止，未冻结源码、未构建候选、未运行本轮 cutover/recovery/renderer/Q/regression 验收；未修改 runtime source/tests。
++- Production App/DB 未触碰；真实 authorization/backup/receipt/permit 未创建；WP03 acceptance 保留、Financial Model 未改、WP02 未触碰。`RB-V4-CUTOVER-QUIESCENCE-01` 仍 OPEN，Production V4 仍 NOT AUTHORIZED。
++- 报告：`WP04R2C3B_FINAL_SYNTHETIC_ACCEPTANCE_REPORT.md`。证据：`evidence/wp04-release-cutover-readiness/52-r2c3b-final-synthetic-acceptance/`。下一责任人：Planning/Owner 下发独立源码修复及后续 freeze/acceptance 工作单。

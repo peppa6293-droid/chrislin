@@ -1,0 +1,27 @@
+{
+  "format_version": 1,
+  "synthetic_only": true,
+  "results": {
+    "typescript_typecheck": "PASS",
+    "lint": "PASS_WITH_25_EXISTING_CSS_SPECIFICITY_WARNINGS",
+    "product": "PASS_300_OF_300",
+    "wp03_preview": "PASS_5_OF_5",
+    "release_gate": "PASS_40_OF_40",
+    "r2a_gate_wiring": "PASS",
+    "r2b1a_gate_owned": "PASS",
+    "r2b1b_native_handoff": "PASS_16_OF_16",
+    "recovery_diagnostic": "PASS",
+    "recovery_hooks": "PASS_12_OF_12",
+    "rust_default": "PASS_50_OF_50",
+    "startup_exclusion_hooks": "PASS_50_OF_50_INCLUDING_50_RACE_CASES",
+    "quiescence_fixture": "PASS_33_OF_33",
+    "tauri": "PASS_44_OF_44",
+    "r2c3a_startup_exclusion": "PASS_4_OF_4",
+    "native_lease": "PASS_15_OF_15_REUSED_PRIOR_EVIDENCE_SCRIPT_HASH_UNCHANGED",
+    "production_terminal_scenarios": "PASS_7_OF_7"
+  },
+  "limitations": [
+    "Full 17-case R2B matrix not rerun because recovery state machine was not changed.",
+    "cargo fmt unavailable because cargo-fmt is not installed; no toolchain installation was performed."
+  ]
+}

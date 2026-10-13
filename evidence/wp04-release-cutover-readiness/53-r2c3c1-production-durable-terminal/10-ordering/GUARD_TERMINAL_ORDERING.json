@@ -1,0 +1,20 @@
+{
+  "events": [
+    {
+      "event": "terminal_durable_exact_readback",
+      "exclusiveGuard": "held",
+      "sequence": 1
+    },
+    {
+      "event": "exclusiveGuardReleased_and_UI_sharedGuardAcquired",
+      "sequence": 2
+    }
+  ],
+  "format_version": 1,
+  "guardReleasedAt": 2,
+  "migration4Rows": 1,
+  "startupAllowedAfterRelease": true,
+  "synthetic_only": true,
+  "terminalDurableAt": 1,
+  "terminalDurableBeforeGuardRelease": true
+}

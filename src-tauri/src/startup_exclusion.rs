@@ -151,7 +151,7 @@ mod tests {
             fs::remove_dir_all(root).unwrap();
             assert!(!double_win, "UI and migration both acquired the same authority lock in iteration {iteration}");
         }
-        let path = Path::new("../evidence/wp04-release-cutover-readiness/51-r2c3a-startup-exclusion/09-race/STARTUP_EXCLUSION_RACE_MATRIX.json");
+        let path = Path::new("../evidence/wp04-release-cutover-readiness/53-r2c3c1-production-durable-terminal/12-regression/STARTUP_EXCLUSION_RACE_MATRIX.json");
         fs::write(path, serde_json::to_vec_pretty(&serde_json::json!({"format_version":1,"authority":"same maintenance.lock inode","iterations":rows,"double_win_count":0})).unwrap()).unwrap();
     }
 }
