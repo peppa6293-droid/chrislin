@@ -121,6 +121,10 @@ impl Lease {
         require(acquired!=0 && std::io::Error::last_os_error().raw_os_error()==Some(libc::EWOULDBLOCK),"LEASE_CONTINUITY_UNPROVEN")?;
         require(unsafe{libc::flock(self._fd.as_raw_fd(),libc::LOCK_EX|libc::LOCK_NB)}==0,"LEASE_NOT_HELD")
     }
+    #[cfg(feature="wp04-r2b-recovery-test-hooks")]
+    fn release_for_synthetic_guard_loss(&self)->Result<()> {
+        require(unsafe{libc::flock(self._fd.as_raw_fd(),libc::LOCK_UN)}==0,"TEST_HOOK_GUARD_RELEASE_FAILED")
+    }
 }
 #[derive(Serialize, Deserialize)]
 struct HashResult { session:String, role:String, identity:Identity, sha256:String, header_read:u8, header_write:u8, inherited_db_fds:Vec<i32> }
@@ -611,6 +615,7 @@ pub fn run_unified_gate_handoff(root:&str)->Result<Value> {
     let (authority,mut result)=consume_unified_gate_permit(root)?;
     require(authority.domain==AuthorityDomain::UnifiedR2bGateOwned&&authority.bundle_id=="org.pfc.quiescence.integration"&&
         authority.expiry_validated&&!authority.nonce.is_empty()&&!authority.authorization_id.is_empty(),"RUNNER_AUTHORITY_INVALID")?;
+    let recovery_test_point=selected_recovery_test_point(&authority)?;
     let app=authority.root.join("managed/install/Installed.app");
     let exe=app.join("Contents/MacOS/personal-finance-console");
     let manifest=app.join("Contents/Resources/runtime-compatibility.json");
@@ -654,9 +659,50 @@ pub fn run_unified_gate_handoff(root:&str)->Result<Value> {
     connection.execute_batch("BEGIN EXCLUSIVE")?;
     guarded(&connection,&authority.root,&authority.database_identity)?;
     record_stage("S5_QUIESCENCE_ACQUIRED",json!({"lockState":file_control(&connection,rusqlite::ffi::SQLITE_FCNTL_LOCKSTATE)?}))?;
+    if recovery_test_point==Some(RecoveryTestPoint::AfterS5QuiescenceAcquired) {
+        fire_recovery_test_hook(&authority,recovery_test_point.unwrap(),"S5_QUIESCENCE_ACQUIRED",Some(&connection),"PROCESS_EXIT_AFTER_DURABLE_S5");
+    }
+    #[cfg(feature="wp04-r2b-recovery-test-hooks")]
+    {
+        if recovery_test_point==Some(RecoveryTestPoint::GuardLostAfterQuiescence) {
+            authority.lease.release_for_synthetic_guard_loss()?;
+            let failed_guard=authority.lease.validate().err().ok_or_else(||Failure::new("TEST_HOOK_GUARD_LOSS_NOT_OBSERVED","real maintenance lease remained valid"))?;
+            let mut state=recovery_binding_record(&authority,&connection,"GUARD_LOST_OR_UNPROVEN")?;
+            state["guardValidationFailure"]=json!(failed_guard.code);
+            durable(&authority.root,"unified-recovery-state.json",&state)?;
+            persist_recovery_test_injection(&authority,recovery_test_point.unwrap(),"GUARD_LOST_OR_UNPROVEN",Some(&connection),"REAL_MAINTENANCE_FLOCK_RELEASED_THEN_NATIVE_VALIDATION_FAILED")?;
+            std::process::exit(86);
+        }
+        if recovery_test_point==Some(RecoveryTestPoint::ActiveStateThenProcessExit) {
+            let mut active=recovery_binding_record(&authority,&connection,"ACTIVE")?;
+            active["nativeStage"]=json!("S5_QUIESCENCE_ACQUIRED");
+            active["pid"]=json!(std::process::id());
+            durable(&authority.root,"recovery-active.json",&active)?;
+            persist_recovery_test_injection(&authority,recovery_test_point.unwrap(),"ORPHAN_ACTIVE",Some(&connection),"PROCESS_EXIT_WITH_DURABLE_NATIVE_ACTIVE_STATE")?;
+            std::process::exit(86);
+        }
+    }
     schema(&connection,3)?;
     let pre_business=business_snapshot(&connection)?;
     record_stage("S6_V3_REVALIDATED",json!({"databaseSha256":authority.database_sha256,"businessSnapshotSha256":format!("{:x}",Sha256::digest(serde_json::to_vec(&pre_business)?))}))?;
+    #[cfg(feature="wp04-r2b-recovery-test-hooks")]
+    {
+        if recovery_test_point==Some(RecoveryTestPoint::BeforeM4FailV3Confirmed) {
+            connection.execute_batch("ROLLBACK")?;
+            require(connection.is_autocommit(),"TEST_HOOK_ROLLBACK_NOT_CONFIRMED")?;
+            schema(&connection,3)?;
+            let rows:i64=connection.query_row("SELECT COUNT(*) FROM schema_migrations WHERE version=4",[],|row|row.get(0))?;
+            require(rows==0&&hash_file(&db)?==authority.database_sha256,"TEST_HOOK_V3_NOT_CONFIRMED")?;
+            authority.lease.validate()?;
+            let mut terminal=recovery_binding_record(&authority,&connection,"FAILED_V3_CONFIRMED")?;
+            terminal["rollbackConfirmed"]=json!(true);
+            terminal["guard"]=json!("known-held");
+            terminal["migration4Rows"]=json!(rows);
+            durable(&authority.root,"unified-recovery-terminal.json",&terminal)?;
+            persist_recovery_test_injection(&authority,recovery_test_point.unwrap(),"FAILED_V3_CONFIRMED",Some(&connection),"DETERMINISTIC_SAFE_FAILURE_AFTER_CONFIRMED_ROLLBACK")?;
+            return Err(Failure::new("INJECTED_SAFE_PRE_M4_FAILURE","native rollback confirmed V3 while the real maintenance lease remained held"));
+        }
+    }
     guarded(&connection,&authority.root,&authority.database_identity)?;
     let mut migration_statements=0usize;
     for sql in M4.split(';').filter(|statement|!statement.trim().is_empty()) {
@@ -669,10 +715,16 @@ pub fn run_unified_gate_handoff(root:&str)->Result<Value> {
     let migration_rows:i64=connection.query_row("SELECT COUNT(*) FROM schema_migrations WHERE version=4",[],|row|row.get(0))?;
     require(migration_rows==1,"GATE_M4_ROW_NOT_EXACTLY_ONCE")?;
     record_stage("S7_M4_IN_TRANSACTION",json!({"migration":"migrations/004.sql","migrationStatements":migration_statements,"migration4Rows":migration_rows,"transactionOpen":!connection.is_autocommit()}))?;
+    if recovery_test_point==Some(RecoveryTestPoint::AfterS7BeforeCommit) {
+        fire_recovery_test_hook(&authority,recovery_test_point.unwrap(),"S7_M4_IN_TRANSACTION",Some(&connection),"PROCESS_EXIT_BEFORE_COMMIT");
+    }
     guarded(&connection,&authority.root,&authority.database_identity)?;
     record_stage("S8_COMMIT_OUTCOME_UNKNOWN",json!({"commitAttempted":false,"transactionOpen":!connection.is_autocommit()}))?;
     connection.execute_batch("COMMIT")?;
     require(connection.is_autocommit(),"GATE_COMMIT_NOT_AUTOCOMMIT")?;
+    if recovery_test_point==Some(RecoveryTestPoint::AfterCommitBeforeVerifiedReadback) {
+        fire_recovery_test_hook(&authority,recovery_test_point.unwrap(),"COMMIT_DURABLE_BEFORE_VERIFIED_READBACK",Some(&connection),"PROCESS_EXIT_AFTER_COMMIT_BEFORE_VERIFIED_READBACK");
+    }
     schema(&connection,4)?;
     require(business_snapshot(&connection)?==pre_business,"GATE_POST_COMMIT_BUSINESS_CHANGED")?;
     record_stage("S8_COMMIT_VERIFIED",json!({"committed":true,"userVersion":4,"migration4Rows":migration_rows}))?;
@@ -720,8 +772,120 @@ pub fn run_unified_gate_handoff(root:&str)->Result<Value> {
         "authorizationId":authority.authorization_id,"expiryValidated":authority.expiry_validated,
         "expiresAtUnix":authority.expires_at_unix,"databaseSha256After":post_hash,"terminalSha256":hash_file(&terminal_path)?});
     result["terminal"]=terminal_readback;
+    if recovery_test_point==Some(RecoveryTestPoint::AfterS10BeforeCallerReply) {
+        fire_recovery_test_hook(&authority,recovery_test_point.unwrap(),"S10_VERIFIED_HANDOFF",None,"PROCESS_EXIT_AFTER_DURABLE_S10_BEFORE_CALLER_REPLY");
+    }
     Ok(result)
 }
+
+#[cfg(feature="wp04-r2b-recovery-test-hooks")]
+#[derive(Debug,Clone,Copy,PartialEq,Eq)]
+enum RecoveryTestPoint {
+    AfterS5QuiescenceAcquired, AfterS7BeforeCommit, AfterCommitBeforeVerifiedReadback,
+    AfterS10BeforeCallerReply, GuardLostAfterQuiescence, ActiveStateThenProcessExit,
+    BeforeM4FailV3Confirmed,
+}
+
+#[cfg(feature="wp04-r2b-recovery-test-hooks")]
+impl RecoveryTestPoint {
+    fn parse(value:&str)->Result<Self> { match value {
+        "AFTER_S5_QUIESCENCE_ACQUIRED"=>Ok(Self::AfterS5QuiescenceAcquired),
+        "AFTER_S7_BEFORE_COMMIT"=>Ok(Self::AfterS7BeforeCommit),
+        "AFTER_COMMIT_BEFORE_VERIFIED_READBACK"=>Ok(Self::AfterCommitBeforeVerifiedReadback),
+        "AFTER_S10_BEFORE_CALLER_REPLY"=>Ok(Self::AfterS10BeforeCallerReply),
+        "GUARD_LOST_AFTER_QUIESCENCE"=>Ok(Self::GuardLostAfterQuiescence),
+        "ACTIVE_STATE_THEN_PROCESS_EXIT"=>Ok(Self::ActiveStateThenProcessExit),
+        "BEFORE_M4_FAIL_V3_CONFIRMED"=>Ok(Self::BeforeM4FailV3Confirmed),
+        _=>Err(Failure::new("RECOVERY_TEST_POINT_UNKNOWN","unknown point refused; no fallback")),
+    }}
+    fn name(self)-> &'static str { match self {
+        Self::AfterS5QuiescenceAcquired=>"AFTER_S5_QUIESCENCE_ACQUIRED",
+        Self::AfterS7BeforeCommit=>"AFTER_S7_BEFORE_COMMIT",
+        Self::AfterCommitBeforeVerifiedReadback=>"AFTER_COMMIT_BEFORE_VERIFIED_READBACK",
+        Self::AfterS10BeforeCallerReply=>"AFTER_S10_BEFORE_CALLER_REPLY",
+        Self::GuardLostAfterQuiescence=>"GUARD_LOST_AFTER_QUIESCENCE",
+        Self::ActiveStateThenProcessExit=>"ACTIVE_STATE_THEN_PROCESS_EXIT",
+        Self::BeforeM4FailV3Confirmed=>"BEFORE_M4_FAIL_V3_CONFIRMED",
+    }}
+}
+
+#[cfg(feature="wp04-r2b-recovery-test-hooks")]
+fn selected_recovery_test_point(authority:&ValidatedGateAuthority)->Result<Option<RecoveryTestPoint>> {
+    let point=std::env::var("PFC_R2B_RECOVERY_TEST_POINT").ok();
+    let domain=std::env::var("PFC_R2B_RECOVERY_TEST_DOMAIN").ok();
+    match (point,domain) {
+        (None,None)=>Ok(None),
+        (Some(point),Some(domain))=>{
+            require(domain=="UNIFIED_R2B_SYNTHETIC"&&authority.domain==AuthorityDomain::UnifiedR2bGateOwned,"RECOVERY_TEST_DOMAIN_REFUSED")?;
+            let marker=authority.root.join("SYNTHETIC_ONLY");
+            regular(&marker)?;
+            require(fs::read(&marker)?==UNIFIED_MARKER,"RECOVERY_TEST_MARKER_REFUSED")?;
+            Ok(Some(RecoveryTestPoint::parse(&point)?))
+        },
+        _=>Err(Failure::new("RECOVERY_TEST_CONFIGURATION_INCOMPLETE","both exact synthetic domain and fixed point are required")),
+    }
+}
+
+#[cfg(not(feature="wp04-r2b-recovery-test-hooks"))]
+#[derive(Debug,Clone,Copy,PartialEq,Eq)]
+enum RecoveryTestPoint { AfterS5QuiescenceAcquired, AfterS7BeforeCommit, AfterCommitBeforeVerifiedReadback,
+    AfterS10BeforeCallerReply }
+
+#[cfg(not(feature="wp04-r2b-recovery-test-hooks"))]
+fn selected_recovery_test_point(_: &ValidatedGateAuthority)->Result<Option<RecoveryTestPoint>> { Ok(None) }
+
+#[cfg(feature="wp04-r2b-recovery-test-hooks")]
+fn recovery_binding_record(authority:&ValidatedGateAuthority,connection:&Connection,state:&str)->Result<Value> {
+    let ledger_sha=hash_file(&authority.root.join("consumed-ledger.json"))?;
+    let db=authority.root.join(DB);
+    let db_id=regular(&db)?;
+    let db_sha=hash_file(&db)?;
+    let version:i64=connection.query_row("PRAGMA user_version",[],|row|row.get(0))?;
+    let rows:i64=connection.query_row("SELECT COUNT(*) FROM schema_migrations",[],|row|row.get(0))?;
+    Ok(json!({"state":state,"domain":"UNIFIED_R2B_GATE_OWNED","syntheticOnly":true,
+        "receiptSha256":authority.receipt_sha256,"permitSha256":authority.permit_sha256,
+        "consumedLedgerSha256":ledger_sha,"session":authority.session,"candidateSha256":authority.candidate_sha256,
+        "manifestSha256":authority.manifest_sha256,"databaseIdentity":{"dev":db_id.dev,"inode":db_id.inode,"links":db_id.links},
+        "databaseSha256":db_sha,"backupSha256":authority.backup_sha256,"databaseUserVersion":version,"migrationRowCount":rows}))
+}
+
+#[cfg(feature="wp04-r2b-recovery-test-hooks")]
+fn persist_recovery_test_injection(authority:&ValidatedGateAuthority,point:RecoveryTestPoint,state:&str,connection:Option<&Connection>,behavior:&str)->Result<()> {
+    let db=authority.root.join(DB);
+    let facts=(||->Result<(i64,i64)>{
+        if let Some(connection)=connection {
+            Ok((connection.query_row("PRAGMA user_version",[],|row|row.get(0))?,
+                connection.query_row("SELECT COUNT(*) FROM schema_migrations",[],|row|row.get(0))?))
+        } else {
+            let readonly=Connection::open_with_flags(&db,OpenFlags::SQLITE_OPEN_READ_ONLY|OpenFlags::SQLITE_OPEN_NO_MUTEX|OpenFlags::SQLITE_OPEN_NOFOLLOW)?;
+            Ok((readonly.query_row("PRAGMA user_version",[],|row|row.get(0))?,
+                readonly.query_row("SELECT COUNT(*) FROM schema_migrations",[],|row|row.get(0))?))
+        }
+    })()?;
+    let (version,migration_rows)=facts;
+    let injection=json!({"formatVersion":1,"testPoint":point.name(),"sourceCommit":std::env::var("PFC_R2B_RECOVERY_TEST_SOURCE_COMMIT").unwrap_or_else(|_|"UNRECORDED_WORKTREE".into()),
+        "candidateIdentity":{"bundleId":authority.bundle_id,"executableSha256":authority.candidate_sha256,"manifestSha256":authority.manifest_sha256},
+        "session":authority.session,"stateReached":state,"timestampUnix":std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).map_err(|error|Failure::new("CLOCK_INVALID",error))?.as_secs(),
+        "databaseUserVersion":version,"migrationRowCount":migration_rows,"databaseSha256":hash_file(&db)?,
+        "permitSha256":authority.permit_sha256,"consumedLedgerSha256":hash_file(&authority.root.join("consumed-ledger.json"))?,
+        "processBehavior":behavior,"syntheticOnly":true,"authority":false});
+    let mut file=OpenOptions::new().write(true).create_new(true).mode(0o600).custom_flags(libc::O_NOFOLLOW|libc::O_CLOEXEC).open(authority.root.join("RECOVERY_TEST_INJECTION.json"))?;
+    serde_json::to_writer(&mut file,&injection)?;file.write_all(b"\n")?;file.sync_all()?;sync_dir(&authority.root)?;
+    let readback:Value=serde_json::from_slice(&fs::read(authority.root.join("RECOVERY_TEST_INJECTION.json"))?)?;
+    require(readback==injection,"RECOVERY_TEST_INJECTION_READBACK")
+}
+
+#[cfg(feature="wp04-r2b-recovery-test-hooks")]
+fn fire_recovery_test_hook(authority:&ValidatedGateAuthority,point:RecoveryTestPoint,state:&str,connection:Option<&Connection>,behavior:&str)->! {
+    if let Err(error)=persist_recovery_test_injection(authority,point,state,connection,behavior) {
+        eprintln!("synthetic recovery test hook receipt failed: {error:?}");
+        std::process::exit(87);
+    }
+    std::process::exit(86)
+}
+
+#[cfg(not(feature="wp04-r2b-recovery-test-hooks"))]
+fn fire_recovery_test_hook(_: &ValidatedGateAuthority,_:RecoveryTestPoint,_:&str,_:Option<&Connection>,_:&str) {}
 
 #[cfg(test)]
 mod tests {
