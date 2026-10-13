@@ -1,0 +1,15 @@
+{
+  "capturedAt": "2026-10-13T03:51:19.595553+00:00",
+  "baseline": "fd1d9e8714173167430baa2ab9325557a9e80775",
+  "candidateSource": "713e4c5c8a5c5ccfb1ad06481f4d6e138da294b2",
+  "paths": [
+    "src/ui",
+    "src/application",
+    "src/model",
+    "src/persistence"
+  ],
+  "changedPaths": [],
+  "diffBytes": 0,
+  "productBehaviorChanged": false,
+  "financialModelChanged": false
+}

@@ -1,0 +1,37 @@
+   Compiling personal-finance-console v0.1.0 (/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/source/src-tauri)
+warning: unused import: `PathBuf`
+ --> src/wp02_preview_isolation.rs:2:23
+  |
+2 | use std::path::{Path, PathBuf};
+  |                       ^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: `personal-finance-console` (lib) generated 1 warning (run `cargo fix --lib -p personal-finance-console` to apply 1 suggestion)
+warning: direct cast of function item into an integer
+  --> src/bin/quiescence_old_runtime.rs:24:62
+   |
+24 |     unsafe { libc::signal(libc::SIGTERM, request_termination as libc::sighandler_t); }
+   |                                                              ^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(function_casts_as_integer)]` on by default
+help: first cast to a pointer `as *const ()`
+   |
+24 |     unsafe { libc::signal(libc::SIGTERM, request_termination as *const () as libc::sighandler_t); }
+   |                                                              ++++++++++++
+
+warning: `personal-finance-console` (bin "quiescence-old-runtime" test) generated 1 warning (run `cargo fix --bin "quiescence-old-runtime" -p personal-finance-console --tests` to apply 1 suggestion)
+warning: function `hash_entrypoint` is never used
+   --> src/bin/../quiescence.rs:418:8
+    |
+418 | pub fn hash_entrypoint()->Option<Result<()>> {
+    |        ^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `personal-finance-console` (bin "quiescence-fixture" test) generated 1 warning
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.35s
+     Running unittests src/main.rs (/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/build/cargo-target/debug/deps/personal_finance_console-5b1f9c1ffad2ee12)
+     Running unittests src/bin/quiescence_fixture.rs (/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/build/cargo-target/debug/deps/quiescence_fixture-471ea7299b07fb47)
+     Running unittests src/bin/quiescence_old_runtime.rs (/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/build/cargo-target/debug/deps/quiescence_old_runtime-d3bc85d61513139a)
+     Running unittests src/bin/quiescence_competitor.rs (/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/build/cargo-target/debug/deps/quiescence_competitor-4bfccd6aaf259d23)

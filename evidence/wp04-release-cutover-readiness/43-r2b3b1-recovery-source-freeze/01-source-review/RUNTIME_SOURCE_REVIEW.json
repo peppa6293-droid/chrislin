@@ -1,0 +1,12 @@
+{
+  "capturedAt": "2026-10-13T03:51:19.595553+00:00",
+  "runtimeBaseline": "453fdb05b6457a4e9362c98308ca384c10f5d8b4",
+  "r2b3aRuntimeCommit": "713e4c5c8a5c5ccfb1ad06481f4d6e138da294b2",
+  "runtimeFiles": [
+    "M\tscripts/production_v4_release_gate.py",
+    "A\tscripts/test_unified_r2b_recovery.py",
+    "A\tscripts/unified_r2b_recovery.py"
+  ],
+  "summary": "Runtime/source delta consists only of the release-gate CLI addition plus unified R2B recovery diagnostic and tests. No change to forward Gate, C3, Rust permit consumer, native runner, S0-S10, Migration 4, frontend or persistence behavior.",
+  "sourceReviewed": "PASS"
+}

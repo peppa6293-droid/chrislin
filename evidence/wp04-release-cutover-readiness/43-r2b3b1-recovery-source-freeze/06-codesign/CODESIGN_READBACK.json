@@ -1,0 +1,36 @@
+{
+  "capturedAt": "2026-10-13T04:02:34.166668+00:00",
+  "candidatePath": "/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/candidate-build/cargo-target/release/bundle/macos/小钱家.app",
+  "bundleId": "org.pfc.quiescence.integration",
+  "cfBundleExecutable": "personal-finance-console",
+  "executablePath": "/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/candidate-build/cargo-target/release/bundle/macos/小钱家.app/Contents/MacOS/personal-finance-console",
+  "executableSha256": "7c640378b10a8bbdb40cd5f9b65069de19443b8e65b9e6cc2f704a69e7f578d4",
+  "manifestSha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+  "manifest": {
+    "manifestFormatVersion": 1,
+    "runtimeGeneration": 4,
+    "minSupportedSchemaVersion": 3,
+    "maxSupportedSchemaVersion": 4,
+    "bundleId": "org.pfc.quiescence.integration",
+    "executable": "Contents/MacOS/personal-finance-console"
+  },
+  "teamId": "SSRKA7A4TN",
+  "signingAuthorities": [
+    "Apple Development: 8619814730147 (FW5KHTFNZ6)",
+    "Apple Worldwide Developer Relations Certification Authority",
+    "Apple Root CA"
+  ],
+  "strictCodesignExitCode": 0,
+  "strictCodesignStdout": "",
+  "strictCodesignStderr": "/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/candidate-build/cargo-target/release/bundle/macos/小钱家.app: valid on disk\n/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/candidate-build/cargo-target/release/bundle/macos/小钱家.app: satisfies its Designated Requirement\n",
+  "codesignDetailsExitCode": 0,
+  "codesignDetails": "Executable=/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/candidate-build/cargo-target/release/bundle/macos/小钱家.app/Contents/MacOS/personal-finance-console\nIdentifier=org.pfc.quiescence.integration\nFormat=app bundle with Mach-O thin (arm64)\nCodeDirectory v=20500 size=41706 flags=0x10000(runtime) hashes=1296+3 location=embedded\nVersionPlatform=1\nVersionMin=720896\nVersionSDK=1769472\nHash type=sha256 size=32\nCandidateCDHash sha256=a1f5b3bf43eafc685ac08cc724c79c54a6899213\nCandidateCDHashFull sha256=a1f5b3bf43eafc685ac08cc724c79c54a6899213229996b3740b0e25aa3af994\nHash choices=sha256\nCMSDigest=a1f5b3bf43eafc685ac08cc724c79c54a6899213229996b3740b0e25aa3af994\nCMSDigestType=2\nExecutable Segment base=0\nExecutable Segment limit=17170432\nExecutable Segment flags=0x1\nPage size=16384\nCDHash=a1f5b3bf43eafc685ac08cc724c79c54a6899213\nSignature size=4777\nAuthority=Apple Development: 8619814730147 (FW5KHTFNZ6)\nAuthority=Apple Worldwide Developer Relations Certification Authority\nAuthority=Apple Root CA\nSigned Time=Oct 13, 2026 at 12:02:16\nInfo.plist entries=14\nTeamIdentifier=SSRKA7A4TN\nRuntime Version=27.0.0\nSealed Resources version=2 rules=13 files=1\nInternal requirements count=1 size=196\n",
+  "bundleFileCount": 4,
+  "bundleFilesSha256": {
+    "Contents/Info.plist": "e0ff7eec111f8d9af87461519148d5fc5f0f9efd294da5d161979b7cb5c0772a",
+    "Contents/MacOS/personal-finance-console": "7c640378b10a8bbdb40cd5f9b65069de19443b8e65b9e6cc2f704a69e7f578d4",
+    "Contents/Resources/runtime-compatibility.json": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+    "Contents/_CodeSignature/CodeResources": "aebbfaf7e36104bd9755dbf876001682eb5d67e95dbd3f95c1dfda94d13bf26d"
+  },
+  "candidateLaunched": false
+}

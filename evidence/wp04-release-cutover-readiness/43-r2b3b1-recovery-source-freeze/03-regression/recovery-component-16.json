@@ -1,0 +1,28 @@
+{
+  "format_version": 1,
+  "synthetic_only": true,
+  "transport": "native-cli-NOT-Q11",
+  "retained_root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-takeover-recovery-bpffhezl",
+  "native": "/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/build/cargo-target/debug/quiescence-fixture",
+  "native_sha256": "fb93141cc2c9218b3a23b45831c65759c96597bbc1542b30f27466c17352f33f",
+  "sources_before": {
+    "/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/source/scripts/quiescence_recovery_matrix.py": "73b97a93db8ae8f2227b3739c524f381154e274016a70ca01cedff94b14f41bb",
+    "/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/source/scripts/quiescence_integration.py": "474c56002e9e6c9a1a13064386d39003341c548f9623e3acb379835707d5955b",
+    "/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/source/src-tauri/src/quiescence_recovery.rs": "505bac32ddf059d99b66968c8df22c29c32023a96df54b35a347811b07ee9242",
+    "/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/source/src-tauri/src/cutover_startup.rs": "ac48769928c455bbe290873297de2962c4faa86911c00a2e907f1dee82e0e956"
+  },
+  "cases": [
+    {
+      "name": "v4-success-confirm",
+      "passed": false,
+      "error": "FileNotFoundError(2, 'No such file or directory')"
+    }
+  ],
+  "status": "FAILED",
+  "sources_after": {
+    "/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/source/scripts/quiescence_recovery_matrix.py": "73b97a93db8ae8f2227b3739c524f381154e274016a70ca01cedff94b14f41bb",
+    "/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/source/scripts/quiescence_integration.py": "474c56002e9e6c9a1a13064386d39003341c548f9623e3acb379835707d5955b",
+    "/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/source/src-tauri/src/quiescence_recovery.rs": "505bac32ddf059d99b66968c8df22c29c32023a96df54b35a347811b07ee9242",
+    "/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/source/src-tauri/src/cutover_startup.rs": "ac48769928c455bbe290873297de2962c4faa86911c00a2e907f1dee82e0e956"
+  }
+}

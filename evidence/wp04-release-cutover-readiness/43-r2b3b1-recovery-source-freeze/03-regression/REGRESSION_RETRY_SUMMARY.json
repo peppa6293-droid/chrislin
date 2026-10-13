@@ -1,0 +1,93 @@
+{
+  "startedAt": "2026-10-13T03:59:50.653894+00:00",
+  "sourceCommit": "713e4c5c8a5c5ccfb1ad06481f4d6e138da294b2",
+  "targetDir": "/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/source/src-tauri/target",
+  "results": [
+    {
+      "name": "build-quiescence-fixture",
+      "command": [
+        "cargo",
+        "build",
+        "--manifest-path",
+        "src-tauri/Cargo.toml",
+        "--features",
+        "quiescence-fixture",
+        "--bin",
+        "quiescence-fixture"
+      ],
+      "exitCode": 0,
+      "stdout": "build-quiescence-fixture-retry.stdout.txt",
+      "stderr": "build-quiescence-fixture-retry.stderr.txt"
+    },
+    {
+      "name": "r2a-gate-integration",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "scripts.test_production_gate_wiring_integration",
+        "-v"
+      ],
+      "exitCode": 0,
+      "stdout": "r2a-gate-integration-retry.stdout.txt",
+      "stderr": "r2a-gate-integration-retry.stderr.txt"
+    },
+    {
+      "name": "r2b1b-native-authority",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "scripts.test_wp04r2b1b_native_handoff",
+        "-v"
+      ],
+      "exitCode": 0,
+      "stdout": "r2b1b-native-authority-retry.stdout.txt",
+      "stderr": "r2b1b-native-authority-retry.stderr.txt"
+    },
+    {
+      "name": "native-lease",
+      "command": [
+        "python3",
+        "scripts/quiescence_native_lease_tests.py",
+        "--native",
+        "/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/source/src-tauri/target/debug/quiescence-fixture",
+        "--output",
+        "/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/wp04-release-cutover-readiness/43-r2b3b1-recovery-source-freeze/03-regression/native-lease-retry.json"
+      ],
+      "exitCode": 0,
+      "stdout": "native-lease-retry.stdout.txt",
+      "stderr": "native-lease-retry.stderr.txt"
+    },
+    {
+      "name": "recovery-component-16",
+      "command": [
+        "python3",
+        "scripts/quiescence_recovery_matrix.py",
+        "--native",
+        "/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/source/src-tauri/target/debug/quiescence-fixture",
+        "--signing-identity",
+        "Apple Development: 8619814730147 (FW5KHTFNZ6)",
+        "--output",
+        "/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/wp04-release-cutover-readiness/43-r2b3b1-recovery-source-freeze/03-regression/recovery-component-16-retry.json"
+      ],
+      "exitCode": 0,
+      "stdout": "recovery-component-16-retry.stdout.txt",
+      "stderr": "recovery-component-16-retry.stderr.txt"
+    },
+    {
+      "name": "forward-formal-gate-rust-s0-s10-m4",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff.test_formal_gate_cli_rust_claim_ledger_runner_completes_s10",
+        "-v"
+      ],
+      "exitCode": 0,
+      "stdout": "forward-formal-gate-rust-s0-s10-m4-retry.stdout.txt",
+      "stderr": "forward-formal-gate-rust-s0-s10-m4-retry.stderr.txt"
+    }
+  ],
+  "allPass": true
+}

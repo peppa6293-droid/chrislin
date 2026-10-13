@@ -1,0 +1,60 @@
+test_authorization_byte_change_and_manual_permit_are_refused (scripts.test_production_gate_wiring_integration.GateWiringIntegration) ... ERROR
+test_formal_core_reaches_actual_native_consumer_and_stops_before_migration4 (scripts.test_production_gate_wiring_integration.GateWiringIntegration) ... ERROR
+test_gate_cli_has_no_arbitrary_target_or_permit_options (scripts.test_production_gate_wiring_integration.GateWiringIntegration) ... ERROR
+test_migrate_requires_persisted_receipt_and_rejects_receipt_tampering (scripts.test_production_gate_wiring_integration.GateWiringIntegration) ... ERROR
+test_synthetic_and_production_authorization_domains_are_separate (scripts.test_production_gate_wiring_integration.GateWiringIntegration) ... ERROR
+
+======================================================================
+ERROR: test_authorization_byte_change_and_manual_permit_are_refused (scripts.test_production_gate_wiring_integration.GateWiringIntegration)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/source/scripts/test_production_gate_wiring_integration.py", line 53, in setUp
+    shutil.copyfile(NATIVE, self.exe)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/shutil.py", line 264, in copyfile
+    with open(src, 'rb') as fsrc, open(dst, 'wb') as fdst:
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/source/src-tauri/target/debug/quiescence-fixture'
+
+======================================================================
+ERROR: test_formal_core_reaches_actual_native_consumer_and_stops_before_migration4 (scripts.test_production_gate_wiring_integration.GateWiringIntegration)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/source/scripts/test_production_gate_wiring_integration.py", line 53, in setUp
+    shutil.copyfile(NATIVE, self.exe)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/shutil.py", line 264, in copyfile
+    with open(src, 'rb') as fsrc, open(dst, 'wb') as fdst:
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/source/src-tauri/target/debug/quiescence-fixture'
+
+======================================================================
+ERROR: test_gate_cli_has_no_arbitrary_target_or_permit_options (scripts.test_production_gate_wiring_integration.GateWiringIntegration)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/source/scripts/test_production_gate_wiring_integration.py", line 53, in setUp
+    shutil.copyfile(NATIVE, self.exe)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/shutil.py", line 264, in copyfile
+    with open(src, 'rb') as fsrc, open(dst, 'wb') as fdst:
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/source/src-tauri/target/debug/quiescence-fixture'
+
+======================================================================
+ERROR: test_migrate_requires_persisted_receipt_and_rejects_receipt_tampering (scripts.test_production_gate_wiring_integration.GateWiringIntegration)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/source/scripts/test_production_gate_wiring_integration.py", line 53, in setUp
+    shutil.copyfile(NATIVE, self.exe)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/shutil.py", line 264, in copyfile
+    with open(src, 'rb') as fsrc, open(dst, 'wb') as fdst:
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/source/src-tauri/target/debug/quiescence-fixture'
+
+======================================================================
+ERROR: test_synthetic_and_production_authorization_domains_are_separate (scripts.test_production_gate_wiring_integration.GateWiringIntegration)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/source/scripts/test_production_gate_wiring_integration.py", line 53, in setUp
+    shutil.copyfile(NATIVE, self.exe)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/shutil.py", line 264, in copyfile
+    with open(src, 'rb') as fsrc, open(dst, 'wb') as fdst:
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/source/src-tauri/target/debug/quiescence-fixture'
+
+----------------------------------------------------------------------
+Ran 5 tests in 35.810s
+
+FAILED (errors=5)

@@ -1,0 +1,14 @@
+{
+  "capturedAt": "2026-10-13T03:49:36.746290+00:00",
+  "sourceCommit": "713e4c5c8a5c5ccfb1ad06481f4d6e138da294b2",
+  "archiveSha256": "249038d0a04de75391b464b8cb2cad59e9034aebafa754db572c6b6ff3a1a865",
+  "archiveBytes": 47820800,
+  "archiveFileCount": 1185,
+  "gitTreeFileCount": 1185,
+  "extractedSourceRoot": "/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/source",
+  "extractedTreeMismatchCount": 0,
+  "extractedExtraFileCount": 0,
+  "mismatches": [],
+  "extraFiles": [],
+  "status": "PASS"
+}

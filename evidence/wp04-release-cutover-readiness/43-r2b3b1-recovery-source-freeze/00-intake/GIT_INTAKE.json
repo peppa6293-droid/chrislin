@@ -1,0 +1,30 @@
+{
+  "capturedAt": "2026-10-13T03:48:46.780365+00:00",
+  "startingHead": "ef23dbc7c375fed8d82901b78989c5ceae58c9a7",
+  "runtimeSourceCommit": "713e4c5c8a5c5ccfb1ad06481f4d6e138da294b2",
+  "parentFrozenRuntime": "453fdb05b6457a4e9362c98308ca384c10f5d8b4",
+  "currentTrackedWorkingDiffLines": 0,
+  "stagedDiffLines": 0,
+  "runtimePathsChangedSinceParent": [
+    "M\tscripts/production_v4_release_gate.py",
+    "A\tscripts/test_unified_r2b_recovery.py",
+    "A\tscripts/unified_r2b_recovery.py"
+  ],
+  "untrackedFileCount": 6553,
+  "untrackedRuntimePaths": [],
+  "untrackedClassificationCounts": {
+    "evidence": 6532,
+    "docs": 3,
+    "projectReportsAndState": 12,
+    "other": 6
+  },
+  "runtimeSourceStatus": "PASS; no tracked dirty or untracked runtime source",
+  "wp03Baseline": "fd1d9e8714173167430baa2ab9325557a9e80775",
+  "productPathDiff": [],
+  "r2b3aAcceptance": "WP04R2B3A_RECOVERY_ENTRYPOINT_PLANNING_ACCEPTED per current Owner work order",
+  "oldCandidate": {
+    "classification": "R2B_PRE_RECOVERY_ENTRYPOINT_BASELINE",
+    "executableSha256": "f7625ec29e69ac527a830e9a622f0a7568d9a4556b1d9db005f19e29d623bdff",
+    "retained": true
+  }
+}

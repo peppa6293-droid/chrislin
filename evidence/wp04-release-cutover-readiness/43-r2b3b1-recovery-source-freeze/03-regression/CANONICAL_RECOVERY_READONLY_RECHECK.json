@@ -1,0 +1,11 @@
+{
+  "capturedAt": "2026-10-13T04:00:40.602641+00:00",
+  "canonicalRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz",
+  "currentState": "V4_VERIFIED",
+  "recoveryDisposition": "READONLY_CONFIRMATION_ONLY",
+  "diagnosticMutationCount": 0,
+  "protectedObjectCount": 25,
+  "allHashesAndIdentitiesUnchanged": true,
+  "authorizationCreated": "synthetic test only, ephemeral and deleted",
+  "productionTouched": false
+}

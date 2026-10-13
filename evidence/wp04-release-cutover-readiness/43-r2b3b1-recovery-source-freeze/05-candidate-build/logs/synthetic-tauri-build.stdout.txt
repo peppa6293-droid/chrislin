@@ -1,0 +1,4 @@
+Signing with identity "Apple Development: 8619814730147 (FW5KHTFNZ6)"
+Signing /Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/candidate-build/cargo-target/release/bundle/macos/小钱家.app/Contents/MacOS/personal-finance-console
+Signing with identity "Apple Development: 8619814730147 (FW5KHTFNZ6)"
+Signing /Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/candidate-build/cargo-target/release/bundle/macos/小钱家.app

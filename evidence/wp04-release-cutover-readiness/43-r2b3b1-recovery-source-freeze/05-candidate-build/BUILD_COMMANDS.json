@@ -1,0 +1,55 @@
+{
+  "sourceCommit": "713e4c5c8a5c5ccfb1ad06481f4d6e138da294b2",
+  "sourceArchiveExtraction": "/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/candidate-source/source",
+  "buildRoot": "/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/candidate-build",
+  "buildStartedAt": "2026-10-13T04:00:55.748185+00:00",
+  "buildCompletedAt": "2026-10-13T04:02:16.435197+00:00",
+  "commands": [
+    {
+      "name": "npm-ci",
+      "command": [
+        "npm",
+        "ci"
+      ],
+      "startedAt": "2026-10-13T04:00:55.748185+00:00",
+      "exitCode": 0,
+      "stdout": "npm-ci.stdout.txt",
+      "stderr": "npm-ci.stderr.txt"
+    },
+    {
+      "name": "production-vite-build",
+      "command": [
+        "npx",
+        "vite",
+        "build",
+        "--config",
+        "/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/candidate-build/vite.synthetic.config.mjs"
+      ],
+      "startedAt": "2026-10-13T04:00:57.902211+00:00",
+      "exitCode": 0,
+      "stdout": "production-vite-build.stdout.txt",
+      "stderr": "production-vite-build.stderr.txt"
+    },
+    {
+      "name": "synthetic-tauri-build",
+      "command": [
+        "npx",
+        "tauri",
+        "build",
+        "--bundles",
+        "app",
+        "--features",
+        "wp04-r2b-synthetic,tauri/custom-protocol",
+        "--config",
+        "/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/candidate-build/tauri.synthetic.json"
+      ],
+      "startedAt": "2026-10-13T04:00:59.179297+00:00",
+      "exitCode": 0,
+      "stdout": "synthetic-tauri-build.stdout.txt",
+      "stderr": "synthetic-tauri-build.stderr.txt"
+    }
+  ],
+  "allCommandsPassed": true,
+  "candidateLaunched": false,
+  "candidatePath": "/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/candidate-build/cargo-target/release/bundle/macos/小钱家.app"
+}

@@ -1,0 +1,20 @@
+ef23dbc Record WP04R2B3A post-commit readback
+a0c067d Report WP04R2B3A recovery diagnostic readiness
+713e4c5 Trim recovery diagnostic source whitespace
+60be80a Add unified R2B recovery diagnostic entrypoint
+df335e5 Finalize WP04R2B evidence readback receipt
+2341fff Read back WP04R2B final acceptance report
+8e5847d Record V3-compatible WP04R2B acceptance rerun
+bad0177 Align WP04R2B blocked status with cutover enum
+62a17bc Record blocked WP04R2B final acceptance
+5776da2 WP-04R2B2A source freeze report and handoff
+453fdb0 WP-04R2B Final Chain Implementation Commit
+a3e317e Record WP04 R2B1B final readback
+0207708 Document WP04 R2B1B native handoff evidence
+24ff236 Add unified native Gate authority handoff
+4606607 Finalize WP04 R2B1A evidence readback
+de7fb73 Record WP04 R2B1A C3 gate-owned readiness
+75b2d87 Add gate-owned C3 managed isolation mode
+9643bb1 Finalize WP04 R2B1 blocked report readback
+2e0c638 Record WP04 R2B1 unified contract partial result
+f7b3737 Add explicit WP04 unified synthetic root contract

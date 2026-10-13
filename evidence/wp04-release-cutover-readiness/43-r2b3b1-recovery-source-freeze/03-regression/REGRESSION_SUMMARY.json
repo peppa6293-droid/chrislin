@@ -1,0 +1,240 @@
+{
+  "startedAt": "2026-10-13T03:51:36.204886+00:00",
+  "completedAt": "2026-10-13T03:53:00.707917+00:00",
+  "sourceCommit": "713e4c5c8a5c5ccfb1ad06481f4d6e138da294b2",
+  "sourceRoot": "/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/source",
+  "results": [
+    {
+      "name": "npm-ci",
+      "command": [
+        "npm",
+        "ci"
+      ],
+      "startedAt": "2026-10-13T03:51:36.204886+00:00",
+      "exitCode": 0,
+      "stdout": "npm-ci.stdout.txt",
+      "stderr": "npm-ci.stderr.txt"
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAt": "2026-10-13T03:51:39.020950+00:00",
+      "exitCode": 0,
+      "stdout": "typecheck.stdout.txt",
+      "stderr": "typecheck.stderr.txt"
+    },
+    {
+      "name": "lint",
+      "command": [
+        "npm",
+        "run",
+        "lint"
+      ],
+      "startedAt": "2026-10-13T03:51:40.389307+00:00",
+      "exitCode": 0,
+      "stdout": "lint.stdout.txt",
+      "stderr": "lint.stderr.txt"
+    },
+    {
+      "name": "product",
+      "command": [
+        "npm",
+        "run",
+        "test:product"
+      ],
+      "startedAt": "2026-10-13T03:51:41.253075+00:00",
+      "exitCode": 0,
+      "stdout": "product.stdout.txt",
+      "stderr": "product.stderr.txt"
+    },
+    {
+      "name": "wp03-preview",
+      "command": [
+        "npm",
+        "run",
+        "test:wp03-preview"
+      ],
+      "startedAt": "2026-10-13T03:51:45.483191+00:00",
+      "exitCode": 0,
+      "stdout": "wp03-preview.stdout.txt",
+      "stderr": "wp03-preview.stderr.txt"
+    },
+    {
+      "name": "release-gate",
+      "command": [
+        "npm",
+        "run",
+        "test:release-gate"
+      ],
+      "startedAt": "2026-10-13T03:51:45.628612+00:00",
+      "exitCode": 0,
+      "stdout": "release-gate.stdout.txt",
+      "stderr": "release-gate.stderr.txt"
+    },
+    {
+      "name": "production-build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "startedAt": "2026-10-13T03:51:46.120888+00:00",
+      "exitCode": 0,
+      "stdout": "production-build.stdout.txt",
+      "stderr": "production-build.stderr.txt"
+    },
+    {
+      "name": "r2a-gate-integration",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "scripts.test_production_gate_wiring_integration",
+        "-v"
+      ],
+      "startedAt": "2026-10-13T03:51:47.170183+00:00",
+      "exitCode": 1,
+      "stdout": "r2a-gate-integration.stdout.txt",
+      "stderr": "r2a-gate-integration.stderr.txt"
+    },
+    {
+      "name": "r2b1a-c3-gate-owned",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "scripts.test_quiescence_gate_owned",
+        "-v"
+      ],
+      "startedAt": "2026-10-13T03:52:23.032734+00:00",
+      "exitCode": 0,
+      "stdout": "r2b1a-c3-gate-owned.stdout.txt",
+      "stderr": "r2b1a-c3-gate-owned.stderr.txt"
+    },
+    {
+      "name": "r2b1b-native-authority",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "scripts.test_wp04r2b1b_native_handoff",
+        "-v"
+      ],
+      "startedAt": "2026-10-13T03:52:23.118134+00:00",
+      "exitCode": 1,
+      "stdout": "r2b1b-native-authority.stdout.txt",
+      "stderr": "r2b1b-native-authority.stderr.txt"
+    },
+    {
+      "name": "r2b3a-unified-recovery",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "scripts.test_unified_r2b_recovery",
+        "-v"
+      ],
+      "startedAt": "2026-10-13T03:52:24.788172+00:00",
+      "exitCode": 0,
+      "stdout": "r2b3a-unified-recovery.stdout.txt",
+      "stderr": "r2b3a-unified-recovery.stderr.txt"
+    },
+    {
+      "name": "rust-default",
+      "command": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "src-tauri/Cargo.toml",
+        "--bins"
+      ],
+      "startedAt": "2026-10-13T03:52:25.778611+00:00",
+      "exitCode": 0,
+      "stdout": "rust-default.stdout.txt",
+      "stderr": "rust-default.stderr.txt"
+    },
+    {
+      "name": "rust-quiescence-fixture",
+      "command": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "src-tauri/Cargo.toml",
+        "--features",
+        "quiescence-fixture",
+        "--bins"
+      ],
+      "startedAt": "2026-10-13T03:52:31.432822+00:00",
+      "exitCode": 0,
+      "stdout": "rust-quiescence-fixture.stdout.txt",
+      "stderr": "rust-quiescence-fixture.stderr.txt"
+    },
+    {
+      "name": "rust-quiescence-tauri",
+      "command": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "src-tauri/Cargo.toml",
+        "--features",
+        "quiescence-tauri",
+        "--bins"
+      ],
+      "startedAt": "2026-10-13T03:52:38.201516+00:00",
+      "exitCode": 0,
+      "stdout": "rust-quiescence-tauri.stdout.txt",
+      "stderr": "rust-quiescence-tauri.stderr.txt"
+    },
+    {
+      "name": "native-lease",
+      "command": [
+        "python3",
+        "scripts/quiescence_native_lease_tests.py",
+        "--native",
+        "/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/build/cargo-target/debug/quiescence-fixture",
+        "--output",
+        "/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/wp04-release-cutover-readiness/43-r2b3b1-recovery-source-freeze/03-regression/native-lease-results.json"
+      ],
+      "startedAt": "2026-10-13T03:52:58.019789+00:00",
+      "exitCode": 2,
+      "stdout": "native-lease.stdout.txt",
+      "stderr": "native-lease.stderr.txt"
+    },
+    {
+      "name": "recovery-component-16",
+      "command": [
+        "python3",
+        "scripts/quiescence_recovery_matrix.py",
+        "--native",
+        "/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/build/cargo-target/debug/quiescence-fixture",
+        "--signing-identity",
+        "Apple Development: 8619814730147 (FW5KHTFNZ6)",
+        "--output",
+        "/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/wp04-release-cutover-readiness/43-r2b3b1-recovery-source-freeze/03-regression/recovery-component-16.json"
+      ],
+      "startedAt": "2026-10-13T03:52:59.841067+00:00",
+      "exitCode": 2,
+      "stdout": "recovery-component-16.stdout.txt",
+      "stderr": "recovery-component-16.stderr.txt"
+    },
+    {
+      "name": "forward-formal-gate-rust-s0-s10-m4",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff.test_formal_gate_cli_rust_claim_ledger_runner_completes_s10",
+        "-v"
+      ],
+      "startedAt": "2026-10-13T03:53:00.033142+00:00",
+      "exitCode": 1,
+      "stdout": "forward-formal-gate-rust-s0-s10-m4.stdout.txt",
+      "stderr": "forward-formal-gate-rust-s0-s10-m4.stderr.txt"
+    }
+  ],
+  "allPass": false
+}

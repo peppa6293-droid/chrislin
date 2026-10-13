@@ -1,0 +1,14 @@
+ERROR
+
+======================================================================
+ERROR: setUpClass (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/source/scripts/test_wp04r2b1b_native_handoff.py", line 40, in setUpClass
+    raise RuntimeError("quiescence-fixture binary missing after successful build")
+RuntimeError: quiescence-fixture binary missing after successful build
+
+----------------------------------------------------------------------
+Ran 0 tests in 1.594s
+
+FAILED (errors=1)
