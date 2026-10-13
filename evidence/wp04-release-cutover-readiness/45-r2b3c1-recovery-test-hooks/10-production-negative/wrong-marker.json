@@ -1,0 +1,5 @@
+{
+  "result": "REFUSED",
+  "exitCode": 2,
+  "stderr": "{\"status\": \"BLOCKED\", \"errorType\": \"GateBlocked\", \"reasons\": [\"Synthetic gate marker is missing or invalid.\"]}\n"
+}

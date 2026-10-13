@@ -1,0 +1,21 @@
+test_authorization_byte_drift_is_refused (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ok
+test_backup_drift_is_refused (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ok
+test_candidate_executable_drift_is_refused (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ok
+test_concurrent_consumers_have_exactly_one_s4_winner (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ok
+test_database_drift_is_refused (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ok
+test_exact_permit_byte_mutation_is_refused (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ok
+test_expired_permit_is_refused_by_unified_consumer (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ok
+test_formal_gate_cli_rust_claim_ledger_runner_completes_s10 (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ok
+test_formal_gate_replay_is_refused_after_native_claim (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ok
+test_manifest_drift_is_refused (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ok
+test_production_domain_permit_is_refused_by_unified_consumer (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ok
+test_receipt_drift_is_refused (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ok
+test_unified_domain_cannot_use_legacy_component_raw_permit_entry (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ok
+test_unmarked_arbitrary_synthetic_root_is_refused (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ok
+test_wrong_bundle_id_approval_is_refused (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ok
+test_wrong_unified_marker_is_refused_before_gate_receipt (scripts.test_wp04r2b1b_native_handoff.UnifiedNativeHandoff) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 38.255s
+
+OK

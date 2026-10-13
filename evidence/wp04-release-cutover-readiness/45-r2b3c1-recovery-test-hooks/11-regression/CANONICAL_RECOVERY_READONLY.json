@@ -1,0 +1,54 @@
+{
+  "command": [
+    "python3",
+    "scripts/production_v4_release_gate.py",
+    "recover-diagnostic",
+    "--domain",
+    "UNIFIED_R2B_SYNTHETIC",
+    "--root",
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3b2-canonical-wa3hgq29/pfc-qic-canonical-anchor-0k32skxb",
+    "--recovery-authorization",
+    "/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/wp04-release-cutover-readiness/44-r2b3b2-recovery-final-acceptance/01-canonical-anchor/recovery-authorization.json",
+    "--authorization-sha256",
+    "58300c9dc7ea36c06696d00c8eb0da5dbfba848c1f14964fc3610a6fada798f1"
+  ],
+  "exitCode": 0,
+  "diagnostic": {
+    "currentState": "V4_VERIFIED",
+    "recoveryDisposition": "READONLY_CONFIRMATION_ONLY",
+    "businessAccessDecision": "READONLY_CONFIRMATION_ONLY",
+    "businessAccessAllowed": false,
+    "migrationMayRerun": false,
+    "oldPermitReusable": false,
+    "newAuthorizationRequired": true,
+    "restoreAllowed": false,
+    "readonlyConfirmationAllowed": true,
+    "action": "NONE",
+    "automaticRecovery": false,
+    "diagnosticMutationCount": 0,
+    "status": "PASS",
+    "domain": "UNIFIED_R2B_SYNTHETIC",
+    "authorizationId": "synthetic-recovery-canonical-1791870002234087000",
+    "recoveryAuthorizationSha256": "58300c9dc7ea36c06696d00c8eb0da5dbfba848c1f14964fc3610a6fada798f1",
+    "currentStateEvidence": {
+      "receiptSha256": "df8089c47d718f7d61f2ee78014516af0b0288adde7c0a1ccba8aea1edd072c5",
+      "gatePermitSha256": "3efbf5bb4e858684ba2ef78d2ac55bcd74583d59d0a8d4d7cc299b6dc709feb1",
+      "consumedLedgerSha256": "66b25ee042c7b8b6bc0dd4b69446ffb3a73d3cd39a0e7999f0cbd69034f4ac32",
+      "candidateExecutableSha256": "7c640378b10a8bbdb40cd5f9b65069de19443b8e65b9e6cc2f704a69e7f578d4",
+      "manifestSha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+      "databaseIdentity": {
+        "dev": 16777232,
+        "inode": 25997107,
+        "links": 1,
+        "size": 258048
+      },
+      "databaseSha256": "80d9994ebdbd4d3bc874698a552045388819b8f13c983bfe5628280f0fa88399",
+      "backupSha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+      "terminalLineageSha256": "c6546a725e7015c454f6f584858d3a647bb76cd23d1d6ac21812d5477b4f2dbe"
+    }
+  },
+  "preObjectCount": 25,
+  "postObjectCount": 25,
+  "objectsUnchanged": true,
+  "mutationCount": 0
+}

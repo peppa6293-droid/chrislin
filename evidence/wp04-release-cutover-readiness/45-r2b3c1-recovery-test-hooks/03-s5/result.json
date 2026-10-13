@@ -1,0 +1,66 @@
+{
+  "testPoint": "AFTER_S5_QUIESCENCE_ACQUIRED",
+  "expectedState": "QUIESCENCE_ACQUIRED",
+  "exitCode": 2,
+  "stdout": "",
+  "stderr": "{\"status\": \"BLOCKED\", \"errorType\": \"GateBlocked\", \"reasons\": [\"Native migration consumer refused or failed (exit=86): \"]}\n",
+  "stageRows": [
+    "{\"details\":{\"busyTimeout\":0,\"databaseIdentity\":{\"dev\":16777232,\"inode\":26113422,\"links\":1,\"size\":229376},\"journalMode\":\"delete\",\"lockingMode\":\"exclusive\"},\"permitSha256\":\"ed0c36a627ecbdbb71514ce6ae52f0ac813c43c454b532a63dfbc169cf215d02\",\"session\":\"session-36ea62d90932488a80e907f0c0b9ca7d\",\"stage\":\"S4_CONNECTION_PREPARED\"}",
+    "{\"details\":{\"lockState\":4},\"permitSha256\":\"ed0c36a627ecbdbb71514ce6ae52f0ac813c43c454b532a63dfbc169cf215d02\",\"session\":\"session-36ea62d90932488a80e907f0c0b9ca7d\",\"stage\":\"S5_QUIESCENCE_ACQUIRED\"}"
+  ],
+  "injection": {
+    "authority": false,
+    "candidateIdentity": {
+      "bundleId": "org.pfc.quiescence.integration",
+      "executableSha256": "9978532e2bcd6bdafe0dbad81aa4521b5f2d9bbde1e71d9bbd6a9f07bc48749a",
+      "manifestSha256": "2f59feda46f841cfbf6ecafc8f75e8b9c2cfcbdb24a585239c0ae09960350733"
+    },
+    "consumedLedgerSha256": "cfdbb6937bea41348674fec43fe4fd8a01328b0032068ef6884b76d68839fc22",
+    "databaseSha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+    "databaseUserVersion": 3,
+    "formatVersion": 1,
+    "migrationRowCount": 3,
+    "permitSha256": "ed0c36a627ecbdbb71514ce6ae52f0ac813c43c454b532a63dfbc169cf215d02",
+    "processBehavior": "PROCESS_EXIT_AFTER_DURABLE_S5",
+    "session": "session-36ea62d90932488a80e907f0c0b9ca7d",
+    "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+    "stateReached": "S5_QUIESCENCE_ACQUIRED",
+    "syntheticOnly": true,
+    "testPoint": "AFTER_S5_QUIESCENCE_ACQUIRED",
+    "timestampUnix": 1791872159
+  },
+  "recoveryDiagnostic": {
+    "currentState": "QUIESCENCE_ACQUIRED",
+    "recoveryDisposition": "MANUAL_DECISION_REQUIRED",
+    "businessAccessDecision": "MANUAL_DECISION_REQUIRED",
+    "businessAccessAllowed": false,
+    "migrationMayRerun": false,
+    "oldPermitReusable": false,
+    "newAuthorizationRequired": true,
+    "restoreAllowed": false,
+    "readonlyConfirmationAllowed": true,
+    "action": "NONE",
+    "automaticRecovery": false,
+    "diagnosticMutationCount": 0,
+    "status": "PASS",
+    "domain": "UNIFIED_R2B_SYNTHETIC",
+    "authorizationId": "synthetic-r2b3c1-diagnostic",
+    "recoveryAuthorizationSha256": "1acf3efb6cae98404d476ba18920a445b970f93d513e3395419928cbc17a4244",
+    "currentStateEvidence": {
+      "receiptSha256": "57ca9e51e96f56e890e1ff7076efe810bf72f8507500fb759196670e6bed2913",
+      "gatePermitSha256": "ed0c36a627ecbdbb71514ce6ae52f0ac813c43c454b532a63dfbc169cf215d02",
+      "consumedLedgerSha256": "cfdbb6937bea41348674fec43fe4fd8a01328b0032068ef6884b76d68839fc22",
+      "candidateExecutableSha256": "9978532e2bcd6bdafe0dbad81aa4521b5f2d9bbde1e71d9bbd6a9f07bc48749a",
+      "manifestSha256": "2f59feda46f841cfbf6ecafc8f75e8b9c2cfcbdb24a585239c0ae09960350733",
+      "databaseIdentity": {
+        "dev": 16777232,
+        "inode": 26113422,
+        "links": 1,
+        "size": 229376
+      },
+      "databaseSha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+      "backupSha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+      "terminalLineageSha256": "61491753154725967179af45c26065a9e4ee8004d522275588340fbd83e58a24"
+    }
+  }
+}

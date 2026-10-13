@@ -1,0 +1,91 @@
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 33 tests
+test quiescence::contract::tests::hash_requires_exact_canonical_digest ... ok
+test quiescence::contract::tests::protocol_rejects_unknown_fields_and_missing_objects ... ok
+test quiescence::contract::tests::s1_exit_requires_exact_retained_association_zero_exit_and_waitpid ... ok
+test quiescence::contract::tests::s1_readiness_semantics_reject_rehashed_false_claims ... ok
+test quiescence::contract::tests::state_mapping_is_explicit_not_schema_based ... ok
+test quiescence::contract::tests::managed_only_partial_attempt_is_not_not_started ... ok
+test quiescence::contract::tests::native_walk_preserves_extra_disabled_and_enabled_objects ... ok
+test quiescence::recovery::tests::authorization_snapshot_parses_and_hashes_one_unchanged_object ... ok
+test quiescence::contract::tests::lease_body_replacement_and_inode_recreation_are_detected ... ok
+test quiescence::recovery::tests::concurrent_recovery_claim_has_at_most_one_active_owner ... ok
+test quiescence::contract::tests::alias_hardlink_and_symlink_are_rejected_by_native_traversal ... ok
+test quiescence::recovery::tests::pending_or_corrupt_recovery_history_fails_closed ... ok
+test quiescence::recovery::tests::recovery_does_not_accept_restore_or_missing_authority ... ok
+test quiescence::recovery::tests::authorization_snapshot_rejects_semantic_byte_and_inode_drift ... ok
+test quiescence::recovery::tests::recovery_ledger_preserves_failed_consumption_and_allows_a_distinct_authorization ... ok
+test quiescence::recovery::tests::one_terminal_cannot_hide_another_unfinished_attempt ... ok
+test quiescence::recovery::tests::unresolved_diagnostic_never_claims_startup_permission ... ok
+test quiescence::contract::tests::omitted_phase_cannot_skip_to_migration ... ok
+test quiescence::recovery::tests::terminal_fault_boundaries_fail_closed_and_read_back ... ok
+test quiescence::tests::claimed_without_outcome_blocks_startup ... ok
+test quiescence::tests::corrupt_outcome_blocks_startup ... ok
+test quiescence::tests::empty_synthetic_state_is_not_started ... ok
+test quiescence::recovery::tests::readonly_terminal_confirmation_requires_exact_authority_and_ledger ... ok
+test quiescence::tests::dangling_pending_symlink_blocks_startup ... ok
+test quiescence::tests::pending_claim_blocks_before_any_db_open ... ok
+test quiescence::tests::unbound_verified_string_is_not_a_handoff ... ok
+test quiescence::tests::symlink_marker_is_not_synthetic_authority ... ok
+test quiescence::recovery::tests::terminal_recovery_must_match_attempt_and_preterminal_digest ... ok
+test quiescence::contract::tests::tampered_durable_phase_is_not_inferred_from_its_state ... ok
+test quiescence::contract::tests::saved_receipt_ahead_of_outcome_is_pending_not_verified ... ok
+test quiescence::contract::tests::corrupt_chain_pending_and_claim_binding_fail_closed ... ok
+test quiescence::contract::tests::missing_wrong_or_replayed_recovery_authority_never_opens_db ... ok
+test quiescence::contract::tests::seven_real_persisted_classifications_never_open_a_database ... ok
+
+test result: ok. 33 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.82s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 33 tests
+test quiescence::contract::tests::hash_requires_exact_canonical_digest ... ok
+test quiescence::contract::tests::protocol_rejects_unknown_fields_and_missing_objects ... ok
+test quiescence::contract::tests::s1_readiness_semantics_reject_rehashed_false_claims ... ok
+test quiescence::contract::tests::s1_exit_requires_exact_retained_association_zero_exit_and_waitpid ... ok
+test quiescence::contract::tests::state_mapping_is_explicit_not_schema_based ... ok
+test quiescence::contract::tests::native_walk_preserves_extra_disabled_and_enabled_objects ... ok
+test quiescence::contract::tests::managed_only_partial_attempt_is_not_not_started ... ok
+test quiescence::contract::tests::lease_body_replacement_and_inode_recreation_are_detected ... ok
+test quiescence::recovery::tests::authorization_snapshot_parses_and_hashes_one_unchanged_object ... ok
+test quiescence::recovery::tests::concurrent_recovery_claim_has_at_most_one_active_owner ... ok
+test quiescence::contract::tests::alias_hardlink_and_symlink_are_rejected_by_native_traversal ... ok
+test quiescence::recovery::tests::pending_or_corrupt_recovery_history_fails_closed ... ok
+test quiescence::recovery::tests::recovery_does_not_accept_restore_or_missing_authority ... ok
+test quiescence::recovery::tests::readonly_terminal_confirmation_requires_exact_authority_and_ledger ... ok
+test quiescence::recovery::tests::authorization_snapshot_rejects_semantic_byte_and_inode_drift ... ok
+test quiescence::recovery::tests::recovery_ledger_preserves_failed_consumption_and_allows_a_distinct_authorization ... ok
+test quiescence::recovery::tests::unresolved_diagnostic_never_claims_startup_permission ... ok
+test quiescence::recovery::tests::terminal_fault_boundaries_fail_closed_and_read_back ... ok
+test quiescence::recovery::tests::one_terminal_cannot_hide_another_unfinished_attempt ... ok
+test quiescence::tests::claimed_without_outcome_blocks_startup ... ok
+test quiescence::tests::dangling_pending_symlink_blocks_startup ... ok
+test quiescence::tests::corrupt_outcome_blocks_startup ... ok
+test quiescence::tests::empty_synthetic_state_is_not_started ... ok
+test quiescence::contract::tests::omitted_phase_cannot_skip_to_migration ... ok
+test quiescence::tests::unbound_verified_string_is_not_a_handoff ... ok
+test quiescence::tests::symlink_marker_is_not_synthetic_authority ... ok
+test quiescence::tests::pending_claim_blocks_before_any_db_open ... ok
+test quiescence::recovery::tests::terminal_recovery_must_match_attempt_and_preterminal_digest ... ok
+test quiescence::contract::tests::saved_receipt_ahead_of_outcome_is_pending_not_verified ... ok
+test quiescence::contract::tests::tampered_durable_phase_is_not_inferred_from_its_state ... ok
+test quiescence::contract::tests::corrupt_chain_pending_and_claim_binding_fail_closed ... ok
+test quiescence::contract::tests::missing_wrong_or_replayed_recovery_authority_never_opens_db ... ok
+test quiescence::contract::tests::seven_real_persisted_classifications_never_open_a_database ... ok
+
+test result: ok. 33 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.60s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

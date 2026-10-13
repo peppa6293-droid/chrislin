@@ -1,0 +1,231 @@
+{
+  "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3b2-canonical-wa3hgq29/pfc-qic-canonical-anchor-0k32skxb",
+  "objectCount": 25,
+  "objects": {
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3b2-canonical-wa3hgq29/pfc-qic-canonical-anchor-0k32skxb/SYNTHETIC_ONLY": {
+      "sha256": "5a341fc3217830486b6e798dbab847b133e5072b80de4525b917582eded48de1",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25997060,
+        "links": 1,
+        "size": 30
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3b2-canonical-wa3hgq29/pfc-qic-canonical-anchor-0k32skxb/release-receipt.json": {
+      "sha256": "df8089c47d718f7d61f2ee78014516af0b0288adde7c0a1ccba8aea1edd072c5",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25997195,
+        "links": 1,
+        "size": 3456
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3b2-canonical-wa3hgq29/pfc-qic-canonical-anchor-0k32skxb/gate-permit.claimed/permit.json": {
+      "sha256": "3efbf5bb4e858684ba2ef78d2ac55bcd74583d59d0a8d4d7cc299b6dc709feb1",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25997200,
+        "links": 1,
+        "size": 3659
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3b2-canonical-wa3hgq29/pfc-qic-canonical-anchor-0k32skxb/consumed-ledger.json": {
+      "sha256": "66b25ee042c7b8b6bc0dd4b69446ffb3a73d3cd39a0e7999f0cbd69034f4ac32",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25997218,
+        "links": 1,
+        "size": 1549
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3b2-canonical-wa3hgq29/pfc-qic-canonical-anchor-0k32skxb/gate-inputs/candidate-approval.json": {
+      "sha256": "6a4324ca8abe8758c47dd75b8cde905bdcda1a78cc3fc7aaebe6c3618db91341",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25997192,
+        "links": 1,
+        "size": 427
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3b2-canonical-wa3hgq29/pfc-qic-canonical-anchor-0k32skxb/gate-inputs/migration-authorization.json": {
+      "sha256": "989dd10462817d42300873d3e7350f708dfeda3ff8ff201ead7dbd98d5f02f0e",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25997193,
+        "links": 1,
+        "size": 514
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3b2-canonical-wa3hgq29/pfc-qic-canonical-anchor-0k32skxb/personal-finance-console.sqlite3": {
+      "sha256": "80d9994ebdbd4d3bc874698a552045388819b8f13c983bfe5628280f0fa88399",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25997107,
+        "links": 1,
+        "size": 258048
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3b2-canonical-wa3hgq29/pfc-qic-canonical-anchor-0k32skxb/backup.sqlite3": {
+      "sha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25997149,
+        "links": 1,
+        "size": 229376
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3b2-canonical-wa3hgq29/pfc-qic-canonical-anchor-0k32skxb/managed/install/Installed.app/Contents/MacOS/personal-finance-console": {
+      "sha256": "7c640378b10a8bbdb40cd5f9b65069de19443b8e65b9e6cc2f704a69e7f578d4",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25997183,
+        "links": 1,
+        "size": 21288608
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3b2-canonical-wa3hgq29/pfc-qic-canonical-anchor-0k32skxb/managed/candidate/Candidate.app/Contents/MacOS/personal-finance-console": {
+      "sha256": "7c640378b10a8bbdb40cd5f9b65069de19443b8e65b9e6cc2f704a69e7f578d4",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25997103,
+        "links": 1,
+        "size": 21288608
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3b2-canonical-wa3hgq29/pfc-qic-canonical-anchor-0k32skxb/managed/install/Installed.app/Contents/Resources/runtime-compatibility.json": {
+      "sha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25997184,
+        "links": 1,
+        "size": 234
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3b2-canonical-wa3hgq29/pfc-qic-canonical-anchor-0k32skxb/managed/candidate/Candidate.app/Contents/Resources/runtime-compatibility.json": {
+      "sha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25997104,
+        "links": 1,
+        "size": 234
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3b2-canonical-wa3hgq29/pfc-qic-canonical-anchor-0k32skxb/SYNTHETIC_C3_MANAGED_ISOLATED.json": {
+      "sha256": "6450e605f21db94f78785d6a20f4cebd39d5865a9c3a2eb0448ddb960267b945",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25997191,
+        "links": 1,
+        "size": 2505
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3b2-canonical-wa3hgq29/pfc-qic-canonical-anchor-0k32skxb/managed-contract.json": {
+      "sha256": "1a231ce349bcb8067ec88482179bad2d7682d06f5a3eb3466257ea0cfa5256ae",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25997190,
+        "links": 1,
+        "size": 24107
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3b2-canonical-wa3hgq29/pfc-qic-canonical-anchor-0k32skxb/managed-progress.json": {
+      "sha256": "4266f1c92146fc3f81102de5c1a19fc7bfc9d6cce4d384fb6fa805373aedef7b",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25997189,
+        "links": 1,
+        "size": 2515
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3b2-canonical-wa3hgq29/pfc-qic-canonical-anchor-0k32skxb/r2b-s0-s10.jsonl": {
+      "sha256": "f16e13f2379a6ecb4cde37f01152e17a8b31ea1a5aaff07d84a79cfa6b3d2d92",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25997223,
+        "links": 1,
+        "size": 2018
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3b2-canonical-wa3hgq29/pfc-qic-canonical-anchor-0k32skxb/managed-state-S0_VERIFIED_CANDIDATE.json": {
+      "sha256": "6fdf9c1fcb7c536ff31d4c2a46e6d9e0586d358744ce4b2fd100cd33552a9342",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25997154,
+        "links": 1,
+        "size": 4231
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3b2-canonical-wa3hgq29/pfc-qic-canonical-anchor-0k32skxb/managed-state-S1_ARCHIVE_VERIFIED.json": {
+      "sha256": "0aedc4a7b8bf2a3e6cba350bec721e10a3149ee9a375b0afc70ff6c1e7587165",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25997163,
+        "links": 1,
+        "size": 11305
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3b2-canonical-wa3hgq29/pfc-qic-canonical-anchor-0k32skxb/managed-state-S1_ENTRIES_DISABLED.json": {
+      "sha256": "6751eb9986f959d7caec34c815ab30a805601f9a1af9adbd9e90c3fb5906b4ee",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25997159,
+        "links": 1,
+        "size": 15061
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3b2-canonical-wa3hgq29/pfc-qic-canonical-anchor-0k32skxb/managed-state-S1_INSTALLED_DISABLED.json": {
+      "sha256": "9818139a2df4ec90355c78779a24f0450e9967efa52709bc0d97dd89135777b0",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25997185,
+        "links": 1,
+        "size": 2099
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3b2-canonical-wa3hgq29/pfc-qic-canonical-anchor-0k32skxb/managed-state-S1_MANAGED_ISOLATED.json": {
+      "sha256": "518fbae9e8221a274b1417d6de7046c3c892ba5e9ce902d00c0d9ba072e1f8fd",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25997188,
+        "links": 1,
+        "size": 30787
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3b2-canonical-wa3hgq29/pfc-qic-canonical-anchor-0k32skxb/managed-state-S1_OLD_RUNTIME_RETAINED.json": {
+      "sha256": "ebae2e046ad8dc6604511b3ef7e7c60b111e2b812d7a77550763e8bbe9eb3f8c",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25997157,
+        "links": 1,
+        "size": 3502
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3b2-canonical-wa3hgq29/pfc-qic-canonical-anchor-0k32skxb/managed-state-S1_STAGING_VERIFIED.json": {
+      "sha256": "a30a39b275ee4a49d9d307fd79e759ec15ea9b821f2ad43ad3baaab1a55ec8ba",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25997174,
+        "links": 1,
+        "size": 2092
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3b2-canonical-wa3hgq29/pfc-qic-canonical-anchor-0k32skxb/managed-state-S1_TARGET_EXIT_VERIFIED.json": {
+      "sha256": "dae69fbff7556163a53d268907e07b089fd909d49d7ff824b522f7b49fd8e57c",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25997161,
+        "links": 1,
+        "size": 2936
+      }
+    },
+    "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3b2-canonical-wa3hgq29/pfc-qic-canonical-anchor-0k32skxb/verified-handoff.json": {
+      "sha256": "b205e846cbc90f2147d0561d9cdb3bf48ef3fe724c13ca57b9e1290e257cdb35",
+      "identity": {
+        "dev": 16777232,
+        "inode": 25997225,
+        "links": 1,
+        "size": 1386
+      }
+    }
+  }
+}

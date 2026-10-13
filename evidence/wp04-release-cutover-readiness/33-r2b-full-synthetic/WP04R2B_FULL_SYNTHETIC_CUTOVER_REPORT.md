@@ -204,3 +204,14 @@ A fresh canonical synthetic root passed formal Gate C0–C10 and native S0–S10
 The requested formal-chain recovery matrix is **BLOCKED, 0/16 accepted scenarios**. Frozen `run_unified_gate_handoff` has no supported in-flight injection/barrier for the recovery states and does not consult the component runner's `PFC_Q_FAIL` controls. Component recovery 16/16 remains component-only. No state JSON or lineage was fabricated. A source change would be required to add supported full-chain injection points; the work order prohibits source changes and directs Execution to stop. Consequently Q01–Q18 closure and the final regression rerun were not performed; historical Q classifications remain unchanged. Renderer-only remains `DEFERRED_TO_WP04R2C`.
 
 Source/candidate unchanged; WP03 acceptance preserved; Financial Model and WP02 unchanged. Production was not touched. Overall R2B remains `WP04R2B_SYNTHETIC_CUTOVER_BLOCKED`; WP04R2B READY, R2C, and Production readiness are not claimed. See `WP04R2B3B2_RECOVERY_FINAL_ACCEPTANCE_REPORT.md` and the 44 evidence root for the complete boundary and readbacks.
+
+
+## R2B3C1 Unified Synthetic Recovery Test Hooks
+
+**`WP04R2B3C1_RECOVERY_TEST_HOOKS_READY` — 2026-10-13.** The unified native runner now has a dedicated compile-time synthetic recovery-hook feature bound to the exact `UNIFIED_R2B_SYNTHETIC` domain and `PFC_WP04_SYNTHETIC_CUTOVER_V1\n` marker. The fixed allowlist covers S5, S7-before-commit, commit-before-verified-readback, durable S10 reply loss, actual maintenance-flock loss, native orphan ACTIVE, and safe FAILED_V3 rollback. Unknown points and invalid domain/marker refuse; hook receipts are fsynced and explicitly non-authoritative. No automatic recovery was added.
+
+All 7 native hook points were reached through formal Gate → Rust consumer → native runner and passed their recovery-diagnostic smoke. Hook harness 12/12; R2B3A recovery diagnostics 9/9 after correcting an initial missing `PYTHONPATH=scripts`; product 300/300; R2A, C3 Gate-owned, R2B1B, Rust default/fixture/Tauri, native lease 15/15, component recovery 16/16, and forward S0–S10/Migration 4 exactly once all passed. Canonical prior V4 success root remained read-only: 25 objects unchanged, mutation count 0. Component recovery is not full-chain acceptance.
+
+Implementation source commit: `c3da2f73c03b681957b4334751b7933d102caad1`. The previous candidate hashes are unchanged and it is classified `R2B_PRE_RECOVERY_TEST_HOOKS_BASELINE`; no final candidate package was built. Production and its database were not touched; WP02 and Financial Model V1.0 were not changed; WP03 acceptance was preserved. Full-chain recovery matrix, Q01–Q18 closure, renderer, audit and final candidate build remain NOT RUN. Overall WP04R2B remains BLOCKED.
+
+Report: `WP04R2B3C1_RECOVERY_TEST_HOOKS_REPORT.md`. Evidence root: `evidence/wp04-release-cutover-readiness/45-r2b3c1-recovery-test-hooks/`. Next: WP04R2B3C2 source freeze and candidate rebuild.

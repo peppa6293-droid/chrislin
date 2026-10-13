@@ -1,0 +1,1 @@
+{"status": "PASS", "cases": 15, "blocked_coverage": [], "report": "/Users/linte/Documents/ChatGPT/\u4e2a\u4eba\u8d22\u52a1\u6a21\u578bapp\u5f00\u53d1/evidence/wp04-release-cutover-readiness/45-r2b3c1-recovery-test-hooks/11-regression/native-lease-results.json", "retained_root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-native-lease-zw3h80il"}

@@ -1,0 +1,33 @@
+{
+  "initialAttempt": {
+    "name": "r2b3a-unified-recovery",
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "scripts.test_unified_r2b_recovery",
+      "-v"
+    ],
+    "startedAt": "2026-10-13T06:10:14.127638+00:00",
+    "exitCode": 1,
+    "stdoutFile": "r2b3a-unified-recovery.stdout.txt",
+    "stderrFile": "r2b3a-unified-recovery.stderr.txt"
+  },
+  "correctedAttempt": {
+    "name": "r2b3a-unified-recovery-corrected-import-path",
+    "command": [
+      "env",
+      "PYTHONPATH=scripts",
+      "python3",
+      "-m",
+      "unittest",
+      "scripts.test_unified_r2b_recovery",
+      "-v"
+    ],
+    "exitCode": 0,
+    "testCount": 9,
+    "result": "PASS",
+    "reason": "Initial invocation omitted PYTHONPATH=scripts; corrected invocation loaded the module and all nine read-only recovery diagnostic tests passed."
+  },
+  "capturedAtUtc": "2026-10-13T06:18:52.342810+00:00"
+}

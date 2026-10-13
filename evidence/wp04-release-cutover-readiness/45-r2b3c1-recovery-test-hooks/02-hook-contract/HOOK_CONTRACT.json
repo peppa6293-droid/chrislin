@@ -1,0 +1,23 @@
+{
+  "feature": "wp04-r2b-recovery-test-hooks",
+  "dependsOn": "wp04-r2b-synthetic",
+  "domainRequired": "UNIFIED_R2B_SYNTHETIC",
+  "exactRootMarker": "PFC_WP04_SYNTHETIC_CUTOVER_V1\\n",
+  "points": [
+    "AFTER_S5_QUIESCENCE_ACQUIRED",
+    "AFTER_S7_BEFORE_COMMIT",
+    "AFTER_COMMIT_BEFORE_VERIFIED_READBACK",
+    "AFTER_S10_BEFORE_CALLER_REPLY",
+    "GUARD_LOST_AFTER_QUIESCENCE",
+    "ACTIVE_STATE_THEN_PROCESS_EXIT",
+    "BEFORE_M4_FAIL_V3_CONFIRMED"
+  ],
+  "unknownPoint": "REFUSE",
+  "missingPair": "REFUSE",
+  "wrongDomain": "REFUSE",
+  "markerSymlink": "REFUSE",
+  "arbitrarySqlOrPaths": "NOT_ACCEPTED",
+  "injectionReceipt": "RECOVERY_TEST_INJECTION.json; fsynced; authority=false",
+  "automaticRecovery": false,
+  "productionReachability": "NONE"
+}

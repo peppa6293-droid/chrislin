@@ -1,0 +1,101 @@
+   Compiling personal-finance-console v0.1.0 (/Users/linte/Documents/ChatGPT/个人财务模型app开发/src-tauri)
+warning: unused import: `PathBuf`
+ --> src/wp02_preview_isolation.rs:2:23
+  |
+2 | use std::path::{Path, PathBuf};
+  |                       ^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: `personal-finance-console` (lib) generated 1 warning (run `cargo fix --lib -p personal-finance-console` to apply 1 suggestion)
+warning: direct cast of function item into an integer
+  --> src/bin/quiescence_old_runtime.rs:24:62
+   |
+24 |     unsafe { libc::signal(libc::SIGTERM, request_termination as libc::sighandler_t); }
+   |                                                              ^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(function_casts_as_integer)]` on by default
+help: first cast to a pointer `as *const ()`
+   |
+24 |     unsafe { libc::signal(libc::SIGTERM, request_termination as *const () as libc::sighandler_t); }
+   |                                                              ++++++++++++
+
+warning: `personal-finance-console` (bin "quiescence-old-runtime" test) generated 1 warning (run `cargo fix --bin "quiescence-old-runtime" -p personal-finance-console --tests` to apply 1 suggestion)
+warning: function `hash_entrypoint` is never used
+   --> src/bin/../quiescence.rs:422:8
+    |
+422 | pub fn hash_entrypoint()->Option<Result<()>> {
+    |        ^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `personal-finance-console` (bin "quiescence-fixture" test) generated 1 warning
+warning: constant `UNIFIED_MARKER` is never used
+  --> src/bin/../quiescence.rs:18:7
+   |
+18 | const UNIFIED_MARKER: &[u8] = b"PFC_WP04_SYNTHETIC_CUTOVER_V1\n";
+   |       ^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: enum `AuthorityDomain` is never used
+   --> src/bin/../quiescence.rs:432:6
+    |
+432 | enum AuthorityDomain { UnifiedR2bGateOwned }
+    |      ^^^^^^^^^^^^^^^
+
+warning: struct `ValidatedGateAuthority` is never constructed
+   --> src/bin/../quiescence.rs:435:8
+    |
+435 | struct ValidatedGateAuthority {
+    |        ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `exact_hash` is never used
+   --> src/bin/../quiescence.rs:458:4
+    |
+458 | fn exact_hash(path:&Path, expected:&str)->Result<String> {
+    |    ^^^^^^^^^^
+
+warning: function `consume_unified_gate_permit` is never used
+   --> src/bin/../quiescence.rs:465:4
+    |
+465 | fn consume_unified_gate_permit(raw:&str)->Result<(ValidatedGateAuthority,Value)> {
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `run_unified_gate_handoff` is never used
+   --> src/bin/../quiescence.rs:614:8
+    |
+614 | pub fn run_unified_gate_handoff(root:&str)->Result<Value> {
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: enum `RecoveryTestPoint` is never used
+   --> src/bin/../quiescence.rs:831:6
+    |
+831 | enum RecoveryTestPoint { AfterS5QuiescenceAcquired, AfterS7BeforeCommit, AfterCommitBeforeVerifiedReadback,
+    |      ^^^^^^^^^^^^^^^^^
+
+warning: function `selected_recovery_test_point` is never used
+   --> src/bin/../quiescence.rs:835:4
+    |
+835 | fn selected_recovery_test_point(_: &ValidatedGateAuthority)->Result<Option<RecoveryTestPoint>> { Ok(None) }
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `fire_recovery_test_hook` is never used
+   --> src/bin/../quiescence.rs:888:4
+    |
+888 | fn fire_recovery_test_hook(_: &ValidatedGateAuthority,_:RecoveryTestPoint,_:&str,_:Option<&Connection>,_:&str) {}
+    |    ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `cli` is never used
+   --> src/bin/../quiescence.rs:914:8
+    |
+914 | pub fn cli()->Result<()> {
+    |        ^^^
+
+warning: `personal-finance-console` (bin "quiescence-tauri" test) generated 10 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 5.56s
+     Running unittests src/main.rs (src-tauri/target/debug/deps/personal_finance_console-0e2d33ef02295b76)
+     Running unittests src/bin/quiescence_fixture.rs (src-tauri/target/debug/deps/quiescence_fixture-a166cebdf2192d7f)
+     Running unittests src/bin/quiescence_old_runtime.rs (src-tauri/target/debug/deps/quiescence_old_runtime-b9fb79da7b97728a)
+     Running unittests src/bin/quiescence_tauri.rs (src-tauri/target/debug/deps/quiescence_tauri-54e1c224eff25bc8)
+     Running unittests src/bin/quiescence_competitor.rs (src-tauri/target/debug/deps/quiescence_competitor-a6d9fa6f4496891a)

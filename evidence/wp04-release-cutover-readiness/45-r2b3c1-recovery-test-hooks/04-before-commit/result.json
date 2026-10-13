@@ -1,0 +1,68 @@
+{
+  "testPoint": "AFTER_S7_BEFORE_COMMIT",
+  "expectedState": "M4_IN_TRANSACTION",
+  "exitCode": 2,
+  "stdout": "",
+  "stderr": "{\"status\": \"BLOCKED\", \"errorType\": \"GateBlocked\", \"reasons\": [\"Native migration consumer refused or failed (exit=86): \"]}\n",
+  "stageRows": [
+    "{\"details\":{\"busyTimeout\":0,\"databaseIdentity\":{\"dev\":16777232,\"inode\":26113779,\"links\":1,\"size\":229376},\"journalMode\":\"delete\",\"lockingMode\":\"exclusive\"},\"permitSha256\":\"b56982838838706f43dc343614728ab2b7aedabb8b509f354cc01f069536f805\",\"session\":\"session-c7a41167721f446ebd851e146f60c499\",\"stage\":\"S4_CONNECTION_PREPARED\"}",
+    "{\"details\":{\"lockState\":4},\"permitSha256\":\"b56982838838706f43dc343614728ab2b7aedabb8b509f354cc01f069536f805\",\"session\":\"session-c7a41167721f446ebd851e146f60c499\",\"stage\":\"S5_QUIESCENCE_ACQUIRED\"}",
+    "{\"details\":{\"businessSnapshotSha256\":\"2326dbe871bce29bfcf23f643a73b70b68e585ec100e85a34d82d6f791e430a0\",\"databaseSha256\":\"5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b\"},\"permitSha256\":\"b56982838838706f43dc343614728ab2b7aedabb8b509f354cc01f069536f805\",\"session\":\"session-c7a41167721f446ebd851e146f60c499\",\"stage\":\"S6_V3_REVALIDATED\"}",
+    "{\"details\":{\"migration\":\"migrations/004.sql\",\"migration4Rows\":1,\"migrationStatements\":7,\"transactionOpen\":true},\"permitSha256\":\"b56982838838706f43dc343614728ab2b7aedabb8b509f354cc01f069536f805\",\"session\":\"session-c7a41167721f446ebd851e146f60c499\",\"stage\":\"S7_M4_IN_TRANSACTION\"}"
+  ],
+  "injection": {
+    "authority": false,
+    "candidateIdentity": {
+      "bundleId": "org.pfc.quiescence.integration",
+      "executableSha256": "b75e9dabd730159b1df20f97b1b4ef81eb97e6471c218df72d7ddbf0d38d70b0",
+      "manifestSha256": "2f59feda46f841cfbf6ecafc8f75e8b9c2cfcbdb24a585239c0ae09960350733"
+    },
+    "consumedLedgerSha256": "00fd88dd134cfc53f640094a29e32b735d6c1c49d162542e72017aa28b84a91e",
+    "databaseSha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+    "databaseUserVersion": 4,
+    "formatVersion": 1,
+    "migrationRowCount": 4,
+    "permitSha256": "b56982838838706f43dc343614728ab2b7aedabb8b509f354cc01f069536f805",
+    "processBehavior": "PROCESS_EXIT_BEFORE_COMMIT",
+    "session": "session-c7a41167721f446ebd851e146f60c499",
+    "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+    "stateReached": "S7_M4_IN_TRANSACTION",
+    "syntheticOnly": true,
+    "testPoint": "AFTER_S7_BEFORE_COMMIT",
+    "timestampUnix": 1791872163
+  },
+  "recoveryDiagnostic": {
+    "currentState": "M4_IN_TRANSACTION",
+    "recoveryDisposition": "MANUAL_DECISION_REQUIRED",
+    "businessAccessDecision": "MANUAL_DECISION_REQUIRED",
+    "businessAccessAllowed": false,
+    "migrationMayRerun": false,
+    "oldPermitReusable": false,
+    "newAuthorizationRequired": true,
+    "restoreAllowed": false,
+    "readonlyConfirmationAllowed": true,
+    "action": "NONE",
+    "automaticRecovery": false,
+    "diagnosticMutationCount": 0,
+    "status": "PASS",
+    "domain": "UNIFIED_R2B_SYNTHETIC",
+    "authorizationId": "synthetic-r2b3c1-diagnostic",
+    "recoveryAuthorizationSha256": "f138be4f44df0658779602183dc89b6b489d00ad902cb093b0f2a10369d1fe9d",
+    "currentStateEvidence": {
+      "receiptSha256": "8753d9d91f538b5724de23ce586c1224bdb74fdab4dadfe38a9a555b1fac41c9",
+      "gatePermitSha256": "b56982838838706f43dc343614728ab2b7aedabb8b509f354cc01f069536f805",
+      "consumedLedgerSha256": "00fd88dd134cfc53f640094a29e32b735d6c1c49d162542e72017aa28b84a91e",
+      "candidateExecutableSha256": "b75e9dabd730159b1df20f97b1b4ef81eb97e6471c218df72d7ddbf0d38d70b0",
+      "manifestSha256": "2f59feda46f841cfbf6ecafc8f75e8b9c2cfcbdb24a585239c0ae09960350733",
+      "databaseIdentity": {
+        "dev": 16777232,
+        "inode": 26113779,
+        "links": 1,
+        "size": 229376
+      },
+      "databaseSha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+      "backupSha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+      "terminalLineageSha256": "0d927543b599753bc9df731f23ebbf20228d6382aa56b9b50362d92795d2a9d3"
+    }
+  }
+}

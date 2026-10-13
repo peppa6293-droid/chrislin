@@ -1,0 +1,18 @@
+{
+  "workOrder": "WP-04R2B3C1",
+  "startingHead": "4d91e4441ea7bffa7c6db730bb4ea73a80d0d8d5",
+  "implementationCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+  "startingTrackedTreeClean": true,
+  "previousUntrackedArtifactsPreserved": true,
+  "sourceFilesAuthorized": [
+    "src-tauri/Cargo.toml",
+    "src-tauri/src/quiescence.rs",
+    "scripts/test_wp04r2b3c1_recovery_hooks.py"
+  ],
+  "oldCandidatePath": "/Users/linte/Library/Caches/pfc-wp04r2b3b1-713e4c5/candidate-build/cargo-target/release/bundle/macos/小钱家.app",
+  "oldCandidateExecutableSha256": "7c640378b10a8bbdb40cd5f9b65069de19443b8e65b9e6cc2f704a69e7f578d4",
+  "oldCandidateManifestSha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+  "expectedOldCandidateExecutableSha256": "7c640378b10a8bbdb40cd5f9b65069de19443b8e65b9e6cc2f704a69e7f578d4",
+  "expectedOldCandidateManifestSha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+  "capturedAtUtc": "2026-10-13T06:08:49.442482+00:00"
+}
