@@ -1,0 +1,55 @@
+{
+  "sourceFile": "evidence/quiescence/authoritative-final.json",
+  "priorExperimentScript": "scripts/quiescence_experiments.py",
+  "cases": [
+    {
+      "busy_timeout_ms": 0,
+      "sequence": 364,
+      "rawResult": {
+        "autocommit": true,
+        "elapsed_us": 8,
+        "error": "database is locked",
+        "event": "sql",
+        "extended_code": 5,
+        "ok": false,
+        "pid": 84704,
+        "primary_code": 5,
+        "sql": "BEGIN EXCLUSIVE"
+      },
+      "status": "SQLITE_BUSY"
+    },
+    {
+      "busy_timeout_ms": 100,
+      "sequence": 368,
+      "rawResult": {
+        "autocommit": true,
+        "elapsed_us": 110417,
+        "error": "database is locked",
+        "event": "sql",
+        "extended_code": 5,
+        "ok": false,
+        "pid": 84704,
+        "primary_code": 5,
+        "sql": "BEGIN EXCLUSIVE"
+      },
+      "status": "SQLITE_BUSY"
+    },
+    {
+      "busy_timeout_ms": 5000,
+      "sequence": 372,
+      "rawResult": {
+        "autocommit": true,
+        "elapsed_us": 5211290,
+        "error": "database is locked",
+        "event": "sql",
+        "extended_code": 5,
+        "ok": false,
+        "pid": 84704,
+        "primary_code": 5,
+        "sql": "BEGIN EXCLUSIVE"
+      },
+      "status": "SQLITE_BUSY"
+    }
+  ],
+  "allPrimaryCodesAreSqliteBusy": true
+}

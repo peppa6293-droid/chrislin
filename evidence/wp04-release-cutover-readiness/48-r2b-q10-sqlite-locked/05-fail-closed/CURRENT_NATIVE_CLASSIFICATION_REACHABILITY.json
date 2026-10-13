@@ -1,0 +1,21 @@
+{
+  "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+  "sourceFile": "src-tauri/src/quiescence.rs",
+  "sourceSha256": "9499a065e33c5ca87544dff494b6a59d9d5e81fe4b6c4df2e95b3a5c3d09f7ec",
+  "realErrorConsumedBy": "the exact frozen quiescence::Failure::from(rusqlite::Error) implementation, called by the standalone probe after a live SQLite API call returned SQLITE_LOCKED_SHAREDCACHE",
+  "observed": {
+    "code": "SQLITE_ERROR",
+    "detail": "database table is locked: business_probe",
+    "sqlite_extended": 262,
+    "sqlite_primary": 6
+  },
+  "rawVariant": "SqliteFailure(Error { code: DatabaseLocked, extended_code: 262 }, Some(\"database table is locked: business_probe\"))",
+  "gateRunnerDirectInjection": "NOT PERFORMED; the frozen native runner uses PRIVATE_CACHE, so the deliberately shared-cache lock is an error-semantics injection and is not claimed as a normal Gate-runner configuration",
+  "sourceBehavior": {
+    "singleMigrationAttempt": "M4 statements use execute_batch(...)? and propagate errors; no retry loop",
+    "v3FailurePath": "SQLITE_LOCKED primary 6 is not in the special dangerous-code list; pre-commit error path attempts rollback and verifies schema V3 before FAILED_V3_CONFIRMED",
+    "permitReplay": "run() refuses existing permit.claimed.json, consumed.json, outcome.json, and pending markers before DB open",
+    "restore": "diagnostic path does not restore; restore is only a separate explicitly authorized recovery operation",
+    "limitations": "Source-flow analysis plus real error conversion; no Formal Gate M4 error injection was fabricated."
+  }
+}

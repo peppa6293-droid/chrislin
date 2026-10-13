@@ -145,3 +145,12 @@
 - Q01–Q18 closure 被 Q10 阻断：现有权威定义要求专门 `SQLITE_LOCKED` 注入，当前验收没有该证据；这是 evidence gap，不是已确认实现缺陷。Q11 renderer-only 仍 `DEFERRED_TO_WP04R2C`。
 - Production、WP02、Financial Model V1.0 未触碰；WP03 acceptance 保留。未运行 renderer。
 - 报告：`WP04R2B3C3_FULL_CHAIN_RECOVERY_FINAL_REPORT.md`；证据：`evidence/wp04-release-cutover-readiness/47-r2b3c3-full-chain-recovery-final/`。下一责任人：Planning/Owner 决定是否另立 Q10 专项验收范围。
+
+
+## WP-04R2B3D Q10 SQLITE_LOCKED Closure — 2026-10-13
+
+- 状态：`WP04R2B_SYNTHETIC_CUTOVER_READY`。Q10 使用 frozen rusqlite 0.37.0 / bundled SQLite 3.50.2，在独立 synthetic V3 DB 上真实取得 primary 6、extended 262 `SQLITE_LOCKED_SHAREDCACHE`。busy_timeout=0 / 5000ms 均立即返回；原生 `Failure::from` 实际消费该错误并保留错误码。
+- 两份 DB before/after SHA 一致；V3、迁移行 `[1,2,3]`、M4=0、integrity ok、FK 空、无 sidecars。此前 0/100/5000ms `SQLITE_BUSY` 时长证据单独保留。
+- Q01–Q18 `PASS_FOR_R2B`；Q11 renderer-only 仍 `DEFERRED_TO_WP04R2C`。C0–C10、S0–S10、17/17 recovery 和完整回归复用 C3D frozen identity，本轮未重跑。
+- Source/candidate 未变；未重建/启动 candidate；Production、WP02、Financial Model V1.0 未触碰；WP03 acceptance 保留。
+- 报告：`WP04R2B_Q10_SQLITE_LOCKED_CLOSURE_REPORT.md`；证据：`evidence/wp04-release-cutover-readiness/48-r2b-q10-sqlite-locked/`。到 synthetic readiness 停止，不代表 Production 授权或 Owner final acceptance。

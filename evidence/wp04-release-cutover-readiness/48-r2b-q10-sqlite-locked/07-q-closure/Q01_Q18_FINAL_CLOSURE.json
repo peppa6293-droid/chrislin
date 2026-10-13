@@ -1,0 +1,261 @@
+{
+  "workOrder": "WP-04R2B3C3",
+  "definitionSources": [
+    "evidence/wp04-release-cutover-readiness/07-experiment-closure/Q01_Q18_CLOSURE.md",
+    "evidence/wp04-release-cutover-readiness/33-r2b-full-synthetic/R2B_Q_UPDATE.md",
+    "evidence/wp04-release-cutover-readiness/40-r2b-final-acceptance-v3-compatible/attempt-02/17-q/Q01-Q18-CLOSURE.md",
+    "docs/PLANNING_GOVERNANCE.md"
+  ],
+  "currentEvidenceRoot": "evidence/wp04-release-cutover-readiness/48-r2b-q10-sqlite-locked/",
+  "items": [
+    {
+      "id": "Q01",
+      "definition": "Old-runtime eligibility and exclusive quiescence boundary.",
+      "supportedScope": "As defined in Q01_Q18_CLOSURE.md and R2B_Q_UPDATE.md; no scope expansion.",
+      "classification": "PASS_CURRENT",
+      "evidenceRefs": [
+        "01-canonical-anchor/C3_MANAGED_ISOLATION.json",
+        "01-canonical-anchor/S0_S10_STAGE_LINEAGE.json"
+      ],
+      "openSubitems": [],
+      "rendererDeferred": false,
+      "reason": "Fresh canonical full chain and QUIESCENCE_ACQUIRED, PRE_COMMIT_INTERRUPTION and GUARD_LOST scenarios bind quiescence to the Gate chain."
+    },
+    {
+      "id": "Q02",
+      "definition": "Real readers and fresh authority must not permit unsafe acquisition.",
+      "supportedScope": "As defined in Q01_Q18_CLOSURE.md and R2B_Q_UPDATE.md; no scope expansion.",
+      "classification": "PASS_CURRENT",
+      "evidenceRefs": [
+        "01-canonical-anchor/C3_MANAGED_ISOLATION.json",
+        "16-regression/r2b1b-native-corrected.stderr.txt"
+      ],
+      "openSubitems": [],
+      "rendererDeferred": false,
+      "reason": "Current native Gate handoff regression and fresh canonical authority chain passed."
+    },
+    {
+      "id": "Q03",
+      "definition": "C0/database drift and writer changes must be rejected across migration boundary.",
+      "supportedScope": "As defined in Q01_Q18_CLOSURE.md and R2B_Q_UPDATE.md; no scope expansion.",
+      "classification": "PASS_CURRENT",
+      "evidenceRefs": [
+        "08-drift/DB_DRIFT/SCENARIO_RESULT.json",
+        "01-canonical-anchor/PRE_POST_MODEL_AND_BUSINESS_COMPARISON.json"
+      ],
+      "openSubitems": [],
+      "rendererDeferred": false,
+      "reason": "DB drift refused; canonical pre/post business preservation passed."
+    },
+    {
+      "id": "Q04",
+      "definition": "Preflight race and managed old-runtime isolation must fail closed.",
+      "supportedScope": "As defined in Q01_Q18_CLOSURE.md and R2B_Q_UPDATE.md; no scope expansion.",
+      "classification": "PASS_CURRENT",
+      "evidenceRefs": [
+        "01-canonical-anchor/C3_MANAGED_ISOLATION.json",
+        "10-lease-orphan/LEASE_CONFLICT/SCENARIO_RESULT.json",
+        "16-regression/r2b1b-native-corrected.stderr.txt"
+      ],
+      "openSubitems": [],
+      "rendererDeferred": false,
+      "reason": "Managed isolation and actual competing lease were exercised in the formal chain."
+    },
+    {
+      "id": "Q05",
+      "definition": "SQLite BUSY and native lease safety behavior.",
+      "supportedScope": "As defined in Q01_Q18_CLOSURE.md and R2B_Q_UPDATE.md; no scope expansion.",
+      "classification": "PASS_REUSED_WITH_CURRENT_REVALIDATION",
+      "evidenceRefs": [
+        "16-regression/native-lease-results.json",
+        "16-regression/rust-quiescence-fixture.stderr.txt"
+      ],
+      "openSubitems": [],
+      "rendererDeferred": false,
+      "reason": "Frozen-source Rust quiescence and native lease suites rerun; full-chain lease-conflict scenario also passed."
+    },
+    {
+      "id": "Q06",
+      "definition": "Crash boundaries and permit replay must not resurrect authority.",
+      "supportedScope": "As defined in Q01_Q18_CLOSURE.md and R2B_Q_UPDATE.md; no scope expansion.",
+      "classification": "PASS_CURRENT",
+      "evidenceRefs": [
+        "14-full-matrix/FULL_CHAIN_RECOVERY_MATRIX.json",
+        "11-permit-replay/PERMIT_REPLAY/SCENARIO_RESULT.json"
+      ],
+      "openSubitems": [],
+      "rendererDeferred": false,
+      "reason": "All 17 full-chain recovery points passed; replay refused and durable states preserved."
+    },
+    {
+      "id": "Q07",
+      "definition": "Constraint failure and transaction rollback preserve V3 before commit.",
+      "supportedScope": "As defined in Q01_Q18_CLOSURE.md and R2B_Q_UPDATE.md; no scope expansion.",
+      "classification": "PASS_CURRENT",
+      "evidenceRefs": [
+        "03-failed-v3/FAILED_V3_CONFIRMED/SCENARIO_RESULT.json",
+        "06-commit-boundaries/PRE_COMMIT_INTERRUPTION/SCENARIO_RESULT.json",
+        "16-regression/rust-default.stderr.txt"
+      ],
+      "openSubitems": [
+        "Real pager I/O and rollback I/O faults are excluded from the declared first-release support profile."
+      ],
+      "rendererDeferred": false,
+      "reason": "Fail-before-M4 and pre-commit interruption preserved V3; integrity checks passed. Pager/device fault cases remain explicitly unsupported."
+    },
+    {
+      "id": "Q08",
+      "definition": "Migration 4 schema and post-migration readback are exactly once.",
+      "supportedScope": "As defined in Q01_Q18_CLOSURE.md and R2B_Q_UPDATE.md; no scope expansion.",
+      "classification": "PASS_CURRENT",
+      "evidenceRefs": [
+        "01-canonical-anchor/POST_BUSINESS_STATE.json",
+        "01-canonical-anchor/CANONICAL_ANCHOR_RESULT.json"
+      ],
+      "openSubitems": [],
+      "rendererDeferred": false,
+      "reason": "Canonical C7/C9 readback confirms schema 4, rows [1,2,3,4], M4 exactly once and integrity/FK clean."
+    },
+    {
+      "id": "Q09",
+      "definition": "WAL migration profile.",
+      "supportedScope": "As defined in Q01_Q18_CLOSURE.md and R2B_Q_UPDATE.md; no scope expansion.",
+      "classification": "INTENTIONALLY_UNSUPPORTED",
+      "evidenceRefs": [
+        "07-experiment-closure/Q01_Q18_CLOSURE.md"
+      ],
+      "openSubitems": [
+        "WAL migration is outside the supported profile."
+      ],
+      "rendererDeferred": false,
+      "reason": "Existing support contract excludes WAL migration."
+    },
+    {
+      "id": "Q10",
+      "definition": "SQLite BUSY/timeout and LOCKED error handling.",
+      "supportedScope": "As defined in Q01_Q18_CLOSURE.md and R2B_Q_UPDATE.md; no scope expansion.",
+      "classification": "PASS_CURRENT",
+      "evidenceRefs": [
+        "48-r2b-q10-sqlite-locked/03-locked-injection/ENGINE_LOCKED_PROOF_FINAL.json",
+        "48-r2b-q10-sqlite-locked/04-timeout-semantics/PREVIOUS_SQLITE_BUSY_EVIDENCE.json",
+        "48-r2b-q10-sqlite-locked/05-fail-closed/CURRENT_NATIVE_CLASSIFICATION_REACHABILITY.json",
+        "48-r2b-q10-sqlite-locked/06-db-readback/SQLITE_DB_READBACK.json"
+      ],
+      "openSubitems": [],
+      "rendererDeferred": false,
+      "reason": "Dedicated real SQLITE_LOCKED_SHAREDCACHE was observed through the frozen SQLite stack at 0ms and 5000ms busy_timeout; exact frozen native error conversion preserved primary 6/extended 262; no retry/success/M4/schema promotion occurred in the disposable V3 fixture; source/candidate unchanged. Prior BUSY 0/100/5000ms timings are separately preserved."
+    },
+    {
+      "id": "Q11",
+      "definition": "Tauri IPC and runtime disconnect behavior.",
+      "supportedScope": "As defined in Q01_Q18_CLOSURE.md and R2B_Q_UPDATE.md; no scope expansion.",
+      "classification": "PASS_CURRENT",
+      "evidenceRefs": [
+        "16-regression/rust-quiescence-tauri-corrected.stderr.txt"
+      ],
+      "openSubitems": [
+        "Renderer process-only termination remains deferred to WP04R2C."
+      ],
+      "rendererDeferred": true,
+      "reason": "Non-renderer/native supported portion is verified by current Tauri suite. Renderer-only termination is separately deferred."
+    },
+    {
+      "id": "Q12",
+      "definition": "Candidate, manifest, backup, authorization and chain-object drift checks.",
+      "supportedScope": "As defined in Q01_Q18_CLOSURE.md and R2B_Q_UPDATE.md; no scope expansion.",
+      "classification": "PASS_CURRENT",
+      "evidenceRefs": [
+        "08-drift/CANDIDATE_DRIFT/SCENARIO_RESULT.json",
+        "08-drift/BACKUP_DRIFT/SCENARIO_RESULT.json",
+        "08-drift/AUTHORIZATION_DRIFT/SCENARIO_RESULT.json",
+        "09-ledger-terminal/CORRUPT_LEDGER/SCENARIO_RESULT.json"
+      ],
+      "openSubitems": [],
+      "rendererDeferred": false,
+      "reason": "All specified artifact drift/corruption scenarios refuse with zero diagnostic mutation."
+    },
+    {
+      "id": "Q13",
+      "definition": "SQLite lock profile and native lease failure behavior.",
+      "supportedScope": "As defined in Q01_Q18_CLOSURE.md and R2B_Q_UPDATE.md; no scope expansion.",
+      "classification": "PASS_REUSED_WITH_CURRENT_REVALIDATION",
+      "evidenceRefs": [
+        "16-regression/native-lease-results.json",
+        "10-lease-orphan/LEASE_CONFLICT/SCENARIO_RESULT.json"
+      ],
+      "openSubitems": [
+        "Pager-fault lock behavior is outside the declared support profile."
+      ],
+      "rendererDeferred": false,
+      "reason": "Current native lease suite and real competing lease passed; pager fault behavior remains excluded."
+    },
+    {
+      "id": "Q14",
+      "definition": "Hash/lease helper competition and one-winner behavior.",
+      "supportedScope": "As defined in Q01_Q18_CLOSURE.md and R2B_Q_UPDATE.md; no scope expansion.",
+      "classification": "PASS_REUSED_WITH_CURRENT_REVALIDATION",
+      "evidenceRefs": [
+        "16-regression/native-lease-results.json",
+        "10-lease-orphan/LEASE_CONFLICT/SCENARIO_RESULT.json"
+      ],
+      "openSubitems": [],
+      "rendererDeferred": false,
+      "reason": "Current native lease concurrency suite and lease conflict scenario passed; no authority takeover observed."
+    },
+    {
+      "id": "Q15",
+      "definition": "Host-wide malicious namespace and root/kernel attacker behavior.",
+      "supportedScope": "As defined in Q01_Q18_CLOSURE.md and R2B_Q_UPDATE.md; no scope expansion.",
+      "classification": "OUT_OF_SCOPE_BY_THREAT_MODEL",
+      "evidenceRefs": [
+        "07-experiment-closure/Q01_Q18_CLOSURE.md"
+      ],
+      "openSubitems": [
+        "Host-wide malicious namespace and root/kernel attackers remain out of scope."
+      ],
+      "rendererDeferred": false,
+      "reason": "Preserves the declared threat model; no expansion made."
+    },
+    {
+      "id": "Q16",
+      "definition": "Formal Gate permit-to-native claim, durable ledger and recovery dispositions.",
+      "supportedScope": "As defined in Q01_Q18_CLOSURE.md and R2B_Q_UPDATE.md; no scope expansion.",
+      "classification": "PASS_CURRENT",
+      "evidenceRefs": [
+        "14-full-matrix/FULL_CHAIN_RECOVERY_MATRIX.json",
+        "01-canonical-anchor/CANONICAL_ANCHOR_RESULT.json"
+      ],
+      "openSubitems": [],
+      "rendererDeferred": false,
+      "reason": "Canonical permit-to-native chain and every full-chain recovery scenario passed; no permit replay, automatic M4 rerun or restore."
+    },
+    {
+      "id": "Q17",
+      "definition": "Migration 4 schema fidelity and preserved business rows.",
+      "supportedScope": "As defined in Q01_Q18_CLOSURE.md and R2B_Q_UPDATE.md; no scope expansion.",
+      "classification": "PASS_CURRENT",
+      "evidenceRefs": [
+        "01-canonical-anchor/POST_BUSINESS_STATE.json",
+        "01-canonical-anchor/PRE_POST_MODEL_AND_BUSINESS_COMPARISON.json"
+      ],
+      "openSubitems": [],
+      "rendererDeferred": false,
+      "reason": "Canonical C9 readback and model/business comparison passed."
+    },
+    {
+      "id": "Q18",
+      "definition": "WAL-reader coexistence during migration.",
+      "supportedScope": "As defined in Q01_Q18_CLOSURE.md and R2B_Q_UPDATE.md; no scope expansion.",
+      "classification": "INTENTIONALLY_UNSUPPORTED",
+      "evidenceRefs": [
+        "07-experiment-closure/Q01_Q18_CLOSURE.md"
+      ],
+      "openSubitems": [
+        "WAL-reader coexistence during migration is outside the supported profile."
+      ],
+      "rendererDeferred": false,
+      "reason": "Existing support contract excludes this mode."
+    }
+  ],
+  "overall": "PASS_FOR_R2B"
+}

@@ -1,0 +1,187 @@
+{
+  "workOrder": "WP-04R2B3D",
+  "finalStatus": "WP04R2B_SYNTHETIC_CUTOVER_READY",
+  "frozenSourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+  "sourceArchiveSha256": "e2f06d023eca661079406821cac23373b874a81867c95dccb6f1e503ecef6ce3",
+  "candidateExecutableSha256": "e4097fc566bbe9d3e0a6eafb7044b283dae37504427a25ca08917c2b046ae1bf",
+  "manifestSha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+  "strictCodesign": "PASS",
+  "sourceChanged": false,
+  "candidateChanged": false,
+  "authoritativeQ10Requirement": "Dedicated real SQLITE_LOCKED injection and its semantics; prior actual SQLITE_BUSY at busy_timeout 0/100/5000 ms is preserved separately.",
+  "previousBusyEvidence": [
+    {
+      "busy_timeout_ms": 0,
+      "sequence": 364,
+      "rawResult": {
+        "autocommit": true,
+        "elapsed_us": 8,
+        "error": "database is locked",
+        "event": "sql",
+        "extended_code": 5,
+        "ok": false,
+        "pid": 84704,
+        "primary_code": 5,
+        "sql": "BEGIN EXCLUSIVE"
+      },
+      "status": "SQLITE_BUSY"
+    },
+    {
+      "busy_timeout_ms": 100,
+      "sequence": 368,
+      "rawResult": {
+        "autocommit": true,
+        "elapsed_us": 110417,
+        "error": "database is locked",
+        "event": "sql",
+        "extended_code": 5,
+        "ok": false,
+        "pid": 84704,
+        "primary_code": 5,
+        "sql": "BEGIN EXCLUSIVE"
+      },
+      "status": "SQLITE_BUSY"
+    },
+    {
+      "busy_timeout_ms": 5000,
+      "sequence": 372,
+      "rawResult": {
+        "autocommit": true,
+        "elapsed_us": 5211290,
+        "error": "database is locked",
+        "event": "sql",
+        "extended_code": 5,
+        "ok": false,
+        "pid": 84704,
+        "primary_code": 5,
+        "sql": "BEGIN EXCLUSIVE"
+      },
+      "status": "SQLITE_BUSY"
+    }
+  ],
+  "lockedCases": [
+    {
+      "busyTimeoutMs": 0,
+      "primaryCode": 6,
+      "extendedCode": 262,
+      "errorName": "SQLITE_LOCKED_SHAREDCACHE",
+      "message": "database table is locked: business_probe",
+      "elapsedNs": 15709,
+      "nativeFailureConversion": {
+        "code": "SQLITE_ERROR",
+        "detail": "database table is locked: business_probe",
+        "sqlite_extended": 262,
+        "sqlite_primary": 6
+      }
+    },
+    {
+      "busyTimeoutMs": 5000,
+      "primaryCode": 6,
+      "extendedCode": 262,
+      "errorName": "SQLITE_LOCKED_SHAREDCACHE",
+      "message": "database table is locked: business_probe",
+      "elapsedNs": 16334,
+      "nativeFailureConversion": {
+        "code": "SQLITE_ERROR",
+        "detail": "database table is locked: business_probe",
+        "sqlite_extended": 262,
+        "sqlite_primary": 6
+      }
+    }
+  ],
+  "sqliteVersion": "3.50.2",
+  "sqliteSourceId": "2025-06-28 14:00:48 2af157d77fb1304a74176eaee7fbc7c7e932d946bf25325e9c26c91db19e3079",
+  "nativeConnectionProfile": {
+    "busyTimeoutMs": 0,
+    "journalMode": "delete",
+    "lockingMode": "exclusive",
+    "cache": "private"
+  },
+  "injectionMechanism": "same frozen bundled SQLite; disposable DB; two shared-cache URI connections; reader holds a table read transaction; writer INSERT obtains real SQLITE_LOCKED_SHAREDCACHE. Shared-cache is injection-only and not claimed as native runtime profile.",
+  "nativeLockedSemantics": {
+    "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
+    "sourceFile": "src-tauri/src/quiescence.rs",
+    "sourceSha256": "9499a065e33c5ca87544dff494b6a59d9d5e81fe4b6c4df2e95b3a5c3d09f7ec",
+    "realErrorConsumedBy": "the exact frozen quiescence::Failure::from(rusqlite::Error) implementation, called by the standalone probe after a live SQLite API call returned SQLITE_LOCKED_SHAREDCACHE",
+    "observed": {
+      "code": "SQLITE_ERROR",
+      "detail": "database table is locked: business_probe",
+      "sqlite_extended": 262,
+      "sqlite_primary": 6
+    },
+    "rawVariant": "SqliteFailure(Error { code: DatabaseLocked, extended_code: 262 }, Some(\"database table is locked: business_probe\"))",
+    "gateRunnerDirectInjection": "NOT PERFORMED; the frozen native runner uses PRIVATE_CACHE, so the deliberately shared-cache lock is an error-semantics injection and is not claimed as a normal Gate-runner configuration",
+    "sourceBehavior": {
+      "singleMigrationAttempt": "M4 statements use execute_batch(...)? and propagate errors; no retry loop",
+      "v3FailurePath": "SQLITE_LOCKED primary 6 is not in the special dangerous-code list; pre-commit error path attempts rollback and verifies schema V3 before FAILED_V3_CONFIRMED",
+      "permitReplay": "run() refuses existing permit.claimed.json, consumed.json, outcome.json, and pending markers before DB open",
+      "restore": "diagnostic path does not restore; restore is only a separate explicitly authorized recovery operation",
+      "limitations": "Source-flow analysis plus real error conversion; no Formal Gate M4 error injection was fabricated."
+    }
+  },
+  "falseSuccessPossible": "NO",
+  "automaticRetry": "NO",
+  "permitResurrection": "NO",
+  "automaticRestore": "NO",
+  "dbBeforeSha": [
+    "6f587efbb45c1fed80311cec5c4499fd709e4959ad0132adc4f8ee9e97854fe2",
+    "6f587efbb45c1fed80311cec5c4499fd709e4959ad0132adc4f8ee9e97854fe2"
+  ],
+  "dbAfterSha": [
+    "6f587efbb45c1fed80311cec5c4499fd709e4959ad0132adc4f8ee9e97854fe2",
+    "6f587efbb45c1fed80311cec5c4499fd709e4959ad0132adc4f8ee9e97854fe2"
+  ],
+  "postSchema": [
+    3,
+    3
+  ],
+  "migrationRows": [
+    [
+      1,
+      2,
+      3
+    ],
+    [
+      1,
+      2,
+      3
+    ]
+  ],
+  "m4Count": [
+    0,
+    0
+  ],
+  "integrity": [
+    "ok",
+    "ok"
+  ],
+  "foreignKeys": [
+    [],
+    []
+  ],
+  "sidecars": [
+    [],
+    []
+  ],
+  "q10": "PASS_CURRENT",
+  "q01q18Closure": "PASS_FOR_R2B",
+  "canonicalC0C10": "PASS_REUSED",
+  "canonicalS0S10": "PASS_REUSED",
+  "fullChainRecovery": "17/17 PASS_REUSED",
+  "fullRegression": "PASS_REUSED_WITH_CURRENT_REVALIDATION",
+  "rendererOnly": "DEFERRED_TO_WP04R2C",
+  "wp03AcceptancePreserved": true,
+  "financialModelChanged": false,
+  "wp02Touched": false,
+  "productionAppTouched": false,
+  "productionDbTouched": false,
+  "realAuthorizationCreated": false,
+  "realPermitCreated": false,
+  "candidateRebuilt": false,
+  "candidateLaunched": false,
+  "readyForWP04R2CRendererClosure": true,
+  "evidenceRoot": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/wp04-release-cutover-readiness/48-r2b-q10-sqlite-locked",
+  "observedAtUtc": "2026-10-13T07:57:29.474114+00:00",
+  "runtimeDirtySource": "NO",
+  "productionTouched": false
+}

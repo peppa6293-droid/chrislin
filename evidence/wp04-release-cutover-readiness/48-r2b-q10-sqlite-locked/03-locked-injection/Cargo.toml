@@ -1,0 +1,18 @@
+[package]
+name = "q10_locked_probe"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rusqlite = { version = "0.37", features = ["bundled", "hooks"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"
+libc = "0.2"
+plist = "=1.10.1"
+
+[features]
+default = ["quiescence-fixture", "wp04-r2b-synthetic", "wp04-r2b-recovery-test-hooks"]
+quiescence-fixture = []
+wp04-r2b-synthetic = []
+wp04-r2b-recovery-test-hooks = []
