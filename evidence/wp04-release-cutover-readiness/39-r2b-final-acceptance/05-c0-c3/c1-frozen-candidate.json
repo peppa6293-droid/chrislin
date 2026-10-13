@@ -1,0 +1,43 @@
+{
+  "capturedAt": "2026-10-13T02:00:36.728857+00:00",
+  "C0": "PASS",
+  "C1": "PASS",
+  "sourceCommit": "453fdb05b6457a4e9362c98308ca384c10f5d8b4",
+  "sourceArchivePath": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/wp04-release-cutover-readiness/38-r2b2a-source-freeze/05-source-provenance/source-453fdb05.tar",
+  "sourceArchiveSha256": "00cb89aedb0e21205c316c68a8ae3bb1c2a16100abd6a111769378a8b0c9f09b",
+  "candidatePath": "/Users/linte/Library/Caches/pfc-wp04r2b2a-453fdb05/build/cargo-target/release/bundle/macos/小钱家.app",
+  "bundleId": "org.pfc.quiescence.integration",
+  "executablePath": "/Users/linte/Library/Caches/pfc-wp04r2b2a-453fdb05/build/cargo-target/release/bundle/macos/小钱家.app/Contents/MacOS/personal-finance-console",
+  "executableSha256": "f7625ec29e69ac527a830e9a622f0a7568d9a4556b1d9db005f19e29d623bdff",
+  "manifestSha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+  "teamId": "SSRKA7A4TN",
+  "strictCodesign": "PASS",
+  "candidateLaunched": false,
+  "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-final-acceptance-5054137e7c2348cabc00cd1a22b29fcb/pfc-qic-wp04r2b-final-acceptance-9xdlx43n",
+  "rootIdentity": {
+    "realpath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-final-acceptance-5054137e7c2348cabc00cd1a22b29fcb/pfc-qic-wp04r2b-final-acceptance-9xdlx43n",
+    "dev": 16777232,
+    "inode": 25716818,
+    "mode": "0o700",
+    "markerBytesHex": "5046435f575030345f53594e5448455449435f4355544f5645525f56310a",
+    "markerSha256": "5a341fc3217830486b6e798dbab847b133e5072b80de4525b917582eded48de1"
+  },
+  "database": {
+    "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-final-acceptance-5054137e7c2348cabc00cd1a22b29fcb/pfc-qic-wp04r2b-final-acceptance-9xdlx43n/personal-finance-console.sqlite3",
+    "sha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+    "user_version": 3,
+    "migration_version": 3,
+    "integrity": [
+      "ok"
+    ],
+    "foreign_key_violations": [],
+    "sidecars": []
+  },
+  "v3ExactSchema": true,
+  "runtimeProcessMatches": [],
+  "git": {
+    "head": "5776da2ce646c0d3f3c9e65b259746ba484b51d8",
+    "runtimeDiffFromFrozenSource": [],
+    "stagedPaths": []
+  }
+}

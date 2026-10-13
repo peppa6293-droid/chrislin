@@ -1,0 +1,79 @@
+{
+  "capturedAt": "2026-10-13T01:53:24.086345+00:00",
+  "expected": {
+    "sourceCommit": "453fdb05b6457a4e9362c98308ca384c10f5d8b4",
+    "sourceArchiveSha256": "00cb89aedb0e21205c316c68a8ae3bb1c2a16100abd6a111769378a8b0c9f09b",
+    "candidatePath": "/Users/linte/Library/Caches/pfc-wp04r2b2a-453fdb05/build/cargo-target/release/bundle/macos/小钱家.app",
+    "bundleId": "org.pfc.quiescence.integration",
+    "executableSha256": "f7625ec29e69ac527a830e9a622f0a7568d9a4556b1d9db005f19e29d623bdff",
+    "manifestSha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+    "teamId": "SSRKA7A4TN",
+    "tauriConfigSha256": "f0d5e1f1be6510209cf524a99ccd54043f542521fe772b19c28e04d9f9ee39ac",
+    "cargoLockSha256": "5a58d1e21d6de8bbfdb3d3cb0332e2fe06516ea0790f2e9c14127b0943f054c8",
+    "packageLockSha256": "3f2152b71eba56701d63ae1c39b1c583543f8109a146bf5dc2e955256cbfba16"
+  },
+  "binding": {
+    "sourceCommit": "453fdb05b6457a4e9362c98308ca384c10f5d8b4",
+    "sourceArchiveSha256": "00cb89aedb0e21205c316c68a8ae3bb1c2a16100abd6a111769378a8b0c9f09b",
+    "candidatePath": "/Users/linte/Library/Caches/pfc-wp04r2b2a-453fdb05/build/cargo-target/release/bundle/macos/小钱家.app",
+    "bundleId": "org.pfc.quiescence.integration",
+    "executable": "Contents/MacOS/personal-finance-console",
+    "executableSha256": "f7625ec29e69ac527a830e9a622f0a7568d9a4556b1d9db005f19e29d623bdff",
+    "manifestSha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+    "tauriConfigSha256": "f0d5e1f1be6510209cf524a99ccd54043f542521fe772b19c28e04d9f9ee39ac",
+    "cargoLockSha256": "5a58d1e21d6de8bbfdb3d3cb0332e2fe06516ea0790f2e9c14127b0943f054c8",
+    "packageLockSha256": "3f2152b71eba56701d63ae1c39b1c583543f8109a146bf5dc2e955256cbfba16",
+    "codesignTeamId": "SSRKA7A4TN",
+    "buildTimestamp": "2026-10-13T01:36:45.532924+00:00",
+    "buildRoot": "/Users/linte/Library/Caches/pfc-wp04r2b2a-453fdb05/build",
+    "sourceRoot": "/Users/linte/Library/Caches/pfc-wp04r2b2a-453fdb05/source/source",
+    "buildCommand": [
+      "npx",
+      "tauri",
+      "build",
+      "--bundles",
+      "app",
+      "--features",
+      "wp04-r2b-synthetic,tauri/custom-protocol",
+      "--config",
+      "/Users/linte/Library/Caches/pfc-wp04r2b2a-453fdb05/build/tauri.synthetic.json"
+    ],
+    "codesignAuthority": [
+      "Apple Development: 8619814730147 (FW5KHTFNZ6)",
+      "Apple Worldwide Developer Relations Certification Authority",
+      "Apple Root CA"
+    ],
+    "strictCodesign": "PASS",
+    "candidateLaunched": false,
+    "otherSourceConfigSha256": "0c442bf8421f16d737d086d5036de3f56237f6f01033867e14e6c5cd04baf425"
+  },
+  "observed": {
+    "head": "5776da2ce646c0d3f3c9e65b259746ba484b51d8",
+    "gitStatus": "?? V012_PRODUCTION_V4_CUTOVER_GO_NO_GO_CHECKLIST.md\n?? V012_PRODUCTION_V4_CUTOVER_PLAN.md\n?? V012_PRODUCTION_V4_CUTOVER_READINESS_DIAGNOSTIC.md\n?? V012_V4_CUTOVER_INVENTORY_GATE_DESIGN_REVIEW.md\n?? V012_V4_CUTOVER_QUIESCENCE_ABCD_INDEPENDENT_ACCEPTANCE.md\n?? V012_V4_CUTOVER_QUIESCENCE_CONTRACT_REDESIGN.md\n?? V012_V4_CUTOVER_QUIESCENCE_TAKEOVER_INDEPENDENT_AUDIT.md\n?? V012_V4_OLD_RUNTIME_PROTECTION_GATE_ENTRY_P1_INDEPENDENT_REAUDIT.md\n?? V012_V4_OLD_RUNTIME_PROTECTION_INDEPENDENT_AUDIT.md\n?? V012_V4_OLD_RUNTIME_PROTECTION_P1_CORRECTION_2_INDEPENDENT_REAUDIT.md\n?? V012_V4_OLD_RUNTIME_PROTECTION_P1_INDEPENDENT_REAUDIT.md\n?? XIAOQIANJIA_NATIVE_MIGRATION_READINESS_V0.1.md\n?? docs/FINAL_DOD_MATRIX.md\n?? docs/NATIVE_MIGRATION_PREPARATION.md\n?? docs/PLANNING_GOVERNANCE.md\n?? evidence/.DS_Store\n?? evidence/acceptance/\n?? evidence/governance/\n?? evidence/quiescence-integration/.DS_Store\n?? evidence/quiescence-integration/independent-reaudit-20261009-01/\n?? evidence/quiescence-integration/local-launch-20261009T071617839341Z/\n?? evidence/quiescence-integration/signed-runtime-20261012T114310371625Z/\n?? evidence/quiescence-integration/signed-runtime-20261012T114750041594Z/\n?? evidence/quiescence-integration/signed-runtime-20261012T132021108226Z/\n?? evidence/wp03-product-daily-use/.DS_Store\n?? evidence/wp03-product-daily-use/final-closure/.DS_Store\n?? evidence/wp03-product-daily-use/final-closure/r2-preservation/\n?? evidence/wp03-product-daily-use/final-r2-closure/.DS_Store\n?? evidence/wp03-product-daily-use/final-r2-closure/r5-completion/.DS_Store\n?? evidence/wp04-release-cutover-readiness/.DS_Store\n?? evidence/wp04-release-cutover-readiness/00-source-intake/wp04r1-git-log-20.txt\n?? evidence/wp04-release-cutover-readiness/00-source-intake/wp04r1-git-status.txt\n?? evidence/wp04-release-cutover-readiness/00-source-intake/wp04r1-head.txt\n?? evidence/wp04-release-cutover-readiness/00-source-intake/wp04r1-staged-diff.txt\n?? evidence/wp04-release-cutover-readiness/00-source-intake/wp04r1-working-diff.txt\n?? evidence/wp04-release-cutover-readiness/35-r2b1a-c3-gate-owned/.DS_Store\n?? evidence/wp04-release-cutover-readiness/37-r2b-final-rerun/\n?? evidence/wp04-release-cutover-readiness/38-r2b2a-source-freeze/\n",
+    "stagedPaths": "",
+    "runtimeDiffSinceSourceCommit": "",
+    "candidateBundleId": "org.pfc.quiescence.integration",
+    "candidateExecutable": "personal-finance-console",
+    "executableSha256": "f7625ec29e69ac527a830e9a622f0a7568d9a4556b1d9db005f19e29d623bdff",
+    "manifestSha256": "cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc",
+    "codeSignDetails": "Executable=/Users/linte/Library/Caches/pfc-wp04r2b2a-453fdb05/build/cargo-target/release/bundle/macos/小钱家.app/Contents/MacOS/personal-finance-console\nIdentifier=org.pfc.quiescence.integration\nFormat=app bundle with Mach-O thin (arm64)\nCodeDirectory v=20500 size=41706 flags=0x10000(runtime) hashes=1296+3 location=embedded\nVersionPlatform=1\nVersionMin=720896\nVersionSDK=1769472\nHash type=sha256 size=32\nCandidateCDHash sha256=4188be9141caf4fbd4735aa6cc4ce6aa9f1060b7\nCandidateCDHashFull sha256=4188be9141caf4fbd4735aa6cc4ce6aa9f1060b7381ccd14d6d1210f3b0529d3\nHash choices=sha256\nCMSDigest=4188be9141caf4fbd4735aa6cc4ce6aa9f1060b7381ccd14d6d1210f3b0529d3\nCMSDigestType=2\nExecutable Segment base=0\nExecutable Segment limit=17170432\nExecutable Segment flags=0x1\nPage size=16384\nCDHash=4188be9141caf4fbd4735aa6cc4ce6aa9f1060b7\nSignature size=9085\nAuthority=Apple Development: 8619814730147 (FW5KHTFNZ6)\nAuthority=Apple Worldwide Developer Relations Certification Authority\nAuthority=Apple Root CA\nTimestamp=Oct 13, 2026 at 09:38:18\nInfo.plist entries=14\nTeamIdentifier=SSRKA7A4TN\nRuntime Version=27.0.0\nSealed Resources version=2 rules=13 files=1\nInternal requirements count=1 size=196\n",
+    "strictCodesignExitCode": 0,
+    "sourceArchiveSha256": "00cb89aedb0e21205c316c68a8ae3bb1c2a16100abd6a111769378a8b0c9f09b"
+  },
+  "checks": {
+    "bindingMatchesFrozenValues": false,
+    "candidateLaunchedFalse": true,
+    "archiveShaMatches": true,
+    "candidateExists": true,
+    "bundleIdMatches": true,
+    "executableNameMatches": true,
+    "executableShaMatches": true,
+    "manifestShaMatches": true,
+    "teamIdMatches": true,
+    "codesignStrictPass": true,
+    "noRuntimeSourceDiffSinceFreeze": true,
+    "noStagedChanges": true,
+    "sourceCommitPresent": true
+  },
+  "status": "BLOCKED"
+}

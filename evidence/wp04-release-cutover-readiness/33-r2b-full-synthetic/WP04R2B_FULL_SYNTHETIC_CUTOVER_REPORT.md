@@ -111,3 +111,19 @@ See `WP04R2B1_UNIFIED_SYNTHETIC_CONTRACT_REPORT.md` and `evidence/wp04-release-c
 Source freeze report: [WP04R2B2A_SOURCE_FREEZE_REPORT.md](../../../WP04R2B2A_SOURCE_FREEZE_REPORT.md). The final-chain source commit `453fdb05b6457a4e9362c98308ca384c10f5d8b4` was rebuilt into a fresh, strict-code-signed synthetic candidate bound in `evidence/wp04-release-cutover-readiness/38-r2b2a-source-freeze/08-source-candidate-binding/SOURCE_CANDIDATE_BINDING.json`. Prior build-02 executable `09c12af103f68a5c5a7061c14188546e5862ad3a34893e9c18606ffc61b687a4` is `DEVELOPMENT_PROBE_ONLY`.
 
 This records source/candidate readiness only. Historical `WP04R2B_SYNTHETIC_CUTOVER_BLOCKED` remains in force; full C0–C10 and Production remain NOT RUN / NOT AUTHORIZED.
+
+## Final Frozen-Candidate Acceptance Run (2026-10-13)
+
+**Final Status: `WP04R2B_FINAL_ACCEPTANCE_BLOCKED`**
+
+本轮只运行到冻结候选预检和 V3 fixture 读路径检查；发现阻断后按工单停止。历史 BLOCKED 章节以上内容保留。
+
+- 冻结源码：`453fdb05b6457a4e9362c98308ca384c10f5d8b4`；source archive SHA-256：`00cb89aedb0e21205c316c68a8ae3bb1c2a16100abd6a111769378a8b0c9f09b`。
+- 候选：`/Users/linte/Library/Caches/pfc-wp04r2b2a-453fdb05/build/cargo-target/release/bundle/macos/小钱家.app`；Bundle ID `org.pfc.quiescence.integration`；executable SHA-256 `f7625ec29e69ac527a830e9a622f0a7568d9a4556b1d9db005f19e29d623bdff`；manifest SHA-256 `cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc`；Team ID `SSRKA7A4TN`；strict codesign `PASS`。原始候选未启动、未重签、未改动。
+- C0 / C1：`PASS`，绑定初始新 V3 fixture 的 SHA-256 `5198b678dc31581978b82a35ba271d202fb6c40d9e97161d1cda1e370f12a14dc`。随后为覆盖 V3 stable/month-scoped Planning 样本，经正式 Repository API 写入两条合成收入记录；该数据库现 SHA-256 `c52d0272b9e6b5eecd38cd0e46ed6ce2e841a69de97161d1cda1e370f12a14dc`，所以初始 C0 和 PRE snapshot 不再代表当前 fixture。初始 backup 仍匹配写入前数据库，未作为 C5 使用。
+- 阻断：对 V3 fixture 调用 `Repositories.resolvePlanningIncomeForMonth` 回读月度 override / inherit 时，出现 `ERR_SQLITE_ERROR: no such table: planning_income_month_revisions`。当前实现进入该调用时先查 V4 migration-4 表，而 V3 没有该表。两条合成记录经 `Repositories.saveStablePlanningIncome` / `Repositories.saveIncome` 写入；只读现场确认 V3 仍为 `[1,2,3]`、integrity `ok`、FK violations 为空，且无 WAL/SHM/journal。
+- C2–C10：`NOT RUN`。C3 managed isolation、formal Gate preflight/migrate、Migration 4、S0–S10、C9、POST snapshots、failure/recovery matrices、Q01–Q18 closure 和本轮 regression 均停止或未运行。Renderer-only 仍 `DEFERRED_TO_WP04R2C`。
+- PRE business snapshot 已保存，但在上述额外合成写入前生成；PRE model 的只读计算曾在控制台返回 READY，但没有保存成权威 snapshot，且没有在新增样本后重跑。两者都不能作为本轮完整验收通过证据。
+- 本轮 root：`/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-final-acceptance-5054137e7c2348cabc00cd1a22b29fcb/pfc-qic-wp04r2b-final-acceptance-9xdlx43n`。失败与部分写入回读：`evidence/wp04-release-cutover-readiness/39-r2b-final-acceptance/18-final-readback/acceptance-blocker.json`。
+- Production App / DB 未触碰；真实 authorization、backup、receipt、permit 均未创建；Migration 4 未执行；WP03 accepted baseline、Financial Model 与 WP02 未修改。
+- 下一责任人：Planning / Owner 决定是否批准针对该 V3 read-path / 验收样本缺口的独立修订任务，再由 Execution 用全新 root 重跑。不得复用本轮 root 作为新的 C0 起点。

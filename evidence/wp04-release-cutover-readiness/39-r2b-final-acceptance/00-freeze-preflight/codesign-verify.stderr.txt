@@ -1,0 +1,2 @@
+/Users/linte/Library/Caches/pfc-wp04r2b2a-453fdb05/build/cargo-target/release/bundle/macos/小钱家.app: valid on disk
+/Users/linte/Library/Caches/pfc-wp04r2b2a-453fdb05/build/cargo-target/release/bundle/macos/小钱家.app: satisfies its Designated Requirement

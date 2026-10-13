@@ -1,0 +1,89 @@
+{
+  "capturedAt": "2026-10-13T02:03:11.318438+00:00",
+  "status": "WP04R2B_FINAL_ACCEPTANCE_BLOCKED",
+  "defectCode": "V3_PLANNING_OVERRIDE_INHERIT_READ_PATH_UNSUPPORTED",
+  "exactError": "ERR_SQLITE_ERROR: no such table: planning_income_month_revisions",
+  "operation": "Application Repository read path Repositories.resolvePlanningIncomeForMonth(periodMonth, asOfDate) on the fresh V3 fixture, after writes via Repositories.saveStablePlanningIncome and Repositories.saveIncome.",
+  "sourcePath": "src/persistence/repositories.ts",
+  "observedCallBehavior": "resolvePlanningIncomeForMonth calls planningIncomeMonthDecisionAt before checking schema version; V3 schema has no planning_income_month_revisions table.",
+  "evidenceLimits": "No follow-up test or remediation performed. The formal monthly model read path calculateMonthlyModelFromDatabase succeeded before these added rows; no further model evaluation was run after the defect.",
+  "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-final-acceptance-5054137e7c2348cabc00cd1a22b29fcb/pfc-qic-wp04r2b-final-acceptance-9xdlx43n",
+  "database": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-final-acceptance-5054137e7c2348cabc00cd1a22b29fcb/pfc-qic-wp04r2b-final-acceptance-9xdlx43n/personal-finance-console.sqlite3",
+  "databaseIdentity": {
+    "dev": 16777232,
+    "inode": 25716862,
+    "size": 229376,
+    "mtimeNs": 1791856951192419030,
+    "mode": "0o600"
+  },
+  "databaseSha256BeforeApiWrites": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+  "databaseSha256AfterPartialFixtureWrites": "c52d0272b9e6b5eecd38cd0e46ed6ce2e841a69de97161d1cda1e370f12a14dc",
+  "databaseChangedOnlyWithinFreshSyntheticRoot": true,
+  "currentV3Readback": {
+    "userVersion": 3,
+    "integrity": [
+      "ok"
+    ],
+    "foreignKeyViolations": [],
+    "planningIncomeRows": [
+      {
+        "id": "planning-income",
+        "profile_id": "fixture",
+        "kind": "PLANNING",
+        "status": "EXPECTED",
+        "amount": "12000",
+        "date": "2026-10-10",
+        "period_month": "2026-10",
+        "created_at": "2026-10-01T00:00:00Z"
+      },
+      {
+        "id": "planning-month-override-sep",
+        "profile_id": "fixture",
+        "kind": "PLANNING",
+        "status": "EXPECTED",
+        "amount": "10400",
+        "date": "2026-09-01",
+        "period_month": "2026-09",
+        "created_at": "2026-09-01T00:00:00.000Z"
+      },
+      {
+        "id": "stable-planning-income",
+        "profile_id": "fixture",
+        "kind": "PLANNING",
+        "status": "EXPECTED",
+        "amount": "11000",
+        "date": "2026-01-01",
+        "period_month": null,
+        "created_at": "2026-01-01T00:00:00.000Z"
+      }
+    ],
+    "planningIncomeRevisions": [
+      {
+        "revision_id": 1,
+        "profile_id": "fixture",
+        "effective_month": "2026-10",
+        "as_of_date": "2026-09-01",
+        "amount": "11500",
+        "created_at": "2026-09-01T00:00:00Z"
+      }
+    ]
+  },
+  "sidecars": {
+    "-wal": false,
+    "-shm": false,
+    "-journal": false
+  },
+  "fixtureBackup": {
+    "path": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-final-acceptance-5054137e7c2348cabc00cd1a22b29fcb/pfc-qic-wp04r2b-final-acceptance-9xdlx43n/backup.sqlite3",
+    "sha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+    "matchesCurrentDb": false,
+    "matchesPreWriteDb": true
+  },
+  "c3Attempted": false,
+  "candidateLaunched": false,
+  "formalGatePreflightAttempted": false,
+  "migrationExecuted": false,
+  "realAuthorizationCreated": false,
+  "productionTouched": false,
+  "exactFailureEvidence": "A preceding Node/Vite SSR call invoked the repository method against the V3 file and exited with ERR_SQLITE_ERROR. The method sequence was: insert stable row; insert month-scoped override row; resolve September; resolve October. The first resolve threw. Both writes are visible in currentV3Readback."
+}

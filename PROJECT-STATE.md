@@ -108,3 +108,11 @@
 - 旧 build-02 降级为 `DEVELOPMENT_PROBE_ONLY`。Production、WP-02、Financial Model V1.0 未触碰；真实 authorization/backup/receipt/permit 未创建。
 - 报告：`WP04R2B2A_SOURCE_FREEZE_REPORT.md`；证据根：`evidence/wp04-release-cutover-readiness/38-r2b2a-source-freeze/`。
 - 下一责任人：Planning/Owner 下发独立 `WP-04R2B FINAL ACCEPTANCE RUN`；Execution 仅使用上述绑定候选并遵守下一轮边界。
+
+## WP-04R2B Final Acceptance Run — blocked (2026-10-13)
+
+- 状态：`WP04R2B_FINAL_ACCEPTANCE_BLOCKED`。冻结候选 source commit/archive、candidate executable/manifest、Team ID 与 strict codesign 预检通过；C0/C1 仅对最初 V3 fixture 状态通过。
+- 阻断证据：V3 fixture 上正式 Repository 方法 `resolvePlanningIncomeForMonth` 报 `no such table: planning_income_month_revisions`。为检查 stable/month-scoped Planning 样本而调用的两个 Repository 写入已留在本轮合成 root；当前 DB 与写入前 snapshot/fixture backup 不同。没有继续验收、修复或恢复。
+- C2–C10、S0–S10、Migration 4、failure/recovery matrix、Q closure 与本轮 regression 均未运行。Production 未触碰。
+- 报告：`evidence/wp04-release-cutover-readiness/33-r2b-full-synthetic/WP04R2B_FULL_SYNTHETIC_CUTOVER_REPORT.md`。本轮阻断回读：`evidence/wp04-release-cutover-readiness/39-r2b-final-acceptance/18-final-readback/acceptance-blocker.json`。
+- 下一责任人：Planning / Owner 决定是否新开修订范围；之后 Execution 在全新 synthetic root 重新运行。

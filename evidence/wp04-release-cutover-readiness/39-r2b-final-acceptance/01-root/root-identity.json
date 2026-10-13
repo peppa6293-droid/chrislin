@@ -1,0 +1,16 @@
+{
+  "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-final-acceptance-5054137e7c2348cabc00cd1a22b29fcb/pfc-qic-wp04r2b-final-acceptance-9xdlx43n",
+  "realpath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-final-acceptance-5054137e7c2348cabc00cd1a22b29fcb/pfc-qic-wp04r2b-final-acceptance-9xdlx43n",
+  "device": 16777232,
+  "inode": 25716818,
+  "mode": "0o700",
+  "marker_bytes_hex": "5046435f575030345f53594e5448455449435f4355544f5645525f56310a",
+  "marker_sha256": "5a341fc3217830486b6e798dbab847b133e5072b80de4525b917582eded48de1",
+  "fixture_definition": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-final-acceptance-5054137e7c2348cabc00cd1a22b29fcb/pfc-qic-wp04r2b-final-acceptance-9xdlx43n/fixture-definition.json",
+  "database": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-final-acceptance-5054137e7c2348cabc00cd1a22b29fcb/pfc-qic-wp04r2b-final-acceptance-9xdlx43n/personal-finance-console.sqlite3",
+  "database_sha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+  "backup_initial": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-final-acceptance-5054137e7c2348cabc00cd1a22b29fcb/pfc-qic-wp04r2b-final-acceptance-9xdlx43n/backup.sqlite3",
+  "candidate_bundle": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-final-acceptance-5054137e7c2348cabc00cd1a22b29fcb/pfc-qic-wp04r2b-final-acceptance-9xdlx43n/managed/candidate/Candidate.app",
+  "root_parent": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b-final-acceptance-5054137e7c2348cabc00cd1a22b29fcb",
+  "signing_identity": "Apple Development: 8619814730147 (FW5KHTFNZ6)"
+}

@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-10-13T01:54:10.253352+00:00",
+  "status": "PASS",
+  "fieldMapping": "binding uses codesignTeamId; no frozen field value mismatch. The earlier false result came from checker expecting teamId. Original preflight record retained.",
+  "checks": {
+    "sourceCommit": true,
+    "sourceArchiveSha256": true,
+    "candidatePath": true,
+    "bundleId": true,
+    "executableName": true,
+    "executableSha256": true,
+    "manifestSha256": true,
+    "teamId": true,
+    "tauriConfigSha256": true,
+    "cargoLockSha256": true,
+    "packageLockSha256": true,
+    "strictCodesign": true,
+    "candidatePreviouslyUnlaunched": true
+  },
+  "observedTeamId": "SSRKA7A4TN",
+  "observedCandidateLaunched": false
+}
