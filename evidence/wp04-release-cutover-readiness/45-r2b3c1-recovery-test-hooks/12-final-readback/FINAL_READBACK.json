@@ -4,9 +4,9 @@
   "startingHead": "4d91e4441ea7bffa7c6db730bb4ea73a80d0d8d5",
   "implementationCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
   "sourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1",
-  "reportCommit": "PENDING_REPORT_COMMIT",
+  "reportCommit": "e2960491a5faf1200ab1f53e0ce43d9da8f78aff",
   "reportPath": "WP04R2B3C1_RECOVERY_TEST_HOOKS_REPORT.md",
-  "reportSha256": "f715a4de4c163819b621b0f440222016bac820df2ea4c9a003b743a5101a0ea8",
+  "reportSha256": "0e80bc9cec7efeb1bed6027fc457c2e2fa70149c21281c399113938c55a74091",
   "mainReportPath": "evidence/wp04-release-cutover-readiness/33-r2b-full-synthetic/WP04R2B_FULL_SYNTHETIC_CUTOVER_REPORT.md",
   "mainReportSha256": "a5ab86ea52d6a286fa88d04cbb40a008d15fefd724458ac6d0d657a25681aca6",
   "evidenceRoot": "evidence/wp04-release-cutover-readiness/45-r2b3c1-recovery-test-hooks",
@@ -27,5 +27,7 @@
   "wp03AcceptancePreserved": true,
   "financialModelChanged": false,
   "wp02Touched": false,
-  "capturedAtUtc": "2026-10-13T06:18:52.342810+00:00"
+  "capturedAtUtc": "2026-10-13T06:20:29.215858+00:00",
+  "reportCommitMessage": "Document R2B3C1 recovery hook readiness",
+  "finalSourceCommit": "c3da2f73c03b681957b4334751b7933d102caad1"
 }
