@@ -1,0 +1,15 @@
+{
+  "attempts": [
+    {
+      "status": "FAILED_BEFORE_ROOT_CREATION",
+      "reason": "Apple Development signing identity was not configured; no root created"
+    },
+    {
+      "status": "ABANDONED_FRESH_ROOT_AFTER_C3",
+      "root": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3b2-canonical-0uebib6g/pfc-qic-canonical-anchor-jqdlxl7d",
+      "reason": "harness omitted gate-inputs directory; C3 completed but formal Gate authorization/preflight did not begin; this root was not reused"
+    }
+  ],
+  "successfulRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3b2-canonical-wa3hgq29/pfc-qic-canonical-anchor-0k32skxb",
+  "successfulRootWasFresh": true
+}

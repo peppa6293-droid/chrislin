@@ -193,3 +193,14 @@ One new synthetic app was built from a second clean extraction of the archive us
 The previous candidate remains `R2B_PRE_RECOVERY_ENTRYPOINT_BASELINE`. The newly bound candidate is the only one designated for WP04R2B3B2. This is source/candidate readiness only: no C0, full-chain recovery, Q closure, renderer, audit or Production operation was performed. The overall WP04R2B status remains `WP04R2B_SYNTHETIC_CUTOVER_BLOCKED`; no Production readiness or acceptance is implied.
 
 Report: `WP04R2B3B1_RECOVERY_SOURCE_FREEZE_REPORT.md`. Evidence root: `evidence/wp04-release-cutover-readiness/43-r2b3b1-recovery-source-freeze/`.
+
+
+## R2B3B2 Recovery Final Acceptance + Q Closure
+
+**`WP04R2B3B2_BLOCKED` — 2026-10-13.** Freeze preflight matched source archive `249038d0a04de75391b464b8cb2cad59e9034aebafa754db572c6b6ff3a1a865`, executable `7c640378b10a8bbdb40cd5f9b65069de19443b8e65b9e6cc2f704a69e7f578d4`, manifest `cdb8f040b9250a23ba0df0f89a0c91313ba881cdd715bed8945201e1f51b7ecc`, Bundle ID `org.pfc.quiescence.integration`, Team ID `SSRKA7A4TN`, and strict code signature. No tracked runtime source diff was present.
+
+A fresh canonical synthetic root passed formal Gate C0–C10 and native S0–S10 with the WP04R2B3B1 candidate. Formal preflight produced one receipt; the Gate-owned permit was consumed by the Rust consumer and native runner; Migration 4 ran exactly once. PRE V3 and POST V4 model calculations were both READY and equal. Existing business rows were preserved; the three new V4 tables were empty. Canonical recovery diagnostic returned `V4_VERIFIED / READONLY_CONFIRMATION_ONLY` with mutation count 0. The root and detailed readbacks are under `evidence/wp04-release-cutover-readiness/44-r2b3b2-recovery-final-acceptance/01-canonical-anchor/`.
+
+The requested formal-chain recovery matrix is **BLOCKED, 0/16 accepted scenarios**. Frozen `run_unified_gate_handoff` has no supported in-flight injection/barrier for the recovery states and does not consult the component runner's `PFC_Q_FAIL` controls. Component recovery 16/16 remains component-only. No state JSON or lineage was fabricated. A source change would be required to add supported full-chain injection points; the work order prohibits source changes and directs Execution to stop. Consequently Q01–Q18 closure and the final regression rerun were not performed; historical Q classifications remain unchanged. Renderer-only remains `DEFERRED_TO_WP04R2C`.
+
+Source/candidate unchanged; WP03 acceptance preserved; Financial Model and WP02 unchanged. Production was not touched. Overall R2B remains `WP04R2B_SYNTHETIC_CUTOVER_BLOCKED`; WP04R2B READY, R2C, and Production readiness are not claimed. See `WP04R2B3B2_RECOVERY_FINAL_ACCEPTANCE_REPORT.md` and the 44 evidence root for the complete boundary and readbacks.

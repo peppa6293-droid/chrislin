@@ -1,0 +1,88 @@
+{
+  "preStatus": "READY",
+  "postStatus": "READY",
+  "sameFullModelResult": true,
+  "prePlanningRead": {
+    "september": [],
+    "october": [
+      {
+        "id": "actual-received",
+        "kind": "ACTUAL",
+        "status": "RECEIVED",
+        "amount": "11800",
+        "date": "2026-10-05"
+      },
+      {
+        "id": "planning-revision-1",
+        "kind": "PLANNING",
+        "status": "EXPECTED",
+        "amount": "11500",
+        "date": "2026-09-01"
+      }
+    ]
+  },
+  "postPlanningRead": {
+    "september": [],
+    "october": [
+      {
+        "id": "actual-received",
+        "kind": "ACTUAL",
+        "status": "RECEIVED",
+        "amount": "11800",
+        "date": "2026-10-05",
+        "periodMonth": "2026-10",
+        "active": true
+      },
+      {
+        "id": "planning-revision-1",
+        "kind": "PLANNING",
+        "status": "EXPECTED",
+        "amount": "11500",
+        "date": "2026-09-01"
+      }
+    ]
+  },
+  "preDatabaseSha256": "5198b678dc31581978b82a35ba271d202fb6c40d9e841740bdd9902983de1f0b",
+  "postDatabaseSha256": "80d9994ebdbd4d3bc874698a552045388819b8f13c983bfe5628280f0fa88399",
+  "preExistingBusinessTablesPreserved": true,
+  "changedPreexistingBusinessTables": [],
+  "newV4Tables": [
+    "actual_income_revisions",
+    "cash_account_lifecycle_revisions",
+    "planning_income_month_revisions"
+  ],
+  "newV4TableRows": {
+    "actual_income_revisions": 0,
+    "cash_account_lifecycle_revisions": 0,
+    "planning_income_month_revisions": 0
+  },
+  "databaseSchemaBefore": {
+    "userVersion": 3,
+    "migrationRows": [
+      1,
+      2,
+      3
+    ],
+    "integrity": [
+      [
+        "ok"
+      ]
+    ],
+    "foreignKeyViolations": []
+  },
+  "databaseSchemaAfter": {
+    "userVersion": 4,
+    "migrationRows": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "integrity": [
+      [
+        "ok"
+      ]
+    ],
+    "foreignKeyViolations": []
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "workOrder": "WP-04R2B3B2",
+  "status": "WP04R2B3B2_BLOCKED",
+  "blocker": "FROZEN_UNIFIED_GATE_HAS_NO_SUPPORTED_FULL_CHAIN_RECOVERY_INJECTION_BARRIERS",
+  "scope": "acceptance only; no source, test, runtime, config, candidate rebuild/resign/mutation, renderer, or Production",
+  "evidence": {
+    "canonicalAnchorRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-wp04r2b3b2-canonical-wa3hgq29/pfc-qic-canonical-anchor-0k32skxb",
+    "canonicalC0C10": "PASS",
+    "canonicalS0S10": "PASS",
+    "migration4ExactlyOnce": true,
+    "canonicalRecoveryDiagnostic": "V4_VERIFIED / READONLY_CONFIRMATION_ONLY",
+    "canonicalDiagnosticMutationCount": 0,
+    "componentRecovery16x16": "COMPONENT_REGRESSION_PASS only; not promoted"
+  },
+  "verifiedSourceLimitation": {
+    "unifiedRunner": "src-tauri/src/quiescence.rs::run_unified_gate_handoff executes S4-S9 and terminal success directly; it does not consult PFC_Q_FAIL or expose supported injection/barriers",
+    "existingFailpoints": "PFC_Q_FAIL controls apply only to component runner paths and cannot bind failure state to the unified formal Gate chain",
+    "consequence": "the requested in-flight formal-chain recovery states cannot be produced through a supported mechanism under frozen source/candidate",
+    "stopRule": "the work order requires BLOCKED and STOP when source change is needed; no state or lineage was fabricated"
+  },
+  "fullChainRecoveryMatrix": "NOT RUN; 0 of 16 accepted scenarios",
+  "qClosure": "NOT RUN; prerequisite full-chain matrix did not pass; historical Q classifications preserved",
+  "finalRegression": "NOT RUN after blocker; earlier frozen-source regression is prior evidence only",
+  "productionTouched": false,
+  "sourceChanged": false,
+  "candidateChanged": false
+}
