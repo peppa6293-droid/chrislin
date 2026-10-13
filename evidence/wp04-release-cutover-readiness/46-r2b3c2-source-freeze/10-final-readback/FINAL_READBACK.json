@@ -66,9 +66,12 @@
   "candidateHashesMatchBinding": true,
   "productionTouched": false,
   "reportPath": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/WP04R2B3C2_SOURCE_FREEZE_REPORT.md",
-  "reportSha256": "f9011e8560c0b6212b5977d0560404a6e5c26a2ccee860b4ae3149019df3f150",
+  "reportSha256": "d2e6469b9f8475042b4739e80fcb641abbc50e6c3f3a2017fc117a7f94f74e08",
   "mainReportPath": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/evidence/wp04-release-cutover-readiness/33-r2b-full-synthetic/WP04R2B_FULL_SYNTHETIC_CUTOVER_REPORT.md",
   "mainReportSha256": "fd3e64811ecc6e571a9d9223d157a7cddd39667676d99a2d1ad4eee6f9f5b5d4",
   "projectStatePath": "/Users/linte/Documents/ChatGPT/个人财务模型app开发/PROJECT-STATE.md",
-  "projectStateRevision": 19
+  "projectStateRevision": 19,
+  "finalReportCommit": "1d8c675",
+  "reportSavedAndReadBack": true,
+  "finalReadbackCapturedAt": "2026-10-13T06:54:52.406762+00:00"
 }
