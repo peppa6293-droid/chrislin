@@ -235,7 +235,7 @@ export function Onboarding({
         <div className="brand-mark" aria-hidden="true">
           ◒
         </div>
-        <span>我的财务</span>
+        <span>小钱家</span>
         <span className="local-chip">仅保存在本机</span>
       </header>
       <section className="onboarding-card" aria-labelledby="onboarding-title">

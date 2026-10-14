@@ -1,3 +1,13 @@
+import {
+  ArrowRight,
+  Check,
+  ChevronRight,
+  Heart,
+  Plus,
+  Settings2,
+  Sparkles,
+  WalletCards,
+} from "lucide-react";
 import type { FormEvent, ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
 import type { SaveCurrentMonthDebtFactResult } from "../application/debt-fact-service.js";
@@ -98,6 +108,29 @@ const dimensions: Record<string, string> = {
   WEALTH: "流动资产",
 };
 
+const priorityActionCopy: Record<string, { title: string; detail: string; button: string }> = {
+  RESTORE_CORE_BALANCE: {
+    title: "先把这个月的收入和开销理一理",
+    detail: "不用一次做完，先看看缺口从哪里来。",
+    button: "去看看",
+  },
+  REBUILD_CASH_FLOOR: {
+    title: "先让手里的现金安心一点",
+    detail: "现在的可用现金还没到你设定的安心线。",
+    button: "去看看",
+  },
+  ADDRESS_PRIMARY_DRAG: {
+    title: "先看看这个月花到哪里了",
+    detail: "找到一笔最值得留意的开销，就已经是进步。",
+    button: "去看看",
+  },
+  ADDRESS_SAFETY_GAP: {
+    title: "给未来的自己多留一点余地",
+    detail: "你的安全储备还在慢慢长大，不用急，先看一眼进度。",
+    button: "去看看",
+  },
+};
+
 export function HomeScreen({
   home,
   asOfDate,
@@ -165,6 +198,9 @@ export function HomeScreen({
   const [maintenanceData, setMaintenanceData] = useState<FinancialMaintenanceState | null>(null);
   const [maintenanceLoading, setMaintenanceLoading] = useState(false);
   const [maintenanceError, setMaintenanceError] = useState("");
+  const [feedback, setFeedback] = useState("");
+  const [valuePulse, setValuePulse] = useState(false);
+  const previousValues = useRef("");
   const safetyProgress = safetyProgressPercentage(
     home.safetyCoverageMonths,
     home.safetyCoverageTargetMonths,
@@ -176,6 +212,40 @@ export function HomeScreen({
     Number.isFinite(home.safetyCoverageTargetMonths) &&
     home.safetyCoverageTargetMonths >= 0;
   const safetyTargetUnset = safetyCoverageAvailable && home.safetyCoverageTargetMonths === 0;
+  const priorityAction =
+    home.priorityAction.action_code === "ADDRESS_PRIMARY_DRAG"
+      ? {
+          title:
+            home.primaryDrag === "DEBT"
+              ? "先核对一下，这个月还要还多少"
+              : home.primaryDrag === "WEALTH"
+                ? "先更新一下资产的最新金额"
+                : home.primaryDrag === "LIQUIDITY_SAFETY"
+                  ? "先看看手里的现金够不够用"
+                  : "先看看这个月花到哪里了",
+          detail: "把最新金额核对好，再决定要不要调整计划。",
+          button: "去核对",
+        }
+      : priorityActionCopy[home.priorityAction.action_code];
+
+  useEffect(() => {
+    const values = [
+      home.baseSurplus,
+      home.currentMonthSpending,
+      home.safetyCoverageMonths,
+      home.totalDebt,
+    ].join("|");
+    setValuePulse(previousValues.current !== "" && previousValues.current !== values);
+    previousValues.current = values;
+    const timer = window.setTimeout(() => setValuePulse(false), 520);
+    return () => window.clearTimeout(timer);
+  }, [home]);
+
+  useEffect(() => {
+    if (!feedback) return;
+    const timer = window.setTimeout(() => setFeedback(""), 3200);
+    return () => window.clearTimeout(timer);
+  }, [feedback]);
 
   function openMyFinance() {
     setRoute("MY_FINANCE");
@@ -186,6 +256,17 @@ export function HomeScreen({
     setMaintenanceOpen(true);
     if (!maintenanceData) void loadMaintenance();
   }
+
+  function showFeedback(message: string) {
+    setFeedback(message);
+  }
+
+  const feedbackView = feedback ? (
+    <div className="home-feedback" role="status" key={feedback}>
+      <Check size={17} strokeWidth={2.4} aria-hidden="true" />
+      <span>{feedback}</span>
+    </div>
+  ) : null;
 
   async function loadMaintenance() {
     setMaintenanceLoading(true);
@@ -205,6 +286,7 @@ export function HomeScreen({
   ): Promise<FinancialMaintenanceState> {
     const next = await onUpdateFinancialData(patch, date);
     setMaintenanceData(next);
+    showFeedback("保存好了，金额已更新。");
     return next;
   }
 
@@ -219,24 +301,28 @@ export function HomeScreen({
     if (!onReviseActualIncome) throw new Error("实际收入修改服务暂不可用。");
     await onReviseActualIncome(input);
     await loadMaintenance();
+    showFeedback(input.void ? "已作废，历史记录还在。" : "这笔收入更新好了。");
   }
 
   async function deactivateCash(accountId: string) {
     if (!onDeactivateCashAccount) throw new Error("账户停用服务暂不可用。");
     await onDeactivateCashAccount(accountId);
     await loadMaintenance();
+    showFeedback("账户已停用，历史记录还在。");
   }
 
   async function deactivateAssetItem(assetId: string) {
     if (!onDeactivateAsset) throw new Error("资产停用服务暂不可用。");
     await onDeactivateAsset(assetId);
     await loadMaintenance();
+    showFeedback("资产已停用，历史记录还在。");
   }
 
   async function deactivateDebtItem(debtId: string) {
     if (!onDeactivateDebt) throw new Error("债务停用服务暂不可用。");
     await onDeactivateDebt(debtId);
     await loadMaintenance();
+    showFeedback("债务已停用，历史记录还在。");
   }
 
   async function saveDebtFact(command: {
@@ -247,6 +333,11 @@ export function HomeScreen({
     if (!onSaveCurrentMonthDebtFact) throw new Error("本月债务确认服务暂不可用。");
     const result = await onSaveCurrentMonthDebtFact(command);
     await loadMaintenance();
+    if (
+      result.status === "SAVED_MODEL_READY" ||
+      result.status === "SAVED_NEEDS_CURRENT_MONTH_DEBT_FACTS"
+    )
+      showFeedback("这笔本月还款已确认。");
     return result;
   }
 
@@ -266,6 +357,7 @@ export function HomeScreen({
   if (route !== "HOME") {
     return (
       <>
+        {feedbackView}
         <MyFinancePages
           route={route}
           home={home}
@@ -302,6 +394,7 @@ export function HomeScreen({
               try {
                 setMaintenanceData(await onUpdateFinancialData(patch, sessionAsOfDate));
                 setMaintenanceOpen(false);
+                showFeedback("保存好了，金额已更新。");
               } catch (error) {
                 const message = error instanceof Error ? error.message : "保存失败，请重试。";
                 setMaintenanceError(message);
@@ -336,15 +429,101 @@ export function HomeScreen({
               setExpenseOpen(true);
             }}
           >
-            ＋ 记一笔
+            <Plus size={17} strokeWidth={2.4} aria-hidden="true" />
+            <span>记一笔</span>
+          </button>
+          <button
+            className="icon-button header-settings"
+            type="button"
+            aria-label="调整设置"
+            title="调整设置"
+            onClick={openLegacyMaintenance}
+          >
+            <Settings2 size={18} strokeWidth={2} aria-hidden="true" />
           </button>
         </div>
       </header>
-      {wp03PreviewDateControl}
-      <section className="home-intro" aria-labelledby="home-title">
-        <h1 id="home-title">你好，今天也认真管理生活。</h1>
-        <p>{trendCopy[home.trendState] ?? "查看本月财务概况"}</p>
+      {wp03PreviewDateControl && (
+        <details className="trial-date-tools">
+          <summary>试用日期</summary>
+          {wp03PreviewDateControl}
+        </details>
+      )}
+      <section className="home-welcome" aria-labelledby="home-title">
+        <div className="home-welcome-copy">
+          <p className="home-section-kicker">一点点，把生活理顺</p>
+          <h1 id="home-title">小钱家</h1>
+          <p>{trendCopy[home.trendState] ?? "慢慢看清自己的节奏就好。"}</p>
+        </div>
+        <div className="home-welcome-art" aria-hidden="true">
+          <FinanceIllustration kind="brand" />
+          <span className="welcome-sparkle sparkle-one">✦</span>
+          <span className="welcome-sparkle sparkle-two">✦</span>
+        </div>
       </section>
+
+      {pendingDebtFactNames.length === 0 && (
+        <section
+          className={`today-plan ${home.priorityAction.action_code === "NO_ACTION" ? "is-calm" : ""}`}
+          aria-label="今天的小建议"
+        >
+          <div className="today-plan-icon" aria-hidden="true">
+            {home.priorityAction.action_code === "NO_ACTION" ? (
+              <Heart size={20} />
+            ) : (
+              <Sparkles size={20} />
+            )}
+          </div>
+          {home.priorityAction.action_code !== "NO_ACTION" && priorityAction ? (
+            <>
+              <div className="priority-action-copy">
+                <span className="priority-action-label">给你的小建议</span>
+                <h2>{priorityAction.title}</h2>
+                <p>{priorityAction.detail}</p>
+              </div>
+              <button
+                className="button button-primary priority-action-button"
+                type="button"
+                onClick={() => {
+                  const action = home.priorityAction.action_code;
+                  if (action === "ADDRESS_PRIMARY_DRAG") {
+                    const dimension = home.primaryDrag;
+                    if (dimension === "CONSUMPTION") setRoute("SPENDING_DETAIL");
+                    else {
+                      setRoute(
+                        dimension === "DEBT"
+                          ? "DEBT_LIST"
+                          : dimension === "WEALTH"
+                            ? "ASSET_LIST"
+                            : "CASH_LIST",
+                      );
+                      void loadMaintenance();
+                    }
+                  } else if (action === "ADDRESS_SAFETY_GAP") {
+                    setRoute("SAFETY_LIST");
+                    void loadMaintenance();
+                  } else if (action === "REBUILD_CASH_FLOOR") {
+                    setRoute("CASH_LIST");
+                    void loadMaintenance();
+                  } else {
+                    setRoute("INCOME_LIST");
+                    void loadMaintenance();
+                  }
+                }}
+              >
+                <span>{priorityAction.button}</span>
+                <ArrowRight size={16} strokeWidth={2.2} aria-hidden="true" />
+              </button>
+            </>
+          ) : (
+            <div className="priority-action-copy">
+              <span className="priority-action-label">今天可以做的一件小事</span>
+              <h2>把今天花的钱记下来吧</h2>
+              <p>当前记录没有触发优先提醒。还没发生的事，不用提前记。</p>
+            </div>
+          )}
+        </section>
+      )}
 
       {pendingDebtFactNames.length > 0 && (
         <section className="finance-state-card home-debt-facts-pending" role="status">
@@ -363,12 +542,21 @@ export function HomeScreen({
           </button>
         </section>
       )}
+      <div className="home-section-heading">
+        <div>
+          <h2>这个月的钱</h2>
+        </div>
+        <span>本月数据</span>
+      </div>
       <section
         className="home-modules"
         aria-label="本月财务四个方面"
         hidden={pendingDebtFactNames.length > 0}
       >
-        <article className="home-module module-spending" data-primary-module="spending">
+        <article
+          className={`home-module module-spending ${valuePulse ? "is-pulsing" : ""}`}
+          data-primary-module="spending"
+        >
           <ModuleHeading title="本月可变消费" onClick={() => setRoute("SPENDING_DETAIL")} />
           <div className="spending-main-line">
             <div>
@@ -437,7 +625,10 @@ export function HomeScreen({
           </div>
         </article>
 
-        <article className="home-module module-cashflow" data-primary-module="cashflow">
+        <article
+          className={`home-module module-cashflow ${valuePulse ? "is-pulsing" : ""}`}
+          data-primary-module="cashflow"
+        >
           <ModuleHeading title="本月收支状态" onClick={() => setRoute("CASHFLOW_DETAIL")} />
           <div className="cashflow-flow">
             <div className="flow-step flow-income">
@@ -496,7 +687,10 @@ export function HomeScreen({
           )}
         </article>
 
-        <article className="home-module module-safety" data-primary-module="safety">
+        <article
+          className={`home-module module-safety ${valuePulse ? "is-pulsing" : ""}`}
+          data-primary-module="safety"
+        >
           <ModuleHeading title="安全垫" onClick={() => setRoute("SAFETY_DETAIL")} />
           <div className="safety-main-line">
             <FinanceIllustration kind="safety" className="home-module-art safety-art" />
@@ -553,7 +747,10 @@ export function HomeScreen({
           )}
         </article>
 
-        <article className="home-module module-debt" data-primary-module="debt">
+        <article
+          className={`home-module module-debt ${valuePulse ? "is-pulsing" : ""}`}
+          data-primary-module="debt"
+        >
           <ModuleHeading title="债务" onClick={() => setRoute("DEBT_DETAIL")} />
           <div className="debt-home-values">
             <FinanceIllustration kind="debt" className="debt-home-art" />
@@ -582,9 +779,10 @@ export function HomeScreen({
         </article>
       </section>
       <footer className="home-footer">
-        <span>依据本月记录的财务数据</span>
+        <span className="home-footer-note">每一次记录，都是在照顾未来的自己</span>
         <button type="button" className="button button-secondary" onClick={openMyFinance}>
-          我的财务
+          <WalletCards size={16} strokeWidth={2} aria-hidden="true" />
+          <span>我的财务</span>
         </button>
         <button
           type="button"
@@ -594,6 +792,7 @@ export function HomeScreen({
           更新财务数据
         </button>
       </footer>
+      {feedbackView}
       {expenseOpen && (
         <ExpenseDialog
           busy={busy}
@@ -606,6 +805,7 @@ export function HomeScreen({
             try {
               await onRecordExpense(submission, sessionAsOfDate);
               setExpenseOpen(false);
+              showFeedback("记下来了，首页已经更新。");
             } catch (error) {
               setExpenseError(error instanceof Error ? error.message : "保存失败，请重试。");
             } finally {
@@ -627,6 +827,7 @@ export function HomeScreen({
             try {
               setMaintenanceData(await onUpdateFinancialData(patch, sessionAsOfDate));
               setMaintenanceOpen(false);
+              showFeedback("保存好了，金额已更新。");
             } catch (error) {
               const message = error instanceof Error ? error.message : "保存失败，请重试。";
               setMaintenanceError(message);
@@ -649,7 +850,7 @@ function ModuleHeading({ title, onClick }: { title: string; onClick: () => void 
         onClick={onClick}
         aria-label={`查看${title}详情`}
       >
-        <span aria-hidden="true">›</span>
+        <ChevronRight size={18} aria-hidden="true" />
       </button>
     </div>
   );

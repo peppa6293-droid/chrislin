@@ -1,0 +1,420 @@
+/* Presentation only: exact values and native persistence stay unchanged. */
+:root {
+  --ink: #273b35;
+  --muted: #687c73;
+  --green: #327763;
+  --green-dark: #235b4a;
+  background: #f5f8f8;
+}
+#root:has(.home-page) {
+  background: #f5f8f8;
+}
+.home-page {
+  --paper: #fff;
+  --line: #dce6e2;
+  --ink: #273b35;
+  --muted: #687c73;
+  width: min(100% - 48px, 1040px);
+  padding: 24px 0 30px;
+}
+.home-page *,
+.onboarding-page * {
+  letter-spacing: 0;
+}
+.home-header {
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.home-header .header-actions {
+  gap: 12px;
+  flex-wrap: wrap;
+  flex-shrink: 1;
+}
+.home-welcome {
+  min-height: 132px;
+  margin-top: 18px;
+  padding: 12px 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  overflow: visible;
+}
+.home-welcome h1 {
+  font-size: 30px;
+}
+.home-welcome-art {
+  flex-basis: 108px;
+  width: 108px;
+  height: 108px;
+  margin-left: 12px;
+}
+.home-page .home-welcome-art .finance-illustration {
+  width: 108px;
+  height: 108px;
+}
+.today-plan {
+  margin: 6px 0 22px;
+  padding: 16px 0;
+  background: none;
+  border: 0;
+  border-top: 1px solid #dce6e2;
+  border-bottom: 1px solid #dce6e2;
+  border-radius: 0;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+.today-plan.is-calm {
+  background: none;
+}
+.today-plan .priority-action-copy h2 {
+  margin: 0;
+  color: #35483e;
+  font-size: 17px;
+  line-height: 1.5;
+}
+.today-plan .priority-action-copy p {
+  margin: 5px 0 0;
+  color: #65786d;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.priority-action-label {
+  color: #6b8073;
+}
+.today-plan .priority-action-copy {
+  flex-basis: 220px;
+}
+.today-plan .priority-action-button {
+  width: auto;
+}
+.home-section-heading {
+  margin: 20px 0 12px;
+}
+.home-modules {
+  gap: 16px;
+  align-items: stretch;
+}
+.home-page .home-module {
+  background: #fff;
+  border: 1px solid #e0e8e6;
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgb(39 59 53 / 3%);
+  padding: 18px;
+  min-height: 0;
+  overflow: visible;
+}
+.home-module.module-spending {
+  border-top: 3px solid #ec928b;
+}
+.home-module.module-cashflow {
+  border-top: 3px solid #77b6a1;
+}
+.home-module.module-safety {
+  border-top: 3px solid #8da9dc;
+}
+.home-module.module-debt {
+  border-top: 3px solid #cfb479;
+}
+.home-page .module-heading h2 {
+  font-size: 16px;
+  color: #32493f;
+}
+.module-detail-button {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 50%;
+  background: #f1f6f3;
+  transition:
+    transform 200ms var(--spring),
+    background 200ms;
+}
+.module-detail-button:hover {
+  transform: translateX(3px);
+  background: #dceee4;
+}
+.home-page .module-label {
+  font-size: 12px;
+}
+.home-page .module-primary-value {
+  font-size: 27px;
+}
+.home-page .module-secondary-value {
+  font-size: 21px;
+}
+.home-page .spending-main-line {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 12px minmax(0, 1fr);
+}
+.home-page .spending-art {
+  display: none;
+}
+.home-page .cashflow-flow {
+  grid-template-columns: minmax(0, 1fr) 14px minmax(0, 1fr) 14px minmax(0, 1fr);
+  gap: 4px;
+}
+.home-page .flow-step {
+  padding: 10px 5px;
+  border-radius: 8px;
+}
+.home-page .flow-balance {
+  padding: 10px 5px;
+  border-radius: 8px;
+}
+.home-page .flow-value strong,
+.home-page .flow-balance strong {
+  font-size: 18px;
+}
+.home-page .cashflow-main-art,
+.home-page .cashflow-obligations-art {
+  position: static;
+  width: 36px;
+  height: 40px;
+}
+.home-page .flow-arrow {
+  font-size: 16px;
+}
+.home-page .safety-art,
+.home-page .debt-home-art {
+  width: 54px;
+  height: 62px;
+}
+.home-page .safety-coverage strong {
+  font-size: 28px;
+}
+.home-page .safety-main-line {
+  min-width: 0;
+  flex-wrap: wrap;
+}
+.home-page .safety-progress,
+.home-page .safety-progress-unavailable {
+  margin-left: 0;
+}
+.home-page .debt-home-values,
+.home-page .debt-home-values:has(.money-amount--long) {
+  grid-template-columns: 54px minmax(0, 1fr);
+  gap: 8px 14px;
+}
+.home-page .debt-home-art {
+  grid-row: span 2;
+}
+.home-page .debt-home-values > div {
+  grid-column: 2;
+}
+.home-page .debt-due-callout {
+  background: #faf2e8;
+  padding: 8px;
+  border-radius: 8px;
+}
+.home-page .module-footline {
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.home-page .home-footer {
+  gap: 10px;
+  align-items: center;
+}
+.home-footer-note {
+  flex-basis: 100%;
+}
+.home-page .finance-page-header h1 {
+  font-size: 24px;
+  text-align: left;
+  justify-self: start;
+}
+.home-page .finance-category-card {
+  grid-template-columns: 58px minmax(0, 1fr);
+  gap: 12px;
+  border-radius: 8px;
+  background: #fff;
+  min-height: 120px;
+  padding: 16px;
+  text-align: left;
+  justify-items: start;
+}
+.home-page .finance-card-art {
+  width: 58px;
+  height: 64px;
+  transform: none;
+}
+.home-page .finance-card-copy {
+  justify-items: start;
+}
+.home-page .finance-card-primary {
+  font-size: 23px;
+}
+.home-page .finance-category-card:nth-child(1) {
+  border-top: 3px solid #77b6a1;
+}
+.home-page .finance-category-card:nth-child(2) {
+  border-top: 3px solid #8da9dc;
+}
+.home-page .finance-category-card:nth-child(3) {
+  border-top: 3px solid #ec928b;
+}
+.home-page .finance-category-card:nth-child(4) {
+  border-top: 3px solid #cfb479;
+}
+.home-page .finance-secondary-entry,
+.home-page .finance-list-summary {
+  background: none;
+  border: 0;
+  border-radius: 0;
+  border-bottom: 1px solid #dce6e2;
+  box-shadow: none;
+  flex-wrap: wrap;
+  padding: 14px 0;
+}
+.home-page .finance-list-summary > div > strong {
+  font-size: 26px;
+}
+.home-page .finance-data-row {
+  border-radius: 8px;
+  background: #fff;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.home-page .finance-data-row > div {
+  min-width: 100px;
+}
+.home-page .finance-data-row > strong {
+  max-width: 100%;
+  flex-shrink: 1;
+}
+.home-page .finance-row-art {
+  width: 36px;
+  height: 40px;
+  flex-basis: 36px;
+  transform: none;
+}
+.home-page .finance-data-row .text-button {
+  min-height: 36px;
+  padding: 6px 10px;
+  background: #f0f6f3;
+  border-radius: 8px;
+}
+.home-page .finance-list-card,
+.home-page .planning-income-form,
+.home-page .detail-panel {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: none;
+}
+.home-page .planning-income-form {
+  grid-template-columns: minmax(0, 1fr);
+}
+.home-page .planning-hero-art {
+  display: none;
+}
+.home-page .planning-income-form > * {
+  grid-column: 1;
+}
+.money-amount,
+.home-page .money-amount--long,
+.home-page .money-amount--wide {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  min-width: 0;
+  flex-shrink: 1;
+}
+.home-page .detail-row {
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.home-page .detail-row > strong {
+  flex-shrink: 1;
+  text-align: right;
+}
+.home-page .finance-feedback,
+.home-page .finance-error {
+  animation: home-enter 280ms var(--spring);
+}
+.dialog-backdrop > section {
+  max-width: calc(100vw - 28px);
+}
+.dialog-backdrop input,
+.dialog-backdrop select {
+  min-width: 0;
+}
+.dialog-actions,
+.planning-form-actions {
+  flex-wrap: wrap;
+}
+.dialog-backdrop .entry-row,
+.dialog-backdrop .debt-row {
+  min-width: 0;
+}
+.home-page .home-welcome-art {
+  animation-duration: 5s;
+}
+.home-page .today-plan-icon {
+  animation-iteration-count: 2;
+}
+@media (max-width: 840px) {
+  .home-modules {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .home-page {
+    width: calc(100% - 32px);
+  }
+}
+@media (max-width: 520px) {
+  .home-page {
+    width: calc(100% - 24px);
+    padding-top: 14px;
+  }
+  .home-page .brand-row {
+    flex-wrap: wrap;
+  }
+  .home-page .brand-row .local-chip {
+    display: none;
+  }
+  .home-page .header-actions {
+    gap: 8px;
+  }
+  .home-page .current-period {
+    font-size: 11px;
+  }
+  .home-page .home-welcome h1 {
+    font-size: 28px;
+  }
+  .home-page .home-welcome-art,
+  .home-page .home-welcome-art .finance-illustration {
+    width: 72px;
+    height: 72px;
+    flex-basis: 72px;
+  }
+  .home-page .today-plan .priority-action-button {
+    margin-left: 56px;
+  }
+  .home-page .finance-hub-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .home-page .finance-category-card {
+    grid-template-columns: 58px minmax(0, 1fr);
+  }
+  .home-page .home-feedback {
+    left: 14px;
+    right: 14px;
+    bottom: 14px;
+  }
+  .home-page .detail-row > strong {
+    flex-basis: 100%;
+  }
+  .dialog-backdrop .entry-row,
+  .dialog-backdrop .debt-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #root * {
+    animation-duration: 1ms;
+    animation-iteration-count: 1;
+    transition-duration: 1ms;
+    scroll-behavior: auto;
+  }
+}
