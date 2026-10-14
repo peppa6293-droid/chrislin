@@ -204,6 +204,45 @@
 .duo-task.is-done .duo-task-action {
   color: #62b77f;
 }
+.duo-reward-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: -4px 4px 14px;
+  padding: 8px 10px;
+  border-radius: 11px;
+  background: #fff8dc;
+  color: #8b6a2b;
+  font-size: 11px;
+}
+.duo-reward-progress {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.duo-reward-progress > span:first-child {
+  color: #eabf50;
+  font-size: 16px;
+}
+.duo-reward-progress strong {
+  color: #4c9a80;
+  font-weight: 800;
+}
+.duo-reward-toggle {
+  padding: 5px 8px;
+  border: 1px solid #eadca9;
+  border-radius: 8px;
+  background: transparent;
+  color: #9b8146;
+  font-size: 10px;
+  cursor: pointer;
+}
+.duo-reward-toggle.is-on {
+  border-color: #b9d8bd;
+  background: #f1faef;
+  color: #4c9a80;
+}
 @keyframes duo-float {
   0%,
   100% {

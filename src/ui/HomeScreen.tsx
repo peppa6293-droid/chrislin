@@ -494,6 +494,7 @@ export function HomeScreen({
         <DuoGuide
           completed={duoCompleted}
           onTask={startDuoTask}
+          dayKey={sessionAsOfDate}
           tasks={["income", "spending", "cash", "debt", "safety"]}
         />
 
