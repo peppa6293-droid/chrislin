@@ -523,6 +523,7 @@ function CategoryList({
               <article
                 className="finance-data-row income-record-row"
                 data-visual-tone={visualToneForId(item.id)}
+                data-motion-row={`income-${item.id}`}
                 key={item.id}
               >
                 <FinanceIllustration kind="income" className="finance-row-art" />
@@ -581,6 +582,7 @@ function CategoryList({
             <article
               className="finance-data-row"
               data-visual-tone={visualToneForId(item.id)}
+              data-motion-row={`cash-${item.id}`}
               key={item.id}
             >
               <FinanceIllustration kind="cash" className="finance-row-art" />
@@ -626,6 +628,7 @@ function CategoryList({
             <article
               className="finance-data-row"
               data-visual-tone={visualToneForId(item.id)}
+              data-motion-row={`asset-${item.id}`}
               key={item.id}
             >
               <FinanceIllustration kind="assets" className="finance-row-art" />
@@ -677,6 +680,7 @@ function CategoryList({
               <article
                 className="finance-data-row"
                 data-visual-tone={visualToneForId(item.id)}
+                data-motion-row={`debt-${item.id}`}
                 key={item.id}
               >
                 <FinanceIllustration kind="debt" className="finance-row-art" />
