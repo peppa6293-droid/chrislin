@@ -18,13 +18,13 @@ import type { ExpenseSubmission, HomeApplicationState } from "../application/pro
 import type { V4FinancialReadState } from "../application/v4-foundation-service.js";
 import { assertUserInputMoney, formatMoneyExact, money } from "../model/money.js";
 import type { PlanningIncomeMonthDecision } from "../persistence/repositories.js";
+import { DuoGuide, type DuoTaskKind } from "./DuoGuide.js";
 import { localDateTime } from "./date.js";
 import { FinanceIllustration } from "./FinanceIllustration.js";
 import { FinancialMaintenanceDialog } from "./FinancialMaintenanceDialog.js";
 import { MoneyAmount, type MoneyAmountSize } from "./MoneyAmount.js";
 import { MotionSurface } from "./MotionSurface.js";
 import { MyFinancePages, type MyFinanceRoute } from "./MyFinancePages.js";
-import { type PixelDestination, PixelWorld } from "./PixelWorld.js";
 import { SaveFeedback } from "./SaveFeedback.js";
 
 const trendCopy: Record<string, string> = {
@@ -202,7 +202,7 @@ export function HomeScreen({
   const [maintenanceError, setMaintenanceError] = useState("");
   const [feedback, setFeedback] = useState("");
   const [feedbackSequence, setFeedbackSequence] = useState(0);
-  const [worldCelebrating, setWorldCelebrating] = useState(false);
+  const [duoCompleted, setDuoCompleted] = useState<Set<DuoTaskKind>>(() => new Set());
   const [valuePulse, setValuePulse] = useState(false);
   const previousValues = useRef("");
   const safetyProgress = safetyProgressPercentage(
@@ -264,8 +264,26 @@ export function HomeScreen({
   function showFeedback(message: string) {
     setFeedback(message);
     setFeedbackSequence((sequence) => sequence + 1);
-    setWorldCelebrating(true);
-    window.setTimeout(() => setWorldCelebrating(false), 1000);
+  }
+
+  function completeDuoTask(task: DuoTaskKind) {
+    setDuoCompleted((current) => new Set(current).add(task));
+  }
+
+  function startDuoTask(task: DuoTaskKind) {
+    const destinations: Record<Exclude<DuoTaskKind, "spending">, MyFinanceRoute> = {
+      income: "INCOME_LIST",
+      cash: "CASH_LIST",
+      debt: "DEBT_LIST",
+      safety: "SAFETY_LIST",
+    };
+    if (task === "spending") {
+      setExpenseError("");
+      setExpenseOpen(true);
+      return;
+    }
+    setRoute(destinations[task]);
+    void loadMaintenance();
   }
 
   const feedbackView = feedback ? (
@@ -290,6 +308,7 @@ export function HomeScreen({
   ): Promise<FinancialMaintenanceState> {
     const next = await onUpdateFinancialData(patch, date);
     setMaintenanceData(next);
+    completeDuoTask("income");
     showFeedback("保存好了，金额已更新。");
     return next;
   }
@@ -305,6 +324,7 @@ export function HomeScreen({
     if (!onReviseActualIncome) throw new Error("实际收入修改服务暂不可用。");
     await onReviseActualIncome(input);
     await loadMaintenance();
+    completeDuoTask("income");
     showFeedback(input.void ? "已作废，历史记录还在。" : "这笔收入更新好了。");
   }
 
@@ -340,8 +360,10 @@ export function HomeScreen({
     if (
       result.status === "SAVED_MODEL_READY" ||
       result.status === "SAVED_NEEDS_CURRENT_MONTH_DEBT_FACTS"
-    )
+    ) {
+      completeDuoTask("debt");
       showFeedback("这笔本月还款已确认。");
+    }
     return result;
   }
 
@@ -469,18 +491,10 @@ export function HomeScreen({
           </div>
         </section>
 
-        <PixelWorld
-          celebrating={worldCelebrating}
-          onVisit={(place: PixelDestination) => {
-            const destinations: Record<PixelDestination, MyFinanceRoute> = {
-              income: "INCOME_LIST",
-              cash: "CASH_LIST",
-              assets: "ASSET_LIST",
-              debt: "DEBT_LIST",
-            };
-            setRoute(destinations[place]);
-            void loadMaintenance();
-          }}
+        <DuoGuide
+          completed={duoCompleted}
+          onTask={startDuoTask}
+          tasks={["income", "spending", "cash", "debt", "safety"]}
         />
 
         {pendingDebtFactNames.length === 0 && (
@@ -826,6 +840,7 @@ export function HomeScreen({
               try {
                 await onRecordExpense(submission, sessionAsOfDate);
                 setExpenseOpen(false);
+                completeDuoTask("spending");
                 showFeedback("记下来了，首页已经更新。");
               } catch (error) {
                 setExpenseError(error instanceof Error ? error.message : "保存失败，请重试。");
