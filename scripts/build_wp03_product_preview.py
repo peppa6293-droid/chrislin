@@ -60,9 +60,13 @@ def tree_hashes(paths: list[Path]) -> dict[str, str]:
     files: set[Path] = set()
     for path in paths:
         if path.is_dir():
-            files.update(item for item in path.rglob("*") if item.is_file())
+            files.update(
+                item for item in path.rglob("*")
+                if item.is_file() and item.name not in {".DS_Store", "output.json"}
+            )
         elif path.is_file():
-            files.add(path)
+            if path.name not in {".DS_Store", "output.json"}:
+                files.add(path)
     return {str(path.relative_to(ROOT)): sha(path) for path in sorted(files)}
 
 
@@ -101,9 +105,13 @@ def capture_signing_stage(stage: str, output: Path, app: Path | None = None,
     xattrs, inventory, stats = [], [], []
     for root in roots:
         inventory.append(f"## {root}\n")
-        listing = subprocess.run(["find", str(root), "-print"], capture_output=True, text=True)
+        listing = subprocess.run(
+            ["find", str(root), "-print"], capture_output=True, text=True, errors="replace"
+        )
         inventory.append(listing.stdout)
-        attrs = subprocess.run(["xattr", "-lr", str(root)], capture_output=True, text=True)
+        attrs = subprocess.run(
+            ["xattr", "-lr", str(root)], capture_output=True, text=True, errors="replace"
+        )
         xattrs.append(f"## {root}\n{attrs.stdout or '(no extended attributes reported)'}")
         entries = [root, *root.rglob("*")] if root.is_dir() else [root]
         for entry in entries:
@@ -122,8 +130,12 @@ def capture_signing_stage(stage: str, output: Path, app: Path | None = None,
         "bundle-stat.txt": "\n".join(stats),
     }
     if app is not None and app.exists():
-        signature = subprocess.run(["codesign", "-dv", "--verbose=4", str(app)],
-                                   capture_output=True, text=True)
+        signature = subprocess.run(
+            ["codesign", "-dv", "--verbose=4", str(app)],
+            capture_output=True,
+            text=True,
+            errors="replace",
+        )
         files["codesign.txt"] = signature.stdout + signature.stderr
     hashes = {}
     for name, content in files.items():
@@ -301,7 +313,8 @@ def main() -> int:
             [sys.executable, "-m", "unittest", "discover", "-s", "scripts", "-p",
              "test_wp03_preview_packaging.py", "-v"],
             ["npx", "vitest", "run", "tests/financial-maintenance-service.test.ts",
-             "tests/ui.test.tsx", "tests/smoke-identity.test.ts", "tests/wp01-product-preview-identity.test.ts"],
+             "tests/v2-ui.test.tsx", "tests/onboarding-safety-eligibility.test.tsx",
+             "tests/smoke-identity.test.ts", "tests/wp01-product-preview-identity.test.ts"],
             ["npx", "vitest", "run", "tests/v4-four-p1-correction.test.ts"],
         ], start=1):
             item = run(argv, os.environ.copy(), logs, "simulation-%02d" % index, timeout=900)

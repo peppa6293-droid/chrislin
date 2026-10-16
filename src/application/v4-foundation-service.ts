@@ -46,6 +46,15 @@ export interface V4FinancialReadState {
     active: boolean;
     revisionId: number | null;
   }>;
+  settingsHistory: Array<{
+    revisionId: number;
+    effectiveMonth: string;
+    asOfDate: string;
+    safetyCoverageTargetMonths: number;
+    minimumCashCoverageMonths: number;
+    safetyRecoveryHorizonMonths: number | null;
+    desiredMonthlyDiscretionarySpending: string;
+  }>;
 }
 
 export type V4MutationResult =
@@ -116,44 +125,58 @@ export class V4FoundationService {
         "INVALID_DATE",
         "A valid period month and as-of date are required.",
       );
-    const [planningIncome, actualIncome, cashAccounts, historyRows, cashRows, assetRows, debtRows] =
-      await Promise.all([
-        this.repositories.resolvePlanningIncomeForMonth(periodMonth, asOfDate),
-        this.repositories.actualIncomeAt(periodMonth, asOfDate),
-        this.repositories.cashAccountsAt(asOfDate),
-        this.db.select(
-          `SELECT i.id,NULL AS revision_id,i.created_at AS as_of_date,i.amount,i.status,i.date,1 AS active
+    const [
+      planningIncome,
+      actualIncome,
+      cashAccounts,
+      historyRows,
+      cashRows,
+      assetRows,
+      debtRows,
+      settingsRows,
+    ] = await Promise.all([
+      this.repositories.resolvePlanningIncomeForMonth(periodMonth, asOfDate),
+      this.repositories.actualIncomeAt(periodMonth, asOfDate),
+      this.repositories.cashAccountsAt(asOfDate),
+      this.db.select(
+        `SELECT i.id,NULL AS revision_id,i.created_at AS as_of_date,i.amount,i.status,i.date,1 AS active
         FROM income_records i WHERE i.kind='ACTUAL' AND i.period_month=? AND i.date<=?
         UNION ALL
         SELECT r.income_id AS id,r.revision_id,r.as_of_date,r.amount,r.status,r.date,r.active
         FROM actual_income_revisions r JOIN income_records i ON i.id=r.income_id
         WHERE i.kind='ACTUAL' AND i.period_month=? AND r.as_of_date<=?
         ORDER BY as_of_date,revision_id`,
-          [periodMonth, asOfDate, periodMonth, asOfDate],
-        ),
-        this.db.select(
-          `SELECT a.id,s.as_of_date,a.name,s.balance,a.include_in_safety_resources,1 AS active,NULL AS revision_id
+        [periodMonth, asOfDate, periodMonth, asOfDate],
+      ),
+      this.db.select(
+        `SELECT a.id,s.as_of_date,a.name,s.balance,a.include_in_safety_resources,1 AS active,NULL AS revision_id
         FROM cash_balance_snapshots s JOIN cash_accounts a ON a.id=s.account_id WHERE s.as_of_date<=?
         UNION ALL SELECT account_id,as_of_date,name,balance,include_in_safety_resources,1,revision_id FROM cash_account_revisions WHERE as_of_date<=?
         UNION ALL SELECT l.account_id,l.as_of_date,a.name,NULL,a.include_in_safety_resources,l.active,l.revision_id FROM cash_account_lifecycle_revisions l JOIN cash_accounts a ON a.id=l.account_id WHERE l.as_of_date<=?
         ORDER BY as_of_date,revision_id`,
-          [asOfDate, asOfDate, asOfDate],
-        ),
-        this.db.select(
-          `SELECT a.id,s.as_of_date,a.name,a.kind,s.value AS current_value,a.include_in_safety_resources,1 AS active,NULL AS revision_id
+        [asOfDate, asOfDate, asOfDate],
+      ),
+      this.db.select(
+        `SELECT a.id,s.as_of_date,a.name,a.kind,s.value AS current_value,a.include_in_safety_resources,1 AS active,NULL AS revision_id
         FROM asset_value_snapshots s JOIN assets a ON a.id=s.asset_id WHERE s.as_of_date<=?
         UNION ALL SELECT asset_id,as_of_date,name,kind,current_value,include_in_safety_resources,active,revision_id FROM asset_revisions WHERE as_of_date<=?
         ORDER BY as_of_date,revision_id`,
-          [asOfDate, asOfDate],
-        ),
-        this.db.select(
-          `SELECT d.id,f.as_of_date,f.period_month,d.name,f.current_balance,f.current_month_due,d.fixed_monthly_payment,1 AS active,NULL AS revision_id
+        [asOfDate, asOfDate],
+      ),
+      this.db.select(
+        `SELECT d.id,f.as_of_date,f.period_month,d.name,f.current_balance,f.current_month_due,d.fixed_monthly_payment,1 AS active,NULL AS revision_id
         FROM debt_period_facts f JOIN debts d ON d.id=f.debt_id WHERE f.as_of_date<=?
         UNION ALL SELECT debt_id,as_of_date,period_month,name,current_balance,current_month_due,fixed_monthly_payment,active,revision_id FROM debt_revisions WHERE as_of_date<=?
         ORDER BY as_of_date,revision_id`,
-          [asOfDate, asOfDate],
-        ),
-      ]);
+        [asOfDate, asOfDate],
+      ),
+      this.db.select(
+        `SELECT revision_id,effective_month,as_of_date,safety_coverage_target_months,minimum_cash_coverage_months,safety_recovery_horizon_months,desired_monthly_discretionary_spending
+        FROM settings_revisions WHERE effective_month<=? AND as_of_date<=?
+        ORDER BY as_of_date,revision_id`,
+        [periodMonth, asOfDate],
+      ),
+    ]);
     const actualIncomeHistory = historyRows.map((row) => ({
       id: String(row.id),
       revisionId: row.revision_id === null ? null : Number(row.revision_id),
@@ -197,6 +220,18 @@ export class V4FoundationService {
       active: Number(row.active) === 1,
       revisionId: row.revision_id === null ? null : Number(row.revision_id),
     }));
+    const settingsHistory = settingsRows.map((row) => ({
+      revisionId: Number(row.revision_id),
+      effectiveMonth: String(row.effective_month),
+      asOfDate: String(row.as_of_date).slice(0, 10),
+      safetyCoverageTargetMonths: Number(row.safety_coverage_target_months),
+      minimumCashCoverageMonths: Number(row.minimum_cash_coverage_months),
+      safetyRecoveryHorizonMonths:
+        row.safety_recovery_horizon_months === null
+          ? null
+          : Number(row.safety_recovery_horizon_months),
+      desiredMonthlyDiscretionarySpending: String(row.desired_monthly_discretionary_spending),
+    }));
     return {
       planningIncome,
       actualIncome,
@@ -205,6 +240,7 @@ export class V4FoundationService {
       cashHistory,
       assetHistory,
       debtHistory,
+      settingsHistory,
     };
   }
 

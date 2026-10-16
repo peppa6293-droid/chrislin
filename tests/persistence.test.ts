@@ -736,3 +736,93 @@ describe("application service and Model Core integration", () => {
     }
   });
 });
+
+describe("listRecentExpenses month filtering", () => {
+  it("returns recent expenses across all months when no month filter is provided", async () => {
+    await initialize();
+    await repositories.saveExpense(
+      { id: "sep-1", amount: "10", dateTime: "2026-09-15T10:00:00Z", businessDate: "2026-09-15", kind: "VARIABLE", category: "FOOD" },
+      "profile-test",
+    );
+    await repositories.saveExpense(
+      { id: "oct-1", amount: "20", dateTime: "2026-10-01T10:00:00Z", businessDate: "2026-10-01", kind: "VARIABLE", category: "FOOD" },
+      "profile-test",
+    );
+    const result = await repositories.listRecentExpenses(5);
+    expect(result).toHaveLength(2);
+    // Most recent first
+    expect(result[0]?.id).toBe("oct-1");
+    expect(result[1]?.id).toBe("sep-1");
+  });
+
+  it("only returns expenses within the specified month", async () => {
+    await initialize();
+    await repositories.saveExpense(
+      { id: "sep-1", amount: "10", dateTime: "2026-09-28T10:00:00Z", businessDate: "2026-09-28", kind: "VARIABLE", category: "FOOD" },
+      "profile-test",
+    );
+    await repositories.saveExpense(
+      { id: "oct-1", amount: "20", dateTime: "2026-10-01T10:00:00Z", businessDate: "2026-10-01", kind: "VARIABLE", category: "TRANSPORT" },
+      "profile-test",
+    );
+    await repositories.saveExpense(
+      { id: "oct-2", amount: "30", dateTime: "2026-10-14T10:00:00Z", businessDate: "2026-10-14", kind: "VARIABLE", category: "FOOD" },
+      "profile-test",
+    );
+    await repositories.saveExpense(
+      { id: "nov-1", amount: "40", dateTime: "2026-11-01T10:00:00Z", businessDate: "2026-11-01", kind: "VARIABLE", category: "FOOD" },
+      "profile-test",
+    );
+
+    const octResult = await repositories.listRecentExpenses(3, "2026-10");
+    expect(octResult).toHaveLength(2);
+    expect(octResult.map((r) => r.id)).toEqual(["oct-2", "oct-1"]);
+    expect(octResult.some((r) => r.id === "sep-1")).toBe(false);
+    expect(octResult.some((r) => r.id === "nov-1")).toBe(false);
+  });
+
+  it("returns empty array when no expenses exist in the specified month", async () => {
+    await initialize();
+    await repositories.saveExpense(
+      { id: "sep-1", amount: "10", dateTime: "2026-09-15T10:00:00Z", businessDate: "2026-09-15", kind: "VARIABLE", category: "FOOD" },
+      "profile-test",
+    );
+    const result = await repositories.listRecentExpenses(3, "2026-10");
+    expect(result).toHaveLength(0);
+  });
+
+  it("respects the limit parameter within the filtered month", async () => {
+    await initialize();
+    for (let i = 1; i <= 5; i++) {
+      await repositories.saveExpense(
+        { id: `oct-${i}`, amount: String(i * 10), dateTime: `2026-10-0${i}T10:00:00Z`, businessDate: `2026-10-0${i}`, kind: "VARIABLE", category: "FOOD" },
+        "profile-test",
+      );
+    }
+    const result = await repositories.listRecentExpenses(2, "2026-10");
+    expect(result).toHaveLength(2);
+    // Most recent first
+    expect(result[0]?.id).toBe("oct-5");
+    expect(result[1]?.id).toBe("oct-4");
+  });
+
+  it("handles December-to-January year boundary correctly", async () => {
+    await initialize();
+    await repositories.saveExpense(
+      { id: "dec-1", amount: "10", dateTime: "2026-12-31T10:00:00Z", businessDate: "2026-12-31", kind: "VARIABLE", category: "FOOD" },
+      "profile-test",
+    );
+    await repositories.saveExpense(
+      { id: "jan-1", amount: "20", dateTime: "2027-01-01T10:00:00Z", businessDate: "2027-01-01", kind: "VARIABLE", category: "FOOD" },
+      "profile-test",
+    );
+    // Querying December must NOT leak January records (the P0 cross-year bug)
+    const decResult = await repositories.listRecentExpenses(3, "2026-12");
+    expect(decResult.map((item) => item.id)).toEqual(["dec-1"]);
+    expect(decResult.some((item) => item.id === "jan-1")).toBe(false);
+
+    const janResult = await repositories.listRecentExpenses(3, "2027-01");
+    expect(janResult.map((item) => item.id)).toEqual(["jan-1"]);
+    expect(janResult.some((item) => item.id === "dec-1")).toBe(false);
+  });
+});

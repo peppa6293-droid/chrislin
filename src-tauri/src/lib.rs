@@ -9,6 +9,7 @@ mod cutover_startup;
 mod production_cutover_state;
 mod startup_exclusion;
 mod wp02_preview_isolation;
+#[cfg(feature = "wp03-preview")]
 mod wp03_preview_isolation;
 #[cfg(feature = "wp03-preview")]
 mod wp03_preview_test_date;
@@ -1470,14 +1471,18 @@ pub fn run() {
             let acceptance_runtime = app.config().identifier == ACCEPTANCE_IDENTIFIER;
             let production_runtime = app.config().identifier == PRODUCTION_IDENTIFIER;
             let wp02_runtime = app.config().identifier == wp02_preview_isolation::IDENTIFIER;
+            #[cfg(feature = "wp03-preview")]
             let wp03_runtime = app.config().identifier == wp03_preview_isolation::IDENTIFIER;
+            #[cfg(not(feature = "wp03-preview"))]
+            let wp03_runtime = false;
             if cfg!(feature = "wp02-preview") && !wp02_runtime {
                 return Err(std::io::Error::other(
                     "WP-02 preview build refused to start with a non-WP-02 runtime identity.",
                 )
                 .into());
             }
-            if cfg!(feature = "wp03-preview") && !wp03_runtime {
+            #[cfg(feature = "wp03-preview")]
+            if !wp03_runtime {
                 return Err(std::io::Error::other(
                     "WP-03 preview build refused to start with a non-WP-03 runtime identity.",
                 )
@@ -1489,13 +1494,13 @@ pub fn run() {
                 )
                 .into());
             }
+            #[cfg(feature = "wp03-preview")]
             if wp03_runtime {
                 wp03_preview_isolation::ensure_isolated(&app.config().identifier, &app_data, &home)
                     .map_err(std::io::Error::other)?;
                 std::fs::create_dir_all(&app_data)?;
                 wp03_preview_isolation::ensure_isolated(&app.config().identifier, &app_data, &home)
                     .map_err(std::io::Error::other)?;
-                #[cfg(feature = "wp03-preview")]
                 app.manage(wp03_preview_test_date::SessionDate::default());
             } else if wp02_runtime {
                 wp02_preview_isolation::ensure_isolated(&app.config().identifier, &app_data, &home)
@@ -1505,7 +1510,16 @@ pub fn run() {
             } else {
                 ensure_smoke_data_dir_isolated(&app.config().identifier, &app_data, &home).map_err(std::io::Error::other)?;
             }
-            let database_path = if acceptance_runtime { app_data.join(ACCEPTANCE_DATABASE) } else { app_data.join(wp03_preview_isolation::DATABASE) };
+            #[cfg(not(feature = "wp03-preview"))]
+            if wp02_runtime {
+                wp02_preview_isolation::ensure_isolated(&app.config().identifier, &app_data, &home)
+                    .map_err(std::io::Error::other)?;
+            } else if acceptance_runtime {
+                ensure_acceptance_data_dir_isolated(&app.config().identifier, &app_data, &home).map_err(std::io::Error::other)?;
+            } else {
+                ensure_smoke_data_dir_isolated(&app.config().identifier, &app_data, &home).map_err(std::io::Error::other)?;
+            }
+            let database_path = if acceptance_runtime { app_data.join(ACCEPTANCE_DATABASE) } else { app_data.join(PRODUCTION_DATABASE) };
             let migration_permitted = false;
             let schema_ready = true;
             // This gate precedes every ordinary runtime's first SQLite access.

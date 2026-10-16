@@ -10,6 +10,7 @@ import { money } from "../model/money.js";
 import type { PlanningIncomeMonthDecision } from "../persistence/repositories.js";
 import { FinanceIllustration, type financeArt } from "./FinanceIllustration.js";
 import { MoneyAmount } from "./MoneyAmount.js";
+import type { ConfirmedMotion } from "./V2HomeSurface.js";
 
 export type MyFinanceRoute =
   | "MY_FINANCE"
@@ -19,10 +20,12 @@ export type MyFinanceRoute =
   | "CASH_LIST"
   | "ASSET_LIST"
   | "DEBT_LIST"
-  | "SAFETY_LIST";
+  | "SAFETY_LIST"
+  | "DATA_PRIVACY";
 
 export function MyFinancePages({
   route,
+  confirmedMotion,
   home,
   data,
   loading,
@@ -45,6 +48,7 @@ export function MyFinancePages({
   onSaveCurrentMonthDebtFact,
 }: {
   route: MyFinanceRoute;
+  confirmedMotion?: ConfirmedMotion | undefined;
   home: HomeApplicationState;
   data: FinancialMaintenanceState | null;
   loading: boolean;
@@ -89,6 +93,7 @@ export function MyFinancePages({
       }) => Promise<SaveCurrentMonthDebtFactResult>)
     | undefined;
 }) {
+  if (route === "DATA_PRIVACY") return <DataPrivacyPage onBack={onBack} />;
   if (route === "PLANNING_INCOME") {
     return (
       <PlanningIncomePage
@@ -121,8 +126,20 @@ export function MyFinancePages({
 
   const title = route === "MY_FINANCE" ? "我的财务" : categoryTitle[route];
   return (
-    <main className="home-page finance-page">
+    <section className="home-page finance-page quest-page">
       <FinancePageHeader title={title} onBack={route === "MY_FINANCE" ? onHome : onBack} />
+      <div className="quest-page-intro">
+        <div>
+          <span className="duo-eyebrow">我的财务任务</span>
+          <h2>{route === "MY_FINANCE" ? "选择一件想照顾的事" : `正在照顾：${title}`}</h2>
+          <p>
+            {route === "MY_FINANCE"
+              ? "不用全部做完，按今天的需要来。"
+              : "看一眼、改一点、保存好，就完成了。"}
+          </p>
+        </div>
+        <span className="quest-page-badge">第 1 步</span>
+      </div>
       {loading ? (
         <section className="finance-state-card" role="status">
           正在读取当前财务项目…
@@ -158,6 +175,7 @@ export function MyFinancePages({
       ) : (
         <CategoryList
           route={route}
+          confirmedMotion={confirmedMotion}
           data={data}
           home={home}
           asOfDate={asOfDate}
@@ -175,12 +193,12 @@ export function MyFinancePages({
           isSessionDateCurrent={isSessionDateCurrent}
         />
       )}
-    </main>
+    </section>
   );
 }
 
 const categoryTitle: Record<
-  Exclude<MyFinanceRoute, "MY_FINANCE" | "PLANNING_INCOME" | "MONTH_PLANNING">,
+  Exclude<MyFinanceRoute, "MY_FINANCE" | "PLANNING_INCOME" | "MONTH_PLANNING" | "DATA_PRIVACY">,
   string
 > = {
   INCOME_LIST: "收入",
@@ -191,7 +209,10 @@ const categoryTitle: Record<
 };
 
 const categories: Array<{
-  route: Exclude<MyFinanceRoute, "MY_FINANCE" | "PLANNING_INCOME" | "MONTH_PLANNING">;
+  route: Exclude<
+    MyFinanceRoute,
+    "MY_FINANCE" | "PLANNING_INCOME" | "MONTH_PLANNING" | "DATA_PRIVACY"
+  >;
   title: "收入" | "现金" | "资产" | "债务";
   description: string;
 }> = [
@@ -209,6 +230,23 @@ function FinancePageHeader({ title, onBack }: { title: string; onBack: () => voi
       </button>
       <h1>{title}</h1>
     </header>
+  );
+}
+
+function DataPrivacyPage({ onBack }: { onBack: () => void }) {
+  return (
+    <section className="home-page finance-page" aria-label="数据与隐私说明">
+      <FinancePageHeader title="数据与隐私" onBack={onBack} />
+      <article className="finance-list-card">
+        <h2>本机账本</h2>
+        <p>收入、消费、现金、资产和债务通过小钱家当前的本地数据库服务读取与保存。</p>
+        <p>进展页数据由已保存记录计算得出，计算结果用于展示，不会作为新的财务事实另行保存。</p>
+      </article>
+      <article className="finance-list-card">
+        <h2>数据管理</h2>
+        <p>当前版本没有提供数据导入、导出或云同步入口。</p>
+      </article>
+    </section>
   );
 }
 
@@ -304,6 +342,13 @@ function Hub({
         >
           设置安全目标
         </button>
+        <button
+          className="button button-secondary"
+          type="button"
+          onClick={() => onRoute("DATA_PRIVACY")}
+        >
+          数据与隐私
+        </button>
       </section>
       <button
         className="text-button finance-legacy-link"
@@ -318,6 +363,7 @@ function Hub({
 
 function CategoryList({
   route,
+  confirmedMotion,
   data,
   home,
   asOfDate,
@@ -334,7 +380,11 @@ function CategoryList({
   onGetRequirement,
   isSessionDateCurrent,
 }: {
-  route: Exclude<MyFinanceRoute, "MY_FINANCE" | "PLANNING_INCOME" | "MONTH_PLANNING">;
+  route: Exclude<
+    MyFinanceRoute,
+    "MY_FINANCE" | "PLANNING_INCOME" | "MONTH_PLANNING" | "DATA_PRIVACY"
+  >;
+  confirmedMotion?: ConfirmedMotion | undefined;
   data: FinancialMaintenanceState;
   home: HomeApplicationState;
   asOfDate: string;
@@ -389,6 +439,19 @@ function CategoryList({
   const [historyOpen, setHistoryOpen] = useState(false);
   const [historyLoading, setHistoryLoading] = useState(false);
   const hasPendingCurrentMonthDebtFacts = data.debts.some((item) => item.needsCurrentMonthFact);
+
+  async function refreshOpenHistory() {
+    if (!onGetActualHistory || (!historyOpen && !domainHistory)) return;
+    try {
+      const refreshed = await onGetActualHistory(asOfDate.slice(0, 7));
+      if (route === "INCOME_LIST" && historyOpen) setActualHistory(refreshed.actualIncomeHistory);
+      if (domainHistory) setDomainHistory(refreshed);
+    } catch (reason) {
+      setEditError(
+        `本次保存结果已重新读取确认，但历史列表刷新失败（${reason instanceof Error ? reason.message : "读取失败"}）。`,
+      );
+    }
+  }
   return (
     <section className="finance-list-panel" aria-label={`${categoryTitle[route]}项目`}>
       {route !== "INCOME_LIST" && route !== "SAFETY_LIST" && (
@@ -580,7 +643,7 @@ function CategoryList({
         (data.cashAccounts.length ? (
           data.cashAccounts.map((item) => (
             <article
-              className="finance-data-row"
+              className={`finance-data-row ${confirmedMotion?.kind === "cash" && confirmedMotion.targetId === item.id ? "is-confirmed-cash-row" : ""}`}
               data-visual-tone={visualToneForId(item.id)}
               data-motion-row={`cash-${item.id}`}
               key={item.id}
@@ -678,7 +741,7 @@ function CategoryList({
             const countedPayment = item.currentMonthDue ?? item.fixedMonthlyPayment ?? "0";
             return (
               <article
-                className="finance-data-row"
+                className={`finance-data-row ${confirmedMotion?.kind === "debt" && confirmedMotion.targetId === item.id ? "is-confirmed-debt-row" : ""}`}
                 data-visual-tone={visualToneForId(item.id)}
                 data-motion-row={`debt-${item.id}`}
                 key={item.id}
@@ -793,7 +856,7 @@ function CategoryList({
           </button>
         </section>
       )}
-      {route !== "INCOME_LIST" && route !== "SAFETY_LIST" && (
+      {route !== "INCOME_LIST" && (
         <button
           className="text-button"
           type="button"
@@ -908,6 +971,36 @@ function CategoryList({
           ))}
         </section>
       )}
+      {domainHistory && route === "SAFETY_LIST" && (
+        <section className="stable-income-history" aria-label="安全目标历史">
+          <header className="finance-list-heading">
+            <h2>安全目标修改记录</h2>
+            <span>{domainHistory.settingsHistory.length} 条</span>
+          </header>
+          {domainHistory.settingsHistory.length === 0 ? (
+            <p className="finance-empty-state" role="status">
+              暂无安全目标修改记录。
+            </p>
+          ) : (
+            domainHistory.settingsHistory.map((entry) => (
+              <article className="finance-data-row" key={entry.revisionId}>
+                <div>
+                  <strong>版本 {entry.revisionId}</strong>
+                  <span>生效月份 · {entry.effectiveMonth}</span>
+                  <span>记录日期 · {entry.asOfDate}</span>
+                </div>
+                <div>
+                  <span>
+                    安全垫 {entry.safetyCoverageTargetMonths} 个月 · 最低现金保障{" "}
+                    {entry.minimumCashCoverageMonths} 个月
+                  </span>
+                  <span>恢复期限 {entry.safetyRecoveryHorizonMonths ?? "未设置"} 个月</span>
+                </div>
+              </article>
+            ))
+          )}
+        </section>
+      )}
       <p className="finance-readonly-note">历史与停用项目可在综合维护中查看。</p>
       <button
         className="text-button finance-legacy-link"
@@ -983,6 +1076,7 @@ function CategoryList({
                 }
                 await onSavePatch(resolvedPatch, asOfDate);
               }
+              await refreshOpenHistory();
               setEditing(null);
             } catch (reason) {
               setEditError(reason instanceof Error ? reason.message : "保存失败，草稿仍保留。");
@@ -1019,9 +1113,11 @@ function CategoryList({
                         ? onDeactivateAsset
                         : onDeactivateDebt;
                   if (!deactivate) return;
-                  void deactivate(pending.id).catch((reason: unknown) =>
-                    setEditError(reason instanceof Error ? reason.message : "项目未停用。"),
-                  );
+                  void deactivate(pending.id)
+                    .then(refreshOpenHistory)
+                    .catch((reason: unknown) =>
+                      setEditError(reason instanceof Error ? reason.message : "项目未停用。"),
+                    );
                 }}
               >
                 确认停用
@@ -1580,7 +1676,7 @@ function MonthPlanningPage({
   }
 
   return (
-    <main className="home-page finance-page planning-page">
+    <section className="home-page finance-page planning-page">
       <header className="finance-page-header">
         <button
           className="back-button"
@@ -1715,7 +1811,7 @@ function MonthPlanningPage({
       >
         返回首页
       </button>
-    </main>
+    </section>
   );
 }
 
@@ -1841,7 +1937,7 @@ function PlanningIncomePage({
   }
 
   return (
-    <main className="home-page finance-page planning-page">
+    <section className="home-page finance-page planning-page">
       <header className="finance-page-header">
         <button className="back-button" type="button" onClick={() => back()} aria-label="返回">
           <span aria-hidden="true">←</span> 返回收入
@@ -1974,7 +2070,7 @@ function PlanningIncomePage({
       <button className="finance-home-link text-button" type="button" onClick={() => back("home")}>
         返回首页
       </button>
-    </main>
+    </section>
   );
 }
 

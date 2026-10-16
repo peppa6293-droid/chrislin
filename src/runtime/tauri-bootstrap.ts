@@ -19,6 +19,7 @@ import {
 import {
   completeOnboarding,
   type ExpenseSubmission,
+  getExpenseRecordById,
   getHomeApplicationState,
   getOnboardingRequirement,
   type HomeApplicationState,
@@ -72,6 +73,7 @@ export interface TauriApplicationServices {
     asOfDate: string,
   ): Promise<HomeApplicationState>;
   getHome(asOfDate: string): Promise<HomeApplicationState>;
+  getExpenseRecordById(expenseId: string): ReturnType<typeof getExpenseRecordById>;
   recordExpense(expense: ExpenseSubmission, asOfDate: string): Promise<HomeApplicationState>;
   getFinancialMaintenanceState(asOfDate: string): Promise<FinancialMaintenanceState>;
   getFinancialMaintenanceRequirement(
@@ -114,6 +116,7 @@ export interface TauriProductServices {
     asOfDate: string,
   ): Promise<HomeApplicationState>;
   getHomeApplicationState(asOfDate: string): Promise<HomeApplicationState>;
+  getExpenseRecordById(expenseId: string): ReturnType<typeof getExpenseRecordById>;
   recordExpenseAndRecalculate(
     expense: ExpenseSubmission,
     asOfDate: string,
@@ -161,6 +164,7 @@ export async function createTauriApplicationServices(): Promise<TauriApplication
     initialization,
     completeOnboarding: (submission, asOfDate) => completeOnboarding(db, submission, asOfDate),
     getHome: (asOfDate) => getHomeApplicationState(db, asOfDate),
+    getExpenseRecordById: (expenseId) => getExpenseRecordById(db, expenseId),
     recordExpense: (expense, asOfDate) => recordExpenseAndRecalculate(db, expense, asOfDate),
     getFinancialMaintenanceState: (asOfDate) => getFinancialMaintenanceState(db, asOfDate),
     getFinancialMaintenanceRequirement: (patch, asOfDate) =>
@@ -199,6 +203,7 @@ export function getTauriProductServices(): TauriProductServices {
     completeOnboarding: async (submission, asOfDate) =>
       (await open()).completeOnboarding(submission, asOfDate),
     getHomeApplicationState: async (asOfDate) => (await open()).getHome(asOfDate),
+    getExpenseRecordById: async (expenseId) => (await open()).getExpenseRecordById(expenseId),
     recordExpenseAndRecalculate: async (expense, asOfDate) =>
       (await open()).recordExpense(expense, asOfDate),
     getFinancialMaintenanceState: async (asOfDate) =>

@@ -5,3 +5,8 @@ artifacts/
 web-dist/
 src-tauri/target/
 src-tauri/gen/
+.DS_Store
+.vitest/
+*.bak
+prototype-v2/
+.ekko-tmp/

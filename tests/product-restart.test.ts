@@ -3,12 +3,14 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import { afterEach, describe, expect, it } from "vitest";
+import { updateFinancialDataAndRecalculate } from "../src/application/financial-maintenance-service.js";
 import { getApplicationInitializationState } from "../src/application/initialization-service.js";
 import {
   completeOnboarding,
   getHomeApplicationState,
   recordExpenseAndRecalculate,
 } from "../src/application/product-service.js";
+import { V4FoundationService } from "../src/application/v4-foundation-service.js";
 import { migrateDatabase } from "../src/persistence/migrations.js";
 import { NodeSqliteDatabase } from "./helpers/node-sqlite.js";
 
@@ -74,6 +76,17 @@ describe("product persistence restart", () => {
       },
       date,
     );
+    const cashId = String(
+      (await first.select<{ id: string }>("SELECT id FROM cash_accounts"))[0]?.id,
+    );
+    await updateFinancialDataAndRecalculate(
+      first,
+      {
+        cashAccounts: [{ id: cashId, balance: "4500" }],
+        settings: { safetyCoverageTargetMonths: 4 },
+      },
+      date,
+    );
     await recordExpenseAndRecalculate(
       first,
       { amount: "46.5", dateTime: `${date}T12:30:00.000Z`, businessDate: date, category: "FOOD" },
@@ -86,14 +99,18 @@ describe("product persistence restart", () => {
     const home = await getHomeApplicationState(reopened, date);
     expect(home).toMatchObject({
       status: "READY",
-      currentCash: "4200",
+      currentCash: "4500",
       currentMonthSpending: "46.5",
+      safetyCoverageTargetMonths: 4,
       profileDisplayName: null,
       trendState: "BASELINE_BUILDING",
     });
     expect(await reopened.select("SELECT amount FROM expense_records")).toEqual([
       { amount: "46.5" },
     ]);
+    expect(
+      (await new V4FoundationService(reopened).read("2026-10", date)).settingsHistory,
+    ).toMatchObject([{ asOfDate: date, safetyCoverageTargetMonths: 4 }]);
     reopened.close();
   });
 });

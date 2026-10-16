@@ -8,6 +8,7 @@ import type {
   HomeApplicationState,
   OnboardingSubmission,
 } from "../application/product-service.js";
+import { money } from "../model/money.js";
 import type { PlanningIncomeMonthDecision } from "../persistence/repositories.js";
 import type { ApplicationStartupState } from "../runtime/tauri-bootstrap.js";
 import {
@@ -90,8 +91,46 @@ export function App({ services = defaultServices }: { services?: ProductApplicat
   }
 
   async function recordExpense(expense: ExpenseSubmission, asOfDate: string) {
-    const result = await services.recordExpenseAndRecalculate(expense, asOfDate);
-    setHome(result);
+    let writeSignal: "RESOLVED" | "REJECTED" = "RESOLVED";
+    let writeError = "";
+    try {
+      await services.recordExpenseAndRecalculate(expense, asOfDate);
+    } catch (error) {
+      writeSignal = "REJECTED";
+      writeError = messageOf(error);
+    }
+    try {
+      const [record, refreshed] = await Promise.all([
+        services.getExpenseRecordById(expense.id ?? ""),
+        services.getHomeApplicationState(asOfDate),
+      ]);
+      const matches =
+        record !== null &&
+        record.id === expense.id &&
+        money(String(record.amount)).eq(money(expense.amount)) &&
+        record.dateTime === expense.dateTime &&
+        record.businessDate === expense.businessDate &&
+        record.category === (expense.category ?? "OTHER_VARIABLE") &&
+        (record.note ?? "") === (expense.note ?? "");
+      if (!matches)
+        return {
+          status: "UNCONFIRMED" as const,
+          writeSignal,
+          message: writeError
+            ? `保存操作失败（${writeError}），保存后也没有读到匹配记录。结果未确认，没有播放成功反馈；请先检查记录后再决定下一步。`
+            : "保存操作已返回，但重新读取的记录与本次输入不匹配。没有播放成功反馈；请先检查记录，不要重复提交。",
+        };
+      setHome(refreshed);
+      return { status: "CONFIRMED" as const, writeSignal, record, home: refreshed };
+    } catch (error) {
+      return {
+        status: "UNCONFIRMED" as const,
+        writeSignal,
+        message: writeError
+          ? `保存操作返回异常（${writeError}），且保存后重新读取失败（${messageOf(error)}）。结果未知，没有播放成功反馈；请先核对记录，不要重复提交。`
+          : `保存操作已返回，但保存后重新读取失败（${messageOf(error)}）。结果未知，没有播放成功反馈；请先核对记录，不要重复提交。`,
+      };
+    }
   }
 
   async function loadFinancialMaintenance(asOfDate: string) {
@@ -106,9 +145,21 @@ export function App({ services = defaultServices }: { services?: ProductApplicat
   }
 
   async function updateFinancialData(patch: FinancialMaintenancePatch, asOfDate: string) {
-    const result = await services.updateFinancialDataAndRecalculate(patch, asOfDate);
-    setHome(result.home);
-    return result.state;
+    await services.updateFinancialDataAndRecalculate(patch, asOfDate);
+    let stateReadback: FinancialMaintenanceState;
+    let homeReadback: HomeApplicationState;
+    try {
+      [stateReadback, homeReadback] = await Promise.all([
+        services.getFinancialMaintenanceState(asOfDate),
+        services.getHomeApplicationState(asOfDate),
+      ]);
+    } catch (error) {
+      throw new Error(
+        `写入服务已返回，但保存后重新读取失败（${messageOf(error)}）。结果未确认，没有播放成功反馈；请先核对后再操作。`,
+      );
+    }
+    setHome(homeReadback);
+    return stateReadback;
   }
 
   async function savePlanningMonthDecision(month: string, decision: PlanningIncomeMonthDecision) {
@@ -172,15 +223,39 @@ export function App({ services = defaultServices }: { services?: ProductApplicat
     currentMonthDue: string | null;
   }) {
     const result = await services.saveCurrentMonthDebtFact(command, sessionAsOfDate);
-    if (result.status === "SAVED_MODEL_READY") {
-      setPendingDebtFactNames([]);
-      setHome(result.home);
-    }
-    if (result.status === "SAVED_NEEDS_CURRENT_MONTH_DEBT_FACTS") {
-      const maintenance = await services.getFinancialMaintenanceState(sessionAsOfDate);
-      setPendingDebtFactNames(
-        maintenance.debts.filter((debt) => debt.needsCurrentMonthFact).map((debt) => debt.name),
-      );
+    if (
+      result.status === "SAVED_MODEL_READY" ||
+      result.status === "SAVED_NEEDS_CURRENT_MONTH_DEBT_FACTS"
+    ) {
+      let maintenance: FinancialMaintenanceState;
+      try {
+        maintenance = await services.getFinancialMaintenanceState(sessionAsOfDate);
+      } catch (error) {
+        throw new Error(
+          `债务保存服务已返回，但保存后重新读取失败（${messageOf(error)}）；结果未确认。`,
+        );
+      }
+      const debt = maintenance.debts.find((item) => item.id === command.debtId);
+      if (
+        !debt ||
+        debt.needsCurrentMonthFact ||
+        !money(debt.currentBalance).eq(money(command.currentBalance)) ||
+        (debt.currentMonthDue ?? null) !== command.currentMonthDue
+      )
+        throw new Error("债务保存后重新读取不匹配或仍待确认；结果未确认。没有成功反馈。 ");
+      const pending = maintenance.debts
+        .filter((item) => item.needsCurrentMonthFact)
+        .map((item) => item.name);
+      setPendingDebtFactNames(pending);
+      if (pending.length === 0) {
+        try {
+          setHome(await services.getHomeApplicationState(sessionAsOfDate));
+        } catch (error) {
+          throw new Error(
+            `债务保存已在财务记录中读回，但刷新首页模型失败（${messageOf(error)}）；暂不显示成功反馈。`,
+          );
+        }
+      }
     }
     if (
       result.status === "VALIDATION_FAILED" ||

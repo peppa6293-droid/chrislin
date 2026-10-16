@@ -354,6 +354,13 @@
 .home-page .today-plan-icon {
   animation-iteration-count: 2;
 }
+.legacy-home-compat {
+  position: absolute;
+  left: -100000px;
+  width: 1040px;
+  opacity: 0;
+  pointer-events: none;
+}
 @media (max-width: 840px) {
   .home-modules {
     grid-template-columns: minmax(0, 1fr);

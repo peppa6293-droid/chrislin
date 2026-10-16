@@ -243,6 +243,98 @@
   background: #f1faef;
   color: #4c9a80;
 }
+.duo-home-nav {
+  display: flex;
+  gap: 8px;
+  margin: 0 0 22px;
+  padding: 4px;
+  border-radius: 14px;
+  background: #edf5ef;
+}
+.duo-home-nav button {
+  flex: 1;
+  min-height: 38px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: #6f847a;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    background 180ms,
+    color 180ms,
+    transform 180ms;
+}
+.duo-home-nav button:hover {
+  transform: translateY(-2px);
+  color: #397b69;
+}
+.duo-home-nav button.is-active {
+  background: #fff;
+  color: #397b69;
+  box-shadow: 0 4px 12px rgb(42 67 59 / 8%);
+}
+.quest-page-intro {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: -4px 0 18px;
+  padding: 18px 20px;
+  border-radius: 18px;
+  background: #f0f8f1;
+}
+.quest-page-intro h2 {
+  margin: 3px 0 0;
+  color: #29463b;
+  font-size: 20px;
+}
+.quest-page-intro p {
+  margin: 6px 0 0;
+  color: #71867b;
+  font-size: 12px;
+}
+.quest-page-badge {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #dff2e7;
+  color: #4c9a80;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.quest-page .finance-page-header {
+  margin-bottom: 18px;
+}
+.quest-page .finance-page-header h1 {
+  font-size: 22px;
+}
+.quest-page .finance-hub-grid {
+  gap: 10px;
+}
+.quest-page .finance-category-card {
+  border-radius: 16px;
+  background: #fff;
+  transition:
+    transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 180ms;
+}
+.quest-page .finance-category-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 12px 24px rgb(42 67 59 / 10%);
+}
+.quest-page .finance-data-row {
+  border-radius: 14px;
+  background: #fff;
+  transition:
+    transform 180ms,
+    box-shadow 180ms;
+}
+.quest-page .finance-data-row:hover {
+  transform: translateX(4px);
+  box-shadow: 0 8px 18px rgb(42 67 59 / 8%);
+}
 @keyframes duo-float {
   0%,
   100% {

@@ -100,6 +100,37 @@ async function onboard(db: NodeSqliteDatabase): Promise<void> {
 }
 
 describe("financial maintenance service", () => {
+  it("reports cash and debt writes with a committed-state reread", async () => {
+    const db = await memoryDatabase();
+    await onboard(db);
+    const before = await getFinancialMaintenanceState(db, "2026-10-03");
+    const beforeHome = await getHomeApplicationState(db, "2026-10-03");
+    const cash = first(before.cashAccounts);
+    const debt = first(before.debts);
+    expect(cash.balance).toBe("5000");
+    expect(debt.currentBalance).toBe("2000");
+
+    const saveSignal = await updateFinancialDataAndRecalculate(
+      db,
+      {
+        cashAccounts: [{ id: cash.id, balance: "5100" }],
+        debts: [{ id: debt.id, currentBalance: "1750" }],
+      },
+      "2026-10-03",
+    );
+    const after = await getFinancialMaintenanceState(db, "2026-10-03");
+    const afterHome = await getHomeApplicationState(db, "2026-10-03");
+
+    expect(saveSignal.state.cashAccounts.find(({ id }) => id === cash.id)?.balance).toBe("5100");
+    expect(saveSignal.state.debts.find(({ id }) => id === debt.id)?.currentBalance).toBe("1750");
+    expect(after.cashAccounts.find(({ id }) => id === cash.id)?.balance).toBe("5100");
+    expect(after.debts.find(({ id }) => id === debt.id)?.currentBalance).toBe("1750");
+    expect(beforeHome.currentCash).toBe("5000");
+    expect(afterHome.currentCash).toBe("5100");
+    expect(beforeHome.totalDebt).toBe("2000");
+    expect(afterHome.totalDebt).toBe("1750");
+  });
+
   it("binds stable-income history to the selected profile and performs no writes", async () => {
     const db = new ReadOnlyStableIncomeHistoryProbe();
     const revisions = await new Repositories(db).listStablePlanningIncomeRevisions(

@@ -3,6 +3,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import { afterEach, describe, expect, it } from "vitest";
+import { updateFinancialDataAndRecalculate } from "../src/application/financial-maintenance-service.js";
 import {
   completeOnboarding,
   getHomeApplicationState,
@@ -40,6 +41,28 @@ const candidate: OnboardingSubmission = {
 };
 
 describe("V4 additive schema and resolvers", () => {
+  it("reads safety-goal revisions from persisted settings history", async () => {
+    const db = fresh();
+    await migrateDatabase(db, "2026-10-01T00:00:00.000Z");
+    await completeOnboarding(db, candidate, "2026-10-01");
+    await updateFinancialDataAndRecalculate(
+      db,
+      { settings: { safetyCoverageTargetMonths: 8, minimumCashCoverageMonths: 3 } },
+      "2026-10-02",
+    );
+
+    const readback = await new V4FoundationService(db).read("2026-10", "2026-10-02");
+    expect(readback.settingsHistory).toHaveLength(1);
+    expect(readback.settingsHistory[0]).toMatchObject({
+      effectiveMonth: "2026-10",
+      asOfDate: "2026-10-02",
+      safetyCoverageTargetMonths: 8,
+      minimumCashCoverageMonths: 3,
+      safetyRecoveryHorizonMonths: 12,
+      desiredMonthlyDiscretionarySpending: "1600",
+    });
+  });
+
   it("migrates a fresh database 1→4 and safely reruns without duplicate migrations or revisions", async () => {
     const db = fresh();
     await migrateDatabase(db, "2026-10-01T00:00:00.000Z");

@@ -17,6 +17,7 @@ import type {
   V4FinancialReadState,
   V4MutationResult,
 } from "../application/v4-foundation-service.js";
+import type { ExpenseRecord } from "../model/types.js";
 import type { PlanningIncomeMonthDecision } from "../persistence/repositories.js";
 import type { ApplicationStartupState } from "../runtime/tauri-bootstrap.js";
 
@@ -31,6 +32,7 @@ export interface ProductApplicationServices {
     asOfDate: string,
   ): Promise<HomeApplicationState>;
   getHomeApplicationState(asOfDate: string): Promise<HomeApplicationState>;
+  getExpenseRecordById(expenseId: string): Promise<ExpenseRecord | null>;
   recordExpenseAndRecalculate(
     expense: ExpenseSubmission,
     asOfDate: string,

@@ -3,6 +3,7 @@ import { getFinancialMaintenanceState } from "../src/application/financial-maint
 import { buildMonthlyModelInput } from "../src/application/monthly-model-service.js";
 import {
   completeOnboarding,
+  getExpenseRecordById,
   getHomeApplicationState,
   type OnboardingSubmission,
   recordExpenseAndRecalculate,
@@ -272,6 +273,13 @@ describe("product application service", () => {
       cashSafetyGateStatus: "CLEAR",
       cashFloorMet: true,
       trendState: "BASELINE_BUILDING",
+      safetyCoverageStatus: "NORMAL",
+    });
+    expect(home.trendDimensions).toMatchObject({
+      LIQUIDITY_SAFETY: { direction: "NO_BASELINE" },
+      DEBT: { direction: "NO_BASELINE" },
+      CONSUMPTION: { direction: "NO_BASELINE" },
+      WEALTH: { direction: "NO_BASELINE" },
     });
     expect(await getHomeApplicationState(db, asOfDate)).toEqual(home);
     expect(await db.select("SELECT id FROM profiles")).toHaveLength(1);
@@ -324,9 +332,12 @@ describe("product application service", () => {
 
   it("saves an expense and immediately returns the recalculated home state", async () => {
     await completeOnboarding(db, onboarding(), asOfDate);
+    const before = await db.select("SELECT id FROM expense_records");
+    expect(before).toEqual([]);
     const home = await recordExpenseAndRecalculate(
       db,
       {
+        id: "expense-readback",
         amount: "125.50",
         dateTime: `${asOfDate}T10:30:00.000Z`,
         businessDate: asOfDate,
@@ -340,6 +351,42 @@ describe("product application service", () => {
     expect(home.remainingSpendingCapacity).toBe("874.5");
     expect(await db.select("SELECT amount,category,note FROM expense_records")).toEqual([
       { amount: "125.5", category: "FOOD", note: "Lunch" },
+    ]);
+    expect(await getExpenseRecordById(db, "expense-readback")).toMatchObject({
+      id: "expense-readback",
+      amount: "125.5",
+      dateTime: `${asOfDate}T10:30:00.000Z`,
+      businessDate: asOfDate,
+      category: "FOOD",
+      note: "Lunch",
+    });
+  });
+
+  it("loads the three latest real expense records by local business date and timestamp", async () => {
+    await completeOnboarding(db, onboarding(), asOfDate);
+    const expenseRows: Array<[string, string, string]> = [
+      ["expense-1", "2026-10-01", "10:00:00.000Z"],
+      ["expense-2", "2026-10-02", "12:00:00.000Z"],
+      ["expense-3", "2026-10-03", "08:00:00.000Z"],
+      ["expense-4", "2026-10-03", "18:00:00.000Z"],
+    ];
+    for (const [id, businessDate, time] of expenseRows) {
+      await recordExpenseAndRecalculate(
+        db,
+        {
+          id,
+          amount: "1.00",
+          dateTime: `${businessDate}T${time}`,
+          businessDate,
+        },
+        asOfDate,
+      );
+    }
+    const home = await getHomeApplicationState(db, asOfDate);
+    expect(home.recentExpenses?.map(({ id }) => id)).toEqual([
+      "expense-4",
+      "expense-3",
+      "expense-2",
     ]);
   });
 

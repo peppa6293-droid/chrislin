@@ -1,10 +1,13 @@
 import { assertUserInputMoney, money } from "../model/money.js";
 import { calculateMonthlyModel } from "../model/monthly-model.js";
 import type {
+  DimensionSignal,
   ExpenseCategory,
+  ExpenseRecord,
   ModelInput,
   MonthlyModelResult,
   PriorityAction,
+  SafetyCoverageStatus,
   TrendDimension,
 } from "../model/types.js";
 import { ApplicationDataError, type SqlDatabase } from "../persistence/database.js";
@@ -66,6 +69,7 @@ export interface HomeApplicationState {
   safetyResources: string;
   safetyTargetResources: string;
   safetyCoverageMonths: string | null;
+  safetyCoverageStatus: SafetyCoverageStatus;
   safetyCoverageTargetMonths: number;
   recommendedMonthlySpending: string;
   remainingSpendingCapacity: string;
@@ -87,12 +91,33 @@ export interface HomeApplicationState {
   cashFloorMet: boolean | null;
   consumptionUtilization: { status: "CALCULATED" | "ZERO_RECOMMENDATION"; value: string | null };
   trendState: string;
+  trendDimensions: Record<TrendDimension, DimensionSignal>;
   primaryImprovement: TrendDimension | null;
   primaryDrag: TrendDimension | null;
   priorityAction: PriorityAction;
+  recentExpenses?: Array<{
+    id: string;
+    amount: string;
+    businessDate: string;
+    category: Extract<
+      ExpenseCategory,
+      "FOOD" | "TRANSPORT" | "SHOPPING" | "ENTERTAINMENT" | "HOUSEHOLD" | "OTHER_VARIABLE"
+    >;
+    note?: string;
+  }>;
+  spendingBreakdown: Array<{
+    category: Extract<
+      ExpenseCategory,
+      "FOOD" | "TRANSPORT" | "SHOPPING" | "ENTERTAINMENT" | "HOUSEHOLD" | "OTHER_VARIABLE"
+    >;
+    amount: string;
+    share: string;
+    count: number;
+  }>;
 }
 
 export interface ExpenseSubmission {
+  id?: string;
   amount: string;
   dateTime: string;
   businessDate: string;
@@ -101,6 +126,15 @@ export interface ExpenseSubmission {
     "FOOD" | "TRANSPORT" | "SHOPPING" | "ENTERTAINMENT" | "HOUSEHOLD" | "OTHER_VARIABLE"
   >;
   note?: string;
+}
+
+export async function getExpenseRecordById(
+  db: SqlDatabase,
+  expenseId: string,
+): Promise<ExpenseRecord | null> {
+  if (!expenseId.trim())
+    throw new ApplicationDataError("INVALID_EXPENSE_ID", "Expense ID must not be empty.");
+  return new Repositories(db).expenseById(expenseId);
 }
 
 const essentialCategories = new Set<ExpenseCategory>([
@@ -396,6 +430,7 @@ async function homeFromDatabase(db: SqlDatabase, asOfDate: string): Promise<Home
     safetyResources: model.safety.safetyResources.toString(),
     safetyTargetResources: model.safety.safetyTargetResources.toString(),
     safetyCoverageMonths: model.safety.safetyCoverageMonths?.toString() ?? null,
+    safetyCoverageStatus: model.safety.coverageStatus,
     safetyCoverageTargetMonths: built.input.settings.safetyCoverageTargetMonths,
     recommendedMonthlySpending: model.spending.recommendedMonthlySpending.toString(),
     remainingSpendingCapacity: model.spending.remainingOptionalSpendingCapacity.toString(),
@@ -429,10 +464,48 @@ async function homeFromDatabase(db: SqlDatabase, asOfDate: string): Promise<Home
       value: model.consumptionUtilization.current.value?.toString() ?? null,
     },
     trendState: model.trend.result.state,
+    trendDimensions: model.trend.result.dimensions,
     primaryImprovement: model.trend.result.primaryImprovement,
     primaryDrag: model.trend.result.primaryDrag,
     priorityAction: model.priorityAction,
+    recentExpenses: (await repositories.listRecentExpenses(3, asOfDate.slice(0, 7))).map((expense) => ({
+      id: expense.id,
+      amount: String(expense.amount),
+      businessDate: expense.businessDate,
+      category: expense.category as Extract<
+        ExpenseCategory,
+        "FOOD" | "TRANSPORT" | "SHOPPING" | "ENTERTAINMENT" | "HOUSEHOLD" | "OTHER_VARIABLE"
+      >,
+      ...(expense.note === undefined ? {} : { note: expense.note }),
+    })),
+    spendingBreakdown: buildSpendingBreakdown(built.input.facts.expenses, asOfDate.slice(0, 7)),
   };
+}
+
+function buildSpendingBreakdown(
+  expenses: ExpenseRecord[],
+  month: string,
+): NonNullable<HomeApplicationState["spendingBreakdown"]> {
+  const grouped = new Map<string, { amount: ReturnType<typeof money>; count: number }>();
+  for (const expense of expenses) {
+    if (expense.kind !== "VARIABLE" || !expense.businessDate.startsWith(month)) continue;
+    const existing = grouped.get(expense.category) ?? { amount: money(0), count: 0 };
+    existing.amount = existing.amount.plus(money(String(expense.amount)));
+    existing.count += 1;
+    grouped.set(expense.category, existing);
+  }
+  const total = [...grouped.values()].reduce((sum, item) => sum.plus(item.amount), money(0));
+  if (total.isZero()) return [];
+  return [...grouped.entries()]
+    .map(([category, item]) => ({
+      category: category as NonNullable<
+        NonNullable<HomeApplicationState["spendingBreakdown"]>[number]["category"]
+      >,
+      amount: item.amount.toString(),
+      share: item.amount.div(total).mul(100).toDecimalPlaces(1).toString(),
+      count: item.count,
+    }))
+    .sort((a, b) => Number(b.amount) - Number(a.amount));
 }
 
 export async function recordExpenseAndRecalculate(
@@ -475,7 +548,7 @@ export async function recordExpenseAndRecalculate(
       );
     await repositories.saveExpense(
       {
-        id: newId(),
+        id: expense.id?.trim() || newId(),
         amount: value.toString(),
         dateTime: expense.dateTime,
         businessDate,

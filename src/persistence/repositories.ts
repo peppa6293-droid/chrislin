@@ -888,6 +888,66 @@ export class Repositories {
     });
   }
 
+  async expenseById(id: string): Promise<ExpenseRecord | null> {
+    const row = (
+      await this.db.select(
+        "SELECT id,amount,occurred_at,kind,category,note,business_date FROM expense_records WHERE id=? LIMIT 1",
+        [id],
+      )
+    )[0];
+    if (!row) return null;
+    const category = nullableText(row, "category");
+    const note = nullableText(row, "note");
+    return {
+      id: text(row, "id"),
+      amount: requireStoredUserInputMoney(text(row, "amount")),
+      dateTime: text(row, "occurred_at"),
+      businessDate: text(row, "business_date"),
+      kind: text(row, "kind") as ExpenseKind,
+      category: (category ?? "OTHER_VARIABLE") as ExpenseCategory,
+      ...(note === null ? {} : { note }),
+    };
+  }
+
+  async listRecentExpenses(limit = 3, month?: string): Promise<ExpenseRecord[]> {
+    if (!Number.isSafeInteger(limit) || limit < 0)
+      throw new ApplicationDataError(
+        "INVALID_LIMIT",
+        "Expense limit must be a non-negative integer.",
+      );
+    let nextMonthStart: string | null = null;
+    if (month) {
+      const parts = month.split("-").map(Number);
+      const y = parts[0] ?? 0;
+      const m = parts[1] ?? 1;
+      if (m === 12) {
+        nextMonthStart = `${y + 1}-01-01`;
+      } else {
+        nextMonthStart = `${y}-${String(m + 1).padStart(2, "0")}-01`;
+      }
+    }
+    const sql = month
+      ? "SELECT id,amount,occurred_at,kind,category,note,business_date FROM expense_records WHERE business_date>=? AND business_date<? ORDER BY business_date DESC,occurred_at DESC,id DESC LIMIT ?"
+      : "SELECT id,amount,occurred_at,kind,category,note,business_date FROM expense_records ORDER BY business_date DESC,occurred_at DESC,id DESC LIMIT ?";
+    const rows = await this.db.select(
+      sql,
+      month && nextMonthStart ? [`${month}-01`, nextMonthStart, limit] : [limit],
+    );
+    return rows.map((row) => {
+      const category = nullableText(row, "category");
+      const note = nullableText(row, "note");
+      return {
+        id: text(row, "id"),
+        amount: requireStoredUserInputMoney(text(row, "amount")),
+        dateTime: text(row, "occurred_at"),
+        businessDate: text(row, "business_date"),
+        kind: text(row, "kind") as ExpenseKind,
+        category: (category ?? "OTHER_VARIABLE") as ExpenseCategory,
+        ...(note === null ? {} : { note }),
+      };
+    });
+  }
+
   async createCashAccount(
     input: { id: string; name: string; includeInSafetyResources: boolean },
     profileId: string,
