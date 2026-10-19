@@ -10,3 +10,4 @@ src-tauri/gen/
 *.bak
 prototype-v2/
 .ekko-tmp/
+.eco-tmp/

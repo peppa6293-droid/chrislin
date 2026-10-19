@@ -50,6 +50,7 @@ describe("product persistence restart", () => {
       { version: 2 },
       { version: 3 },
       { version: 4 },
+      { version: 5 },
     ]);
     db.close();
   });

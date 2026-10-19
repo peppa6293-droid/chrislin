@@ -1,0 +1,24 @@
+.v2-trend-panel { margin: 16px 0; padding: 18px; border-radius: 18px; background: #fff; color: #29463b; box-shadow: 0 8px 22px rgb(42 67 59 / 8%); }
+.v2-trend-panel__header { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.v2-trend-panel__eyebrow { margin: 0 0 4px; color: #4c9a80; font-size: 11px; font-weight: 800; }
+.v2-trend-panel h2 { margin: 0; font-size: 19px; }
+.v2-trend-panel__header span { color: #789087; font-size: 11px; }
+.v2-trend-panel__chart { display: flex; align-items: end; gap: 14px; min-height: 110px; margin-top: 18px; padding: 12px; border-bottom: 1px solid #dce9df; }
+.v2-trend-bar { display: flex; flex: 1; align-items: center; flex-direction: column; justify-content: end; gap: 4px; min-width: 42px; }
+.v2-trend-bar__income, .v2-trend-bar__expense { display: block; width: 18px; border-radius: 7px 7px 2px 2px; transition: height 180ms ease, transform 180ms ease; }
+.v2-trend-bar__income { background: #62bfa0; }
+.v2-trend-bar__expense { background: #e49b8f; }
+.v2-trend-bar small { color: #789087; font-size: 10px; }
+.v2-trend-panel__copy, .v2-trend-panel__empty { margin: 14px 0 0; color: #5d766a; font-size: 12px; }
+.v2-trend-panel--reduced .v2-trend-bar__income, .v2-trend-panel--reduced .v2-trend-bar__expense { transition: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-trend-panel *,
+  .v2-trend-panel *::before,
+  .v2-trend-panel *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
