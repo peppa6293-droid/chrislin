@@ -1404,6 +1404,7 @@ export class Repositories {
         > & { kind: "CREDIT_INSTALLMENT" }),
     createdAt = new Date().toISOString(),
     importBatchId: string | null = null,
+    dedupeKey: string | null = null,
   ): Promise<void> {
     if (expense.kind === "CASH_DEBIT") {
       if (!expense.accountId)
@@ -1412,8 +1413,8 @@ export class Repositories {
           "A cash debit expense requires an account.",
         );
       await this.db.execute(
-        `INSERT INTO expenses(id,profile_id,kind,amount,currency,occurred_on,category_id,description,account_id,credit_card_id,created_at,import_batch_id)
-         VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`,
+        `INSERT INTO expenses(id,profile_id,kind,amount,currency,occurred_on,category_id,description,account_id,credit_card_id,created_at,import_batch_id,dedupe_key)
+         VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)`,
         [
           expense.id,
           expense.profileId,
@@ -1427,6 +1428,7 @@ export class Repositories {
           null,
           createdAt,
           importBatchId,
+          dedupeKey,
         ],
       );
       return;
@@ -1438,8 +1440,8 @@ export class Repositories {
       );
     if (expense.kind === "CREDIT_ONE_TIME") {
       await this.db.execute(
-        `INSERT INTO expenses(id,profile_id,kind,amount,currency,occurred_on,category_id,description,account_id,credit_card_id,created_at,import_batch_id)
-         VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`,
+        `INSERT INTO expenses(id,profile_id,kind,amount,currency,occurred_on,category_id,description,account_id,credit_card_id,created_at,import_batch_id,dedupe_key)
+         VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)`,
         [
           expense.id,
           expense.profileId,
@@ -1453,6 +1455,7 @@ export class Repositories {
           expense.creditCardId,
           createdAt,
           importBatchId,
+          dedupeKey,
         ],
       );
       return;
@@ -1475,8 +1478,8 @@ export class Repositories {
     await this.db.execute(
       `INSERT INTO expenses(
          id,profile_id,kind,amount,currency,occurred_on,category_id,description,account_id,credit_card_id,
-         total_amount,periods,fee,first_installment_month,installment_amount,created_at,import_batch_id
-       ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+         total_amount,periods,fee,first_installment_month,installment_amount,created_at,import_batch_id,dedupe_key
+       ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
       [
         expense.id,
         expense.profileId,
@@ -1495,6 +1498,7 @@ export class Repositories {
         requireStoredUserInputMoney(expense.installmentAmount),
         createdAt,
         importBatchId,
+        dedupeKey,
       ],
     );
   }
@@ -1594,6 +1598,144 @@ export class Repositories {
     const result = await this.db.execute("DELETE FROM expenses WHERE id=?", [id]);
     if (!result.rowsAffected)
       throw new ApplicationDataError("EXPENSE_NOT_FOUND", "Expense does not exist.");
+  }
+
+  async listImportedDedupeKeys(profileId: string): Promise<string[]> {
+    const rows = await this.db.select<{ dedupe_key: string }>(
+      "SELECT dedupe_key FROM expenses WHERE profile_id=? AND dedupe_key IS NOT NULL",
+      [profileId],
+    );
+    return rows.map((row) => text(row, "dedupe_key"));
+  }
+
+  async writeImportBatchAtomically(
+    batch: V2ImportBatchRecord,
+    rows: Array<{
+      expense:
+        | (Omit<CashDebitExpense, "kind"> & { kind: "CASH_DEBIT" })
+        | (Omit<CreditOneTimeExpense, "kind"> & { kind: "CREDIT_ONE_TIME" })
+        | (Omit<
+            CreditInstallmentExpense,
+            "kind" | "repaymentSchedule" | "paidPeriods" | "remainingPeriods" | "remainingAmount"
+          > & { kind: "CREDIT_INSTALLMENT" });
+      dedupeKey: string;
+    }>,
+  ): Promise<void> {
+    await this.db.transaction(async (transactionDb) => {
+      await transactionDb.execute(
+        `INSERT INTO import_batches(
+           id,profile_id,provider,source_file_sha256,total_rows,valid_rows,written_rows,skipped_rows,error_rows,created_at
+         ) VALUES(?,?,?,?,?,?,?,?,?,?)`,
+        [
+          batch.id,
+          batch.profileId,
+          batch.provider,
+          batch.sourceFileSha256,
+          batch.totalRows,
+          batch.validRows,
+          batch.writtenRows,
+          batch.skippedRows,
+          batch.errorRows,
+          batch.createdAt,
+        ],
+      );
+      for (const row of rows) {
+        const expense = row.expense;
+        if (expense.kind === "CASH_DEBIT") {
+          if (!expense.accountId)
+            throw new ApplicationDataError(
+              "INVALID_EXPENSE_ACCOUNT",
+              "An imported cash debit expense requires an account.",
+            );
+          await transactionDb.execute(
+            `INSERT INTO expenses(id,profile_id,kind,amount,currency,occurred_on,category_id,description,account_id,credit_card_id,created_at,import_batch_id,dedupe_key)
+             VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+            [
+              expense.id,
+              expense.profileId,
+              expense.kind,
+              requireStoredUserInputMoney(expense.amount),
+              expense.currency,
+              expense.occurredOn,
+              expense.categoryId,
+              expense.description,
+              expense.accountId,
+              null,
+              batch.createdAt,
+              batch.id,
+              row.dedupeKey,
+            ],
+          );
+          continue;
+        }
+        if (!expense.creditCardId)
+          throw new ApplicationDataError(
+            "INVALID_EXPENSE_ACCOUNT",
+            "An imported credit expense requires a credit card.",
+          );
+        if (expense.kind === "CREDIT_ONE_TIME") {
+          await transactionDb.execute(
+            `INSERT INTO expenses(id,profile_id,kind,amount,currency,occurred_on,category_id,description,account_id,credit_card_id,created_at,import_batch_id,dedupe_key)
+             VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+            [
+              expense.id,
+              expense.profileId,
+              expense.kind,
+              requireStoredUserInputMoney(expense.amount),
+              expense.currency,
+              expense.occurredOn,
+              expense.categoryId,
+              expense.description,
+              null,
+              expense.creditCardId,
+              batch.createdAt,
+              batch.id,
+              row.dedupeKey,
+            ],
+          );
+          continue;
+        }
+        for (const [field, value] of [
+          ["total_amount", expense.totalAmount],
+          ["periods", expense.periods],
+          ["fee", expense.fee],
+          ["first_installment_month", expense.firstInstallmentMonth],
+          ["installment_amount", expense.installmentAmount],
+        ] as const) {
+          if (value === null || value === undefined || value === "")
+            throw new ApplicationDataError(
+              "INVALID_EXPENSE_INSTALLMENT",
+              `An imported credit installment expense requires ${field}.`,
+            );
+        }
+        await transactionDb.execute(
+          `INSERT INTO expenses(
+             id,profile_id,kind,amount,currency,occurred_on,category_id,description,account_id,credit_card_id,
+             total_amount,periods,fee,first_installment_month,installment_amount,created_at,import_batch_id,dedupe_key
+           ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+          [
+            expense.id,
+            expense.profileId,
+            expense.kind,
+            requireStoredUserInputMoney(expense.amount),
+            expense.currency,
+            expense.occurredOn,
+            expense.categoryId,
+            expense.description,
+            null,
+            expense.creditCardId,
+            requireStoredUserInputMoney(expense.totalAmount),
+            expense.periods,
+            requireStoredUserInputMoney(expense.fee),
+            expense.firstInstallmentMonth,
+            requireStoredUserInputMoney(expense.installmentAmount),
+            batch.createdAt,
+            batch.id,
+            row.dedupeKey,
+          ],
+        );
+      }
+    });
   }
 
   async createImportBatch(batch: V2ImportBatchRecord): Promise<void> {

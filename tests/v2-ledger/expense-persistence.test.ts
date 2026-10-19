@@ -42,8 +42,8 @@ beforeEach(async () => {
 afterEach(() => db.close());
 
 describe("EXEC-P-01 V2 expense persistence", () => {
-  it("migrates a fresh database to V6 and records all three expense kinds", async () => {
-    expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 6 }]);
+  it("migrates a fresh database to V7 and records all three expense kinds", async () => {
+    expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 7 }]);
     expect(await db.select("SELECT version FROM schema_migrations ORDER BY version")).toEqual([
       { version: 1 },
       { version: 2 },
@@ -51,6 +51,7 @@ describe("EXEC-P-01 V2 expense persistence", () => {
       { version: 4 },
       { version: 5 },
       { version: 6 },
+      { version: 7 },
     ]);
 
     await repositories.createV2Expense({
@@ -118,20 +119,23 @@ describe("EXEC-P-01 V2 expense persistence", () => {
     expect(await repositories.listV2Expenses("profile-v2")).toHaveLength(3);
   });
 
-  it("migrates an existing V5 database incrementally to V6", async () => {
+  it("migrates an existing V5 database incrementally to V7", async () => {
     await db.connection.exec("DELETE FROM expense_categories");
     await db.connection.exec("DELETE FROM accounts");
-    await db.connection.exec("DELETE FROM schema_migrations WHERE version=6");
+    await db.connection.exec("DELETE FROM schema_migrations WHERE version IN (6,7)");
+    await db.connection.exec("DROP INDEX expenses_dedupe_unique");
+    await db.connection.exec("ALTER TABLE expenses DROP COLUMN dedupe_key");
     await db.connection.exec("PRAGMA user_version = 5");
 
     await migrateDatabase(db, "2026-10-19T01:00:00.000Z");
 
-    expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 6 }]);
+    expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 7 }]);
     expect(
-      await db.select("SELECT version FROM schema_migrations WHERE version IN (5,6)"),
+      await db.select("SELECT version FROM schema_migrations WHERE version IN (5,6,7)"),
     ).toEqual([
       { version: 5 },
       { version: 6 },
+      { version: 7 },
     ]);
     expect(await db.select("SELECT COUNT(*) AS count FROM expenses")).toEqual([{ count: 0 }]);
     expect(await db.select("SELECT COUNT(*) AS count FROM import_batches")).toEqual([{ count: 0 }]);

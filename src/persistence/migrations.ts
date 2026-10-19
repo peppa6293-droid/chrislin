@@ -1,6 +1,6 @@
 import type { SchemaMigrationBoundary, SqlDatabase } from "./database.js";
 
-export const CURRENT_SCHEMA_VERSION = 6;
+export const CURRENT_SCHEMA_VERSION = 7;
 
 interface SchemaVersionState {
   userVersion: number;
@@ -321,6 +321,13 @@ CREATE TABLE IF NOT EXISTS import_batches (
 PRAGMA user_version = 6;
 `;
 
+const migrationV7 = `
+ALTER TABLE expenses ADD COLUMN dedupe_key TEXT;
+CREATE UNIQUE INDEX IF NOT EXISTS expenses_dedupe_unique
+  ON expenses(profile_id, dedupe_key) WHERE dedupe_key IS NOT NULL;
+PRAGMA user_version = 7;
+`;
+
 export async function migrateDatabase(
   db: SqlDatabase,
   now = new Date().toISOString(),
@@ -441,6 +448,14 @@ export async function migrateDatabase(
           await transactionDb.execute(statement);
         }
         await transactionDb.execute("INSERT INTO schema_migrations(version, applied_at) VALUES(6, ?)", [now]);
+      });
+    }
+    if (applied < 7 && targetVersion >= 7) {
+      await db.transaction(async (transactionDb) => {
+        for (const statement of migrationV7.split(";").map((part) => part.trim()).filter(Boolean)) {
+          await transactionDb.execute(statement);
+        }
+        await transactionDb.execute("INSERT INTO schema_migrations(version, applied_at) VALUES(7, ?)", [now]);
       });
     }
     const finalSchema = await readSchemaVersionState(db);
