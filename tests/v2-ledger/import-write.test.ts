@@ -22,7 +22,7 @@ const expectedHash = createHash("sha256").update(alipayContent).digest("hex");
 beforeEach(async () => {
   db = new NodeSqliteDatabase();
   repositories = new Repositories(db);
-  service = new V2ImportService(repositories, db);
+  service = new V2ImportService(repositories);
   await migrateDatabase(db, "2026-10-19T00:00:00.000Z");
   await repositories.createProfile({ id: "profile-v2", displayName: "V2 import" });
   await repositories.createAccount({
@@ -53,7 +53,7 @@ function confirmedAlipayCandidates(batchId: string): ImportedExpenseCandidate[] 
   const edited = parsed.map((candidate) =>
     applyCandidateEdits(candidate, { category: "cat-food", accountId: "cash-1" }),
   );
-  return [...confirmImportBatch(edited).confirmed, ...confirmImportBatch(edited).skipped];
+  return confirmImportBatch(edited).confirmed;
 }
 
 describe("EXEC-I-04 official CSV import write, readback, and feedback", () => {
@@ -143,7 +143,7 @@ describe("EXEC-I-04 official CSV import write, readback, and feedback", () => {
       }
     }
     const wrapped = new ForcedSecondInsertFailureDatabase(db);
-    const failingService = new V2ImportService(new Repositories(wrapped), wrapped);
+    const failingService = new V2ImportService(new Repositories(wrapped));
     await expect(
       failingService.writeConfirmedImport({
         importBatchId: "batch-rollback",
@@ -159,9 +159,11 @@ describe("EXEC-I-04 official CSV import write, readback, and feedback", () => {
 
   it("reports partial success, filters income explicitly, and writes only valid expenses", async () => {
     const parsed = parseImportFile(alipayContent, "ALIPAY_CSV", "batch-partial");
-    const edited = parsed.map((candidate) =>
-      applyCandidateEdits(candidate, { category: "cat-food", accountId: "cash-1" }),
-    );
+    const edited = parsed
+      .map((candidate) =>
+        applyCandidateEdits(candidate, { category: "cat-food", accountId: "cash-1" }),
+      )
+      .map((candidate) => ({ ...candidate, reviewStatus: "CONFIRMED" as const }));
     const income: ImportedExpenseCandidate = {
       ...edited[0]!,
       importBatchId: "batch-partial",
@@ -245,6 +247,149 @@ describe("EXEC-I-04 official CSV import write, readback, and feedback", () => {
     ).rejects.toThrow();
   });
 
+  it("skips every PENDING and EDITED candidate because only CONFIRMED may write", async () => {
+    const parsed = parseImportFile(alipayContent, "ALIPAY_CSV", "batch-unconfirmed");
+    const edited = parsed.map((candidate) =>
+      applyCandidateEdits(candidate, { category: "cat-food", accountId: "cash-1" }),
+    );
+    const pending = edited.map((candidate) => ({ ...candidate, reviewStatus: "PENDING" as const }));
+    const result = await service.writeConfirmedImport({
+      importBatchId: "batch-unconfirmed",
+      profileId: "profile-v2",
+      provider: "ALIPAY_CSV",
+      sourceFileContent: alipayContent,
+      candidates: [...pending, ...edited],
+    });
+
+    expect(result).toMatchObject({
+      totalRows: 4,
+      validRows: 0,
+      writtenRows: 0,
+      skippedRows: 4,
+      errorRows: 0,
+    });
+    expect(result.auditEvents.filter((event) => event.endsWith(": not confirmed"))).toHaveLength(4);
+    expect(await repositories.listV2Expenses("profile-v2")).toEqual([]);
+    expect(await repositories.getImportBatchById("batch-unconfirmed")).toMatchObject({
+      totalRows: 4,
+      validRows: 0,
+      writtenRows: 0,
+      skippedRows: 4,
+      errorRows: 0,
+    });
+  });
+
+  it("deduplicates the same candidate within one batch without hitting SQLite", async () => {
+    const [candidate] = confirmedAlipayCandidates("batch-internal");
+    if (!candidate) throw new Error("candidate missing");
+    const duplicate = { ...candidate };
+    const result = await service.writeConfirmedImport({
+      importBatchId: "batch-internal",
+      profileId: "profile-v2",
+      provider: "ALIPAY_CSV",
+      sourceFileContent: alipayContent,
+      candidates: [candidate, duplicate],
+    });
+
+    expect(result).toMatchObject({
+      totalRows: 2,
+      validRows: 1,
+      writtenRows: 1,
+      skippedRows: 1,
+      errorRows: 0,
+    });
+    expect(result.auditEvents).toContain("skipped synthetic-alipay-001: duplicate");
+    expect(await repositories.listV2Expenses("profile-v2", "2026-10")).toHaveLength(1);
+  });
+
+  it("records an invalid amount as a row error while writing the valid row", async () => {
+    const candidates = confirmedAlipayCandidates("batch-invalid-amount");
+    const invalidAmount: ImportedExpenseCandidate = {
+      ...candidates[1]!,
+      amount: "1.234",
+      dedupeKey: "ALIPAY_CSV:synthetic-alipay-002:1.234:2026-10-02",
+    };
+    const result = await service.writeConfirmedImport({
+      importBatchId: "batch-invalid-amount",
+      profileId: "profile-v2",
+      provider: "ALIPAY_CSV",
+      sourceFileContent: alipayContent,
+      candidates: [candidates[0]!, invalidAmount],
+    });
+
+    expect(result).toMatchObject({
+      totalRows: 2,
+      validRows: 1,
+      writtenRows: 1,
+      skippedRows: 0,
+      errorRows: 1,
+    });
+    expect(result.auditEvents).toContain("error synthetic-alipay-002: invalid amount");
+    const expenses = await repositories.listV2Expenses("profile-v2", "2026-10");
+    expect(expenses).toHaveLength(1);
+    expect(expenses[0]?.amount).toBe("35.00");
+  });
+
+  it("rejects a committed row when its readback amount differs", async () => {
+    const candidates = confirmedAlipayCandidates("batch-amount-readback");
+    class AmountMismatchReadbackDatabase extends NodeSqliteDatabase {
+      constructor(private readonly base: NodeSqliteDatabase) {
+        super(base.connection);
+      }
+      override async select<T extends Record<string, unknown>>(sql: string, bindValues: unknown[] = []) {
+        const rows = await this.base.select<T>(sql, bindValues);
+        if (sql.startsWith("SELECT * FROM expenses WHERE id=?") && rows[0]) {
+          return [{ ...(rows[0] as unknown as { amount: string }), amount: "999.99" }] as unknown as T[];
+        }
+        return rows;
+      }
+    }
+    const wrapped = new AmountMismatchReadbackDatabase(db);
+    const readbackService = new V2ImportService(new Repositories(wrapped));
+    await expect(
+      readbackService.writeConfirmedImport({
+        importBatchId: "batch-amount-readback",
+        profileId: "profile-v2",
+        provider: "ALIPAY_CSV",
+        sourceFileContent: alipayContent,
+        candidates,
+      }),
+    ).rejects.toMatchObject({ code: "IMPORT_READBACK_FAILED" });
+  });
+
+  it("records a stopped account as a row error", async () => {
+    await repositories.createAccount({
+      id: "cash-stopped",
+      profileId: "profile-v2",
+      name: "停用账户",
+      type: "CASH",
+      currency: "CNY",
+      active: false,
+    });
+    const candidates = confirmedAlipayCandidates("batch-stopped-account");
+    const stoppedAccount: ImportedExpenseCandidate = {
+      ...candidates[1]!,
+      accountId: "cash-stopped",
+    };
+    const result = await service.writeConfirmedImport({
+      importBatchId: "batch-stopped-account",
+      profileId: "profile-v2",
+      provider: "ALIPAY_CSV",
+      sourceFileContent: alipayContent,
+      candidates: [candidates[0]!, stoppedAccount],
+    });
+
+    expect(result).toMatchObject({
+      totalRows: 2,
+      validRows: 1,
+      writtenRows: 1,
+      skippedRows: 0,
+      errorRows: 1,
+    });
+    expect(result.auditEvents).toContain("error synthetic-alipay-002: account missing or invalid");
+    expect(await repositories.listV2Expenses("profile-v2", "2026-10")).toHaveLength(1);
+  });
+
   it("persists an empty candidate batch with all-zero counters", async () => {
     const result = await service.writeConfirmedImport({
       importBatchId: "batch-empty",
@@ -282,7 +427,7 @@ describe("EXEC-I-04 official CSV import write, readback, and feedback", () => {
       }
     }
     const wrapped = new EmptyExpenseReadbackDatabase(db);
-    const readbackService = new V2ImportService(new Repositories(wrapped), wrapped);
+    const readbackService = new V2ImportService(new Repositories(wrapped));
     await expect(
       readbackService.writeConfirmedImport({
         importBatchId: "batch-readback",

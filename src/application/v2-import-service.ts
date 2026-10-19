@@ -1,6 +1,6 @@
 import { Decimal } from "decimal.js";
 import type { ImportedExpenseCandidate, ImportProvider } from "../model/v2-import.js";
-import { ApplicationDataError, type SqlDatabase } from "../persistence/database.js";
+import { ApplicationDataError } from "../persistence/database.js";
 import type { Repositories } from "../persistence/repositories.js";
 
 export interface ImportBatchResult {
@@ -48,10 +48,15 @@ function moneyText(value: string, code: string, message: string): string {
   try {
     const parsed = new Decimal(value);
     if (!parsed.isFinite() || parsed.isNegative()) throw new Error("invalid money");
+    const normalized = parsed.toDecimalPlaces(2, Decimal.ROUND_HALF_UP).toFixed(2);
+    const supported =
+      /^-?(?:0|[1-9]\d*)(?:\.\d{1,2})?$/.test(value) &&
+      new Decimal(normalized).abs().lte(new Decimal("999999999999.99"));
+    if (!supported) throw new Error("unsupported money contract");
+    return normalized;
   } catch (error) {
     throw new ApplicationDataError(code, message, { cause: error });
   }
-  return value;
 }
 
 function validCalendarDate(value: string): boolean {
@@ -82,10 +87,7 @@ function sumMoney(values: string[]): string {
 }
 
 export class V2ImportService {
-  constructor(
-    private readonly repositories: Repositories,
-    private readonly db: SqlDatabase,
-  ) {}
+  constructor(private readonly repositories: Repositories) {}
 
   async writeConfirmedImport(input: ConfirmedImportInput): Promise<ImportBatchResult> {
     assertRequiredText(input.importBatchId, "INVALID_IMPORT_BATCH", "Import batch id is required.");
@@ -104,7 +106,7 @@ export class V2ImportService {
       categories.filter((category) => category.active).map((category) => category.id),
     );
     const accounts = await this.repositories.listAccounts(input.profileId);
-    const accountIds = new Set(accounts.map((account) => account.id));
+    const accountIds = new Set(accounts.filter((account) => account.active).map((account) => account.id));
 
     const rows: ValidatedImportRow[] = [];
     const writtenCandidateIds: string[] = [];
@@ -117,6 +119,11 @@ export class V2ImportService {
       if (candidate.reviewStatus === "ERROR") {
         errorRows += 1;
         auditEvents.push(`error ${candidate.sourceRowKey}: ${errorSummary(candidate)}`);
+        continue;
+      }
+      if (candidate.reviewStatus !== "CONFIRMED") {
+        skippedRows += 1;
+        auditEvents.push(`skipped ${candidate.sourceRowKey}: not confirmed`);
         continue;
       }
       if (existingDedupeKeys.has(candidate.dedupeKey)) {
@@ -144,11 +151,18 @@ export class V2ImportService {
         auditEvents.push(`error ${candidate.sourceRowKey}: invalid businessDate`);
         continue;
       }
-      const amount = moneyText(
-        candidate.amount,
-        "INVALID_IMPORT_AMOUNT",
-        `Candidate ${candidate.sourceRowKey} has an invalid amount.`,
-      );
+      let amount: string;
+      try {
+        amount = moneyText(
+          candidate.amount,
+          "INVALID_IMPORT_AMOUNT",
+          `Candidate ${candidate.sourceRowKey} has an invalid amount.`,
+        );
+      } catch {
+        errorRows += 1;
+        auditEvents.push(`error ${candidate.sourceRowKey}: invalid amount`);
+        continue;
+      }
       const expense = {
         id: globalThis.crypto.randomUUID(),
         profileId: input.profileId,
@@ -160,6 +174,7 @@ export class V2ImportService {
         description: candidate.merchant ?? candidate.note ?? "",
         accountId: candidate.accountId,
       };
+      existingDedupeKeys.add(candidate.dedupeKey);
       rows.push({ candidate, expense, dedupeKey: candidate.dedupeKey });
       writtenCandidateIds.push(candidate.sourceRowKey);
       validRows += 1;
