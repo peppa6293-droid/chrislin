@@ -11,3 +11,4 @@ src-tauri/gen/
 prototype-v2/
 .ekko-tmp/
 .eco-tmp/
+.ecko-tmp/

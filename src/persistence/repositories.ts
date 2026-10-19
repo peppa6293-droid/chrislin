@@ -1,5 +1,14 @@
 import { assertUserInputMoney, money } from "../model/money.js";
-import type { Account, AccountType, ExpenseCategoryDefinition } from "../model/v2-types.js";
+import type {
+  Account,
+  AccountType,
+  ExpenseCategoryDefinition,
+} from "../model/v2-types.js";
+import type {
+  CashDebitExpense,
+  CreditInstallmentExpense,
+  CreditOneTimeExpense,
+} from "../model/v2-expense.js";
 import type {
   Asset,
   Debt,
@@ -11,6 +20,24 @@ import type {
   IncomeRecord,
 } from "../model/types.js";
 import { ApplicationDataError, type SqlDatabase } from "./database.js";
+
+type V2ExpenseKind =
+  | CashDebitExpense["kind"]
+  | CreditOneTimeExpense["kind"]
+  | CreditInstallmentExpense["kind"];
+
+export interface V2ImportBatchRecord {
+  id: string;
+  profileId: string;
+  provider: "ALIPAY_CSV" | "WECHAT_CSV" | "FUTURE_PROVIDER";
+  sourceFileSha256: string;
+  totalRows: number;
+  validRows: number;
+  writtenRows: number;
+  skippedRows: number;
+  errorRows: number;
+  createdAt: string;
+}
 
 export interface EssentialExpenseItem {
   id: string;
@@ -1365,6 +1392,264 @@ export class Repositories {
   async deleteExpenseCategory(profileId: string, id: string): Promise<void> {
     const result = await this.db.execute("UPDATE expense_categories SET active=0 WHERE id=? AND profile_id=? AND builtin=0", [id, profileId]);
     if (!result.rowsAffected) throw new ApplicationDataError("CATEGORY_NOT_FOUND_OR_BUILTIN", "Only an active custom category can be deleted.");
+  }
+
+  async createV2Expense(
+    expense:
+      | (Omit<CashDebitExpense, "kind"> & { kind: "CASH_DEBIT" })
+      | (Omit<CreditOneTimeExpense, "kind"> & { kind: "CREDIT_ONE_TIME" })
+      | (Omit<
+          CreditInstallmentExpense,
+          "kind" | "repaymentSchedule" | "paidPeriods" | "remainingPeriods" | "remainingAmount"
+        > & { kind: "CREDIT_INSTALLMENT" }),
+    createdAt = new Date().toISOString(),
+    importBatchId: string | null = null,
+  ): Promise<void> {
+    if (expense.kind === "CASH_DEBIT") {
+      if (!expense.accountId)
+        throw new ApplicationDataError(
+          "INVALID_EXPENSE_ACCOUNT",
+          "A cash debit expense requires an account.",
+        );
+      await this.db.execute(
+        `INSERT INTO expenses(id,profile_id,kind,amount,currency,occurred_on,category_id,description,account_id,credit_card_id,created_at,import_batch_id)
+         VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`,
+        [
+          expense.id,
+          expense.profileId,
+          expense.kind,
+          requireStoredUserInputMoney(expense.amount),
+          expense.currency,
+          expense.occurredOn,
+          expense.categoryId,
+          expense.description,
+          expense.accountId,
+          null,
+          createdAt,
+          importBatchId,
+        ],
+      );
+      return;
+    }
+    if (!expense.creditCardId)
+      throw new ApplicationDataError(
+        "INVALID_EXPENSE_ACCOUNT",
+        "A credit expense requires a credit card.",
+      );
+    if (expense.kind === "CREDIT_ONE_TIME") {
+      await this.db.execute(
+        `INSERT INTO expenses(id,profile_id,kind,amount,currency,occurred_on,category_id,description,account_id,credit_card_id,created_at,import_batch_id)
+         VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`,
+        [
+          expense.id,
+          expense.profileId,
+          expense.kind,
+          requireStoredUserInputMoney(expense.amount),
+          expense.currency,
+          expense.occurredOn,
+          expense.categoryId,
+          expense.description,
+          null,
+          expense.creditCardId,
+          createdAt,
+          importBatchId,
+        ],
+      );
+      return;
+    }
+    for (const [field, value] of [
+      ["total_amount", expense.totalAmount],
+      ["periods", expense.periods],
+      ["fee", expense.fee],
+      ["first_installment_month", expense.firstInstallmentMonth],
+      ["installment_amount", expense.installmentAmount],
+    ] as const) {
+      if (value === null || value === undefined || value === "")
+        throw new ApplicationDataError(
+          "INVALID_EXPENSE_INSTALLMENT",
+          `A credit installment expense requires ${field}.`,
+        );
+    }
+    if (!Number.isInteger(expense.periods) || expense.periods < 1)
+      throw new ApplicationDataError("INVALID_EXPENSE_INSTALLMENT", "periods must be positive.");
+    await this.db.execute(
+      `INSERT INTO expenses(
+         id,profile_id,kind,amount,currency,occurred_on,category_id,description,account_id,credit_card_id,
+         total_amount,periods,fee,first_installment_month,installment_amount,created_at,import_batch_id
+       ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+      [
+        expense.id,
+        expense.profileId,
+        expense.kind,
+        requireStoredUserInputMoney(expense.amount),
+        expense.currency,
+        expense.occurredOn,
+        expense.categoryId,
+        expense.description,
+        null,
+        expense.creditCardId,
+        requireStoredUserInputMoney(expense.totalAmount),
+        expense.periods,
+        requireStoredUserInputMoney(expense.fee),
+        expense.firstInstallmentMonth,
+        requireStoredUserInputMoney(expense.installmentAmount),
+        createdAt,
+        importBatchId,
+      ],
+    );
+  }
+
+  private mapV2Expense(row: Row): CashDebitExpense | CreditOneTimeExpense | CreditInstallmentExpense {
+    const kind = text(row, "kind") as V2ExpenseKind;
+    if (kind === "CASH_DEBIT") {
+      const accountId = nullableText(row, "account_id");
+      if (!accountId) throw invalidColumn("expenses.account_id");
+      return {
+        id: text(row, "id"),
+        profileId: text(row, "profile_id"),
+        kind,
+        amount: requireStoredUserInputMoney(text(row, "amount")),
+        currency: text(row, "currency"),
+        occurredOn: text(row, "occurred_on"),
+        categoryId: text(row, "category_id"),
+        description: text(row, "description"),
+        accountId,
+      };
+    }
+    const creditCardId = nullableText(row, "credit_card_id");
+    if (!creditCardId) throw invalidColumn("expenses.credit_card_id");
+    if (kind === "CREDIT_ONE_TIME") {
+      return {
+        id: text(row, "id"),
+        profileId: text(row, "profile_id"),
+        kind,
+        amount: requireStoredUserInputMoney(text(row, "amount")),
+        currency: text(row, "currency"),
+        occurredOn: text(row, "occurred_on"),
+        categoryId: text(row, "category_id"),
+        description: text(row, "description"),
+        creditCardId,
+      };
+    }
+    if (kind !== "CREDIT_INSTALLMENT") throw invalidColumn("expenses.kind");
+    const totalAmount = nullableText(row, "total_amount");
+    const periods = row.periods;
+    const fee = nullableText(row, "fee");
+    const firstInstallmentMonth = nullableText(row, "first_installment_month");
+    const installmentAmount = nullableText(row, "installment_amount");
+    if (
+      totalAmount === null ||
+      fee === null ||
+      firstInstallmentMonth === null ||
+      installmentAmount === null ||
+      typeof periods !== "number" ||
+      !Number.isInteger(periods) ||
+      periods < 1
+    )
+      throw invalidColumn("expenses installment fields");
+    const installment: CreditInstallmentExpense = {
+      id: text(row, "id"),
+      profileId: text(row, "profile_id"),
+      kind,
+      amount: requireStoredUserInputMoney(text(row, "amount")),
+      currency: text(row, "currency"),
+      occurredOn: text(row, "occurred_on"),
+      categoryId: text(row, "category_id"),
+      description: text(row, "description"),
+      creditCardId,
+      totalAmount,
+      periods,
+      fee,
+      firstInstallmentMonth,
+      installmentAmount,
+      repaymentSchedule: [],
+      paidPeriods: 0,
+      remainingPeriods: periods,
+      remainingAmount: totalAmount,
+    };
+    return installment;
+  }
+
+  async getV2ExpenseById(id: string): Promise<CashDebitExpense | CreditOneTimeExpense | CreditInstallmentExpense | null> {
+    const row = (await this.db.select("SELECT * FROM expenses WHERE id=?", [id]))[0];
+    return row ? this.mapV2Expense(row) : null;
+  }
+
+  async listV2Expenses(profileId: string, month?: string): Promise<Array<CashDebitExpense | CreditOneTimeExpense | CreditInstallmentExpense>> {
+    if (month !== undefined && !/^\d{4}-(0[1-9]|1[0-2])$/.test(month))
+      throw new ApplicationDataError("INVALID_MONTH", "month must use YYYY-MM format.");
+    const rows = month
+      ? await this.db.select(
+          `SELECT * FROM expenses WHERE profile_id=? AND substr(occurred_on,1,7)=? ORDER BY occurred_on,id`,
+          [profileId, month],
+        )
+      : await this.db.select(
+          "SELECT * FROM expenses WHERE profile_id=? ORDER BY occurred_on,id",
+          [profileId],
+        );
+    return rows.map((row) => this.mapV2Expense(row));
+  }
+
+  async deleteV2Expense(id: string): Promise<void> {
+    const result = await this.db.execute("DELETE FROM expenses WHERE id=?", [id]);
+    if (!result.rowsAffected)
+      throw new ApplicationDataError("EXPENSE_NOT_FOUND", "Expense does not exist.");
+  }
+
+  async createImportBatch(batch: V2ImportBatchRecord): Promise<void> {
+    await this.db.execute(
+      `INSERT INTO import_batches(
+         id,profile_id,provider,source_file_sha256,total_rows,valid_rows,written_rows,skipped_rows,error_rows,created_at
+       ) VALUES(?,?,?,?,?,?,?,?,?,?)`,
+      [
+        batch.id,
+        batch.profileId,
+        batch.provider,
+        batch.sourceFileSha256,
+        batch.totalRows,
+        batch.validRows,
+        batch.writtenRows,
+        batch.skippedRows,
+        batch.errorRows,
+        batch.createdAt,
+      ],
+    );
+  }
+
+  private mapImportBatch(row: Row): V2ImportBatchRecord {
+    const counters = [
+      ["total_rows", "totalRows"],
+      ["valid_rows", "validRows"],
+      ["written_rows", "writtenRows"],
+      ["skipped_rows", "skippedRows"],
+      ["error_rows", "errorRows"],
+    ] as const;
+    const values = counters.map(([column, field]) => {
+      const value = row[column];
+      if (typeof value !== "number" || !Number.isInteger(value) || value < 0)
+        throw invalidColumn(`import_batches.${column}`);
+      return [field, value] as const;
+    });
+    return {
+      id: text(row, "id"),
+      profileId: text(row, "profile_id"),
+      provider: text(row, "provider") as V2ImportBatchRecord["provider"],
+      sourceFileSha256: text(row, "source_file_sha256"),
+      ...Object.fromEntries(values),
+    } as V2ImportBatchRecord;
+  }
+
+  async getImportBatchById(id: string): Promise<V2ImportBatchRecord | null> {
+    const row = (await this.db.select("SELECT * FROM import_batches WHERE id=?", [id]))[0];
+    return row ? this.mapImportBatch(row) : null;
+  }
+
+  async listImportBatches(profileId: string): Promise<V2ImportBatchRecord[]> {
+    const rows = await this.db.select(
+      "SELECT * FROM import_batches WHERE profile_id=? ORDER BY created_at,id",
+      [profileId],
+    );
+    return rows.map((row) => this.mapImportBatch(row));
   }
 
   async getMeta(key: string): Promise<string | null> {
