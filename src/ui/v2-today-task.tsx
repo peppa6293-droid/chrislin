@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
+import type { FinancialMaintenanceState } from "../application/financial-maintenance-service.js";
+import type { HomeApplicationState } from "../application/product-service.js";
 import {
+  hasPositiveSafetyGap,
   isRecordTask,
   selectTodayTask,
   TASK_COPY,
@@ -10,12 +13,20 @@ import { localDate } from "./date.js";
 import "./v2-today-task.css";
 
 interface V2TodayTaskProps {
+  loadHomeState: (asOfDate: string) => Promise<HomeApplicationState>;
+  loadMaintenanceState: (asOfDate: string) => Promise<FinancialMaintenanceState>;
   repositories: Repositories;
   profileId: string;
   onGoRecord: () => void;
 }
 
-export function V2TodayTask({ repositories, profileId, onGoRecord }: V2TodayTaskProps) {
+export function V2TodayTask({
+  loadHomeState,
+  loadMaintenanceState,
+  repositories,
+  profileId,
+  onGoRecord,
+}: V2TodayTaskProps) {
   const [task, setTask] = useState<{
     taskId: ReturnType<typeof selectTodayTask>;
     todayCount: number;
@@ -26,14 +37,18 @@ export function V2TodayTask({ repositories, profileId, onGoRecord }: V2TodayTask
     const load = async () => {
       try {
         const today = localDate(new Date());
-        const expenses = await repositories.listV2Expenses(profileId, today.slice(0, 7));
+        const [expenses, home, maintenance] = await Promise.all([
+          repositories.listV2Expenses(profileId, today.slice(0, 7)),
+          loadHomeState(today),
+          loadMaintenanceState(today),
+        ]);
         if (cancelled) return;
         const context: TaskContext = {
-          hasStructuralDeficit: false,
-          belowCashFloor: false,
-          consumptionIsPrimaryDrag: false,
-          hasMissingDebtFact: false,
-          hasSafetyGap: false,
+          hasStructuralDeficit: home.spendingStatus === "STRUCTURAL_DEFICIT",
+          belowCashFloor: home.cashSafetyGateStatus === "ACTIVE",
+          consumptionIsPrimaryDrag: home.primaryDrag === "CONSUMPTION",
+          hasMissingDebtFact: maintenance.debts.some((debt) => debt.needsCurrentMonthFact),
+          hasSafetyGap: hasPositiveSafetyGap(home.safetyGap),
           monthExpenseCount: expenses.length,
         };
         setTask({
@@ -48,7 +63,7 @@ export function V2TodayTask({ repositories, profileId, onGoRecord }: V2TodayTask
     return () => {
       cancelled = true;
     };
-  }, [profileId, repositories]);
+  }, [loadHomeState, loadMaintenanceState, profileId, repositories]);
 
   if (!task) return null;
   const copy = TASK_COPY[task.taskId];

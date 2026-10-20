@@ -2,6 +2,7 @@
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import type { FinancialMaintenanceState } from "../../src/application/financial-maintenance-service.js";
 import type { HomeApplicationState } from "../../src/application/product-service.js";
 import type { V2ExpenseService } from "../../src/application/v2-expense-service.js";
 import type { V2ImportService } from "../../src/application/v2-import-service.js";
@@ -79,7 +80,24 @@ const minimalHome: HomeApplicationState = {
   primaryDrag: null,
   priorityAction: { action_code: "NO_ACTION", reason: "No clear issue." },
 };
+const minimalMaintenance: FinancialMaintenanceState = {
+  stableMonthlyIncome: "10000",
+  stableIncomeRevisions: [],
+  actualIncomeRecords: [],
+  essentialExpenses: [],
+  cashAccounts: [],
+  assets: [],
+  debts: [],
+  settings: {
+    safetyCoverageTargetMonths: 3,
+    minimumCashCoverageMonths: 1,
+    desiredMonthlyDiscretionarySpending: "2000",
+  },
+  requiresSafetyRecoveryHorizon: false,
+  asOfDate: "2026-10-20",
+};
 const loadHomeState = vi.fn().mockResolvedValue(minimalHome);
+const loadMaintenanceState = vi.fn().mockResolvedValue(minimalMaintenance);
 const expenseService = {
   recordCashDebitExpense: vi.fn(),
   getMonthSummary: vi.fn().mockResolvedValue({ dailyExpenseTotal: "0.00", billStatuses: [] }),
@@ -91,6 +109,7 @@ function renderSurface() {
       expenseService={expenseService}
       importService={importService}
       loadHomeState={loadHomeState}
+      loadMaintenanceState={loadMaintenanceState}
       repositories={repositories}
       profileId="profile-v2"
     />,

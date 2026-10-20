@@ -1,4 +1,5 @@
 import { useState } from "react";
+import type { FinancialMaintenanceState } from "../application/financial-maintenance-service.js";
 import type { HomeApplicationState } from "../application/product-service.js";
 import type { V2ExpenseService } from "../application/v2-expense-service.js";
 import type { V2ImportService } from "../application/v2-import-service.js";
@@ -23,12 +24,14 @@ export function V2Surface({
   expenseService,
   importService,
   loadHomeState,
+  loadMaintenanceState,
   repositories,
   profileId,
 }: {
   expenseService: V2ExpenseService;
   importService: V2ImportService;
   loadHomeState: (asOfDate: string) => Promise<HomeApplicationState>;
+  loadMaintenanceState: (asOfDate: string) => Promise<FinancialMaintenanceState>;
   repositories: Repositories;
   profileId: string;
 }) {
@@ -72,7 +75,13 @@ export function V2Surface({
       <main className="v2-surface-content">
         {tab === "today" ? (
           <>
-            <V2TodayTask repositories={repositories} profileId={profileId} onGoRecord={goRecord} />
+            <V2TodayTask
+              loadHomeState={loadHomeState}
+              loadMaintenanceState={loadMaintenanceState}
+              repositories={repositories}
+              profileId={profileId}
+              onGoRecord={goRecord}
+            />
             <V2Today
               expenseService={expenseService}
               repositories={repositories}

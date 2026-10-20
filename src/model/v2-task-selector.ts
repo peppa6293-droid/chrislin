@@ -1,9 +1,17 @@
-// V1 mapping for a future batch (do not implement here):
-// hasStructuralDeficit <- SpendingResult.status === "STRUCTURAL_DEFICIT"
-// belowCashFloor <- SafetyResult.cashSafetyGateStatus === "ACTIVE"
-// consumptionIsPrimaryDrag <- trend.result.primaryDrag === "CONSUMPTION"
-// hasMissingDebtFact <- no direct V1 field; decide when wiring
-// hasSafetyGap <- SafetyResult.safetyGap.gt(0)
+// V1 mapping was implemented in U-08/build-35. The decision rules are listed in
+// the mapping table in section 1 of docs/EXEC-U08-INSTRUCTIONS.md:
+// hasStructuralDeficit <- HomeApplicationState.spendingStatus === "STRUCTURAL_DEFICIT"
+// belowCashFloor <- HomeApplicationState.cashSafetyGateStatus === "ACTIVE"
+// consumptionIsPrimaryDrag <- HomeApplicationState.primaryDrag === "CONSUMPTION"
+// hasMissingDebtFact <- FinancialMaintenanceState.debts[].needsCurrentMonthFact
+// hasSafetyGap <- hasPositiveSafetyGap(HomeApplicationState.safetyGap)
+
+import { money } from "./money.js";
+
+/** Whether the safety gap is positive; money comparisons stay in the model layer. */
+export function hasPositiveSafetyGap(safetyGap: string): boolean {
+  return money(safetyGap).gt(0);
+}
 
 export interface TaskContext {
   hasStructuralDeficit: boolean;
