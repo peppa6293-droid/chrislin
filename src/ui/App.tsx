@@ -93,24 +93,30 @@ export function App({ services = defaultServices }: { services?: ProductApplicat
   async function recordExpense(expense: ExpenseSubmission, asOfDate: string) {
     let writeSignal: "RESOLVED" | "REJECTED" = "RESOLVED";
     let writeError = "";
+    let writtenExpenseId = expense.id ?? "";
     try {
-      await services.recordExpenseAndRecalculate(expense, asOfDate);
+      const written = await services.recordV2CashExpense(expense, asOfDate);
+      writtenExpenseId = written.expenseId;
     } catch (error) {
       writeSignal = "REJECTED";
       writeError = messageOf(error);
     }
     try {
       const [record, refreshed] = await Promise.all([
-        services.getExpenseRecordById(expense.id ?? ""),
+        services.getExpenseRecordById(writtenExpenseId),
         services.getHomeApplicationState(asOfDate),
       ]);
+      // The D-01 V1 mirror always stores occurred_at as midnight UTC of the
+      // business date and maps every V2 category to OTHER_VARIABLE. Readback
+      // verification follows that fixed mirror shape while keeping the same
+      // id/amount/date/category/note matching semantics.
       const matches =
         record !== null &&
-        record.id === expense.id &&
+        record.id === writtenExpenseId &&
         money(String(record.amount)).eq(money(expense.amount)) &&
-        record.dateTime === expense.dateTime &&
+        record.dateTime === `${expense.businessDate}T00:00:00.000Z` &&
         record.businessDate === expense.businessDate &&
-        record.category === (expense.category ?? "OTHER_VARIABLE") &&
+        record.category === "OTHER_VARIABLE" &&
         (record.note ?? "") === (expense.note ?? "");
       if (!matches)
         return {

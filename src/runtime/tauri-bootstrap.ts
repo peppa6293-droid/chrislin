@@ -26,13 +26,15 @@ import {
   type OnboardingSubmission,
   recordExpenseAndRecalculate,
 } from "../application/product-service.js";
+import { V2ExpenseService } from "../application/v2-expense-service.js";
 import type { V4FinancialReadState } from "../application/v4-foundation-service.js";
 import {
   V4FoundationService,
   type V4MutationResult,
 } from "../application/v4-foundation-service.js";
+import { ApplicationDataError, type SqlDatabase } from "../persistence/database.js";
 import { migrateDatabase } from "../persistence/migrations.js";
-import type { PlanningIncomeMonthDecision } from "../persistence/repositories.js";
+import { type PlanningIncomeMonthDecision, Repositories } from "../persistence/repositories.js";
 import { TauriSqlDatabase } from "../persistence/tauri-database.js";
 
 declare const __WP03_PREVIEW_BUILD__: boolean;
@@ -45,6 +47,137 @@ export async function getWp03PreviewTestDate(): Promise<string | null> {
 export async function setWp03PreviewTestDate(testDate: string | null): Promise<void> {
   if (!__WP03_PREVIEW_BUILD__) throw new Error("WP-03 验收日期仅在 WP-03 测试版中可用。");
   await invoke("wp03_preview_set_test_date", { testDate });
+}
+
+type V2QuickEntryCategory = NonNullable<ExpenseSubmission["category"]>;
+
+interface V2LedgerDefaults {
+  profileId: string;
+  cashAccountId: string;
+  categoryIds: Record<V2QuickEntryCategory, string>;
+}
+
+const DEFAULT_CASH_ACCOUNT = { name: "现金", type: "CASH", currency: "CNY" } as const;
+
+/**
+ * Fixed V2 quick-entry category table. The six quick-entry categories are the only
+ * ones seeded, and the mapping from the V1 submission enum is intentionally
+ * name-based and fixed here (never persisted as a database mapping).
+ */
+const V2_DEFAULT_CATEGORIES: ReadonlyArray<{
+  name: string;
+  icon: string;
+  color: string;
+  category: V2QuickEntryCategory;
+}> = [
+  { name: "餐饮", icon: "Utensils", color: "#F06A58", category: "FOOD" },
+  { name: "交通", icon: "Train", color: "#5272D8", category: "TRANSPORT" },
+  { name: "购物", icon: "ShoppingBag", color: "#E7AD35", category: "SHOPPING" },
+  { name: "娱乐", icon: "Film", color: "#8472C7", category: "ENTERTAINMENT" },
+  { name: "家居", icon: "House", color: "#129B84", category: "HOUSEHOLD" },
+  { name: "其他", icon: "Shapes", color: "#66717D", category: "OTHER_VARIABLE" },
+];
+
+/**
+ * Idempotently seeds the default cash account and six built-in quick-entry
+ * categories on first use. Any existing account or category set is left
+ * untouched, so repeated startups never duplicate rows.
+ */
+export async function ensureV2LedgerDefaults(db: SqlDatabase): Promise<V2LedgerDefaults> {
+  const repositories = new Repositories(db);
+  const profile = await repositories.getProfile();
+  if (!profile) {
+    throw new ApplicationDataError(
+      "PROFILE_NOT_FOUND",
+      "V2 ledger defaults require a completed onboarding profile.",
+    );
+  }
+
+  let accounts = await repositories.listAccounts(profile.id);
+  if (accounts.length === 0) {
+    await repositories.createAccount({
+      id: globalThis.crypto.randomUUID(),
+      profileId: profile.id,
+      name: DEFAULT_CASH_ACCOUNT.name,
+      type: DEFAULT_CASH_ACCOUNT.type,
+      currency: DEFAULT_CASH_ACCOUNT.currency,
+    });
+    accounts = await repositories.listAccounts(profile.id);
+  }
+
+  let categories = await repositories.listExpenseCategories(profile.id);
+  if (categories.length === 0) {
+    await db.transaction(async (transactionDb) => {
+      const transactionRepositories = new Repositories(transactionDb);
+      for (const definition of V2_DEFAULT_CATEGORIES) {
+        await transactionRepositories.createExpenseCategory({
+          id: globalThis.crypto.randomUUID(),
+          profileId: profile.id,
+          name: definition.name,
+          icon: definition.icon,
+          color: definition.color,
+          monthlyBudget: null,
+          overspendingAlert: false,
+          savingsRelated: false,
+          adjustable: true,
+          builtin: true,
+        });
+      }
+    });
+    categories = await repositories.listExpenseCategories(profile.id);
+  }
+
+  const cashAccount =
+    accounts.find((account) => account.active && account.type === "CASH") ??
+    accounts.find((account) => account.active) ??
+    accounts[0];
+  if (!cashAccount) {
+    throw new ApplicationDataError("INVALID_ACCOUNT", "No account is available for quick entry.");
+  }
+
+  const categoryIdByName = new Map(categories.map((category) => [category.name, category.id]));
+  const fallbackCategoryId = categoryIdByName.get("其他") ?? categories[0]?.id;
+  if (!fallbackCategoryId) {
+    throw new ApplicationDataError(
+      "INVALID_CATEGORY",
+      "No expense category is available for quick entry.",
+    );
+  }
+  const categoryIds = Object.fromEntries(
+    V2_DEFAULT_CATEGORIES.map((definition) => [
+      definition.category,
+      categoryIdByName.get(definition.name) ?? fallbackCategoryId,
+    ]),
+  ) as Record<V2QuickEntryCategory, string>;
+
+  return { profileId: profile.id, cashAccountId: cashAccount.id, categoryIds };
+}
+
+/**
+ * Quick-entry write through the D-01 dual-write service. The V1 mirror keeps the
+ * fixed mapping kind=VARIABLE / category=OTHER_VARIABLE for every V2 category.
+ */
+export async function recordV2CashExpenseForDatabase(
+  db: SqlDatabase,
+  submission: ExpenseSubmission,
+  asOfDate: string,
+): Promise<{ expenseId: string }> {
+  // The V2 draft dates the expense by businessDate; asOfDate is accepted for a
+  // stable services signature but is not needed to build the ledger row.
+  void asOfDate;
+  const defaults = await ensureV2LedgerDefaults(db);
+  const expenseId = submission.id ?? globalThis.crypto.randomUUID();
+  await new V2ExpenseService(new Repositories(db)).recordCashDebitExpense({
+    id: expenseId,
+    profileId: defaults.profileId,
+    amount: submission.amount,
+    currency: "CNY",
+    occurredOn: submission.businessDate,
+    categoryId: defaults.categoryIds[submission.category ?? "OTHER_VARIABLE"],
+    description: submission.note ?? "",
+    accountId: defaults.cashAccountId,
+  });
+  return { expenseId };
 }
 
 export type ApplicationStartupState =
@@ -75,6 +208,10 @@ export interface TauriApplicationServices {
   getHome(asOfDate: string): Promise<HomeApplicationState>;
   getExpenseRecordById(expenseId: string): ReturnType<typeof getExpenseRecordById>;
   recordExpense(expense: ExpenseSubmission, asOfDate: string): Promise<HomeApplicationState>;
+  recordV2CashExpense(
+    submission: ExpenseSubmission,
+    asOfDate: string,
+  ): Promise<{ expenseId: string }>;
   getFinancialMaintenanceState(asOfDate: string): Promise<FinancialMaintenanceState>;
   getFinancialMaintenanceRequirement(
     patch: FinancialMaintenancePatch,
@@ -121,6 +258,10 @@ export interface TauriProductServices {
     expense: ExpenseSubmission,
     asOfDate: string,
   ): Promise<HomeApplicationState>;
+  recordV2CashExpense(
+    submission: ExpenseSubmission,
+    asOfDate: string,
+  ): Promise<{ expenseId: string }>;
   getFinancialMaintenanceState(asOfDate: string): Promise<FinancialMaintenanceState>;
   getFinancialMaintenanceRequirement(
     patch: FinancialMaintenancePatch,
@@ -159,13 +300,20 @@ export async function createTauriApplicationServices(): Promise<TauriApplication
   await db.open();
   await migrateDatabase(db);
   const initialization = await getApplicationInitializationState(db);
+  if (initialization.status === "READY") await ensureV2LedgerDefaults(db);
   const foundation = new V4FoundationService(db);
   return {
     initialization,
-    completeOnboarding: (submission, asOfDate) => completeOnboarding(db, submission, asOfDate),
+    completeOnboarding: async (submission, asOfDate) => {
+      const home = await completeOnboarding(db, submission, asOfDate);
+      await ensureV2LedgerDefaults(db);
+      return home;
+    },
     getHome: (asOfDate) => getHomeApplicationState(db, asOfDate),
     getExpenseRecordById: (expenseId) => getExpenseRecordById(db, expenseId),
     recordExpense: (expense, asOfDate) => recordExpenseAndRecalculate(db, expense, asOfDate),
+    recordV2CashExpense: (submission, asOfDate) =>
+      recordV2CashExpenseForDatabase(db, submission, asOfDate),
     getFinancialMaintenanceState: (asOfDate) => getFinancialMaintenanceState(db, asOfDate),
     getFinancialMaintenanceRequirement: (patch, asOfDate) =>
       getFinancialMaintenanceRequirement(db, patch, asOfDate),
@@ -206,6 +354,8 @@ export function getTauriProductServices(): TauriProductServices {
     getExpenseRecordById: async (expenseId) => (await open()).getExpenseRecordById(expenseId),
     recordExpenseAndRecalculate: async (expense, asOfDate) =>
       (await open()).recordExpense(expense, asOfDate),
+    recordV2CashExpense: async (submission, asOfDate) =>
+      (await open()).recordV2CashExpense(submission, asOfDate),
     getFinancialMaintenanceState: async (asOfDate) =>
       (await open()).getFinancialMaintenanceState(asOfDate),
     getFinancialMaintenanceRequirement: async (patch, asOfDate) =>

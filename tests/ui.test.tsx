@@ -98,6 +98,9 @@ function services(overrides: Partial<ProductApplicationServices> = {}): ProductA
     getHomeApplicationState: vi.fn().mockResolvedValue(baselineHome),
     getExpenseRecordById: vi.fn().mockResolvedValue(null),
     recordExpenseAndRecalculate: vi.fn().mockResolvedValue(baselineHome),
+    recordV2CashExpense: vi.fn(async (expense) => ({
+      expenseId: expense.id ?? "generated-expense",
+    })),
     getFinancialMaintenanceState: vi.fn().mockResolvedValue(maintenanceState),
     getFinancialMaintenanceRequirement: vi
       .fn()
@@ -109,21 +112,21 @@ function services(overrides: Partial<ProductApplicationServices> = {}): ProductA
   };
   if (!overrides.getExpenseRecordById) {
     result.getExpenseRecordById = vi.fn(async (id: string) => {
-      const recordService = vi.mocked(result.recordExpenseAndRecalculate);
+      const recordService = vi.mocked(result.recordV2CashExpense);
       try {
         await recordService.mock.results.at(-1)?.value;
       } catch {
         return null;
       }
       const expense = recordService.mock.calls.at(-1)?.[0];
-      if (!expense || expense.id !== id) return null;
+      if (!expense || (expense.id ?? "generated-expense") !== id) return null;
       return {
         id,
         amount: expense.amount,
-        dateTime: expense.dateTime,
+        dateTime: `${expense.businessDate}T00:00:00.000Z`,
         businessDate: expense.businessDate,
         kind: "VARIABLE" as const,
-        category: expense.category ?? "OTHER_VARIABLE",
+        category: "OTHER_VARIABLE" as const,
         ...(expense.note === undefined ? {} : { note: expense.note }),
       };
     });
@@ -1346,7 +1349,7 @@ describe.skip("Phase 3 product UI [DEPRECATED - V2 migration pending]", () => {
     await user.click(screen.getByRole("button", { name: /记一笔/ }));
     await user.type(screen.getByLabelText(/消费金额/), "30.50");
     await user.click(screen.getByRole("button", { name: "保存消费" }));
-    await waitFor(() => expect(svc.recordExpenseAndRecalculate).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(svc.recordV2CashExpense).toHaveBeenCalledTimes(1));
     expect(screen.queryByRole("dialog")).toBeNull();
   });
 
@@ -1361,8 +1364,8 @@ describe.skip("Phase 3 product UI [DEPRECATED - V2 migration pending]", () => {
       target: { value: "2026-10-01T00:30" },
     });
     await user.click(screen.getByRole("button", { name: "保存消费" }));
-    await waitFor(() => expect(svc.recordExpenseAndRecalculate).toHaveBeenCalled());
-    expect(vi.mocked(svc.recordExpenseAndRecalculate).mock.calls[0]?.[0]).toMatchObject({
+    await waitFor(() => expect(svc.recordV2CashExpense).toHaveBeenCalled());
+    expect(vi.mocked(svc.recordV2CashExpense).mock.calls[0]?.[0]).toMatchObject({
       businessDate: "2026-10-01",
       dateTime: expect.stringMatching(/Z$/),
     });
@@ -1377,7 +1380,7 @@ describe.skip("Phase 3 product UI [DEPRECATED - V2 migration pending]", () => {
     await user.type(screen.getByLabelText(/消费金额/), "0");
     await user.click(screen.getByRole("button", { name: "保存消费" }));
     expect((await screen.findByRole("alert")).textContent).toContain("大于 0");
-    expect(svc.recordExpenseAndRecalculate).not.toHaveBeenCalled();
+    expect(svc.recordV2CashExpense).not.toHaveBeenCalled();
   });
 
   it("8. expense category is optional and stays absent when unselected", async () => {
@@ -1388,10 +1391,8 @@ describe.skip("Phase 3 product UI [DEPRECATED - V2 migration pending]", () => {
     await user.click(screen.getByRole("button", { name: /记一笔/ }));
     await user.type(screen.getByLabelText(/消费金额/), "20");
     await user.click(screen.getByRole("button", { name: "保存消费" }));
-    await waitFor(() => expect(svc.recordExpenseAndRecalculate).toHaveBeenCalled());
-    expect(vi.mocked(svc.recordExpenseAndRecalculate).mock.calls[0]?.[0]).not.toHaveProperty(
-      "category",
-    );
+    await waitFor(() => expect(svc.recordV2CashExpense).toHaveBeenCalled());
+    expect(vi.mocked(svc.recordV2CashExpense).mock.calls[0]?.[0]).not.toHaveProperty("category");
   });
 
   it("9. optional category and note are sent when provided", async () => {
@@ -1404,8 +1405,8 @@ describe.skip("Phase 3 product UI [DEPRECATED - V2 migration pending]", () => {
     await user.click(screen.getByRole("button", { name: "餐饮", exact: true }));
     await user.type(screen.getByLabelText("备注（选填）"), "早餐");
     await user.click(screen.getByRole("button", { name: "保存消费" }));
-    await waitFor(() => expect(svc.recordExpenseAndRecalculate).toHaveBeenCalled());
-    expect(svc.recordExpenseAndRecalculate).toHaveBeenCalledWith(
+    await waitFor(() => expect(svc.recordV2CashExpense).toHaveBeenCalled());
+    expect(svc.recordV2CashExpense).toHaveBeenCalledWith(
       expect.objectContaining({ category: "FOOD", note: "早餐" }),
       expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/),
     );
@@ -1439,7 +1440,7 @@ describe.skip("Phase 3 product UI [DEPRECATED - V2 migration pending]", () => {
     const user = userEvent.setup();
     const svc = services({
       bootstrap: vi.fn().mockResolvedValue({ status: "READY" }),
-      recordExpenseAndRecalculate: vi.fn().mockRejectedValue(new Error("保存失败")),
+      recordV2CashExpense: vi.fn().mockRejectedValue(new Error("保存失败")),
     });
     render(<App services={svc} />);
     await screen.findByText("财务基准建立中", { exact: true });
@@ -1461,9 +1462,11 @@ describe.skip("Phase 3 product UI [DEPRECATED - V2 migration pending]", () => {
     let svc: ProductApplicationServices;
     svc = services({
       bootstrap: vi.fn().mockResolvedValue({ status: "READY" }),
-      recordExpenseAndRecalculate: vi.fn().mockResolvedValue(updated),
+      recordV2CashExpense: vi.fn(async (expense) => ({
+        expenseId: expense.id ?? "saved-expense",
+      })),
       getHomeApplicationState: vi.fn(async () => {
-        const expense = vi.mocked(svc.recordExpenseAndRecalculate).mock.calls.at(-1)?.[0];
+        const expense = vi.mocked(svc.recordV2CashExpense).mock.calls.at(-1)?.[0];
         return expense
           ? {
               ...updated,
@@ -1491,9 +1494,9 @@ describe.skip("Phase 3 product UI [DEPRECATED - V2 migration pending]", () => {
       document.querySelector(".module-spending.is-expense-saved .is-expense-value-emphasis"),
     ).toBeTruthy();
     expect(svc.getExpenseRecordById).toHaveBeenCalledWith(
-      vi.mocked(svc.recordExpenseAndRecalculate).mock.calls[0]?.[0].id,
+      vi.mocked(svc.recordV2CashExpense).mock.calls[0]?.[0].id,
     );
-    expect(vi.mocked(svc.recordExpenseAndRecalculate).mock.invocationCallOrder[0]).toBeLessThan(
+    expect(vi.mocked(svc.recordV2CashExpense).mock.invocationCallOrder[0]).toBeLessThan(
       vi.mocked(svc.getExpenseRecordById).mock.invocationCallOrder[0] ?? Infinity,
     );
     expect(screen.getByRole("status").textContent).toContain("保存并重新读取确认");
@@ -1503,7 +1506,7 @@ describe.skip("Phase 3 product UI [DEPRECATED - V2 migration pending]", () => {
     const user = userEvent.setup();
     const svc = services({
       bootstrap: vi.fn().mockResolvedValue({ status: "READY" }),
-      recordExpenseAndRecalculate: vi.fn().mockResolvedValue(baselineHome),
+      recordV2CashExpense: vi.fn().mockResolvedValue({ expenseId: "saved-expense" }),
       getExpenseRecordById: vi.fn().mockResolvedValue(null),
     });
     render(<App services={svc} />);

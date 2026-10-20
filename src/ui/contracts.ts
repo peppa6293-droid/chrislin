@@ -37,6 +37,10 @@ export interface ProductApplicationServices {
     expense: ExpenseSubmission,
     asOfDate: string,
   ): Promise<HomeApplicationState>;
+  recordV2CashExpense(
+    submission: ExpenseSubmission,
+    asOfDate: string,
+  ): Promise<{ expenseId: string }>;
   getFinancialMaintenanceState(asOfDate: string): Promise<FinancialMaintenanceState>;
   getFinancialMaintenanceRequirement(
     patch: FinancialMaintenancePatch,
