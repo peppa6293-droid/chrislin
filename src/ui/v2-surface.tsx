@@ -1,4 +1,5 @@
 import { useState } from "react";
+import type { HomeApplicationState } from "../application/product-service.js";
 import type { V2ExpenseService } from "../application/v2-expense-service.js";
 import type { V2ImportService } from "../application/v2-import-service.js";
 import type { Repositories } from "../persistence/repositories.js";
@@ -21,11 +22,13 @@ const TABS = [
 export function V2Surface({
   expenseService,
   importService,
+  loadHomeState,
   repositories,
   profileId,
 }: {
   expenseService: V2ExpenseService;
   importService: V2ImportService;
+  loadHomeState: (asOfDate: string) => Promise<HomeApplicationState>;
   repositories: Repositories;
   profileId: string;
 }) {
@@ -87,7 +90,11 @@ export function V2Surface({
           />
         ) : null}
         {tab === "progress" ? (
-          <V2Progress expenseService={expenseService} profileId={profileId} />
+          <V2Progress
+            expenseService={expenseService}
+            loadHomeState={loadHomeState}
+            profileId={profileId}
+          />
         ) : null}
         {tab === "mine" ? (
           <V2Import

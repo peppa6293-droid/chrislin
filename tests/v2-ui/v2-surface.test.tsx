@@ -2,6 +2,7 @@
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import type { HomeApplicationState } from "../../src/application/product-service.js";
 import type { V2ExpenseService } from "../../src/application/v2-expense-service.js";
 import type { V2ImportService } from "../../src/application/v2-import-service.js";
 import type { Repositories } from "../../src/persistence/repositories.js";
@@ -14,6 +15,71 @@ const repositories = {
 } as unknown as Repositories;
 
 const importService = {} as unknown as V2ImportService;
+const minimalHome: HomeApplicationState = {
+  status: "READY",
+  asOfDate: "2026-10-20",
+  currentMonth: "2026-10",
+  profileDisplayName: null,
+  actualIncomeRecordCount: 0,
+  currentCash: "5000",
+  currentMonthSpending: "0",
+  totalDebt: "2000",
+  liquidAssets: "1000",
+  desiredMonthlyDiscretionarySpending: "2000",
+  planningIncome: "10000",
+  essentialExpenses: "1500",
+  mandatoryDebtService: "500",
+  monthlyCoreObligations: "2000",
+  baseSurplus: "8000",
+  eligibleCash: "5000",
+  eligibleLiquidInvestmentAssets: "1000",
+  safetyResources: "6000",
+  safetyTargetResources: "6000",
+  safetyCoverageMonths: "3",
+  safetyCoverageStatus: "NORMAL",
+  safetyCoverageTargetMonths: 3,
+  recommendedMonthlySpending: "2000",
+  remainingSpendingCapacity: "8000",
+  amountAboveRecommendation: "0",
+  cashCoverageMonths: "5",
+  minimumCashCoverageMonths: 1,
+  safetyGap: "0",
+  debts: [
+    {
+      id: "debt-1",
+      name: "Loan",
+      currentBalance: "2000",
+      currentMonthDue: "500",
+      fixedMonthlyPayment: "500",
+      countedMonthlyPayment: "500",
+      paymentSource: "CURRENT_MONTH_DUE",
+    },
+  ],
+  spendingStatus: "NORMAL",
+  cashSafetyGateStatus: "CLEAR",
+  cashFloorMet: true,
+  consumptionUtilization: { status: "CALCULATED", value: "0" },
+  trendState: "BASELINE_BUILDING",
+  trendDimensions: {
+    LIQUIDITY_SAFETY: {
+      direction: "NO_BASELINE",
+      reason: "Prior cash or core-obligation baseline is missing.",
+    },
+    DEBT: { direction: "NO_BASELINE", reason: "Prior valid debt balance is missing." },
+    CONSUMPTION: {
+      direction: "NO_BASELINE",
+      reason: "Prior same-period variable spending is missing.",
+    },
+    WEALTH: {
+      direction: "NO_BASELINE",
+      reason: "Prior liquid-investable-asset snapshot is missing.",
+    },
+  },
+  primaryImprovement: null,
+  primaryDrag: null,
+  priorityAction: { action_code: "NO_ACTION", reason: "No clear issue." },
+};
+const loadHomeState = vi.fn().mockResolvedValue(minimalHome);
 const expenseService = {
   recordCashDebitExpense: vi.fn(),
   getMonthSummary: vi.fn().mockResolvedValue({ dailyExpenseTotal: "0.00", billStatuses: [] }),
@@ -24,6 +90,7 @@ function renderSurface() {
     <V2Surface
       expenseService={expenseService}
       importService={importService}
+      loadHomeState={loadHomeState}
       repositories={repositories}
       profileId="profile-v2"
     />,
@@ -90,6 +157,16 @@ describe("EXEC-U-02 isolated V2 navigation surface", () => {
     await user.click(screen.getByRole("button", { name: "进展" }));
     expect(await screen.findByText("看清消费")).toBeTruthy();
     expect(screen.getByText("本月已花 ¥0.00")).toBeTruthy();
-    expect(screen.getAllByText("即将开放")).toHaveLength(3);
+    await screen.findByText("稳住现金");
+    expect(screen.getByText(`现金 ¥${minimalHome.currentCash}`)).toBeTruthy();
+    await screen.findByText("理清责任");
+    expect(screen.getByText(`总债务 ¥${minimalHome.totalDebt}`)).toBeTruthy();
+    await screen.findByText("建立余地");
+    expect(
+      screen.getByText(
+        `安全垫 ¥${minimalHome.safetyResources} / 目标 ¥${minimalHome.safetyTargetResources}`,
+      ),
+    ).toBeTruthy();
+    expect(screen.queryByText("即将开放")).toBeNull();
   });
 });

@@ -11,10 +11,6 @@
   padding: 20px;
 }
 
-.v2-progress__node--placeholder {
-  background: #f5f5f2;
-}
-
 .v2-progress__node-title {
   font-size: 16px;
   font-weight: 600;
@@ -30,6 +26,12 @@
 .v2-progress__muted,
 .v2-progress__placeholder {
   color: var(--v2-muted);
+  font-size: 13px;
+  margin: 0;
+}
+
+.v2-progress__status {
+  color: var(--v2-teal-dark);
   font-size: 13px;
   margin: 0;
 }
