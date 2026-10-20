@@ -129,6 +129,75 @@ describe("EXEC-I-04 official CSV import write, readback, and feedback", () => {
     expect(result.auditEvents).toContain("batch committed: written=2 skipped=0 error=0");
   });
 
+  it("mirrors every written cash expense into the V1 ledger with identical id and amount", async () => {
+    const candidates = confirmedAlipayCandidates("batch-mirror");
+    const result = await service.writeConfirmedImport({
+      importBatchId: "batch-mirror",
+      profileId: "profile-v2",
+      provider: "ALIPAY_CSV",
+      sourceFileContent: alipayContent,
+      candidates,
+    });
+    expect(result.writtenRows).toBe(2);
+
+    const mirrorRows = await db.select<{
+      id: string;
+      amount: string;
+      kind: string;
+      category: string;
+      business_date: string;
+    }>(
+      "SELECT id,amount,kind,category,business_date FROM expense_records WHERE profile_id=? ORDER BY business_date,id",
+      ["profile-v2"],
+    );
+    expect(mirrorRows).toHaveLength(result.writtenRows);
+    const expenses = await repositories.listV2Expenses("profile-v2", "2026-10");
+    expect(mirrorRows).toEqual(
+      expenses.map((expense) => ({
+        id: expense.id,
+        amount: expense.amount,
+        kind: "VARIABLE",
+        category: "OTHER_VARIABLE",
+        business_date: expense.occurredOn,
+      })),
+    );
+  });
+
+  it("does not grow the ledger mirror when a repeated import is fully deduplicated", async () => {
+    const firstCandidates = confirmedAlipayCandidates("batch-mirror-first");
+    const first = await service.writeConfirmedImport({
+      importBatchId: "batch-mirror-first",
+      profileId: "profile-v2",
+      provider: "ALIPAY_CSV",
+      sourceFileContent: alipayContent,
+      candidates: firstCandidates,
+    });
+    expect(first.writtenRows).toBe(2);
+    const mirrorsAfterFirst = await db.select(
+      "SELECT COUNT(*) AS count FROM expense_records WHERE profile_id=?",
+      ["profile-v2"],
+    );
+    expect(mirrorsAfterFirst).toEqual([{ count: 2 }]);
+
+    const secondCandidates = confirmedAlipayCandidates("batch-mirror-second").map((candidate) => ({
+      ...candidate,
+      importBatchId: "batch-mirror-second",
+    }));
+    const second = await service.writeConfirmedImport({
+      importBatchId: "batch-mirror-second",
+      profileId: "profile-v2",
+      provider: "ALIPAY_CSV",
+      sourceFileContent: alipayContent,
+      candidates: secondCandidates,
+    });
+    expect(second.writtenRows).toBe(0);
+    expect(
+      await db.select("SELECT COUNT(*) AS count FROM expense_records WHERE profile_id=?", [
+        "profile-v2",
+      ]),
+    ).toEqual(mirrorsAfterFirst);
+  });
+
   it("rolls back the whole batch when a second expense insert fails", async () => {
     const candidates = confirmedAlipayCandidates("batch-rollback");
     class ForcedSecondInsertFailureDatabase extends NodeSqliteDatabase {

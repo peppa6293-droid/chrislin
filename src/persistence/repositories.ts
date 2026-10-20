@@ -1605,6 +1605,36 @@ export class Repositories {
     );
   }
 
+  async createV2ExpenseWithLegacyMirror(
+    expense: Omit<CashDebitExpense, "kind"> & { kind: "CASH_DEBIT" },
+    legacy: {
+      amount: string;
+      occurredAt: string;
+      businessDate: string;
+      note: string | null;
+      createdAt: string;
+    },
+  ): Promise<void> {
+    await this.db.transaction(async (transactionDb) => {
+      await new Repositories(transactionDb).createV2Expense(expense, legacy.createdAt);
+      await transactionDb.execute(
+        `INSERT INTO expense_records(id,profile_id,amount,occurred_at,kind,category,note,created_at,business_date)
+         VALUES(?,?,?,?,?,?,?,?,?)`,
+        [
+          expense.id,
+          expense.profileId,
+          requireStoredUserInputMoney(legacy.amount),
+          legacy.occurredAt,
+          "VARIABLE",
+          "OTHER_VARIABLE",
+          legacy.note,
+          legacy.createdAt,
+          legacy.businessDate,
+        ],
+      );
+    });
+  }
+
   private mapV2Expense(
     row: Row,
   ): CashDebitExpense | CreditOneTimeExpense | CreditInstallmentExpense {
@@ -1772,6 +1802,21 @@ export class Repositories {
               batch.createdAt,
               batch.id,
               row.dedupeKey,
+            ],
+          );
+          await transactionDb.execute(
+            `INSERT INTO expense_records(id,profile_id,amount,occurred_at,kind,category,note,created_at,business_date)
+             VALUES(?,?,?,?,?,?,?,?,?)`,
+            [
+              expense.id,
+              expense.profileId,
+              requireStoredUserInputMoney(expense.amount),
+              `${expense.occurredOn}T00:00:00.000Z`,
+              "VARIABLE",
+              "OTHER_VARIABLE",
+              expense.description === "" ? null : expense.description,
+              batch.createdAt,
+              expense.occurredOn,
             ],
           );
           continue;

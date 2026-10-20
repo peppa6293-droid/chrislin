@@ -138,7 +138,14 @@ export class V2ExpenseService {
       accountId: draft.accountId,
     });
     const reconciliation = reconcileCashDebitExpense(expense);
-    await this.repositories.createV2Expense(expense);
+    const createdAt = new Date().toISOString();
+    await this.repositories.createV2ExpenseWithLegacyMirror(expense, {
+      amount: expense.amount,
+      occurredAt: `${expense.occurredOn}T00:00:00.000Z`,
+      businessDate: expense.occurredOn,
+      note: expense.description === "" ? null : expense.description,
+      createdAt,
+    });
     const stored = await this.repositories.getV2ExpenseById(expense.id);
     if (stored?.kind !== "CASH_DEBIT") {
       throw new ApplicationDataError(
@@ -147,6 +154,17 @@ export class V2ExpenseService {
       );
     }
     this.assertReadback(stored, expense);
+    const legacy = await this.repositories.expenseById(expense.id);
+    if (
+      !legacy ||
+      String(legacy.amount) !== expense.amount ||
+      legacy.businessDate !== expense.occurredOn
+    ) {
+      throw new ApplicationDataError(
+        "EXPENSE_READBACK_FAILED",
+        "Cash debit legacy ledger mirror readback did not match.",
+      );
+    }
     return { expense: stored, reconciliation };
   }
 
