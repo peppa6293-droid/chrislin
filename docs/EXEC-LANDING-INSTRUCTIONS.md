@@ -1,9 +1,9 @@
-# EXEC-LANDING 执行指令（App 落地：V2 记账接入真实服务 + 独立 macOS 候选包）
+# EXEC-LANDING 执行指令（App 落地：V2 记账接入真实服务 + 独立 macOS 候选包 + 清理）
 
 **角色：** 执行者
 **基线：** build-37（D-01 双写）验收后的 HEAD `fee274d`；全量 393 passed / 80 skipped / 0 failed；`npm run lint`、`npm run typecheck`、`npm run build` 均为有效门槛
 **日期：** 2026-10-20
-**修订：** v1
+**修订：** v2（用户已批准：L-03 原生构建、smoke 候选包显示名改「小钱家」、图标不得为空；并新增 L-04 清理批）
 
 ---
 
@@ -14,11 +14,13 @@
 2. **记账 → 财务结果真实同步**（记一笔后，首页/月度模型的变动支出随之变化，走 D-01 双写链路，不是界面假汇总）；
 3. **退出重开数据仍在**（同一数据库文件第二次启动仍可见）；
 4. **截图/录屏/测试证据**；
-5. **剩余问题清单**。
+5. **剩余问题清单**；
+6. **App 图标不得为空**（v2 新增）；
+7. **落地后删除本机无用测试 App 与测试残留**（v2 新增，见第四节 L-04）。
 
 总原则：**候选包 = smoke 身份隔离包**。Production 身份（`com.personalfinance.console`）、已安装的 `/Applications/Personal Finance Console.app`、用户真实数据库（`~/Library/Application Support/com.personalfinance.console/`）**只读不碰**。本指令全部产出落在 `com.personalfinance.console.smoke` 身份与其隔离数据目录内（`ensure_smoke_data_dir_isolated` 已在 Rust 侧强制，`src-tauri/src/lib.rs:814`）。
 
-三个批次按顺序执行、逐批提交、逐批回执；**每批未验收前不得开始下一批**。
+四个批次按顺序执行、逐批提交、逐批回执；**每批未验收前不得开始下一批**。L-03/L-04 涉及原生构建与本机删除，**用户已于 2026-10-20 显式批准本指令 v2 全文**；执行时仍须逐条跑第五节的删除前校验门，任一事实不符即跳过该项并写入回执，不得猜测删除。
 
 ---
 
@@ -28,12 +30,13 @@
 |---|---|---|
 | 生产入口已挂载 V2 界面 | `src/main.tsx` → `src/ui/App.tsx` → `HomeScreen.tsx:284` 渲染 `V2HomeSurface` | 界面层不需要"接入"，需要的是换掉它背后的数据链路 |
 | 快速记账当前走 V1 直写 | `V2HomeSurface.onRecordExpense` → `App.tsx recordExpense` → `services.recordExpenseAndRecalculate`（`product-service.ts` 直写 `expense_records`） | 记账不经过 `expenses` 表、不经过 D-01 双写；"记账成功但任务推荐/财务结果不变"的旧病在生产路径上仍然存在 |
-| V2 服务没有进入组合根 | `src/runtime/tauri-bootstrap.ts` 的 `TauriProductServices` 只含 V1 函数；数据库对 UI 保密（"The database stays private to this composition root"） | V2 能力必须以 services 方法形式暴露，**禁止把 `Repositories`/`V2ExpenseService` 实例或数据库传给任何 `src/ui/` 组件** |
+| V2 服务没有进入组合根 | `src/runtime/tauri-bootstrap.ts` 的 `TauriProductServices` 只含 V1 函数；数据库对 UI 保密（"The database stays private to this composition root"） | V2 能力必须以 services 方法形式暴露，**禁止把 `Repositories`/`V2*Service` 实例或数据库传给任何 `src/ui/` 组件** |
 | Onboarding 不播种 V2 账户/分类 | `product-service.ts completeOnboarding`（:258）只建 profile/settings/essential/cash_accounts(V1) 等；`accounts`、`expense_categories` 表为空 | V2 记账需要 `account_id`/`category_id` 外键，落地时必须幂等播种默认数据（见第二节契约） |
 | 双写已就绪 | `v2-expense-service.ts recordCashDebitExpense` → `createV2ExpenseWithLegacyMirror`；`writeImportBatchAtomically` 同事务镜像 | 只要生产记账改走 `recordCashDebitExpense`，V1 模型自动联动，**不得再为"同步"写任何新代码** |
 | 导入组件已存在但未接生产 | `src/ui/v2-import.tsx` / `v2-surface.tsx` 直接持有 `V2ImportService` 实例 | L-02 要把它改造成 services 回调形式并挂载 |
 | smoke 运行时允许 TS 迁移 | `lib.rs`：`migration_permitted=false` 仅对 production 生效；`begin_schema_migration` 对非 production 直接 `Ok(())` | smoke 包首次启动可由 `migrateDatabase` 建到 schema V7，无需 Rust 改动 |
 | Production 运行时拒绝 TS 迁移 | `lib.rs`：`QUIESCENCE_IMPLEMENTATION_NOT_PRODUCTION_AUTHORIZED` | 本指令永远不启动 production 身份；`tauri:dev`/`tauri:build`（默认 conf 是 production identifier）**禁止运行** |
+| 图标非空（2026-10-20 已验） | `src-tauri/icons/icon.icns`（43431 B）/ `icon.png` 为绿色钱包图形，非空白 | smoke 构建继承基础 conf 的 bundle 图标；L-03 仍须对产物做图标校验（4.3） |
 | 兼容性清单尚未覆盖 schema 7 | `src-tauri/runtime-compatibility.json` `maxSupportedSchemaVersion: 4` | 仅影响未来 production 切换，**本批不改**；列入剩余问题清单 |
 
 ---
@@ -81,7 +84,7 @@
 recordV2CashExpense(submission: ExpenseSubmission, asOfDate: string): Promise<{ expenseId: string }>
 ```
 
-- 组合根实现：构造 V2 draft（`kind: "CASH_DEBIT"`，`accountId` = 播种的默认现金账户，`categoryId` = 2.3 映射，`occurredOn = submission.businessDate`，`description = submission.note ?? ""`，`currency: "CNY"`，id 用 `submission.id ?? crypto.randomUUID()`）→ `V2ExpenseService.recordCashDebitExpense`。**不得绕过服务直接调仓储。**
+- 组合根实现：构造 V2 draft（`kind: "CASH_DEBIT"`，`accountId` = 播种的默认现金账户，`categoryId` = 2.2 映射，`occurredOn = submission.businessDate`，`description = submission.note ?? ""`，`currency: "CNY"`，id 用 `submission.id ?? crypto.randomUUID()`）→ `V2ExpenseService.recordCashDebitExpense`。**不得绕过服务直接调仓储。**
 - `App.tsx recordExpense`：改为先调 `recordV2CashExpense`，随后沿用现有 `getExpenseRecordById`（镜像行共用 id，`expenseById` 可读回）做回读比对与 `RESOLVED/REJECTED + UNCONFIRMED` 判定——现有判定逻辑逐行保留，只替换写入调用。`services.recordExpenseAndRecalculate` 保留在契约上（维护对话框等既有调用方不动）。
 
 ### 2.4 测试要求（`tests/v2-ledger/landing-services.test.ts`，最少 4 例）
@@ -146,19 +149,22 @@ npm run build
 
 ---
 
-## 四、L-03（build-40）：smoke 候选包构建与真机验收证据
+## 四、L-03（build-40/41）：smoke 候选包构建与真机验收证据
 
-**⚠️ 本批涉及原生构建与原生配置，执行前必须由用户显式批准本指令第四节；未获批准不得运行任何 `tauri:build*` 命令。**
+**用户已于 2026-10-20 批准本节（含改名与图标要求）。**
 
-### 4.1 构建
+### 4.1 改名与构建
+
+1. **先删旧 production 身份 dmg**（避免与新产物同名混淆）：`rm -f src-tauri/target/release/bundle/dmg/小钱家_0.1.0_aarch64.dmg`。删除前确认该文件存在且路径完全一致；不存在则跳过并记录。
+2. 改 `src-tauri/tauri.smoke.conf.json`：`productName` 与窗口 `title` 两处改为「小钱家」（**identifier 保持 `com.personalfinance.console.smoke` 不动**）。单独提交：`build-40: landing — smoke candidate display name 小钱家`。
+3. 构建：
 
 ```bash
 npm run tauri:build:smoke
 ```
 
-- 身份 `com.personalfinance.console.smoke`、数据目录与 production 隔离（Rust 既有保证），**不安装进 /Applications**——产物留在 `src-tauri/target/.../bundle/` 下，把绝对路径写进回执。
-- **禁止改动 `src-tauri/` 下任何文件**。若构建失败且原因在 Rust/配置，停下，把错误原文进回执，等待批准；不得自行修。
-- 若用户批准把候选包窗口标题/产品名显示为「小钱家」（当前 smoke conf 为 "Personal Finance Console Smoke"），仅允许改 `src-tauri/tauri.smoke.conf.json` 的 `productName` 与窗口 `title` 两处，单独提交：`build-40: landing — rename smoke candidate display name`。未获批准则保持原名并列入剩余问题清单。
+- 身份 `com.personalfinance.console.smoke`、数据目录与 production 隔离（Rust 既有保证），**不安装进 /Applications**——产物留在 `src-tauri/target/release/bundle/` 下，把绝对路径写进回执。
+- **除 4.1-2 的两处外禁止改动 `src-tauri/` 下任何文件**。若构建失败且原因在 Rust/配置，停下，把错误原文进回执，等待指示；不得自行修。
 
 ### 4.2 候选包手工验收脚本（逐步做并留证据）
 
@@ -167,41 +173,63 @@ npm run tauri:build:smoke
 3. 正常退出（⌘Q）→ 重新打开同一候选包 → 截图：该笔记录与该笔带来的财务结果仍在。
 4. 导入一份小夹具 CSV（可从 `tests` 夹具复制）→ 截图导入结果 → 退出重开 → 截图导入行仍在。
 5. 只读检查数据目录（**只读，不复制、不修改**）：`ls -l ~/Library/Application\ Support/com.personalfinance.console.smoke/`，记录 `personal-finance-console.sqlite3` 存在与大小；用 `shasum -a 256` 记录两次启动间该文件哈希变化（记账后应变化，属预期）。
-6. 汇总剩余问题清单（含：`runtime-compatibility.json maxSupportedSchemaVersion=4` 未覆盖 schema 7；V2 编辑/删除无镜像同步；V2 自由分类在 V1 侧无细分语义；smoke 产品名显示问题——若未改）。
+6. **图标校验（用户红线：不得为空）**：
+   - 构建产物 `小钱家.app/Contents/Resources/` 下存在非零字节 `.icns`；
+   - 打开候选包后截一张含 **Dock 图标或 Finder 中该 .app 图标** 的截图，目视确认为绿色钱包图形而非空白/通用白板图标；
+   - 任一不满足 → RETURN，不得交付。
+7. 汇总剩余问题清单（含：`runtime-compatibility.json maxSupportedSchemaVersion=4` 未覆盖 schema 7；V2 编辑/删除无镜像同步；V2 自由分类在 V1 侧无细分语义）。
 
 截图/录屏存到 `evidence/landing-smoke-20261020/`（新目录），随提交一并入库。
 
 ### 4.3 L-03 提交
 
-`git add` 显式路径添加 `evidence/landing-smoke-20261020/`（及 4.1 允许的 smoke conf 改动，若有）。提交信息：`build-40: landing — smoke candidate package evidence`。
+`git add` 显式路径添加 `evidence/landing-smoke-20261020/`。提交信息：`build-41: landing — smoke candidate package evidence`。
 
 ---
 
-## 五、红线（违反即 RETURN）
+## 五、L-04：清理本机无用测试 App 与测试残留（无代码提交）
+
+**用户已于 2026-10-20 批准本批。** 前置：L-03 验收通过后才执行。每项删除前跑校验门；**任一事实不符 → 跳过该项并在回执说明，禁止猜测删除**。删除一律 `rm -rf` 精确路径，禁止通配符扩散。
+
+| # | 目标 | 删除前校验门 |
+|---|---|---|
+| 1 | `/Applications/小钱家.app` | `CFBundleIdentifier == com.personalfinance.console` 且 realpath **不等于** `/Applications/Personal Finance Console.app`（production 运行时只允许从后者启动，故此副本永远无法启动，属死副本）；且 `pgrep -f` 确认未在运行。满足才删 |
+| 2 | `artifacts/wp03-isolated-product-preview-20261012/`（整目录，含 19 个「小钱家 WP-03 测试版.app」与 cargo 产物） | 先 `git check-ignore -q artifacts/wp03-isolated-product-preview-20261012`：**已被忽略才删**；若被 git 跟踪 → 不删，RETURN 请示 |
+| 3 | `~/Library/Application Support/` 下九个旧测试身份数据目录：`com.personalfinance.console.build21candidate`、`com.personalfinance.console.build21candidatev2`、`com.personalfinance.console.phase3devsmoke`、`com.personalfinance.console.phase3smoke`、`com.personalfinance.console.trialv3`、`com.personalfinance.console.v4acceptance`、`com.personalfinance.console.wp02preview`、`com.personalfinance.console.wp03preview`、`org.pfc.quiescence.integration` | 目录名与清单逐字一致；且不是符号链接（`[ -L "$d" ]` 为假）。逐个删 |
+| 4 | 回收站/桌面/下载里的本项目测试包 | **不清**：`~/Desktop/v251_page_acceptance.zip`、`~/Downloads/XiaoQianJia_HighModel_Handoff_*.zip` 等不在授权范围，原样保留 |
+
+**永远不删（红线）：** `/Applications/Personal Finance Console.app`；`~/Library/Application Support/com.personalfinance.console`（用户真实数据）；`~/Library/Application Support/com.personalfinance.console.smoke`（新候选包数据主场）；仓库内任何被 git 跟踪的文件。
+
+回执附：删除前后 `/Applications` 与 `~/Library/Application Support/` 的 `ls -la` 对比、被删 artifacts 目录的 `du -sh` 原值。
+
+---
+
+## 六、红线（违反即 RETURN）
 
 1. 禁止启动/构建/修改 production 身份：不运行 `npm run tauri:dev`、`npm run tauri:build`（不带 `:smoke` 后缀的），不改 `tauri.conf.json`，不触碰 `/Applications/Personal Finance Console.app` 与 `~/Library/Application Support/com.personalfinance.console/`。
-2. 禁止任何 schema 变更（`migrations.ts` 不动）；禁止改 `runtime-compatibility.json`。
+2. 禁止任何 schema 变更（`migrations.ts` 不动）；禁止改 `runtime-compatibility.json`；除 4.1-2 两处外禁止改 `src-tauri/`。
 3. 记账链路必须经过 `recordCashDebitExpense` / `writeConfirmedImport`（D-01 双写）；禁止为"让首页数字变化"直写 `expense_records` 或在界面层拼汇总。
 4. 禁止把数据库、`Repositories`、`V2*Service` 实例传入 `src/ui/` 组件；UI 只经 `contracts.ts` 声明的 services 方法。
 5. 禁止安装新依赖、禁止网络请求（`tauri build` 仅允许拉取本地已缓存的 crates；若需联网，停下请示）。
 6. 测试命令必须带 `env NODE_ENV=test`。
 7. 禁止提交未跟踪文件 `.claude/`、`pelican-bike.html`、`pelican-cycling.html`；禁止 `git add -A`。
 8. V1 冻结层（`src/model/`、`monthly-model-service.ts` 等）与 `src/persistence/` 的读取/既有写入路径一字不动。
-9. L-03 未获用户明确批准前，不得执行第四节任何命令。
+9. L-04 只删第五节清单内且通过校验门的目标；清单外一律不删。
 
 ---
 
-## 六、回执格式（每批一份）
+## 七、回执格式（每批一份）
 
 ```
-LANDING L-0X（build-38/39/40）执行回执
+LANDING L-0X（build-38/39/40/41）执行回执
 
 1. 专项测试结果：<文件> X passed, Y failed
 2. 全量测试结果：A passed, B failed, C skipped（基线 393/0/80）
 3. TypeCheck：N errors；Lint：N problems；Build：success/failure
 4. 本批关键决策说明（播种取值/挂载点/映射表等，照对应小节）
-5. （L-03）候选包产物绝对路径、数据目录只读检查结果、两次启动哈希、证据目录清单
+5. （L-03）候选包产物绝对路径、图标校验结果（icns 字节数 + Dock 截图文件名）、数据目录只读检查结果、两次启动哈希、证据目录清单
 6. （L-03）剩余问题清单
-7. HEAD：commit-hash
-8. git status --short 输出
+7. （L-04）逐项删除结果（已删/跳过+原因）、前后 ls 对比、artifacts du -sh 原值
+8. HEAD：commit-hash
+9. git status --short 输出
 ```
