@@ -15,10 +15,10 @@ describe("Smoke application identity", () => {
   const production = readConfig("../src-tauri/tauri.conf.json");
   const smoke = readConfig("../src-tauri/tauri.smoke.conf.json");
 
-  it("uses a distinct bundle identifier, product name, and window title", () => {
+  it("isolates the smoke bundle identifier and pins the 小钱家 display name", () => {
     expect(smoke.identifier).not.toBe(production.identifier);
-    expect(smoke.productName).not.toBe(production.productName);
-    expect(smoke.app.windows[0]?.title).not.toBe(production.app.windows[0]?.title);
+    expect(smoke.productName).toBe("小钱家");
+    expect(smoke.app.windows[0]?.title).toBe("小钱家");
   });
 
   it("resolves to a separate macOS application-data directory", () => {
