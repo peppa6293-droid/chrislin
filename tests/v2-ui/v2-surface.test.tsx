@@ -3,6 +3,7 @@ import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { V2ExpenseService } from "../../src/application/v2-expense-service.js";
+import type { V2ImportService } from "../../src/application/v2-import-service.js";
 import type { Repositories } from "../../src/persistence/repositories.js";
 import { V2Surface } from "../../src/ui/v2-surface.js";
 
@@ -12,6 +13,7 @@ const repositories = {
   listV2Expenses: vi.fn().mockResolvedValue([]),
 } as unknown as Repositories;
 
+const importService = {} as unknown as V2ImportService;
 const expenseService = {
   recordCashDebitExpense: vi.fn(),
   getMonthSummary: vi.fn().mockResolvedValue({ dailyExpenseTotal: "0.00", billStatuses: [] }),
@@ -21,6 +23,7 @@ function renderSurface() {
   return render(
     <V2Surface
       expenseService={expenseService}
+      importService={importService}
       repositories={repositories}
       profileId="profile-v2"
     />,
@@ -54,11 +57,12 @@ describe("EXEC-U-02 isolated V2 navigation surface", () => {
     expect(screen.queryByText("这个月")).toBeNull();
   });
 
-  it("shows the import placeholder on Mine", async () => {
+  it("shows the import entry on Mine", async () => {
     const user = userEvent.setup();
     renderSurface();
     await user.click(screen.getByRole("button", { name: "我的" }));
-    expect(await screen.findByText("导入功能即将开放")).toBeTruthy();
+    expect(await screen.findByLabelText("选择 CSV 文件")).toBeTruthy();
+    expect(screen.queryByText("导入功能即将开放")).toBeNull();
     expect(screen.queryByText("这个月")).toBeNull();
   });
 

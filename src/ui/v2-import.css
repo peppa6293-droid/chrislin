@@ -1,0 +1,77 @@
+.v2-import {
+  display: grid;
+  gap: 12px;
+}
+
+.v2-import__title {
+  margin: 0;
+}
+
+.v2-import__field {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.v2-import__field span,
+.v2-import__field legend {
+  color: var(--v2-muted);
+  font-size: 13px;
+}
+
+.v2-import__summary,
+.v2-import__amount {
+  font-variant-numeric: tabular-nums;
+  margin: 0;
+}
+
+.v2-import__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.v2-import__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--v2-line);
+  padding: 8px 0;
+}
+
+.v2-import__row:last-child {
+  border-bottom: none;
+}
+
+.v2-import__hint {
+  color: var(--v2-muted);
+  margin: 0;
+}
+
+.v2-import__confirm {
+  border: none;
+  border-radius: var(--v2-radius);
+  background: var(--v2-teal);
+  color: white;
+  padding: 8px 16px;
+  font-weight: 600;
+}
+
+.v2-import__confirm:disabled {
+  background: var(--v2-line);
+  color: var(--v2-muted);
+}
+
+.v2-import__error {
+  color: var(--v2-danger);
+  margin: 0;
+}
+
+.v2-import__result {
+  color: var(--v2-teal-dark);
+  margin: 0;
+}

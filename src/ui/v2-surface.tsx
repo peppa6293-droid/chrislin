@@ -1,8 +1,10 @@
 import { useState } from "react";
 import type { V2ExpenseService } from "../application/v2-expense-service.js";
+import type { V2ImportService } from "../application/v2-import-service.js";
 import type { Repositories } from "../persistence/repositories.js";
-import { V2QuickEntry } from "./v2-quick-entry.js";
+import { V2Import } from "./v2-import.js";
 import { V2Progress } from "./v2-progress.js";
+import { V2QuickEntry } from "./v2-quick-entry.js";
 import { V2Today } from "./v2-today.js";
 import { V2TodayTask } from "./v2-today-task.js";
 import "./v2-surface.css";
@@ -18,10 +20,12 @@ const TABS = [
 
 export function V2Surface({
   expenseService,
+  importService,
   repositories,
   profileId,
 }: {
   expenseService: V2ExpenseService;
+  importService: V2ImportService;
   repositories: Repositories;
   profileId: string;
 }) {
@@ -82,8 +86,16 @@ export function V2Surface({
             focusSignal={focusSignal}
           />
         ) : null}
-        {tab === "progress" ? <V2Progress expenseService={expenseService} profileId={profileId} /> : null}
-        {tab === "mine" ? <p>导入功能即将开放</p> : null}
+        {tab === "progress" ? (
+          <V2Progress expenseService={expenseService} profileId={profileId} />
+        ) : null}
+        {tab === "mine" ? (
+          <V2Import
+            importService={importService}
+            repositories={repositories}
+            profileId={profileId}
+          />
+        ) : null}
       </main>
     </div>
   );
