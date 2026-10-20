@@ -2,8 +2,8 @@ import { useState } from "react";
 import type { FinancialMaintenanceState } from "../application/financial-maintenance-service.js";
 import type { HomeApplicationState } from "../application/product-service.js";
 import type { V2ExpenseService } from "../application/v2-expense-service.js";
-import type { V2ImportService } from "../application/v2-import-service.js";
 import type { Repositories } from "../persistence/repositories.js";
+import type { V2ImportContext, V2ImportWriteInput, V2ImportWriteResult } from "./contracts.js";
 import { V2Import } from "./v2-import.js";
 import { V2Progress } from "./v2-progress.js";
 import { V2QuickEntry } from "./v2-quick-entry.js";
@@ -22,16 +22,18 @@ const TABS = [
 
 export function V2Surface({
   expenseService,
-  importService,
   loadHomeState,
+  loadImportContext,
   loadMaintenanceState,
+  writeImport,
   repositories,
   profileId,
 }: {
   expenseService: V2ExpenseService;
-  importService: V2ImportService;
   loadHomeState: (asOfDate: string) => Promise<HomeApplicationState>;
+  loadImportContext: () => Promise<V2ImportContext>;
   loadMaintenanceState: (asOfDate: string) => Promise<FinancialMaintenanceState>;
+  writeImport: (input: V2ImportWriteInput) => Promise<V2ImportWriteResult>;
   repositories: Repositories;
   profileId: string;
 }) {
@@ -106,11 +108,7 @@ export function V2Surface({
           />
         ) : null}
         {tab === "mine" ? (
-          <V2Import
-            importService={importService}
-            repositories={repositories}
-            profileId={profileId}
-          />
+          <V2Import loadImportContext={loadImportContext} writeImport={writeImport} />
         ) : null}
       </main>
     </div>

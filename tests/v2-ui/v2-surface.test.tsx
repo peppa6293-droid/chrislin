@@ -5,8 +5,12 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import type { FinancialMaintenanceState } from "../../src/application/financial-maintenance-service.js";
 import type { HomeApplicationState } from "../../src/application/product-service.js";
 import type { V2ExpenseService } from "../../src/application/v2-expense-service.js";
-import type { V2ImportService } from "../../src/application/v2-import-service.js";
 import type { Repositories } from "../../src/persistence/repositories.js";
+import type {
+  V2ImportContext,
+  V2ImportWriteInput,
+  V2ImportWriteResult,
+} from "../../src/ui/contracts.js";
 import { V2Surface } from "../../src/ui/v2-surface.js";
 
 const repositories = {
@@ -15,7 +19,12 @@ const repositories = {
   listV2Expenses: vi.fn().mockResolvedValue([]),
 } as unknown as Repositories;
 
-const importService = {} as unknown as V2ImportService;
+const loadImportContext = vi
+  .fn<() => Promise<V2ImportContext>>()
+  .mockResolvedValue({ categories: [], accounts: [], dedupeKeys: [] });
+const writeImport = vi
+  .fn<(input: V2ImportWriteInput) => Promise<V2ImportWriteResult>>()
+  .mockResolvedValue({ writtenRows: 0, skippedRows: 0, errorRows: 0 });
 const minimalHome: HomeApplicationState = {
   status: "READY",
   asOfDate: "2026-10-20",
@@ -107,9 +116,10 @@ function renderSurface() {
   return render(
     <V2Surface
       expenseService={expenseService}
-      importService={importService}
       loadHomeState={loadHomeState}
+      loadImportContext={loadImportContext}
       loadMaintenanceState={loadMaintenanceState}
+      writeImport={writeImport}
       repositories={repositories}
       profileId="profile-v2"
     />,

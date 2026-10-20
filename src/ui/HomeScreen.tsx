@@ -9,6 +9,7 @@ import type { ExpenseSubmission, HomeApplicationState } from "../application/pro
 import type { V4FinancialReadState } from "../application/v4-foundation-service.js";
 import { formatMoneyExact, money } from "../model/money.js";
 import type { PlanningIncomeMonthDecision } from "../persistence/repositories.js";
+import { getTauriProductServices } from "../runtime/tauri-bootstrap.js";
 import { FinancialMaintenanceDialog } from "./FinancialMaintenanceDialog.js";
 import { MoneyAmount } from "./MoneyAmount.js";
 import { MyFinancePages, type MyFinanceRoute } from "./MyFinancePages.js";
@@ -18,6 +19,7 @@ import {
   type SurfaceTab,
   V2HomeSurface,
 } from "./V2HomeSurface.js";
+import { V2Import } from "./v2-import.js";
 
 type HomeDetailRoute = "SPENDING_DETAIL" | "CASHFLOW_DETAIL" | "SAFETY_DETAIL" | "DEBT_DETAIL";
 type HomeRoute = "HOME" | "RECORD" | "PROGRESS" | HomeDetailRoute | MyFinanceRoute;
@@ -55,6 +57,9 @@ const variableCategoryLabels: Record<string, string> = {
   OTHER_VARIABLE: "其他",
 };
 const variableCategoryColors = ["#e87862", "#6f88dc", "#9a83d2", "#e1ad43", "#4fae91", "#89939c"];
+// The CSV import page talks to the composition root through the stable services
+// object, keeping this component free of any database or repository handle.
+const importServices = getTauriProductServices();
 
 type Props = {
   home: HomeApplicationState;
@@ -126,6 +131,7 @@ export function HomeScreen({
   const [feedback, setFeedback] = useState("");
   const [confirmedMotion, setConfirmedMotion] = useState<ConfirmedMotion | undefined>();
   const [motionSequence, setMotionSequence] = useState(0);
+  const [importOpen, setImportOpen] = useState(false);
   useEffect(() => {
     if (!feedback) return;
     const timer = window.setTimeout(() => setFeedback(""), 3200);
@@ -254,30 +260,46 @@ export function HomeScreen({
       onCash={() => openFinance("CASH_LIST")}
     />
   ) : isFinanceRoute(route) ? (
-    <MyFinancePages
-      route={route}
-      confirmedMotion={confirmedMotion}
-      home={home}
-      data={data}
-      loading={loading}
-      error={error}
-      asOfDate={date}
-      onRoute={(next) => navigateRoute(next)}
-      onBack={() => navigateRoute(route === "PLANNING_INCOME" ? "INCOME_LIST" : "MY_FINANCE")}
-      onHome={() => navigateTab("TODAY")}
-      onRetry={() => void loadMaintenance()}
-      onOpenLegacyMaintenance={openMaintenance}
-      getRequirement={onGetFinancialMaintenanceRequirement}
-      onSavePlanning={savePatch}
-      isSessionDateCurrent={isSessionDateCurrent}
-      onGetPlanningMonth={onGetPlanningMonth}
-      onSavePlanningMonth={onSavePlanningMonth}
-      onReviseActualIncome={reviseIncome}
-      onDeactivateCashAccount={(id) => deactivate(id, onDeactivateCashAccount, "账户")}
-      onDeactivateAsset={(id) => deactivate(id, onDeactivateAsset, "资产")}
-      onDeactivateDebt={(id) => deactivate(id, onDeactivateDebt, "债务")}
-      onSaveCurrentMonthDebtFact={saveDebt}
-    />
+    <>
+      <MyFinancePages
+        route={route}
+        confirmedMotion={confirmedMotion}
+        home={home}
+        data={data}
+        loading={loading}
+        error={error}
+        asOfDate={date}
+        onRoute={(next) => navigateRoute(next)}
+        onBack={() => navigateRoute(route === "PLANNING_INCOME" ? "INCOME_LIST" : "MY_FINANCE")}
+        onHome={() => navigateTab("TODAY")}
+        onRetry={() => void loadMaintenance()}
+        onOpenLegacyMaintenance={openMaintenance}
+        getRequirement={onGetFinancialMaintenanceRequirement}
+        onSavePlanning={savePatch}
+        isSessionDateCurrent={isSessionDateCurrent}
+        onGetPlanningMonth={onGetPlanningMonth}
+        onSavePlanningMonth={onSavePlanningMonth}
+        onReviseActualIncome={reviseIncome}
+        onDeactivateCashAccount={(id) => deactivate(id, onDeactivateCashAccount, "账户")}
+        onDeactivateAsset={(id) => deactivate(id, onDeactivateAsset, "资产")}
+        onDeactivateDebt={(id) => deactivate(id, onDeactivateDebt, "债务")}
+        onSaveCurrentMonthDebtFact={saveDebt}
+      />
+      {route === "MY_FINANCE" ? (
+        <details
+          className="finance-state-card"
+          onToggle={(event) => setImportOpen(event.currentTarget.open)}
+        >
+          <summary>账单导入</summary>
+          {importOpen ? (
+            <V2Import
+              loadImportContext={importServices.getV2ImportOptions}
+              writeImport={importServices.writeV2Import}
+            />
+          ) : null}
+        </details>
+      ) : null}
+    </>
   ) : undefined;
   return (
     <>

@@ -27,6 +27,7 @@ import {
   recordExpenseAndRecalculate,
 } from "../application/product-service.js";
 import { V2ExpenseService } from "../application/v2-expense-service.js";
+import { V2ImportService } from "../application/v2-import-service.js";
 import type { V4FinancialReadState } from "../application/v4-foundation-service.js";
 import {
   V4FoundationService,
@@ -36,6 +37,7 @@ import { ApplicationDataError, type SqlDatabase } from "../persistence/database.
 import { migrateDatabase } from "../persistence/migrations.js";
 import { type PlanningIncomeMonthDecision, Repositories } from "../persistence/repositories.js";
 import { TauriSqlDatabase } from "../persistence/tauri-database.js";
+import type { V2ImportContext, V2ImportWriteInput, V2ImportWriteResult } from "../ui/contracts.js";
 
 declare const __WP03_PREVIEW_BUILD__: boolean;
 
@@ -180,6 +182,62 @@ export async function recordV2CashExpenseForDatabase(
   return { expenseId };
 }
 
+/**
+ * Import options for the CSV page. The composition root resolves the single
+ * profile so the UI never receives a profile id or a repository handle.
+ */
+export async function getV2ImportOptionsForDatabase(db: SqlDatabase): Promise<V2ImportContext> {
+  const repositories = new Repositories(db);
+  const profile = await repositories.getProfile();
+  if (!profile) {
+    throw new ApplicationDataError(
+      "PROFILE_NOT_FOUND",
+      "V2 import requires a completed onboarding profile.",
+    );
+  }
+  const [categories, accounts, dedupeKeys] = await Promise.all([
+    repositories.listExpenseCategories(profile.id),
+    repositories.listAccounts(profile.id),
+    repositories.listImportedDedupeKeys(profile.id),
+  ]);
+  return {
+    categories: categories
+      .filter((category) => category.active)
+      .map(({ id, name }) => ({ id, name })),
+    accounts: accounts
+      .filter((account) => account.active && account.type === "CASH")
+      .map(({ id, name }) => ({ id, name })),
+    dedupeKeys,
+  };
+}
+
+/**
+ * CSV import write through the D-01 dual-write service. The UI passes the CSV
+ * text it read with File.text(); this layer never touches the filesystem.
+ */
+export async function writeV2ImportForDatabase(
+  db: SqlDatabase,
+  input: V2ImportWriteInput,
+): Promise<V2ImportWriteResult> {
+  const repositories = new Repositories(db);
+  const profile = await repositories.getProfile();
+  if (!profile) {
+    throw new ApplicationDataError(
+      "PROFILE_NOT_FOUND",
+      "V2 import requires a completed onboarding profile.",
+    );
+  }
+  const result = await new V2ImportService(repositories).writeConfirmedImport({
+    ...input,
+    profileId: profile.id,
+  });
+  return {
+    writtenRows: result.writtenRows,
+    skippedRows: result.skippedRows,
+    errorRows: result.errorRows,
+  };
+}
+
 export type ApplicationStartupState =
   | ApplicationInitializationState
   | { status: "ERROR"; message: string };
@@ -212,6 +270,8 @@ export interface TauriApplicationServices {
     submission: ExpenseSubmission,
     asOfDate: string,
   ): Promise<{ expenseId: string }>;
+  getV2ImportOptions(): Promise<V2ImportContext>;
+  writeV2Import(input: V2ImportWriteInput): Promise<V2ImportWriteResult>;
   getFinancialMaintenanceState(asOfDate: string): Promise<FinancialMaintenanceState>;
   getFinancialMaintenanceRequirement(
     patch: FinancialMaintenancePatch,
@@ -262,6 +322,8 @@ export interface TauriProductServices {
     submission: ExpenseSubmission,
     asOfDate: string,
   ): Promise<{ expenseId: string }>;
+  getV2ImportOptions(): Promise<V2ImportContext>;
+  writeV2Import(input: V2ImportWriteInput): Promise<V2ImportWriteResult>;
   getFinancialMaintenanceState(asOfDate: string): Promise<FinancialMaintenanceState>;
   getFinancialMaintenanceRequirement(
     patch: FinancialMaintenancePatch,
@@ -314,6 +376,8 @@ export async function createTauriApplicationServices(): Promise<TauriApplication
     recordExpense: (expense, asOfDate) => recordExpenseAndRecalculate(db, expense, asOfDate),
     recordV2CashExpense: (submission, asOfDate) =>
       recordV2CashExpenseForDatabase(db, submission, asOfDate),
+    getV2ImportOptions: () => getV2ImportOptionsForDatabase(db),
+    writeV2Import: (input) => writeV2ImportForDatabase(db, input),
     getFinancialMaintenanceState: (asOfDate) => getFinancialMaintenanceState(db, asOfDate),
     getFinancialMaintenanceRequirement: (patch, asOfDate) =>
       getFinancialMaintenanceRequirement(db, patch, asOfDate),
@@ -333,9 +397,17 @@ export async function createTauriApplicationServices(): Promise<TauriApplication
 }
 
 /** Stable UI API with lazy startup; neither the UI nor its contract receives the database. */
+let sharedApplication: Promise<TauriApplicationServices> | undefined;
+
+function openSharedApplication(): Promise<TauriApplicationServices> {
+  if (!sharedApplication) {
+    sharedApplication = createTauriApplicationServices();
+  }
+  return sharedApplication;
+}
+
 export function getTauriProductServices(): TauriProductServices {
-  let application: Promise<TauriApplicationServices> | undefined;
-  const open = () => (application ??= createTauriApplicationServices());
+  const open = openSharedApplication;
   return {
     bootstrap: async () => {
       try {
@@ -356,6 +428,8 @@ export function getTauriProductServices(): TauriProductServices {
       (await open()).recordExpense(expense, asOfDate),
     recordV2CashExpense: async (submission, asOfDate) =>
       (await open()).recordV2CashExpense(submission, asOfDate),
+    getV2ImportOptions: async () => (await open()).getV2ImportOptions(),
+    writeV2Import: async (input) => (await open()).writeV2Import(input),
     getFinancialMaintenanceState: async (asOfDate) =>
       (await open()).getFinancialMaintenanceState(asOfDate),
     getFinancialMaintenanceRequirement: async (patch, asOfDate) =>

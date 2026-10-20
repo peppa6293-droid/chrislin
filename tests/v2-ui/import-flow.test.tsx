@@ -6,6 +6,11 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { V2ImportService } from "../../src/application/v2-import-service.js";
 import { migrateDatabase } from "../../src/persistence/migrations.js";
 import { Repositories } from "../../src/persistence/repositories.js";
+import type {
+  V2ImportContext,
+  V2ImportWriteInput,
+  V2ImportWriteResult,
+} from "../../src/ui/contracts.js";
 import { V2Import } from "../../src/ui/v2-import.js";
 import { NodeSqliteDatabase } from "../helpers/node-sqlite.js";
 
@@ -54,10 +59,34 @@ afterEach(async () => {
   db.close();
 });
 
+async function loadImportContext(): Promise<V2ImportContext> {
+  const [categories, accounts, dedupeKeys] = await Promise.all([
+    repositories.listExpenseCategories("profile-v2"),
+    repositories.listAccounts("profile-v2"),
+    repositories.listImportedDedupeKeys("profile-v2"),
+  ]);
+  return {
+    categories: categories
+      .filter((category) => category.active)
+      .map(({ id, name }) => ({ id, name })),
+    accounts: accounts
+      .filter((account) => account.active && account.type === "CASH")
+      .map(({ id, name }) => ({ id, name })),
+    dedupeKeys,
+  };
+}
+
+async function writeImport(input: V2ImportWriteInput): Promise<V2ImportWriteResult> {
+  const result = await importService.writeConfirmedImport({ ...input, profileId: "profile-v2" });
+  return {
+    writtenRows: result.writtenRows,
+    skippedRows: result.skippedRows,
+    errorRows: result.errorRows,
+  };
+}
+
 function renderImport() {
-  return render(
-    <V2Import importService={importService} repositories={repositories} profileId="profile-v2" />,
-  );
+  return render(<V2Import loadImportContext={loadImportContext} writeImport={writeImport} />);
 }
 
 async function uploadAlipay() {

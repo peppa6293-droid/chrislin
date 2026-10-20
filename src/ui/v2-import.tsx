@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import type { V2ImportService } from "../application/v2-import-service.js";
 import {
   applyCandidateEdits,
   confirmImportBatch,
@@ -8,13 +7,12 @@ import {
   type ImportProvider,
   parseImportFile,
 } from "../model/v2-import.js";
-import type { Repositories } from "../persistence/repositories.js";
+import type { V2ImportContext, V2ImportWriteInput, V2ImportWriteResult } from "./contracts.js";
 import "./v2-import.css";
 
 interface V2ImportProps {
-  importService: V2ImportService;
-  repositories: Repositories;
-  profileId: string;
+  loadImportContext: () => Promise<V2ImportContext>;
+  writeImport: (input: V2ImportWriteInput) => Promise<V2ImportWriteResult>;
 }
 
 type ImportPreview = {
@@ -25,7 +23,7 @@ type ImportPreview = {
   existingKeys: number;
 };
 
-export function V2Import({ importService, repositories, profileId }: V2ImportProps) {
+export function V2Import({ loadImportContext, writeImport }: V2ImportProps) {
   const [provider, setProvider] = useState<ImportProvider>("ALIPAY_CSV");
   const [preview, setPreview] = useState<ImportPreview | null>(null);
   const [categories, setCategories] = useState<Array<{ id: string; name: string }>>([]);
@@ -44,19 +42,12 @@ export function V2Import({ importService, repositories, profileId }: V2ImportPro
     let cancelled = false;
     const load = async () => {
       try {
-        const [loadedCategories, loadedAccounts] = await Promise.all([
-          repositories.listExpenseCategories(profileId),
-          repositories.listAccounts(profileId),
-        ]);
+        const context = await loadImportContext();
         if (cancelled) return;
-        const activeCategories = loadedCategories.filter((category) => category.active);
-        const cashAccounts = loadedAccounts.filter(
-          (account) => account.active && account.type === "CASH",
-        );
-        setCategories(activeCategories);
-        setAccounts(cashAccounts);
-        setSelectedCategoryId(activeCategories[0]?.id ?? "");
-        setSelectedAccountId(cashAccounts[0]?.id ?? "");
+        setCategories(context.categories);
+        setAccounts(context.accounts);
+        setSelectedCategoryId(context.categories[0]?.id ?? "");
+        setSelectedAccountId(context.accounts[0]?.id ?? "");
       } catch {
         if (!cancelled) {
           setCategories([]);
@@ -68,13 +59,14 @@ export function V2Import({ importService, repositories, profileId }: V2ImportPro
     return () => {
       cancelled = true;
     };
-  }, [profileId, repositories]);
+  }, [loadImportContext]);
 
   const handleFile = async (file: File) => {
     const content = await file.text();
     const batchId = globalThis.crypto.randomUUID();
     const candidates = parseImportFile(content, provider, batchId);
-    const existingKeys = new Set(await repositories.listImportedDedupeKeys(profileId));
+    const context = await loadImportContext();
+    const existingKeys = new Set(context.dedupeKeys);
     const deduped = dedupeImportCandidates(candidates, existingKeys);
     setPreview({
       batchId,
@@ -109,9 +101,8 @@ export function V2Import({ importService, repositories, profileId }: V2ImportPro
           : candidate,
       );
       const { confirmed, skipped } = confirmImportBatch(edited);
-      const result = await importService.writeConfirmedImport({
+      const result = await writeImport({
         importBatchId: preview.batchId,
-        profileId,
         provider: preview.provider,
         sourceFileContent: preview.content,
         candidates: [...confirmed, ...skipped],
