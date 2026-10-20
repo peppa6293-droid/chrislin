@@ -1,10 +1,9 @@
 import { useState } from "react";
 import type { V2ExpenseService } from "../application/v2-expense-service.js";
-import type { TrendSummary } from "../model/v2-trends.js";
 import type { Repositories } from "../persistence/repositories.js";
-import { V2Dashboard } from "./v2-dashboard.js";
 import { V2QuickEntry } from "./v2-quick-entry.js";
-import { TrendPanel } from "./v2-trends.js";
+import { V2Progress } from "./v2-progress.js";
+import { V2Today } from "./v2-today.js";
 import "./v2-surface.css";
 
 export type V2SurfaceTab = "today" | "record" | "progress" | "mine";
@@ -15,26 +14,6 @@ const TABS = [
   { id: "progress", label: "进展" },
   { id: "mine", label: "我的" },
 ] as const;
-
-const mockDashboardProps = {
-  ledger: { income: "0.00", dailyExpense: "0.00", accountCash: "0.00" },
-  billStatuses: [],
-  savingsPlans: [],
-  affordableSavings: [],
-  trendSummary: null,
-  trendWindow: 1 as const,
-  reducedMotion: false,
-};
-
-const mockTrendSummary: TrendSummary = {
-  daily: [],
-  monthly: {},
-  categories: [],
-  maxIncomeDay: null,
-  maxExpenseDay: null,
-  averageMonthlyExpense: "0.00",
-  copy: "先记录几次，慢慢建立基准。",
-};
 
 export function V2Surface({
   expenseService,
@@ -49,6 +28,11 @@ export function V2Surface({
   const [focusSignal, setFocusSignal] = useState(0);
 
   const openRecord = () => {
+    setTab("record");
+    setFocusSignal((signal) => signal + 1);
+  };
+
+  const goRecord = () => {
     setTab("record");
     setFocusSignal((signal) => signal + 1);
   };
@@ -78,7 +62,14 @@ export function V2Surface({
       </nav>
 
       <main className="v2-surface-content">
-        {tab === "today" ? <V2Dashboard {...mockDashboardProps} /> : null}
+        {tab === "today" ? (
+          <V2Today
+            expenseService={expenseService}
+            repositories={repositories}
+            profileId={profileId}
+            onGoRecord={goRecord}
+          />
+        ) : null}
         {tab === "record" ? (
           <V2QuickEntry
             expenseService={expenseService}
@@ -87,9 +78,7 @@ export function V2Surface({
             focusSignal={focusSignal}
           />
         ) : null}
-        {tab === "progress" ? (
-          <TrendPanel summary={mockTrendSummary} window={1} reducedMotion={false} />
-        ) : null}
+        {tab === "progress" ? <V2Progress expenseService={expenseService} profileId={profileId} /> : null}
         {tab === "mine" ? <p>导入功能即将开放</p> : null}
       </main>
     </div>

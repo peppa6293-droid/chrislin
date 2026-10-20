@@ -1,0 +1,84 @@
+.v2-today {
+  display: grid;
+  gap: 16px;
+}
+
+.v2-today__summary,
+.v2-today__recent {
+  border: 1px solid var(--v2-line);
+  border-radius: var(--v2-radius);
+  background: var(--v2-surface);
+  padding: 20px;
+}
+
+.v2-today__title {
+  margin: 0 0 12px;
+  font-size: 18px;
+}
+
+.v2-today__metrics {
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.v2-today__metric {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.v2-today__metric dt {
+  color: var(--v2-muted);
+}
+
+.v2-today__metric dd {
+  margin: 0;
+}
+
+.v2-today__amount {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.v2-today__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.v2-today__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--v2-line);
+}
+
+.v2-today__row:last-child {
+  border-bottom: none;
+}
+
+.v2-today__row-amount {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.v2-today__empty {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+}
+
+.v2-today__loading,
+.v2-today__error {
+  color: var(--v2-muted);
+}
+
+@media (max-width: 640px) {
+  .v2-today__summary,
+  .v2-today__recent {
+    width: 100%;
+    padding: 16px;
+  }
+}
