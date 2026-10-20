@@ -1,5 +1,5 @@
 // @vitest-environment happy-dom
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { V2ExpenseService } from "../../src/application/v2-expense-service.js";
@@ -39,6 +39,7 @@ describe("EXEC-U-02 isolated V2 navigation surface", () => {
       expect(screen.getByRole("button", { name: label })).toBeTruthy();
     }
     expect(screen.getByRole("button", { name: "今天" }).className).toContain("is-active");
+    expect(await screen.findByText("记下第一笔花销")).toBeTruthy();
     expect(await screen.findByText("这个月")).toBeTruthy();
     expect(screen.queryByLabelText("快速记账")).toBeNull();
     expect(screen.queryByText("导入功能即将开放")).toBeNull();
@@ -68,6 +69,15 @@ describe("EXEC-U-02 isolated V2 navigation surface", () => {
     expect(await screen.findByLabelText("快速记账")).toBeTruthy();
     expect(screen.getByRole("button", { name: "记录" }).className).toContain("is-active");
     expect(screen.getByLabelText("金额")).toBeTruthy();
+  });
+
+  it("routes the today task CTA to the record page and focuses amount", async () => {
+    const user = userEvent.setup();
+    renderSurface();
+    await user.click(await screen.findByRole("button", { name: "去记录" }));
+    expect(await screen.findByLabelText("快速记账")).toBeTruthy();
+    expect(screen.getByRole("button", { name: "记录" }).className).toContain("is-active");
+    await waitFor(() => expect(document.activeElement).toBe(screen.getByLabelText("金额")));
   });
 
   it("shows the progress path on Progress", async () => {

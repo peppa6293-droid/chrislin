@@ -74,22 +74,18 @@ describe("EXEC-U-03 V2 today page", () => {
     expect(screen.getByText("查看全部")).toBeTruthy();
   });
 
-  it("shows the friendly empty state and record button", async () => {
-    const onGoRecord = vi.fn();
-    const user = userEvent.setup();
+  it("shows the friendly empty state without a duplicate record button", async () => {
     vi.spyOn(repositories, "listV2Expenses").mockResolvedValue([] as never);
     render(
       <V2Today
         expenseService={makeService()}
         repositories={repositories}
         profileId="profile-v2"
-        onGoRecord={onGoRecord}
+        onGoRecord={vi.fn()}
       />,
     );
     expect(await screen.findByText("还没有记录，记下第一笔吧。")).toBeTruthy();
-    const button = screen.getByRole("button", { name: "记一笔" });
-    await user.click(button);
-    expect(onGoRecord).toHaveBeenCalledTimes(1);
+    expect(screen.queryByRole("button", { name: "记一笔" })).toBeNull();
   });
 
   it("invokes onGoRecord from the recent list action", async () => {

@@ -95,9 +95,6 @@ export function V2Today({ expenseService, repositories, profileId, onGoRecord }:
         {data.recent.length === 0 ? (
           <div className="v2-today__empty">
             <p>还没有记录，记下第一笔吧。</p>
-            <button type="button" onClick={onGoRecord}>
-              记一笔
-            </button>
           </div>
         ) : (
           <>

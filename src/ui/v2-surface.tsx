@@ -4,6 +4,7 @@ import type { Repositories } from "../persistence/repositories.js";
 import { V2QuickEntry } from "./v2-quick-entry.js";
 import { V2Progress } from "./v2-progress.js";
 import { V2Today } from "./v2-today.js";
+import { V2TodayTask } from "./v2-today-task.js";
 import "./v2-surface.css";
 
 export type V2SurfaceTab = "today" | "record" | "progress" | "mine";
@@ -63,12 +64,15 @@ export function V2Surface({
 
       <main className="v2-surface-content">
         {tab === "today" ? (
-          <V2Today
-            expenseService={expenseService}
-            repositories={repositories}
-            profileId={profileId}
-            onGoRecord={goRecord}
-          />
+          <>
+            <V2TodayTask repositories={repositories} profileId={profileId} onGoRecord={goRecord} />
+            <V2Today
+              expenseService={expenseService}
+              repositories={repositories}
+              profileId={profileId}
+              onGoRecord={goRecord}
+            />
+          </>
         ) : null}
         {tab === "record" ? (
           <V2QuickEntry
