@@ -1,11 +1,11 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Personal Finance Console Smoke",
+  "productName": "小钱家",
   "identifier": "com.personalfinance.console.smoke",
   "app": {
     "windows": [
       {
-        "title": "Personal Finance Console Smoke",
+        "title": "小钱家",
         "width": 840,
         "height": 580,
         "minWidth": 640,
