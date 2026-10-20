@@ -1614,3 +1614,75 @@
     animation: none;
   }
 }
+
+/* V2 Surface navigation */
+.v2-surface-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--v2-line);
+  background: var(--v2-paper);
+}
+
+.v2-surface-nav__tab {
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--v2-radius);
+  background: transparent;
+  color: var(--v2-muted);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background 150ms ease,
+    color 150ms ease;
+}
+
+.v2-surface-nav__tab:hover {
+  background: #e9f6f1;
+  color: var(--v2-teal-dark);
+}
+
+.v2-surface-nav__tab.is-active {
+  background: var(--v2-teal);
+  color: white;
+}
+
+.v2-surface-nav__record-btn {
+  margin-left: auto;
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--v2-radius);
+  background: var(--v2-teal);
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.v2-surface-nav__record-btn:hover {
+  background: var(--v2-teal-dark);
+}
+
+.v2-surface-content {
+  padding: 24px 20px;
+}
+
+@media (max-width: 640px) {
+  .v2-surface-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    border-top: 1px solid var(--v2-line);
+    border-bottom: none;
+    background: var(--v2-surface);
+    box-shadow: 0 -2px 8px rgb(0 0 0 / 8%);
+  }
+
+  .v2-surface-content {
+    padding-bottom: 72px; /* 为底部导航留空间 */
+  }
+}

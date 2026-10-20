@@ -298,6 +298,35 @@ describe("EXEC-U-01 isolated V2 quick entry flow", () => {
     expect(quickEntryErrorMessage("AMOUNT_INVALID")).toBe("金额格式不正确（最多两位小数）");
   });
 
+  it("refocuses the amount input when focusSignal changes", async () => {
+    function FocusHarness({ signal }: { signal: number }) {
+      return (
+        <V2QuickEntry
+          expenseService={expenseService}
+          repositories={repositories}
+          profileId="profile-v2"
+          focusSignal={signal}
+        />
+      );
+    }
+    const { rerender } = render(<FocusHarness signal={0} />);
+    const amount = screen.getByLabelText("金额");
+    expect(document.activeElement).toBe(amount);
+    const note = screen.getByLabelText("备注");
+    await act(async () => {
+      note.focus();
+    });
+    expect(document.activeElement).not.toBe(amount);
+    await act(async () => {
+      rerender(<FocusHarness signal={1} />);
+    });
+    await waitFor(() => expect(document.activeElement).toBe(amount));
+    await act(async () => {
+      rerender(<FocusHarness signal={2} />);
+    });
+    await waitFor(() => expect(document.activeElement).toBe(amount));
+  });
+
   it("submits only once when the save button is clicked repeatedly while pending", async () => {
     const user = userEvent.setup();
     let release!: () => void;

@@ -68,6 +68,7 @@ interface V2QuickEntryProps {
   expenseService: V2ExpenseService;
   repositories: Repositories;
   profileId: string;
+  focusSignal?: number;
   onRecorded?: (
     expense: Awaited<ReturnType<V2ExpenseService["recordCashDebitExpense"]>>["expense"],
   ) => void;
@@ -77,6 +78,7 @@ export function V2QuickEntry({
   expenseService,
   repositories,
   profileId,
+  focusSignal,
   onRecorded,
 }: V2QuickEntryProps) {
   const [categories, setCategories] = useState<ExpenseCategoryDefinition[]>([]);
@@ -89,6 +91,7 @@ export function V2QuickEntry({
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const amountRef = useRef<HTMLInputElement>(null);
   const successTimerRef = useRef<ReturnType<typeof globalThis.setTimeout> | null>(null);
 
   useEffect(() => {
@@ -123,6 +126,13 @@ export function V2QuickEntry({
       cancelled = true;
     };
   }, [profileId, repositories]);
+
+  useEffect(() => {
+    if (focusSignal !== undefined && focusSignal > 0) {
+      const timer = globalThis.setTimeout(() => amountRef.current?.focus(), 0);
+      return () => globalThis.clearTimeout(timer);
+    }
+  }, [focusSignal]);
 
   useEffect(
     () => () => {
@@ -205,6 +215,7 @@ export function V2QuickEntry({
         <label className="v2-quick-entry__label">
           <span>金额</span>
           <input
+            ref={amountRef}
             className="v2-quick-entry__input"
             type="text"
             inputMode="decimal"
