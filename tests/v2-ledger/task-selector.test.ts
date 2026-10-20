@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { isRecordTask, selectTodayTask, TASK_COPY, type TaskContext } from "../../src/model/v2-task-selector.js";
+import {
+  isRecordTask,
+  selectTodayTask,
+  TASK_COPY,
+  type TaskContext,
+} from "../../src/model/v2-task-selector.js";
 
 const base: TaskContext = {
   hasStructuralDeficit: false,
@@ -15,24 +20,26 @@ describe("U-05 deterministic task selector", () => {
     expect(selectTodayTask({ ...base, hasStructuralDeficit: true })).toBe("CLARIFY_GAP");
     expect(selectTodayTask({ ...base, belowCashFloor: true })).toBe("SECURE_CASH");
     expect(selectTodayTask({ ...base, consumptionIsPrimaryDrag: true })).toBe("RECORD_EXPENSE");
-    expect(selectTodayTask({ ...base, consumptionIsPrimaryDrag: true, monthExpenseCount: 0 })).toBe("DEFAULT_RECORD");
+    expect(selectTodayTask({ ...base, consumptionIsPrimaryDrag: true, monthExpenseCount: 0 })).toBe(
+      "DEFAULT_RECORD",
+    );
     expect(selectTodayTask({ ...base, hasMissingDebtFact: true })).toBe("CONFIRM_DEBT");
     expect(selectTodayTask({ ...base, hasSafetyGap: true })).toBe("CHECK_SAFETY");
   });
 
   it("enforces adjacent suppression relationships", () => {
-    expect(
-      selectTodayTask({ ...base, hasStructuralDeficit: true, belowCashFloor: true }),
-    ).toBe("CLARIFY_GAP");
-    expect(
-      selectTodayTask({ ...base, belowCashFloor: true, consumptionIsPrimaryDrag: true }),
-    ).toBe("SECURE_CASH");
+    expect(selectTodayTask({ ...base, hasStructuralDeficit: true, belowCashFloor: true })).toBe(
+      "CLARIFY_GAP",
+    );
+    expect(selectTodayTask({ ...base, belowCashFloor: true, consumptionIsPrimaryDrag: true })).toBe(
+      "SECURE_CASH",
+    );
     expect(
       selectTodayTask({ ...base, consumptionIsPrimaryDrag: true, hasMissingDebtFact: true }),
     ).toBe("RECORD_EXPENSE");
-    expect(
-      selectTodayTask({ ...base, hasMissingDebtFact: true, hasSafetyGap: true }),
-    ).toBe("CONFIRM_DEBT");
+    expect(selectTodayTask({ ...base, hasMissingDebtFact: true, hasSafetyGap: true })).toBe(
+      "CONFIRM_DEBT",
+    );
     expect(
       selectTodayTask({
         hasStructuralDeficit: true,

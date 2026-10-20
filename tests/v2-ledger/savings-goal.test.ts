@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import {
-  createSavingsGoal,
-  calculateSavingsPlan,
-  calculateAffordableSavings,
-} from "../../src/model/v2-savings-goal.js";
 import { createBillingCycle, createCreditCardBill } from "../../src/model/v2-cashflow.js";
+import {
+  calculateAffordableSavings,
+  calculateSavingsPlan,
+  createSavingsGoal,
+} from "../../src/model/v2-savings-goal.js";
 
 describe("V2 savings goal", () => {
   it("creates a valid goal and normalizes amounts", () => {
@@ -92,19 +92,49 @@ describe("V2 savings goal", () => {
 
   it("rejects invalid amounts, dates, empty names, and saved > target", () => {
     expect(() =>
-      createSavingsGoal({ id: "x", name: "", targetAmount: "100.00", targetDate: "2027-01-01", currentSaved: "0.00" }),
+      createSavingsGoal({
+        id: "x",
+        name: "",
+        targetAmount: "100.00",
+        targetDate: "2027-01-01",
+        currentSaved: "0.00",
+      }),
     ).toThrow(/name/);
     expect(() =>
-      createSavingsGoal({ id: "x", name: "A", targetAmount: "0.00", targetDate: "2027-01-01", currentSaved: "0.00" }),
+      createSavingsGoal({
+        id: "x",
+        name: "A",
+        targetAmount: "0.00",
+        targetDate: "2027-01-01",
+        currentSaved: "0.00",
+      }),
     ).toThrow(/positive/);
     expect(() =>
-      createSavingsGoal({ id: "x", name: "A", targetAmount: "-10.00", targetDate: "2027-01-01", currentSaved: "0.00" }),
+      createSavingsGoal({
+        id: "x",
+        name: "A",
+        targetAmount: "-10.00",
+        targetDate: "2027-01-01",
+        currentSaved: "0.00",
+      }),
     ).toThrow(/positive/);
     expect(() =>
-      createSavingsGoal({ id: "x", name: "A", targetAmount: "100.00", targetDate: "2027-13-01", currentSaved: "0.00" }),
+      createSavingsGoal({
+        id: "x",
+        name: "A",
+        targetAmount: "100.00",
+        targetDate: "2027-13-01",
+        currentSaved: "0.00",
+      }),
     ).toThrow();
     expect(() =>
-      createSavingsGoal({ id: "x", name: "A", targetAmount: "100.00", targetDate: "2027-01-01", currentSaved: "150.00" }),
+      createSavingsGoal({
+        id: "x",
+        name: "A",
+        targetAmount: "100.00",
+        targetDate: "2027-01-01",
+        currentSaved: "150.00",
+      }),
     ).toThrow(/cannot exceed/);
   });
 

@@ -54,7 +54,11 @@ function parseDate(value: string, field: string): Date {
   const match = ISO_DATE.exec(value);
   if (!match) throw new RangeError(`${field} must use YYYY-MM-DD format`);
   const date = new Date(`${value}T00:00:00.000Z`);
-  if (date.getUTCFullYear() !== Number(match[1]) || date.getUTCMonth() + 1 !== Number(match[2]) || date.getUTCDate() !== Number(match[3])) {
+  if (
+    date.getUTCFullYear() !== Number(match[1]) ||
+    date.getUTCMonth() + 1 !== Number(match[2]) ||
+    date.getUTCDate() !== Number(match[3])
+  ) {
     throw new RangeError(`${field} must be a valid calendar date`);
   }
   return date;
@@ -90,7 +94,10 @@ function money(value: string, field: string, allowZero = false): Decimal {
   } catch {
     throw new RangeError(`${field} must be a valid decimal amount`);
   }
-  if (!parsed.isFinite() || (allowZero ? parsed.isNegative() : parsed.isZero() || parsed.isNegative())) {
+  if (
+    !parsed.isFinite() ||
+    (allowZero ? parsed.isNegative() : parsed.isZero() || parsed.isNegative())
+  ) {
     throw new RangeError(`${field} must be ${allowZero ? "zero or positive" : "positive"}`);
   }
   return parsed.toDecimalPlaces(MONEY_SCALE, Decimal.ROUND_HALF_UP);
@@ -124,14 +131,18 @@ export function createBillingCycle(input: BillingCycleInput): BillingCycle {
   };
 }
 
-export function createCreditCardBill(input: Omit<CreditCardBill, "payments"> & { payments?: BillPayment[] }): CreditCardBill {
+export function createCreditCardBill(
+  input: Omit<CreditCardBill, "payments"> & { payments?: BillPayment[] },
+): CreditCardBill {
   const amountDue = money(input.amountDue, "amountDue");
   const statement = parseDate(input.cycle.statementDate, "statementDate");
   const periodStart = parseDate(input.cycle.periodStart, "periodStart");
   const periodEnd = parseDate(input.cycle.periodEnd, "periodEnd");
   const due = parseDate(input.cycle.dueDate, "dueDate");
   if (periodStart > periodEnd || periodEnd.getTime() !== statement.getTime() || due <= statement) {
-    throw new RangeError("billing cycle dates must be ordered periodStart <= statementDate < dueDate");
+    throw new RangeError(
+      "billing cycle dates must be ordered periodStart <= statementDate < dueDate",
+    );
   }
   const payments = (input.payments ?? []).map((payment) => {
     parseDate(payment.paidOn, "payment.paidOn");
@@ -147,13 +158,22 @@ export function calculateBillStatus(bill: CreditCardBill, input: CashPressureInp
   const asOf = parseDate(input.asOf, "asOf");
   const availableCash = money(input.availableCash, "availableCash", true);
   const amountDue = money(bill.amountDue, "amountDue");
-  const paid = bill.payments.reduce((sum, payment) => sum.plus(money(payment.amount, "payment.amount")), new Decimal(0));
+  const paid = bill.payments.reduce(
+    (sum, payment) => sum.plus(money(payment.amount, "payment.amount")),
+    new Decimal(0),
+  );
   if (paid.gt(amountDue)) throw new RangeError("payments cannot exceed amountDue");
   const remaining = amountDue.minus(paid).toDecimalPlaces(MONEY_SCALE);
   const paidOff = remaining.isZero();
   const overdue = !paidOff && asOf > parseDate(bill.cycle.dueDate, "dueDate");
   const shortfall = !paidOff && availableCash.lt(remaining);
-  const pressure: CashPressureLevel = paidOff ? "NONE" : overdue ? "OVERDUE" : shortfall ? "SHORTFALL" : "UPCOMING";
+  const pressure: CashPressureLevel = paidOff
+    ? "NONE"
+    : overdue
+      ? "OVERDUE"
+      : shortfall
+        ? "SHORTFALL"
+        : "UPCOMING";
   const explanation = paidOff
     ? "这笔账单已经还清，不会再形成待还现金压力。"
     : overdue
@@ -175,7 +195,12 @@ export function calculateBillStatus(bill: CreditCardBill, input: CashPressureInp
 
 export function projectCashAfterBillPayment(availableCash: string, bill: CreditCardBill): string {
   const cash = money(availableCash, "availableCash", true);
-  const remaining = money(calculateBillStatus(bill, { asOf: bill.cycle.statementDate, availableCash: "0.00" }).remainingAmount, "remainingAmount", true);
+  const remaining = money(
+    calculateBillStatus(bill, { asOf: bill.cycle.statementDate, availableCash: "0.00" })
+      .remainingAmount,
+    "remainingAmount",
+    true,
+  );
   if (cash.lt(remaining)) throw new RangeError("payment would exceed available cash");
   return formatted(cash.minus(remaining));
 }

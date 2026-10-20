@@ -44,7 +44,10 @@ function money(value: string, field: string, allowZero = false): Decimal {
   } catch {
     throw new RangeError(`${field} must be a valid decimal amount`);
   }
-  if (!parsed.isFinite() || (allowZero ? parsed.isNegative() : parsed.isZero() || parsed.isNegative())) {
+  if (
+    !parsed.isFinite() ||
+    (allowZero ? parsed.isNegative() : parsed.isZero() || parsed.isNegative())
+  ) {
     throw new RangeError(`${field} must be ${allowZero ? "zero or positive" : "positive"}`);
   }
   return parsed;
@@ -92,7 +95,10 @@ export function reconcileInstallmentTotal(
       throw new RangeError("installment numbers must be unique and continuous");
     }
   });
-  const actual = ordered.reduce((sum, record) => sum.plus(money(record.amount, "installment.amount")), new Decimal(0));
+  const actual = ordered.reduce(
+    (sum, record) => sum.plus(money(record.amount, "installment.amount")),
+    new Decimal(0),
+  );
   const normalizedActual = actual.toDecimalPlaces(2);
   if (!normalizedActual.eq(expected.toDecimalPlaces(2))) {
     throw new RangeError(
@@ -102,7 +108,10 @@ export function reconcileInstallmentTotal(
   return normalizedActual.toFixed(2);
 }
 
-export function calculateCashAfterPayment(initialCash: string, payment: CreditCardPaymentRecord): string {
+export function calculateCashAfterPayment(
+  initialCash: string,
+  payment: CreditCardPaymentRecord,
+): string {
   const cash = money(initialCash, "initialCash", true);
   const paid = money(payment.amount, "payment.amount");
   const remaining = cash.minus(paid);

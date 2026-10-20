@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { migrateDatabase } from "../../src/persistence/migrations.js";
 import { Repositories } from "../../src/persistence/repositories.js";
 import { NodeSqliteDatabase } from "../helpers/node-sqlite.js";
@@ -63,7 +63,9 @@ describe("EXEC-L-06 category CRUD", () => {
       adjustable: true,
       builtin: true,
     });
-    await expect(repositories.deleteExpenseCategory("profile-v2", "cat-food")).rejects.toMatchObject({
+    await expect(
+      repositories.deleteExpenseCategory("profile-v2", "cat-food"),
+    ).rejects.toMatchObject({
       code: "CATEGORY_NOT_FOUND_OR_BUILTIN",
     });
   });

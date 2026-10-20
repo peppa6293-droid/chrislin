@@ -1,5 +1,5 @@
 import type { BillStatus } from "../model/v2-cashflow.js";
-import type { SavingsPlan, AffordableSavingsResult } from "../model/v2-savings-goal.js";
+import type { AffordableSavingsResult, SavingsPlan } from "../model/v2-savings-goal.js";
 import type { TrendSummary } from "../model/v2-trends.js";
 import { TrendPanel, type TrendWindow } from "./v2-trends.js";
 
@@ -45,18 +45,18 @@ export function V2Dashboard({
       <section className="v2-dashboard__section" aria-label="收支与账户现金">
         <h2>收入、日常支出与账户现金</h2>
         <div className="v2-dashboard__grid">
-          <div className="v2-dashboard__card" aria-label="收入">
+          <section className="v2-dashboard__card" aria-label="收入">
             <p className="v2-dashboard__label">收入</p>
             <p className="v2-dashboard__amount">{formatAmount(ledger.income)}</p>
-          </div>
-          <div className="v2-dashboard__card" aria-label="日常支出">
+          </section>
+          <section className="v2-dashboard__card" aria-label="日常支出">
             <p className="v2-dashboard__label">日常支出</p>
             <p className="v2-dashboard__amount">{formatAmount(ledger.dailyExpense)}</p>
-          </div>
-          <div className="v2-dashboard__card" aria-label="账户现金">
+          </section>
+          <section className="v2-dashboard__card" aria-label="账户现金">
             <p className="v2-dashboard__label">账户现金</p>
             <p className="v2-dashboard__amount">{formatAmount(ledger.accountCash)}</p>
-          </div>
+          </section>
         </div>
       </section>
 
@@ -64,7 +64,9 @@ export function V2Dashboard({
       <section className="v2-dashboard__section" aria-label="信用卡待还与到期压力">
         <h2>债务确认：信用卡待还</h2>
         {billStatuses.length === 0 ? (
-          <p role="status" className="v2-dashboard__empty">当前没有待还账单。</p>
+          <p role="status" className="v2-dashboard__empty">
+            当前没有待还账单。
+          </p>
         ) : (
           <ul className="v2-dashboard__list">
             {billStatuses.map((bill) => (
@@ -74,10 +76,13 @@ export function V2Dashboard({
                   <span className="v2-dashboard__amount">{formatAmount(bill.remainingAmount)}</span>
                 </div>
                 <div className="v2-dashboard__bill-meta">
-                  <span>已还 {formatAmount(bill.paidAmount)} / 应还 {formatAmount(bill.amountDue)}</span>
+                  <span>
+                    已还 {formatAmount(bill.paidAmount)} / 应还 {formatAmount(bill.amountDue)}
+                  </span>
                   <span
                     className={`v2-dashboard__pressure v2-dashboard__pressure--${bill.pressure.toLowerCase()}`}
                     data-testid="v2-pressure-badge"
+                    role="status"
                     aria-label={`现金压力状态：${bill.pressure}`}
                   >
                     {bill.pressure === "NONE" && "已还清"}
@@ -86,7 +91,9 @@ export function V2Dashboard({
                     {bill.pressure === "OVERDUE" && "已逾期"}
                   </span>
                 </div>
-                <p className="v2-dashboard__explanation" role="status">{bill.explanation}</p>
+                <p className="v2-dashboard__explanation" role="status">
+                  {bill.explanation}
+                </p>
               </li>
             ))}
           </ul>
@@ -97,18 +104,25 @@ export function V2Dashboard({
       <section className="v2-dashboard__section" aria-label="储蓄目标与计划">
         <h2>安全储备：储蓄目标</h2>
         {savingsPlans.length === 0 ? (
-          <p role="status" className="v2-dashboard__empty">还没有设定储蓄目标。</p>
+          <p role="status" className="v2-dashboard__empty">
+            还没有设定储蓄目标。
+          </p>
         ) : (
           <ul className="v2-dashboard__list">
-            {savingsPlans.map((plan, index) => {
+            {savingsPlans.map((plan) => {
               const affordable = affordableSavings.find((a) => a.goalId === plan.goalId);
               return (
-                <li key={plan.goalId} className="v2-dashboard__list-item" data-testid="v2-savings-item">
+                <li
+                  key={plan.goalId}
+                  className="v2-dashboard__list-item"
+                  data-testid="v2-savings-item"
+                >
                   <div className="v2-dashboard__savings-header">
                     <h3>{plan.goalName}</h3>
                     <span
                       className={`v2-dashboard__status v2-dashboard__status--${plan.status.toLowerCase()}`}
                       data-testid="v2-savings-status"
+                      role="status"
                       aria-label={`储蓄状态：${plan.status}`}
                     >
                       {plan.status === "COMPLETED" && "已完成"}
@@ -135,7 +149,9 @@ export function V2Dashboard({
                       <span>{formatAmount(plan.monthlyTarget)}</span>
                     </div>
                   </div>
-                  <p className="v2-dashboard__explanation" role="status">{plan.explanation}</p>
+                  <p className="v2-dashboard__explanation" role="status">
+                    {plan.explanation}
+                  </p>
                   {affordable && (
                     <div className="v2-dashboard__affordable" data-testid="v2-affordable-info">
                       <p>
@@ -159,18 +175,18 @@ export function V2Dashboard({
       <section className="v2-dashboard__section" aria-label="资产与债务概览">
         <h2>资产与债务</h2>
         <div className="v2-dashboard__grid">
-          <div className="v2-dashboard__card" aria-label="资产">
+          <section className="v2-dashboard__card" aria-label="资产">
             <p className="v2-dashboard__label">资产</p>
             <p className="v2-dashboard__placeholder">待接入</p>
-          </div>
-          <div className="v2-dashboard__card" aria-label="债务">
+          </section>
+          <section className="v2-dashboard__card" aria-label="债务">
             <p className="v2-dashboard__label">债务</p>
             <p className="v2-dashboard__placeholder">待接入</p>
-          </div>
-          <div className="v2-dashboard__card" aria-label="资产更新">
+          </section>
+          <section className="v2-dashboard__card" aria-label="资产更新">
             <p className="v2-dashboard__label">资产更新</p>
             <p className="v2-dashboard__placeholder">待接入</p>
-          </div>
+          </section>
         </div>
       </section>
 
@@ -180,7 +196,9 @@ export function V2Dashboard({
         {trendSummary ? (
           <TrendPanel summary={trendSummary} window={trendWindow} reducedMotion={reducedMotion} />
         ) : (
-          <p role="status" className="v2-dashboard__empty">暂无趋势数据。</p>
+          <p role="status" className="v2-dashboard__empty">
+            暂无趋势数据。
+          </p>
         )}
       </section>
     </main>

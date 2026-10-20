@@ -495,7 +495,7 @@ function SpendingDetail({ home }: { home: HomeApplicationState }) {
           </button>
         </p>
       )}
-      <div className="recent-expense-detail" aria-label="最近花销">
+      <section className="recent-expense-detail" aria-label="最近花销">
         <h3>最近花销</h3>
         {visibleExpenses.length === 0 ? (
           <p>{selectedCategory ? "这个分类暂时没有最近记录。" : "还没有花销记录。"}</p>
@@ -508,7 +508,7 @@ function SpendingDetail({ home }: { home: HomeApplicationState }) {
             </div>
           ))
         )}
-      </div>
+      </section>
       <Row
         label="已经花了"
         value={<MoneyAmount value={home.currentMonthSpending} />}

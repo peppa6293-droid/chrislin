@@ -1,10 +1,10 @@
-import { describe, expect, it } from "vitest";
-import { renderToStaticMarkup } from "react-dom/server";
 import React from "react";
-import { V2Dashboard, type V2DashboardProps } from "../../src/ui/v2-dashboard.js";
+import { renderToStaticMarkup } from "react-dom/server";
+import { describe, expect, it } from "vitest";
 import type { BillStatus } from "../../src/model/v2-cashflow.js";
-import type { SavingsPlan, AffordableSavingsResult } from "../../src/model/v2-savings-goal.js";
+import type { AffordableSavingsResult, SavingsPlan } from "../../src/model/v2-savings-goal.js";
 import type { TrendSummary } from "../../src/model/v2-trends.js";
+import { V2Dashboard, type V2DashboardProps } from "../../src/ui/v2-dashboard.js";
 
 function makeProps(overrides: Partial<V2DashboardProps> = {}): V2DashboardProps {
   return {
@@ -36,7 +36,12 @@ describe("V2 Dashboard (isolated candidate)", () => {
 
   it("renders ledger amounts without NaN or Infinity", () => {
     const html = renderToStaticMarkup(
-      React.createElement(V2Dashboard, makeProps({ ledger: { income: "99999999.99", dailyExpense: "0.00", accountCash: "12345678.00" } }))
+      React.createElement(
+        V2Dashboard,
+        makeProps({
+          ledger: { income: "99999999.99", dailyExpense: "0.00", accountCash: "12345678.00" },
+        }),
+      ),
     );
     expect(html).not.toContain("NaN");
     expect(html).not.toContain("Infinity");
@@ -53,11 +58,40 @@ describe("V2 Dashboard (isolated candidate)", () => {
 
   it("renders bill statuses with pressure badges and explanations", () => {
     const bills: BillStatus[] = [
-      { billId: "b1", amountDue: "1000.00", paidAmount: "300.00", remainingAmount: "700.00", paidOff: false, overdue: false, pressure: "UPCOMING", explanation: "请在到期日前还款。" },
-      { billId: "b2", amountDue: "500.00", paidAmount: "500.00", remainingAmount: "0.00", paidOff: true, overdue: false, pressure: "NONE", explanation: "这笔账单已经还清。" },
-      { billId: "b3", amountDue: "2000.00", paidAmount: "0.00", remainingAmount: "2000.00", paidOff: false, overdue: true, pressure: "OVERDUE", explanation: "已逾期，请尽快处理。" },
+      {
+        billId: "b1",
+        amountDue: "1000.00",
+        paidAmount: "300.00",
+        remainingAmount: "700.00",
+        paidOff: false,
+        overdue: false,
+        pressure: "UPCOMING",
+        explanation: "请在到期日前还款。",
+      },
+      {
+        billId: "b2",
+        amountDue: "500.00",
+        paidAmount: "500.00",
+        remainingAmount: "0.00",
+        paidOff: true,
+        overdue: false,
+        pressure: "NONE",
+        explanation: "这笔账单已经还清。",
+      },
+      {
+        billId: "b3",
+        amountDue: "2000.00",
+        paidAmount: "0.00",
+        remainingAmount: "2000.00",
+        paidOff: false,
+        overdue: true,
+        pressure: "OVERDUE",
+        explanation: "已逾期，请尽快处理。",
+      },
     ];
-    const html = renderToStaticMarkup(React.createElement(V2Dashboard, makeProps({ billStatuses: bills })));
+    const html = renderToStaticMarkup(
+      React.createElement(V2Dashboard, makeProps({ billStatuses: bills })),
+    );
     expect(html).toContain('data-testid="v2-bill-item"');
     expect(html).toContain("待还款");
     expect(html).toContain("已还清");
@@ -68,13 +102,47 @@ describe("V2 Dashboard (isolated candidate)", () => {
 
   it("renders savings plans with status and affordable info", () => {
     const plans: SavingsPlan[] = [
-      { goalId: "g1", goalName: "旅行基金", targetAmount: "10000.00", currentSaved: "3000.00", gap: "7000.00", monthsRemaining: 5, monthlyTarget: "1400.00", status: "ON_TRACK", explanation: "正常推进中。" },
-      { goalId: "g2", goalName: "应急金", targetAmount: "5000.00", currentSaved: "5000.00", gap: "0.00", monthsRemaining: 0, monthlyTarget: "0.00", status: "COMPLETED", explanation: "已完成。" },
+      {
+        goalId: "g1",
+        goalName: "旅行基金",
+        targetAmount: "10000.00",
+        currentSaved: "3000.00",
+        gap: "7000.00",
+        monthsRemaining: 5,
+        monthlyTarget: "1400.00",
+        status: "ON_TRACK",
+        explanation: "正常推进中。",
+      },
+      {
+        goalId: "g2",
+        goalName: "应急金",
+        targetAmount: "5000.00",
+        currentSaved: "5000.00",
+        gap: "0.00",
+        monthsRemaining: 0,
+        monthlyTarget: "0.00",
+        status: "COMPLETED",
+        explanation: "已完成。",
+      },
     ];
     const affordable: AffordableSavingsResult[] = [
-      { goalId: "g1", goalName: "旅行基金", monthlyTarget: "1400.00", affordableAmount: "1500.00", canAfford: true, outstandingBills: "700.00", safeToSave: "1500.00", explanation: "可以按计划存钱。" },
+      {
+        goalId: "g1",
+        goalName: "旅行基金",
+        monthlyTarget: "1400.00",
+        affordableAmount: "1500.00",
+        canAfford: true,
+        outstandingBills: "700.00",
+        safeToSave: "1500.00",
+        explanation: "可以按计划存钱。",
+      },
     ];
-    const html = renderToStaticMarkup(React.createElement(V2Dashboard, makeProps({ savingsPlans: plans, affordableSavings: affordable })));
+    const html = renderToStaticMarkup(
+      React.createElement(
+        V2Dashboard,
+        makeProps({ savingsPlans: plans, affordableSavings: affordable }),
+      ),
+    );
     expect(html).toContain('data-testid="v2-savings-item"');
     expect(html).toContain("正常推进");
     expect(html).toContain("已完成");
@@ -85,10 +153,32 @@ describe("V2 Dashboard (isolated candidate)", () => {
 
   it("handles shortfall and overdue savings states", () => {
     const plans: SavingsPlan[] = [
-      { goalId: "g3", goalName: "买房首付", targetAmount: "500000.00", currentSaved: "10000.00", gap: "490000.00", monthsRemaining: 0, monthlyTarget: "490000.00", status: "SHORTFALL", explanation: "缺口不足一个月。" },
-      { goalId: "g4", goalName: "旧目标", targetAmount: "1000.00", currentSaved: "200.00", gap: "800.00", monthsRemaining: 0, monthlyTarget: "800.00", status: "OVERDUE", explanation: "日期已过。" },
+      {
+        goalId: "g3",
+        goalName: "买房首付",
+        targetAmount: "500000.00",
+        currentSaved: "10000.00",
+        gap: "490000.00",
+        monthsRemaining: 0,
+        monthlyTarget: "490000.00",
+        status: "SHORTFALL",
+        explanation: "缺口不足一个月。",
+      },
+      {
+        goalId: "g4",
+        goalName: "旧目标",
+        targetAmount: "1000.00",
+        currentSaved: "200.00",
+        gap: "800.00",
+        monthsRemaining: 0,
+        monthlyTarget: "800.00",
+        status: "OVERDUE",
+        explanation: "日期已过。",
+      },
     ];
-    const html = renderToStaticMarkup(React.createElement(V2Dashboard, makeProps({ savingsPlans: plans })));
+    const html = renderToStaticMarkup(
+      React.createElement(V2Dashboard, makeProps({ savingsPlans: plans })),
+    );
     expect(html).toContain("缺口不足");
     expect(html).toContain("已逾期");
   });
@@ -101,14 +191,18 @@ describe("V2 Dashboard (isolated candidate)", () => {
       maxExpenseDay: "2027-01-01",
       copy: "本月收支平稳。",
     };
-    const html = renderToStaticMarkup(React.createElement(V2Dashboard, makeProps({ trendSummary: summary, trendWindow: 1 })));
+    const html = renderToStaticMarkup(
+      React.createElement(V2Dashboard, makeProps({ trendSummary: summary, trendWindow: 1 })),
+    );
     expect(html).toContain('data-testid="v2-trend-panel"');
     expect(html).toContain("1个月收支变化");
     expect(html).toContain("本月收支平稳。");
   });
 
   it("applies reduced-motion class when flag is set", () => {
-    const html = renderToStaticMarkup(React.createElement(V2Dashboard, makeProps({ reducedMotion: true })));
+    const html = renderToStaticMarkup(
+      React.createElement(V2Dashboard, makeProps({ reducedMotion: true })),
+    );
     expect(html).toContain("v2-dashboard--reduced");
   });
 
@@ -122,7 +216,10 @@ describe("V2 Dashboard (isolated candidate)", () => {
 
   it("handles zero-value ledger gracefully", () => {
     const html = renderToStaticMarkup(
-      React.createElement(V2Dashboard, makeProps({ ledger: { income: "0.00", dailyExpense: "0.00", accountCash: "0.00" } }))
+      React.createElement(
+        V2Dashboard,
+        makeProps({ ledger: { income: "0.00", dailyExpense: "0.00", accountCash: "0.00" } }),
+      ),
     );
     expect(html).not.toContain("NaN");
     expect(html).toContain("0.00");

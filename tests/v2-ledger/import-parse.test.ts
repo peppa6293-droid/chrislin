@@ -7,14 +7,8 @@ import {
   parseImportFile,
 } from "../../src/model/v2-import.js";
 
-const alipayContent = readFileSync(
-  "tests/fixtures/v2-import/sample-alipay-export.csv",
-  "utf8",
-);
-const wechatContent = readFileSync(
-  "tests/fixtures/v2-import/sample-wechat-export.csv",
-  "utf8",
-);
+const alipayContent = readFileSync("tests/fixtures/v2-import/sample-alipay-export.csv", "utf8");
+const wechatContent = readFileSync("tests/fixtures/v2-import/sample-wechat-export.csv", "utf8");
 
 describe("EXEC-I-03 official CSV import parse, preview, and dedupe", () => {
   it("parses the Alipay sample into two exact expense candidates", () => {
@@ -105,8 +99,13 @@ describe("EXEC-I-03 official CSV import parse, preview, and dedupe", () => {
 
   it("confirms pending and edited rows while skipping error rows", () => {
     const candidates = parseImportFile(alipayContent, "ALIPAY_CSV", "batch-confirm");
-    const edited = applyCandidateEdits(candidates[0]!, { note: "edited" });
-    const errorCandidate = { ...candidates[1]!, reviewStatus: "ERROR" as const };
+    const first = candidates[0];
+    const second = candidates[1];
+    expect(first).toBeDefined();
+    expect(second).toBeDefined();
+    if (!first || !second) throw new Error("expected two parsed candidates");
+    const edited = applyCandidateEdits(first, { note: "edited" });
+    const errorCandidate = { ...second, reviewStatus: "ERROR" as const };
     const result = confirmImportBatch([edited, errorCandidate]);
     expect(result.confirmed).toHaveLength(1);
     expect(result.skipped).toHaveLength(1);

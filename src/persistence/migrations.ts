@@ -253,7 +253,6 @@ CREATE INDEX IF NOT EXISTS cash_account_lifecycle_lookup ON cash_account_lifecyc
 PRAGMA user_version = 4;
 `;
 
-
 const migrationV5 = `
 CREATE TABLE IF NOT EXISTS accounts (
   id TEXT PRIMARY KEY,
@@ -436,26 +435,44 @@ export async function migrateDatabase(
     }
     if (applied < 5 && targetVersion >= 5) {
       await db.transaction(async (transactionDb) => {
-        for (const statement of migrationV5.split(";").map((part) => part.trim()).filter(Boolean)) {
+        for (const statement of migrationV5
+          .split(";")
+          .map((part) => part.trim())
+          .filter(Boolean)) {
           await transactionDb.execute(statement);
         }
-        await transactionDb.execute("INSERT INTO schema_migrations(version, applied_at) VALUES(5, ?)", [now]);
+        await transactionDb.execute(
+          "INSERT INTO schema_migrations(version, applied_at) VALUES(5, ?)",
+          [now],
+        );
       });
     }
     if (applied < 6 && targetVersion >= 6) {
       await db.transaction(async (transactionDb) => {
-        for (const statement of migrationV6.split(";").map((part) => part.trim()).filter(Boolean)) {
+        for (const statement of migrationV6
+          .split(";")
+          .map((part) => part.trim())
+          .filter(Boolean)) {
           await transactionDb.execute(statement);
         }
-        await transactionDb.execute("INSERT INTO schema_migrations(version, applied_at) VALUES(6, ?)", [now]);
+        await transactionDb.execute(
+          "INSERT INTO schema_migrations(version, applied_at) VALUES(6, ?)",
+          [now],
+        );
       });
     }
     if (applied < 7 && targetVersion >= 7) {
       await db.transaction(async (transactionDb) => {
-        for (const statement of migrationV7.split(";").map((part) => part.trim()).filter(Boolean)) {
+        for (const statement of migrationV7
+          .split(";")
+          .map((part) => part.trim())
+          .filter(Boolean)) {
           await transactionDb.execute(statement);
         }
-        await transactionDb.execute("INSERT INTO schema_migrations(version, applied_at) VALUES(7, ?)", [now]);
+        await transactionDb.execute(
+          "INSERT INTO schema_migrations(version, applied_at) VALUES(7, ?)",
+          [now],
+        );
       });
     }
     const finalSchema = await readSchemaVersionState(db);

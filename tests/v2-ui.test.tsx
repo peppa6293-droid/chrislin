@@ -574,12 +574,9 @@ describe("V2 product surface", () => {
       ],
     });
     // Recent expenses are on the TODAY page (default). MoneyAmount renders as ¥25.00 with aria-label.
-    expect(
-      screen.getByRole("img", { name: /25点00 元人民币/ }),
-    ).toBeTruthy();
+    expect(screen.getByRole("img", { name: /25点00 元人民币/ })).toBeTruthy();
     expect(screen.getByText("吃饭")).toBeTruthy();
     // A September expense marker must NOT appear since product-service filters by currentMonth
     expect(screen.queryByText("sep-old-expense-marker")).toBeNull();
   });
-
 });

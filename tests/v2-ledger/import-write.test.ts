@@ -2,16 +2,16 @@ import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { V2ImportService } from "../../src/application/v2-import-service.js";
+import {
+  applyCandidateEdits,
+  confirmImportBatch,
+  type ImportedExpenseCandidate,
+  parseImportFile,
+} from "../../src/model/v2-import.js";
 import { ApplicationDataError } from "../../src/persistence/database.js";
 import { migrateDatabase } from "../../src/persistence/migrations.js";
 import { Repositories } from "../../src/persistence/repositories.js";
 import { NodeSqliteDatabase } from "../helpers/node-sqlite.js";
-import {
-  applyCandidateEdits,
-  confirmImportBatch,
-  parseImportFile,
-  type ImportedExpenseCandidate,
-} from "../../src/model/v2-import.js";
 
 let db: NodeSqliteDatabase;
 let repositories: Repositories;
@@ -71,7 +71,9 @@ describe("EXEC-I-04 official CSV import write, readback, and feedback", () => {
     const expenseColumns = await db.select<{ name: string }>("PRAGMA table_info(expenses)");
     expect(expenseColumns.map((column) => column.name)).toContain("dedupe_key");
     expect(
-      await db.select("SELECT name FROM sqlite_master WHERE type='index' AND name='expenses_dedupe_unique'"),
+      await db.select(
+        "SELECT name FROM sqlite_master WHERE type='index' AND name='expenses_dedupe_unique'",
+      ),
     ).toEqual([{ name: "expenses_dedupe_unique" }]);
 
     await db.connection.exec("PRAGMA user_version = 6");
@@ -81,9 +83,7 @@ describe("EXEC-I-04 official CSV import write, readback, and feedback", () => {
     await migrateDatabase(db, "2026-10-19T01:00:00.000Z");
     expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 7 }]);
     expect(
-      await db.select(
-        "SELECT COUNT(*) AS count FROM schema_migrations WHERE version IN (6,7)",
-      ),
+      await db.select("SELECT COUNT(*) AS count FROM schema_migrations WHERE version IN (6,7)"),
     ).toEqual([{ count: 2 }]);
   });
 
@@ -108,7 +108,9 @@ describe("EXEC-I-04 official CSV import write, readback, and feedback", () => {
       errorRows: 0,
     });
     const expenses = await repositories.listV2Expenses("profile-v2", "2026-10");
-    expect(expenses.map((expense) => [expense.amount, expense.occurredOn, expense.categoryId])).toEqual([
+    expect(
+      expenses.map((expense) => [expense.amount, expense.occurredOn, expense.categoryId]),
+    ).toEqual([
       ["35.00", "2026-10-01", "cat-food"],
       ["12.50", "2026-10-02", "cat-food"],
     ]);
@@ -164,8 +166,13 @@ describe("EXEC-I-04 official CSV import write, readback, and feedback", () => {
         applyCandidateEdits(candidate, { category: "cat-food", accountId: "cash-1" }),
       )
       .map((candidate) => ({ ...candidate, reviewStatus: "CONFIRMED" as const }));
+    const firstEdited = edited[0];
+    const secondEdited = edited[1];
+    expect(firstEdited).toBeDefined();
+    expect(secondEdited).toBeDefined();
+    if (!firstEdited || !secondEdited) throw new Error("expected two edited candidates");
     const income: ImportedExpenseCandidate = {
-      ...edited[0]!,
+      ...firstEdited,
       importBatchId: "batch-partial",
       provider: "ALIPAY_CSV",
       sourceRowKey: "income-001",
@@ -173,7 +180,7 @@ describe("EXEC-I-04 official CSV import write, readback, and feedback", () => {
       dedupeKey: "ALIPAY_CSV:income-001:35.00:2026-10-01",
     };
     const invalidCategory: ImportedExpenseCandidate = {
-      ...edited[1]!,
+      ...secondEdited,
       sourceRowKey: "bad-category",
       dedupeKey: "ALIPAY_CSV:bad-category:12.50:2026-10-02",
       category: "missing-category",
@@ -233,16 +240,19 @@ describe("EXEC-I-04 official CSV import write, readback, and feedback", () => {
     expect(second.auditEvents.filter((event) => event.endsWith(": duplicate"))).toHaveLength(2);
     expect(await repositories.listV2Expenses("profile-v2", "2026-10")).toHaveLength(2);
 
-    const [storedFirst] = await repositories.listV2Expenses("profile-v2", "2026-10");
+    const storedExpenses = await repositories.listV2Expenses("profile-v2", "2026-10");
+    const storedFirst = storedExpenses[0];
+    expect(storedFirst).toBeDefined();
+    if (!storedFirst) throw new Error("expected a stored expense");
     const duplicateKey = await db.select<{ dedupe_key: string }>(
       "SELECT dedupe_key FROM expenses WHERE id=?",
-      [storedFirst!.id],
+      [storedFirst.id],
     );
     await expect(
       db.execute(
         `INSERT INTO expenses(id,profile_id,kind,amount,currency,occurred_on,category_id,description,account_id,created_at,dedupe_key)
          VALUES('duplicate','profile-v2','CASH_DEBIT','1.00','CNY','2026-10-01','cat-food','duplicate','cash-1','2026-10-19T00:00:00.000Z',?)`,
-        [duplicateKey[0]!.dedupe_key],
+        [duplicateKey[0]?.dedupe_key ?? ""],
       ),
     ).rejects.toThrow();
   });
@@ -304,8 +314,13 @@ describe("EXEC-I-04 official CSV import write, readback, and feedback", () => {
 
   it("records an invalid amount as a row error while writing the valid row", async () => {
     const candidates = confirmedAlipayCandidates("batch-invalid-amount");
+    const firstCandidate = candidates[0];
+    const secondCandidate = candidates[1];
+    expect(firstCandidate).toBeDefined();
+    expect(secondCandidate).toBeDefined();
+    if (!firstCandidate || !secondCandidate) throw new Error("expected two confirmed candidates");
     const invalidAmount: ImportedExpenseCandidate = {
-      ...candidates[1]!,
+      ...secondCandidate,
       amount: "1.234",
       dedupeKey: "ALIPAY_CSV:synthetic-alipay-002:1.234:2026-10-02",
     };
@@ -314,7 +329,7 @@ describe("EXEC-I-04 official CSV import write, readback, and feedback", () => {
       profileId: "profile-v2",
       provider: "ALIPAY_CSV",
       sourceFileContent: alipayContent,
-      candidates: [candidates[0]!, invalidAmount],
+      candidates: [firstCandidate, invalidAmount],
     });
 
     expect(result).toMatchObject({
@@ -336,10 +351,15 @@ describe("EXEC-I-04 official CSV import write, readback, and feedback", () => {
       constructor(private readonly base: NodeSqliteDatabase) {
         super(base.connection);
       }
-      override async select<T extends Record<string, unknown>>(sql: string, bindValues: unknown[] = []) {
+      override async select<T extends Record<string, unknown>>(
+        sql: string,
+        bindValues: unknown[] = [],
+      ) {
         const rows = await this.base.select<T>(sql, bindValues);
         if (sql.startsWith("SELECT * FROM expenses WHERE id=?") && rows[0]) {
-          return [{ ...(rows[0] as unknown as { amount: string }), amount: "999.99" }] as unknown as T[];
+          return [
+            { ...(rows[0] as unknown as { amount: string }), amount: "999.99" },
+          ] as unknown as T[];
         }
         return rows;
       }
@@ -366,9 +386,14 @@ describe("EXEC-I-04 official CSV import write, readback, and feedback", () => {
       currency: "CNY",
       active: false,
     });
-    const candidates = confirmedAlipayCandidates("batch-stopped-account");
+    const stoppedCandidates = confirmedAlipayCandidates("batch-stopped-account");
+    const firstStopped = stoppedCandidates[0];
+    const secondStopped = stoppedCandidates[1];
+    expect(firstStopped).toBeDefined();
+    expect(secondStopped).toBeDefined();
+    if (!firstStopped || !secondStopped) throw new Error("expected two confirmed candidates");
     const stoppedAccount: ImportedExpenseCandidate = {
-      ...candidates[1]!,
+      ...secondStopped,
       accountId: "cash-stopped",
     };
     const result = await service.writeConfirmedImport({
@@ -376,7 +401,7 @@ describe("EXEC-I-04 official CSV import write, readback, and feedback", () => {
       profileId: "profile-v2",
       provider: "ALIPAY_CSV",
       sourceFileContent: alipayContent,
-      candidates: [candidates[0]!, stoppedAccount],
+      candidates: [firstStopped, stoppedAccount],
     });
 
     expect(result).toMatchObject({
@@ -421,7 +446,10 @@ describe("EXEC-I-04 official CSV import write, readback, and feedback", () => {
       constructor(private readonly base: NodeSqliteDatabase) {
         super(base.connection);
       }
-      override async select<T extends Record<string, unknown>>(sql: string, bindValues: unknown[] = []) {
+      override async select<T extends Record<string, unknown>>(
+        sql: string,
+        bindValues: unknown[] = [],
+      ) {
         if (sql.startsWith("SELECT * FROM expenses WHERE id=?")) return [] as T[];
         return this.base.select<T>(sql, bindValues);
       }

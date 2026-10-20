@@ -1,9 +1,5 @@
 import { Decimal } from "decimal.js";
-import {
-  calculateBillStatus,
-  type BillStatus,
-  type CreditCardBill,
-} from "./v2-cashflow.js";
+import { type BillStatus, type CreditCardBill, calculateBillStatus } from "./v2-cashflow.js";
 
 const MONEY_SCALE = 2;
 const ISO_DATE = /^(\d{4})-(\d{2})-(\d{2})$/;
@@ -57,7 +53,10 @@ function money(value: string, field: string, allowZero = false): Decimal {
   } catch {
     throw new RangeError(`${field} must be a valid decimal amount`);
   }
-  if (!parsed.isFinite() || (allowZero ? parsed.isNegative() : parsed.isZero() || parsed.isNegative())) {
+  if (
+    !parsed.isFinite() ||
+    (allowZero ? parsed.isNegative() : parsed.isZero() || parsed.isNegative())
+  ) {
     throw new RangeError(`${field} must be ${allowZero ? "zero or positive" : "positive"}`);
   }
   return parsed.toDecimalPlaces(MONEY_SCALE, Decimal.ROUND_HALF_UP);
@@ -104,10 +103,7 @@ export function createSavingsGoal(input: Omit<SavingsGoal, "id"> & { id?: string
  * Sum all outstanding bill remaining amounts via L-04 calculateBillStatus.
  * This is a read-only call; no L-04 files are modified.
  */
-function totalOutstandingBills(
-  bills: CreditCardBill[],
-  asOf: string,
-): Decimal {
+function totalOutstandingBills(bills: CreditCardBill[], asOf: string): Decimal {
   let total = new Decimal(0);
   for (const bill of bills) {
     const status: BillStatus = calculateBillStatus(bill, { asOf, availableCash: "0.00" });
@@ -116,10 +112,7 @@ function totalOutstandingBills(
   return total.toDecimalPlaces(MONEY_SCALE);
 }
 
-export function calculateSavingsPlan(
-  goal: SavingsGoal,
-  asOf: string,
-): SavingsPlan {
+export function calculateSavingsPlan(goal: SavingsGoal, asOf: string): SavingsPlan {
   const now = parseDate(asOf, "asOf");
   const target = money(goal.targetAmount, "targetAmount");
   const saved = money(goal.currentSaved, "currentSaved", true);

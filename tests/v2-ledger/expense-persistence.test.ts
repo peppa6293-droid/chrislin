@@ -132,11 +132,7 @@ describe("EXEC-P-01 V2 expense persistence", () => {
     expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 7 }]);
     expect(
       await db.select("SELECT version FROM schema_migrations WHERE version IN (5,6,7)"),
-    ).toEqual([
-      { version: 5 },
-      { version: 6 },
-      { version: 7 },
-    ]);
+    ).toEqual([{ version: 5 }, { version: 6 }, { version: 7 }]);
     expect(await db.select("SELECT COUNT(*) AS count FROM expenses")).toEqual([{ count: 0 }]);
     expect(await db.select("SELECT COUNT(*) AS count FROM import_batches")).toEqual([{ count: 0 }]);
   });

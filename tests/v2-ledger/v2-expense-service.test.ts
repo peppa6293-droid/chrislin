@@ -120,7 +120,9 @@ describe("EXEC-L-07 V2 expense application service", () => {
       "33.33",
       "33.34",
     ]);
-    expect(installment.expense.repaymentSchedule.reduce((total, item) => total + Number(item.amount), 0)).toBeCloseTo(100.0, 2);
+    expect(
+      installment.expense.repaymentSchedule.reduce((total, item) => total + Number(item.amount), 0),
+    ).toBeCloseTo(100.0, 2);
     expect(await repositories.getV2ExpenseById("expense-installment")).toMatchObject({
       totalAmount: "99.99",
       installmentAmount: "33.33",

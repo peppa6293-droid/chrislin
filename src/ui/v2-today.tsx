@@ -40,7 +40,11 @@ export function V2Today({ expenseService, repositories, profileId, onGoRecord }:
           dailyExpenseTotal: summary.dailyExpenseTotal,
           entryCount: recent.length,
           recent: [...recent]
-            .sort((a, b) => (a.occurredOn === b.occurredOn ? b.id.localeCompare(a.id) : b.occurredOn.localeCompare(a.occurredOn)))
+            .sort((a, b) =>
+              a.occurredOn === b.occurredOn
+                ? b.id.localeCompare(a.id)
+                : b.occurredOn.localeCompare(a.occurredOn),
+            )
             .slice(0, 3)
             .map((expense) => ({
               id: expense.id,

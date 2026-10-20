@@ -67,9 +67,7 @@ function validCalendarDate(value: string): boolean {
   const day = Number(dayText);
   const date = new Date(Date.UTC(year, month - 1, day));
   return (
-    date.getUTCFullYear() === year &&
-    date.getUTCMonth() + 1 === month &&
-    date.getUTCDate() === day
+    date.getUTCFullYear() === year && date.getUTCMonth() + 1 === month && date.getUTCDate() === day
   );
 }
 
@@ -100,13 +98,17 @@ export class V2ImportService {
     let skippedRows = 0;
     let errorRows = 0;
 
-    const existingDedupeKeys = new Set(await this.repositories.listImportedDedupeKeys(input.profileId));
+    const existingDedupeKeys = new Set(
+      await this.repositories.listImportedDedupeKeys(input.profileId),
+    );
     const categories = await this.repositories.listExpenseCategories(input.profileId);
     const categoryIds = new Set(
       categories.filter((category) => category.active).map((category) => category.id),
     );
     const accounts = await this.repositories.listAccounts(input.profileId);
-    const accountIds = new Set(accounts.filter((account) => account.active).map((account) => account.id));
+    const accountIds = new Set(
+      accounts.filter((account) => account.active).map((account) => account.id),
+    );
 
     const rows: ValidatedImportRow[] = [];
     const writtenCandidateIds: string[] = [];
@@ -178,7 +180,9 @@ export class V2ImportService {
       rows.push({ candidate, expense, dedupeKey: candidate.dedupeKey });
       writtenCandidateIds.push(candidate.sourceRowKey);
       validRows += 1;
-      auditEvents.push(`validated ${candidate.sourceRowKey}: amount=${amount} date=${candidate.businessDate}`);
+      auditEvents.push(
+        `validated ${candidate.sourceRowKey}: amount=${amount} date=${candidate.businessDate}`,
+      );
     }
 
     const batch = {
@@ -212,7 +216,8 @@ export class V2ImportService {
         storedAmount !== expectedAmount ||
         stored.occurredOn !== row.expense.occurredOn ||
         stored.categoryId !== row.expense.categoryId ||
-        (stored.kind !== "CASH_DEBIT" || stored.accountId !== row.expense.accountId)
+        stored.kind !== "CASH_DEBIT" ||
+        stored.accountId !== row.expense.accountId
       ) {
         throw new ApplicationDataError(
           "IMPORT_READBACK_FAILED",

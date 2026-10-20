@@ -99,7 +99,9 @@ export function calculateInstallmentSchedule(
 
   const obligation = total.plus(serviceFee).toDecimalPlaces(MONEY_SCALE, Decimal.ROUND_HALF_UP);
   const baseAmount = obligation.div(periods).toDecimalPlaces(MONEY_SCALE, Decimal.ROUND_DOWN);
-  const finalAmount = obligation.minus(baseAmount.times(periods - 1)).toDecimalPlaces(MONEY_SCALE, Decimal.ROUND_HALF_UP);
+  const finalAmount = obligation
+    .minus(baseAmount.times(periods - 1))
+    .toDecimalPlaces(MONEY_SCALE, Decimal.ROUND_HALF_UP);
 
   return Array.from({ length: periods }, (_, index) => ({
     installmentNumber: index + 1,
@@ -121,7 +123,15 @@ export function createCreditOneTimeExpense(
 }
 
 export function createCreditInstallmentExpense(
-  input: Omit<CreditInstallmentExpense, "kind" | "installmentAmount" | "repaymentSchedule" | "remainingPeriods" | "remainingAmount" | "paidPeriods"> & {
+  input: Omit<
+    CreditInstallmentExpense,
+    | "kind"
+    | "installmentAmount"
+    | "repaymentSchedule"
+    | "remainingPeriods"
+    | "remainingAmount"
+    | "paidPeriods"
+  > & {
     paidPeriods?: number;
   },
 ): CreditInstallmentExpense {

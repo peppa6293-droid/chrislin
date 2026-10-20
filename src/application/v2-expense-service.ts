@@ -1,18 +1,22 @@
 import { Decimal } from "decimal.js";
 import { assertUserInputMoney } from "../model/money.js";
+import type { BillStatus } from "../model/v2-cashflow.js";
 import {
+  type CashDebitExpense,
+  type CreditInstallmentExpense,
+  type CreditOneTimeExpense,
   calculateInstallmentSchedule,
   createCashDebitExpense,
   createCreditInstallmentExpense,
   createCreditOneTimeExpense,
-  type CreditInstallmentExpense,
-  type CreditOneTimeExpense,
-  type CashDebitExpense,
 } from "../model/v2-expense.js";
-import { reconcileCreditCardPayment, reconcileCashDebitExpense, reconcileInstallmentTotal } from "../model/v2-reconciliation.js";
-import type { BillStatus } from "../model/v2-cashflow.js";
-import type { Repositories } from "../persistence/repositories.js";
+import {
+  reconcileCashDebitExpense,
+  reconcileCreditCardPayment,
+  reconcileInstallmentTotal,
+} from "../model/v2-reconciliation.js";
 import { ApplicationDataError } from "../persistence/database.js";
+import type { Repositories } from "../persistence/repositories.js";
 import type { V2DashboardProps } from "../ui/v2-dashboard.js";
 
 const DATE_PATTERN = /^(\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
@@ -67,7 +71,9 @@ function assertPositiveMoney(value: string, field: string): string {
   try {
     normalized = assertUserInputMoney(value, field);
   } catch (error) {
-    throw new ApplicationDataError("INVALID_EXPENSE_AMOUNT", `${field} is invalid.`, { cause: error });
+    throw new ApplicationDataError("INVALID_EXPENSE_AMOUNT", `${field} is invalid.`, {
+      cause: error,
+    });
   }
   const parsed = new Decimal(normalized);
   if (!parsed.isPositive()) {
@@ -90,7 +96,10 @@ function assertCalendarDate(value: string, field: string): void {
     date.getUTCMonth() + 1 !== month ||
     date.getUTCDate() !== day
   ) {
-    throw new ApplicationDataError("INVALID_EXPENSE_DATE", `${field} must be a valid calendar date.`);
+    throw new ApplicationDataError(
+      "INVALID_EXPENSE_DATE",
+      `${field} must be a valid calendar date.`,
+    );
   }
 }
 
@@ -131,7 +140,7 @@ export class V2ExpenseService {
     const reconciliation = reconcileCashDebitExpense(expense);
     await this.repositories.createV2Expense(expense);
     const stored = await this.repositories.getV2ExpenseById(expense.id);
-    if (!stored || stored.kind !== "CASH_DEBIT") {
+    if (stored?.kind !== "CASH_DEBIT") {
       throw new ApplicationDataError(
         "EXPENSE_READBACK_FAILED",
         "Cash debit expense readback did not match.",
@@ -148,7 +157,11 @@ export class V2ExpenseService {
     assertCalendarDate(draft.occurredOn, "occurredOn");
     assertRequiredText(draft.id, "INVALID_EXPENSE_ID", "Expense id is required.");
     assertRequiredText(draft.profileId, "INVALID_PROFILE", "Profile id is required.");
-    assertRequiredText(draft.creditCardId, "INVALID_EXPENSE_ACCOUNT", "Credit card id is required.");
+    assertRequiredText(
+      draft.creditCardId,
+      "INVALID_EXPENSE_ACCOUNT",
+      "Credit card id is required.",
+    );
     assertRequiredText(draft.currency, "INVALID_CURRENCY", "Currency is required.");
     await this.assertCategoryExists(draft.profileId, draft.categoryId);
 
@@ -167,7 +180,7 @@ export class V2ExpenseService {
       const expense = createCreditOneTimeExpense(base);
       await this.repositories.createV2Expense(expense);
       const stored = await this.repositories.getV2ExpenseById(expense.id);
-      if (!stored || stored.kind !== "CREDIT_ONE_TIME") {
+      if (stored?.kind !== "CREDIT_ONE_TIME") {
         throw new ApplicationDataError(
           "EXPENSE_READBACK_FAILED",
           "Credit one-time expense readback did not match.",
@@ -177,7 +190,10 @@ export class V2ExpenseService {
       return { expense: stored };
     }
 
-    const totalAmount = assertPositiveMoney(draft.installment.totalAmount, "installment.totalAmount");
+    const totalAmount = assertPositiveMoney(
+      draft.installment.totalAmount,
+      "installment.totalAmount",
+    );
     if (!new Decimal(amount).eq(totalAmount)) {
       throw new ApplicationDataError(
         "INVALID_EXPENSE_INSTALLMENT",
@@ -224,7 +240,7 @@ export class V2ExpenseService {
     });
     await this.repositories.createV2Expense(expense);
     const stored = await this.repositories.getV2ExpenseById(expense.id);
-    if (!stored || stored.kind !== "CREDIT_INSTALLMENT") {
+    if (stored?.kind !== "CREDIT_INSTALLMENT") {
       throw new ApplicationDataError(
         "EXPENSE_READBACK_FAILED",
         "Credit installment expense readback did not match.",
@@ -239,7 +255,11 @@ export class V2ExpenseService {
   }> {
     assertRequiredText(paymentDraft.id, "INVALID_PAYMENT_ID", "Payment id is required.");
     assertRequiredText(paymentDraft.expenseId, "INVALID_EXPENSE_ID", "Expense id is required.");
-    assertRequiredText(paymentDraft.cashAccountId, "INVALID_EXPENSE_ACCOUNT", "Cash account id is required.");
+    assertRequiredText(
+      paymentDraft.cashAccountId,
+      "INVALID_EXPENSE_ACCOUNT",
+      "Cash account id is required.",
+    );
     assertRequiredText(paymentDraft.currency, "INVALID_CURRENCY", "Currency is required.");
     assertCalendarDate(paymentDraft.paidOn, "paidOn");
     assertPositiveMoney(paymentDraft.amount, "amount");
@@ -289,9 +309,15 @@ export class V2ExpenseService {
     }
   }
 
-  private assertReadback<TExpense extends { id: string }>(stored: TExpense | null, expected: TExpense): void {
+  private assertReadback<TExpense extends { id: string }>(
+    stored: TExpense | null,
+    expected: TExpense,
+  ): void {
     if (!stored || stored.id !== expected.id) {
-      throw new ApplicationDataError("EXPENSE_READBACK_FAILED", "Expense readback did not match the stored id.");
+      throw new ApplicationDataError(
+        "EXPENSE_READBACK_FAILED",
+        "Expense readback did not match the stored id.",
+      );
     }
   }
 }

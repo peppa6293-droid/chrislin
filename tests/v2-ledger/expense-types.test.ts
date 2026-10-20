@@ -71,7 +71,11 @@ describe("V2 expense kinds", () => {
       creditCardId: "card-1",
       paidPeriods: 1,
     });
-    expect(expense.repaymentSchedule.map((item) => item.amount)).toEqual(["34.00", "34.00", "34.00"]);
+    expect(expense.repaymentSchedule.map((item) => item.amount)).toEqual([
+      "34.00",
+      "34.00",
+      "34.00",
+    ]);
     expect(expense.paidPeriods).toBe(1);
     expect(expense.remainingPeriods).toBe(2);
     expect(expense.remainingAmount).toBe("68.00");

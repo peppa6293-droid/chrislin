@@ -10,20 +10,24 @@ const repositories = {
   listV2Expenses: vi.fn(),
 } as unknown as Repositories;
 
-function makeService(overrides: {
-  summary?: Promise<{ dailyExpenseTotal: string; billStatuses: never[] }>;
-  recent?: Promise<Array<{
-    id: string;
-    amount: string;
-    currency: string;
-    occurredOn: string;
-    categoryId: string;
-    description: string;
-    kind: "CASH_DEBIT";
-    accountId: string;
-    profileId: string;
-  }>>;
-} = {}) {
+function makeService(
+  overrides: {
+    summary?: Promise<{ dailyExpenseTotal: string; billStatuses: never[] }>;
+    recent?: Promise<
+      Array<{
+        id: string;
+        amount: string;
+        currency: string;
+        occurredOn: string;
+        categoryId: string;
+        description: string;
+        kind: "CASH_DEBIT";
+        accountId: string;
+        profileId: string;
+      }>
+    >;
+  } = {},
+) {
   return {
     getMonthSummary: vi.fn(
       overrides.summary

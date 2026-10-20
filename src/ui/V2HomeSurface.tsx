@@ -6,7 +6,6 @@ import {
   CircleDollarSign,
   CreditCard,
   Home,
-  Landmark,
   ListChecks,
   Plus,
   Settings2,
@@ -368,7 +367,7 @@ function TodayPanel({
   onOpenTask,
   onSelectTab,
   onOpenDetail,
-  onOpenFinance,
+  onOpenFinance: _onOpenFinance,
 }: {
   home: HomeApplicationState;
   displayName: string;
@@ -387,8 +386,6 @@ function TodayPanel({
   onOpenFinance: V2HomeSurfaceProps["onOpenFinance"];
 }) {
   const spendingTarget = home.desiredMonthlyDiscretionarySpending;
-  const targetRemaining =
-    spendingTarget == null ? null : money(spendingTarget).minus(money(home.currentMonthSpending));
   const debtDisplay =
     pendingDebtFactNames.length > 0 ? "待确认" : formatYuan(home.mandatoryDebtService);
   return (
@@ -611,7 +608,7 @@ function SemanticDetailLayer({
     ? "暂不可计算"
     : `${formatMonths(home.safetyCoverageMonths)} 个月`;
   return (
-    <div className="v2-sr-only v2-semantic-detail-layer" aria-label="财务详情入口">
+    <section className="v2-sr-only v2-semantic-detail-layer" aria-label="财务详情入口">
       <h2>照顾路径</h2>
       <button
         className={`module-spending ${savedExpenseId ? "is-expense-saved" : ""}`}
@@ -685,85 +682,7 @@ function SemanticDetailLayer({
           {pendingDebtFactNames.length > 0 ? "本月应还待确认" : debtLabel}
         </span>
       </button>
-    </div>
-  );
-}
-
-function PathCard({
-  className,
-  tone,
-  icon,
-  title,
-  value,
-  meta,
-  testId,
-  onClick,
-  ariaLabel,
-  progress,
-  progressLabel,
-  extra,
-  dataPrimary = false,
-  effectClassName = "",
-}: {
-  className: string;
-  tone: "coral" | "blue" | "yellow" | "lavender";
-  icon: ReactNode;
-  title: string;
-  value: ReactNode;
-  meta: string;
-  testId: string;
-  onClick: () => void;
-  ariaLabel: string;
-  progress?: number | null;
-  progressLabel?: string;
-  extra?: ReactNode;
-  dataPrimary?: boolean;
-  effectClassName?: string;
-}) {
-  return (
-    <button
-      type="button"
-      className={`v2-path-card ${className} ${effectClassName}`}
-      data-primary-module={dataPrimary ? "true" : undefined}
-      onClick={onClick}
-      aria-label={ariaLabel}
-    >
-      <div className={`v2-path-icon v2-tone-${tone}`} aria-hidden="true">
-        {icon}
-      </div>
-      <div className="v2-path-copy">
-        <div className="v2-path-title-row">
-          <h3>{title}</h3>
-          <span className="v2-path-open" aria-hidden="true">
-            <ChevronRight size={17} aria-hidden="true" />
-          </span>
-        </div>
-        <strong className="v2-path-value" data-testid={testId}>
-          {value}
-        </strong>
-        <span className="v2-path-meta">{meta}</span>
-        {progress != null && progressLabel && (
-          <div className="v2-path-progress-wrap">
-            <div
-              className="v2-path-progress"
-              role="progressbar"
-              aria-label="安全垫覆盖进度"
-              aria-valuemin={0}
-              aria-valuemax={100}
-              aria-valuenow={progress}
-              aria-valuetext={progressLabel}
-            >
-              <i style={{ width: `${progress}%` }} />
-            </div>
-            <span>{progressLabel}</span>
-          </div>
-        )}
-        {progress === null && progressLabel && (
-          <span className="v2-path-unavailable">{progressLabel}</span>
-        )}
-        {extra}
-      </div>
-    </button>
+    </section>
   );
 }
 

@@ -19,7 +19,9 @@ afterEach(() => {
 });
 
 function renderTask(onGoRecord = vi.fn()) {
-  render(<V2TodayTask repositories={repositories} profileId="profile-v2" onGoRecord={onGoRecord} />);
+  render(
+    <V2TodayTask repositories={repositories} profileId="profile-v2" onGoRecord={onGoRecord} />,
+  );
   return onGoRecord;
 }
 
@@ -32,7 +34,9 @@ function assertNoDangerOrScore(container: HTMLElement) {
 describe("EXEC-U-05 deterministic today task", () => {
   it("shows the default record task when there are no records this month", async () => {
     vi.mocked(repositories.listV2Expenses).mockResolvedValue([] as never);
-    const { container } = render(<V2TodayTask repositories={repositories} profileId="profile-v2" onGoRecord={vi.fn()} />);
+    const { container } = render(
+      <V2TodayTask repositories={repositories} profileId="profile-v2" onGoRecord={vi.fn()} />,
+    );
     expect(await screen.findByText("记下第一笔花销")).toBeTruthy();
     expect(screen.getByText("从第一笔开始，建立你的财务画面")).toBeTruthy();
     expect(screen.getByText("约 10 秒")).toBeTruthy();
@@ -57,7 +61,9 @@ describe("EXEC-U-05 deterministic today task", () => {
       { id: "e1", occurredOn: "2026-10-20" },
       { id: "e2", occurredOn: "2026-10-20" },
     ] as never);
-    const { container } = render(<V2TodayTask repositories={repositories} profileId="profile-v2" onGoRecord={vi.fn()} />);
+    const { container } = render(
+      <V2TodayTask repositories={repositories} profileId="profile-v2" onGoRecord={vi.fn()} />,
+    );
     const action = await screen.findByRole("button", { name: "已完成" });
     expect(action.disabled).toBe(true);
     expect(screen.getByText("今天已记 2 笔")).toBeTruthy();
@@ -84,14 +90,18 @@ describe("EXEC-U-05 deterministic today task", () => {
 
   it("renders nothing while loading", () => {
     vi.mocked(repositories.listV2Expenses).mockReturnValue(new Promise(() => {}) as never);
-    const { container } = render(<V2TodayTask repositories={repositories} profileId="profile-v2" onGoRecord={vi.fn()} />);
+    const { container } = render(
+      <V2TodayTask repositories={repositories} profileId="profile-v2" onGoRecord={vi.fn()} />,
+    );
     expect(container.children).toHaveLength(0);
     expect(screen.queryByText("加载中…")).toBeNull();
   });
 
   it("renders nothing after a load failure", async () => {
     vi.mocked(repositories.listV2Expenses).mockRejectedValue(new Error("load failed"));
-    const { container } = render(<V2TodayTask repositories={repositories} profileId="profile-v2" onGoRecord={vi.fn()} />);
+    const { container } = render(
+      <V2TodayTask repositories={repositories} profileId="profile-v2" onGoRecord={vi.fn()} />,
+    );
     await waitFor(() => expect(container.children).toHaveLength(0));
   });
 });

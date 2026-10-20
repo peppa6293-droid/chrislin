@@ -1,15 +1,5 @@
 import { assertUserInputMoney, money } from "../model/money.js";
 import type {
-  Account,
-  AccountType,
-  ExpenseCategoryDefinition,
-} from "../model/v2-types.js";
-import type {
-  CashDebitExpense,
-  CreditInstallmentExpense,
-  CreditOneTimeExpense,
-} from "../model/v2-expense.js";
-import type {
   Asset,
   Debt,
   ExpenseCategory,
@@ -19,6 +9,12 @@ import type {
   FinancialSettings,
   IncomeRecord,
 } from "../model/types.js";
+import type {
+  CashDebitExpense,
+  CreditInstallmentExpense,
+  CreditOneTimeExpense,
+} from "../model/v2-expense.js";
+import type { Account, AccountType, ExpenseCategoryDefinition } from "../model/v2-types.js";
 import { ApplicationDataError, type SqlDatabase } from "./database.js";
 
 type V2ExpenseKind =
@@ -1352,46 +1348,152 @@ export class Repositories {
 
   async createAccount(account: Omit<Account, "active"> & { active?: boolean }): Promise<void> {
     if (!account.id || !account.name || !account.currency)
-      throw new ApplicationDataError("INVALID_ACCOUNT", "Account id, name, and currency are required.");
-    await this.db.execute("INSERT INTO accounts(id,profile_id,name,type,currency,active,created_at) VALUES(?,?,?,?,?,?,?)", [account.id, account.profileId, account.name, account.type, account.currency, account.active === false ? 0 : 1, new Date().toISOString()]);
+      throw new ApplicationDataError(
+        "INVALID_ACCOUNT",
+        "Account id, name, and currency are required.",
+      );
+    await this.db.execute(
+      "INSERT INTO accounts(id,profile_id,name,type,currency,active,created_at) VALUES(?,?,?,?,?,?,?)",
+      [
+        account.id,
+        account.profileId,
+        account.name,
+        account.type,
+        account.currency,
+        account.active === false ? 0 : 1,
+        new Date().toISOString(),
+      ],
+    );
   }
 
   async getAccountById(id: string): Promise<Account | null> {
-    const row = (await this.db.select("SELECT id,profile_id,name,type,currency,active FROM accounts WHERE id=?", [id]))[0];
+    const row = (
+      await this.db.select(
+        "SELECT id,profile_id,name,type,currency,active FROM accounts WHERE id=?",
+        [id],
+      )
+    )[0];
     if (!row) return null;
-    return { id: text(row, "id"), profileId: text(row, "profile_id"), name: text(row, "name"), type: text(row, "type") as AccountType, currency: text(row, "currency"), active: bool(row, "active") };
+    return {
+      id: text(row, "id"),
+      profileId: text(row, "profile_id"),
+      name: text(row, "name"),
+      type: text(row, "type") as AccountType,
+      currency: text(row, "currency"),
+      active: bool(row, "active"),
+    };
   }
 
   async listAccounts(profileId: string): Promise<Account[]> {
-    const rows = await this.db.select("SELECT id,profile_id,name,type,currency,active FROM accounts WHERE profile_id=? ORDER BY name,id", [profileId]);
-    return rows.map((row) => ({ id: text(row, "id"), profileId: text(row, "profile_id"), name: text(row, "name"), type: text(row, "type") as AccountType, currency: text(row, "currency"), active: bool(row, "active") }));
+    const rows = await this.db.select(
+      "SELECT id,profile_id,name,type,currency,active FROM accounts WHERE profile_id=? ORDER BY name,id",
+      [profileId],
+    );
+    return rows.map((row) => ({
+      id: text(row, "id"),
+      profileId: text(row, "profile_id"),
+      name: text(row, "name"),
+      type: text(row, "type") as AccountType,
+      currency: text(row, "currency"),
+      active: bool(row, "active"),
+    }));
   }
 
-  async createExpenseCategory(category: Omit<ExpenseCategoryDefinition, "active"> & { active?: boolean }): Promise<void> {
+  async createExpenseCategory(
+    category: Omit<ExpenseCategoryDefinition, "active"> & { active?: boolean },
+  ): Promise<void> {
     if (!category.id || !category.name || !category.icon || !category.color)
-      throw new ApplicationDataError("INVALID_CATEGORY", "Category id, name, icon, and color are required.");
-    await this.db.execute("INSERT INTO expense_categories(id,profile_id,name,icon,color,monthly_budget,overspending_alert,savings_related,adjustable,builtin,active,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)", [category.id, category.profileId, category.name, category.icon, category.color, category.monthlyBudget, category.overspendingAlert ? 1 : 0, category.savingsRelated ? 1 : 0, category.adjustable ? 1 : 0, category.builtin ? 1 : 0, category.active === false ? 0 : 1, new Date().toISOString()]);
+      throw new ApplicationDataError(
+        "INVALID_CATEGORY",
+        "Category id, name, icon, and color are required.",
+      );
+    await this.db.execute(
+      "INSERT INTO expense_categories(id,profile_id,name,icon,color,monthly_budget,overspending_alert,savings_related,adjustable,builtin,active,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
+      [
+        category.id,
+        category.profileId,
+        category.name,
+        category.icon,
+        category.color,
+        category.monthlyBudget,
+        category.overspendingAlert ? 1 : 0,
+        category.savingsRelated ? 1 : 0,
+        category.adjustable ? 1 : 0,
+        category.builtin ? 1 : 0,
+        category.active === false ? 0 : 1,
+        new Date().toISOString(),
+      ],
+    );
   }
 
   async getExpenseCategoryById(id: string): Promise<ExpenseCategoryDefinition | null> {
     const row = (await this.db.select("SELECT * FROM expense_categories WHERE id=?", [id]))[0];
     if (!row) return null;
-    return { id: text(row, "id"), profileId: text(row, "profile_id"), name: text(row, "name"), icon: text(row, "icon"), color: text(row, "color"), monthlyBudget: nullableText(row, "monthly_budget"), overspendingAlert: bool(row, "overspending_alert"), savingsRelated: bool(row, "savings_related"), adjustable: bool(row, "adjustable"), builtin: bool(row, "builtin"), active: bool(row, "active") };
+    return {
+      id: text(row, "id"),
+      profileId: text(row, "profile_id"),
+      name: text(row, "name"),
+      icon: text(row, "icon"),
+      color: text(row, "color"),
+      monthlyBudget: nullableText(row, "monthly_budget"),
+      overspendingAlert: bool(row, "overspending_alert"),
+      savingsRelated: bool(row, "savings_related"),
+      adjustable: bool(row, "adjustable"),
+      builtin: bool(row, "builtin"),
+      active: bool(row, "active"),
+    };
   }
 
   async listExpenseCategories(profileId: string): Promise<ExpenseCategoryDefinition[]> {
-    const rows = await this.db.select("SELECT * FROM expense_categories WHERE profile_id=? AND active=1 ORDER BY builtin DESC,name,id", [profileId]);
-    return rows.map((row) => ({ id: text(row, "id"), profileId: text(row, "profile_id"), name: text(row, "name"), icon: text(row, "icon"), color: text(row, "color"), monthlyBudget: nullableText(row, "monthly_budget"), overspendingAlert: bool(row, "overspending_alert"), savingsRelated: bool(row, "savings_related"), adjustable: bool(row, "adjustable"), builtin: bool(row, "builtin"), active: bool(row, "active") }));
+    const rows = await this.db.select(
+      "SELECT * FROM expense_categories WHERE profile_id=? AND active=1 ORDER BY builtin DESC,name,id",
+      [profileId],
+    );
+    return rows.map((row) => ({
+      id: text(row, "id"),
+      profileId: text(row, "profile_id"),
+      name: text(row, "name"),
+      icon: text(row, "icon"),
+      color: text(row, "color"),
+      monthlyBudget: nullableText(row, "monthly_budget"),
+      overspendingAlert: bool(row, "overspending_alert"),
+      savingsRelated: bool(row, "savings_related"),
+      adjustable: bool(row, "adjustable"),
+      builtin: bool(row, "builtin"),
+      active: bool(row, "active"),
+    }));
   }
 
   async updateExpenseCategory(category: ExpenseCategoryDefinition): Promise<void> {
-    const result = await this.db.execute("UPDATE expense_categories SET name=?,icon=?,color=?,monthly_budget=?,overspending_alert=?,savings_related=?,adjustable=?,active=? WHERE id=? AND profile_id=?", [category.name, category.icon, category.color, category.monthlyBudget, category.overspendingAlert ? 1 : 0, category.savingsRelated ? 1 : 0, category.adjustable ? 1 : 0, category.active ? 1 : 0, category.id, category.profileId]);
-    if (!result.rowsAffected) throw new ApplicationDataError("CATEGORY_NOT_FOUND", "Expense category does not exist.");
+    const result = await this.db.execute(
+      "UPDATE expense_categories SET name=?,icon=?,color=?,monthly_budget=?,overspending_alert=?,savings_related=?,adjustable=?,active=? WHERE id=? AND profile_id=?",
+      [
+        category.name,
+        category.icon,
+        category.color,
+        category.monthlyBudget,
+        category.overspendingAlert ? 1 : 0,
+        category.savingsRelated ? 1 : 0,
+        category.adjustable ? 1 : 0,
+        category.active ? 1 : 0,
+        category.id,
+        category.profileId,
+      ],
+    );
+    if (!result.rowsAffected)
+      throw new ApplicationDataError("CATEGORY_NOT_FOUND", "Expense category does not exist.");
   }
 
   async deleteExpenseCategory(profileId: string, id: string): Promise<void> {
-    const result = await this.db.execute("UPDATE expense_categories SET active=0 WHERE id=? AND profile_id=? AND builtin=0", [id, profileId]);
-    if (!result.rowsAffected) throw new ApplicationDataError("CATEGORY_NOT_FOUND_OR_BUILTIN", "Only an active custom category can be deleted.");
+    const result = await this.db.execute(
+      "UPDATE expense_categories SET active=0 WHERE id=? AND profile_id=? AND builtin=0",
+      [id, profileId],
+    );
+    if (!result.rowsAffected)
+      throw new ApplicationDataError(
+        "CATEGORY_NOT_FOUND_OR_BUILTIN",
+        "Only an active custom category can be deleted.",
+      );
   }
 
   async createV2Expense(
@@ -1503,7 +1605,9 @@ export class Repositories {
     );
   }
 
-  private mapV2Expense(row: Row): CashDebitExpense | CreditOneTimeExpense | CreditInstallmentExpense {
+  private mapV2Expense(
+    row: Row,
+  ): CashDebitExpense | CreditOneTimeExpense | CreditInstallmentExpense {
     const kind = text(row, "kind") as V2ExpenseKind;
     if (kind === "CASH_DEBIT") {
       const accountId = nullableText(row, "account_id");
@@ -1574,12 +1678,17 @@ export class Repositories {
     return installment;
   }
 
-  async getV2ExpenseById(id: string): Promise<CashDebitExpense | CreditOneTimeExpense | CreditInstallmentExpense | null> {
+  async getV2ExpenseById(
+    id: string,
+  ): Promise<CashDebitExpense | CreditOneTimeExpense | CreditInstallmentExpense | null> {
     const row = (await this.db.select("SELECT * FROM expenses WHERE id=?", [id]))[0];
     return row ? this.mapV2Expense(row) : null;
   }
 
-  async listV2Expenses(profileId: string, month?: string): Promise<Array<CashDebitExpense | CreditOneTimeExpense | CreditInstallmentExpense>> {
+  async listV2Expenses(
+    profileId: string,
+    month?: string,
+  ): Promise<Array<CashDebitExpense | CreditOneTimeExpense | CreditInstallmentExpense>> {
     if (month !== undefined && !/^\d{4}-(0[1-9]|1[0-2])$/.test(month))
       throw new ApplicationDataError("INVALID_MONTH", "month must use YYYY-MM format.");
     const rows = month
@@ -1587,10 +1696,9 @@ export class Repositories {
           `SELECT * FROM expenses WHERE profile_id=? AND substr(occurred_on,1,7)=? ORDER BY occurred_on,id`,
           [profileId, month],
         )
-      : await this.db.select(
-          "SELECT * FROM expenses WHERE profile_id=? ORDER BY occurred_on,id",
-          [profileId],
-        );
+      : await this.db.select("SELECT * FROM expenses WHERE profile_id=? ORDER BY occurred_on,id", [
+          profileId,
+        ]);
     return rows.map((row) => this.mapV2Expense(row));
   }
 

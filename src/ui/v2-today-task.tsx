@@ -16,7 +16,10 @@ interface V2TodayTaskProps {
 }
 
 export function V2TodayTask({ repositories, profileId, onGoRecord }: V2TodayTaskProps) {
-  const [task, setTask] = useState<{ taskId: ReturnType<typeof selectTodayTask>; todayCount: number } | null>(null);
+  const [task, setTask] = useState<{
+    taskId: ReturnType<typeof selectTodayTask>;
+    todayCount: number;
+  } | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -56,12 +59,7 @@ export function V2TodayTask({ repositories, profileId, onGoRecord }: V2TodayTask
       <h2 className="v2-today-task__title">{copy.title}</h2>
       <p className="v2-today-task__reason">{copy.reason}</p>
       <p className="v2-today-task__duration">{copy.duration}</p>
-      <button
-        type="button"
-        className="v2-today-task__action"
-        disabled={done}
-        onClick={onGoRecord}
-      >
+      <button type="button" className="v2-today-task__action" disabled={done} onClick={onGoRecord}>
         {done ? "已完成" : copy.action}
       </button>
       {done ? <p className="v2-today-task__done-note">今天已记 {task.todayCount} 笔</p> : null}

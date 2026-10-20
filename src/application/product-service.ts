@@ -468,16 +468,18 @@ async function homeFromDatabase(db: SqlDatabase, asOfDate: string): Promise<Home
     primaryImprovement: model.trend.result.primaryImprovement,
     primaryDrag: model.trend.result.primaryDrag,
     priorityAction: model.priorityAction,
-    recentExpenses: (await repositories.listRecentExpenses(3, asOfDate.slice(0, 7))).map((expense) => ({
-      id: expense.id,
-      amount: String(expense.amount),
-      businessDate: expense.businessDate,
-      category: expense.category as Extract<
-        ExpenseCategory,
-        "FOOD" | "TRANSPORT" | "SHOPPING" | "ENTERTAINMENT" | "HOUSEHOLD" | "OTHER_VARIABLE"
-      >,
-      ...(expense.note === undefined ? {} : { note: expense.note }),
-    })),
+    recentExpenses: (await repositories.listRecentExpenses(3, asOfDate.slice(0, 7))).map(
+      (expense) => ({
+        id: expense.id,
+        amount: String(expense.amount),
+        businessDate: expense.businessDate,
+        category: expense.category as Extract<
+          ExpenseCategory,
+          "FOOD" | "TRANSPORT" | "SHOPPING" | "ENTERTAINMENT" | "HOUSEHOLD" | "OTHER_VARIABLE"
+        >,
+        ...(expense.note === undefined ? {} : { note: expense.note }),
+      }),
+    ),
     spendingBreakdown: buildSpendingBreakdown(built.input.facts.expenses, asOfDate.slice(0, 7)),
   };
 }

@@ -22,7 +22,10 @@ export type TaskId =
   | "RECORD_EXPENSE"
   | "DEFAULT_RECORD";
 
-export const TASK_COPY: Record<TaskId, { title: string; reason: string; duration: string; action: string }> = {
+export const TASK_COPY: Record<
+  TaskId,
+  { title: string; reason: string; duration: string; action: string }
+> = {
   CLARIFY_GAP: {
     title: "把本月收支缺口理清",
     reason: "本月支出超过了收入，先看清现状",

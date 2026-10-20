@@ -23,7 +23,8 @@ export interface ImportedExpenseCandidate {
 const ALIPAY_COLUMNS = ["交易号", "交易时间", "交易对方", "金额", "收支", "备注"] as const;
 const WECHAT_COLUMNS = ["交易单号", "交易时间", "交易对方", "金额(元)", "收/支", "备注"] as const;
 const AMOUNT_MONEY_PATTERN = /^-?(?:0|[1-9]\d*)(?:\.\d{1,2})?$/;
-const ISO_DATE_PATTERN = /^(\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$/;
+const ISO_DATE_PATTERN =
+  /^(\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$/;
 
 function parseCsvLine(line: string): string[] {
   const values: string[] = [];
@@ -128,7 +129,9 @@ export function parseImportFile(
   for (let index = 1; index < lines.length; index += 1) {
     const rawLine = lines[index] ?? "";
     const row = parseCsvLine(rawLine);
-    const values = new Map(header.map((column, columnIndex) => [column, (row[columnIndex] ?? "").trim()]));
+    const values = new Map(
+      header.map((column, columnIndex) => [column, (row[columnIndex] ?? "").trim()]),
+    );
     const validationErrors: string[] = [];
     const unknownColumns = header.filter((column) => !expectedColumns.includes(column as never));
     if (unknownColumns.length > 0)
@@ -142,7 +145,10 @@ export function parseImportFile(
     const businessDate = businessDateFrom(occurredAt);
     if (!businessDate) validationErrors.push("Invalid transaction time; expected ISO 8601 date.");
     const amount = normalizeAmount(values.get(amountKey(provider)) ?? "");
-    if (!amount) validationErrors.push("Invalid amount; expected a non-negative decimal with at most 2 places.");
+    if (!amount)
+      validationErrors.push(
+        "Invalid amount; expected a non-negative decimal with at most 2 places.",
+      );
     const direction = normalizeDirection(values.get(directionKey(provider)) ?? "");
     if (direction === "UNKNOWN") validationErrors.push("Unknown direction.");
     if (values.get("备注") === undefined) validationErrors.push("Missing note column.");
@@ -187,7 +193,9 @@ export function dedupeImportCandidates(
 
 export function applyCandidateEdits(
   candidate: ImportedExpenseCandidate,
-  edits: Partial<Pick<ImportedExpenseCandidate, "category" | "accountId" | "note" | "businessDate">>,
+  edits: Partial<
+    Pick<ImportedExpenseCandidate, "category" | "accountId" | "note" | "businessDate">
+  >,
 ): ImportedExpenseCandidate {
   return {
     ...candidate,
