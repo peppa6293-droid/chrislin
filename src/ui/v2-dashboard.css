@@ -56,6 +56,33 @@
   padding: 16px;
 }
 
+.v2-dashboard__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  background: var(--v2-surface);
+}
+
+.v2-dashboard__icon--coral {
+  color: var(--v2-coral);
+}
+
+.v2-dashboard__icon--blue {
+  color: var(--v2-blue);
+}
+
+.v2-dashboard__icon--yellow {
+  color: var(--v2-yellow);
+}
+
+.v2-dashboard__icon--lavender {
+  color: var(--v2-lavender);
+}
+
 .v2-dashboard__label {
   font-size: 12px;
   font-weight: 500;

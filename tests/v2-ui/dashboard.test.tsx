@@ -19,6 +19,10 @@ function makeProps(overrides: Partial<V2DashboardProps> = {}): V2DashboardProps 
   };
 }
 
+function countMatches(html: string, pattern: RegExp): number {
+  return html.match(pattern)?.length ?? 0;
+}
+
 describe("V2 Dashboard (isolated candidate)", () => {
   it("renders the main structure with required section names", () => {
     const html = renderToStaticMarkup(React.createElement(V2Dashboard, makeProps()));
@@ -223,5 +227,26 @@ describe("V2 Dashboard (isolated candidate)", () => {
     );
     expect(html).not.toContain("NaN");
     expect(html).toContain("0.00");
+  });
+
+  it("renders dimension-colored icons for all six overview cards", () => {
+    const html = renderToStaticMarkup(React.createElement(V2Dashboard, makeProps()));
+    expect(countMatches(html, /v2-dashboard__icon--coral/g)).toBe(2);
+    expect(countMatches(html, /v2-dashboard__icon--yellow/g)).toBe(1);
+    expect(countMatches(html, /v2-dashboard__icon--lavender/g)).toBe(2);
+    expect(countMatches(html, /v2-dashboard__icon--blue/g)).toBe(1);
+    expect(countMatches(html, /<svg/g)).toBe(6);
+  });
+
+  it("marks the six overview icons as decorative", () => {
+    const html = renderToStaticMarkup(React.createElement(V2Dashboard, makeProps()));
+    expect(countMatches(html, /class="v2-dashboard__icon /g)).toBe(6);
+    expect(countMatches(html, /aria-hidden="true"/g)).toBeGreaterThanOrEqual(6);
+    expect(
+      countMatches(
+        html,
+        /<span class="v2-dashboard__icon v2-dashboard__icon--(?:coral|blue|yellow|lavender)" aria-hidden="true">/g,
+      ),
+    ).toBe(6);
   });
 });

@@ -1,3 +1,4 @@
+import { Banknote, Landmark, ReceiptText, RefreshCw, ShoppingCart, Wallet } from "lucide-react";
 import type { BillStatus } from "../model/v2-cashflow.js";
 import type { AffordableSavingsResult, SavingsPlan } from "../model/v2-savings-goal.js";
 import type { TrendSummary } from "../model/v2-trends.js";
@@ -46,14 +47,23 @@ export function V2Dashboard({
         <h2>收入、日常支出与账户现金</h2>
         <div className="v2-dashboard__grid">
           <section className="v2-dashboard__card" aria-label="收入">
+            <span className="v2-dashboard__icon v2-dashboard__icon--coral" aria-hidden="true">
+              <Wallet size={18} />
+            </span>
             <p className="v2-dashboard__label">收入</p>
             <p className="v2-dashboard__amount">{formatAmount(ledger.income)}</p>
           </section>
           <section className="v2-dashboard__card" aria-label="日常支出">
+            <span className="v2-dashboard__icon v2-dashboard__icon--yellow" aria-hidden="true">
+              <ShoppingCart size={18} />
+            </span>
             <p className="v2-dashboard__label">日常支出</p>
             <p className="v2-dashboard__amount">{formatAmount(ledger.dailyExpense)}</p>
           </section>
           <section className="v2-dashboard__card" aria-label="账户现金">
+            <span className="v2-dashboard__icon v2-dashboard__icon--coral" aria-hidden="true">
+              <Banknote size={18} />
+            </span>
             <p className="v2-dashboard__label">账户现金</p>
             <p className="v2-dashboard__amount">{formatAmount(ledger.accountCash)}</p>
           </section>
@@ -176,14 +186,23 @@ export function V2Dashboard({
         <h2>资产与债务</h2>
         <div className="v2-dashboard__grid">
           <section className="v2-dashboard__card" aria-label="资产">
+            <span className="v2-dashboard__icon v2-dashboard__icon--lavender" aria-hidden="true">
+              <Landmark size={18} />
+            </span>
             <p className="v2-dashboard__label">资产</p>
             <p className="v2-dashboard__placeholder">待接入</p>
           </section>
           <section className="v2-dashboard__card" aria-label="债务">
+            <span className="v2-dashboard__icon v2-dashboard__icon--blue" aria-hidden="true">
+              <ReceiptText size={18} />
+            </span>
             <p className="v2-dashboard__label">债务</p>
             <p className="v2-dashboard__placeholder">待接入</p>
           </section>
           <section className="v2-dashboard__card" aria-label="资产更新">
+            <span className="v2-dashboard__icon v2-dashboard__icon--lavender" aria-hidden="true">
+              <RefreshCw size={18} />
+            </span>
             <p className="v2-dashboard__label">资产更新</p>
             <p className="v2-dashboard__placeholder">待接入</p>
           </section>
