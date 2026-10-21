@@ -1,0 +1,14 @@
+# E46 identity gate
+app=src-tauri/target/release/bundle/macos/小钱家.app
+--- Info.plist ---
+  "CFBundleDisplayName" => "小钱家"
+  "CFBundleIconFile" => "icon.icns"
+  "CFBundleIdentifier" => "com.personalfinance.console.smoke"
+--- icon.icns ---
+size=43431 path=src-tauri/target/release/bundle/macos/小钱家.app/Contents/Resources/icon.icns
+6fb51b77f61987e85a0c83ada416d1a0ca14637599aab3ebe1533283cde6a80a  src-tauri/target/release/bundle/macos/小钱家.app/Contents/Resources/icon.icns
+--- source icons ---
+6fb51b77f61987e85a0c83ada416d1a0ca14637599aab3ebe1533283cde6a80a  src-tauri/icons/icon.icns
+--- bundle sizes ---
+ 13M	src-tauri/target/release/bundle/macos/小钱家.app
+3.8M	src-tauri/target/release/bundle/dmg/小钱家_0.1.0_aarch64.dmg

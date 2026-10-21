@@ -1,0 +1,21 @@
+# E46 read-only SQL check
+db=/Users/linte/Library/Application Support/com.personalfinance.console.smoke/personal-finance-console.sqlite3
+size=319488 mtime=Oct 21 09:51:33 2026
+--- counts ---
+expenses=3
+expense_records=5
+sum_amount=136.38
+--- expenses rows ---
+amount  occurred_on  description   kind      
+------  -----------  ------------  ----------
+35.00   2026-10-01   合成早餐店    CASH_DEBIT
+12.50   2026-10-02   合成交通服务  CASH_DEBIT
+88.88   2026-10-21   L03验收       CASH_DEBIT
+--- expense_records rows ---
+amount  occurred_at               kind      note        
+------  ------------------------  --------  ------------
+35.00   2026-10-01T00:00:00.000Z  VARIABLE  合成早餐店  
+12.50   2026-10-02T00:00:00.000Z  VARIABLE  合成交通服务
+1250    2026-10-03T07:05:00.000Z  VARIABLE              
+250     2026-10-03T07:11:00.000Z  VARIABLE              
+88.88   2026-10-21T00:00:00.000Z  VARIABLE  L03验收     
