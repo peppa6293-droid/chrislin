@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <title>小钱家钱包与嫩芽</title>
+  <defs>
+    <linearGradient id="wallet" x1="28" y1="42" x2="98" y2="111" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#75D5A1"/>
+      <stop offset="1" stop-color="#2C9D70"/>
+    </linearGradient>
+    <linearGradient id="flap" x1="34" y1="44" x2="91" y2="78" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#A9E6B6"/>
+      <stop offset="1" stop-color="#56BE88"/>
+    </linearGradient>
+    <filter id="shadow" x="12" y="14" width="106" height="110" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="4"/>
+    </filter>
+  </defs>
+  <ellipse cx="65" cy="111" fill="#285C48" fill-opacity=".13" filter="url(#shadow)" rx="43" ry="7"/>
+  <path d="M63 52c-2-13 3-22 12-29" stroke="#3D9862" stroke-linecap="round" stroke-width="5"/>
+  <path d="M69 36c-14 2-23-4-25-15 13-4 25 2 25 15Z" fill="#77C879"/>
+  <path d="M71 31c0-14 8-23 20-24 3 13-5 23-20 24Z" fill="#4FAE68"/>
+  <path d="M25 52c0-6 5-11 11-11h55c7 0 12 5 12 12v44c0 8-6 14-14 14H39c-8 0-14-6-14-14V52Z" fill="url(#wallet)"/>
+  <path d="M27 57c0-7 5-12 12-12h44c9 0 15 6 15 15v7H27v-10Z" fill="url(#flap)"/>
+  <path d="M31 65h65" stroke="#D5F2D7" stroke-opacity=".75" stroke-width="3"/>
+  <path d="M79 78h25c7 0 11 4 11 10v5c0 6-4 10-11 10H80c-6 0-10-5-10-12s4-13 9-13Z" fill="#258A62"/>
+  <circle cx="91" cy="90" r="3.5" fill="#DFF5C8"/>
+  <path d="M38 78h20" stroke="#C4F0CF" stroke-linecap="round" stroke-opacity=".8" stroke-width="4"/>
+  <path d="M38 87h13" stroke="#C4F0CF" stroke-linecap="round" stroke-opacity=".55" stroke-width="4"/>
+</svg>

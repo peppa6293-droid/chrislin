@@ -694,6 +694,8 @@ select:hover {
 }
 .yuan-amount {
   white-space: nowrap;
+  text-overflow: ellipsis;
+  min-width: 0;
   font-variant-numeric: tabular-nums;
 }
 .spending-target-item:nth-child(2) strong {
@@ -1405,6 +1407,8 @@ select:hover {
   letter-spacing: -0.035em;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
+  text-overflow: ellipsis;
+  min-width: 0;
 }
 .module-secondary-value {
   color: #596a5d;
@@ -1513,6 +1517,8 @@ select:hover {
   letter-spacing: -0.03em;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
+  text-overflow: ellipsis;
+  min-width: 0;
 }
 .flow-arrow {
   color: #83a18a;
@@ -1636,6 +1642,8 @@ select:hover {
   font-weight: 650;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
+  text-overflow: ellipsis;
+  min-width: 0;
 }
 .home-footer {
   margin-top: 16px;
@@ -1895,6 +1903,8 @@ select:hover {
   font-size: 20px;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
+  text-overflow: ellipsis;
+  min-width: 0;
 }
 .finance-row-eyebrow {
   display: block;
@@ -2768,10 +2778,6 @@ select:hover {
   height: 52%;
   flex: none;
 }
-.v2-brand-mark .finance-icon-tile[data-finance-icon="brand"] {
-  width: 100%;
-  height: 100%;
-}
 .finance-icon-tile--coral {
   color: #f06a58;
 }
@@ -2961,6 +2967,8 @@ select:hover {
   flex: 0 1 auto;
   text-align: right;
   white-space: nowrap;
+  text-overflow: ellipsis;
+  min-width: 0;
   font-size: clamp(14px, 1.6vw, 17px);
   font-variant-numeric: tabular-nums;
 }
@@ -3258,6 +3266,8 @@ select:hover {
   flex: 0 0 auto;
   overflow-wrap: normal;
   white-space: nowrap;
+  text-overflow: ellipsis;
+  min-width: 0;
 }
 .detail-page .detail-row > strong {
   flex-shrink: 0;
@@ -3448,6 +3458,8 @@ select:hover {
 .flow-step .flow-value strong {
   display: block;
   white-space: nowrap;
+  text-overflow: ellipsis;
+  min-width: 0;
   font-size: clamp(14px, 1.7vw, 20px);
 }
 .cashflow-main-art,

@@ -1,4 +1,4 @@
-import { Banknote, House, Inbox, Landmark, ReceiptText, Sprout, Wallet } from "lucide-react";
+import { Banknote, House, Inbox, Landmark, ReceiptText, Wallet } from "lucide-react";
 import type { CSSProperties } from "react";
 
 export const financeArt = {
@@ -8,7 +8,6 @@ export const financeArt = {
   debt: { icon: ReceiptText, tone: "yellow" },
   plan: { icon: House, tone: "teal" },
   incomeEmpty: { icon: Inbox, tone: "muted" },
-  brand: { icon: Sprout, tone: "teal" },
 } as const;
 
 export function FinanceIllustration({

@@ -18,7 +18,7 @@ import { useEffect, useRef, useState } from "react";
 import type { ExpenseSubmission, HomeApplicationState } from "../application/product-service.js";
 import { assertUserInputMoney, formatMoneyExact, money } from "../model/money.js";
 import type { ExpenseCategory, ExpenseRecord } from "../model/types.js";
-import { FinanceIllustration } from "./FinanceIllustration.js";
+import brandLogo from "./assets/finance/brand-wallet-sprout.svg";
 import { MoneyAmount } from "./MoneyAmount.js";
 import type { MyFinanceRoute } from "./MyFinancePages.js";
 
@@ -197,15 +197,26 @@ export function V2HomeSurface({
   return (
     <main className="v2-shell" data-testid="v2-home">
       <header className="v2-topbar">
-        <div className="v2-brand">
+        <button
+          type="button"
+          className="v2-brand"
+          onClick={() => onSelectTab("TODAY")}
+          aria-label="返回今天首页"
+        >
           <span className="v2-brand-mark" aria-hidden="true">
-            <FinanceIllustration kind="brand" />
+            <img
+              src={brandLogo}
+              alt=""
+              aria-hidden="true"
+              data-brand-logo="brand-wallet-sprout"
+              draggable="false"
+            />
           </span>
           <div>
             <strong>小钱家</strong>
             <span>本地账本</span>
           </div>
-        </div>
+        </button>
         <div className="v2-topbar-actions">
           <span className="v2-period">{formatPeriod(asOfDate)}</span>
           <button

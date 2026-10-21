@@ -108,7 +108,7 @@ describe("U-10 icon tiles", () => {
     expect(document.querySelectorAll("img[data-finance-illustration]")).toHaveLength(0);
   });
 
-  it("renders the brand mark with an icon tile and no sticker image", () => {
+  it("renders the brand mark as a clickable button with the restored logo", () => {
     render(
       <V2HomeSurface
         home={home}
@@ -122,10 +122,12 @@ describe("U-10 icon tiles", () => {
       />,
     );
 
-    const brandTile = document.querySelector(".v2-brand-mark .finance-icon-tile");
-    expect(brandTile).toBeTruthy();
-    expect(brandTile?.getAttribute("data-finance-icon")).toBe("brand");
-    expect(brandTile?.querySelector("svg")).toBeTruthy();
+    const brand = document.querySelector(".v2-brand");
+    const brandButton = brand?.closest("button");
+    expect(brandButton).toBeTruthy();
+    expect(brandButton?.getAttribute("aria-label")).toBe("返回今天首页");
+    expect(brandButton?.querySelector(".v2-brand-mark img[data-brand-logo]")).toBeTruthy();
+    expect(brandButton?.querySelector(".v2-brand-mark .finance-icon-tile")).toBeNull();
     expect(document.querySelectorAll("img[data-finance-illustration]")).toHaveLength(0);
   });
 
@@ -137,7 +139,6 @@ describe("U-10 icon tiles", () => {
       debt: "yellow",
       plan: "teal",
       incomeEmpty: "muted",
-      brand: "teal",
     };
 
     expect(Object.keys(financeArt).sort()).toEqual(Object.keys(approvedTones).sort());
