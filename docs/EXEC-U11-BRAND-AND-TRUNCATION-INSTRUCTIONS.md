@@ -3,7 +3,7 @@
 **角色：** 执行者
 **基线：** HEAD `2bc3d1d`（build-46）；全量基线 **403 passed / 0 failed / 80 skipped**
 **日期：** 2026-10-21
-**批准：** 用户于 2026-10-21 直接报修三项（logo 被改 / 文字截断 / 点 logo 回首页缺失），属用户验收反馈，无需再澄清授权；截断范围澄清（clarify_id `aa7343d2-5ac5-48b3-8509-a902e605f915`）超时未答，故截断按本指令第三节**静态清单**执行，用户后续补充的实例另批追加，不得自行扩范围。
+**批准：** 用户于 2026-10-21 直接报修三项（logo 被改 / 文字截断 / 点 logo 回首页缺失），属用户验收反馈，无需再澄清授权；截断范围澄清（clarify_id `aa7343d2-5ac5-48b3-8509-a902e605f915`）超时未答，故截断按本指令第三节**静态清单**执行，用户后续补充的实例原拟另批追加；**Owner 已于同日补充四张真机截断截图（见第三节附录 U1–U4），按承诺并入本批**；U1–U4 之外的新实例仍另批追加，不得自行扩范围。
 
 ---
 
@@ -39,12 +39,27 @@
 
 `src/style.css` 中 `white-space: nowrap` 行：**696、1407、1515、1638、1897、2963、3230、3260、3450**；`overflow: hidden` 行：**230、504、887、1044、1462、2302、2317、3502**。
 
+`src/ui/v2-surface.css` 补充裁决行：`white-space: nowrap` **495**（`.v2-task-action`）；`overflow: hidden` + `text-overflow: ellipsis` + `white-space: nowrap` 组合 **809–811**（`.v2-recent-copy strong/small`）、**1154–1156**（`.recent-expense-detail-row small`）。KEEP 白名单补充（标 KEEP 并写理由，不得改）：v2-surface.css **53/56** 与 **761/764**（`.v2-sr-only` 视觉隐藏工具类）、**117**（`.v2-brand-mark` 圆角裁切）、**737**（`.v2-path-progress` 进度条）、**1017**（`.v2-category-track` 进度条）、**895**（`.v2-progress-list` 圆角裁切，前提是内部换行后高度自适应）、**1586/1598/1603–1604**（shell/侧栏/内容滚动容器）、**1239/1344**（overlay 滚动容器）。
+
 裁决规则：
 - 金额/数字列（tabular-nums）：保留 nowrap，但补 `text-overflow: ellipsis; min-width: 0;` 并确认父级允许收缩，不得整行裁切。
 - 标签/句子/备注类：改 `white-space: normal; overflow-wrap: anywhere;`，并移除配对的 `overflow: hidden`（除非该 hidden 服务于圆角裁切且内部无文字溢出）。
 - 固定高度容器内含文字且可能溢出者：改 `min-height` 语义或允许高度自适应。
 - **KEEP 白名单**：视觉隐藏工具类（`src/ui/v2-surface.css` 52-58 行 clip-path inset(50%) 那段）、进度条/圆形裁切等无文字溢出者——标 KEEP 并写理由，不得改。
 - 侧栏导航（`.v2-primary-nav` / `SurfaceNavButton`）：仅当能证明该布局在矮窗口下裁切标签文字时才修（修法=标签紧贴图标、去掉拉伸）；否则标 KEEP 并在回执说明"非截断来源"。**不得顺手重排侧栏视觉。**
+
+## 三、附录 — 用户补充实例 U1–U4（Owner 2026-10-21 真机截图，与第三节同裁决流程）
+
+截图原件已入库 `docs/u11-assets/`；图中红框为 Owner 标记：
+
+| # | 文件 | Owner 症状 | 代码锚点 | 裁决要求 |
+|---|---|---|---|---|
+| U1 | `docs/u11-assets/u1-progress-rows.png` | 进展页（本月看看）看清消费/稳住现金/理清责任/建立余地四行，第 1、3 行长描述右侧被硬切、不换行无省略号 | `V2HomeSurface.tsx:772-789`（ProgressPanel）；`v2-surface.css:894-934`（`.v2-progress-list` overflow:hidden、`.v2-progress-row` flex、`.v2-progress-row-copy`、`.v2-progress-row-value` 无收缩约束）；≤720px 媒体块 1533–1559 | 360/720/840/1280 四档宽度下描述与数值均不得硬切：描述为句子类→按第三节规则允许换行；`.v2-progress-row-value` 含句子片段→同样允许换行（或 KEEP nowrap 但须证明四档宽度均不溢出）；`.v2-progress-list` 的 overflow:hidden 仅当服务于圆角裁切且内部换行后高度自适应才保留 |
+| U2 | `docs/u11-assets/u2-brand-text.png` | 顶栏品牌文字「小钱家」与副标题「本地账本」logo 处字体截断 | `V2HomeSurface.tsx:200-208`；`v2-surface.css:91-148` 及 ≤720px 媒体块（mark 34px / img 38px / strong 15px / span 10px 段，约 1349–1376） | 四档宽度下两行文字完整可见：不得垂直裁切（topbar min-height/padding 须容纳两行）、不得水平硬切；W2 按钮化不得引入新裁切 |
+| U3 | `docs/u11-assets/u3-amount.png` | Owner 标记最近消费行金额列（crop 内 ¥88.88 字形完整，症状为该行列间挤压关系，与 U4 同排互证）：窄宽度下金额列被挤压/裁切的风险 | `v2-surface.css:800-817`（`.v2-recent-copy` flex:1 min-width:0、`.v2-recent-row > .money-amount`）；`style.css:3232-3239`（`.money-amount` nowrap） | 金额为数字类：保留 nowrap；但须证明四档宽度下金额列完整可见（`.v2-recent-copy` 应先收缩）；能证明可被挤压则 FIX（如金额侧 flex-shrink:0），否则 KEEP 并写理由 |
+| U4 | `docs/u11-assets/u4-recent-rows.png` | 最近消费行备注/日期「其他 / 2026-10-…」被截（应为 2026-10-21） | `v2-surface.css:807-812`（`.v2-recent-copy strong/small` nowrap+hidden+ellipsis） | 日期为固定 10 字符串，出现省略即列宽不足：按 FIX 处理——改 `white-space: normal; overflow-wrap: anywhere;` 并允许行高自适应（`min-height` 而非 max-height）；`strong`（分类名）同规则裁决 |
+
+U1–U4 通用要求：裁决表须覆盖第三节 style.css 17 行 + 第三节 v2-surface.css 补充行 + U1–U4 锚点，逐条给出；jsdom 无法验证布局，每条须写静态推理链（选择器→宽度传导→结论）；视觉复验留给真包证据批（须单独批准），本批回执不得声称视觉已通过。
 
 ## 四、测试要求
 
@@ -67,7 +82,7 @@ npm run build
 ## 六、证据与边界
 
 - 本批**不重建 smoke 候选包、不碰任何原生层**；真包内视觉复核（logo 复原目视、点击回首页、截断复验）另立证据批，**须用户单独批准**（门控同 L-03），不得夹带。
-- 回执附：改动文件清单与 `git show --stat`、svg 哈希比对、W3 逐条裁决表（行号→KEEP/FIX→改法→理由）、专项/全量/typecheck/lint/build 结果、HEAD、`git status --short`。
+- 回执附：改动文件清单与 `git show --stat`、svg 哈希比对、W3 逐条裁决表（行号→KEEP/FIX→改法→理由，**须覆盖第三节 v2-surface.css 补充行与第三节附录 U1–U4 锚点，每条附静态推理链**）、专项/全量/typecheck/lint/build 结果、HEAD、`git status --short`。
 
 ## 七、提交
 
