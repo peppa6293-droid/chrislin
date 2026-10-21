@@ -1,0 +1,14 @@
+{
+  "ledger": {
+    "income": "13791.25",
+    "dailyExpense": "0.00",
+    "accountCash": "5325.93",
+    "recurringIncome": "12791.25",
+    "incomeIncludesOneTime": true
+  },
+  "safety": {
+    "safetyResources": "25325.93",
+    "reserved": "3800.00",
+    "freeCash": "21525.93"
+  }
+}

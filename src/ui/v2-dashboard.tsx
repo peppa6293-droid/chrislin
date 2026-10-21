@@ -8,6 +8,8 @@ export interface DashboardLedgerSummary {
   income: string;
   dailyExpense: string;
   accountCash: string;
+  recurringIncome: string;
+  incomeIncludesOneTime: boolean;
 }
 
 export interface V2DashboardProps {
@@ -52,6 +54,11 @@ export function V2Dashboard({
             </span>
             <p className="v2-dashboard__label">收入</p>
             <p className="v2-dashboard__amount">{formatAmount(ledger.income)}</p>
+            {ledger.incomeIncludesOneTime ? (
+              <span className="v2-dashboard__label" data-testid="income-one-time-badge">
+                含一次性收入
+              </span>
+            ) : null}
           </section>
           <section className="v2-dashboard__card" aria-label="日常支出">
             <span className="v2-dashboard__icon v2-dashboard__icon--yellow" aria-hidden="true">

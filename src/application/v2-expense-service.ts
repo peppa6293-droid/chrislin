@@ -1,5 +1,5 @@
 import { Decimal } from "decimal.js";
-import { assertUserInputMoney } from "../model/money.js";
+import { assertUserInputMoney, money, zeroMoney } from "../model/money.js";
 import type { BillStatus } from "../model/v2-cashflow.js";
 import {
   type CashDebitExpense,
@@ -16,7 +16,7 @@ import {
   reconcileInstallmentTotal,
 } from "../model/v2-reconciliation.js";
 import { ApplicationDataError } from "../persistence/database.js";
-import type { Repositories } from "../persistence/repositories.js";
+import type { IncomeEntryRecord, Repositories } from "../persistence/repositories.js";
 import type { V2DashboardProps } from "../ui/v2-dashboard.js";
 
 const DATE_PATTERN = /^(\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
@@ -66,6 +66,22 @@ export interface V2MonthSummary {
   billStatuses: BillStatus[];
 }
 
+export interface IncomeEntryDraft {
+  id: string;
+  profileId: string;
+  periodMonth: string;
+  occurredAt: string;
+  amount: string;
+  label: string;
+  oneTime: boolean;
+}
+
+export interface SafetySnapshot {
+  safetyResources: string;
+  reserved: string;
+  freeCash: string;
+}
+
 function assertPositiveMoney(value: string, field: string): string {
   let normalized: string;
   try {
@@ -78,6 +94,21 @@ function assertPositiveMoney(value: string, field: string): string {
   const parsed = new Decimal(normalized);
   if (!parsed.isPositive()) {
     throw new ApplicationDataError("INVALID_EXPENSE_AMOUNT", `${field} must be positive.`);
+  }
+  return normalized;
+}
+
+function assertPositiveIncomeAmount(value: string): string {
+  let normalized: string;
+  try {
+    normalized = assertUserInputMoney(value, "amount");
+  } catch (error) {
+    throw new ApplicationDataError("INVALID_INCOME_AMOUNT", "amount is invalid.", {
+      cause: error,
+    });
+  }
+  if (!new Decimal(normalized).isPositive()) {
+    throw new ApplicationDataError("INVALID_INCOME_AMOUNT", "amount must be positive.");
   }
   return normalized;
 }
@@ -285,6 +316,39 @@ export class V2ExpenseService {
     return { reconciliation };
   }
 
+  async recordIncomeEntry(draft: IncomeEntryDraft): Promise<IncomeEntryRecord> {
+    assertRequiredText(draft.id, "INVALID_INCOME_ID", "Income entry id is required.");
+    assertRequiredText(draft.profileId, "INVALID_PROFILE", "Profile id is required.");
+    assertCalendarMonth(draft.periodMonth);
+    assertCalendarDate(draft.occurredAt, "occurredAt");
+    const amount = assertPositiveIncomeAmount(draft.amount);
+    await this.repositories.createIncomeEntry({
+      id: draft.id,
+      profileId: draft.profileId,
+      periodMonth: draft.periodMonth,
+      occurredAt: draft.occurredAt,
+      amount,
+      label: draft.label.trim(),
+      oneTime: draft.oneTime,
+    });
+    const stored = (
+      await this.repositories.listIncomeEntries(draft.profileId, draft.periodMonth)
+    ).find((entry) => entry.id === draft.id);
+    if (
+      !stored ||
+      stored.amount !== amount ||
+      stored.occurredAt !== draft.occurredAt ||
+      stored.label !== draft.label.trim() ||
+      stored.oneTime !== draft.oneTime
+    ) {
+      throw new ApplicationDataError(
+        "INCOME_READBACK_FAILED",
+        "Income entry readback did not match.",
+      );
+    }
+    return stored;
+  }
+
   async getMonthSummary(profileId: string, month: string): Promise<V2MonthSummary> {
     assertRequiredText(profileId, "INVALID_PROFILE", "Profile id is required.");
     assertCalendarMonth(month);
@@ -305,11 +369,24 @@ export class V2ExpenseService {
 
   async getDashboardProps(profileId: string, month: string): Promise<V2DashboardProps> {
     const summary = await this.getMonthSummary(profileId, month);
+    const monthEnd = lastDayOfMonth(month);
+    const entries = await this.repositories.listIncomeEntries(profileId, month);
+    const income = entries.reduce((sum, entry) => sum.plus(money(entry.amount)), zeroMoney());
+    const recurringIncome = entries
+      .filter((entry) => !entry.oneTime)
+      .reduce((sum, entry) => sum.plus(money(entry.amount)), zeroMoney());
+    const cash = await this.repositories.cashAccountsAt(monthEnd, profileId);
+    const accountCash = cash.reduce(
+      (sum, account) => sum.plus(money(account.balance)),
+      zeroMoney(),
+    );
     return {
       ledger: {
-        income: "0.00",
+        income: formatMoney(income),
         dailyExpense: summary.dailyExpenseTotal,
-        accountCash: "0.00",
+        accountCash: formatMoney(accountCash),
+        recurringIncome: formatMoney(recurringIncome),
+        incomeIncludesOneTime: entries.some((entry) => entry.oneTime),
       },
       billStatuses: summary.billStatuses,
       savingsPlans: [],
@@ -317,6 +394,46 @@ export class V2ExpenseService {
       trendSummary: null,
       trendWindow: "month" as never,
     };
+  }
+
+  async getSafetySnapshot(profileId: string, asOfDate: string): Promise<SafetySnapshot> {
+    assertRequiredText(profileId, "INVALID_PROFILE", "Profile id is required.");
+    assertCalendarDate(asOfDate, "asOfDate");
+    const cash = await this.repositories.cashAccountsAt(asOfDate, profileId);
+    const assets = await this.repositories.assetsAt(asOfDate, profileId);
+    const eligibleCash = cash.filter((account) => account.includeInSafetyResources);
+    const eligibleAssets = assets.filter(
+      (asset) => asset.kind === "LIQUID_INVESTMENT" && asset.includeInSafetyResources,
+    );
+    const safetyResources = eligibleCash
+      .reduce((sum, account) => sum.plus(money(account.balance)), zeroMoney())
+      .plus(
+        eligibleAssets.reduce((sum, asset) => sum.plus(money(asset.currentValue)), zeroMoney()),
+      );
+    const reserved = cash.reduce(
+      (sum, account) => sum.plus(money(account.reservedAmount)),
+      zeroMoney(),
+    );
+    const freeCash = safetyResources.minus(reserved);
+    return {
+      safetyResources: formatMoney(safetyResources),
+      reserved: formatMoney(reserved),
+      freeCash: formatMoney(freeCash),
+    };
+  }
+
+  async getMonthlyCoreObligations(profileId: string, month: string): Promise<string> {
+    assertRequiredText(profileId, "INVALID_PROFILE", "Profile id is required.");
+    assertCalendarMonth(month);
+    const monthEnd = lastDayOfMonth(month);
+    const plans = await this.repositories.listFixedExpensePlans(profileId, monthEnd);
+    const planTotal = plans.reduce((sum, plan) => sum.plus(money(plan.monthlyAmount)), zeroMoney());
+    const debts = await this.repositories.debtsAt(month, monthEnd, false, profileId);
+    const debtTotal = debts.reduce(
+      (sum, debt) => (debt.currentMonthDue == null ? sum : sum.plus(money(debt.currentMonthDue))),
+      zeroMoney(),
+    );
+    return formatMoney(planTotal.plus(debtTotal));
   }
 
   private async assertCategoryExists(profileId: string, categoryId: string): Promise<void> {
@@ -344,4 +461,10 @@ function assertCalendarMonth(value: string): void {
   if (!MONTH_PATTERN.test(value)) {
     throw new ApplicationDataError("INVALID_MONTH", "month must use YYYY-MM format.");
   }
+}
+
+function lastDayOfMonth(month: string): string {
+  const [yearText = "0", monthText = "1"] = month.split("-");
+  const day = new Date(Date.UTC(Number(yearText), Number(monthText), 0)).getUTCDate();
+  return `${month}-${String(day).padStart(2, "0")}`;
 }

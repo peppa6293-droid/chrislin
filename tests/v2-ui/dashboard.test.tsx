@@ -8,7 +8,13 @@ import { V2Dashboard, type V2DashboardProps } from "../../src/ui/v2-dashboard.js
 
 function makeProps(overrides: Partial<V2DashboardProps> = {}): V2DashboardProps {
   return {
-    ledger: { income: "5000.00", dailyExpense: "2000.00", accountCash: "8000.00" },
+    ledger: {
+      income: "5000.00",
+      dailyExpense: "2000.00",
+      accountCash: "8000.00",
+      recurringIncome: "5000.00",
+      incomeIncludesOneTime: false,
+    },
     billStatuses: [],
     savingsPlans: [],
     affordableSavings: [],
@@ -43,7 +49,13 @@ describe("V2 Dashboard (isolated candidate)", () => {
       React.createElement(
         V2Dashboard,
         makeProps({
-          ledger: { income: "99999999.99", dailyExpense: "0.00", accountCash: "12345678.00" },
+          ledger: {
+            income: "99999999.99",
+            dailyExpense: "0.00",
+            accountCash: "12345678.00",
+            recurringIncome: "99999999.99",
+            incomeIncludesOneTime: false,
+          },
         }),
       ),
     );
@@ -222,7 +234,15 @@ describe("V2 Dashboard (isolated candidate)", () => {
     const html = renderToStaticMarkup(
       React.createElement(
         V2Dashboard,
-        makeProps({ ledger: { income: "0.00", dailyExpense: "0.00", accountCash: "0.00" } }),
+        makeProps({
+          ledger: {
+            income: "0.00",
+            dailyExpense: "0.00",
+            accountCash: "0.00",
+            recurringIncome: "0.00",
+            incomeIncludesOneTime: false,
+          },
+        }),
       ),
     );
     expect(html).not.toContain("NaN");
@@ -236,6 +256,41 @@ describe("V2 Dashboard (isolated candidate)", () => {
     expect(countMatches(html, /v2-dashboard__icon--lavender/g)).toBe(2);
     expect(countMatches(html, /v2-dashboard__icon--blue/g)).toBe(1);
     expect(countMatches(html, /<svg/g)).toBe(6);
+  });
+
+  it("shows the one-time income badge only when one-time income is included", () => {
+    const withOneTime = renderToStaticMarkup(
+      React.createElement(
+        V2Dashboard,
+        makeProps({
+          ledger: {
+            income: "13791.25",
+            dailyExpense: "0.00",
+            accountCash: "5325.93",
+            recurringIncome: "12791.25",
+            incomeIncludesOneTime: true,
+          },
+        }),
+      ),
+    );
+    expect(withOneTime).toContain('data-testid="income-one-time-badge"');
+    expect(withOneTime).toContain("含一次性收入");
+
+    const withoutOneTime = renderToStaticMarkup(
+      React.createElement(
+        V2Dashboard,
+        makeProps({
+          ledger: {
+            income: "12791.25",
+            dailyExpense: "0.00",
+            accountCash: "5325.93",
+            recurringIncome: "12791.25",
+            incomeIncludesOneTime: false,
+          },
+        }),
+      ),
+    );
+    expect(withoutOneTime).not.toContain("含一次性收入");
   });
 
   it("marks the six overview icons as decorative", () => {

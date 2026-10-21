@@ -47,6 +47,27 @@ export interface CashAccountRecord {
   name: string;
   includeInSafetyResources: boolean;
   balance: string;
+  reservedAmount: string;
+}
+
+export interface IncomeEntryRecord {
+  id: string;
+  profileId: string;
+  periodMonth: string;
+  occurredAt: string;
+  amount: string;
+  label: string;
+  oneTime: boolean;
+}
+
+export interface FixedExpensePlanRecord {
+  id: string;
+  profileId: string;
+  name: string;
+  monthlyAmount: string;
+  effectiveFrom: string;
+  note: string | null;
+  active: boolean;
 }
 
 export interface AssetRecord extends Asset {
@@ -999,10 +1020,16 @@ export class Repositories {
     );
   }
 
-  async cashAccountsAt(asOfDate: string): Promise<CashAccountRecord[]> {
+  async cashAccountsAt(asOfDate: string, profileId?: string): Promise<CashAccountRecord[]> {
     const v4 = (
       await this.db.select("SELECT 1 AS present FROM schema_migrations WHERE version=4")
     )[0];
+    const v8 = (
+      await this.db.select("SELECT 1 AS present FROM schema_migrations WHERE version=8")
+    )[0];
+    const reservedSelect = v8 ? "a.reserved_amount" : "'0.00'";
+    const profileFilter = profileId === undefined ? "" : " AND a.profile_id=?";
+    const profileBinds = profileId === undefined ? [] : [profileId];
     const rows = await this.db.select(
       v4
         ? `WITH versions AS (
@@ -1019,17 +1046,17 @@ export class Repositories {
           FROM cash_account_lifecycle_revisions WHERE as_of_date<=?
         ) WHERE row_num=1
       )
-      SELECT a.id,COALESCE(l.name,a.name) AS name,COALESCE(l.include_in_safety_resources,a.include_in_safety_resources) AS include_in_safety_resources,a.created_at,l.balance,l.as_of_date AS snapshot_date,COALESCE(lc.active,a.active) AS effective_active
+      SELECT a.id,COALESCE(l.name,a.name) AS name,COALESCE(l.include_in_safety_resources,a.include_in_safety_resources) AS include_in_safety_resources,a.created_at,l.balance,l.as_of_date AS snapshot_date,${reservedSelect} AS reserved_amount,COALESCE(lc.active,a.active) AS effective_active
       FROM cash_accounts a LEFT JOIN latest l ON l.account_id=a.id
       LEFT JOIN lifecycle lc ON lc.account_id=a.id
-      WHERE COALESCE(lc.active,a.active)=1 ORDER BY a.id`
+      WHERE COALESCE(lc.active,a.active)=1${profileFilter} ORDER BY a.id`
         : `WITH versions AS (
         SELECT s.account_id,s.as_of_date,s.balance,a.name,a.include_in_safety_resources,0 AS revision_id FROM cash_balance_snapshots s JOIN cash_accounts a ON a.id=s.account_id WHERE s.as_of_date<=?
         UNION ALL SELECT account_id,as_of_date,balance,name,include_in_safety_resources,revision_id FROM cash_account_revisions WHERE as_of_date<=?
       ), latest AS (SELECT account_id,as_of_date,balance,name,include_in_safety_resources FROM (SELECT *,ROW_NUMBER() OVER(PARTITION BY account_id ORDER BY as_of_date DESC,revision_id DESC) AS row_num FROM versions) WHERE row_num=1)
-      SELECT a.id,COALESCE(l.name,a.name) AS name,COALESCE(l.include_in_safety_resources,a.include_in_safety_resources) AS include_in_safety_resources,a.created_at,l.balance,l.as_of_date AS snapshot_date
-      FROM cash_accounts a LEFT JOIN latest l ON l.account_id=a.id WHERE a.active=1 ORDER BY a.id`,
-      v4 ? [asOfDate, asOfDate, asOfDate] : [asOfDate, asOfDate],
+      SELECT a.id,COALESCE(l.name,a.name) AS name,COALESCE(l.include_in_safety_resources,a.include_in_safety_resources) AS include_in_safety_resources,a.created_at,l.balance,l.as_of_date AS snapshot_date,${reservedSelect} AS reserved_amount
+      FROM cash_accounts a LEFT JOIN latest l ON l.account_id=a.id WHERE a.active=1${profileFilter} ORDER BY a.id`,
+      v4 ? [asOfDate, asOfDate, asOfDate, ...profileBinds] : [asOfDate, asOfDate, ...profileBinds],
     );
     return rows.flatMap((row) => {
       if (nullableText(row, "snapshot_date") === null) {
@@ -1047,6 +1074,7 @@ export class Repositories {
           name: text(row, "name"),
           includeInSafetyResources: bool(row, "include_in_safety_resources"),
           balance: requireStoredUserInputMoney(text(row, "balance")),
+          reservedAmount: requireStoredUserInputMoney(text(row, "reserved_amount")),
         },
       ];
     });
@@ -1086,7 +1114,8 @@ export class Repositories {
     );
   }
 
-  async assetsAt(asOfDate: string): Promise<AssetRecord[]> {
+  async assetsAt(asOfDate: string, profileId?: string): Promise<AssetRecord[]> {
+    const profileFilter = profileId === undefined ? "" : " AND a.profile_id=?";
     const rows = await this.db.select(
       `WITH versions AS (
         SELECT s.asset_id,s.as_of_date,s.value AS current_value,a.name,a.kind,a.include_in_safety_resources,0 AS revision_id,1 AS active
@@ -1098,8 +1127,8 @@ export class Repositories {
       )
       SELECT a.id,COALESCE(l.name,a.name) AS name,COALESCE(l.kind,a.kind) AS kind,COALESCE(l.include_in_safety_resources,a.include_in_safety_resources) AS include_in_safety_resources,a.created_at,l.current_value,l.as_of_date AS snapshot_date,COALESCE(l.active,a.active) AS active
       FROM assets a LEFT JOIN latest l ON l.asset_id=a.id
-      WHERE a.active=1 AND COALESCE(l.active,a.active)=1 ORDER BY a.id`,
-      [asOfDate, asOfDate],
+      WHERE a.active=1 AND COALESCE(l.active,a.active)=1${profileFilter} ORDER BY a.id`,
+      profileId === undefined ? [asOfDate, asOfDate] : [asOfDate, asOfDate, profileId],
     );
     return rows.flatMap((row) => {
       if (nullableText(row, "snapshot_date") === null) {
@@ -1121,6 +1150,173 @@ export class Repositories {
         },
       ];
     });
+  }
+
+  async createIncomeEntry(
+    input: {
+      id: string;
+      profileId: string;
+      periodMonth: string;
+      occurredAt: string;
+      amount: string;
+      label: string;
+      oneTime: boolean;
+    },
+    createdAt = new Date().toISOString(),
+  ): Promise<void> {
+    await this.db.execute(
+      "INSERT INTO income_entries(id,profile_id,period_month,occurred_at,amount,label,one_time,created_at) VALUES(?,?,?,?,?,?,?,?)",
+      [
+        input.id,
+        input.profileId,
+        input.periodMonth,
+        input.occurredAt,
+        requireStoredUserInputMoney(input.amount),
+        input.label,
+        Number(input.oneTime),
+        createdAt,
+      ],
+    );
+  }
+
+  async listIncomeEntries(profileId: string, periodMonth: string): Promise<IncomeEntryRecord[]> {
+    const rows = await this.db.select(
+      "SELECT id,profile_id,period_month,occurred_at,amount,label,one_time FROM income_entries WHERE profile_id=? AND period_month=? ORDER BY occurred_at,id",
+      [profileId, periodMonth],
+    );
+    return rows.map((row) => ({
+      id: text(row, "id"),
+      profileId: text(row, "profile_id"),
+      periodMonth: text(row, "period_month"),
+      occurredAt: text(row, "occurred_at"),
+      amount: requireStoredUserInputMoney(text(row, "amount")),
+      label: text(row, "label"),
+      oneTime: bool(row, "one_time"),
+    }));
+  }
+
+  async setCashAccountReservedAmount(
+    accountId: string,
+    profileId: string,
+    amount: string,
+  ): Promise<void> {
+    const normalized = money(requireStoredUserInputMoney(amount));
+    if (normalized.isNegative()) {
+      throw new ApplicationDataError(
+        "INVALID_RESERVED_AMOUNT",
+        "Reserved amount must not be negative.",
+      );
+    }
+    const result = await this.db.execute(
+      "UPDATE cash_accounts SET reserved_amount=? WHERE id=? AND profile_id=?",
+      [normalized.toDecimalPlaces(2).toFixed(2), accountId, profileId],
+    );
+    if (result.rowsAffected === 0) {
+      throw new ApplicationDataError(
+        "CASH_ACCOUNT_NOT_FOUND",
+        "Cash account does not exist for this profile.",
+      );
+    }
+  }
+
+  async createFixedExpensePlan(
+    input: {
+      id: string;
+      profileId: string;
+      name: string;
+      monthlyAmount: string;
+      effectiveFrom: string;
+      note?: string | null;
+      active?: boolean;
+    },
+    createdAt = new Date().toISOString(),
+  ): Promise<void> {
+    await this.db.execute(
+      "INSERT INTO fixed_expense_plans(id,profile_id,name,monthly_amount,effective_from,note,active,created_at) VALUES(?,?,?,?,?,?,?,?)",
+      [
+        input.id,
+        input.profileId,
+        input.name,
+        requireStoredUserInputMoney(input.monthlyAmount),
+        input.effectiveFrom,
+        input.note ?? null,
+        Number(input.active ?? true),
+        createdAt,
+      ],
+    );
+  }
+
+  async listFixedExpensePlans(
+    profileId: string,
+    effectiveFrom?: string,
+  ): Promise<FixedExpensePlanRecord[]> {
+    const rows = await this.db.select(
+      `SELECT id,profile_id,name,monthly_amount,effective_from,note,active FROM fixed_expense_plans WHERE profile_id=? AND active=1${effectiveFrom === undefined ? "" : " AND effective_from<=?"} ORDER BY effective_from,id`,
+      effectiveFrom === undefined ? [profileId] : [profileId, effectiveFrom],
+    );
+    return rows.map((row) => ({
+      id: text(row, "id"),
+      profileId: text(row, "profile_id"),
+      name: text(row, "name"),
+      monthlyAmount: requireStoredUserInputMoney(text(row, "monthly_amount")),
+      effectiveFrom: text(row, "effective_from"),
+      note: nullableText(row, "note"),
+      active: bool(row, "active"),
+    }));
+  }
+
+  async updateFixedExpensePlan(
+    profileId: string,
+    id: string,
+    patch: {
+      name?: string;
+      monthlyAmount?: string;
+      effectiveFrom?: string;
+      note?: string | null;
+    },
+  ): Promise<void> {
+    const assignments: string[] = [];
+    const values: (string | null)[] = [];
+    if (patch.name !== undefined) {
+      assignments.push("name=?");
+      values.push(patch.name);
+    }
+    if (patch.monthlyAmount !== undefined) {
+      assignments.push("monthly_amount=?");
+      values.push(requireStoredUserInputMoney(patch.monthlyAmount));
+    }
+    if (patch.effectiveFrom !== undefined) {
+      assignments.push("effective_from=?");
+      values.push(patch.effectiveFrom);
+    }
+    if (patch.note !== undefined) {
+      assignments.push("note=?");
+      values.push(patch.note);
+    }
+    if (assignments.length === 0) return;
+    const result = await this.db.execute(
+      `UPDATE fixed_expense_plans SET ${assignments.join(",")} WHERE id=? AND profile_id=?`,
+      [...values, id, profileId],
+    );
+    if (result.rowsAffected === 0) {
+      throw new ApplicationDataError(
+        "FIXED_EXPENSE_PLAN_NOT_FOUND",
+        "Fixed expense plan does not exist for this profile.",
+      );
+    }
+  }
+
+  async deactivateFixedExpensePlan(profileId: string, id: string): Promise<void> {
+    const result = await this.db.execute(
+      "UPDATE fixed_expense_plans SET active=0 WHERE id=? AND profile_id=?",
+      [id, profileId],
+    );
+    if (result.rowsAffected === 0) {
+      throw new ApplicationDataError(
+        "FIXED_EXPENSE_PLAN_NOT_FOUND",
+        "Fixed expense plan does not exist for this profile.",
+      );
+    }
   }
 
   async createDebt(
@@ -1251,7 +1447,9 @@ export class Repositories {
     targetMonth: string,
     asOfDate: string,
     includeMissing = false,
+    profileId?: string,
   ): Promise<DebtRecord[]> {
+    const profileFilter = profileId === undefined ? "" : " AND d.profile_id=?";
     const rows = await this.db.select(
       `WITH facts AS (
         SELECT debt_id,period_month,as_of_date,current_balance,current_month_due,0 AS revision_id FROM debt_period_facts WHERE period_month=? AND as_of_date<=?
@@ -1267,7 +1465,7 @@ export class Repositories {
       SELECT d.id,COALESCE(p.name,d.name) AS name,
        p.fixed_monthly_payment,d.active,d.created_at,f.current_balance,f.current_month_due,
        EXISTS(SELECT 1 FROM debt_period_facts p3 WHERE p3.debt_id=d.id AND p3.period_month<?) OR EXISTS(SELECT 1 FROM debt_revisions p4 WHERE p4.debt_id=d.id AND p4.period_month<?) AS has_prior_fact
-      FROM debts d LEFT JOIN latest_fact f ON f.debt_id=d.id LEFT JOIN latest_payment p ON p.debt_id=d.id WHERE d.active=1 AND COALESCE(p.active,d.active)=1 ORDER BY d.id`,
+      FROM debts d LEFT JOIN latest_fact f ON f.debt_id=d.id LEFT JOIN latest_payment p ON p.debt_id=d.id WHERE d.active=1 AND COALESCE(p.active,d.active)=1${profileFilter} ORDER BY d.id`,
       [
         targetMonth,
         asOfDate,
@@ -1277,6 +1475,7 @@ export class Repositories {
         asOfDate,
         targetMonth,
         targetMonth,
+        ...(profileId === undefined ? [] : [profileId]),
       ],
     );
     const facts: DebtRecord[] = [];

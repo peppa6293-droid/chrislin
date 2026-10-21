@@ -67,8 +67,8 @@ describe("V4 additive schema and resolvers", () => {
     const db = fresh();
     await migrateDatabase(db, "2026-10-01T00:00:00.000Z");
     await migrateDatabase(db, "2026-10-02T00:00:00.000Z");
-    expect(CURRENT_SCHEMA_VERSION).toBe(7);
-    expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 7 }]);
+    expect(CURRENT_SCHEMA_VERSION).toBe(8);
+    expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 8 }]);
     expect(await db.select("SELECT version FROM schema_migrations ORDER BY version")).toEqual([
       { version: 1 },
       { version: 2 },
@@ -77,6 +77,7 @@ describe("V4 additive schema and resolvers", () => {
       { version: 5 },
       { version: 6 },
       { version: 7 },
+      { version: 8 },
     ]);
     for (const table of [
       "planning_income_month_revisions",
@@ -311,9 +312,18 @@ describe("V4 additive schema and resolvers", () => {
     expect(afterHome).toEqual(beforeHome);
     const afterRows = Object.fromEntries(
       await Promise.all(
-        businessTables.map(
-          async (name) => [name, await db.select(`SELECT * FROM ${name} ORDER BY rowid`)] as const,
-        ),
+        businessTables.map(async (name) => {
+          const rows = await db.select<Record<string, unknown>>(
+            `SELECT * FROM ${name} ORDER BY rowid`,
+          );
+          const baseline = (beforeRows as Record<string, Record<string, unknown>[]>)[name]?.[0];
+          if (!baseline) return [name, rows] as const;
+          const baselineKeys = Object.keys(baseline);
+          return [
+            name,
+            rows.map((row) => Object.fromEntries(baselineKeys.map((key) => [key, row[key]]))),
+          ] as const;
+        }),
       ),
     );
     expect(afterRows).toEqual(beforeRows);
