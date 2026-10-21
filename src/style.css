@@ -3238,6 +3238,7 @@ select:hover {
   white-space: nowrap;
   overflow-wrap: normal;
   word-break: keep-all;
+  text-overflow: ellipsis;
   flex: 0 0 auto;
 }
 .money-amount--wide {

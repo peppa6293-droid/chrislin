@@ -806,12 +806,12 @@ button.v2-brand:focus-visible {
 
 .v2-recent-copy strong,
 .v2-recent-copy small {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .v2-recent-row > .money-amount {
+  flex-shrink: 0;
   font-size: 15px;
   font-weight: 750;
 }
@@ -931,6 +931,13 @@ button.v2-brand:focus-visible {
 .v2-progress-row-value {
   font-weight: 600;
   font-variant-numeric: tabular-nums;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.v2-progress-row small {
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .v2-insight-panel {
