@@ -1,0 +1,6 @@
+Wed Oct 21 00:34:44 CST 2026
+--- ls -l (before first launch) ---
+total 696
+-rw-r--r--@ 1 linte  staff  319488 Oct 20 23:05 personal-finance-console.sqlite3
+--- shasum before launch ---
+a77caadcf57e4fb6c43f37643a1804d163978aacc04908ea352e3ba8386a737f  /Users/linte/Library/Application Support/com.personalfinance.console.smoke/personal-finance-console.sqlite3
