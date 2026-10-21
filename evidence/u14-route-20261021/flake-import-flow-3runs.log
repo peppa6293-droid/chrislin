@@ -1,0 +1,15 @@
+=== import-flow run 1 ===
+      Tests  31 passed (31)
+   Start at  21:19:32
+   Duration  1.11s (tests 31%, environment 25%, import 22%, transform 21%, worker 1%)
+
+=== import-flow run 2 ===
+      Tests  31 passed (31)
+   Start at  21:19:34
+   Duration  1.00s (tests 45%, environment 27%, import 18%, transform 10%, worker 1%)
+
+=== import-flow run 3 ===
+      Tests  31 passed (31)
+   Start at  21:19:35
+   Duration  408ms (tests 42%, environment 24%, import 22%, transform 11%, worker 1%)
+

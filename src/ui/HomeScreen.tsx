@@ -19,6 +19,11 @@ import {
   type SurfaceTab,
   V2HomeSurface,
 } from "./V2HomeSurface.js";
+// v2-dashboard.tsx itself stays out of the core tsc graph (its type is re-exported
+// through the application layer), so the stylesheet rides on the vite-graph
+// consumer: mounting the ledger page always loads this CSS.
+import "./v2-dashboard.css";
+import { V2Dashboard, type V2DashboardProps } from "./v2-dashboard.js";
 import { V2Import } from "./v2-import.js";
 
 type HomeDetailRoute = "SPENDING_DETAIL" | "CASHFLOW_DETAIL" | "SAFETY_DETAIL" | "DEBT_DETAIL";
@@ -60,6 +65,9 @@ const variableCategoryColors = ["#e87862", "#6f88dc", "#9a83d2", "#e1ad43", "#4f
 // The CSV import page talks to the composition root through the stable services
 // object, keeping this component free of any database or repository handle.
 const importServices = getTauriProductServices();
+// The V2 dashboard reads the same composition-root boundary, so the ledger page
+// never touches a database or repository handle either.
+const dashboardServices = getTauriProductServices();
 
 type Props = {
   home: HomeApplicationState;
@@ -132,6 +140,7 @@ export function HomeScreen({
   const [confirmedMotion, setConfirmedMotion] = useState<ConfirmedMotion | undefined>();
   const [motionSequence, setMotionSequence] = useState(0);
   const [importOpen, setImportOpen] = useState(false);
+  const [dashboardOpen, setDashboardOpen] = useState(false);
   useEffect(() => {
     if (!feedback) return;
     const timer = window.setTimeout(() => setFeedback(""), 3200);
@@ -286,18 +295,32 @@ export function HomeScreen({
         onSaveCurrentMonthDebtFact={saveDebt}
       />
       {route === "MY_FINANCE" ? (
-        <details
-          className="finance-state-card"
-          onToggle={(event) => setImportOpen(event.currentTarget.open)}
-        >
-          <summary>账单导入</summary>
-          {importOpen ? (
-            <V2Import
-              loadImportContext={importServices.getV2ImportOptions}
-              writeImport={importServices.writeV2Import}
-            />
-          ) : null}
-        </details>
+        <>
+          <details
+            className="finance-state-card"
+            onToggle={(event) => setDashboardOpen(event.currentTarget.open)}
+          >
+            <summary>收支账本</summary>
+            {dashboardOpen ? (
+              <V2DashboardLoader
+                month={date.slice(0, 7)}
+                load={dashboardServices.getV2DashboardProps}
+              />
+            ) : null}
+          </details>
+          <details
+            className="finance-state-card"
+            onToggle={(event) => setImportOpen(event.currentTarget.open)}
+          >
+            <summary>账单导入</summary>
+            {importOpen ? (
+              <V2Import
+                loadImportContext={importServices.getV2ImportOptions}
+                writeImport={importServices.writeV2Import}
+              />
+            ) : null}
+          </details>
+        </>
       ) : null}
     </>
   ) : undefined;
@@ -454,6 +477,32 @@ function Row({ label, value, testId }: { label: string; value: ReactNode; testId
       <strong data-testid={testId}>{value}</strong>
     </div>
   );
+}
+function V2DashboardLoader({
+  month,
+  load,
+}: {
+  month: string;
+  load: (month: string) => Promise<V2DashboardProps>;
+}) {
+  const [props, setProps] = useState<V2DashboardProps | null>(null);
+  const [error, setError] = useState("");
+  useEffect(() => {
+    let cancelled = false;
+    load(month)
+      .then((next) => {
+        if (!cancelled) setProps(next);
+      })
+      .catch((cause: unknown) => {
+        if (!cancelled) setError(cause instanceof Error ? cause.message : "读取失败，请重试。");
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [load, month]);
+  if (error) return <p role="alert">账本读取失败：{error}</p>;
+  if (!props) return <p role="status">正在读取收支账本…</p>;
+  return <V2Dashboard {...props} />;
 }
 function HomeDetail({
   home,

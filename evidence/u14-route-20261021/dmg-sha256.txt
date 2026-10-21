@@ -1,0 +1,1 @@
+3c13cdd7b5da3eddaad470b22223358952434e6abe7bfcc91e941137ade1fc59  src-tauri/target/release/bundle/dmg/小钱家_0.1.0_aarch64.dmg

@@ -38,6 +38,7 @@ import { migrateDatabase } from "../persistence/migrations.js";
 import { type PlanningIncomeMonthDecision, Repositories } from "../persistence/repositories.js";
 import { TauriSqlDatabase } from "../persistence/tauri-database.js";
 import type { V2ImportContext, V2ImportWriteInput, V2ImportWriteResult } from "../ui/contracts.js";
+import type { V2DashboardProps } from "../ui/v2-dashboard.js";
 
 declare const __WP03_PREVIEW_BUILD__: boolean;
 
@@ -272,6 +273,7 @@ export interface TauriApplicationServices {
   ): Promise<{ expenseId: string }>;
   getV2ImportOptions(): Promise<V2ImportContext>;
   writeV2Import(input: V2ImportWriteInput): Promise<V2ImportWriteResult>;
+  getV2DashboardProps(month: string): Promise<V2DashboardProps>;
   getFinancialMaintenanceState(asOfDate: string): Promise<FinancialMaintenanceState>;
   getFinancialMaintenanceRequirement(
     patch: FinancialMaintenancePatch,
@@ -324,6 +326,7 @@ export interface TauriProductServices {
   ): Promise<{ expenseId: string }>;
   getV2ImportOptions(): Promise<V2ImportContext>;
   writeV2Import(input: V2ImportWriteInput): Promise<V2ImportWriteResult>;
+  getV2DashboardProps(month: string): Promise<V2DashboardProps>;
   getFinancialMaintenanceState(asOfDate: string): Promise<FinancialMaintenanceState>;
   getFinancialMaintenanceRequirement(
     patch: FinancialMaintenancePatch,
@@ -378,6 +381,17 @@ export async function createTauriApplicationServices(): Promise<TauriApplication
       recordV2CashExpenseForDatabase(db, submission, asOfDate),
     getV2ImportOptions: () => getV2ImportOptionsForDatabase(db),
     writeV2Import: (input) => writeV2ImportForDatabase(db, input),
+    getV2DashboardProps: async (month) => {
+      const repositories = new Repositories(db);
+      const profile = await repositories.getProfile();
+      if (!profile) {
+        throw new ApplicationDataError(
+          "PROFILE_NOT_FOUND",
+          "V2 dashboard requires a completed onboarding profile.",
+        );
+      }
+      return new V2ExpenseService(repositories).getDashboardProps(profile.id, month);
+    },
     getFinancialMaintenanceState: (asOfDate) => getFinancialMaintenanceState(db, asOfDate),
     getFinancialMaintenanceRequirement: (patch, asOfDate) =>
       getFinancialMaintenanceRequirement(db, patch, asOfDate),
@@ -430,6 +444,7 @@ export function getTauriProductServices(): TauriProductServices {
       (await open()).recordV2CashExpense(submission, asOfDate),
     getV2ImportOptions: async () => (await open()).getV2ImportOptions(),
     writeV2Import: async (input) => (await open()).writeV2Import(input),
+    getV2DashboardProps: async (month) => (await open()).getV2DashboardProps(month),
     getFinancialMaintenanceState: async (asOfDate) =>
       (await open()).getFinancialMaintenanceState(asOfDate),
     getFinancialMaintenanceRequirement: async (patch, asOfDate) =>

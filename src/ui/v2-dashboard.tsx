@@ -41,8 +41,8 @@ export function V2Dashboard({
   const motionClass = reducedMotion ? "v2-dashboard v2-dashboard--reduced" : "v2-dashboard";
 
   return (
-    <main className={motionClass} data-testid="v2-dashboard" aria-label="个人财务综合面板">
-      <h1 className="v2-dashboard__title">财务概览</h1>
+    <section className={motionClass} data-testid="v2-dashboard" aria-label="个人财务综合面板">
+      <h2 className="v2-dashboard__title">财务概览</h2>
 
       {/* 收支与现金 */}
       <section className="v2-dashboard__section" aria-label="收支与账户现金">
@@ -54,6 +54,9 @@ export function V2Dashboard({
             </span>
             <p className="v2-dashboard__label">收入</p>
             <p className="v2-dashboard__amount">{formatAmount(ledger.income)}</p>
+            <span className="v2-dashboard__label" data-testid="ledger-recurring-income">
+              经常性收入 {formatAmount(ledger.recurringIncome)}
+            </span>
             {ledger.incomeIncludesOneTime ? (
               <span className="v2-dashboard__label" data-testid="income-one-time-badge">
                 含一次性收入
@@ -227,6 +230,6 @@ export function V2Dashboard({
           </p>
         )}
       </section>
-    </main>
+    </section>
   );
 }
