@@ -49,10 +49,6 @@
   height: 108px;
   margin-left: 12px;
 }
-.home-page .home-welcome-art .finance-illustration {
-  width: 108px;
-  height: 108px;
-}
 .today-plan {
   margin: 6px 0 22px;
   padding: 16px 0;
@@ -389,8 +385,7 @@
   .home-page .home-welcome h1 {
     font-size: 28px;
   }
-  .home-page .home-welcome-art,
-  .home-page .home-welcome-art .finance-illustration {
+  .home-page .home-welcome-art {
     width: 72px;
     height: 72px;
     flex-basis: 72px;

@@ -1,26 +1,14 @@
+import { Banknote, House, Inbox, Landmark, ReceiptText, Sprout, Wallet } from "lucide-react";
 import type { CSSProperties } from "react";
-import brandWalletSprout from "./assets/finance/brand-wallet-sprout.svg";
-import assetsPlant from "./assets/finance/finance-assets-plant@2x.png";
-import cashWallet from "./assets/finance/finance-cash-wallet@2x.png";
-import debtCards from "./assets/finance/finance-debt-cards@2x.png";
-import incomeCoins from "./assets/finance/finance-income-coins@2x.png";
-import incomeEmpty from "./assets/finance/finance-income-empty@2x.png";
-import incomeFlowCoins from "./assets/finance/finance-income-green-coins.svg";
-import planHouse from "./assets/finance/finance-plan-house@2x.png";
-import safetySprout from "./assets/finance/finance-safety-sprout@2x.png";
-import spendingWallet from "./assets/finance/finance-spending-wallet@2x.png";
 
 export const financeArt = {
-  spending: spendingWallet,
-  income: incomeCoins,
-  incomeFlow: incomeFlowCoins,
-  cash: cashWallet,
-  assets: assetsPlant,
-  safety: safetySprout,
-  debt: debtCards,
-  plan: planHouse,
-  incomeEmpty,
-  brand: brandWalletSprout,
+  income: { icon: Wallet, tone: "coral" },
+  cash: { icon: Banknote, tone: "blue" },
+  assets: { icon: Landmark, tone: "lavender" },
+  debt: { icon: ReceiptText, tone: "yellow" },
+  plan: { icon: House, tone: "teal" },
+  incomeEmpty: { icon: Inbox, tone: "muted" },
+  brand: { icon: Sprout, tone: "teal" },
 } as const;
 
 export function FinanceIllustration({
@@ -34,16 +22,22 @@ export function FinanceIllustration({
   width?: number;
   decorative?: boolean;
 }) {
+  const { icon: Icon, tone } = financeArt[kind];
   const style: CSSProperties | undefined = width ? { width } : undefined;
   return (
-    <img
-      className={`finance-illustration ${className}`.trim()}
-      src={financeArt[kind]}
-      alt={decorative ? "" : kind}
-      aria-hidden={decorative ? "true" : undefined}
-      draggable="false"
+    <span
+      className={`finance-icon-tile finance-icon-tile--${tone} ${className}`.trim()}
       style={style}
-      data-finance-illustration={kind}
-    />
+      aria-hidden={decorative ? true : undefined}
+      data-finance-icon={kind}
+    >
+      <Icon
+        aria-hidden={decorative ? true : undefined}
+        aria-label={decorative ? undefined : kind}
+        role={decorative ? undefined : "img"}
+        focusable="false"
+        strokeWidth={1.75}
+      />
+    </span>
   );
 }

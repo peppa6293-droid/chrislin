@@ -2303,11 +2303,6 @@ select:hover {
   border-radius: 11px;
   background: #edf6eb;
 }
-.home-page .brand-mark .finance-illustration {
-  width: 42px;
-  height: 38px;
-  object-fit: contain;
-}
 .brand-name {
   font-size: 19px;
   letter-spacing: -0.04em;
@@ -2339,10 +2334,6 @@ select:hover {
   margin-left: 20px;
   transform: rotate(4deg);
   animation: float-gently 4.5s ease-in-out infinite;
-}
-.home-welcome-art .finance-illustration {
-  width: 128px;
-  height: 128px;
 }
 .welcome-sparkle {
   position: absolute;
@@ -2760,10 +2751,48 @@ select:hover {
   background: linear-gradient(145deg, #fffefa, #fbfaf4);
   box-shadow: 0 8px 22px rgb(54 72 59 / 4%);
 }
+.finance-icon-tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  flex: none;
+  border: 1px solid #e7e9e5;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #66717d;
+}
+.finance-icon-tile > svg {
+  width: 52%;
+  height: 52%;
+  flex: none;
+}
+.v2-brand-mark .finance-icon-tile[data-finance-icon="brand"] {
+  width: 100%;
+  height: 100%;
+}
+.finance-icon-tile--coral {
+  color: #f06a58;
+}
+.finance-icon-tile--yellow {
+  color: #e7ad35;
+}
+.finance-icon-tile--blue {
+  color: #5272d8;
+}
+.finance-icon-tile--lavender {
+  color: #8472c7;
+}
+.finance-icon-tile--teal {
+  color: #129b84;
+}
+.finance-icon-tile--muted {
+  color: #66717d;
+}
 .finance-card-art {
   width: 88px;
   height: 92px;
-  object-fit: contain;
 }
 .finance-card-copy {
   display: grid;
@@ -2809,7 +2838,6 @@ select:hover {
 .secondary-plan-art {
   width: 80px;
   height: 64px;
-  object-fit: contain;
 }
 .finance-secondary-entry > div {
   flex: 1;
@@ -2837,7 +2865,6 @@ select:hover {
 .finance-summary-art {
   width: 88px;
   height: 96px;
-  object-fit: contain;
 }
 .finance-list-summary > div {
   display: grid;
@@ -2910,7 +2937,6 @@ select:hover {
 .income-empty-art {
   width: 105px;
   height: 88px;
-  object-fit: contain;
 }
 .finance-data-row {
   min-height: 72px;
@@ -2923,7 +2949,6 @@ select:hover {
   width: 54px;
   height: 52px;
   flex: 0 0 54px;
-  object-fit: contain;
 }
 .finance-data-row > div {
   flex: 1;
@@ -2964,7 +2989,6 @@ select:hover {
   align-self: center;
   width: 200px;
   height: 200px;
-  object-fit: contain;
 }
 .planning-income-form .finance-row-eyebrow,
 .planning-income-form .planning-income-current,
@@ -3294,18 +3318,6 @@ select:hover {
     font-size: 9px;
   }
 }
-.finance-data-row[data-visual-tone="mint"] .finance-row-art {
-  border-radius: 15px;
-  background: radial-gradient(circle, #e4f3e5 0%, #f3f7eb 72%);
-}
-.finance-data-row[data-visual-tone="peach"] .finance-row-art {
-  border-radius: 15px;
-  background: radial-gradient(circle, #fff0d8 0%, #f9f4e8 72%);
-}
-.finance-data-row[data-visual-tone="blue"] .finance-row-art {
-  border-radius: 15px;
-  background: radial-gradient(circle, #e5f0fb 0%, #f2f4f6 72%);
-}
 @media (prefers-reduced-motion: reduce) {
   :root {
     --motion: 1ms;
@@ -3317,13 +3329,6 @@ select:hover {
 }
 
 /* Owner targeted V0.1.1 visual revision: illustration scale and calmer materials. */
-.home-page .finance-illustration:not([data-finance-illustration="brand"]) {
-  filter: saturate(0.88) brightness(1.025);
-}
-.home-page .brand-mark .finance-illustration {
-  width: 38px;
-  height: 38px;
-}
 .home-page.finance-page {
   max-width: 880px;
 }
@@ -3706,10 +3711,6 @@ select:hover {
     flex-basis: 84px;
     margin: 9px 0 0 8px;
   }
-  .home-welcome-art .finance-illustration {
-    width: 88px;
-    height: 88px;
-  }
   .home-welcome h1 {
     font-size: 25px;
   }
@@ -3737,10 +3738,6 @@ select:hover {
     width: 67px;
     height: 70px;
     flex-basis: 67px;
-  }
-  .home-welcome-art .finance-illustration {
-    width: 72px;
-    height: 72px;
   }
   .home-welcome h1 {
     font-size: 22px;
