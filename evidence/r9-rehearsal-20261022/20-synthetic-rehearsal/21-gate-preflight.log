@@ -1,0 +1,12 @@
+SYNTHETIC_ONLY
+case=positive
+syntheticRoot=/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-r9-synthetic-wzgfidqu
+markerBytes=30
+isolationProblems=[]
+status=PREFLIGHT_PASS
+receiptStatus=PREFLIGHT_PASS_READY_FOR_SEPARATELY_AUTHORIZED_MIGRATION
+syntheticOnly=true
+sidecarsAbsent=true
+productionSchema={"migrationVersion": 3, "userVersion": 3}
+receiptPath=/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-r9-synthetic-wzgfidqu/Library/Application Support/com.personalfinance.console/production-v8-release-receipt.json
+RESULT=PASS

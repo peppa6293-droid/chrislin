@@ -1,0 +1,10 @@
+SYNTHETIC_ONLY
+syntheticRoot=/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-r9-reconcile-synthetic-ajfvpe7g
+C4 userVersion=8 migrations=[1, 2, 3, 4, 5, 6, 7, 8] integrity=ok foreignKeyViolations=0 sidecars=[]
+C1 synthetic debt ids=['d1', 'd2']
+C2 synthetic aggregates=[('2026-10', 3000.3, 300.3, 2), ('2026-11', 2800.3, 280.3, 2)]
+C3 synthetic rowcounts=[('debts', 2), ('profiles', 1), ('assets', 0), ('cash_accounts', 0), ('income_records', 1), ('expense_records', 6), ('debt_period_facts', 4), ('debt_revisions', 0)]
+C5-1 detected=['e2', 'e3', 'e4']
+C5-2 detected=['e5']
+OPEN1 v2_income_rows=1 v1_income_rows=1 shared_ids=0
+RESULT=PASS

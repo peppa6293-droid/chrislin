@@ -1,0 +1,4 @@
+file=evidence/wp04-release-cutover-readiness/53-r2c3c1-production-durable-terminal/12-regression/STARTUP_EXCLUSION_RACE_MATRIX.json
+writer=src-tauri/src/startup_exclusion.rs:154 (cargo test side effect)
+observed_at=after R9-01 cargo test
+action=restored to HEAD with git restore; diff preserved in 99-unexpected-worktree-write.diff

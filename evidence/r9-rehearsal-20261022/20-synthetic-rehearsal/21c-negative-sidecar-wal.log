@@ -1,0 +1,9 @@
+SYNTHETIC_ONLY
+case=added-wal
+syntheticRoot=/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-r9-synthetic-cwphkj70
+markerBytes=30
+mutation=sidecar -wal added next to synthetic database
+isolationProblems=[]
+RESULT=BLOCKED
+reason=SQLite sidecar exists; a quiescent database is required.
+reason=/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-r9-synthetic-cwphkj70/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3-wal

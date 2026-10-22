@@ -1,0 +1,9 @@
+SYNTHETIC_ONLY
+case=replaced-backup
+syntheticRoot=/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-r9-synthetic-1_tjsap9
+markerBytes=30
+mutation=backup file replaced
+isolationProblems=[]
+RESULT=BLOCKED
+reason=Production backup hash does not match the pre-migration database hash.
+reason=Production backup is not byte-identical to the pre-migration database.

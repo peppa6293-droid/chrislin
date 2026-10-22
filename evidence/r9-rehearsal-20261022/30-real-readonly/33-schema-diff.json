@@ -1,0 +1,10 @@
+{
+  "syntheticOnly": false,
+  "scope": "schema structure only; no row data read into this driver",
+  "realTableCount": 20,
+  "realIndexCount": 13,
+  "bootstrapTableCount": 20,
+  "acceptedTableCount": 20,
+  "differencesVs003": [],
+  "differencesVsV3SchemaJson": []
+}

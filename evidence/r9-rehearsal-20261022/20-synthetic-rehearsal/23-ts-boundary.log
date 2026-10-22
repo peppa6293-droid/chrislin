@@ -1,0 +1,36 @@
+
+ RUN  v5.0.5 /Users/linte/Documents/ChatGPT/个人财务模型app开发项目 2
+
+ ✓ tests/r8-native-migration-sql-parity.test.ts > R8 native migration SQL is the exact TypeScript migration source > migrations/005.sql matches the TypeScript migration source byte-for-byte 1ms
+ ✓ tests/r8-native-migration-sql-parity.test.ts > R8 native migration SQL is the exact TypeScript migration source > migrations/006.sql matches the TypeScript migration source byte-for-byte 0ms
+ ✓ tests/r8-native-migration-sql-parity.test.ts > R8 native migration SQL is the exact TypeScript migration source > migrations/007.sql matches the TypeScript migration source byte-for-byte 0ms
+ ✓ tests/r8-native-migration-sql-parity.test.ts > R8 native migration SQL is the exact TypeScript migration source > migrations/008.sql matches the TypeScript migration source byte-for-byte 0ms
+ ✓ tests/r8-native-migration-sql-parity.test.ts > R8 native migration SQL is the exact TypeScript migration source > applying the native SQL chain through V5 produces the accepted schema snapshot 3ms
+ ✓ tests/r8-native-migration-sql-parity.test.ts > R8 native migration SQL is the exact TypeScript migration source > applying the native SQL chain through V6 produces the accepted schema snapshot 1ms
+ ✓ tests/r8-native-migration-sql-parity.test.ts > R8 native migration SQL is the exact TypeScript migration source > applying the native SQL chain through V7 produces the accepted schema snapshot 1ms
+ ✓ tests/r8-native-migration-sql-parity.test.ts > R8 native migration SQL is the exact TypeScript migration source > applying the native SQL chain through V8 produces the accepted schema snapshot 3ms
+ ✓ tests/r8-production-schema-authority.test.ts > runtime schema authority policy > assigns Production exclusively to the native V8 gate 1ms
+ ✓ tests/r8-production-schema-authority.test.ts > runtime schema authority policy > assigns isolated identity com.personalfinance.console.smoke to TypeScript migrations 0ms
+ ✓ tests/r8-production-schema-authority.test.ts > runtime schema authority policy > assigns isolated identity com.personalfinance.console.v4acceptance to TypeScript migrations 0ms
+ ✓ tests/r8-production-schema-authority.test.ts > runtime schema authority policy > assigns isolated identity com.personalfinance.console.wp02preview to TypeScript migrations 0ms
+ ✓ tests/r8-production-schema-authority.test.ts > runtime schema authority policy > assigns isolated identity com.personalfinance.console.wp03preview to TypeScript migrations 0ms
+ ✓ tests/r8-production-schema-authority.test.ts > runtime schema authority policy > assigns isolated identity org.pfc.quiescence.integration to TypeScript migrations 0ms
+ ✓ tests/r8-production-schema-authority.test.ts > runtime schema authority policy > fails closed for an unrecognized or empty identity 0ms
+ ✓ tests/r8-production-schema-authority.test.ts > Production composition root never applies TypeScript DDL > bootstrap leaves an isolated V3 fixture at V3 and performs no migration 5ms
+ ✓ tests/r8-production-schema-authority.test.ts > Production composition root never applies TypeScript DDL > services leave an isolated V3 fixture at V3 and never enter business I/O 4ms
+ ✓ tests/r8-production-schema-authority.test.ts > Production composition root never applies TypeScript DDL > bootstrap accepts an already-V8 Production database without any write 7ms
+ ✓ tests/r8-production-schema-authority.test.ts > Production composition root never applies TypeScript DDL > does not open a database when native identity is unavailable 0ms
+ ✓ tests/r8-production-schema-authority.test.ts > Production composition root never applies TypeScript DDL > does not open a database for an unrecognized identity 0ms
+ ✓ tests/r8-production-schema-authority.test.ts > isolated runtimes still own the TypeScript V1..V8 chain > bootstrap migrates an isolated V3 fixture to V8 for com.personalfinance.console.smoke 7ms
+ ✓ tests/r8-production-schema-authority.test.ts > isolated runtimes still own the TypeScript V1..V8 chain > bootstrap migrates an isolated V3 fixture to V8 for com.personalfinance.console.v4acceptance 6ms
+ ✓ tests/r8-production-schema-authority.test.ts > isolated runtimes still own the TypeScript V1..V8 chain > services complete the chain for an isolated V1 fixture 6ms
+ ✓ tests/r8-production-schema-authority.test.ts > targetVersion is authoritative for the entire migration chain > stops exactly at targetVersion 1 3ms
+ ✓ tests/r8-production-schema-authority.test.ts > targetVersion is authoritative for the entire migration chain > stops exactly at targetVersion 2 2ms
+ ✓ tests/r8-production-schema-authority.test.ts > targetVersion is authoritative for the entire migration chain > stops exactly at targetVersion 3 3ms
+ ✓ tests/r8-production-schema-authority.test.ts > targetVersion is authoritative for the entire migration chain > defaults to the full V8 chain unchanged 8ms
+
+ Test Files  2 passed (2)
+      Tests  27 passed (27)
+   Start at  13:32:10
+   Duration  175ms (tests 49%, transform 27%, import 20%, worker 4%)
+

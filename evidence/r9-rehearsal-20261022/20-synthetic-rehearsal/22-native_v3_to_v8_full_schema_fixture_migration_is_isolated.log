@@ -1,0 +1,55 @@
+warning: unused import: `PathBuf`
+ --> src/wp02_preview_isolation.rs:2:23
+  |
+2 | use std::path::{Path, PathBuf};
+  |                       ^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: `personal-finance-console` (lib) generated 1 warning (run `cargo fix --lib -p personal-finance-console` to apply 1 suggestion)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+     Running unittests src/lib.rs (src-tauri/target/debug/deps/personal_finance_console_lib-a90cf3bf8ab11178)
+
+running 1 test
+{
+  "databaseDevice": 16777232,
+  "databaseInode": 31166355,
+  "databasePath": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-r8-native-v3-v8-40987-0/personal-finance-console.sqlite3",
+  "databaseSha256": "4280a6ef2cda75b3357f7e57f05dc79ac22f9b5276c24232f8cc0fd168b8f680",
+  "event": "native_v3_to_v8_fixture_migration",
+  "fixtureRoot": "/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-r8-native-v3-v8-40987-0",
+  "foreignKeyViolationCount": 0,
+  "integrityCheck": "ok",
+  "migrationRowCount": 8,
+  "migrationRows": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "sidecarsAbsent": true,
+  "sourceSchema": {
+    "migrationVersion": 3,
+    "userVersion": 3
+  },
+  "sourceSha256": "b44f9bd04a20bd5a80be5c2a90ed99d21b72f55bba28d58d961f9cbb01e7074b",
+  "syntheticOnly": true,
+  "targetSchema": {
+    "migrationVersion": 8,
+    "userVersion": 8
+  }
+}
+test production_terminal_tests::native_v3_to_v8_full_schema_fixture_migration_is_isolated ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 65 filtered out; finished in 0.07s
+
+     Running unittests src/main.rs (src-tauri/target/debug/deps/personal_finance_console-486b551d207bc34c)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

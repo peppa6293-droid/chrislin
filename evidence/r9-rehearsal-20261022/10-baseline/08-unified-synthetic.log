@@ -1,0 +1,10 @@
+test_legacy_markers_are_not_unified_markers (__main__.UnifiedRootContractTests) ... ok
+test_symlink_marker_is_rejected (__main__.UnifiedRootContractTests) ... ok
+test_unified_manifest_has_one_fixed_bundle_identity (__main__.UnifiedRootContractTests) ... ok
+test_unified_marker_is_explicitly_accepted_by_both_components (__main__.UnifiedRootContractTests) ... ok
+test_unified_mode_is_never_inferred_from_marker (__main__.UnifiedRootContractTests) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.005s
+
+OK

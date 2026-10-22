@@ -1,0 +1,9 @@
+SYNTHETIC_ONLY
+case=tampered-executable
+syntheticRoot=/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-r9-synthetic-rxc0rt2v
+markerBytes=30
+mutation=executable flipped one byte
+isolationProblems=[]
+RESULT=BLOCKED
+reason=Candidate executable hash does not match the Owner-approved hash.
+reason=Migration authorization candidate hash does not match the installed candidate.
