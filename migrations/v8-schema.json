@@ -1,0 +1,326 @@
+[
+  {
+    "type": "index",
+    "name": "accounts_profile_lookup",
+    "tbl_name": "accounts",
+    "sql": "CREATE INDEX accounts_profile_lookup ON accounts(profile_id,active,name)"
+  },
+  {
+    "type": "index",
+    "name": "actual_income_revision_lookup",
+    "tbl_name": "actual_income_revisions",
+    "sql": "CREATE INDEX actual_income_revision_lookup ON actual_income_revisions(income_id,as_of_date,revision_id)"
+  },
+  {
+    "type": "index",
+    "name": "asset_revision_lookup",
+    "tbl_name": "asset_revisions",
+    "sql": "CREATE INDEX asset_revision_lookup ON asset_revisions(asset_id,as_of_date,revision_id)"
+  },
+  {
+    "type": "index",
+    "name": "asset_snapshot_date",
+    "tbl_name": "asset_value_snapshots",
+    "sql": "CREATE INDEX asset_snapshot_date ON asset_value_snapshots(asset_id, as_of_date)"
+  },
+  {
+    "type": "index",
+    "name": "cash_account_lifecycle_lookup",
+    "tbl_name": "cash_account_lifecycle_revisions",
+    "sql": "CREATE INDEX cash_account_lifecycle_lookup ON cash_account_lifecycle_revisions(account_id,as_of_date,revision_id)"
+  },
+  {
+    "type": "index",
+    "name": "cash_revision_lookup",
+    "tbl_name": "cash_account_revisions",
+    "sql": "CREATE INDEX cash_revision_lookup ON cash_account_revisions(account_id,as_of_date,revision_id)"
+  },
+  {
+    "type": "index",
+    "name": "cash_snapshot_date",
+    "tbl_name": "cash_balance_snapshots",
+    "sql": "CREATE INDEX cash_snapshot_date ON cash_balance_snapshots(account_id, as_of_date)"
+  },
+  {
+    "type": "index",
+    "name": "debt_period_lookup",
+    "tbl_name": "debt_period_facts",
+    "sql": "CREATE INDEX debt_period_lookup ON debt_period_facts(debt_id, period_month, as_of_date)"
+  },
+  {
+    "type": "index",
+    "name": "debt_revision_lookup",
+    "tbl_name": "debt_revisions",
+    "sql": "CREATE INDEX debt_revision_lookup ON debt_revisions(debt_id,period_month,as_of_date,revision_id)"
+  },
+  {
+    "type": "index",
+    "name": "essential_revision_lookup",
+    "tbl_name": "essential_expense_revisions",
+    "sql": "CREATE INDEX essential_revision_lookup ON essential_expense_revisions(item_id,as_of_date,revision_id)"
+  },
+  {
+    "type": "index",
+    "name": "essential_snapshot_date",
+    "tbl_name": "essential_expense_snapshots",
+    "sql": "CREATE INDEX essential_snapshot_date ON essential_expense_snapshots(item_id, as_of_date)"
+  },
+  {
+    "type": "index",
+    "name": "expense_categories_profile_lookup",
+    "tbl_name": "expense_categories",
+    "sql": "CREATE INDEX expense_categories_profile_lookup ON expense_categories(profile_id,active,builtin,name)"
+  },
+  {
+    "type": "index",
+    "name": "expenses_category_lookup",
+    "tbl_name": "expenses",
+    "sql": "CREATE INDEX expenses_category_lookup ON expenses(category_id)"
+  },
+  {
+    "type": "index",
+    "name": "expenses_dedupe_unique",
+    "tbl_name": "expenses",
+    "sql": "CREATE UNIQUE INDEX expenses_dedupe_unique\n  ON expenses(profile_id, dedupe_key) WHERE dedupe_key IS NOT NULL"
+  },
+  {
+    "type": "index",
+    "name": "expenses_import_lookup",
+    "tbl_name": "expenses",
+    "sql": "CREATE INDEX expenses_import_lookup ON expenses(import_batch_id)"
+  },
+  {
+    "type": "index",
+    "name": "expenses_profile_business_date",
+    "tbl_name": "expense_records",
+    "sql": "CREATE INDEX expenses_profile_business_date ON expense_records(profile_id,business_date,occurred_at)"
+  },
+  {
+    "type": "index",
+    "name": "expenses_profile_date",
+    "tbl_name": "expense_records",
+    "sql": "CREATE INDEX expenses_profile_date ON expense_records(profile_id, occurred_at)"
+  },
+  {
+    "type": "index",
+    "name": "expenses_profile_month_lookup",
+    "tbl_name": "expenses",
+    "sql": "CREATE INDEX expenses_profile_month_lookup ON expenses(profile_id, occurred_on)"
+  },
+  {
+    "type": "index",
+    "name": "fixed_expense_plans_profile_lookup",
+    "tbl_name": "fixed_expense_plans",
+    "sql": "CREATE INDEX fixed_expense_plans_profile_lookup\n  ON fixed_expense_plans(profile_id, active, effective_from)"
+  },
+  {
+    "type": "index",
+    "name": "income_entries_profile_month",
+    "tbl_name": "income_entries",
+    "sql": "CREATE INDEX income_entries_profile_month\n  ON income_entries(profile_id, period_month)"
+  },
+  {
+    "type": "index",
+    "name": "income_profile_month",
+    "tbl_name": "income_records",
+    "sql": "CREATE INDEX income_profile_month ON income_records(profile_id, period_month, kind, date)"
+  },
+  {
+    "type": "index",
+    "name": "planning_income_month_revision_lookup",
+    "tbl_name": "planning_income_month_revisions",
+    "sql": "CREATE INDEX planning_income_month_revision_lookup ON planning_income_month_revisions(profile_id,period_month,as_of_date,revision_id)"
+  },
+  {
+    "type": "index",
+    "name": "planning_income_revision_lookup",
+    "tbl_name": "planning_income_revisions",
+    "sql": "CREATE INDEX planning_income_revision_lookup ON planning_income_revisions(profile_id,effective_month,as_of_date,revision_id)"
+  },
+  {
+    "type": "index",
+    "name": "settings_revision_lookup",
+    "tbl_name": "settings_revisions",
+    "sql": "CREATE INDEX settings_revision_lookup ON settings_revisions(profile_id,effective_month,as_of_date,revision_id)"
+  },
+  {
+    "type": "table",
+    "name": "accounts",
+    "tbl_name": "accounts",
+    "sql": "CREATE TABLE accounts (\n  id TEXT PRIMARY KEY,\n  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,\n  name TEXT NOT NULL,\n  type TEXT NOT NULL CHECK (type IN ('CASH','DEBIT_CARD','CREDIT_CARD','OTHER')),\n  currency TEXT NOT NULL,\n  active INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0,1)),\n  created_at TEXT NOT NULL\n)"
+  },
+  {
+    "type": "table",
+    "name": "actual_income_revisions",
+    "tbl_name": "actual_income_revisions",
+    "sql": "CREATE TABLE actual_income_revisions (\n  revision_id INTEGER PRIMARY KEY AUTOINCREMENT,\n  income_id TEXT NOT NULL REFERENCES income_records(id) ON DELETE RESTRICT,\n  as_of_date TEXT NOT NULL,\n  amount TEXT NOT NULL,\n  status TEXT NOT NULL CHECK (status IN ('EXPECTED','PENDING','RECEIVED')),\n  date TEXT NOT NULL,\n  active INTEGER NOT NULL CHECK (active IN (0,1)),\n  created_at TEXT NOT NULL\n)"
+  },
+  {
+    "type": "table",
+    "name": "app_metadata",
+    "tbl_name": "app_metadata",
+    "sql": "CREATE TABLE app_metadata (\n  key TEXT PRIMARY KEY,\n  value TEXT NOT NULL\n)"
+  },
+  {
+    "type": "table",
+    "name": "asset_revisions",
+    "tbl_name": "asset_revisions",
+    "sql": "CREATE TABLE asset_revisions (\n  revision_id INTEGER PRIMARY KEY AUTOINCREMENT,\n  asset_id TEXT NOT NULL REFERENCES assets(id) ON DELETE RESTRICT,\n  as_of_date TEXT NOT NULL,\n  name TEXT NOT NULL,\n  kind TEXT NOT NULL CHECK(kind IN ('LIQUID_INVESTMENT','OTHER')),\n  include_in_safety_resources INTEGER NOT NULL CHECK(include_in_safety_resources IN (0,1)),\n  current_value TEXT NOT NULL,\n  active INTEGER NOT NULL CHECK(active IN (0,1)),\n  created_at TEXT NOT NULL\n)"
+  },
+  {
+    "type": "table",
+    "name": "asset_value_snapshots",
+    "tbl_name": "asset_value_snapshots",
+    "sql": "CREATE TABLE asset_value_snapshots (\n  id TEXT PRIMARY KEY,\n  asset_id TEXT NOT NULL REFERENCES assets(id) ON DELETE RESTRICT,\n  as_of_date TEXT NOT NULL,\n  value TEXT NOT NULL,\n  created_at TEXT NOT NULL,\n  UNIQUE(asset_id, as_of_date)\n)"
+  },
+  {
+    "type": "table",
+    "name": "assets",
+    "tbl_name": "assets",
+    "sql": "CREATE TABLE assets (\n  id TEXT PRIMARY KEY,\n  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,\n  name TEXT NOT NULL,\n  kind TEXT NOT NULL CHECK (kind IN ('LIQUID_INVESTMENT','OTHER')),\n  include_in_safety_resources INTEGER NOT NULL CHECK (include_in_safety_resources IN (0,1)),\n  active INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0,1)),\n  created_at TEXT NOT NULL\n)"
+  },
+  {
+    "type": "table",
+    "name": "cash_account_lifecycle_revisions",
+    "tbl_name": "cash_account_lifecycle_revisions",
+    "sql": "CREATE TABLE cash_account_lifecycle_revisions (\n  revision_id INTEGER PRIMARY KEY AUTOINCREMENT,\n  account_id TEXT NOT NULL REFERENCES cash_accounts(id) ON DELETE RESTRICT,\n  as_of_date TEXT NOT NULL,\n  active INTEGER NOT NULL CHECK (active IN (0,1)),\n  created_at TEXT NOT NULL\n)"
+  },
+  {
+    "type": "table",
+    "name": "cash_account_revisions",
+    "tbl_name": "cash_account_revisions",
+    "sql": "CREATE TABLE cash_account_revisions (\n  revision_id INTEGER PRIMARY KEY AUTOINCREMENT,\n  account_id TEXT NOT NULL REFERENCES cash_accounts(id) ON DELETE RESTRICT,\n  as_of_date TEXT NOT NULL,\n  name TEXT NOT NULL,\n  include_in_safety_resources INTEGER NOT NULL CHECK(include_in_safety_resources IN (0,1)),\n  balance TEXT NOT NULL,\n  created_at TEXT NOT NULL\n)"
+  },
+  {
+    "type": "table",
+    "name": "cash_accounts",
+    "tbl_name": "cash_accounts",
+    "sql": "CREATE TABLE cash_accounts (\n  id TEXT PRIMARY KEY,\n  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,\n  name TEXT NOT NULL,\n  include_in_safety_resources INTEGER NOT NULL CHECK (include_in_safety_resources IN (0,1)),\n  active INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0,1)),\n  created_at TEXT NOT NULL\n, reserved_amount TEXT NOT NULL DEFAULT '0.00')"
+  },
+  {
+    "type": "table",
+    "name": "cash_balance_snapshots",
+    "tbl_name": "cash_balance_snapshots",
+    "sql": "CREATE TABLE cash_balance_snapshots (\n  id TEXT PRIMARY KEY,\n  account_id TEXT NOT NULL REFERENCES cash_accounts(id) ON DELETE RESTRICT,\n  as_of_date TEXT NOT NULL,\n  balance TEXT NOT NULL,\n  created_at TEXT NOT NULL,\n  UNIQUE(account_id, as_of_date)\n)"
+  },
+  {
+    "type": "table",
+    "name": "debt_period_facts",
+    "tbl_name": "debt_period_facts",
+    "sql": "CREATE TABLE debt_period_facts (\n  id TEXT PRIMARY KEY,\n  debt_id TEXT NOT NULL REFERENCES debts(id) ON DELETE RESTRICT,\n  period_month TEXT NOT NULL CHECK (length(period_month)=7 AND substr(period_month,5,1)='-' AND substr(period_month,6,2) BETWEEN '01' AND '12' AND substr(period_month,1,4) NOT GLOB '*[^0-9]*'),\n  as_of_date TEXT NOT NULL,\n  current_balance TEXT NOT NULL,\n  current_month_due TEXT,\n  created_at TEXT NOT NULL,\n  UNIQUE(debt_id, period_month)\n)"
+  },
+  {
+    "type": "table",
+    "name": "debt_revisions",
+    "tbl_name": "debt_revisions",
+    "sql": "CREATE TABLE debt_revisions (\n  revision_id INTEGER PRIMARY KEY AUTOINCREMENT,\n  debt_id TEXT NOT NULL REFERENCES debts(id) ON DELETE RESTRICT,\n  period_month TEXT NOT NULL,\n  as_of_date TEXT NOT NULL,\n  name TEXT NOT NULL,\n  current_balance TEXT NOT NULL,\n  current_month_due TEXT,\n  fixed_monthly_payment TEXT,\n  active INTEGER NOT NULL CHECK(active IN (0,1)),\n  created_at TEXT NOT NULL\n)"
+  },
+  {
+    "type": "table",
+    "name": "debts",
+    "tbl_name": "debts",
+    "sql": "CREATE TABLE debts (\n  id TEXT PRIMARY KEY,\n  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,\n  name TEXT NOT NULL,\n  fixed_monthly_payment TEXT,\n  active INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0,1)),\n  created_at TEXT NOT NULL\n)"
+  },
+  {
+    "type": "table",
+    "name": "essential_expense_items",
+    "tbl_name": "essential_expense_items",
+    "sql": "CREATE TABLE essential_expense_items (\n  id TEXT PRIMARY KEY,\n  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,\n  category TEXT NOT NULL CHECK (category IN ('HOUSING','BASIC_FOOD','TRANSPORT','UTILITIES_COMMUNICATIONS','INSURANCE','FAMILY_FIXED_RESPONSIBILITY','OTHER_ESSENTIAL')),\n  name TEXT NOT NULL,\n  monthly_amount TEXT NOT NULL,\n  active INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0,1)),\n  created_at TEXT NOT NULL,\n  updated_at TEXT NOT NULL\n)"
+  },
+  {
+    "type": "table",
+    "name": "essential_expense_revisions",
+    "tbl_name": "essential_expense_revisions",
+    "sql": "CREATE TABLE essential_expense_revisions (\n  revision_id INTEGER PRIMARY KEY AUTOINCREMENT,\n  item_id TEXT NOT NULL REFERENCES essential_expense_items(id) ON DELETE RESTRICT,\n  as_of_date TEXT NOT NULL,\n  name TEXT NOT NULL,\n  category TEXT NOT NULL,\n  monthly_amount TEXT NOT NULL,\n  active INTEGER NOT NULL CHECK(active IN (0,1)),\n  created_at TEXT NOT NULL\n)"
+  },
+  {
+    "type": "table",
+    "name": "essential_expense_snapshots",
+    "tbl_name": "essential_expense_snapshots",
+    "sql": "CREATE TABLE essential_expense_snapshots (\n  id TEXT PRIMARY KEY,\n  item_id TEXT NOT NULL REFERENCES essential_expense_items(id) ON DELETE RESTRICT,\n  as_of_date TEXT NOT NULL,\n  monthly_amount TEXT NOT NULL,\n  created_at TEXT NOT NULL,\n  UNIQUE(item_id, as_of_date)\n)"
+  },
+  {
+    "type": "table",
+    "name": "expense_categories",
+    "tbl_name": "expense_categories",
+    "sql": "CREATE TABLE expense_categories (\n  id TEXT PRIMARY KEY,\n  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,\n  name TEXT NOT NULL,\n  icon TEXT NOT NULL,\n  color TEXT NOT NULL,\n  monthly_budget TEXT,\n  overspending_alert INTEGER NOT NULL CHECK (overspending_alert IN (0,1)),\n  savings_related INTEGER NOT NULL CHECK (savings_related IN (0,1)),\n  adjustable INTEGER NOT NULL CHECK (adjustable IN (0,1)),\n  builtin INTEGER NOT NULL CHECK (builtin IN (0,1)),\n  active INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0,1)),\n  created_at TEXT NOT NULL\n)"
+  },
+  {
+    "type": "table",
+    "name": "expense_records",
+    "tbl_name": "expense_records",
+    "sql": "CREATE TABLE expense_records (\n  id TEXT PRIMARY KEY,\n  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,\n  amount TEXT NOT NULL,\n  occurred_at TEXT NOT NULL,\n  kind TEXT NOT NULL CHECK (kind IN ('ESSENTIAL','VARIABLE')),\n  category TEXT CHECK (category IS NULL OR category IN ('HOUSING','BASIC_FOOD','TRANSPORT','UTILITIES_COMMUNICATIONS','INSURANCE','FAMILY_FIXED_RESPONSIBILITY','OTHER_ESSENTIAL','FOOD','SHOPPING','ENTERTAINMENT','HOUSEHOLD','OTHER_VARIABLE')),\n  note TEXT,\n  created_at TEXT NOT NULL\n, business_date TEXT)"
+  },
+  {
+    "type": "table",
+    "name": "expenses",
+    "tbl_name": "expenses",
+    "sql": "CREATE TABLE expenses (\n  id TEXT PRIMARY KEY,\n  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,\n  kind TEXT NOT NULL CHECK (kind IN ('CASH_DEBIT','CREDIT_ONE_TIME','CREDIT_INSTALLMENT')),\n  amount TEXT NOT NULL,\n  currency TEXT NOT NULL,\n  occurred_on TEXT NOT NULL,\n  category_id TEXT NOT NULL REFERENCES expense_categories(id) ON DELETE RESTRICT,\n  description TEXT NOT NULL DEFAULT '',\n  account_id TEXT REFERENCES accounts(id) ON DELETE RESTRICT,\n  credit_card_id TEXT REFERENCES accounts(id) ON DELETE RESTRICT,\n  total_amount TEXT,\n  periods INTEGER,\n  fee TEXT,\n  first_installment_month TEXT,\n  installment_amount TEXT,\n  import_batch_id TEXT,\n  created_at TEXT NOT NULL\n, dedupe_key TEXT)"
+  },
+  {
+    "type": "table",
+    "name": "financial_settings",
+    "tbl_name": "financial_settings",
+    "sql": "CREATE TABLE financial_settings (\n  profile_id TEXT PRIMARY KEY REFERENCES profiles(id) ON DELETE RESTRICT,\n  safety_coverage_target_months REAL NOT NULL CHECK (safety_coverage_target_months >= 0),\n  minimum_cash_coverage_months REAL NOT NULL CHECK (minimum_cash_coverage_months >= 0),\n  safety_recovery_horizon_months REAL CHECK (safety_recovery_horizon_months IS NULL OR safety_recovery_horizon_months > 0),\n  desired_monthly_discretionary_spending TEXT NOT NULL\n)"
+  },
+  {
+    "type": "table",
+    "name": "fixed_expense_plans",
+    "tbl_name": "fixed_expense_plans",
+    "sql": "CREATE TABLE fixed_expense_plans (\n  id TEXT PRIMARY KEY,\n  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,\n  name TEXT NOT NULL,\n  monthly_amount TEXT NOT NULL,\n  effective_from TEXT NOT NULL,\n  note TEXT,\n  active INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0,1)),\n  created_at TEXT NOT NULL\n)"
+  },
+  {
+    "type": "table",
+    "name": "import_batches",
+    "tbl_name": "import_batches",
+    "sql": "CREATE TABLE import_batches (\n  id TEXT PRIMARY KEY,\n  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,\n  provider TEXT NOT NULL CHECK (provider IN ('ALIPAY_CSV','WECHAT_CSV','FUTURE_PROVIDER')),\n  source_file_sha256 TEXT NOT NULL,\n  total_rows INTEGER NOT NULL,\n  valid_rows INTEGER NOT NULL,\n  written_rows INTEGER NOT NULL,\n  skipped_rows INTEGER NOT NULL,\n  error_rows INTEGER NOT NULL,\n  created_at TEXT NOT NULL\n)"
+  },
+  {
+    "type": "table",
+    "name": "income_entries",
+    "tbl_name": "income_entries",
+    "sql": "CREATE TABLE income_entries (\n  id TEXT PRIMARY KEY,\n  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,\n  period_month TEXT NOT NULL CHECK (\n    length(period_month)=7 AND substr(period_month,5,1)='-'\n    AND substr(period_month,6,2) BETWEEN '01' AND '12'\n    AND substr(period_month,1,4) NOT GLOB '*[^0-9]*'\n  ),\n  occurred_at TEXT NOT NULL,\n  amount TEXT NOT NULL,\n  label TEXT NOT NULL DEFAULT '',\n  one_time INTEGER NOT NULL DEFAULT 0 CHECK (one_time IN (0,1)),\n  created_at TEXT NOT NULL,\n  UNIQUE(profile_id, occurred_at, label, amount)\n)"
+  },
+  {
+    "type": "table",
+    "name": "income_records",
+    "tbl_name": "income_records",
+    "sql": "CREATE TABLE income_records (\n  id TEXT PRIMARY KEY,\n  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,\n  kind TEXT NOT NULL CHECK (kind IN ('PLANNING','ACTUAL')),\n  status TEXT NOT NULL CHECK (status IN ('EXPECTED','PENDING','RECEIVED')),\n  amount TEXT NOT NULL,\n  date TEXT NOT NULL,\n  period_month TEXT CHECK (period_month IS NULL OR (length(period_month)=7 AND substr(period_month,5,1)='-' AND substr(period_month,6,2) BETWEEN '01' AND '12' AND substr(period_month,1,4) NOT GLOB '*[^0-9]*')),\n  created_at TEXT NOT NULL\n)"
+  },
+  {
+    "type": "table",
+    "name": "planning_income_month_revisions",
+    "tbl_name": "planning_income_month_revisions",
+    "sql": "CREATE TABLE planning_income_month_revisions (\n  revision_id INTEGER PRIMARY KEY AUTOINCREMENT,\n  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,\n  period_month TEXT NOT NULL CHECK (length(period_month)=7 AND substr(period_month,5,1)='-' AND substr(period_month,6,2) BETWEEN '01' AND '12' AND substr(period_month,1,4) NOT GLOB '*[^0-9]*'),\n  as_of_date TEXT NOT NULL,\n  decision TEXT NOT NULL CHECK (decision IN ('OVERRIDE','INHERIT')),\n  amount TEXT,\n  created_at TEXT NOT NULL,\n  CHECK ((decision='OVERRIDE' AND amount IS NOT NULL) OR (decision='INHERIT' AND amount IS NULL))\n)"
+  },
+  {
+    "type": "table",
+    "name": "planning_income_revisions",
+    "tbl_name": "planning_income_revisions",
+    "sql": "CREATE TABLE planning_income_revisions (\n  revision_id INTEGER PRIMARY KEY AUTOINCREMENT,\n  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,\n  effective_month TEXT NOT NULL,\n  as_of_date TEXT NOT NULL,\n  amount TEXT NOT NULL,\n  created_at TEXT NOT NULL\n)"
+  },
+  {
+    "type": "table",
+    "name": "profiles",
+    "tbl_name": "profiles",
+    "sql": "CREATE TABLE profiles (\n  id TEXT PRIMARY KEY,\n  singleton_id INTEGER NOT NULL DEFAULT 1 UNIQUE CHECK (singleton_id = 1),\n  display_name TEXT,\n  created_at TEXT NOT NULL\n)"
+  },
+  {
+    "type": "table",
+    "name": "schema_migrations",
+    "tbl_name": "schema_migrations",
+    "sql": "CREATE TABLE schema_migrations (version INTEGER PRIMARY KEY, applied_at TEXT NOT NULL)"
+  },
+  {
+    "type": "table",
+    "name": "settings_revisions",
+    "tbl_name": "settings_revisions",
+    "sql": "CREATE TABLE settings_revisions (\n  revision_id INTEGER PRIMARY KEY AUTOINCREMENT,\n  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,\n  effective_month TEXT NOT NULL,\n  as_of_date TEXT NOT NULL,\n  safety_coverage_target_months REAL NOT NULL,\n  minimum_cash_coverage_months REAL NOT NULL,\n  safety_recovery_horizon_months REAL,\n  desired_monthly_discretionary_spending TEXT NOT NULL,\n  created_at TEXT NOT NULL\n)"
+  },
+  {
+    "type": "table",
+    "name": "sqlite_sequence",
+    "tbl_name": "sqlite_sequence",
+    "sql": "CREATE TABLE sqlite_sequence(name,seq)"
+  }
+]

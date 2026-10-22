@@ -9,13 +9,16 @@ use std::{
     time::{SystemTime, UNIX_EPOCH},
 };
 
-pub const TERMINAL_NAME: &str = "production-v4-cutover-terminal.json";
-pub const CLAIMED_AUTHORIZATION_PREFIX: &str = ".production-v4-migration-authorization.json.claimed-";
-const TEMP_PREFIX: &str = ".production-v4-cutover-terminal.json.tmp-";
+pub const TERMINAL_NAME: &str = "production-v8-cutover-terminal.json";
+pub const LEGACY_TERMINAL_NAME: &str = "production-v4-cutover-terminal.json";
+pub const CLAIMED_AUTHORIZATION_PREFIX: &str = ".production-v8-migration-authorization.json.claimed-";
+pub const LEGACY_CLAIMED_AUTHORIZATION_PREFIX: &str = ".production-v4-migration-authorization.json.claimed-";
+const TEMP_PREFIX: &str = ".production-v8-cutover-terminal.json.tmp-";
+const LEGACY_TEMP_PREFIX: &str = ".production-v4-cutover-terminal.json.tmp-";
 static NEXT_TEMP: AtomicU64 = AtomicU64::new(0);
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
-pub enum WriteCheckpoint { BeforeWrite, BeforeFileSync, BeforeDirectorySync, AfterDurableReadback }
+pub enum WriteCheckpoint { BeforeWrite, BeforeFileSync, BeforeDirectorySync, AfterDirectorySyncBeforeReadback, AfterDurableReadback }
 
 fn canonical_owner_directory(directory: &Path) -> Result<(), String> {
     let metadata = fs::symlink_metadata(directory).map_err(|error| format!("PRODUCTION_STATE_DIRECTORY_UNAVAILABLE: {error}"))?;
@@ -43,16 +46,29 @@ pub fn claimed_authorization_present(directory: &Path) -> Result<bool, String> {
     for entry in entries {
         let entry = entry.map_err(|error| format!("PRODUCTION_STATE_DIRECTORY_UNREADABLE: {error}"))?;
         let name = entry.file_name().to_string_lossy().into_owned();
-        if name.starts_with(CLAIMED_AUTHORIZATION_PREFIX) {
+        if name.starts_with(CLAIMED_AUTHORIZATION_PREFIX) || name.starts_with(LEGACY_CLAIMED_AUTHORIZATION_PREFIX) {
             safe_metadata(&entry.path()).map_err(|_| "PRODUCTION_AUTHORIZATION_CLAIM_UNSAFE".to_string())?;
             return Ok(true);
         }
-        if name.starts_with(TEMP_PREFIX) {
+        if name.starts_with(TEMP_PREFIX) || name.starts_with(LEGACY_TEMP_PREFIX) {
             safe_metadata(&entry.path()).map_err(|_| "PRODUCTION_TERMINAL_TEMP_UNSAFE".to_string())?;
             return Err("PRODUCTION_TERMINAL_WRITE_UNRESOLVED".into());
         }
     }
     Ok(false)
+}
+
+pub fn legacy_terminal_present(directory: &Path) -> Result<bool, String> {
+    canonical_owner_directory(directory)?;
+    let path = directory.join(LEGACY_TERMINAL_NAME);
+    match fs::symlink_metadata(&path) {
+        Ok(_) => {
+            safe_metadata(&path).map_err(|error| format!("PRODUCTION_LEGACY_TERMINAL_UNSAFE: {error}"))?;
+            Ok(true)
+        }
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(false),
+        Err(error) => Err(format!("PRODUCTION_LEGACY_TERMINAL_UNREADABLE: {error}")),
+    }
 }
 
 pub fn read_terminal(directory: &Path) -> Result<Option<Vec<u8>>, String> {
@@ -141,8 +157,31 @@ where F: FnMut(WriteCheckpoint) -> Result<(), String> {
             let _ = File::open(directory).and_then(|directory_file| directory_file.sync_all());
             return Err(format!("PRODUCTION_TERMINAL_DIRECTORY_FSYNC_FAILED: {error}"));
         }
-        let readback = read_terminal(directory)?.ok_or("PRODUCTION_TERMINAL_READBACK_MISSING")?;
-        if readback != bytes { return Err("PRODUCTION_TERMINAL_EXACT_READBACK_MISMATCH".into()); }
+        if let Err(error) = checkpoint(WriteCheckpoint::AfterDirectorySyncBeforeReadback) {
+            let _ = fs::remove_file(&terminal);
+            let _ = File::open(directory).and_then(|directory_file| directory_file.sync_all());
+            return Err(error);
+        }
+        let readback = match read_terminal(directory) {
+            Ok(Some(readback)) if readback == bytes => readback,
+            Ok(Some(_)) => {
+                let _ = fs::remove_file(&terminal);
+                let _ = File::open(directory).and_then(|directory_file| directory_file.sync_all());
+                return Err("PRODUCTION_TERMINAL_EXACT_READBACK_MISMATCH".into());
+            }
+            Ok(None) => {
+                let _ = fs::remove_file(&terminal);
+                let _ = File::open(directory).and_then(|directory_file| directory_file.sync_all());
+                return Err("PRODUCTION_TERMINAL_READBACK_MISSING".into());
+            }
+            Err(error) => {
+                let _ = fs::remove_file(&terminal);
+                let _ = File::open(directory).and_then(|directory_file| directory_file.sync_all());
+                return Err(error);
+            }
+        };
+        // The terminal is durably published and exactly read back at this point: a
+        // caller-side failure (e.g. lost reply) must leave it intact for restart.
         checkpoint(WriteCheckpoint::AfterDurableReadback)?;
         Ok(readback)
     })();
@@ -168,7 +207,7 @@ mod tests {
     #[test]
     fn terminal_is_create_only_durable_exact_and_rejects_symlinks() {
         let root = temp_dir();
-        let bytes = br#"{"domain":"PRODUCTION","state":"V4_VERIFIED"}"#;
+        let bytes = br#"{"domain":"PRODUCTION","state":"V8_VERIFIED"}"#;
         assert_eq!(write_terminal(&root, bytes, |_| Ok(())).unwrap(), bytes);
         assert_eq!(read_terminal(&root).unwrap().unwrap(), bytes);
         assert!(write_terminal(&root, bytes, |_| Ok(())).is_err());
@@ -182,10 +221,34 @@ mod tests {
     #[test]
     fn prepublication_file_sync_failure_leaves_no_terminal() {
         let root = temp_dir();
-        let result = write_terminal(&root, br#"{"state":"V4_VERIFIED"}"#, |stage| {
+        let result = write_terminal(&root, br#"{"state":"V8_VERIFIED"}"#, |stage| {
             if stage == WriteCheckpoint::BeforeFileSync { Err("injected file fsync failure".into()) } else { Ok(()) }
         });
         assert!(result.is_err());
+        assert!(read_terminal(&root).unwrap().is_none());
+        assert!(fs::read_dir(&root).unwrap().next().is_none());
+        fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
+    fn directory_sync_and_exact_readback_failures_leave_no_acceptable_terminal() {
+        let root = temp_dir();
+        let result = write_terminal(&root, br#"{"state":"V8_VERIFIED"}"#, |stage| {
+            if stage == WriteCheckpoint::BeforeDirectorySync { Err("injected directory fsync failure".into()) } else { Ok(()) }
+        });
+        assert!(result.unwrap_err().contains("directory fsync failure"));
+        assert!(read_terminal(&root).unwrap().is_none());
+        assert!(fs::read_dir(&root).unwrap().next().is_none());
+
+        let result = write_terminal(&root, br#"{"state":"V8_VERIFIED"}"#, |stage| {
+            if stage == WriteCheckpoint::AfterDirectorySyncBeforeReadback {
+                let terminal = root.join(TERMINAL_NAME);
+                fs::write(&terminal, b"tampered after publish").unwrap();
+                fs::set_permissions(&terminal, fs::Permissions::from_mode(0o600)).unwrap();
+            }
+            Ok(())
+        });
+        assert!(result.unwrap_err().contains("EXACT_READBACK_MISMATCH"));
         assert!(read_terminal(&root).unwrap().is_none());
         assert!(fs::read_dir(&root).unwrap().next().is_none());
         fs::remove_dir_all(root).unwrap();

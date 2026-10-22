@@ -12,7 +12,7 @@
   ],
   "format_version": 1,
   "guardReleasedAt": 2,
-  "migration4Rows": 1,
+  "migrationRows": 8,
   "startupAllowedAfterRelease": true,
   "synthetic_only": true,
   "terminalDurableAt": 1,

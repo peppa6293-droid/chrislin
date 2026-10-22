@@ -1,0 +1,25 @@
+ERROR
+
+======================================================================
+ERROR: setUpClass (__main__.UnifiedR2BRecoveryTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发项目 2/scripts/unified_r2b_recovery.py", line 40, in _read_exact
+    fd = os.open(path, flags)
+FileNotFoundError: [Errno 2] No such file or directory: '/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/SYNTHETIC_ONLY'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发项目 2/scripts/test_unified_r2b_recovery.py", line 35, in setUpClass
+    cls.snapshot, cls.objects = _read_chain(cls.root)
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发项目 2/scripts/unified_r2b_recovery.py", line 120, in _read_chain
+    marker_raw, marker_sha, _ = _read_exact(root / "SYNTHETIC_ONLY", "Synthetic marker")
+  File "/Users/linte/Documents/ChatGPT/个人财务模型app开发项目 2/scripts/unified_r2b_recovery.py", line 55, in _read_exact
+    raise GateBlocked([f"{label} is missing or unreadable: {type(error).__name__}: {error}"]) from error
+production_v4_release_gate.GateBlocked: Production V4 release gate blocked: Synthetic marker is missing or unreadable: FileNotFoundError: [Errno 2] No such file or directory: '/private/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/pfc-qic-wp04r2b-v3compat-retry-bzypfudz/SYNTHETIC_ONLY'
+
+----------------------------------------------------------------------
+Ran 0 tests in 0.001s
+
+FAILED (errors=1)

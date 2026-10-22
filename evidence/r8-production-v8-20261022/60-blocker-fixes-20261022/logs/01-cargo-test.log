@@ -1,0 +1,94 @@
+warning: unused import: `PathBuf`
+ --> src/wp02_preview_isolation.rs:2:23
+  |
+2 | use std::path::{Path, PathBuf};
+  |                       ^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: `personal-finance-console` (lib) generated 1 warning (run `cargo fix --lib -p personal-finance-console` to apply 1 suggestion)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.35s
+     Running unittests src/lib.rs (src-tauri/target/debug/deps/personal_finance_console_lib-a90cf3bf8ab11178)
+
+running 66 tests
+test cutover_startup::tests::legacy_v4_terminal_is_a_block_only_record ... ok
+test cutover_startup::tests::absence_is_not_started_without_database_access ... ok
+test cutover_startup::tests::redirected_app_data_is_blocked_before_records_are_trusted ... ok
+test cutover_startup::tests::verified_does_not_self_authorize_handoff ... ok
+test production_cutover_state::tests::prepublication_file_sync_failure_leaves_no_terminal ... ok
+test cutover_startup::tests::hardlinked_or_oversized_state_is_never_trusted ... ok
+test production_cutover_state::tests::unresolved_claim_name_is_discovered ... ok
+test cutover_startup::tests::corrupt_pending_mismatch_and_redirected_records_fail_closed ... ok
+test production_cutover_state::tests::terminal_is_create_only_durable_exact_and_rejects_symlinks ... ok
+test production_cutover_state::tests::directory_sync_and_exact_readback_failures_leave_no_acceptable_terminal ... ok
+test cutover_startup::tests::orphan_recovery_records_never_become_not_started ... ok
+test cutover_startup::tests::every_unresolved_phase_and_plain_schema_four_stays_blocked ... ok
+test cutover_startup::tests::all_contract_and_phase_records_block_even_without_outcome ... ok
+test production_terminal_tests::ddl_failure_rolls_back_to_v3_without_a_half_migrated_state ... ok
+test production_terminal_tests::info_plist_stable_read_rejects_replacement_after_open ... ok
+test production_terminal_tests::info_plist_stable_read_rejects_symlink_and_hard_link ... ok
+test production_terminal_tests::child_process_exits_after_commit_before_terminal_and_restart_is_blocked ... ok
+test production_terminal_tests::legacy_v4_terminal_and_permit_are_block_only ... ok
+test production_terminal_tests::native_v3_to_v8_full_schema_fixture_migration_is_isolated ... ok
+test production_terminal_tests::never_started_v3_is_distinguished_and_remains_eligible ... ok
+test production_terminal_tests::native_migration_initializes_the_authenticated_integrity_head ... ok
+test production_terminal_tests::native_migration8_rejects_inconsistent_v3_source_history ... ok
+test production_terminal_tests::intermediate_v4_to_v7_schemas_are_neither_startable_nor_migratable ... ok
+test production_terminal_tests::authorization_claim_and_ledger_or_receipt_failures_are_fail_closed ... ok
+test production_terminal_tests::consumed_authorization_without_terminal_or_ledger_blocks ... ok
+test production_terminal_tests::pending_terminal_write_and_unresolved_claim_block_before_database_access ... ok
+test production_terminal_tests::info_plist_rebinding_blocks_migration_and_restart ... ok
+test production_terminal_tests::normal_success_durably_binds_terminal_before_guard_release ... ok
+test production_terminal_tests::stale_or_missing_terminal_authority_blocks_before_database_mutation ... ok
+test startup_exclusion::tests::fifty_ui_migration_acquisition_races_never_double_win ... ok
+test startup_exclusion::tests::refuses_symlink_lock_path ... ok
+test startup_exclusion::tests::shared_ui_locks_coexist_and_exclude_migration ... ok
+test tests::a_begin_write_commit_persists_after_reopen ... ok
+test tests::b_second_operation_failure_then_rollback_removes_first_write ... ok
+test tests::c_token_cannot_commit_or_rollback_another_transaction ... ok
+test tests::cutover_outcome_blocks_startup_before_any_database_access ... ok
+test tests::d_invalid_and_expired_tokens_return_explicit_errors ... ok
+test tests::e_foreign_key_violation_and_rollback_remove_preceding_write ... ok
+test tests::f_smoke_identity_and_data_path_are_separate_from_production ... ok
+test tests::g_production_fresh_data_directory_is_allowed ... ok
+test tests::h_acceptance_identity_is_bound_to_its_separate_app_data_path ... ok
+test tests::i_acceptance_database_name_is_distinct_from_production_database_name ... ok
+test tests::j_acceptance_reset_clears_only_business_rows_and_keeps_migrations ... ok
+test tests::k_forward_schema_guard_rejects_newer_and_mismatched_versions ... ok
+test tests::l_production_authorizer_blocks_schema_and_metadata_mutations_outside_gate ... ok
+test tests::m_authorized_production_migration_window_is_single_use_and_requires_exact_v8 ... ok
+test tests::missing_database_is_distinct_from_unsafe_or_unreadable_metadata ... ok
+test tests::n_production_migration_window_cannot_mark_an_incomplete_migration_ready ... ok
+test tests::native_schema_artifacts_match_accepted_migration_source ... ok
+test tests::o_direct_database_open_refuses_the_production_identity_path_before_opening_it ... ok
+test tests::p_production_internal_role_is_fixed_and_has_no_user_supplied_paths ... ok
+test tests::r_consumed_ledger_persistence_failure_is_fail_closed ... ok
+test tests::s_only_new_authorization_id_and_nonce_can_extend_consumed_ledger ... ok
+test tests::sidecar_metadata_is_fail_closed_and_rejects_redirected_objects ... ok
+test wp02_preview_isolation::tests::accepts_exact_absent_domain_without_touching_it ... ok
+test production_terminal_tests::incomplete_or_tampered_v8_terminal_fails_closed ... ok
+test wp02_preview_isolation::tests::rejects_wrong_identity_and_protected_paths ... ok
+test wp02_preview_isolation::tests::rejects_symlinked_domain_or_database ... ok
+test production_terminal_tests::terminal_integrity_state_accepts_legal_dml_and_rejects_out_of_band_changes ... ok
+test production_terminal_tests::terminal_integrity_state_rejects_a_tampered_tag ... ok
+test production_terminal_tests::terminal_integrity_state_covers_transaction_commit_and_rollback ... ok
+test production_terminal_tests::authorization_backup_path_must_be_the_exact_fixed_file ... ok
+test production_terminal_tests::preterminal_process_exit_and_terminal_write_failures_remain_blocked ... ok
+test production_terminal_tests::verified_v8_restart_does_not_replay_migration_and_reply_loss_keeps_terminal ... ok
+test production_terminal_tests::corrupt_or_stale_terminal_fails_closed ... ok
+test production_terminal_tests::terminal_binding_mismatch_matrix_fails_closed ... ok
+
+test result: ok. 66 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 13.65s
+
+     Running unittests src/main.rs (src-tauri/target/debug/deps/personal_finance_console-486b551d207bc34c)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests personal_finance_console_lib
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

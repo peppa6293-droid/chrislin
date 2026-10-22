@@ -364,6 +364,15 @@ CREATE INDEX IF NOT EXISTS fixed_expense_plans_profile_lookup
 PRAGMA user_version = 8;
 `;
 
+export const MIGRATION_SQL: Readonly<Record<number, string>> = Object.freeze({
+  3: migrationV3,
+  4: migrationV4,
+  5: migrationV5,
+  6: migrationV6,
+  7: migrationV7,
+  8: migrationV8,
+});
+
 export async function migrateDatabase(
   db: SqlDatabase,
   now = new Date().toISOString(),
@@ -414,7 +423,7 @@ export async function migrateDatabase(
     await db.execute(
       "CREATE TABLE IF NOT EXISTS schema_migrations (version INTEGER PRIMARY KEY, applied_at TEXT NOT NULL)",
     );
-    if (applied < 1) {
+    if (applied < 1 && targetVersion >= 1) {
       await db.transaction(async (transactionDb) => {
         for (const statement of migrationV1
           .split(";")
@@ -428,7 +437,7 @@ export async function migrateDatabase(
         );
       });
     }
-    if (applied < 2) {
+    if (applied < 2 && targetVersion >= 2) {
       await db.transaction(async (transactionDb) => {
         for (const statement of migrationV2
           .split(";")
@@ -442,7 +451,7 @@ export async function migrateDatabase(
         );
       });
     }
-    if (applied < 3) {
+    if (applied < 3 && targetVersion >= 3) {
       await db.transaction(async (transactionDb) => {
         for (const statement of migrationV3
           .split(";")

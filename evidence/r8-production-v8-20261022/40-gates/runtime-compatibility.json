@@ -1,0 +1,9 @@
+{
+  "manifestFormatVersion": 2,
+  "runtimeGeneration": 8,
+  "minSupportedSchemaVersion": 8,
+  "maxSupportedSchemaVersion": 8,
+  "migrationSourceSchemaVersion": 3,
+  "bundleId": "com.personalfinance.console",
+  "executable": "Contents/MacOS/personal-finance-console"
+}

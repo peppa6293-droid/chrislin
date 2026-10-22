@@ -1,0 +1,35 @@
+{
+  "marker": "ISOLATED_CANDIDATE",
+  "syntheticOnly": true,
+  "productionIdentityBuiltButNotLaunched": true,
+  "buildCommands": [
+    "npm run tauri:build",
+    "npm run tauri:build:smoke",
+    "npm run tauri:build"
+  ],
+  "productionCandidate": {
+    "appPath": "src-tauri/target/release/bundle/macos/小钱家.app",
+    "bundleIdentifier": "com.personalfinance.console",
+    "bundleExecutable": "personal-finance-console",
+    "executablePath": "src-tauri/target/release/bundle/macos/小钱家.app/Contents/MacOS/personal-finance-console",
+    "executableSha256": "8e596b6bb6ea2edad46a051c5e381da8f7b89e109ca48a5ef7abe276ec28661b",
+    "dmgPath": "src-tauri/target/release/bundle/dmg/小钱家_0.1.0_aarch64.dmg",
+    "dmgSha256": "a9972b728339eb654990146f3aac3f2460a28e1103899cec45f54a0087ab7b33",
+    "appBundleFileListHashSha256": "9ccb87c6482f68f68c451d92562a14b043a5a80156cb2db41d8f058226872a20",
+    "manifestPath": "src-tauri/target/release/bundle/macos/小钱家.app/Contents/Resources/runtime-compatibility.json",
+    "manifestSha256": "f98b7f7bab5161e8c0c6bb93571ac8ce658c20d81785fc5651ac37f2f9c3d509",
+    "sourceManifestPath": "src-tauri/runtime-compatibility.json",
+    "sourceManifestSha256": "f98b7f7bab5161e8c0c6bb93571ac8ce658c20d81785fc5651ac37f2f9c3d509",
+    "manifestCopiedByteIdentical": true
+  },
+  "smokeCandidate": {
+    "bundleIdentifier": "com.personalfinance.console.smoke",
+    "executableSha256": "2a385430a744f0da3e52fd82236fbd6682b0f20ad9847d75d8dc470579b209bd",
+    "dmgSha256": "06530b9eb7f6a435f38e27eac278561c79af8e39c4ef4f00c5ff6b54794a427a"
+  },
+  "notes": [
+    "The smoke build overwrote the shared bundle directory; the production candidate was rebuilt afterwards and its hashes were recaptured.",
+    "No artifact was copied to /Applications.",
+    "No production identity was launched."
+  ]
+}

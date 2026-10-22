@@ -1,3 +1,4 @@
+import { getIdentifier } from "@tauri-apps/api/app";
 import { invoke } from "@tauri-apps/api/core";
 import {
   type SaveCurrentMonthDebtFactCommand,
@@ -41,6 +42,116 @@ import type { V2ImportContext, V2ImportWriteInput, V2ImportWriteResult } from ".
 import type { V2DashboardProps } from "../ui/v2-dashboard.js";
 
 declare const __WP03_PREVIEW_BUILD__: boolean;
+
+/**
+ * The Production bundle id owns a native-only schema authority. Its database is
+ * migrated exclusively by the gated Rust runner, which commits the V8 terminal
+ * and readback before this composition root can run.
+ */
+export const PRODUCTION_RUNTIME_IDENTIFIER = "com.personalfinance.console";
+
+/**
+ * Every non-Production runtime that may apply the TypeScript migration chain.
+ * An unrecognized identity fails closed instead of silently choosing a schema
+ * authority (and therefore an application-data directory) at runtime.
+ */
+const TYPESCRIPT_MANAGED_RUNTIME_IDENTIFIERS: ReadonlySet<string> = new Set([
+  "com.personalfinance.console.smoke",
+  "com.personalfinance.console.v4acceptance",
+  "com.personalfinance.console.wp02preview",
+  "com.personalfinance.console.wp03preview",
+  "org.pfc.quiescence.integration",
+]);
+
+export type RuntimeSchemaAuthority = "NATIVE_V8_GATE" | "TYPESCRIPT_MIGRATION";
+
+export function resolveRuntimeSchemaAuthority(identifier: string): RuntimeSchemaAuthority {
+  if (identifier === PRODUCTION_RUNTIME_IDENTIFIER) return "NATIVE_V8_GATE";
+  if (TYPESCRIPT_MANAGED_RUNTIME_IDENTIFIERS.has(identifier)) return "TYPESCRIPT_MIGRATION";
+  throw new ApplicationDataError(
+    "RUNTIME_IDENTITY_NOT_ISOLATED",
+    `Refusing to select a schema authority for unexpected runtime identity "${identifier}".`,
+  );
+}
+
+export interface TauriCompositionDependencies {
+  /** Returns an already-open database. Tests inject an isolated fixture. */
+  openDatabase?: () => Promise<SqlDatabase>;
+  identifyRuntime?: () => Promise<string>;
+}
+
+/**
+ * Resolves the native runtime identity before opening any database, then lets
+ * only explicitly isolated runtimes execute the TypeScript V1..V8 chain. The
+ * Production runtime performs no TypeScript DDL; its control is the Rust V8
+ * startup gate, which has already verified the terminal, schema and bindings.
+ */
+async function openRuntimeDatabase(
+  dependencies: TauriCompositionDependencies = {},
+): Promise<SqlDatabase> {
+  const identify = dependencies.identifyRuntime ?? getIdentifier;
+  let identifier: string;
+  try {
+    identifier = await identify();
+  } catch (cause) {
+    throw new ApplicationDataError(
+      "RUNTIME_IDENTITY_UNAVAILABLE",
+      "The native runtime identity is unavailable; refusing to choose a schema authority.",
+      { cause },
+    );
+  }
+  if (typeof identifier !== "string" || identifier.trim() === "") {
+    throw new ApplicationDataError(
+      "RUNTIME_IDENTITY_UNAVAILABLE",
+      "The native runtime returned an empty identity; refusing to choose a schema authority.",
+    );
+  }
+  const authority = resolveRuntimeSchemaAuthority(identifier);
+  const db = dependencies.openDatabase
+    ? await dependencies.openDatabase()
+    : await (async () => {
+        const database = new TauriSqlDatabase();
+        await database.open();
+        return database;
+      })();
+  if (authority === "NATIVE_V8_GATE") {
+    await requireNativeV8Schema(db);
+  } else {
+    await migrateDatabase(db);
+  }
+  return db;
+}
+
+/**
+ * Read-only defense in depth for the Production composition root. The Rust
+ * startup gate remains the authority for the terminal and its bindings; this
+ * only ensures a V8-native database is never handed to business services when
+ * the gate has not completed, and it never writes schema state.
+ */
+async function requireNativeV8Schema(db: SqlDatabase): Promise<void> {
+  const userVersion = Number(
+    (await db.select<{ user_version: number }>("PRAGMA user_version"))[0]?.user_version ?? 0,
+  );
+  const migrationTable = await db.select<{ name: string }>(
+    "SELECT name FROM sqlite_master WHERE type='table' AND name='schema_migrations'",
+  );
+  const migrationVersion =
+    migrationTable.length === 0
+      ? 0
+      : Number(
+          (
+            await db.select<{ version: number | null }>(
+              "SELECT COALESCE(MAX(version), 0) AS version FROM schema_migrations",
+            )
+          )[0]?.version ?? 0,
+        );
+  if (userVersion !== 8 || migrationVersion !== 8) {
+    throw new ApplicationDataError(
+      "PRODUCTION_SCHEMA_NOT_V8",
+      `Production requires a V8 database verified by the native gate (user_version=${userVersion}, schema_migrations=${migrationVersion}).`,
+    );
+  }
+}
 
 export async function getWp03PreviewTestDate(): Promise<string | null> {
   if (!__WP03_PREVIEW_BUILD__) return null;
@@ -243,11 +354,11 @@ export type ApplicationStartupState =
   | ApplicationInitializationState
   | { status: "ERROR"; message: string };
 
-export async function bootstrapTauriApplication(): Promise<ApplicationStartupState> {
+export async function bootstrapTauriApplication(
+  dependencies: TauriCompositionDependencies = {},
+): Promise<ApplicationStartupState> {
   try {
-    const db = new TauriSqlDatabase();
-    await db.open();
-    await migrateDatabase(db);
+    const db = await openRuntimeDatabase(dependencies);
     return await getApplicationInitializationState(db);
   } catch (error) {
     return {
@@ -360,10 +471,10 @@ export interface TauriProductServices {
   deactivateDebt(debtId: string, month: string, asOfDate: string): Promise<V4MutationResult>;
 }
 
-export async function createTauriApplicationServices(): Promise<TauriApplicationServices> {
-  const db = new TauriSqlDatabase();
-  await db.open();
-  await migrateDatabase(db);
+export async function createTauriApplicationServices(
+  dependencies: TauriCompositionDependencies = {},
+): Promise<TauriApplicationServices> {
+  const db = await openRuntimeDatabase(dependencies);
   const initialization = await getApplicationInitializationState(db);
   if (initialization.status === "READY") await ensureV2LedgerDefaults(db);
   const foundation = new V4FoundationService(db);

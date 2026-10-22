@@ -1,0 +1,27 @@
+ M src-tauri/runtime-compatibility.json
+ M src-tauri/src/cutover_startup.rs
+ M src-tauri/src/lib.rs
+ M src-tauri/src/production_cutover_state.rs
+ M src/persistence/migrations.ts
+ M src/runtime/tauri-bootstrap.ts
+?? .claude/
+?? WORKLOG.md
+?? docs/EXEC-R8-PRODUCTION-SCHEMA-V8-MIGRATION-INSTRUCTIONS.md
+?? evidence/r8-production-v8-20261022/
+?? migrations/005.sql
+?? migrations/006.sql
+?? migrations/007.sql
+?? migrations/008.sql
+?? migrations/v5-schema.json
+?? migrations/v6-schema.json
+?? migrations/v7-schema.json
+?? migrations/v8-schema.json
+?? pelican-bicycle-animation.html
+?? pelican-bicycle.html
+?? pelican-bike-ride.html
+?? pelican-bike.html
+?? pelican-cycling.html
+?? scripts/production_v8_release_gate.py
+?? scripts/test_production_v8_release_gate.py
+?? tests/r8-native-migration-sql-parity.test.ts
+?? tests/r8-production-schema-authority.test.ts

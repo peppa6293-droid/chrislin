@@ -6,38 +6,38 @@
     {
       "double_win": false,
       "iteration": 1,
-      "migration_acquired": true,
-      "ui_acquired": false
+      "migration_acquired": false,
+      "ui_acquired": true
     },
     {
       "double_win": false,
       "iteration": 2,
-      "migration_acquired": false,
-      "ui_acquired": true
-    },
-    {
-      "double_win": false,
-      "iteration": 3,
       "migration_acquired": true,
       "ui_acquired": false
     },
     {
       "double_win": false,
-      "iteration": 4,
+      "iteration": 3,
       "migration_acquired": false,
       "ui_acquired": true
+    },
+    {
+      "double_win": false,
+      "iteration": 4,
+      "migration_acquired": true,
+      "ui_acquired": false
     },
     {
       "double_win": false,
       "iteration": 5,
-      "migration_acquired": false,
-      "ui_acquired": true
+      "migration_acquired": true,
+      "ui_acquired": false
     },
     {
       "double_win": false,
       "iteration": 6,
-      "migration_acquired": false,
-      "ui_acquired": true
+      "migration_acquired": true,
+      "ui_acquired": false
     },
     {
       "double_win": false,
@@ -48,8 +48,8 @@
     {
       "double_win": false,
       "iteration": 8,
-      "migration_acquired": false,
-      "ui_acquired": true
+      "migration_acquired": true,
+      "ui_acquired": false
     },
     {
       "double_win": false,
@@ -66,8 +66,8 @@
     {
       "double_win": false,
       "iteration": 11,
-      "migration_acquired": true,
-      "ui_acquired": false
+      "migration_acquired": false,
+      "ui_acquired": true
     },
     {
       "double_win": false,
@@ -78,8 +78,8 @@
     {
       "double_win": false,
       "iteration": 13,
-      "migration_acquired": false,
-      "ui_acquired": true
+      "migration_acquired": true,
+      "ui_acquired": false
     },
     {
       "double_win": false,
@@ -96,20 +96,20 @@
     {
       "double_win": false,
       "iteration": 16,
-      "migration_acquired": false,
-      "ui_acquired": true
+      "migration_acquired": true,
+      "ui_acquired": false
     },
     {
       "double_win": false,
       "iteration": 17,
-      "migration_acquired": false,
-      "ui_acquired": true
+      "migration_acquired": true,
+      "ui_acquired": false
     },
     {
       "double_win": false,
       "iteration": 18,
-      "migration_acquired": false,
-      "ui_acquired": true
+      "migration_acquired": true,
+      "ui_acquired": false
     },
     {
       "double_win": false,
@@ -120,20 +120,20 @@
     {
       "double_win": false,
       "iteration": 20,
-      "migration_acquired": false,
-      "ui_acquired": true
+      "migration_acquired": true,
+      "ui_acquired": false
     },
     {
       "double_win": false,
       "iteration": 21,
-      "migration_acquired": false,
-      "ui_acquired": true
+      "migration_acquired": true,
+      "ui_acquired": false
     },
     {
       "double_win": false,
       "iteration": 22,
-      "migration_acquired": false,
-      "ui_acquired": true
+      "migration_acquired": true,
+      "ui_acquired": false
     },
     {
       "double_win": false,
@@ -162,8 +162,8 @@
     {
       "double_win": false,
       "iteration": 27,
-      "migration_acquired": false,
-      "ui_acquired": true
+      "migration_acquired": true,
+      "ui_acquired": false
     },
     {
       "double_win": false,
@@ -174,20 +174,20 @@
     {
       "double_win": false,
       "iteration": 29,
-      "migration_acquired": true,
-      "ui_acquired": false
-    },
-    {
-      "double_win": false,
-      "iteration": 30,
       "migration_acquired": false,
       "ui_acquired": true
     },
     {
       "double_win": false,
-      "iteration": 31,
+      "iteration": 30,
       "migration_acquired": true,
       "ui_acquired": false
+    },
+    {
+      "double_win": false,
+      "iteration": 31,
+      "migration_acquired": false,
+      "ui_acquired": true
     },
     {
       "double_win": false,
@@ -198,20 +198,20 @@
     {
       "double_win": false,
       "iteration": 33,
+      "migration_acquired": false,
+      "ui_acquired": true
+    },
+    {
+      "double_win": false,
+      "iteration": 34,
       "migration_acquired": true,
       "ui_acquired": false
     },
     {
       "double_win": false,
-      "iteration": 34,
-      "migration_acquired": false,
-      "ui_acquired": true
-    },
-    {
-      "double_win": false,
       "iteration": 35,
-      "migration_acquired": false,
-      "ui_acquired": true
+      "migration_acquired": true,
+      "ui_acquired": false
     },
     {
       "double_win": false,
@@ -234,20 +234,20 @@
     {
       "double_win": false,
       "iteration": 39,
-      "migration_acquired": false,
-      "ui_acquired": true
-    },
-    {
-      "double_win": false,
-      "iteration": 40,
       "migration_acquired": true,
       "ui_acquired": false
     },
     {
       "double_win": false,
-      "iteration": 41,
+      "iteration": 40,
       "migration_acquired": false,
       "ui_acquired": true
+    },
+    {
+      "double_win": false,
+      "iteration": 41,
+      "migration_acquired": true,
+      "ui_acquired": false
     },
     {
       "double_win": false,
@@ -258,8 +258,8 @@
     {
       "double_win": false,
       "iteration": 43,
-      "migration_acquired": true,
-      "ui_acquired": false
+      "migration_acquired": false,
+      "ui_acquired": true
     },
     {
       "double_win": false,
@@ -270,14 +270,14 @@
     {
       "double_win": false,
       "iteration": 45,
-      "migration_acquired": false,
-      "ui_acquired": true
+      "migration_acquired": true,
+      "ui_acquired": false
     },
     {
       "double_win": false,
       "iteration": 46,
-      "migration_acquired": false,
-      "ui_acquired": true
+      "migration_acquired": true,
+      "ui_acquired": false
     },
     {
       "double_win": false,

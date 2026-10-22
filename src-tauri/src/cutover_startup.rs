@@ -62,7 +62,12 @@ pub fn inspect(app_data: &Path) -> StartupDecision {
         Ok(m) if m.is_dir() && !m.file_type().is_symlink() => (),
         _ => decision.reason_codes.push("APP_DATA_IDENTITY_UNKNOWN".into()),
     }
-    let mut names: Vec<String> = RECORDS.iter().flat_map(|name| [name.to_string(), format!("{name}.pending")]).collect();
+    // The historical V4 terminal can never authorize a V8 handoff. Preserve
+    // it as a fixed, block-only record; the V8 terminal is validated separately
+    // by the caller after this gate.
+    let mut names: Vec<String> = RECORDS.iter().map(|name| name.to_string())
+        .chain([crate::production_cutover_state::LEGACY_TERMINAL_NAME.to_string()])
+        .flat_map(|name| [name.clone(), format!("{name}.pending")]).collect();
     match fs::read_dir(app_data) {
         Ok(entries) => for entry in entries {
             match entry {
@@ -122,6 +127,8 @@ pub fn inspect(app_data: &Path) -> StartupDecision {
         decision.state = observed_states.iter().find(|(name, _)| name == "outcome.json")
             .map(|(_, state)| state.clone()).unwrap_or_else(|| "CUTOVER_STATE_UNRESOLVED".into());
         if decision.state == "V4_VERIFIED" {
+            decision.reason_codes.push("LEGACY_V4_STATE_BLOCKS_V8_STARTUP".into());
+        } else if decision.state == "V8_VERIFIED" {
             decision.reason_codes.push("SEPARATE_AUTHORIZED_COMPATIBLE_HANDOFF_REQUIRED".into());
         } else { decision.reason_codes.push("UNRESOLVED_CUTOVER_BLOCKS_ORDINARY_STARTUP".into()); }
         if !decision.reason_codes.iter().all(|code| code.ends_with("REQUIRED") || code == "UNRESOLVED_CUTOVER_BLOCKS_ORDINARY_STARTUP") {
@@ -166,9 +173,22 @@ mod tests {
     }
     #[test]
     fn verified_does_not_self_authorize_handoff() {
-        let f = Fixture::new(); fs::write(f.0.join("outcome.json"), br#"{"state":"V4_VERIFIED"}"#).unwrap();
+        let f = Fixture::new(); fs::write(f.0.join("outcome.json"), br#"{"state":"V8_VERIFIED"}"#).unwrap();
         let d = inspect(&f.0); assert!(!d.ordinary_startup_allowed);
         assert!(d.reason_codes.contains(&"SEPARATE_AUTHORIZED_COMPATIBLE_HANDOFF_REQUIRED".into()));
+        fs::write(f.0.join("outcome.json"), br#"{"state":"V4_VERIFIED"}"#).unwrap();
+        let d = inspect(&f.0); assert!(!d.ordinary_startup_allowed);
+        assert!(d.reason_codes.contains(&"LEGACY_V4_STATE_BLOCKS_V8_STARTUP".into()));
+    }
+
+    #[test]
+    fn legacy_v4_terminal_is_a_block_only_record() {
+        let f = Fixture::new();
+        fs::write(f.0.join(crate::production_cutover_state::LEGACY_TERMINAL_NAME), br#"{"state":"V4_VERIFIED"}"#).unwrap();
+        let d = inspect(&f.0);
+        assert!(!d.ordinary_startup_allowed);
+        assert!(!d.database_accessed);
+        assert!(d.records.iter().any(|name| name == crate::production_cutover_state::LEGACY_TERMINAL_NAME));
     }
     #[test]
     fn corrupt_pending_mismatch_and_redirected_records_fail_closed() {

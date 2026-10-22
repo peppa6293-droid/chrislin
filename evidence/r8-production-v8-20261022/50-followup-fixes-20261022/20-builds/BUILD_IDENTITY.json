@@ -1,0 +1,38 @@
+{
+  "marker": "ISOLATED_CANDIDATE",
+  "syntheticOnly": true,
+  "productionIdentityBuiltButNotLaunched": true,
+  "buildCommands": [
+    "npm run tauri:build:smoke",
+    "npm run tauri:build"
+  ],
+  "productionCandidate": {
+    "bundleIdentifier": "com.personalfinance.console",
+    "bundleExecutable": "personal-finance-console",
+    "appPath": "src-tauri/target/release/bundle/macos/小钱家.app",
+    "executablePath": "src-tauri/target/release/bundle/macos/小钱家.app/Contents/MacOS/personal-finance-console",
+    "executableSha256": "c27124aeb3f9d15bb863cf00f70116dd7b9402fa6fccfad523f60a108d90be23",
+    "infoPlistPath": "src-tauri/target/release/bundle/macos/小钱家.app/Contents/Info.plist",
+    "infoPlistSha256": "41b8aa5a1c1933531c2d986c25d180590ffbf8920aff4483d791a882dc3cfdcb",
+    "manifestPath": "src-tauri/target/release/bundle/macos/小钱家.app/Contents/Resources/runtime-compatibility.json",
+    "manifestSha256": "f98b7f7bab5161e8c0c6bb93571ac8ce658c20d81785fc5651ac37f2f9c3d509",
+    "sourceManifestPath": "src-tauri/runtime-compatibility.json",
+    "sourceManifestSha256": "f98b7f7bab5161e8c0c6bb93571ac8ce658c20d81785fc5651ac37f2f9c3d509",
+    "manifestCopiedByteIdentical": true,
+    "dmgPath": "src-tauri/target/release/bundle/dmg/小钱家_0.1.0_aarch64.dmg",
+    "dmgSha256": "5df1c14893f610fe113f24589f77267affeada490f795355a96781d22d510f48",
+    "appBundleFileListHashSha256": "542447e3a9d97a916e7417e93caf7310da7507706683d295319513fe24e038fc",
+    "bundleFiles": [
+      "src-tauri/target/release/bundle/macos/小钱家.app/Contents/Info.plist",
+      "src-tauri/target/release/bundle/macos/小钱家.app/Contents/MacOS/personal-finance-console",
+      "src-tauri/target/release/bundle/macos/小钱家.app/Contents/Resources/runtime-compatibility.json"
+    ]
+  },
+  "notes": [
+    "Fresh post-fix build; pre-fix hashes from 20-builds/BUILD_IDENTITY.json are not reused.",
+    "The smoke build and final production build share the bundle output directory; smoke identity was captured before the final production rebuild.",
+    "No artifact was copied to /Applications.",
+    "No production identity was launched.",
+    "No real Production app-data, permit, receipt, ledger, or terminal was read or written."
+  ]
+}

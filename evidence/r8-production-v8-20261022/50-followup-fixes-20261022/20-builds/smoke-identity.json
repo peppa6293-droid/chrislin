@@ -1,0 +1,20 @@
+{
+  "bundleIdentifier": "com.personalfinance.console.smoke",
+  "bundleExecutable": "personal-finance-console",
+  "appPath": "src-tauri/target/release/bundle/macos/小钱家.app",
+  "executablePath": "src-tauri/target/release/bundle/macos/小钱家.app/Contents/MacOS/personal-finance-console",
+  "executableSha256": "1185ec5821530e4a6c168ffebb812e1046f30f2c3c7501082c911aee3913fe09",
+  "infoPlistPath": "src-tauri/target/release/bundle/macos/小钱家.app/Contents/Info.plist",
+  "infoPlistSha256": "cc88e02a42081efde1774f09f3ea5e0e83e74ed9b1ff7b43ac7515503a2a0c2d",
+  "manifestPath": "src-tauri/target/release/bundle/macos/小钱家.app/Contents/Resources/runtime-compatibility.json",
+  "manifestSha256": "f98b7f7bab5161e8c0c6bb93571ac8ce658c20d81785fc5651ac37f2f9c3d509",
+  "dmgPath": "src-tauri/target/release/bundle/dmg/小钱家_0.1.0_aarch64.dmg",
+  "dmgSha256": "25afca1e4f548d427babca501d4996bf5aa4bf30f1c804a2c53de0153c2f9a46",
+  "appBundleFileListHashSha256": "d621810bd5970436b623a9a4ac2a08c267bd545d3b067ade20d7d93cf201b330",
+  "bundleFiles": [
+    "src-tauri/target/release/bundle/macos/小钱家.app/Contents/Info.plist",
+    "src-tauri/target/release/bundle/macos/小钱家.app/Contents/MacOS/personal-finance-console",
+    "src-tauri/target/release/bundle/macos/小钱家.app/Contents/Resources/icon.icns",
+    "src-tauri/target/release/bundle/macos/小钱家.app/Contents/Resources/runtime-compatibility.json"
+  ]
+}
