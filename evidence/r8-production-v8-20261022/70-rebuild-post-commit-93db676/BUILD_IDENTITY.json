@@ -1,0 +1,16 @@
+{
+  "marker": "ISOLATED_CANDIDATE",
+  "builtFromCommit": "93db676a783f3472dc03a60874e2ea4f659f538c",
+  "buildCommand": "npm run tauri:build",
+  "buildExit": 0,
+  "launched": false,
+  "copiedToApplications": false,
+  "executableSha256": "444729451aafc3bbe6cf95b52ffd84a2191b75f6c1477d0d840656ace4711b5c",
+  "infoPlistSha256": "41b8aa5a1c1933531c2d986c25d180590ffbf8920aff4483d791a882dc3cfdcb",
+  "manifestSha256": "f98b7f7bab5161e8c0c6bb93571ac8ce658c20d81785fc5651ac37f2f9c3d509",
+  "manifestCopiedByteIdentical": true,
+  "dmgSha256": "ebb93b4a29647f1bc9bba543fe2834e4d3e12da1b7d1200028b66a47683d98f6",
+  "previousExecutableSha256": "c27124aeb3f9d15bb863cf00f70116dd7b9402fa6fccfad523f60a108d90be23",
+  "previousDmgSha256": "5df1c14893f610fe113f24589f77267affeada490f795355a96781d22d510f48",
+  "notes": "Executable/DMG hashes differ from the 50-followup build although source and manifest are unchanged; this build is the one to bind in the future migration authorization."
+}
