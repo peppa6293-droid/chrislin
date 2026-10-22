@@ -1,0 +1,4 @@
+--- osascript quit by bundle id ---
+osascript_exit=0
+--- sleep 5 ---
+sleep_exit=0

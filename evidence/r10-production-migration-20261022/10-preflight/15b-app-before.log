@@ -1,0 +1,10 @@
+--- app bundle ---
+drwxr-xr-x@ 3 linte  staff  96 Oct  5 10:11 /Applications/Personal Finance Console.app
+--- sha256 before replacement ---
+5b2b13292abb6513de06d901b8f45469e1b075672ee628cb46c31a5ca282a845  /Applications/Personal Finance Console.app/Contents/MacOS/personal-finance-console
+41b8aa5a1c1933531c2d986c25d180590ffbf8920aff4483d791a882dc3cfdcb  /Applications/Personal Finance Console.app/Contents/Info.plist
+--- plist identity ---
+  "CFBundleDisplayName" => "小钱家"
+  "CFBundleExecutable" => "personal-finance-console"
+  "CFBundleIdentifier" => "com.personalfinance.console"
+  "CFBundleName" => "小钱家"

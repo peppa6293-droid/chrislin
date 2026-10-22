@@ -1,0 +1,10 @@
+--- database hash before authorization ---
+ebdd7c2d52c904dc0ce763302b461a8530ce0f6f3b4bc13c695ca5386f0d29bc  /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3
+--- backup hashes before authorization ---
+ebdd7c2d52c904dc0ce763302b461a8530ce0f6f3b4bc13c695ca5386f0d29bc  /Users/linte/Library/Application Support/com.personalfinance.console/production-v8-backups/personal-finance-console.sqlite3
+ebdd7c2d52c904dc0ce763302b461a8530ce0f6f3b4bc13c695ca5386f0d29bc  /Users/linte/Documents/pfc-v8-migration-backup-20261022/personal-finance-console.sqlite3
+--- state files that must be absent before preflight ---
+absent /Users/linte/Library/Application Support/com.personalfinance.console/production-v8-migration-authorization.json
+absent /Users/linte/Library/Application Support/com.personalfinance.console/production-v8-release-receipt.json
+absent /Users/linte/Library/Application Support/com.personalfinance.console/production-v8-consumed-authorizations.json
+absent /Users/linte/Library/Application Support/com.personalfinance.console/production-v8-cutover-terminal.json

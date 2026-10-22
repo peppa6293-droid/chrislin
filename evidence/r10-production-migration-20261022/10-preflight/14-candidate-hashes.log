@@ -1,0 +1,14 @@
+--- candidate files ---
+-rw-r--r--@ 1 linte  staff       268 Oct 22 00:33 /Users/linte/Documents/ChatGPT/个人财务模型app开发项目 2/src-tauri/runtime-compatibility.json
+-rw-r--r--@ 1 linte  staff   4041753 Oct 22 11:54 /Users/linte/Documents/ChatGPT/个人财务模型app开发项目 2/src-tauri/target/release/bundle/dmg/小钱家_0.1.0_aarch64.dmg
+-rw-r--r--@ 1 linte  staff      1017 Oct 22 11:53 /Users/linte/Documents/ChatGPT/个人财务模型app开发项目 2/src-tauri/target/release/bundle/macos/小钱家.app/Contents/Info.plist
+-rwxr-xr-x@ 1 linte  staff  13697872 Oct 22 11:53 /Users/linte/Documents/ChatGPT/个人财务模型app开发项目 2/src-tauri/target/release/bundle/macos/小钱家.app/Contents/MacOS/personal-finance-console
+-rw-r--r--@ 1 linte  staff       268 Oct 22 00:33 /Users/linte/Documents/ChatGPT/个人财务模型app开发项目 2/src-tauri/target/release/bundle/macos/小钱家.app/Contents/Resources/runtime-compatibility.json
+--- sha256 ---
+444729451aafc3bbe6cf95b52ffd84a2191b75f6c1477d0d840656ace4711b5c  /Users/linte/Documents/ChatGPT/个人财务模型app开发项目 2/src-tauri/target/release/bundle/macos/小钱家.app/Contents/MacOS/personal-finance-console
+41b8aa5a1c1933531c2d986c25d180590ffbf8920aff4483d791a882dc3cfdcb  /Users/linte/Documents/ChatGPT/个人财务模型app开发项目 2/src-tauri/target/release/bundle/macos/小钱家.app/Contents/Info.plist
+f98b7f7bab5161e8c0c6bb93571ac8ce658c20d81785fc5651ac37f2f9c3d509  /Users/linte/Documents/ChatGPT/个人财务模型app开发项目 2/src-tauri/target/release/bundle/macos/小钱家.app/Contents/Resources/runtime-compatibility.json
+f98b7f7bab5161e8c0c6bb93571ac8ce658c20d81785fc5651ac37f2f9c3d509  /Users/linte/Documents/ChatGPT/个人财务模型app开发项目 2/src-tauri/runtime-compatibility.json
+ebb93b4a29647f1bc9bba543fe2834e4d3e12da1b7d1200028b66a47683d98f6  /Users/linte/Documents/ChatGPT/个人财务模型app开发项目 2/src-tauri/target/release/bundle/dmg/小钱家_0.1.0_aarch64.dmg
+--- manifest package vs source ---
+cmp_exit=0

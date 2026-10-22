@@ -1,0 +1,23 @@
+--- targets before backup ---
+ls: /Users/linte/Documents/pfc-v8-migration-backup-20261022: No such file or directory
+ls: /Users/linte/Documents/pfc-v8-migration-backup-20261022/personal-finance-console.sqlite3: No such file or directory
+ls: /Users/linte/Library/Application Support/com.personalfinance.console/production-v8-backups: No such file or directory
+ls: /Users/linte/Library/Application Support/com.personalfinance.console/production-v8-backups/personal-finance-console.sqlite3: No such file or directory
+--- sha256 of database and both backups ---
+ebdd7c2d52c904dc0ce763302b461a8530ce0f6f3b4bc13c695ca5386f0d29bc  /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3
+ebdd7c2d52c904dc0ce763302b461a8530ce0f6f3b4bc13c695ca5386f0d29bc  /Users/linte/Library/Application Support/com.personalfinance.console/production-v8-backups/personal-finance-console.sqlite3
+ebdd7c2d52c904dc0ce763302b461a8530ce0f6f3b4bc13c695ca5386f0d29bc  /Users/linte/Documents/pfc-v8-migration-backup-20261022/personal-finance-console.sqlite3
+--- stat ---
+path=/Users/linte/Library/Application Support/com.personalfinance.console/production-v8-backups/personal-finance-console.sqlite3 dev=16777232 inode=31243956 size=229376 nlink=1 mode=100644
+path=/Users/linte/Documents/pfc-v8-migration-backup-20261022/personal-finance-console.sqlite3 dev=16777232 inode=31243957 size=229376 nlink=1 mode=100644
+--- file type/link checks ---
+primary_is_regular_file=yes
+primary_is_symlink=no
+primary_nlink=1
+secondary_is_regular_file=yes
+secondary_is_symlink=no
+--- three-way hash equality ---
+matching_hash_count=3
+--- database hash after backup ---
+ebdd7c2d52c904dc0ce763302b461a8530ce0f6f3b4bc13c695ca5386f0d29bc  /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3
+backup_rc=0

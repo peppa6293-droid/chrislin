@@ -1,0 +1,18 @@
+--- C3-2 counts after launch ---
+app_metadata|0
+asset_revisions|3
+asset_value_snapshots|4
+cash_account_revisions|0
+cash_balance_snapshots|4
+essential_expense_items|3
+essential_expense_revisions|0
+essential_expense_snapshots|3
+financial_settings|1
+planning_income_revisions|0
+schema_migrations|8
+settings_revisions|0
+--- app_metadata schema ---
+CREATE TABLE app_metadata (
+  key TEXT PRIMARY KEY,
+  value TEXT NOT NULL
+);

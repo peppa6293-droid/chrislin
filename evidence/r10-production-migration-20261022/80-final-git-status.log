@@ -1,0 +1,11 @@
+--- git status --short ---
+?? .claude/
+?? evidence/r10-production-migration-20261022/
+?? pelican-bicycle-animation.html
+?? pelican-bicycle.html
+?? pelican-bike-ride.html
+?? pelican-bike.html
+?? pelican-cycling.html
+--- git diff --check ---
+diff_check_exit=0
+--- tracked diff stat ---

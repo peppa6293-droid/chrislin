@@ -1,0 +1,6 @@
+--- no production process ---
+pgrep_exit=1
+--- database hash ---
+ebdd7c2d52c904dc0ce763302b461a8530ce0f6f3b4bc13c695ca5386f0d29bc  /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3
+--- preflight receipt present ---
+-rw-------@ 1 linte  staff  3306 Oct 22 14:27 /Users/linte/Library/Application Support/com.personalfinance.console/production-v8-release-receipt.json

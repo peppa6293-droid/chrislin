@@ -1,0 +1,12 @@
+--- post-launch database fingerprint ---
+319907d68dafd513a2ebed758d469a066793735677a1a462d034ea7b88b192a3  /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3
+dev=16777232 inode=30715175 size=352256 mtime=1792650564 nlink=1 mode=100644
+--- key counts after launch ---
+debts|5
+debt_period_facts|10
+expenses|0
+income_entries|0
+schema_migrations|8
+--- user_version ---
+8
+ok

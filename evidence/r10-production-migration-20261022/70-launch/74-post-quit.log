@@ -1,0 +1,22 @@
+--- process after quit ---
+pgrep_exit=1
+--- app-data listing ---
+total 1424
+drwxr-xr-x@   9 linte  staff     288 Oct 22 14:29 .
+drwx------+ 113 linte  staff    3616 Oct 22 09:14 ..
+-rw-------@   1 linte  staff       0 Oct 16 15:30 maintenance.lock
+-rw-r--r--@   1 linte  staff  352256 Oct 22 14:29 personal-finance-console.sqlite3
+-rw-r--r--@   1 linte  staff  348160 Oct 21 23:02 personal-finance-console.sqlite3.v8-quarantined
+drwxr-xr-x@   3 linte  staff      96 Oct 22 14:27 production-v8-backups
+-rw-------@   1 linte  staff     365 Oct 22 14:28 production-v8-consumed-authorizations.json
+-rw-------@   1 linte  staff    2606 Oct 22 14:28 production-v8-cutover-terminal.json
+-rw-------@   1 linte  staff    3306 Oct 22 14:27 production-v8-release-receipt.json
+--- sidecar presence ---
+absent /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3-wal
+absent /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3-shm
+absent /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3-journal
+--- terminal still present ---
+terminal_present=yes
+--- user_version read-only ---
+8
+sqlite_exit=0

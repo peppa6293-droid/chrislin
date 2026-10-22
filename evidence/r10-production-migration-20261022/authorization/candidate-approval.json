@@ -1,0 +1,12 @@
+{
+  "status": "OWNER_APPROVED_V8_PRODUCTION_CANDIDATE",
+  "syntheticOnly": false,
+  "authorizationId": "owner-approval-r10-20261022-1",
+  "candidateExecutableSha256": "444729451aafc3bbe6cf95b52ffd84a2191b75f6c1477d0d840656ace4711b5c",
+  "candidateInfoPlistPath": "/Applications/Personal Finance Console.app/Contents/Info.plist",
+  "candidateInfoPlistSha256": "41b8aa5a1c1933531c2d986c25d180590ffbf8920aff4483d791a882dc3cfdcb",
+  "compatibilityManifestSha256": "f98b7f7bab5161e8c0c6bb93571ac8ce658c20d81785fc5651ac37f2f9c3d509",
+  "bundleId": "com.personalfinance.console",
+  "maxSupportedSchemaVersion": 8,
+  "migrationSourceSchemaVersion": 3
+}

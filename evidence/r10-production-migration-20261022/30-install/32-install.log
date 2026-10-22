@@ -1,0 +1,9 @@
+--- before ---
+drwxr-xr-x@ 3 linte  staff  96 Oct  5 10:11 /Applications/Personal Finance Console.app
+drwxr-xr-x@ 3 linte  staff  96 Oct 22 11:53 /Users/linte/Documents/ChatGPT/个人财务模型app开发项目 2/src-tauri/target/release/bundle/macos/小钱家.app
+--- rm -rf installed app ---
+rm_exit=0
+--- cp -R candidate ---
+cp_exit=0
+--- after ---
+drwxr-xr-x@ 3 linte  admin  96 Oct 22 14:27 /Applications/Personal Finance Console.app

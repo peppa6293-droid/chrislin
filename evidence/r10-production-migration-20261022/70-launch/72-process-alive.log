@@ -1,0 +1,9 @@
+--- pgrep -fl 'Personal Finance Console' ---
+72236 /Applications/Personal Finance Console.app/Contents/MacOS/personal-finance-console
+pgrep_display_exit=0
+--- pgrep -fl personal-finance-console ---
+72236 /Applications/Personal Finance Console.app/Contents/MacOS/personal-finance-console
+pgrep_exe_exit=0
+--- pgrep -x personal-finance-console ---
+72236
+pgrep_x_exit=0

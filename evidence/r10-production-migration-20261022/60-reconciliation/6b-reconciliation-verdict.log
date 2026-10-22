@@ -1,0 +1,9 @@
+C1 PASS: 5 rows / 5 distinct IDs / exact ID-name set
+C2 PASS: aggregate rows exact; 10 unique per-debt rows (5+5)
+C3-1 PASS: exact row counts
+C3-2 PASS: 11 non-migration tables unchanged; schema_migrations 3 -> 8 only
+C3-3 PASS: 8 new tables exist and are empty
+C4 PASS: user_version/migrations 1..8, integrity ok, FK 0, no sidecars; terminal/receipt/ledger present; permit absent; receipt hash binds terminal
+C5 PASS: C5-1 and C5-2 both 0 rows
+OPEN1 recorded: v2_income_rows=0 v1_income_rows=1 shared_ids=0 (design gap, not a failure)
+RESULT=PASS

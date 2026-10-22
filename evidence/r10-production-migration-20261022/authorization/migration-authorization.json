@@ -1,0 +1,16 @@
+{
+  "status": "OWNER_AUTHORIZED_PRODUCTION_V8_MIGRATION",
+  "syntheticOnly": false,
+  "authorizationId": "owner-migration-r10-20261022-1",
+  "ownerAuthorizationId": "owner-approval-r10-20261022-1",
+  "nonce": "a89d781adc1875811f80fdaf3a9ff998",
+  "candidateExecutableSha256": "444729451aafc3bbe6cf95b52ffd84a2191b75f6c1477d0d840656ace4711b5c",
+  "candidateInfoPlistPath": "/Applications/Personal Finance Console.app/Contents/Info.plist",
+  "candidateInfoPlistSha256": "41b8aa5a1c1933531c2d986c25d180590ffbf8920aff4483d791a882dc3cfdcb",
+  "compatibilityManifestSha256": "f98b7f7bab5161e8c0c6bb93571ac8ce658c20d81785fc5651ac37f2f9c3d509",
+  "productionDbPreMigrationSha256": "ebdd7c2d52c904dc0ce763302b461a8530ce0f6f3b4bc13c695ca5386f0d29bc",
+  "backupPath": "/Users/linte/Library/Application Support/com.personalfinance.console/production-v8-backups/personal-finance-console.sqlite3",
+  "productionBundleId": "com.personalfinance.console",
+  "sourceSchemaVersion": 3,
+  "targetSchemaVersion": 8
+}

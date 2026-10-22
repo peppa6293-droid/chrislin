@@ -1,0 +1,62 @@
+{
+  "status": "PREFLIGHT_PASS",
+  "receiptPath": "/Users/linte/Library/Application Support/com.personalfinance.console/production-v8-release-receipt.json",
+  "receipt": {
+    "receiptFormatVersion": 2,
+    "status": "PREFLIGHT_PASS_READY_FOR_SEPARATELY_AUTHORIZED_MIGRATION",
+    "observedAtUtc": "2026-10-22T06:27:56.880317+00:00",
+    "syntheticOnly": false,
+    "candidateApprovalSha256": "eaac65ca7d83c67f0b5929756a5abc7d72a988b7e3d1c4ce611c204394abf507",
+    "migrationAuthorizationSha256": "ca76b86cc6f519f4daf542b7c0e9bed71007b77b0e9763dd15ca8f208b1aeb53",
+    "productionBundleId": "com.personalfinance.console",
+    "installedAppPath": "/Applications/Personal Finance Console.app",
+    "releaseReceiptPath": "/Users/linte/Library/Application Support/com.personalfinance.console/production-v8-release-receipt.json",
+    "candidateExecutablePath": "/Applications/Personal Finance Console.app/Contents/MacOS/personal-finance-console",
+    "candidateExecutableSha256": "444729451aafc3bbe6cf95b52ffd84a2191b75f6c1477d0d840656ace4711b5c",
+    "candidateInfoPlistPath": "/Applications/Personal Finance Console.app/Contents/Info.plist",
+    "candidateInfoPlistSha256": "41b8aa5a1c1933531c2d986c25d180590ffbf8920aff4483d791a882dc3cfdcb",
+    "compatibilityManifestPath": "/Applications/Personal Finance Console.app/Contents/Resources/runtime-compatibility.json",
+    "compatibilityManifestSha256": "f98b7f7bab5161e8c0c6bb93571ac8ce658c20d81785fc5651ac37f2f9c3d509",
+    "maxSupportedSchemaVersion": 8,
+    "migrationSourceSchemaVersion": 3,
+    "sidecarsAbsent": true,
+    "productionDatabasePath": "/Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3",
+    "productionDatabasePreMigrationSha256": "ebdd7c2d52c904dc0ce763302b461a8530ce0f6f3b4bc13c695ca5386f0d29bc",
+    "productionSchema": {
+      "userVersion": 3,
+      "migrationVersion": 3
+    },
+    "backupPath": "/Users/linte/Library/Application Support/com.personalfinance.console/production-v8-backups/personal-finance-console.sqlite3",
+    "backupSha256": "ebdd7c2d52c904dc0ce763302b461a8530ce0f6f3b4bc13c695ca5386f0d29bc",
+    "ownerAuthorizationId": "owner-approval-r10-20261022-1",
+    "candidateApprovalId": "owner-approval-r10-20261022-1",
+    "processInventory": {
+      "complete": true,
+      "processes": [],
+      "diagnostics": []
+    },
+    "productionAppInventory": [
+      {
+        "bundle_path": "/Applications/Personal Finance Console.app",
+        "bundle_id": "com.personalfinance.console",
+        "executable_name": "personal-finance-console",
+        "executable_path": "/Applications/Personal Finance Console.app/Contents/MacOS/personal-finance-console",
+        "executable_sha256": "444729451aafc3bbe6cf95b52ffd84a2191b75f6c1477d0d840656ace4711b5c",
+        "executable_mode": 493,
+        "info_plist_path": "/Applications/Personal Finance Console.app/Contents/Info.plist",
+        "info_plist_sha256": "41b8aa5a1c1933531c2d986c25d180590ffbf8920aff4483d791a882dc3cfdcb",
+        "manifest_path": "/Applications/Personal Finance Console.app/Contents/Resources/runtime-compatibility.json",
+        "manifest": {
+          "manifestFormatVersion": 2,
+          "runtimeGeneration": 8,
+          "minSupportedSchemaVersion": 8,
+          "maxSupportedSchemaVersion": 8,
+          "migrationSourceSchemaVersion": 3,
+          "bundleId": "com.personalfinance.console",
+          "executable": "Contents/MacOS/personal-finance-console"
+        },
+        "manifest_sha256": "f98b7f7bab5161e8c0c6bb93571ac8ce658c20d81785fc5651ac37f2f9c3d509"
+      }
+    ]
+  }
+}

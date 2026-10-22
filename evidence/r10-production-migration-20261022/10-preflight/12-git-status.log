@@ -1,0 +1,17 @@
+--- git status --short ---
+?? .claude/
+?? evidence/r10-production-migration-20261022/
+?? pelican-bicycle-animation.html
+?? pelican-bicycle.html
+?? pelican-bike-ride.html
+?? pelican-bike.html
+?? pelican-cycling.html
+--- allowlist evaluation ---
+ALLOWED: ?? .claude/
+ALLOWED: ?? evidence/r10-production-migration-20261022/
+ALLOWED: ?? pelican-bicycle-animation.html
+ALLOWED: ?? pelican-bicycle.html
+ALLOWED: ?? pelican-bike-ride.html
+ALLOWED: ?? pelican-bike.html
+ALLOWED: ?? pelican-cycling.html
+disallowed_count=0

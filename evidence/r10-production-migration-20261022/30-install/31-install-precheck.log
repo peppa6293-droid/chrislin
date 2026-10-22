@@ -1,0 +1,8 @@
+--- candidate Info.plist identity ---
+  "CFBundleDisplayName" => "小钱家"
+  "CFBundleExecutable" => "personal-finance-console"
+  "CFBundleIdentifier" => "com.personalfinance.console"
+  "CFBundleName" => "小钱家"
+--- enforcement ---
+com.personalfinance.console
+personal-finance-console

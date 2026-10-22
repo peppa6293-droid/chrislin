@@ -1,0 +1,26 @@
+--- sha256 ---
+ebdd7c2d52c904dc0ce763302b461a8530ce0f6f3b4bc13c695ca5386f0d29bc  /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3
+--- stat ---
+dev=16777232 inode=30715175 size=229376 mtime=1792594937 nlink=1 mode=100644
+--- app-data listing ---
+total 1144
+drwxr-xr-x@   5 linte  staff     160 Oct 21 23:42 .
+	com.apple.provenance	    11 
+drwx------+ 113 linte  staff    3616 Oct 22 09:14 ..
+-rw-------@   1 linte  staff       0 Oct 16 15:30 maintenance.lock
+	com.apple.provenance	    11 
+-rw-r--r--@   1 linte  staff  229376 Oct 21 23:02 personal-finance-console.sqlite3
+	com.apple.provenance	    11 
+-rw-r--r--@   1 linte  staff  348160 Oct 21 23:02 personal-finance-console.sqlite3.v8-quarantined
+	com.apple.provenance	    11 
+--- sqlite read-only ---
+3
+ok
+1
+2
+3
+sqlite_exit=0
+--- sidecar presence ---
+absent /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3-wal
+absent /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3-shm
+absent /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3-journal

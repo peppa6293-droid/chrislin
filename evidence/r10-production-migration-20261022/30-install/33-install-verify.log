@@ -1,0 +1,22 @@
+--- installed sha256 ---
+444729451aafc3bbe6cf95b52ffd84a2191b75f6c1477d0d840656ace4711b5c  /Applications/Personal Finance Console.app/Contents/MacOS/personal-finance-console
+41b8aa5a1c1933531c2d986c25d180590ffbf8920aff4483d791a882dc3cfdcb  /Applications/Personal Finance Console.app/Contents/Info.plist
+f98b7f7bab5161e8c0c6bb93571ac8ce658c20d81785fc5651ac37f2f9c3d509  /Applications/Personal Finance Console.app/Contents/Resources/runtime-compatibility.json
+--- expected ---
+444729451aafc3bbe6cf95b52ffd84a2191b75f6c1477d0d840656ace4711b5c  executable
+41b8aa5a1c1933531c2d986c25d180590ffbf8920aff4483d791a882dc3cfdcb  Info.plist
+f98b7f7bab5161e8c0c6bb93571ac8ce658c20d81785fc5651ac37f2f9c3d509  runtime-compatibility.json
+--- hash comparison ---
+executable_match=yes
+plist_match=yes
+manifest_match=yes
+--- manifest byte comparison installed vs candidate ---
+manifest_cmp_exit=0
+--- Info.plist byte comparison installed vs candidate ---
+plist_cmp_exit=0
+--- installed identity ---
+  "CFBundleDisplayName" => "小钱家"
+  "CFBundleExecutable" => "personal-finance-console"
+  "CFBundleIdentifier" => "com.personalfinance.console"
+  "CFBundleName" => "小钱家"
+verify_rc=0
