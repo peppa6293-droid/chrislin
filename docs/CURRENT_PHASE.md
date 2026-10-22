@@ -2,6 +2,18 @@
 
 Project: Personal Finance Console
 
+## 2026-10-22 落地冻结点（当前权威状态，下文旧节均为历史记录）
+
+- Current Phase: **LANDING_FROZEN_PENDING_FINAL_ACCEPTANCE**（macOS 落地冻结，待独立验收模型复核 + 户主最终拍板）。
+- 已装生产包：`/Applications/Personal Finance Console.app`（Bundle ID `com.personalfinance.console`，可执行 sha `44472945…ace4711b5c`，R10 经批准候选，2026-10-22 安装）。
+- 生产库：Schema **V8**（user_version=8，migrations [1..8]，integrity ok）；`~/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3`。V3→V8 真实迁移已于 2026-10-22 完成并验收（R10_PASS，证据 `evidence/r10-production-migration-20261022/`），双备份在位。
+- 冻结点源码提交：`e6aa8d5`；测试基线 442 passed / 80 skipped。
+- 财务基线：5 笔债务，2026-11 合计 157,228.31，当月应还 8,851.03（户主 2026-10-21 五项对账裁决后口径）。
+- 产品落地线（U-01…U-14 / build-41…50）与数据迁移线（R8/R9/R10）均已闭环；剩余问题见 `docs/REMAINING-ISSUES-20261022.md`。
+- 下一步：按 `docs/EXEC-A01-LANDING-ACCEPTANCE-INSTRUCTIONS.md` 交独立验收模型做落地验收；最终验收权在户主。iOS/手机尺寸与 App Store 准备不在本次范围。
+
+### 下文为历史记录（2026-10-09 起的治理与阶段档案，其中「Production V3 / NOT AUTHORIZED」等表述已被上文取代）
+
 Current Phase: CURRENT_VERSION_TESTING
 
 Parallel Preparation Stage: NATIVE_MIGRATION_PREPARATION (planning only)
