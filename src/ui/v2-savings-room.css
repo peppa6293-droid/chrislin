@@ -1,0 +1,222 @@
+/* §7 "建立余地": a room for the future, same data, no dual hero amounts. */
+
+.v2-savings-room {
+  display: flex;
+  flex-direction: column;
+  gap: var(--v2-card-gap);
+  max-width: 880px;
+  margin: 0 auto;
+  padding-bottom: var(--v2-space-10);
+}
+
+.v2-savings-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--v2-space-3);
+  padding: var(--v2-space-8) var(--v2-space-6);
+  text-align: center;
+  background: var(--v2-surface);
+  border: var(--v2-border-1);
+  border-radius: var(--v2-radius-lg);
+  box-shadow: var(--v2-shadow-card);
+  animation: v2-savings-in var(--v2-duration-enter) var(--v2-ease-emphasized) both;
+}
+
+.v2-savings-illustration {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 220px;
+  height: 220px;
+  color: var(--v2-teal);
+  background: var(--v2-teal-soft);
+  border-radius: 50%;
+  animation: v2-sprout-in var(--v2-duration-celebrate) var(--v2-ease-bounce) both;
+}
+
+.v2-savings-hero.is-complete .v2-savings-illustration {
+  color: var(--v2-yellow-dark);
+  background: var(--v2-yellow-soft);
+  animation: v2-sprout-complete var(--v2-duration-celebrate) var(--v2-ease-bounce) both;
+}
+
+.v2-savings-check {
+  position: absolute;
+  right: 34px;
+  bottom: 34px;
+  color: var(--v2-teal);
+  background: var(--v2-surface);
+  border-radius: 50%;
+}
+
+.v2-savings-subtitle {
+  margin: 0;
+  color: var(--v2-muted);
+  font-size: var(--v2-text-sm);
+}
+
+.v2-savings-hero h2 {
+  margin: 0;
+  color: var(--v2-ink);
+  font-size: var(--v2-text-xl);
+  line-height: 36px;
+}
+
+.v2-savings-figures {
+  display: flex;
+  gap: var(--v2-space-10);
+  margin-top: var(--v2-space-2);
+}
+
+.v2-savings-figures > div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--v2-space-1);
+  color: var(--v2-muted);
+  font-size: 12px;
+}
+
+.v2-savings-figures .money-amount {
+  color: var(--v2-ink);
+  font-size: var(--v2-money-md);
+  font-weight: 800;
+  line-height: 34px;
+}
+
+.v2-savings-progress {
+  display: flex;
+  align-items: center;
+  gap: var(--v2-space-3);
+  width: min(520px, 100%);
+}
+
+.v2-savings-progress .v2-progress {
+  flex: 1;
+}
+
+.v2-savings-progress > span {
+  color: var(--v2-teal-dark);
+  font-size: var(--v2-text-sm);
+  font-weight: 700;
+}
+
+.v2-savings-progress > span.is-complete {
+  color: var(--v2-yellow-dark);
+}
+
+.v2-savings-note,
+.v2-savings-gap {
+  margin: 0;
+  color: var(--v2-muted);
+  font-size: var(--v2-text-sm);
+}
+
+.v2-savings-gap {
+  color: var(--v2-ink);
+  font-size: var(--v2-text-md);
+}
+
+.v2-savings-actions {
+  display: flex;
+  gap: var(--v2-space-3);
+  margin-top: var(--v2-space-2);
+}
+
+.v2-savings-explainer {
+  max-width: 560px;
+  margin: 0;
+  padding: var(--v2-space-3) var(--v2-space-4);
+  color: var(--v2-muted);
+  font-size: 14px;
+  line-height: 24px;
+  background: var(--v2-surface-soft);
+  border-radius: var(--v2-radius-sm);
+}
+
+.v2-savings-steps {
+  padding: var(--v2-space-6);
+  background: var(--v2-surface);
+  border: var(--v2-border-1);
+  border-radius: var(--v2-radius-lg);
+}
+
+.v2-savings-steps h3 {
+  margin: 0 0 var(--v2-space-3);
+  color: var(--v2-ink);
+  font-size: var(--v2-text-md);
+}
+
+.v2-savings-steps ol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--v2-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--v2-muted);
+  font-size: var(--v2-text-sm);
+}
+
+.v2-savings-steps li {
+  display: flex;
+  align-items: center;
+  gap: var(--v2-space-2);
+}
+
+.v2-savings-steps li span {
+  color: var(--v2-teal-dark);
+  font-weight: 700;
+}
+
+@keyframes v2-savings-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes v2-sprout-in {
+  from {
+    transform: scale(0.8);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes v2-sprout-complete {
+  0% {
+    transform: scale(0.8);
+  }
+  60% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-savings-hero,
+  .v2-savings-illustration,
+  .v2-savings-hero.is-complete .v2-savings-illustration {
+    animation: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .v2-savings-figures {
+    flex-direction: column;
+    gap: var(--v2-space-3);
+  }
+  .v2-savings-illustration {
+    width: 160px;
+    height: 160px;
+  }
+}

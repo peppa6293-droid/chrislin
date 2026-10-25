@@ -5,6 +5,13 @@ import "./ui/trial-experience.css";
 import "./ui/pixel-world.css";
 import "./ui/duo-guide.css";
 import "./ui/v2-surface.css";
+import "./ui/v2-tokens.css";
+import "./ui/v2-card.css";
+import "./ui/v2-home-revamp.css";
+import "./ui/v2-feedback.css";
+import "./ui/v2-calendar-picker.css";
+import "./ui/v2-detail-visual.css";
+import "./ui/v2-savings-room.css";
 
 const root = document.getElementById("root");
 if (!root) throw new Error("Application root is missing.");

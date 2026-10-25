@@ -1,0 +1,3 @@
+$ npx biome check src/ui/V2ProgressBar.tsx tests/v2-progress-bar.test.tsx
+Checked 2 files in 2ms. No fixes applied.
+EXIT=0

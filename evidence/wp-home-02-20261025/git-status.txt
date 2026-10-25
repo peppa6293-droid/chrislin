@@ -1,0 +1,100 @@
+ M PROJECT-STATE.md
+ M WORKLOG.md
+ M docs/CURRENT_PHASE.md
+ M docs/EXEC-A01-LANDING-ACCEPTANCE-INSTRUCTIONS.md
+ M docs/REMAINING-ISSUES-20261022.md
+ M evidence/wp04-release-cutover-readiness/53-r2c3c1-production-durable-terminal/12-regression/STARTUP_EXCLUSION_RACE_MATRIX.json
+ M package.json
+ M src-tauri/src/lib.rs
+ M src-tauri/src/startup_exclusion.rs
+ M src/application/financial-maintenance-service.ts
+ M src/application/monthly-model-service.ts
+ M src/application/product-service.ts
+ M src/main.tsx
+ M src/persistence/repositories.ts
+ M src/runtime/tauri-bootstrap.ts
+ M src/style.css
+ M src/ui/App.tsx
+ M src/ui/HomeScreen.tsx
+ M src/ui/MyFinancePages.tsx
+ M src/ui/V2HomeSurface.tsx
+ M src/ui/contracts.ts
+ M src/ui/v2-dashboard.tsx
+ M src/ui/v2-import.css
+ M src/ui/v2-import.tsx
+ M tests/v2-ledger/landing-services.test.ts
+ M tests/v2-ui.test.tsx
+ M tests/v2-ui/dashboard-route.test.tsx
+ M tests/v2-ui/dashboard.test.tsx
+ M tests/v2-ui/import-flow.test.tsx
+?? .claude/
+?? data/
+?? docs/DESIGN-BRIEF-UX-REVAMP-20261023.md
+?? docs/DESIGN-UX-REVAMP-20261023.md
+?? docs/EXEC-R11-REALDATA-REPLAY-INSTRUCTIONS.md
+?? docs/EXEC-R11B-RECOVER-AND-INAPP-REPLAY.md
+?? docs/EXEC-R12-CONSUMPTION-IMPORT-INSTRUCTIONS.md
+?? docs/EXEC-R13-HOTFIX-ZERO-AMOUNT-MODEL.md
+?? docs/EXEC-R13B-HOTFIX-RELEASE-REBIND.md
+?? docs/EXEC-UX-REVAMP-20261023.md
+?? docs/EXEC-UX-ROUND2-20261023.md
+?? docs/IMPORT-AUDIT-XQJ-V3-20261024.md
+?? docs/PRODUCT-VISION-XQJ-V3-20261024.md
+?? docs/UX-AUDIT-XQJ-V3-20261024.md
+?? docs/UX-AUDIT-XQJ-V3-SUPPLEMENT-20261024.md
+?? docs/UX-REVAMP-PLAN-20261023.md
+?? docs/WP-UI-HOME-02-EXEC-INSTRUCTIONS.md
+?? docs/stage3-0-reconstructed/
+?? evidence/a01-landing-acceptance-20261022/
+?? evidence/import-audit-20261024/
+?? evidence/r11-realdata-replay-20261022/
+?? evidence/r11b-recover-inapp-replay-20261022/
+?? evidence/r12-consumption-import-20261022/
+?? evidence/r13-hotfix-zero-amount-20261022/
+?? evidence/r13b-hotfix-release-rebind-20261022/
+?? evidence/recategorize-824-20261023/
+?? evidence/ux-revamp-20261023/
+?? evidence/ux-round2-20261023/
+?? evidence/wp-home-02-20261025/
+?? pelican-bicycle-animation.html
+?? pelican-bicycle.html
+?? pelican-bike-ride.html
+?? pelican-bike.html
+?? pelican-cycling.html
+?? scripts/r13b-rebind-candidate-binding.mjs
+?? scripts/ux-revamp-rebind-candidate-binding.mjs
+?? scripts/ux-round2-rebind-candidate-binding.mjs
+?? src/application/ux-ledger-service.ts
+?? src/model/import-rules.ts
+?? src/persistence/export-file.ts
+?? src/ui/DateField.tsx
+?? src/ui/FixedExpensesPage.tsx
+?? src/ui/LedgerPage.tsx
+?? src/ui/V2CalendarPicker.tsx
+?? src/ui/V2CashflowDetail.tsx
+?? src/ui/V2DayComplete.tsx
+?? src/ui/V2DetailHero.tsx
+?? src/ui/V2EmptyState.tsx
+?? src/ui/V2FeedbackStage.tsx
+?? src/ui/V2MonthSummary.tsx
+?? src/ui/V2MonthlySpendCard.tsx
+?? src/ui/V2ProgressBar.tsx
+?? src/ui/V2RepaymentDetail.tsx
+?? src/ui/V2SafetyDetail.tsx
+?? src/ui/V2SavingsRoomPage.tsx
+?? src/ui/V2StatusBadge.tsx
+?? src/ui/V2StructureCard.tsx
+?? src/ui/money-format.ts
+?? src/ui/use-reduced-motion.ts
+?? src/ui/v2-calendar-picker.css
+?? src/ui/v2-card.css
+?? src/ui/v2-detail-visual.css
+?? src/ui/v2-feedback.css
+?? src/ui/v2-home-revamp.css
+?? src/ui/v2-savings-room.css
+?? src/ui/v2-tokens.css
+?? tests/r13-zero-amount-expenses.test.ts
+?? tests/v2-ledger/import-rules.test.ts
+?? tests/v2-ledger/ux-ledger-dual-ledger.test.ts
+?? tests/v2-progress-bar.test.tsx
+?? "\346\204\277\346\231\257\344\270\216\350\247\204\345\210\222-10.24/"

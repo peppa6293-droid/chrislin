@@ -1,0 +1,59 @@
+===== style.css =====
+--- /tmp/wp02-baseline/style.css	2026-10-26 00:01:42
++++ src/style.css	2026-10-26 00:01:50
+@@ -3810,10 +3810,6 @@
+ }
+ .v2-month-card .v2-snapshot-rule span {
+   background: #cf8a55;
+-}
+-.v2-month-card.is-over-budget {
+-  border-color: #e6b8a8;
+-  background: #fff4ef;
+ }
+ .v2-month-card.is-over-budget .v2-snapshot-rule span {
+   background: var(--v2-danger);
+===== V2ProgressBar.tsx =====
+--- /tmp/wp02-baseline/V2ProgressBar.tsx	2026-10-26 00:01:42
++++ src/ui/V2ProgressBar.tsx	2026-10-26 00:01:52
+@@ -14,20 +14,21 @@
+   showEnd?: boolean;
+   label?: string;
+ }) {
+-  const width = Math.min(max, Math.max(0, value));
++  const clamped = Math.min(max, Math.max(0, value));
+   const modifier = tone === "normal" ? "" : ` v2-progress--${tone}`;
+   return (
+     <div
+       className={`v2-progress${large ? " v2-progress--large" : ""}${modifier}`}
+       role="progressbar"
+       aria-label={label}
+-      aria-valuenow={Math.round(value)}
++      aria-valuenow={Math.round(clamped)}
+       aria-valuemin={0}
+-      aria-valuemax={100}
++      aria-valuemax={Math.round(max)}
++      aria-valuetext={`${Math.round(value)}%`}
+     >
+-      <span className="v2-progress__fill" style={{ width: `${width}%` }} />
+-      {showEnd && width > 0 && (
+-        <span className="v2-progress__end" style={{ left: `${width}%` }} aria-hidden="true" />
++      <span className="v2-progress__fill" style={{ width: `${clamped}%` }} />
++      {showEnd && clamped > 0 && (
++        <span className="v2-progress__end" style={{ left: `${clamped}%` }} aria-hidden="true" />
+       )}
+     </div>
+   );
+===== v2-home-revamp.css =====
+--- /tmp/wp02-baseline/v2-home-revamp.css	2026-10-26 00:01:42
++++ src/ui/v2-home-revamp.css	2026-10-26 00:01:56
+@@ -1,7 +1,8 @@
+ /* Home: long-term structure card + this-month spending card (§4). */
+ 
+-/* The cards switch between one and two columns from the actual content width,
+-   not from a fixed viewport breakpoint. */
++/* The cards switch between one and two columns from the actual content width
++   (container). With the 88px nav rail and the shell's clamp(20px,5vw,72px)
++   padding, the 700px container threshold equals a ~876px viewport. */
+ .v2-today-page {
+   container-type: inline-size;
+ }

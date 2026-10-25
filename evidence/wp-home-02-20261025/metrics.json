@@ -1,0 +1,317 @@
+{
+  "1000-normal": {
+    "innerWidth": 1000,
+    "scrollWidth": 1000,
+    "page": {
+      "w": 812,
+      "x": 138,
+      "grid": "none",
+      "bg": "rgba(0, 0, 0, 0)",
+      "borderLeft": "0px solid rgb(23, 59, 58)",
+      "pad": "0px"
+    },
+    "cards": {
+      "w": 812,
+      "x": 138,
+      "grid": "398px 398px",
+      "bg": "rgba(0, 0, 0, 0)",
+      "borderLeft": "0px solid rgb(23, 59, 58)",
+      "pad": "0px"
+    },
+    "cardHeights": [
+      395,
+      395
+    ],
+    "structureBg": "rgb(245, 251, 248)",
+    "monthBg": "rgb(255, 255, 255)",
+    "monthBorderLeft": "1px solid rgb(220, 233, 229)",
+    "cardPad": "24px",
+    "structureH": 395,
+    "monthH": 395,
+    "progress": {
+      "now": "8",
+      "max": "100",
+      "text": "8%"
+    }
+  },
+  "1000-over": {
+    "innerWidth": 1000,
+    "scrollWidth": 1000,
+    "page": {
+      "w": 812,
+      "x": 138,
+      "grid": "none",
+      "bg": "rgba(0, 0, 0, 0)",
+      "borderLeft": "0px solid rgb(23, 59, 58)",
+      "pad": "0px"
+    },
+    "cards": {
+      "w": 812,
+      "x": 138,
+      "grid": "398px 398px",
+      "bg": "rgba(0, 0, 0, 0)",
+      "borderLeft": "0px solid rgb(23, 59, 58)",
+      "pad": "0px"
+    },
+    "cardHeights": [
+      413,
+      413
+    ],
+    "structureBg": "rgb(245, 251, 248)",
+    "monthBg": "rgb(255, 255, 255)",
+    "monthBorderLeft": "4px solid rgb(244, 123, 104)",
+    "cardPad": "24px",
+    "structureH": 413,
+    "monthH": 413,
+    "progress": {
+      "now": "118",
+      "max": "120",
+      "text": "118%"
+    }
+  },
+  "1440-normal": {
+    "innerWidth": 1440,
+    "scrollWidth": 1440,
+    "page": {
+      "w": 900,
+      "x": 314,
+      "grid": "none",
+      "bg": "rgba(0, 0, 0, 0)",
+      "borderLeft": "0px solid rgb(23, 59, 58)",
+      "pad": "0px"
+    },
+    "cards": {
+      "w": 900,
+      "x": 314,
+      "grid": "442px 442px",
+      "bg": "rgba(0, 0, 0, 0)",
+      "borderLeft": "0px solid rgb(23, 59, 58)",
+      "pad": "0px"
+    },
+    "cardHeights": [
+      395,
+      395
+    ],
+    "structureBg": "rgb(245, 251, 248)",
+    "monthBg": "rgb(255, 255, 255)",
+    "monthBorderLeft": "1px solid rgb(220, 233, 229)",
+    "cardPad": "24px",
+    "structureH": 395,
+    "monthH": 395,
+    "progress": {
+      "now": "8",
+      "max": "100",
+      "text": "8%"
+    }
+  },
+  "760-normal": {
+    "innerWidth": 760,
+    "scrollWidth": 760,
+    "page": {
+      "w": 596,
+      "x": 126,
+      "grid": "none",
+      "bg": "rgba(0, 0, 0, 0)",
+      "borderLeft": "0px solid rgb(23, 59, 58)",
+      "pad": "0px"
+    },
+    "cards": {
+      "w": 596,
+      "x": 126,
+      "grid": "596px",
+      "bg": "rgba(0, 0, 0, 0)",
+      "borderLeft": "0px solid rgb(23, 59, 58)",
+      "pad": "0px"
+    },
+    "cardHeights": [
+      395,
+      345
+    ],
+    "structureBg": "rgb(245, 251, 248)",
+    "monthBg": "rgb(255, 255, 255)",
+    "monthBorderLeft": "1px solid rgb(220, 233, 229)",
+    "cardPad": "24px",
+    "structureH": 395,
+    "monthH": 345,
+    "progress": {
+      "now": "8",
+      "max": "100",
+      "text": "8%"
+    }
+  },
+  "760-over": {
+    "innerWidth": 760,
+    "scrollWidth": 760,
+    "page": {
+      "w": 596,
+      "x": 126,
+      "grid": "none",
+      "bg": "rgba(0, 0, 0, 0)",
+      "borderLeft": "0px solid rgb(23, 59, 58)",
+      "pad": "0px"
+    },
+    "cards": {
+      "w": 596,
+      "x": 126,
+      "grid": "596px",
+      "bg": "rgba(0, 0, 0, 0)",
+      "borderLeft": "0px solid rgb(23, 59, 58)",
+      "pad": "0px"
+    },
+    "cardHeights": [
+      395,
+      345
+    ],
+    "structureBg": "rgb(245, 251, 248)",
+    "monthBg": "rgb(255, 255, 255)",
+    "monthBorderLeft": "4px solid rgb(244, 123, 104)",
+    "cardPad": "24px",
+    "structureH": 395,
+    "monthH": 345,
+    "progress": {
+      "now": "118",
+      "max": "120",
+      "text": "118%"
+    }
+  },
+  "870-normal": {
+    "innerWidth": 870,
+    "scrollWidth": 870,
+    "page": {
+      "w": 695,
+      "x": 132,
+      "grid": "none",
+      "bg": "rgba(0, 0, 0, 0)",
+      "borderLeft": "0px solid rgb(23, 59, 58)",
+      "pad": "0px"
+    },
+    "cards": {
+      "w": 695,
+      "x": 132,
+      "grid": "695px",
+      "bg": "rgba(0, 0, 0, 0)",
+      "borderLeft": "0px solid rgb(23, 59, 58)",
+      "pad": "0px"
+    },
+    "cardHeights": [
+      395,
+      345
+    ],
+    "structureBg": "rgb(245, 251, 248)",
+    "monthBg": "rgb(255, 255, 255)",
+    "monthBorderLeft": "1px solid rgb(220, 233, 229)",
+    "cardPad": "24px",
+    "structureH": 395,
+    "monthH": 345,
+    "progress": {
+      "now": "8",
+      "max": "100",
+      "text": "8%"
+    }
+  },
+  "875-normal": {
+    "innerWidth": 875,
+    "scrollWidth": 875,
+    "page": {
+      "w": 700,
+      "x": 132,
+      "grid": "none",
+      "bg": "rgba(0, 0, 0, 0)",
+      "borderLeft": "0px solid rgb(23, 59, 58)",
+      "pad": "0px"
+    },
+    "cards": {
+      "w": 700,
+      "x": 132,
+      "grid": "699.5px",
+      "bg": "rgba(0, 0, 0, 0)",
+      "borderLeft": "0px solid rgb(23, 59, 58)",
+      "pad": "0px"
+    },
+    "cardHeights": [
+      395,
+      345
+    ],
+    "structureBg": "rgb(245, 251, 248)",
+    "monthBg": "rgb(255, 255, 255)",
+    "monthBorderLeft": "1px solid rgb(220, 233, 229)",
+    "cardPad": "24px",
+    "structureH": 395,
+    "monthH": 345,
+    "progress": {
+      "now": "8",
+      "max": "100",
+      "text": "8%"
+    }
+  },
+  "880-normal": {
+    "innerWidth": 880,
+    "scrollWidth": 880,
+    "page": {
+      "w": 704,
+      "x": 132,
+      "grid": "none",
+      "bg": "rgba(0, 0, 0, 0)",
+      "borderLeft": "0px solid rgb(23, 59, 58)",
+      "pad": "0px"
+    },
+    "cards": {
+      "w": 704,
+      "x": 132,
+      "grid": "344px 344px",
+      "bg": "rgba(0, 0, 0, 0)",
+      "borderLeft": "0px solid rgb(23, 59, 58)",
+      "pad": "0px"
+    },
+    "cardHeights": [
+      413,
+      413
+    ],
+    "structureBg": "rgb(245, 251, 248)",
+    "monthBg": "rgb(255, 255, 255)",
+    "monthBorderLeft": "1px solid rgb(220, 233, 229)",
+    "cardPad": "24px",
+    "structureH": 413,
+    "monthH": 413,
+    "progress": {
+      "now": "8",
+      "max": "100",
+      "text": "8%"
+    }
+  },
+  "900-normal": {
+    "innerWidth": 900,
+    "scrollWidth": 900,
+    "page": {
+      "w": 722,
+      "x": 133,
+      "grid": "none",
+      "bg": "rgba(0, 0, 0, 0)",
+      "borderLeft": "0px solid rgb(23, 59, 58)",
+      "pad": "0px"
+    },
+    "cards": {
+      "w": 722,
+      "x": 133,
+      "grid": "353px 353px",
+      "bg": "rgba(0, 0, 0, 0)",
+      "borderLeft": "0px solid rgb(23, 59, 58)",
+      "pad": "0px"
+    },
+    "cardHeights": [
+      413,
+      413
+    ],
+    "structureBg": "rgb(245, 251, 248)",
+    "monthBg": "rgb(255, 255, 255)",
+    "monthBorderLeft": "1px solid rgb(220, 233, 229)",
+    "cardPad": "24px",
+    "structureH": 413,
+    "monthH": 413,
+    "progress": {
+      "now": "8",
+      "max": "100",
+      "text": "8%"
+    }
+  }
+}

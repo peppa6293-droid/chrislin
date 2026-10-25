@@ -137,7 +137,8 @@ describe("V2 product surface", () => {
   it("shows the single daily task and the four progress dimensions", () => {
     renderHome();
     expect(screen.getByTestId("v2-home")).toBeTruthy();
-    expect(screen.getByRole("heading", { name: /这个月大体够用|按当前计划有结余/ })).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "长期看，每个月能留下一点" })).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "这个月的花销还在目标里" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "记一笔", exact: true })).toBeTruthy();
     expect(document.querySelectorAll(".v2-today-page .button-primary")).toHaveLength(1);
     expect(screen.getByRole("heading", { name: "你好，小钱" })).toBeTruthy();
@@ -322,7 +323,7 @@ describe("V2 product surface", () => {
       cashSafetyGateStatus: "NOT_APPLICABLE",
       cashFloorMet: null,
     });
-    expect(screen.getByRole("heading", { name: "这个月大体够用" })).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "这个月的花销还在目标里" })).toBeTruthy();
     await user.click(screen.getByRole("button", { name: "记一笔", exact: true }));
     await user.keyboard("{Escape}");
     expect(screen.queryByRole("dialog")).toBeNull();
@@ -331,7 +332,7 @@ describe("V2 product surface", () => {
   it("opens the cash-flow explanation from the V2 path", async () => {
     const user = userEvent.setup();
     renderHome();
-    await user.click(screen.getByRole("button", { name: "查看进展" }));
+    await user.click(screen.getByRole("button", { name: "消费详情" }));
     expect(screen.getAllByRole("heading", { name: /这个月花了多少/ }).length).toBeGreaterThan(0);
     await user.click(screen.getByRole("button", { name: "返回首页" }));
     expect(screen.getByTestId("v2-home")).toBeTruthy();
@@ -350,14 +351,14 @@ describe("V2 product surface", () => {
       "page",
     );
     await user.click(screen.getByRole("button", { name: "今天" }));
-    expect(screen.getByRole("heading", { name: "这个月大体够用" })).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "这个月的花销还在目标里" })).toBeTruthy();
   });
 
   it("opens a path when its content is clicked, not only its chevron", async () => {
     const user = userEvent.setup();
     renderHome();
     await user.click(screen.getByRole("button", { name: "现金安全" }));
-    expect(screen.getByRole("heading", { name: "手头余地", level: 1 })).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "安全垫", level: 1 })).toBeTruthy();
   });
 
   it("shows a real spending map on Progress when expense breakdown data is available", async () => {
@@ -386,7 +387,7 @@ describe("V2 product surface", () => {
       },
     });
     await user.click(screen.getByRole("button", { name: "进展" }));
-    expect(screen.getByText(/这个月需要多留意|这个月的计划有缺口/)).toBeTruthy();
+    expect(screen.getByText("长期看，每个月有个缺口")).toBeTruthy();
     expect(screen.getByRole("button", { name: /看清消费.*改善.*消费低于上期同期/ })).toBeTruthy();
     expect(document.querySelector(".v2-progress-ring")).toBeNull();
   });
@@ -409,7 +410,7 @@ describe("V2 product surface", () => {
       },
     });
     await user.click(screen.getByRole("button", { name: "进展" }));
-    expect(screen.getByText(/这个月刚好持平|按当前计划基本持平/)).toBeTruthy();
+    expect(screen.getByText("长期看，每个月刚好打平")).toBeTruthy();
     expect(screen.getAllByText("不适用").length).toBeGreaterThanOrEqual(2);
     expect(document.body.textContent).not.toMatch(/Infinity|NaN|100%/);
   });
@@ -450,7 +451,7 @@ describe("V2 product surface", () => {
     expect(screen.getByRole("button", { name: /理清责任.*待确认/ })).toBeTruthy();
     await user.click(screen.getByRole("button", { name: /理清责任.*待确认/ }));
     expect(screen.getAllByText("本月余额待确认").length).toBeGreaterThanOrEqual(1);
-    expect(screen.getAllByText("本月事实待确认").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText("本月应还待确认").length).toBeGreaterThanOrEqual(2);
     expect(screen.queryByText("¥88,000.00")).toBeNull();
     expect(screen.queryByText("¥1,800.00")).toBeNull();
   });
@@ -461,8 +462,10 @@ describe("V2 product surface", () => {
     await user.click(screen.getByRole("button", { name: "我的财务" }));
     await user.click(await screen.findByRole("button", { name: "数据与隐私" }));
     expect(screen.getByRole("heading", { name: "数据与隐私" })).toBeTruthy();
-    expect(screen.getByText(/本地数据库服务读取与保存/)).toBeTruthy();
-    expect(screen.getByText(/没有提供数据导入、导出或云同步入口/)).toBeTruthy();
+    expect(screen.getByText(/保存在这台电脑上的本地数据库里/)).toBeTruthy();
+    expect(screen.getByText(/不上传、不联网、没有云端账号/)).toBeTruthy();
+    expect(screen.getByText(/导出成一份 JSON 文件/)).toBeTruthy();
+    expect(screen.getByText(/CSV：流水表/)).toBeTruthy();
   });
 
   it("animates the cash safety node only after cash state is reread and matched", async () => {

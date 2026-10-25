@@ -1761,7 +1761,6 @@ select:hover {
 
 .finance-page {
   max-width: 860px;
-  min-height: 100vh;
   padding-bottom: 42px;
 }
 .finance-page-header {
@@ -3797,5 +3796,263 @@ select:hover {
   }
   .home-page .debt-home-values:has(.money-amount--long) .debt-due-callout .money-amount {
     font-size: 16px;
+  }
+}
+
+/* --- UX revamp 2026-10-23: functional layout for the new split cards and
+   second-level pages. Visual polish stays paused until the design spec lands. */
+.v2-structure-card {
+  background: #f2f8f5;
+}
+.v2-month-card {
+  border-color: #ecdfd3;
+  background: #fffaf3;
+}
+.v2-month-card .v2-snapshot-rule span {
+  background: #cf8a55;
+}
+.v2-month-card.is-over-budget .v2-snapshot-rule span {
+  background: var(--v2-danger);
+}
+.v2-structure-foot {
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 4px 16px;
+}
+.v2-record-ledger-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-top: 10px;
+  padding: 13px 16px;
+  border: 1px solid #dfe8e2;
+  border-radius: 14px;
+  background: #fff;
+  color: var(--v2-teal-dark);
+  font-size: 13px;
+  font-weight: 600;
+  text-align: left;
+}
+.v2-record-ledger-link span {
+  flex: 1;
+}
+.v2-record-ledger-link:hover {
+  border-color: var(--v2-teal);
+}
+
+.v2-sheet-date {
+  display: grid;
+  gap: 8px;
+  margin: 12px 0;
+}
+.v2-sheet-date > span {
+  color: #7b887e;
+  font-size: 12px;
+}
+.v2-date-field {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid #e5eae3;
+  border-radius: 14px;
+  background: #fff;
+}
+.v2-date-header,
+.v2-date-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.v2-date-header strong {
+  font-size: 14px;
+}
+.v2-date-weekdays,
+.v2-date-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.v2-date-weekdays span {
+  color: #8a958c;
+  font-size: 11px;
+  text-align: center;
+}
+.v2-date-grid button {
+  min-height: 32px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  font-size: 13px;
+}
+.v2-date-grid button:hover:not(:disabled) {
+  background: #eef4f0;
+}
+.v2-date-grid button.is-today {
+  border-color: #cfe3d9;
+}
+.v2-date-grid button.is-selected {
+  border-color: var(--v2-teal);
+  background: var(--v2-teal);
+  color: #fff;
+  font-weight: 600;
+}
+.v2-date-footer {
+  color: #7b887e;
+  font-size: 12px;
+}
+
+.v2-plain-list {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.v2-plain-list > li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 0;
+  border-bottom: 1px solid #edf0eb;
+}
+.v2-plain-list > li:last-child {
+  border-bottom: 0;
+}
+.v2-plain-list > li > span:first-child {
+  display: grid;
+  flex: 1;
+  min-width: 140px;
+  gap: 2px;
+}
+.v2-plain-list small {
+  color: #7b887e;
+  font-size: 11px;
+}
+.v2-ledger-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.v2-undo-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 10px 14px;
+  border: 1px solid #d9e8e2;
+  border-radius: 12px;
+  background: #edf7f2;
+  color: var(--v2-teal-dark);
+  font-size: 13px;
+}
+.v2-delete-confirm {
+  display: inline-flex;
+  gap: 6px;
+}
+.v2-text-button.is-danger {
+  color: var(--v2-danger);
+}
+.v2-feedback-inline {
+  margin: 14px 0 0;
+  color: var(--v2-teal-dark);
+  font-size: 13px;
+}
+.finance-ledger-entry {
+  width: 100%;
+  text-align: left;
+  color: var(--v2-teal-dark);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.finance-ledger-entry:hover {
+  border-color: var(--v2-teal);
+}
+.v2-finance-overview .v2-dashboard {
+  margin-top: 4px;
+}
+
+.debt-hero {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 16px;
+  padding: 18px 20px;
+  border-radius: 16px;
+  background: #f3f1fa;
+}
+.debt-hero-value {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 650;
+}
+.debt-hero-sub {
+  margin: 0;
+  color: #7b7f88;
+  font-size: 12px;
+}
+.savings-answer {
+  margin: 0 0 14px;
+  font-size: 20px;
+  font-weight: 620;
+}
+.debt-repay-panel {
+  margin-top: 16px;
+}
+.debt-detail-row {
+  padding: 12px 0;
+  border-bottom: 1px solid #edf0eb;
+}
+.debt-detail-row:last-child {
+  border-bottom: 0;
+}
+
+/* Privacy page: readable single-column prose inside a responsive two-column card grid. */
+.finance-privacy-page {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: start;
+  gap: 16px;
+}
+
+.finance-privacy-page > .finance-page-header {
+  grid-column: 1 / -1;
+}
+
+.finance-privacy-page .finance-list-card {
+  display: block;
+  padding: 24px;
+}
+
+.finance-privacy-page .finance-list-card h2 {
+  margin: 0 0 12px;
+  color: var(--v2-ink);
+  font-size: 18px;
+}
+
+.finance-privacy-page .finance-list-card p {
+  max-width: 72ch;
+  margin: 0 0 8px;
+  line-height: 24px;
+}
+
+.finance-privacy-page .finance-list-card p:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 900px) {
+  .finance-privacy-page {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .finance-privacy-page .finance-list-card {
+    padding: 20px;
   }
 }

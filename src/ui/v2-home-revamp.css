@@ -1,0 +1,126 @@
+/* Home: long-term structure card + this-month spending card (§4). */
+
+/* The cards switch between one and two columns from the actual content width
+   (container). With the 88px nav rail and the shell's clamp(20px,5vw,72px)
+   padding, the 700px container threshold equals a ~876px viewport. */
+.v2-today-page {
+  container-type: inline-size;
+}
+
+.v2-home-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--v2-card-gap);
+  margin-top: var(--v2-space-2);
+  /* Preserves the existing gap to the signals row after card margins are reset. */
+  margin-bottom: 22px;
+}
+
+.v2-home-cards > .v2-card {
+  min-height: 260px;
+  /* Neutralize the legacy .v2-today-snapshot box spacing inside the grid. */
+  margin: 0;
+  animation: v2-card-enter var(--v2-duration-enter) var(--v2-ease-emphasized) both;
+}
+
+.v2-home-cards > .v2-card:nth-child(2) {
+  animation-delay: 80ms;
+}
+
+.v2-home-cards .v2-card__title {
+  /* Equivalent to --v2-text-lg (20px / 28px 700). */
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+}
+
+.v2-home-cards .v2-card__note {
+  /* Equivalent to --v2-text-sm (14px / 20px). */
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.v2-home-cards .v2-card__line {
+  /* Equivalent to --v2-text-xs (12px / 18px). */
+  margin: 0;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.v2-home-cards .v2-card__value {
+  min-height: 112px;
+}
+
+.v2-home-cards .v2-card__value .money-amount {
+  /* Weight and line height of --v2-money-md. The 28px size is inherited from
+     .v2-card__value so the shared .money-amount--wide downscale still applies. */
+  font-weight: 800;
+  line-height: 34px;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.v2-structure-card.is-steady .v2-card__value {
+  color: var(--v2-teal-dark);
+}
+
+.v2-structure-card.is-even .v2-card__value {
+  color: var(--v2-ink);
+}
+
+.v2-structure-card.is-short .v2-card__value {
+  color: var(--v2-coral-dark);
+}
+
+.v2-month-card.is-over-budget .v2-card__value {
+  color: var(--v2-coral-dark);
+}
+
+.v2-structure-dots {
+  display: inline-flex;
+  gap: 6px;
+}
+
+.v2-structure-dots .v2-dot {
+  width: 8px;
+  height: 8px;
+}
+
+.v2-home-cards .v2-card__actions {
+  align-items: center;
+}
+
+@keyframes v2-card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-home-cards > .v2-card {
+    animation: none;
+  }
+}
+
+/* Two columns stay as long as the cards keep a usable width; below that the
+   grid falls back to one column with no horizontal scrolling. */
+@container (max-width: 700px) {
+  .v2-home-cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@supports not (container-type: inline-size) {
+  @media (max-width: 780px) {
+    .v2-home-cards {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}

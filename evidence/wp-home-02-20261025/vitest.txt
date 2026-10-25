@@ -1,0 +1,13 @@
+$ npx vitest run tests/v2-ui.test.tsx tests/v2-progress-bar.test.tsx
+
+ RUN  v5.0.5 /Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2
+
+ ✓ tests/v2-progress-bar.test.tsx (3 tests) 16ms
+ ✓ tests/v2-ui.test.tsx (19 tests) 657ms
+
+ Test Files  2 passed (2)
+      Tests  22 passed (22)
+   Start at  00:03:58
+   Duration  1.03s (tests 57%, environment 22%, import 17%, transform 4%)
+
+EXIT=0

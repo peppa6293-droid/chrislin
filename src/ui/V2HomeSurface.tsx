@@ -16,11 +16,20 @@ import {
 import type { FormEvent, ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
 import type { ExpenseSubmission, HomeApplicationState } from "../application/product-service.js";
+import type { LedgerExpenseRow } from "../application/ux-ledger-service.js";
 import { assertUserInputMoney, formatMoneyExact, money } from "../model/money.js";
 import type { ExpenseCategory, ExpenseRecord } from "../model/types.js";
 import brandLogo from "./assets/finance/brand-wallet-sprout.svg";
+import { localIsoDate } from "./DateField.js";
 import { MoneyAmount } from "./MoneyAmount.js";
 import type { MyFinanceRoute } from "./MyFinancePages.js";
+import { formatCurrency } from "./money-format.js";
+import { V2CalendarPicker } from "./V2CalendarPicker.js";
+import { V2DayComplete } from "./V2DayComplete.js";
+import { V2FeedbackStage } from "./V2FeedbackStage.js";
+import { V2MonthlySpendCard } from "./V2MonthlySpendCard.js";
+import { summarizeMonth, V2MonthSummary } from "./V2MonthSummary.js";
+import { V2StructureCard } from "./V2StructureCard.js";
 
 declare const __WP03_PREVIEW_BUILD__: boolean;
 
@@ -29,6 +38,9 @@ export type ExpenseActivity = {
   amount: string;
   businessDate: string;
   category: ExpenseCategory;
+  /** V2 category identity; the display layer prefers it over the flattened V1 value. */
+  categoryId?: string;
+  categoryName?: string;
   note?: string;
 };
 
@@ -62,10 +74,19 @@ type V2HomeSurfaceProps = {
   onSelectTab: (tab: SurfaceTab) => void;
   onRecordExpense: (expense: ExpenseSubmission, asOfDate: string) => Promise<ExpenseSaveReceipt>;
   onOpenDetail: (
-    route: "SPENDING_DETAIL" | "CASHFLOW_DETAIL" | "SAFETY_DETAIL" | "DEBT_DETAIL",
+    route:
+      | "SPENDING_DETAIL"
+      | "CASHFLOW_DETAIL"
+      | "SAFETY_DETAIL"
+      | "SAVINGS_DETAIL"
+      | "DEBT_DETAIL",
   ) => void;
   onOpenFinance: (route?: MyFinanceRoute) => void;
+  onOpenFixedExpenses: () => void;
+  onOpenLedger: () => void;
   onOpenSettings: () => void;
+  onLoadMonthRows?: ((month: string) => Promise<LedgerExpenseRow[]>) | undefined;
+  onGetRecordingStreak?: ((date: string) => Promise<number>) | undefined;
   confirmedMotion?: ConfirmedMotion | undefined;
 };
 
@@ -89,10 +110,12 @@ const trendCopy: Record<string, string> = {
   BASELINE_BUILDING: "先记录几次，慢慢建立属于你的基准。",
 };
 
+// Long-term structure copy. It answers "is the monthly arrangement sound?"
+// without pretending it is something you can fix by spending less this month.
 const statusCopy: Record<HomeApplicationState["spendingStatus"], string> = {
-  NORMAL: "这个月大体够用",
-  STRUCTURAL_DEFICIT: "这个月需要多留意",
-  BALANCED_NO_SURPLUS: "这个月刚好持平",
+  NORMAL: "长期看，每个月能留下一点",
+  STRUCTURAL_DEFICIT: "长期看，每个月有个缺口",
+  BALANCED_NO_SURPLUS: "长期看，每个月刚好打平",
 };
 
 const dimensionCopy: Record<string, string> = {
@@ -114,24 +137,30 @@ export function V2HomeSurface({
   onRecordExpense,
   onOpenDetail,
   onOpenFinance,
+  onOpenFixedExpenses,
+  onOpenLedger,
   onOpenSettings,
+  onLoadMonthRows,
+  onGetRecordingStreak,
   confirmedMotion,
 }: V2HomeSurfaceProps) {
   const [expenseOpen, setExpenseOpen] = useState(false);
   const [expenseError, setExpenseError] = useState("");
   const [busy, setBusy] = useState(false);
-  const [feedback, setFeedback] = useState("");
-  const [feedbackSequence, setFeedbackSequence] = useState(0);
+  const [saveFeedback, setSaveFeedback] = useState<{
+    amountText: string;
+    progress: number;
+    startProgress: number;
+    businessDate: string;
+  } | null>(null);
+  const [dayCompleteDate, setDayCompleteDate] = useState<string | null>(null);
+  const [dayStreak, setDayStreak] = useState(1);
+  const [summaryMonth, setSummaryMonth] = useState<string | null>(null);
+  const [summaryRows, setSummaryRows] = useState<LedgerExpenseRow[] | null>(null);
   const [completed, setCompleted] = useState(false);
   const [savedExpenseId, setSavedExpenseId] = useState<string | null>(null);
   const [activeMotion, setActiveMotion] = useState<ConfirmedMotion | null>(null);
   const [unconfirmedSave, setUnconfirmedSave] = useState(false);
-
-  useEffect(() => {
-    if (!feedback) return;
-    const timer = window.setTimeout(() => setFeedback(""), 3200);
-    return () => window.clearTimeout(timer);
-  }, [feedback]);
 
   useEffect(() => {
     if (!confirmedMotion || selectedTab !== "TODAY" || destinationContent) return;
@@ -183,15 +212,65 @@ export function V2HomeSurface({
       setExpenseOpen(false);
       setCompleted(true);
       setSavedExpenseId(receipt.record.id);
-      setFeedback(
-        `已保存并重新读取确认，本月已花 ${formatYuan(receipt.home.currentMonthSpending)}。`,
-      );
-      setFeedbackSequence((sequence) => sequence + 1);
+      setSaveFeedback({
+        amountText: formatCurrency(String(receipt.record.amount)),
+        progress: spendPercent(
+          receipt.home.currentMonthSpending,
+          receipt.home.desiredMonthlyDiscretionarySpending,
+        ),
+        startProgress: spendPercent(
+          home.currentMonthSpending,
+          home.desiredMonthlyDiscretionarySpending,
+        ),
+        businessDate: receipt.record.businessDate,
+      });
     } catch (error) {
       setExpenseError(error instanceof Error ? error.message : "保存失败，请重试。");
     } finally {
       setBusy(false);
     }
+  }
+
+  async function openMonthSummary(month: string) {
+    setSummaryMonth(month);
+    setSummaryRows(null);
+    try {
+      setSummaryRows((await onLoadMonthRows?.(month)) ?? []);
+    } catch {
+      setSummaryRows([]);
+    }
+  }
+
+  function finishFeedback() {
+    const saved = saveFeedback;
+    setSaveFeedback(null);
+    if (saved) queueDayComplete(saved.businessDate);
+  }
+
+  function queueDayComplete(businessDate: string) {
+    const key = `v2-day-complete:${businessDate}`;
+    if (readFlag(key)) return maybeMonthSummary(businessDate);
+    writeFlag(key);
+    setDayStreak(1);
+    setDayCompleteDate(businessDate);
+    void onGetRecordingStreak?.(businessDate)
+      .then((days) => setDayStreak(days > 0 ? days : 1))
+      .catch(() => undefined);
+  }
+
+  function finishDayComplete() {
+    const businessDate = dayCompleteDate;
+    setDayCompleteDate(null);
+    if (businessDate) maybeMonthSummary(businessDate);
+  }
+
+  function maybeMonthSummary(businessDate: string) {
+    if (!isLastDayOfMonth(businessDate)) return;
+    const month = businessDate.slice(0, 7);
+    const key = `v2-month-summary:${month}`;
+    if (readFlag(key)) return;
+    writeFlag(key);
+    void openMonthSummary(month);
   }
 
   return (
@@ -297,11 +376,14 @@ export function V2HomeSurface({
               onSelectTab={onSelectTab}
               onOpenDetail={onOpenDetail}
               onOpenFinance={onOpenFinance}
+              onOpenFixedExpenses={onOpenFixedExpenses}
+              onOpenLedger={onOpenLedger}
             />
           ) : selectedTab === "RECORD" ? (
             <RecordPanel
               recentExpenses={recentExpenses}
               onOpenExpense={openExpense}
+              onOpenLedger={onOpenLedger}
               onOpenToday={() => onSelectTab("TODAY")}
             />
           ) : selectedTab === "PROGRESS" ? (
@@ -309,17 +391,31 @@ export function V2HomeSurface({
               home={home}
               pendingDebtFactNames={pendingDebtFactNames}
               onOpenDetail={onOpenDetail}
+              onOpenMonthSummary={() => void openMonthSummary(asOfDate.slice(0, 7))}
             />
           ) : null)}
       </section>
 
-      {feedback && (
-        <div className="v2-feedback" key={feedbackSequence} role="status">
-          <span className="v2-feedback-icon" aria-hidden="true">
-            <Check size={17} strokeWidth={3} />
-          </span>
-          <span>{feedback}</span>
-        </div>
+      {saveFeedback && (
+        <V2FeedbackStage
+          amountText={saveFeedback.amountText}
+          progress={saveFeedback.progress}
+          startProgress={saveFeedback.startProgress}
+          onContinue={finishFeedback}
+          onShowToday={finishFeedback}
+        />
+      )}
+      {dayCompleteDate && <V2DayComplete consecutiveDays={dayStreak} onClose={finishDayComplete} />}
+      {summaryMonth && summaryRows != null && (
+        <V2MonthSummary
+          month={summaryMonth}
+          summary={summarizeMonth(summaryRows, home.desiredMonthlyDiscretionarySpending)}
+          onClose={() => setSummaryMonth(null)}
+          onRecord={() => {
+            setSummaryMonth(null);
+            openExpense();
+          }}
+        />
       )}
       {expenseOpen && (
         <ExpenseSheet
@@ -379,6 +475,8 @@ function TodayPanel({
   onSelectTab,
   onOpenDetail,
   onOpenFinance: _onOpenFinance,
+  onOpenFixedExpenses,
+  onOpenLedger,
 }: {
   home: HomeApplicationState;
   displayName: string;
@@ -395,10 +493,11 @@ function TodayPanel({
   onSelectTab: (tab: SurfaceTab) => void;
   onOpenDetail: V2HomeSurfaceProps["onOpenDetail"];
   onOpenFinance: V2HomeSurfaceProps["onOpenFinance"];
+  onOpenFixedExpenses: () => void;
+  onOpenLedger: () => void;
 }) {
-  const spendingTarget = home.desiredMonthlyDiscretionarySpending;
   const debtDisplay =
-    pendingDebtFactNames.length > 0 ? "待确认" : formatYuan(home.mandatoryDebtService);
+    pendingDebtFactNames.length > 0 ? "待确认" : formatCurrency(home.mandatoryDebtService);
   return (
     <div className="v2-page v2-today-page">
       <section className="v2-today-intro" aria-labelledby="v2-home-title">
@@ -447,62 +546,23 @@ function TodayPanel({
         </div>
       )}
 
-      <section className="v2-today-snapshot" aria-labelledby="v2-snapshot-title">
-        <div className="v2-snapshot-heading">
-          <span className="v2-kicker">这个月</span>
-          <button
-            className="v2-text-button"
-            type="button"
-            onClick={() => onOpenDetail("SPENDING_DETAIL")}
-          >
-            查看进展 <ArrowRight size={15} aria-hidden="true" />
-          </button>
-        </div>
-        <h2 id="v2-snapshot-title">{statusCopy[home.spendingStatus]}</h2>
-        <p>
-          {home.trendState === "BASELINE_BUILDING"
-            ? "先记录几次，慢慢建立自己的节奏。"
-            : "这个月的节奏正在变得更清楚。"}
-        </p>
-        <div className="v2-snapshot-value">
-          <span>
-            <MoneyAmount
-              value={home.baseSurplus}
-              className={savedExpenseId ? "is-expense-value-emphasis" : ""}
-            />
-          </span>
-          <span>还可以安排</span>
-        </div>
-        <div className="v2-snapshot-rule">
-          <span
-            style={{
-              width: `${Math.min(100, Math.max(0, Number(home.planningIncome) > 0 ? (Number(home.baseSurplus) / Number(home.planningIncome)) * 100 : 0))}%`,
-            }}
-          />
-        </div>
-        <div className="v2-snapshot-foot">
-          <span>已花 {formatYuan(home.currentMonthSpending)}</span>
-          <span>{spendingTarget == null ? "未设目标" : `目标 ${formatYuan(spendingTarget)}`}</span>
-        </div>
-        <div className="v2-snapshot-actions">
-          <span className="v2-sr-only">{home.trendState === "IMPROVING" ? "" : ""}</span>
-          <button
-            className="v2-snapshot-cashflow-compat"
-            type="button"
-            aria-label="消费详情"
-            onClick={() => onOpenDetail("SPENDING_DETAIL")}
-          >
-            消费详情
-          </button>
-          <button
-            type="button"
-            aria-label="收支详情"
-            onClick={() => onOpenDetail("CASHFLOW_DETAIL")}
-          >
-            收支详情
-          </button>
-        </div>
-      </section>
+      <div className="v2-home-cards">
+        <V2StructureCard
+          home={home}
+          pendingDebtFactNames={pendingDebtFactNames}
+          onOpenFixedExpenses={onOpenFixedExpenses}
+          onOpenDebt={() => onOpenDetail("DEBT_DETAIL")}
+          onOpenCashflow={() => onOpenDetail("CASHFLOW_DETAIL")}
+        />
+
+        <V2MonthlySpendCard
+          home={home}
+          savedExpenseId={savedExpenseId}
+          onOpenDetail={() => onOpenDetail("SPENDING_DETAIL")}
+          onOpenLedger={onOpenLedger}
+          onOpenExpense={onOpenExpense}
+        />
+      </div>
       <section className="v2-today-signals" aria-label="当前重要状态">
         <button
           className={`v2-today-signal ${activeMotion?.kind === "cash" ? "is-confirmed-cash" : ""}`}
@@ -560,7 +620,7 @@ function TodayPanel({
         ) : money(home.currentMonthSpending).gt(money(home.desiredMonthlyDiscretionarySpending)) ? (
           <span data-testid="personal-target-exceeded">
             已超目标{" "}
-            {formatYuan(
+            {formatCurrency(
               money(home.currentMonthSpending)
                 .minus(money(home.desiredMonthlyDiscretionarySpending))
                 .toString(),
@@ -569,7 +629,7 @@ function TodayPanel({
         ) : (
           <span data-testid="personal-target-remaining">
             目标内剩余{" "}
-            {formatYuan(
+            {formatCurrency(
               money(home.desiredMonthlyDiscretionarySpending)
                 .minus(money(home.currentMonthSpending))
                 .toString(),
@@ -614,7 +674,7 @@ function SemanticDetailLayer({
   const debtLabel =
     pendingDebtFactNames.length > 0
       ? "本月应还待确认"
-      : `本月需还 ${formatYuan(home.mandatoryDebtService)}`;
+      : `本月需还 ${formatCurrency(home.mandatoryDebtService)}`;
   const safetyLabel = !isUsableMonthValue(home.safetyCoverageMonths)
     ? "暂不可计算"
     : `${formatMonths(home.safetyCoverageMonths)} 个月`;
@@ -629,11 +689,11 @@ function SemanticDetailLayer({
         onClick={() => onOpenDetail("SPENDING_DETAIL")}
       >
         <h3>看清消费</h3>
-        <span>{formatYuan(home.currentMonthSpending)}</span>
+        <span>{formatCurrency(home.currentMonthSpending)}</span>
         <span>
           {home.desiredMonthlyDiscretionarySpending == null
             ? "还没设置目标"
-            : `目标 ${formatYuan(home.desiredMonthlyDiscretionarySpending)}`}
+            : `目标 ${formatCurrency(home.desiredMonthlyDiscretionarySpending)}`}
         </span>
       </button>
       <button
@@ -644,7 +704,7 @@ function SemanticDetailLayer({
         onClick={() => onOpenDetail("CASHFLOW_DETAIL")}
       >
         <h3>本月收支</h3>
-        <span>{formatYuan(home.baseSurplus)}</span>
+        <span>{formatCurrency(home.baseSurplus)}</span>
         <span>{statusCopy[home.spendingStatus]}</span>
       </button>
       <button
@@ -688,7 +748,7 @@ function SemanticDetailLayer({
         onClick={() => onOpenDetail("DEBT_DETAIL")}
       >
         <h3>理清责任</h3>
-        <span>{formatYuan(home.totalDebt)}</span>
+        <span>{formatCurrency(home.totalDebt)}</span>
         <span data-testid="home-mandatory-debt-service">
           {pendingDebtFactNames.length > 0 ? "本月应还待确认" : debtLabel}
         </span>
@@ -701,10 +761,12 @@ function ProgressPanel({
   home,
   pendingDebtFactNames,
   onOpenDetail,
+  onOpenMonthSummary,
 }: {
   home: HomeApplicationState;
   pendingDebtFactNames: string[];
   onOpenDetail: V2HomeSurfaceProps["onOpenDetail"];
+  onOpenMonthSummary: () => void;
 }) {
   const liquidity = home.trendDimensions.LIQUIDITY_SAFETY;
   const debt = home.trendDimensions.DEBT;
@@ -715,7 +777,7 @@ function ProgressPanel({
     {
       title: "看清消费",
       detail: `${directionLabel(consumption.direction)} · ${modelReasonCopy(consumption.reason)}`,
-      value: formatYuan(home.currentMonthSpending),
+      value: formatCurrency(home.currentMonthSpending),
       tone: "coral" as const,
       route: "SPENDING_DETAIL" as const,
     },
@@ -737,7 +799,7 @@ function ProgressPanel({
       detail: debtPending
         ? `待确认 · ${pendingDebtFactNames.join("、")} 的本月事实尚未全部确认。`
         : `${directionLabel(debt.direction)} · ${modelReasonCopy(debt.reason)}`,
-      value: debtPending ? "本月待确认" : formatYuan(home.totalDebt),
+      value: debtPending ? "本月待确认" : formatCurrency(home.totalDebt),
       tone: "lavender" as const,
       route: "DEBT_DETAIL" as const,
     },
@@ -750,9 +812,9 @@ function ProgressPanel({
         ? "不适用"
         : !isUsableMonthValue(home.safetyCoverageMonths)
           ? "暂不可计算"
-          : `安全垫差额 ${formatYuan(home.safetyGap)} · ${formatMonths(home.safetyCoverageMonths)} / ${formatMonths(home.safetyCoverageTargetMonths)} 个月`,
+          : `安全垫差额 ${formatCurrency(home.safetyGap)} · ${formatMonths(home.safetyCoverageMonths)} / ${formatMonths(home.safetyCoverageTargetMonths)} 个月`,
       tone: "yellow" as const,
-      route: "SAFETY_DETAIL" as const,
+      route: "SAVINGS_DETAIL" as const,
     },
   ];
   return (
@@ -767,6 +829,9 @@ function ProgressPanel({
           <span className="v2-kicker">这个月</span>
           <strong>{statusCopy[home.spendingStatus]}</strong>
           <p>{trendCopy[home.trendState] ?? "继续记录，基准会越来越清楚。"}</p>
+          <button className="v2-btn v2-btn--secondary" type="button" onClick={onOpenMonthSummary}>
+            看本月小结
+          </button>
         </div>
       </div>
       <section className="v2-progress-list" aria-label="财务进展路径">
@@ -819,14 +884,16 @@ function SpendingInsight({
       {top ? (
         <>
           <p className="v2-insight-lead">
-            目前最多花在 <strong>{categoryLabels[top.category]}</strong>，占本月可变消费的{" "}
-            {top.share}%。
+            目前最多花在 <strong>{top.label ?? categoryLabels[top.category]}</strong>
+            ，占本月可变消费的 {top.share}%。
           </p>
           <div className="v2-category-bars">
             {breakdown.slice(0, 4).map((item, index) => (
-              <div className="v2-category-row" key={item.category}>
+              <div className="v2-category-row" key={item.categoryId ?? item.category}>
                 <span className={`v2-category-dot v2-category-dot-${index}`} aria-hidden="true" />
-                <span className="v2-category-name">{categoryLabels[item.category]}</span>
+                <span className="v2-category-name">
+                  {item.label ?? categoryLabels[item.category]}
+                </span>
                 <div className="v2-category-track">
                   <i style={{ width: `${item.share}%` }} />
                 </div>
@@ -899,10 +966,12 @@ function RecordPanel({
   recentExpenses,
   onOpenExpense,
   onOpenToday,
+  onOpenLedger,
 }: {
   recentExpenses: ExpenseActivity[];
   onOpenExpense: () => void;
   onOpenToday: () => void;
+  onOpenLedger: () => void;
 }) {
   return (
     <div className="v2-page v2-record-page">
@@ -920,6 +989,11 @@ function RecordPanel({
           <small>通常只需要 3–5 秒</small>
         </span>
         <ArrowRight size={20} aria-hidden="true" />
+      </button>
+      <button className="v2-record-ledger-link" type="button" onClick={onOpenLedger}>
+        <WalletCards size={18} aria-hidden="true" />
+        <span>查看全部流水，改分类或删记录</span>
+        <ChevronRight size={17} aria-hidden="true" />
       </button>
       <div className="v2-section-heading">
         <div>
@@ -966,7 +1040,7 @@ function RecentExpenses({
             <CircleDollarSign size={17} />
           </span>
           <span className="v2-recent-copy">
-            <strong>{categoryLabels[expense.category] ?? "消费"}</strong>
+            <strong>{expense.categoryName ?? categoryLabels[expense.category] ?? "消费"}</strong>
             <small>{expense.note || expense.businessDate}</small>
           </span>
           <MoneyAmount value={expense.amount} />
@@ -990,7 +1064,7 @@ function ExpenseSheet({
   onSubmit: (expense: ExpenseSubmission) => Promise<void>;
 }) {
   const [amount, setAmount] = useState("");
-  const [dateTime, setDateTime] = useState(toLocalDateTime(new Date()));
+  const [businessDate, setBusinessDate] = useState(localIsoDate(new Date()));
   const [category, setCategory] = useState("");
   const [note, setNote] = useState("");
   const [validationError, setValidationError] = useState("");
@@ -1041,16 +1115,16 @@ function ExpenseSheet({
       setValidationError("请输入大于 0 的金额。");
       return;
     }
-    if (!dateTime) {
-      setValidationError("请填写有效的日期和时间。");
+    if (!/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/.test(businessDate)) {
+      setValidationError("请选择有效的日期。");
       return;
     }
     setValidationError("");
     const expense: ExpenseSubmission = {
       id: globalThis.crypto.randomUUID(),
       amount: amount.trim(),
-      dateTime: new Date(dateTime).toISOString(),
-      businessDate: dateTime.slice(0, 10),
+      dateTime: `${businessDate}T00:00:00.000Z`,
+      businessDate,
       ...(category ? { category: category as NonNullable<ExpenseSubmission["category"]> } : {}),
       ...(note.trim() ? { note: note.trim() } : {}),
     };
@@ -1108,14 +1182,15 @@ function ExpenseSheet({
               ))}
             </div>
           </div>
-          <label>
-            日期和时间
-            <input
-              type="datetime-local"
-              value={dateTime}
-              onChange={(event) => setDateTime(event.target.value)}
+          <div className="v2-sheet-date">
+            <span>日期</span>
+            <V2CalendarPicker
+              value={businessDate}
+              onChange={setBusinessDate}
+              label="消费日期"
+              disabled={busy}
             />
-          </label>
+          </div>
           <label>
             备注（选填）
             <input
@@ -1217,16 +1292,40 @@ function resolveTask(home: HomeApplicationState, pendingDebtFactNames: string[])
   };
 }
 
+function spendPercent(spentText: string, targetText: string | null) {
+  const spent = money(spentText);
+  const target = targetText == null ? null : money(targetText);
+  if (target == null || target.lte(0)) return 0;
+  return Math.max(0, Math.min(120, spent.dividedBy(target).times(100).toNumber()));
+}
+
+function isLastDayOfMonth(value: string) {
+  const [year, month, day] = value.split("-").map(Number);
+  if (!year || !month || !day) return false;
+  return new Date(year, month, 0).getDate() === day;
+}
+
+function readFlag(key: string) {
+  try {
+    return window.localStorage.getItem(key) === "1";
+  } catch {
+    return false;
+  }
+}
+
+function writeFlag(key: string) {
+  try {
+    window.localStorage.setItem(key, "1");
+  } catch {
+    // Storage is optional; a blocked local store must not break recording.
+  }
+}
+
 function progressFor(value: string | null, target: number) {
   const current = value == null ? Number.NaN : Number(value);
   if (!Number.isFinite(current) || current < 0 || !Number.isFinite(target) || target <= 0)
     return null;
   return Math.min(100, Math.max(0, (current / target) * 100));
-}
-
-function formatYuan(value: string | null | undefined) {
-  if (value == null) return "未设置";
-  return `¥${formatMoneyExact(value)}`;
 }
 
 function formatMonths(value: string | number | null | undefined) {
@@ -1247,9 +1346,4 @@ function formatPeriod(value: string) {
 
 function formatShortDate(value: string) {
   return `${Number(value.slice(5, 7))} 月 ${Number(value.slice(8, 10))} 日`;
-}
-
-function toLocalDateTime(value: Date) {
-  const pad = (number: number) => String(number).padStart(2, "0");
-  return `${value.getFullYear()}-${pad(value.getMonth() + 1)}-${pad(value.getDate())}T${pad(value.getHours())}:${pad(value.getMinutes())}`;
 }

@@ -1,0 +1,109 @@
+/*
+ * EXEC-UX-ROUND2 design tokens (docs/DESIGN-UX-REVAMP-20261023.md §2).
+ * Loaded after v2-surface.css so the refreshed palette wins over the legacy
+ * :root block. Values are the design document's, not local choices.
+ */
+:root {
+  --v2-bg: #fff9f2;
+  --v2-surface: #ffffff;
+  --v2-surface-soft: #f5fbf8;
+  --v2-surface-warm: #fff4d6;
+  --v2-ink: #173b3a;
+  --v2-ink-strong: #10302f;
+  --v2-muted: #6b7f7d;
+  --v2-muted-light: #9aa9a6;
+  --v2-line: #dce9e5;
+  --v2-line-strong: #b9d6d0;
+  --v2-teal: #24b89a;
+  --v2-teal-dark: #087c6e;
+  --v2-teal-soft: #ddf7ef;
+  --v2-blue: #4b8fe8;
+  --v2-blue-soft: #eaf2ff;
+  --v2-yellow: #ffc94a;
+  --v2-yellow-dark: #a66a00;
+  --v2-yellow-soft: #fff2c7;
+  --v2-coral: #f47b68;
+  --v2-coral-dark: #b7483d;
+  --v2-coral-soft: #ffe5df;
+  --v2-danger: #c94747;
+  --v2-danger-soft: #ffe4e4;
+  --v2-purple: #8c72d8;
+  --v2-purple-soft: #f0ebff;
+  --v2-focus: #2d8cff;
+  --v2-overlay: rgb(23 59 58 / 28%);
+  --v2-paper: var(--v2-bg);
+  --v2-lavender: var(--v2-purple);
+
+  --v2-radius-xs: 8px;
+  --v2-radius-sm: 12px;
+  --v2-radius: 20px;
+  --v2-radius-lg: 28px;
+  --v2-radius-pill: 999px;
+  --v2-border-1: 1px solid var(--v2-line);
+  --v2-shadow-card: 0 8px 24px rgb(23 59 58 / 7%), 0 2px 6px rgb(23 59 58 / 4%);
+  --v2-shadow-card-hover: 0 14px 32px rgb(23 59 58 / 12%), 0 3px 8px rgb(23 59 58 / 6%);
+  --v2-shadow-float: 0 16px 40px rgb(23 59 58 / 18%);
+  --v2-shadow-button: 0 4px 0 #087c6e;
+  --v2-shadow-button-pressed: 0 1px 0 #087c6e;
+
+  --v2-text-xs: 12px / 18px 400;
+  --v2-text-sm: 14px / 20px 400;
+  --v2-text-md: 16px / 24px 400;
+  --v2-text-lg: 20px / 28px 700;
+  --v2-text-xl: 28px / 36px 700;
+  --v2-text-hero: 40px / 48px 800;
+  --v2-money-sm: 18px / 24px 700;
+  --v2-money-md: 28px / 34px 800;
+  --v2-money-lg: 40px / 48px 800;
+
+  --v2-space-1: 4px;
+  --v2-space-2: 8px;
+  --v2-space-3: 12px;
+  --v2-space-4: 16px;
+  --v2-space-5: 20px;
+  --v2-space-6: 24px;
+  --v2-space-8: 32px;
+  --v2-space-10: 40px;
+  --v2-space-12: 48px;
+  --v2-space-16: 64px;
+  --v2-content-max: 1120px;
+  --v2-gutter: 32px;
+  --v2-page-top: 28px;
+  --v2-card-gap: 16px;
+  --v2-card-pad: 24px;
+
+  --v2-ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --v2-ease-emphasized: cubic-bezier(0.16, 1, 0.3, 1);
+  --v2-ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --v2-ease-shake: cubic-bezier(0.36, 0.07, 0.19, 0.97);
+  --v2-duration-fast: 140ms;
+  --v2-duration-ui: 220ms;
+  --v2-duration-enter: 360ms;
+  --v2-duration-celebrate: 680ms;
+  --v2-duration-summary: 900ms;
+}
+
+.v2-shell,
+.v2-shell button,
+.v2-shell input,
+.v2-shell select,
+.v2-shell textarea,
+.v2-feedback-stage,
+.v2-calendar-picker,
+.v2-savings-room,
+.v2-detail-hero {
+  font-family:
+    -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Hiragino Sans GB",
+    sans-serif;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}
