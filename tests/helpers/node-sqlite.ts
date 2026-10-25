@@ -1,5 +1,8 @@
-import { DatabaseSync } from "node:sqlite";
 import type { ExecuteResult, SqlDatabase } from "../../src/persistence/database.js";
+
+// node:sqlite is a Node built-in: load it without a static specifier so the
+// happy-dom (client) transform graph never tries to bundle it.
+const { DatabaseSync } = process.getBuiltinModule("node:sqlite") as typeof import("node:sqlite");
 
 export class NodeSqliteDatabase implements SqlDatabase {
   private transactionOpen = false;

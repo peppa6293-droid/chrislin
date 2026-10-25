@@ -11,6 +11,7 @@ import {
   resolveRuntimeSchemaAuthority,
 } from "../src/runtime/tauri-bootstrap.js";
 import { NodeSqliteDatabase } from "./helpers/node-sqlite.js";
+import { snapshotDatabase } from "./helpers/sqlite-snapshot.js";
 
 const directories: string[] = [];
 const databases: NodeSqliteDatabase[] = [];
@@ -106,7 +107,7 @@ describe("Production composition root never applies TypeScript DDL", () => {
   it("bootstrap accepts an already-V8 Production database without any write", async () => {
     const db = fixture();
     await migrateDatabase(db);
-    const before = Buffer.from(db.connection.serialize());
+    const before = snapshotDatabase(db);
 
     const result = await bootstrapTauriApplication({
       identifyRuntime: async () => PRODUCTION_RUNTIME_IDENTIFIER,
@@ -114,7 +115,7 @@ describe("Production composition root never applies TypeScript DDL", () => {
     });
 
     expect(result.status).toBe("INITIALIZATION_REQUIRED");
-    expect(Buffer.compare(db.connection.serialize(), before)).toBe(0);
+    expect(Buffer.compare(snapshotDatabase(db), before)).toBe(0);
   });
 
   it("does not open a database when native identity is unavailable", async () => {

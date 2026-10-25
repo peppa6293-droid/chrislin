@@ -6,6 +6,7 @@ import { DatabaseSync } from "node:sqlite";
 import { afterEach, describe, expect, it } from "vitest";
 import { CURRENT_SCHEMA_VERSION, migrateDatabase } from "../src/persistence/migrations.js";
 import { NodeSqliteDatabase } from "./helpers/node-sqlite.js";
+import { snapshotDatabase } from "./helpers/sqlite-snapshot.js";
 
 const directories: string[] = [];
 const databases: NodeSqliteDatabase[] = [];
@@ -69,12 +70,12 @@ describe("forward schema guard", () => {
     const db = new NodeSqliteDatabase();
     databases.push(db);
     await migrateDatabase(db, "2026-10-08T00:00:00.000Z");
-    const before = db.connection.serialize();
+    const before = snapshotDatabase(db);
 
     await migrateDatabase(db, "2026-10-09T00:00:00.000Z");
 
     expect(CURRENT_SCHEMA_VERSION).toBe(8);
-    expect(Buffer.compare(db.connection.serialize(), before)).toBe(0);
+    expect(Buffer.compare(snapshotDatabase(db), before)).toBe(0);
   });
 
   it("allows an isolated valid V3 database to migrate to V8", async () => {
