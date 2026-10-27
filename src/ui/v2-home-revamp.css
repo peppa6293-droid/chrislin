@@ -88,6 +88,90 @@
   height: 8px;
 }
 
+.v2-structure-bar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--v2-space-2);
+}
+
+.v2-structure-bar__row {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) 88px;
+  align-items: center;
+  gap: var(--v2-space-2);
+}
+
+.v2-structure-bar__label {
+  color: var(--v2-muted);
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.v2-structure-bar__track {
+  position: relative;
+  display: flex;
+  height: 10px;
+  overflow: hidden;
+  background: var(--v2-line);
+  border-radius: var(--v2-radius-pill);
+}
+
+.v2-structure-bar__fill {
+  height: 100%;
+}
+
+.v2-structure-bar__fill.is-income {
+  background: var(--v2-teal);
+}
+
+.v2-structure-bar__fill.is-essential {
+  background: var(--v2-ink-strong);
+  opacity: 0.55;
+}
+
+.v2-structure-bar__fill.is-debt {
+  background: var(--v2-muted-light);
+}
+
+.v2-structure-bar__overhang {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: var(--v2-coral);
+}
+
+.v2-structure-bar__tick {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  width: 2px;
+  background: var(--v2-ink);
+}
+
+.v2-structure-bar__amount {
+  color: var(--v2-muted);
+  font-size: 12px;
+  line-height: 18px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.v2-month-empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--v2-space-3);
+  min-height: 112px;
+  color: var(--v2-muted-light);
+}
+
+.v2-month-empty__bar {
+  display: block;
+  height: 10px;
+  background: var(--v2-line);
+  border-radius: var(--v2-radius-pill);
+}
+
 .v2-home-cards .v2-card__actions {
   align-items: center;
 }
@@ -122,5 +206,76 @@
     .v2-home-cards {
       grid-template-columns: minmax(0, 1fr);
     }
+  }
+}
+
+/* WP-UI-STATE-01：加载骨架与禁用态。骨架叠在旧内容上，旧内容 visibility
+   hidden 但仍占位，因此卡片高度与 ready 完全一致，不会跳动。 */
+.v2-card.is-loading {
+  pointer-events: none;
+}
+
+.v2-card.is-loading > *:not(.v2-card__skeleton) {
+  visibility: hidden;
+}
+
+.v2-card__skeleton {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--v2-space-3);
+  padding: var(--v2-card-pad);
+}
+
+.v2-card__skeleton i {
+  display: block;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #e9f1ee 0%, #f6faf8 50%, #e9f1ee 100%);
+  background-size: 200% 100%;
+  animation: v2-card-shimmer 1.4s ease-in-out infinite;
+}
+
+.v2-card__skeleton i:nth-child(1) {
+  width: 88px;
+  height: 12px;
+}
+
+.v2-card__skeleton i:nth-child(2) {
+  width: 62%;
+  height: 28px;
+}
+
+.v2-card__skeleton i:nth-child(3) {
+  width: 44%;
+  height: 40px;
+}
+
+@keyframes v2-card-shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* 禁用态：遮住金额、算式、进度与操作，只留卡头与「暂时无法查看」。
+   .v2-card--disabled 的 opacity / pointer-events 已在 v2-card.css 中定义，不重复。 */
+.v2-card.is-disabled .v2-card__value,
+.v2-card.is-disabled .v2-card__line,
+.v2-card.is-disabled .v2-card__actions,
+.v2-card.is-disabled .v2-structure-value,
+.v2-card.is-disabled .v2-structure-dots,
+.v2-card.is-disabled .v2-structure-bar,
+.v2-card.is-disabled .v2-month-empty,
+.v2-card.is-disabled [role="progressbar"] {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-card__skeleton i {
+    animation: none;
+    background: #edf3f1;
   }
 }

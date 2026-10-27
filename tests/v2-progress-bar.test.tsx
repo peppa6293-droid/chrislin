@@ -30,5 +30,6 @@ describe("V2ProgressBar ARIA range", () => {
     const bar = screen.getByRole("progressbar", { name: "负值进度" });
 
     expect(bar.getAttribute("aria-valuenow")).toBe("0");
+    expect(bar.getAttribute("aria-valuetext")).toBe("0%");
   });
 });

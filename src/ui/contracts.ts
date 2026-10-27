@@ -13,6 +13,18 @@ import type {
   OnboardingRequirement,
   OnboardingSubmission,
 } from "../application/product-service.js";
+import type {
+  DebtPaymentRecord,
+  DeletedExpenseSnapshot,
+  EssentialItemPatch,
+  EssentialPaymentRecord,
+  ExpenseEditInput,
+  LedgerExpenseRow,
+  LedgerMutationResult,
+  RecategorizationAssignment,
+  RecategorizationResult,
+  RecordingStreak,
+} from "../application/ux-ledger-service.js";
 import type { ConfirmedImportInput, ImportBatchResult } from "../application/v2-import-service.js";
 import type {
   V4FinancialReadState,
@@ -90,4 +102,56 @@ export interface ProductApplicationServices {
   deactivateCashAccount(accountId: string, asOfDate: string): Promise<V4MutationResult>;
   deactivateAsset(assetId: string, asOfDate: string): Promise<V4MutationResult>;
   deactivateDebt(debtId: string, month: string, asOfDate: string): Promise<V4MutationResult>;
+  // UX revamp: ledger maintenance, fixed-expense page, debt repayment, export.
+  listLedgerExpenses(month?: string): Promise<LedgerExpenseRow[]>;
+  editLedgerExpense(input: ExpenseEditInput): Promise<LedgerMutationResult>;
+  deleteLedgerExpense(
+    expenseId: string,
+    asOfDate: string,
+  ): Promise<LedgerMutationResult & { snapshot: DeletedExpenseSnapshot }>;
+  restoreLedgerExpense(
+    snapshot: DeletedExpenseSnapshot,
+    asOfDate: string,
+  ): Promise<LedgerMutationResult>;
+  getRecordingStreak(asOfDate: string): Promise<RecordingStreak>;
+  listEssentialPaymentItems(
+    asOfDate: string,
+  ): Promise<Array<{ id: string; name: string; category: string; monthlyAmount: string }>>;
+  listEssentialPayments(month?: string): Promise<EssentialPaymentRecord[]>;
+  recordEssentialPayment(input: {
+    itemId: string;
+    amount: string;
+    paidOn: string;
+    note?: string;
+  }): Promise<{ payment: EssentialPaymentRecord; monthTotal: string; home: HomeApplicationState }>;
+  saveEssentialItems(
+    items: EssentialItemPatch[],
+    asOfDate: string,
+  ): Promise<{ home: HomeApplicationState }>;
+  listDebtPaymentLog(): Promise<DebtPaymentRecord[]>;
+  recordDebtRepayment(input: {
+    debtId: string;
+    amount: string;
+    paidOn: string;
+    note?: string;
+    asOfDate: string;
+  }): Promise<{
+    payment: DebtPaymentRecord;
+    home: HomeApplicationState;
+    reconciliation: {
+      revisionBalance: string | null;
+      factBalance: string | null;
+      balanced: boolean;
+    };
+  }>;
+  recategorizeLedgerExpenses(
+    assignments: RecategorizationAssignment[],
+    asOfDate: string,
+  ): Promise<RecategorizationResult>;
+  readAuditLog(): Promise<Record<string, unknown>[]>;
+  exportLedger(asOfDate: string): Promise<{
+    jsonPath: string;
+    csvPath: string;
+    tableCounts: Record<string, number>;
+  }>;
 }

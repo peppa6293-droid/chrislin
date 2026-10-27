@@ -61,7 +61,7 @@ describe("V2 Dashboard (isolated candidate)", () => {
     );
     expect(html).not.toContain("NaN");
     expect(html).not.toContain("Infinity");
-    expect(html).toContain("99999999.99");
+    expect(html).toContain("¥99,999,999.99");
     expect(html).toContain("0.00");
   });
 
@@ -113,7 +113,7 @@ describe("V2 Dashboard (isolated candidate)", () => {
     expect(html).toContain("已还清");
     expect(html).toContain("已逾期");
     expect(html).toContain("请在到期日前还款。");
-    expect(html).toContain("700.00");
+    expect(html).toContain("¥700.00");
   });
 
   it("renders savings plans with status and affordable info", () => {
@@ -163,7 +163,7 @@ describe("V2 Dashboard (isolated candidate)", () => {
     expect(html).toContain("正常推进");
     expect(html).toContain("已完成");
     expect(html).toContain('data-testid="v2-affordable-info"');
-    expect(html).toContain("1500.00");
+    expect(html).toContain("¥1,500.00");
     expect(html).toContain("可以按计划存钱。");
   });
 

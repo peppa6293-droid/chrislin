@@ -21,6 +21,7 @@ import { localDate } from "./date.js";
 import { FinancialMaintenanceDialog } from "./FinancialMaintenanceDialog.js";
 import { HomeScreen } from "./HomeScreen.js";
 import { Onboarding } from "./Onboarding.js";
+import { useCardsRefresh } from "./use-cards-refresh.js";
 import { WP03PreviewDateControl } from "./WP03PreviewDateControl.js";
 
 const defaultServices = getTauriProductServices();
@@ -40,6 +41,7 @@ export function App({ services = defaultServices }: { services?: ProductApplicat
   const [recoveryLoading, setRecoveryLoading] = useState(false);
   const [recoveryData, setRecoveryData] = useState<FinancialMaintenanceState | null>(null);
   const [recoveryError, setRecoveryError] = useState("");
+  const { status: cardsStatus, track } = useCardsRefresh();
 
   useEffect(() => {
     let mounted = true;
@@ -74,7 +76,7 @@ export function App({ services = defaultServices }: { services?: ProductApplicat
         .filter((debt) => debt.needsCurrentMonthFact)
         .map((debt) => debt.name);
       const refreshed =
-        pending.length === 0 ? await services.getHomeApplicationState(effectiveDate) : null;
+        pending.length === 0 ? await track(services.getHomeApplicationState(effectiveDate)) : null;
       setSessionAsOfDate(effectiveDate);
       setPendingDebtFactNames(pending);
       if (refreshed) setHome(refreshed);
@@ -102,10 +104,12 @@ export function App({ services = defaultServices }: { services?: ProductApplicat
       writeError = messageOf(error);
     }
     try {
-      const [record, refreshed] = await Promise.all([
-        services.getExpenseRecordById(writtenExpenseId),
-        services.getHomeApplicationState(asOfDate),
-      ]);
+      const [record, refreshed] = await track(
+        Promise.all([
+          services.getExpenseRecordById(writtenExpenseId),
+          services.getHomeApplicationState(asOfDate),
+        ]),
+      );
       // The D-01 V1 mirror always stores occurred_at as midnight UTC of the
       // business date and maps every V2 category to OTHER_VARIABLE. Readback
       // verification follows that fixed mirror shape while keeping the same
@@ -155,10 +159,12 @@ export function App({ services = defaultServices }: { services?: ProductApplicat
     let stateReadback: FinancialMaintenanceState;
     let homeReadback: HomeApplicationState;
     try {
-      [stateReadback, homeReadback] = await Promise.all([
-        services.getFinancialMaintenanceState(asOfDate),
-        services.getHomeApplicationState(asOfDate),
-      ]);
+      [stateReadback, homeReadback] = await track(
+        Promise.all([
+          services.getFinancialMaintenanceState(asOfDate),
+          services.getHomeApplicationState(asOfDate),
+        ]),
+      );
     } catch (error) {
       throw new Error(
         `写入服务已返回，但保存后重新读取失败（${messageOf(error)}）。结果未确认，没有播放成功反馈；请先核对后再操作。`,
@@ -171,7 +177,7 @@ export function App({ services = defaultServices }: { services?: ProductApplicat
   async function savePlanningMonthDecision(month: string, decision: PlanningIncomeMonthDecision) {
     const result = await services.savePlanningMonthDecision(month, sessionAsOfDate, decision);
     if (result.status === "SAVED" || result.status === "NO_CHANGE") {
-      setHome(await services.getHomeApplicationState(sessionAsOfDate));
+      setHome(await track(services.getHomeApplicationState(sessionAsOfDate)));
     } else {
       throw new Error(`本月计划收入未保存（${result.code}）。`);
     }
@@ -187,7 +193,7 @@ export function App({ services = defaultServices }: { services?: ProductApplicat
   }) {
     const result = await services.reviseActualIncome({ ...input, asOfDate: sessionAsOfDate });
     if (result.status === "SAVED" || result.status === "NO_CHANGE") {
-      setHome(await services.getHomeApplicationState(sessionAsOfDate));
+      setHome(await track(services.getHomeApplicationState(sessionAsOfDate)));
     } else {
       throw new Error(`实际收入修改未保存（${result.code}）。`);
     }
@@ -196,14 +202,14 @@ export function App({ services = defaultServices }: { services?: ProductApplicat
   async function deactivateCashAccount(accountId: string) {
     const result = await services.deactivateCashAccount(accountId, sessionAsOfDate);
     if (result.status === "SAVED" || result.status === "NO_CHANGE")
-      setHome(await services.getHomeApplicationState(sessionAsOfDate));
+      setHome(await track(services.getHomeApplicationState(sessionAsOfDate)));
     else throw new Error(`账户未停用（${result.code}）。`);
   }
 
   async function deactivateAsset(assetId: string) {
     const result = await services.deactivateAsset(assetId, sessionAsOfDate);
     if (result.status === "SAVED" || result.status === "NO_CHANGE")
-      setHome(await services.getHomeApplicationState(sessionAsOfDate));
+      setHome(await track(services.getHomeApplicationState(sessionAsOfDate)));
     else throw new Error(`资产未停用（${result.code}）。`);
   }
 
@@ -214,7 +220,7 @@ export function App({ services = defaultServices }: { services?: ProductApplicat
       sessionAsOfDate,
     );
     if (result.status === "SAVED" || result.status === "NO_CHANGE")
-      setHome(await services.getHomeApplicationState(sessionAsOfDate));
+      setHome(await track(services.getHomeApplicationState(sessionAsOfDate)));
     else
       throw new Error(
         result.code === "DEBT_FACT_REQUIRED_BEFORE_DEACTIVATION"
@@ -255,7 +261,7 @@ export function App({ services = defaultServices }: { services?: ProductApplicat
       setPendingDebtFactNames(pending);
       if (pending.length === 0) {
         try {
-          setHome(await services.getHomeApplicationState(sessionAsOfDate));
+          setHome(await track(services.getHomeApplicationState(sessionAsOfDate)));
         } catch (error) {
           throw new Error(
             `债务保存已在财务记录中读回，但刷新首页模型失败（${messageOf(error)}）；暂不显示成功反馈。`,
@@ -376,6 +382,7 @@ export function App({ services = defaultServices }: { services?: ProductApplicat
         ) : null
       }
       pendingDebtFactNames={pendingDebtFactNames}
+      cardsStatus={cardsStatus}
       onRecordExpense={recordExpense}
       onLoadFinancialMaintenance={loadFinancialMaintenance}
       onGetFinancialMaintenanceRequirement={getFinancialMaintenanceRequirement}
@@ -387,6 +394,7 @@ export function App({ services = defaultServices }: { services?: ProductApplicat
       onDeactivateAsset={deactivateAsset}
       onDeactivateDebt={deactivateDebt}
       onSaveCurrentMonthDebtFact={saveCurrentMonthDebtFact}
+      onApplyHome={setHome}
     />
   );
 }

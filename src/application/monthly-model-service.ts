@@ -186,6 +186,9 @@ export async function buildMonthlyModelInput(
     previousDebts === null || previousDebts.length === 0
       ? null
       : previousDebts.reduce((total, debt) => total.plus(money(debt.currentBalance)), money(0));
+  // Zero-amount rows are ledger facts, not spending events. The frozen Model Core
+  // requires positive amounts, so they stay in the ledger but out of the model input.
+  const modelExpenses = currentExpenses.filter((expense) => money(expense.amount).gt(0));
 
   const hasBaseline =
     previousCash.length +
@@ -239,7 +242,7 @@ export async function buildMonthlyModelInput(
           ...(currentMonthDue === undefined ? {} : { currentMonthDue }),
           ...(fixedMonthlyPayment === undefined ? {} : { fixedMonthlyPayment }),
         })),
-        expenses: currentExpenses,
+        expenses: modelExpenses,
         previousSnapshot,
       },
     },

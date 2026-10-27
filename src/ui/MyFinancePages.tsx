@@ -235,16 +235,30 @@ function FinancePageHeader({ title, onBack }: { title: string; onBack: () => voi
 
 function DataPrivacyPage({ onBack }: { onBack: () => void }) {
   return (
-    <section className="home-page finance-page" aria-label="数据与隐私说明">
+    <section className="home-page finance-page finance-privacy-page" aria-label="数据与隐私说明">
       <FinancePageHeader title="数据与隐私" onBack={onBack} />
       <article className="finance-list-card">
-        <h2>本机账本</h2>
-        <p>收入、消费、现金、资产和债务通过小钱家当前的本地数据库服务读取与保存。</p>
-        <p>进展页数据由已保存记录计算得出，计算结果用于展示，不会作为新的财务事实另行保存。</p>
+        <h2>数据存在哪</h2>
+        <p>所有账目都保存在这台电脑上的本地数据库里，位置在小钱家自己的应用数据目录。</p>
+        <p>不上传、不联网、没有云端账号；记账、编辑、删除都只在本机完成。</p>
+        <p>导入账单时的分类建议也只用本机内置的本地规则，账单内容不会发给任何服务器或云端模型。</p>
+        <p>进展页的数字由已保存的记录算出来用于展示，不会作为新的财务事实再存一份。</p>
       </article>
       <article className="finance-list-card">
-        <h2>数据管理</h2>
-        <p>当前版本没有提供数据导入、导出或云同步入口。</p>
+        <h2>备份与迁移</h2>
+        <p>
+          在「流水」页点「导出备份」，会把全部账本数据导出成一份 JSON 文件，同时导出一份流水 CSV。
+        </p>
+        <p>两个文件都保存到这台电脑的「下载」文件夹，文件名带日期，数据不出机器。</p>
+        <p>
+          换电脑或重装前，请先导出一份 JSON
+          备份并妥善保管；当前版本还没有整包恢复入口，需要时请连同应用数据目录一起保留。
+        </p>
+      </article>
+      <article className="finance-list-card">
+        <h2>导出格式</h2>
+        <p>JSON：完整备份，包含所有账本表和设置，适合留档。</p>
+        <p>CSV：流水表，字段为日期、金额、分类、说明、账户、类型，可用表格软件直接打开。</p>
       </article>
     </section>
   );

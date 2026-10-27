@@ -37,10 +37,33 @@
 
 .v2-import__row {
   display: flex;
-  justify-content: space-between;
-  gap: 12px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
   border-bottom: 1px solid var(--v2-line);
   padding: 8px 0;
+}
+
+.v2-import__row-main {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.v2-import__row-edit {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.v2-import__note {
+  color: var(--v2-muted);
+  font-size: 12px;
+}
+
+.v2-import__note.is-review {
+  color: var(--v2-danger);
 }
 
 .v2-import__row:last-child {
@@ -74,4 +97,90 @@
 .v2-import__result {
   color: var(--v2-teal-dark);
   margin: 0;
+}
+
+/* Import controls: token-based platform picker and file drop-style trigger. */
+.v2-import__field--provider {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.v2-import__provider-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 var(--v2-space-4);
+  color: var(--v2-ink);
+  font-size: var(--v2-text-sm);
+  background: var(--v2-surface);
+  border: var(--v2-border-1);
+  border-radius: var(--v2-radius);
+  cursor: pointer;
+  transition:
+    background var(--v2-duration-ui) var(--v2-ease-standard),
+    border-color var(--v2-duration-ui) var(--v2-ease-standard);
+}
+
+.v2-import__provider-option input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.v2-import__provider-option:hover {
+  border-color: var(--v2-teal);
+}
+
+.v2-import__provider-option:has(input:checked) {
+  color: var(--v2-teal-dark);
+  font-weight: 700;
+  background: var(--v2-teal-soft);
+  border-color: var(--v2-teal);
+}
+
+.v2-import__provider-option:has(input:focus-visible) {
+  box-shadow: 0 0 0 3px #ddf7ef;
+}
+
+.v2-import__file {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--v2-space-2);
+  min-height: 56px;
+  padding: 0 var(--v2-space-4);
+  color: var(--v2-teal-dark);
+  border: 1px dashed var(--v2-line);
+  border-radius: var(--v2-radius);
+  cursor: pointer;
+  transition:
+    background var(--v2-duration-ui) var(--v2-ease-standard),
+    border-color var(--v2-duration-ui) var(--v2-ease-standard);
+}
+
+.v2-import__file span {
+  color: inherit;
+  font-size: var(--v2-text-sm);
+  font-weight: 600;
+}
+
+.v2-import__file input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.v2-import__file:hover {
+  background: var(--v2-teal-soft);
+  border-color: var(--v2-teal);
+}
+
+.v2-import__file:has(input:disabled) {
+  opacity: 0.56;
+  cursor: default;
 }

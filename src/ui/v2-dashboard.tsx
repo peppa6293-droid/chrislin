@@ -2,6 +2,7 @@ import { Banknote, Landmark, ReceiptText, RefreshCw, ShoppingCart, Wallet } from
 import type { BillStatus } from "../model/v2-cashflow.js";
 import type { AffordableSavingsResult, SavingsPlan } from "../model/v2-savings-goal.js";
 import type { TrendSummary } from "../model/v2-trends.js";
+import { formatCurrency } from "./money-format.js";
 import { TrendPanel, type TrendWindow } from "./v2-trends.js";
 
 export interface DashboardLedgerSummary {
@@ -22,12 +23,7 @@ export interface V2DashboardProps {
   reducedMotion?: boolean;
 }
 
-function formatAmount(value: string): string {
-  if (!value) return "0.00";
-  const num = Number(value);
-  if (!Number.isFinite(num)) return "0.00";
-  return num.toFixed(2);
-}
+const formatAmount = (value: string): string => formatCurrency(value);
 
 export function V2Dashboard({
   ledger,

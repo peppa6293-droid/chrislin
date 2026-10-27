@@ -60,7 +60,7 @@ function quickEntrySubmission(seed: SeededDatabase, id: string, amount = "42.50"
 }
 
 describe("EXEC-LANDING L-01 composition-root services", () => {
-  it("seeds exactly one cash account and six built-in categories, idempotently", async () => {
+  it("seeds one cash account and the built-in categories, idempotently", async () => {
     const seed = await seedDatabase();
     try {
       const first = await ensureV2LedgerDefaults(seed.db);
@@ -74,9 +74,21 @@ describe("EXEC-LANDING L-01 composition-root services", () => {
       const categories = await seed.db.select(
         "SELECT id,name,icon,color,monthly_budget,overspending_alert,savings_related,adjustable,builtin,active FROM expense_categories ORDER BY id",
       );
-      expect(categories).toHaveLength(6);
+      expect(categories).toHaveLength(11);
       expect(new Set(categories.map((category) => category.name))).toEqual(
-        new Set(["餐饮", "交通", "购物", "娱乐", "家居", "其他"]),
+        new Set([
+          "餐饮",
+          "交通",
+          "购物",
+          "娱乐",
+          "家居",
+          "其他",
+          "医疗",
+          "居住",
+          "水电",
+          "保险",
+          "教育",
+        ]),
       );
       for (const category of categories) {
         expect(category).toMatchObject({
@@ -99,7 +111,7 @@ describe("EXEC-LANDING L-01 composition-root services", () => {
         { count: 1 },
       ]);
       expect(await seed.db.select("SELECT COUNT(*) AS count FROM expense_categories")).toEqual([
-        { count: 6 },
+        { count: 11 },
       ]);
     } finally {
       seed.db.close();
@@ -196,7 +208,7 @@ describe("EXEC-LANDING L-01 composition-root services", () => {
           { count: 1 },
         ]);
         expect(await reopened.select("SELECT COUNT(*) AS count FROM expense_categories")).toEqual([
-          { count: 6 },
+          { count: 11 },
         ]);
 
         const repositories = new Repositories(reopened);

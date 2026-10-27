@@ -27,6 +27,7 @@ import {
   type OnboardingSubmission,
   recordExpenseAndRecalculate,
 } from "../application/product-service.js";
+import * as uxLedger from "../application/ux-ledger-service.js";
 import { V2ExpenseService } from "../application/v2-expense-service.js";
 import { V2ImportService } from "../application/v2-import-service.js";
 import type { V4FinancialReadState } from "../application/v4-foundation-service.js";
@@ -35,6 +36,7 @@ import {
   type V4MutationResult,
 } from "../application/v4-foundation-service.js";
 import { ApplicationDataError, type SqlDatabase } from "../persistence/database.js";
+import { saveExportFile } from "../persistence/export-file.js";
 import { migrateDatabase } from "../persistence/migrations.js";
 import { type PlanningIncomeMonthDecision, Repositories } from "../persistence/repositories.js";
 import { TauriSqlDatabase } from "../persistence/tauri-database.js";
@@ -174,9 +176,9 @@ interface V2LedgerDefaults {
 const DEFAULT_CASH_ACCOUNT = { name: "现金", type: "CASH", currency: "CNY" } as const;
 
 /**
- * Fixed V2 quick-entry category table. The six quick-entry categories are the only
- * ones seeded, and the mapping from the V1 submission enum is intentionally
- * name-based and fixed here (never persisted as a database mapping).
+ * Fixed V2 quick-entry category table. These six categories map to the V1
+ * submission enum by name, intentionally fixed here (never persisted as a
+ * database mapping).
  */
 const V2_DEFAULT_CATEGORIES: ReadonlyArray<{
   name: string;
@@ -192,10 +194,18 @@ const V2_DEFAULT_CATEGORIES: ReadonlyArray<{
   { name: "其他", icon: "Shapes", color: "#66717D", category: "OTHER_VARIABLE" },
 ];
 
+/** Expense categories outside quick entry, used by import classification. */
+const V2_EXTRA_CATEGORIES: ReadonlyArray<{ name: string; icon: string; color: string }> = [
+  { name: "医疗", icon: "HeartPulse", color: "#F47B68" },
+  { name: "居住", icon: "Home", color: "#24B89A" },
+  { name: "水电", icon: "Zap", color: "#FFC94A" },
+  { name: "保险", icon: "ShieldCheck", color: "#4B8FE8" },
+  { name: "教育", icon: "GraduationCap", color: "#8C72D8" },
+];
+
 /**
- * Idempotently seeds the default cash account and six built-in quick-entry
- * categories on first use. Any existing account or category set is left
- * untouched, so repeated startups never duplicate rows.
+ * Idempotently seeds the default cash account and built-in categories, adding
+ * only names that are missing so existing user edits survive repeated startups.
  */
 export async function ensureV2LedgerDefaults(db: SqlDatabase): Promise<V2LedgerDefaults> {
   const repositories = new Repositories(db);
@@ -220,10 +230,14 @@ export async function ensureV2LedgerDefaults(db: SqlDatabase): Promise<V2LedgerD
   }
 
   let categories = await repositories.listExpenseCategories(profile.id);
-  if (categories.length === 0) {
+  const existingNames = new Set(categories.map((category) => category.name));
+  const missingCategories = [...V2_DEFAULT_CATEGORIES, ...V2_EXTRA_CATEGORIES].filter(
+    (definition) => !existingNames.has(definition.name),
+  );
+  if (missingCategories.length > 0) {
     await db.transaction(async (transactionDb) => {
       const transactionRepositories = new Repositories(transactionDb);
-      for (const definition of V2_DEFAULT_CATEGORIES) {
+      for (const definition of missingCategories) {
         await transactionRepositories.createExpenseCategory({
           id: globalThis.crypto.randomUUID(),
           profileId: profile.id,
@@ -416,9 +430,81 @@ export interface TauriApplicationServices {
   deactivateCashAccount(accountId: string, asOfDate: string): Promise<V4MutationResult>;
   deactivateAsset(assetId: string, asOfDate: string): Promise<V4MutationResult>;
   deactivateDebt(debtId: string, month: string, asOfDate: string): Promise<V4MutationResult>;
+  listLedgerExpenses(month?: string): Promise<uxLedger.LedgerExpenseRow[]>;
+  editLedgerExpense(input: uxLedger.ExpenseEditInput): Promise<uxLedger.LedgerMutationResult>;
+  deleteLedgerExpense(
+    expenseId: string,
+    asOfDate: string,
+  ): Promise<uxLedger.LedgerMutationResult & { snapshot: uxLedger.DeletedExpenseSnapshot }>;
+  restoreLedgerExpense(
+    snapshot: uxLedger.DeletedExpenseSnapshot,
+    asOfDate: string,
+  ): Promise<uxLedger.LedgerMutationResult>;
+  getRecordingStreak(asOfDate: string): Promise<uxLedger.RecordingStreak>;
+  listEssentialPaymentItems(
+    asOfDate: string,
+  ): Promise<Array<{ id: string; name: string; category: string; monthlyAmount: string }>>;
+  listEssentialPayments(month?: string): Promise<uxLedger.EssentialPaymentRecord[]>;
+  recordEssentialPayment(input: {
+    itemId: string;
+    amount: string;
+    paidOn: string;
+    note?: string;
+  }): Promise<{
+    payment: uxLedger.EssentialPaymentRecord;
+    monthTotal: string;
+    home: HomeApplicationState;
+  }>;
+  saveEssentialItems(
+    items: uxLedger.EssentialItemPatch[],
+    asOfDate: string,
+  ): Promise<{ home: HomeApplicationState }>;
+  listDebtPaymentLog(): Promise<uxLedger.DebtPaymentRecord[]>;
+  recordDebtRepayment(input: {
+    debtId: string;
+    amount: string;
+    paidOn: string;
+    note?: string;
+    asOfDate: string;
+  }): Promise<{
+    payment: uxLedger.DebtPaymentRecord;
+    home: HomeApplicationState;
+    reconciliation: {
+      revisionBalance: string | null;
+      factBalance: string | null;
+      balanced: boolean;
+    };
+  }>;
+  recategorizeLedgerExpenses(
+    assignments: uxLedger.RecategorizationAssignment[],
+    asOfDate: string,
+  ): Promise<uxLedger.RecategorizationResult>;
+  readAuditLog(): Promise<Record<string, unknown>[]>;
+  exportLedger(asOfDate: string): Promise<{
+    jsonPath: string;
+    csvPath: string;
+    tableCounts: Record<string, number>;
+  }>;
 }
 
-export interface TauriProductServices {
+export interface TauriProductServices
+  extends Pick<
+    TauriApplicationServices,
+    | "listLedgerExpenses"
+    | "editLedgerExpense"
+    | "deleteLedgerExpense"
+    | "restoreLedgerExpense"
+    | "getRecordingStreak"
+    | "listEssentialPaymentItems"
+    | "listEssentialPayments"
+    | "recordEssentialPayment"
+    | "saveEssentialItems"
+    | "listDebtPaymentLog"
+    | "recordDebtRepayment"
+    | "recategorizeLedgerExpenses"
+    | "readAuditLog"
+    | "exportLedger"
+  > {
   bootstrap(): Promise<ApplicationStartupState>;
   getOnboardingRequirement: typeof getOnboardingRequirement;
   completeOnboarding(
@@ -518,6 +604,29 @@ export async function createTauriApplicationServices(
       foundation.deactivateCashAccount(accountId, asOfDate),
     deactivateAsset: (assetId, asOfDate) => foundation.deactivateAsset(assetId, asOfDate),
     deactivateDebt: (debtId, month, asOfDate) => foundation.deactivateDebt(debtId, month, asOfDate),
+    listLedgerExpenses: (month) => uxLedger.listLedgerExpenses(db, month),
+    editLedgerExpense: (input) => uxLedger.editLedgerExpense(db, input),
+    deleteLedgerExpense: (expenseId, asOfDate) =>
+      uxLedger.deleteLedgerExpense(db, expenseId, asOfDate),
+    restoreLedgerExpense: (snapshot, asOfDate) =>
+      uxLedger.restoreLedgerExpense(db, snapshot, asOfDate),
+    getRecordingStreak: (asOfDate) => uxLedger.getRecordingStreak(db, asOfDate),
+    listEssentialPaymentItems: (asOfDate) => uxLedger.listEssentialPaymentItems(db, asOfDate),
+    listEssentialPayments: (month) => uxLedger.listEssentialPayments(db, month),
+    recordEssentialPayment: (input) => uxLedger.recordEssentialPayment(db, input),
+    saveEssentialItems: (items, asOfDate) => uxLedger.saveEssentialItems(db, items, asOfDate),
+    listDebtPaymentLog: () => uxLedger.listDebtPaymentLog(db),
+    recordDebtRepayment: (input) => uxLedger.recordDebtRepayment(db, input),
+    recategorizeLedgerExpenses: (assignments, asOfDate) =>
+      uxLedger.recategorizeLedgerExpenses(db, assignments, asOfDate),
+    readAuditLog: () => uxLedger.readAuditLog(db),
+    exportLedger: async (asOfDate) => {
+      const bundle = await uxLedger.buildExportBundle(db, asOfDate);
+      const stamp = asOfDate;
+      const jsonPath = await saveExportFile(`xiaoqianjia-backup-${stamp}.json`, bundle.json);
+      const csvPath = await saveExportFile(`xiaoqianjia-expenses-${stamp}.csv`, bundle.csv);
+      return { jsonPath, csvPath, tableCounts: bundle.tableCounts };
+    },
   };
 }
 
@@ -574,5 +683,24 @@ export function getTauriProductServices(): TauriProductServices {
     deactivateAsset: async (assetId, asOfDate) => (await open()).deactivateAsset(assetId, asOfDate),
     deactivateDebt: async (debtId, month, asOfDate) =>
       (await open()).deactivateDebt(debtId, month, asOfDate),
+    listLedgerExpenses: async (month) => (await open()).listLedgerExpenses(month),
+    editLedgerExpense: async (input) => (await open()).editLedgerExpense(input),
+    deleteLedgerExpense: async (expenseId, asOfDate) =>
+      (await open()).deleteLedgerExpense(expenseId, asOfDate),
+    restoreLedgerExpense: async (snapshot, asOfDate) =>
+      (await open()).restoreLedgerExpense(snapshot, asOfDate),
+    getRecordingStreak: async (asOfDate) => (await open()).getRecordingStreak(asOfDate),
+    listEssentialPaymentItems: async (asOfDate) =>
+      (await open()).listEssentialPaymentItems(asOfDate),
+    listEssentialPayments: async (month) => (await open()).listEssentialPayments(month),
+    recordEssentialPayment: async (input) => (await open()).recordEssentialPayment(input),
+    saveEssentialItems: async (items, asOfDate) =>
+      (await open()).saveEssentialItems(items, asOfDate),
+    listDebtPaymentLog: async () => (await open()).listDebtPaymentLog(),
+    recordDebtRepayment: async (input) => (await open()).recordDebtRepayment(input),
+    recategorizeLedgerExpenses: async (assignments, asOfDate) =>
+      (await open()).recategorizeLedgerExpenses(assignments, asOfDate),
+    readAuditLog: async () => (await open()).readAuditLog(),
+    exportLedger: async (asOfDate) => (await open()).exportLedger(asOfDate),
   };
 }

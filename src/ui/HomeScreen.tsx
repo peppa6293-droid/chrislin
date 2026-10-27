@@ -1,57 +1,57 @@
 import type { ReactNode } from "react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { SaveCurrentMonthDebtFactResult } from "../application/debt-fact-service.js";
 import type {
   FinancialMaintenancePatch,
   FinancialMaintenanceState,
 } from "../application/financial-maintenance-service.js";
 import type { ExpenseSubmission, HomeApplicationState } from "../application/product-service.js";
+import type { DebtPaymentRecord } from "../application/ux-ledger-service.js";
 import type { V4FinancialReadState } from "../application/v4-foundation-service.js";
-import { formatMoneyExact, money } from "../model/money.js";
+import { money } from "../model/money.js";
 import type { PlanningIncomeMonthDecision } from "../persistence/repositories.js";
 import { getTauriProductServices } from "../runtime/tauri-bootstrap.js";
+import type { CardStatus } from "./card-status.js";
+import type { ProductApplicationServices } from "./contracts.js";
 import { FinancialMaintenanceDialog } from "./FinancialMaintenanceDialog.js";
+import { FixedExpensesPage } from "./FixedExpensesPage.js";
+import { LedgerPage } from "./LedgerPage.js";
 import { MoneyAmount } from "./MoneyAmount.js";
 import { MyFinancePages, type MyFinanceRoute } from "./MyFinancePages.js";
+import { formatCurrency } from "./money-format.js";
+import { V2CalendarPicker } from "./V2CalendarPicker.js";
+import { V2CashflowDetail } from "./V2CashflowDetail.js";
 import {
   type ConfirmedMotion,
   type ExpenseSaveReceipt,
   type SurfaceTab,
   V2HomeSurface,
 } from "./V2HomeSurface.js";
+import { V2RepaymentDetail } from "./V2RepaymentDetail.js";
+import { V2SafetyDetail } from "./V2SafetyDetail.js";
+import { V2SavingsRoomPage } from "./V2SavingsRoomPage.js";
 // v2-dashboard.tsx itself stays out of the core tsc graph (its type is re-exported
 // through the application layer), so the stylesheet rides on the vite-graph
 // consumer: mounting the ledger page always loads this CSS.
-import "./v2-dashboard.css";
 import { V2Dashboard, type V2DashboardProps } from "./v2-dashboard.js";
+import "./v2-dashboard.css";
 import { V2Import } from "./v2-import.js";
 
-type HomeDetailRoute = "SPENDING_DETAIL" | "CASHFLOW_DETAIL" | "SAFETY_DETAIL" | "DEBT_DETAIL";
-type HomeRoute = "HOME" | "RECORD" | "PROGRESS" | HomeDetailRoute | MyFinanceRoute;
+type HomeDetailRoute =
+  | "SPENDING_DETAIL"
+  | "CASHFLOW_DETAIL"
+  | "SAFETY_DETAIL"
+  | "SAVINGS_DETAIL"
+  | "DEBT_DETAIL";
+/** Standalone pages reached from the home surface, each with its own route. */
+type HomePageRoute = "FIXED_EXPENSES" | "LEDGER" | "FINANCE_OVERVIEW";
+type HomeRoute = "HOME" | "RECORD" | "PROGRESS" | HomeDetailRoute | HomePageRoute | MyFinanceRoute;
 const detailTitles: Record<HomeDetailRoute, string> = {
   SPENDING_DETAIL: "这个月花了多少",
-  CASHFLOW_DETAIL: "这个月够不够用",
-  SAFETY_DETAIL: "手头余地",
-  DEBT_DETAIL: "这个月要还多少",
-};
-const statusCopy: Record<HomeApplicationState["spendingStatus"], string> = {
-  NORMAL: "按当前计划有结余",
-  STRUCTURAL_DEFICIT: "这个月的计划有缺口",
-  BALANCED_NO_SURPLUS: "按当前计划基本持平",
-};
-const trendCopy: Record<string, string> = {
-  IMPROVING_STRONGLY: "明显改善",
-  IMPROVING: "有所改善",
-  STABLE: "保持平稳",
-  UNDER_PRESSURE: "需要留意",
-  DETERIORATING: "正在承压",
-  BASELINE_BUILDING: "基准建立中",
-};
-const dimensions: Record<string, string> = {
-  LIQUIDITY_SAFETY: "手头余地",
-  DEBT: "本月要还",
-  CONSUMPTION: "花钱",
-  WEALTH: "手上的资产",
+  CASHFLOW_DETAIL: "现金流",
+  SAFETY_DETAIL: "安全垫",
+  SAVINGS_DETAIL: "建立余地",
+  DEBT_DETAIL: "债务还款",
 };
 const variableCategoryLabels: Record<string, string> = {
   FOOD: "吃饭",
@@ -75,6 +75,7 @@ type Props = {
   isSessionDateCurrent?: () => boolean;
   wp03PreviewDateControl?: ReactNode;
   pendingDebtFactNames?: string[];
+  cardsStatus?: CardStatus;
   onRecordExpense: (expense: ExpenseSubmission, asOfDate: string) => Promise<ExpenseSaveReceipt>;
   onLoadFinancialMaintenance: (asOfDate: string) => Promise<FinancialMaintenanceState>;
   onGetFinancialMaintenanceRequirement: (
@@ -109,6 +110,8 @@ type Props = {
         currentMonthDue: string | null;
       }) => Promise<SaveCurrentMonthDebtFactResult>)
     | undefined;
+  /** Lets maintenance pages push the freshly recomputed home state upward. */
+  onApplyHome?: (home: HomeApplicationState) => void;
 };
 
 export function HomeScreen({
@@ -117,6 +120,7 @@ export function HomeScreen({
   isSessionDateCurrent = () => true,
   wp03PreviewDateControl = null,
   pendingDebtFactNames = [],
+  cardsStatus = "ready",
   onRecordExpense,
   onLoadFinancialMaintenance,
   onGetFinancialMaintenanceRequirement,
@@ -128,6 +132,7 @@ export function HomeScreen({
   onDeactivateAsset,
   onDeactivateDebt,
   onSaveCurrentMonthDebtFact,
+  onApplyHome = () => undefined,
 }: Props) {
   const date = asOfDate ?? home.asOfDate;
   const [route, setRoute] = useState<HomeRoute>("HOME");
@@ -140,7 +145,6 @@ export function HomeScreen({
   const [confirmedMotion, setConfirmedMotion] = useState<ConfirmedMotion | undefined>();
   const [motionSequence, setMotionSequence] = useState(0);
   const [importOpen, setImportOpen] = useState(false);
-  const [dashboardOpen, setDashboardOpen] = useState(false);
   useEffect(() => {
     if (!feedback) return;
     const timer = window.setTimeout(() => setFeedback(""), 3200);
@@ -263,11 +267,43 @@ export function HomeScreen({
     <HomeDetail
       home={home}
       route={route}
+      asOfDate={date}
+      onApplyHome={onApplyHome}
       pendingDebtFactNames={pendingDebtFactNames}
       onBack={() => setRoute(selectedTab === "PROGRESS" ? "PROGRESS" : "HOME")}
-      onRoute={(next) => navigateRoute(next)}
       onCash={() => openFinance("CASH_LIST")}
+      onSavings={() => openFinance("SAFETY_LIST")}
     />
+  ) : route === "FIXED_EXPENSES" ? (
+    <FixedExpensesPage
+      asOfDate={date}
+      services={dashboardServices}
+      onApplyHome={onApplyHome}
+      onBack={() => navigateTab("TODAY")}
+    />
+  ) : route === "LEDGER" ? (
+    <LedgerPage
+      asOfDate={date}
+      services={dashboardServices}
+      onApplyHome={onApplyHome}
+      onBack={() => navigateTab("RECORD")}
+    />
+  ) : route === "FINANCE_OVERVIEW" ? (
+    <section className="home-page detail-page v2-detail-page v2-finance-overview">
+      <header className="detail-header">
+        <button
+          type="button"
+          className="back-button"
+          onClick={() => navigateRoute("MY_FINANCE")}
+          aria-label="返回我的财务"
+        >
+          返回我的财务
+        </button>
+        <span>{date.slice(0, 7)}</span>
+      </header>
+      <h1 className="detail-title">财务概览</h1>
+      <V2DashboardLoader month={date.slice(0, 7)} load={dashboardServices.getV2DashboardProps} />
+    </section>
   ) : isFinanceRoute(route) ? (
     <>
       <MyFinancePages
@@ -296,18 +332,20 @@ export function HomeScreen({
       />
       {route === "MY_FINANCE" ? (
         <>
-          <details
-            className="finance-state-card"
-            onToggle={(event) => setDashboardOpen(event.currentTarget.open)}
+          <button
+            type="button"
+            className="finance-state-card finance-ledger-entry"
+            onClick={() => navigateRoute("LEDGER")}
           >
-            <summary>收支账本</summary>
-            {dashboardOpen ? (
-              <V2DashboardLoader
-                month={date.slice(0, 7)}
-                load={dashboardServices.getV2DashboardProps}
-              />
-            ) : null}
-          </details>
+            收支账本 · 查看、改分类、删记录或导出
+          </button>
+          <button
+            type="button"
+            className="finance-state-card finance-ledger-entry"
+            onClick={() => navigateRoute("FINANCE_OVERVIEW")}
+          >
+            财务概览 · 收入、趋势与储蓄目标
+          </button>
           <details
             className="finance-state-card"
             onToggle={(event) => setImportOpen(event.currentTarget.open)}
@@ -330,6 +368,7 @@ export function HomeScreen({
         home={home}
         asOfDate={date}
         pendingDebtFactNames={pendingDebtFactNames}
+        cardsStatus={cardsStatus}
         recentExpenses={home.recentExpenses ?? []}
         wp03PreviewDateControl={wp03PreviewDateControl}
         selectedTab={selectedTab}
@@ -339,7 +378,23 @@ export function HomeScreen({
         confirmedMotion={confirmedMotion}
         onOpenDetail={(detail) => navigateRoute(detail)}
         onOpenFinance={openFinance}
+        onOpenFixedExpenses={() => navigateRoute("FIXED_EXPENSES")}
+        onOpenLedger={() => navigateRoute("LEDGER")}
         onOpenSettings={openMaintenance}
+        onLoadMonthRows={async (month) => {
+          try {
+            return await dashboardServices.listLedgerExpenses(month);
+          } catch {
+            return [];
+          }
+        }}
+        onGetRecordingStreak={async (day) => {
+          try {
+            return (await dashboardServices.getRecordingStreak(day)).consecutiveDays;
+          } catch {
+            return 1;
+          }
+        }}
       />
       {feedback && (
         <div className="v2-feedback" role="status">
@@ -364,6 +419,33 @@ export function HomeScreen({
   );
 }
 
+function V2DashboardLoader({
+  month,
+  load,
+}: {
+  month: string;
+  load: (month: string) => Promise<V2DashboardProps>;
+}) {
+  const [props, setProps] = useState<V2DashboardProps | null>(null);
+  const [error, setError] = useState("");
+  useEffect(() => {
+    let cancelled = false;
+    load(month)
+      .then((next) => {
+        if (!cancelled) setProps(next);
+      })
+      .catch((cause: unknown) => {
+        if (!cancelled) setError(cause instanceof Error ? cause.message : "读取失败，请重试。");
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [load, month]);
+  if (error) return <p role="alert">账本读取失败：{error}</p>;
+  if (!props) return <p role="status">正在读取收支账本…</p>;
+  return <V2Dashboard {...props} />;
+}
+
 function isFinanceRoute(route: HomeRoute): route is MyFinanceRoute {
   return !(
     route === "HOME" ||
@@ -372,7 +454,11 @@ function isFinanceRoute(route: HomeRoute): route is MyFinanceRoute {
     route === "SPENDING_DETAIL" ||
     route === "CASHFLOW_DETAIL" ||
     route === "SAFETY_DETAIL" ||
-    route === "DEBT_DETAIL"
+    route === "SAVINGS_DETAIL" ||
+    route === "DEBT_DETAIL" ||
+    route === "FIXED_EXPENSES" ||
+    route === "LEDGER" ||
+    route === "FINANCE_OVERVIEW"
   );
 }
 
@@ -381,6 +467,7 @@ function isDetail(route: HomeRoute): route is HomeDetailRoute {
     route === "SPENDING_DETAIL" ||
     route === "CASHFLOW_DETAIL" ||
     route === "SAFETY_DETAIL" ||
+    route === "SAVINGS_DETAIL" ||
     route === "DEBT_DETAIL"
   );
 }
@@ -478,46 +565,24 @@ function Row({ label, value, testId }: { label: string; value: ReactNode; testId
     </div>
   );
 }
-function V2DashboardLoader({
-  month,
-  load,
-}: {
-  month: string;
-  load: (month: string) => Promise<V2DashboardProps>;
-}) {
-  const [props, setProps] = useState<V2DashboardProps | null>(null);
-  const [error, setError] = useState("");
-  useEffect(() => {
-    let cancelled = false;
-    load(month)
-      .then((next) => {
-        if (!cancelled) setProps(next);
-      })
-      .catch((cause: unknown) => {
-        if (!cancelled) setError(cause instanceof Error ? cause.message : "读取失败，请重试。");
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [load, month]);
-  if (error) return <p role="alert">账本读取失败：{error}</p>;
-  if (!props) return <p role="status">正在读取收支账本…</p>;
-  return <V2Dashboard {...props} />;
-}
 function HomeDetail({
   home,
   route,
+  asOfDate,
+  onApplyHome,
   pendingDebtFactNames,
   onBack,
-  onRoute,
   onCash,
+  onSavings,
 }: {
   home: HomeApplicationState;
   route: HomeDetailRoute;
+  asOfDate: string;
+  onApplyHome: (home: HomeApplicationState) => void;
   pendingDebtFactNames: string[];
   onBack: () => void;
-  onRoute: (route: HomeRoute) => void;
   onCash: () => void;
+  onSavings: () => void;
 }) {
   return (
     <section className="home-page detail-page v2-detail-page">
@@ -529,10 +594,17 @@ function HomeDetail({
       </header>
       <h1 className="detail-title">{detailTitles[route]}</h1>
       {route === "SPENDING_DETAIL" && <SpendingDetail home={home} />}
-      {route === "CASHFLOW_DETAIL" && <CashflowDetail home={home} />}
-      {route === "SAFETY_DETAIL" && <SafetyDetail home={home} onRoute={onRoute} onCash={onCash} />}
+      {route === "CASHFLOW_DETAIL" && <V2CashflowDetail home={home} />}
+      {route === "SAFETY_DETAIL" && <V2SafetyDetail home={home} onOpenCash={onCash} />}
+      {route === "SAVINGS_DETAIL" && <V2SavingsRoomPage home={home} onUpdate={onSavings} />}
       {route === "DEBT_DETAIL" && (
-        <DebtDetail home={home} pendingDebtFactNames={pendingDebtFactNames} />
+        <DebtDetail
+          home={home}
+          asOfDate={asOfDate}
+          services={dashboardServices}
+          onApplyHome={onApplyHome}
+          pendingDebtFactNames={pendingDebtFactNames}
+        />
       )}
     </section>
   );
@@ -544,10 +616,12 @@ function SpendingDetail({ home }: { home: HomeApplicationState }) {
   const recentExpenses = (home.recentExpenses ?? []).filter((expense) => expense.category);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const selected = selectedCategory
-    ? breakdown.find((item) => item.category === selectedCategory)
+    ? breakdown.find((item) => (item.categoryId ?? item.category) === selectedCategory)
     : null;
   const visibleExpenses = selectedCategory
-    ? recentExpenses.filter((expense) => expense.category === selectedCategory)
+    ? recentExpenses.filter(
+        (expense) => (expense.categoryId ?? expense.category) === selectedCategory,
+      )
     : recentExpenses;
   return (
     <section className="detail-panel" aria-labelledby="spending-detail-heading">
@@ -559,8 +633,8 @@ function SpendingDetail({ home }: { home: HomeApplicationState }) {
       />
       {selected && (
         <p className="spending-filter-note">
-          现在看的是：{variableCategoryLabels[selected.category] ?? "其他"}，占本月花销{" "}
-          {selected.share}%，共 {selected.count} 笔。
+          现在看的是：{selected.label ?? variableCategoryLabels[selected.category] ?? "其他"}
+          ，占本月花销 {selected.share}%，共 {selected.count} 笔。
           <button type="button" onClick={() => setSelectedCategory(null)}>
             看全部
           </button>
@@ -573,9 +647,11 @@ function SpendingDetail({ home }: { home: HomeApplicationState }) {
         ) : (
           visibleExpenses.map((expense) => (
             <div className="recent-expense-detail-row" key={expense.id}>
-              <span>{variableCategoryLabels[expense.category] ?? "其他"}</span>
+              <span>
+                {expense.categoryName ?? variableCategoryLabels[expense.category] ?? "其他"}
+              </span>
               <small>{expense.note || expense.businessDate}</small>
-              <strong>¥{formatMoneyExact(expense.amount)}</strong>
+              <strong>{formatCurrency(expense.amount)}</strong>
             </div>
           ))
         )}
@@ -646,7 +722,8 @@ function SpendingPieChart({
             const length = (Number(item.share) / 100) * circumference;
             const currentOffset = offset;
             offset += length;
-            const active = selectedCategory == null || selectedCategory === item.category;
+            const itemKey = item.categoryId ?? item.category;
+            const active = selectedCategory == null || selectedCategory === itemKey;
             return (
               <circle
                 key={item.category}
@@ -680,17 +757,25 @@ function SpendingPieChart({
         ) : (
           breakdown.map((item, index) => (
             <button
-              key={item.category}
+              key={item.categoryId ?? item.category}
               type="button"
-              className={selectedCategory === item.category ? "is-selected" : ""}
-              onClick={() => onSelect(selectedCategory === item.category ? null : item.category)}
+              className={
+                selectedCategory === (item.categoryId ?? item.category) ? "is-selected" : ""
+              }
+              onClick={() =>
+                onSelect(
+                  selectedCategory === (item.categoryId ?? item.category)
+                    ? null
+                    : (item.categoryId ?? item.category),
+                )
+              }
             >
               <i
                 style={{
                   background: variableCategoryColors[index % variableCategoryColors.length],
                 }}
               />
-              <span>{variableCategoryLabels[item.category] ?? "其他"}</span>
+              <span>{item.label ?? variableCategoryLabels[item.category] ?? "其他"}</span>
               <strong>{item.share}%</strong>
             </button>
           ))
@@ -699,217 +784,181 @@ function SpendingPieChart({
     </section>
   );
 }
-function CashflowDetail({ home }: { home: HomeApplicationState }) {
-  return (
-    <section className="detail-panel" aria-labelledby="cashflow-detail-heading">
-      <h2 id="cashflow-detail-heading">这个月够不够用</h2>
-      <Row label="预计进账" value={<MoneyAmount value={home.planningIncome} />} />
-      <Row
-        label={home.baseSurplus.startsWith("-") ? "按计划还差" : "按计划还剩"}
-        value={<MoneyAmount value={home.baseSurplus} />}
-      />
-      <Row
-        label="已经记下的进账"
-        value={
-          home.actualIncomeRecordCount === 0
-            ? "尚未记录"
-            : `已有 ${home.actualIncomeRecordCount} 笔记录`
-        }
-      />
-      <p className="detail-status">{statusCopy[home.spendingStatus]}</p>
-      <p className="detail-note">预计进账和实际到账是两回事，记下收入也不会自动改变手头现金。</p>
-      <details className="detail-technical">
-        <summary>想知道怎么算</summary>
-        <Row
-          label="每月要覆盖的生活和还款"
-          value={<MoneyAmount value={home.monthlyCoreObligations} />}
-        />
-        <Row label="必要生活支出" value={<MoneyAmount value={home.essentialExpenses} />} />
-        <Row label="本月应还" value={<MoneyAmount value={home.mandatoryDebtService} />} />
-        <Row label="本月变化" value={trendCopy[home.trendState] ?? "尚无可用趋势"} />
-        {home.primaryImprovement && (
-          <Row label="改善方向" value={dimensions[home.primaryImprovement]} />
-        )}
-        {home.primaryDrag && <Row label="承压方向" value={dimensions[home.primaryDrag]} />}
-      </details>
-    </section>
-  );
-}
-function SafetyDetail({
-  home,
-  onRoute,
-  onCash,
-}: {
-  home: HomeApplicationState;
-  onRoute: (route: HomeRoute) => void;
-  onCash: () => void;
-}) {
-  const applicable = home.cashSafetyGateStatus !== "NOT_APPLICABLE";
-  const deficit = home.spendingStatus === "STRUCTURAL_DEFICIT";
-  const short = home.cashFloorMet === false;
-  const coverage =
-    home.safetyCoverageMonths != null &&
-    Number.isFinite(Number(home.safetyCoverageMonths)) &&
-    Number(home.safetyCoverageMonths) >= 0;
-  return (
-    <section className="detail-panel" aria-labelledby="safety-detail-heading">
-      <h2 id="safety-detail-heading">安全垫情况</h2>
-      <section
-        className="safety-primary-status"
-        data-testid="safety-primary-status"
-        aria-label="当前安全情况"
-      >
-        <p>
-          {!applicable
-            ? "当前没有需要覆盖的必要支出和还款，安全覆盖月数暂不适用。"
-            : deficit && short
-              ? "可用现金还没有达到你设定的最低安全线；同时，这个月的计划收入也不够支付生活和必须还款。"
-              : deficit
-                ? "应急现金已经达到你的最低要求，但这个月的计划收入还不够支付生活和必须还款。"
-                : short
-                  ? "本月计划收支没有缺口，但可用现金还没有达到你设定的最低安全线。"
-                  : "本月计划收支和最低现金保障均正常。"}
-        </p>
-        <div className="safety-primary-actions">
-          {applicable && deficit && (
-            <button type="button" onClick={() => onRoute("CASHFLOW_DETAIL")}>
-              查看本月收支
-            </button>
-          )}
-          {applicable && short && (
-            <button type="button" onClick={onCash}>
-              查看现金账户
-            </button>
-          )}
-        </div>
-      </section>
-      <Row
-        label="安全垫大约够几个月"
-        value={
-          !coverage
-            ? "暂不可计算"
-            : home.safetyCoverageTargetMonths === 0
-              ? `${months(home.safetyCoverageMonths)} 个月 · 未设目标`
-              : `${months(home.safetyCoverageMonths)} / ${months(home.safetyCoverageTargetMonths)} 个月`
-        }
-      />
-      <Row label="安全垫目标" value={`${months(home.safetyCoverageTargetMonths)} 个月`} />
-      <Row label="离安全垫目标还差" value={<MoneyAmount value={home.safetyGap} />} />
-      <Row
-        label="应急现金大约够几个月"
-        value={
-          home.cashCoverageMonths == null
-            ? "暂不可计算"
-            : `${months(home.cashCoverageMonths)} / ${months(home.minimumCashCoverageMonths)} 个月`
-        }
-      />
-      <Row label="最低现金保障" value={`${months(home.minimumCashCoverageMonths)} 个月`} />
-      <Row label="已经准备好的安全储备" value={<MoneyAmount value={home.safetyResources} />} />
-      {applicable && short && (
-        <p className="cash-warning" role="status">
-          可用现金还没有达到你设定的最低安全线。
-        </p>
-      )}
-      <details className="detail-technical">
-        <summary>为什么 / 计算明细</summary>
-        <Row label="纳入安全储备的现金" value={<MoneyAmount value={home.eligibleCash} />} />
-        <Row
-          label="纳入安全储备的流动投资"
-          value={<MoneyAmount value={home.eligibleLiquidInvestmentAssets} />}
-        />
-        <Row label="安全目标金额" value={<MoneyAmount value={home.safetyTargetResources} />} />
-        <Row
-          label="整体安全状态"
-          value={
-            !applicable
-              ? "整体安全状态暂不适用"
-              : home.cashSafetyGateStatus === "CLEAR"
-                ? "整体安全状态正常"
-                : "整体安全状态受限"
-          }
-        />
-        <Row label="基础收支情况" value={statusCopy[home.spendingStatus]} />
-        <Row
-          label="最低现金保障状态"
-          value={
-            home.cashFloorMet == null
-              ? "现金安全线暂不适用"
-              : home.cashFloorMet
-                ? "现金安全线已达到"
-                : "现金安全线未达标"
-          }
-        />
-        <p className="detail-note">
-          安全垫只统计明确纳入的现金和符合条件的流动投资；最低现金保障只看纳入的现金。
-        </p>
-      </details>
-    </section>
-  );
-}
 function DebtDetail({
   home,
+  asOfDate,
+  services,
+  onApplyHome,
   pendingDebtFactNames,
 }: {
   home: HomeApplicationState;
+  asOfDate: string;
+  services: ProductApplicationServices;
+  onApplyHome: (home: HomeApplicationState) => void;
   pendingDebtFactNames: string[];
 }) {
   const pending = new Set(pendingDebtFactNames);
   const hasPending = pending.size > 0;
+  const [log, setLog] = useState<DebtPaymentRecord[]>([]);
+  const [debtId, setDebtId] = useState("");
+  const [amount, setAmount] = useState("");
+  const [paidOn, setPaidOn] = useState(asOfDate);
+  const [note, setNote] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [feedback, setFeedback] = useState("");
+  const [error, setError] = useState("");
+
+  const loadLog = useCallback(async () => {
+    try {
+      setLog(await services.listDebtPaymentLog());
+    } catch {
+      // The repayment log is supporting detail; a read failure must not hide the page.
+    }
+  }, [services]);
+
+  useEffect(() => {
+    void loadLog();
+  }, [loadLog]);
+
+  const month = asOfDate.slice(0, 7);
+  const monthLog = log.filter((payment) => payment.paidOn.slice(0, 7) === month);
+  const repaidThisMonth = monthLog.reduce((sum, payment) => sum + Number(payment.amount || 0), 0);
+  const repaidByDebt = new Map<string, number>();
+  for (const payment of monthLog) {
+    repaidByDebt.set(
+      payment.debtId,
+      (repaidByDebt.get(payment.debtId) ?? 0) + Number(payment.amount || 0),
+    );
+  }
+
+  async function submitRepayment() {
+    if (!debtId) {
+      setError("先选要还哪一笔。");
+      return;
+    }
+    setBusy(true);
+    setError("");
+    try {
+      const result = await services.recordDebtRepayment({
+        debtId,
+        amount: amount.trim(),
+        paidOn,
+        asOfDate,
+        ...(note.trim() ? { note: note.trim() } : {}),
+      });
+      onApplyHome(result.home);
+      setFeedback(
+        result.reconciliation.balanced
+          ? `记好了，这笔还完后余额是 ${formatCurrency(result.payment.balanceAfter)}。`
+          : "还款已记录，但两本账的余额还不一致，请先核对。",
+      );
+      setAmount("");
+      setNote("");
+      await loadLog();
+    } catch (repayError) {
+      setError(repayError instanceof Error ? repayError.message : "还款记录失败。");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   return (
-    <section className="detail-panel" aria-labelledby="debt-detail-heading">
-      <h2 id="debt-detail-heading">债务与本月还款</h2>
-      <Row
-        label="总共还欠多少"
-        value={hasPending ? "本月余额待确认" : <MoneyAmount value={home.totalDebt} />}
-      />
-      <Row
-        label="这个月需要还多少"
-        value={hasPending ? "本月事实待确认" : <MoneyAmount value={home.mandatoryDebtService} />}
-      />
-      {hasPending && (
-        <p className="finance-state-card" role="status">
-          {pendingDebtFactNames.join("、")}{" "}
-          的本月事实还未全部确认，确认前不显示债务总额和本月应还总额。
-        </p>
-      )}
-      <div className="debt-detail-list">
-        {home.debts.length === 0 ? (
-          <p>当前没有债务记录。</p>
-        ) : (
-          home.debts.map((debt) => (
-            <article className="debt-detail-row" key={debt.id}>
-              <div className="debt-detail-title">
-                <h3>{debt.name}</h3>
-                {pending.has(debt.name) ? (
-                  "本月余额待确认"
-                ) : (
-                  <MoneyAmount value={debt.currentBalance} />
-                )}
-              </div>
-              <p>
-                {pending.has(debt.name) ? (
-                  "本月应还待确认"
-                ) : (
-                  <>
-                    本月计划计入 <MoneyAmount value={debt.countedMonthlyPayment} />
-                  </>
-                )}
-              </p>
-            </article>
-          ))
+    <V2RepaymentDetail
+      home={home}
+      repaidThisMonth={repaidThisMonth}
+      repaidByDebt={repaidByDebt}
+      pendingNames={pendingDebtFactNames}
+    >
+      <section className="detail-panel debt-repay-panel" aria-labelledby="debt-repay-heading">
+        <h2 id="debt-repay-heading">记一笔还款</h2>
+        <p className="detail-note">还了钱就记一笔，余额会自动扣减，流水可以随时查。</p>
+        <label>
+          还哪一笔
+          <select
+            value={debtId}
+            onChange={(event) => {
+              const next = event.target.value;
+              setDebtId(next);
+              const debt = home.debts.find((item) => item.id === next);
+              if (debt) setAmount(debt.countedMonthlyPayment ?? "");
+            }}
+          >
+            <option value="">请选择</option>
+            {home.debts
+              .filter((debt) => !pending.has(debt.name))
+              .map((debt) => (
+                <option key={debt.id} value={debt.id}>
+                  {debt.name}
+                </option>
+              ))}
+          </select>
+        </label>
+        <label>
+          还了多少
+          <input
+            inputMode="decimal"
+            value={amount}
+            onChange={(event) => setAmount(event.target.value)}
+            placeholder="0.00"
+          />
+        </label>
+        <div className="v2-sheet-date">
+          <span>还款日期</span>
+          <V2CalendarPicker value={paidOn} onChange={setPaidOn} label="还款日期" disabled={busy} />
+        </div>
+        <label>
+          备注（选填）
+          <input value={note} onChange={(event) => setNote(event.target.value)} />
+        </label>
+        <button
+          type="button"
+          className="button button-primary"
+          disabled={busy || hasPending}
+          onClick={() => void submitRepayment()}
+        >
+          记下这笔还款
+        </button>
+        {feedback && (
+          <p className="v2-feedback-inline" role="status">
+            {feedback}
+          </p>
         )}
-      </div>
+        {error && (
+          <p className="form-error" role="alert">
+            {error}
+          </p>
+        )}
+      </section>
+
+      <section className="detail-panel" aria-labelledby="debt-log-heading">
+        <h2 id="debt-log-heading">还款记录</h2>
+        {log.length === 0 ? (
+          <p>还没有还款记录。</p>
+        ) : (
+          <ul className="v2-plain-list">
+            {log.slice(0, 20).map((payment) => (
+              <li key={payment.id}>
+                <span>
+                  <strong>{payment.debtName}</strong>
+                  <small>
+                    {payment.paidOn}
+                    {payment.note ? ` · ${payment.note}` : ""}
+                  </small>
+                </span>
+                <span>{formatCurrency(payment.amount)}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
       <details className="detail-technical">
         <summary>为什么 / 计算明细</summary>
         <p>
-          有本月应还金额时按该金额计入；没有本月应还时才使用固定月供。两者不会相加。这里显示的是计划计入金额，不代表已经还款。
+          计划计入 = 本月计划要还的金额（有本月应还时用本月应还，没有时才用固定月供，两者不相加）。
+          实还 = 你实际记下的还款。余额会随实还扣减，两者分开显示，不会互相覆盖。
         </p>
       </details>
-    </section>
+    </V2RepaymentDetail>
   );
-}
-function months(value: string | number | null | undefined) {
-  return value == null || !Number.isFinite(Number(value))
-    ? "暂无"
-    : formatMoneyExact(String(value));
 }

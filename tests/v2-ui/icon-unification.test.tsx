@@ -15,6 +15,7 @@ const home: HomeApplicationState = {
   actualIncomeRecordCount: 0,
   currentCash: "5000",
   currentMonthSpending: "125.50",
+  currentMonthVariableExpenseCount: 1,
   totalDebt: "800",
   liquidAssets: "1500",
   desiredMonthlyDiscretionarySpending: "1600",

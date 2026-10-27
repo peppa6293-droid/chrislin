@@ -7,6 +7,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import type { FinancialMaintenanceState } from "../src/application/financial-maintenance-service.js";
 import type { HomeApplicationState } from "../src/application/product-service.js";
 import { HomeScreen } from "../src/ui/HomeScreen.js";
+import { MONTH_ROTATION_LINES, pickDailyLine } from "../src/ui/v2-month-copy.js";
 
 const home: HomeApplicationState = {
   status: "READY",
@@ -16,6 +17,7 @@ const home: HomeApplicationState = {
   actualIncomeRecordCount: 0,
   currentCash: "5000",
   currentMonthSpending: "125.50",
+  currentMonthVariableExpenseCount: 2,
   totalDebt: "800",
   liquidAssets: "1500",
   desiredMonthlyDiscretionarySpending: "1600",
@@ -64,7 +66,10 @@ const home: HomeApplicationState = {
   recentExpenses: [],
 };
 
-function renderHome(overrides: Partial<HomeApplicationState> = {}) {
+function renderHome(
+  overrides: Partial<HomeApplicationState> = {},
+  props: { pendingDebtFactNames?: string[]; asOfDate?: string } = {},
+) {
   const onRecordExpense = vi.fn().mockResolvedValue({
     status: "CONFIRMED",
     writeSignal: "RESOLVED",
@@ -81,7 +86,8 @@ function renderHome(overrides: Partial<HomeApplicationState> = {}) {
   render(
     <HomeScreen
       home={{ ...home, ...overrides }}
-      asOfDate="2026-10-14"
+      asOfDate={props.asOfDate ?? "2026-10-14"}
+      pendingDebtFactNames={props.pendingDebtFactNames}
       onRecordExpense={onRecordExpense}
       onLoadFinancialMaintenance={async () => ({
         stableMonthlyIncome: "13000",
@@ -137,8 +143,8 @@ describe("V2 product surface", () => {
   it("shows the single daily task and the four progress dimensions", () => {
     renderHome();
     expect(screen.getByTestId("v2-home")).toBeTruthy();
-    expect(screen.getByRole("heading", { name: "长期看，每个月能留下一点" })).toBeTruthy();
-    expect(screen.getByRole("heading", { name: "这个月的花销还在目标里" })).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "账单：不是，他怎么还剩钱？" })).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "支付软件：你是不是把我卸了？" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "记一笔", exact: true })).toBeTruthy();
     expect(document.querySelectorAll(".v2-today-page .button-primary")).toHaveLength(1);
     expect(screen.getByRole("heading", { name: "你好，小钱" })).toBeTruthy();
@@ -323,7 +329,7 @@ describe("V2 product surface", () => {
       cashSafetyGateStatus: "NOT_APPLICABLE",
       cashFloorMet: null,
     });
-    expect(screen.getByRole("heading", { name: "这个月的花销还在目标里" })).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "支付软件：你是不是把我卸了？" })).toBeTruthy();
     await user.click(screen.getByRole("button", { name: "记一笔", exact: true }));
     await user.keyboard("{Escape}");
     expect(screen.queryByRole("dialog")).toBeNull();
@@ -351,7 +357,7 @@ describe("V2 product surface", () => {
       "page",
     );
     await user.click(screen.getByRole("button", { name: "今天" }));
-    expect(screen.getByRole("heading", { name: "这个月的花销还在目标里" })).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "支付软件：你是不是把我卸了？" })).toBeTruthy();
   });
 
   it("opens a path when its content is clicked, not only its chevron", async () => {
@@ -581,5 +587,234 @@ describe("V2 product surface", () => {
     expect(screen.getByText("吃饭")).toBeTruthy();
     // A September expense marker must NOT appear since product-service filters by currentMonth
     expect(screen.queryByText("sep-old-expense-marker")).toBeNull();
+  });
+});
+
+describe("WP-UI-COPY-01 structure and month copy", () => {
+  afterEach(() => cleanup());
+
+  const structureCard = () =>
+    document.querySelector<HTMLElement>(".v2-structure-card") as HTMLElement;
+  const monthCard = () => document.querySelector<HTMLElement>(".v2-month-card") as HTMLElement;
+
+  it("S1 default fixture shows the steady structure band and a full income bar", () => {
+    renderHome();
+    const card = structureCard();
+    expect(within(card).getByRole("heading", { name: "账单：不是，他怎么还剩钱？" })).toBeTruthy();
+    expect(card.querySelector(".v2-structure-bar")).toBeTruthy();
+    const income = card.querySelector<HTMLElement>(".v2-structure-bar__fill.is-income");
+    expect(income?.style.width).toBe("100%");
+  });
+
+  it("S2 7.7% surplus shows the tight structure band", () => {
+    renderHome({ baseSurplus: "1000" });
+    expect(
+      within(structureCard()).getByRole("heading", { name: "钱包：还活着，先别开香槟。" }),
+    ).toBeTruthy();
+  });
+
+  it("S3 exactly zero surplus shows the even band and is-even tone", () => {
+    renderHome({ baseSurplus: "0" });
+    const card = structureCard();
+    expect(within(card).getByRole("heading", { name: "工资：来过，爱过，没留过。" })).toBeTruthy();
+    expect(card.classList.contains("is-even")).toBe(true);
+  });
+
+  it("S4 a mild deficit shows the mild band and over card tone", () => {
+    renderHome({ baseSurplus: "-500" });
+    const card = structureCard();
+    expect(
+      within(card).getByRole("heading", { name: "工资：你们分赃怎么不带我商量？" }),
+    ).toBeTruthy();
+    expect(card.classList.contains("v2-card--over")).toBe(true);
+  });
+
+  it("S5 a deep deficit shows the deep band", () => {
+    renderHome({ baseSurplus: "-2000" });
+    expect(
+      within(structureCard()).getByRole("heading", { name: "收入：我一个人打五个？" }),
+    ).toBeTruthy();
+  });
+
+  it("S6a exactly 20% stays in the steady band", () => {
+    renderHome({ baseSurplus: "2600" });
+    expect(
+      within(structureCard()).getByRole("heading", { name: "账单：不是，他怎么还剩钱？" }),
+    ).toBeTruthy();
+  });
+
+  it("S6b exactly -10% is the deep band", () => {
+    renderHome({ baseSurplus: "-1300" });
+    expect(
+      within(structureCard()).getByRole("heading", { name: "收入：我一个人打五个？" }),
+    ).toBeTruthy();
+  });
+
+  it("S7 zero income with burden shows true amounts and no compare bar", () => {
+    renderHome({
+      planningIncome: "0",
+      essentialExpenses: "3528",
+      mandatoryDebtService: "800",
+      baseSurplus: "-4328",
+    });
+    const card = structureCard();
+    expect(
+      within(card).getByRole("heading", { name: "收入：暂未出场。账单：戏份拉满。" }),
+    ).toBeTruthy();
+    expect(card.querySelector(".v2-structure-bar")).toBeNull();
+    expect(card.textContent).toContain("-¥4,328.00");
+  });
+
+  it("S8 zero income and zero burden shows the all-zero band and three dots", () => {
+    renderHome({
+      planningIncome: "0",
+      essentialExpenses: "0",
+      mandatoryDebtService: "0",
+      baseSurplus: "0",
+    });
+    const card = structureCard();
+    expect(
+      within(card).getByRole("heading", { name: "收入：你不来？账单：那我也不来了。" }),
+    ).toBeTruthy();
+    expect(card.querySelector(".v2-structure-bar")).toBeNull();
+    expect(card.querySelectorAll(".v2-dot")).toHaveLength(3);
+  });
+
+  it("S9 pending debt facts hide snapshot amounts and compare bar", () => {
+    renderHome({}, { pendingDebtFactNames: ["房贷"] });
+    const card = structureCard();
+    expect(within(card).getByRole("heading", { name: "资料不齐，花点时间补一下" })).toBeTruthy();
+    expect(card.textContent).not.toContain("¥8,672.00");
+    expect(card.textContent).not.toContain("¥13,000.00");
+    expect(card.querySelectorAll(".v2-dot")).toHaveLength(0);
+    expect(card.querySelector(".v2-structure-bar")).toBeNull();
+    expect(within(card).getByRole("button", { name: "查看债务" })).toBeTruthy();
+  });
+
+  it("S10 burden over income shows the overhang and tick at the income width", () => {
+    renderHome({
+      planningIncome: "3000",
+      essentialExpenses: "3528",
+      mandatoryDebtService: "800",
+      baseSurplus: "-1328",
+    });
+    const card = structureCard();
+    expect(card.querySelector(".v2-structure-bar__overhang")).toBeTruthy();
+    expect(card.querySelector(".v2-structure-bar__tick")).toBeTruthy();
+    const income = card.querySelector<HTMLElement>(".v2-structure-bar__fill.is-income");
+    const width = Number.parseFloat(income?.style.width ?? "");
+    expect(width).toBeGreaterThanOrEqual(69.21);
+    expect(width).toBeLessThanOrEqual(69.41);
+  });
+
+  it("M1 empty month shows the deterministic daily line and the empty state", () => {
+    renderHome({ currentMonthSpending: "0", currentMonthVariableExpenseCount: 0 });
+    const card = monthCard();
+    const line = pickDailyLine("2026-10-14");
+    expect(within(card).getByRole("heading", { name: line })).toBeTruthy();
+    expect(card.querySelector(".v2-month-empty svg")?.getAttribute("width")).toBe("40");
+    expect(card.querySelector(".v2-month-empty__bar")).toBeTruthy();
+    expect(within(card).queryByRole("progressbar")).toBeNull();
+    expect(
+      within(card).getByRole("button", { name: "记第一笔" }).classList.contains("v2-btn--primary"),
+    ).toBe(true);
+    expect(pickDailyLine("2026-10-14")).toBe(line);
+  });
+
+  it("M2 the next day rotates to the next daily line", () => {
+    const line14 = pickDailyLine("2026-10-14");
+    const lines: readonly string[] = MONTH_ROTATION_LINES;
+    const index = lines.indexOf(line14);
+    expect(index).toBeGreaterThanOrEqual(0);
+    const next = lines[(index + 1) % lines.length] ?? lines[0];
+    expect(pickDailyLine("2026-10-15")).toBe(next);
+    expect(next).not.toBe(line14);
+    renderHome(
+      {
+        currentMonthSpending: "0",
+        currentMonthVariableExpenseCount: 0,
+        asOfDate: "2026-10-15",
+      },
+      { asOfDate: "2026-10-15" },
+    );
+    expect(within(monthCard()).getByRole("heading", { name: next })).toBeTruthy();
+  });
+
+  it("M3 records with zero spending use the fixed future-record state", () => {
+    renderHome({ currentMonthSpending: "0", currentMonthVariableExpenseCount: 2 });
+    const card = monthCard();
+    expect(within(card).getByRole("heading", { name: "本月还没有已发生的消费。" })).toBeTruthy();
+    expect(MONTH_ROTATION_LINES as readonly string[]).not.toContain("本月还没有已发生的消费。");
+    expect(within(card).getByRole("progressbar").getAttribute("aria-valuenow")).toBe("0");
+    expect(within(card).getByText("剩余 ¥1,600.00")).toBeTruthy();
+  });
+
+  it("M4 the five spend bands use their approved copy and tones", () => {
+    const cases = [
+      ["100", "支付软件：你是不是把我卸了？", null],
+      ["700", "钱包：目前还没申请工伤。", null],
+      ["1200", "预算：我感觉有人在试探我的底线。", null],
+      ["1500", "预算：现在撤回付款还来得及吗？", "v2-progress--warn"],
+      ["1700", "预算：我先走一步，剩下你俩聊。", "v2-progress--over"],
+    ] as const;
+    for (const [spending, title, tone] of cases) {
+      cleanup();
+      renderHome({ currentMonthSpending: spending, currentMonthVariableExpenseCount: 1 });
+      const card = monthCard();
+      expect(within(card).getByRole("heading", { name: title })).toBeTruthy();
+      const bar = within(card).getByRole("progressbar");
+      if (tone != null) expect(bar.classList.contains(tone)).toBe(true);
+      if (tone === "v2-progress--over") {
+        expect(bar.getAttribute("aria-valuemax")).toBe("120");
+        expect(within(card).getByText("已超出 ¥100.00")).toBeTruthy();
+      }
+    }
+  });
+
+  it("M5 target boundaries place 1599 and 1600 in edge and 1600.01 in over", () => {
+    const cases = [
+      ["1599", "预算：现在撤回付款还来得及吗？", false],
+      ["1600", "预算：现在撤回付款还来得及吗？", false],
+      ["1600.01", "预算：我先走一步，剩下你俩聊。", true],
+    ] as const;
+    for (const [spending, title, over] of cases) {
+      cleanup();
+      renderHome({ currentMonthSpending: spending, currentMonthVariableExpenseCount: 1 });
+      const card = monthCard();
+      expect(within(card).getByRole("heading", { name: title })).toBeTruthy();
+      expect(within(card).getByRole("progressbar").classList.contains("v2-progress--over")).toBe(
+        over,
+      );
+    }
+  });
+
+  it("M6 no target shows the target dash without progress or setup copy", () => {
+    renderHome({
+      desiredMonthlyDiscretionarySpending: null,
+      currentMonthSpending: "100",
+      currentMonthVariableExpenseCount: 1,
+    });
+    const card = monthCard();
+    expect(within(card).queryByRole("progressbar")).toBeNull();
+    expect(within(card).getByText("目标 —")).toBeTruthy();
+    expect(within(card).queryByText("尚未设置")).toBeNull();
+    expect(within(card).queryByText("定个目标")).toBeNull();
+    expect(within(card).getByRole("button", { name: "查看本月记录" })).toBeTruthy();
+  });
+
+  it("M7 the default fixture has no legacy danger badge or legacy monthly copy", () => {
+    renderHome();
+    const card = monthCard();
+    expect(document.querySelector(".v2-badge--danger")).toBeNull();
+    for (const text of [
+      "这个月还没开始记录",
+      "这个月的花销还在目标里",
+      "这个月已经超过目标",
+      "快到目标了",
+      "先给这个月定个目标",
+      "在财务管理里设置目标",
+    ]) {
+      expect(within(card).queryByText(text)).toBeNull();
+    }
   });
 });

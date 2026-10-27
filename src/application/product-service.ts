@@ -56,6 +56,8 @@ export interface HomeApplicationState {
   actualIncomeRecordCount: number;
   currentCash: string;
   currentMonthSpending: string;
+  /** 本月全部可变支出记录数（按 businessDate 的月份统计，不用 asOfDate 截断）。 */
+  currentMonthVariableExpenseCount: number;
   totalDebt: string;
   liquidAssets: string;
   desiredMonthlyDiscretionarySpending: string | null;
@@ -103,6 +105,10 @@ export interface HomeApplicationState {
       ExpenseCategory,
       "FOOD" | "TRANSPORT" | "SHOPPING" | "ENTERTAINMENT" | "HOUSEHOLD" | "OTHER_VARIABLE"
     >;
+    /** V2 category identity; display layer prefers it over the flattened V1 value. */
+    categoryId?: string;
+    categoryName?: string;
+    categoryColor?: string;
     note?: string;
   }>;
   spendingBreakdown: Array<{
@@ -110,6 +116,9 @@ export interface HomeApplicationState {
       ExpenseCategory,
       "FOOD" | "TRANSPORT" | "SHOPPING" | "ENTERTAINMENT" | "HOUSEHOLD" | "OTHER_VARIABLE"
     >;
+    /** V2 category id/name; display layer prefers them over the flattened V1 value. */
+    categoryId?: string;
+    label?: string;
     amount: string;
     share: string;
     count: number;
@@ -413,6 +422,10 @@ async function homeFromDatabase(db: SqlDatabase, asOfDate: string): Promise<Home
     actualIncomeRecordCount: built.input.facts.actualIncomeRecords.length,
     currentCash: cash.reduce((total, row) => total.plus(money(row.balance)), money(0)).toString(),
     currentMonthSpending: model.spending.actualVariableSpending.toString(),
+    currentMonthVariableExpenseCount: built.input.facts.expenses.filter(
+      (expense) =>
+        expense.kind === "VARIABLE" && expense.businessDate.slice(0, 7) === asOfDate.slice(0, 7),
+    ).length,
     totalDebt: model.debt.totalDebtBalance.toString(),
     liquidAssets: assets
       .filter((asset) => asset.kind === "LIQUID_INVESTMENT")
@@ -468,20 +481,113 @@ async function homeFromDatabase(db: SqlDatabase, asOfDate: string): Promise<Home
     primaryImprovement: model.trend.result.primaryImprovement,
     primaryDrag: model.trend.result.primaryDrag,
     priorityAction: model.priorityAction,
-    recentExpenses: (await repositories.listRecentExpenses(3, asOfDate.slice(0, 7))).map(
-      (expense) => ({
+    recentExpenses: await recentExpensesForDisplay(repositories, built.input.profile.id, asOfDate),
+    spendingBreakdown: await buildSpendingBreakdownFromV2(
+      repositories,
+      built.input.profile.id,
+      built.input.facts.expenses,
+      asOfDate.slice(0, 7),
+    ),
+  };
+}
+
+type LegacyCategory = Extract<
+  ExpenseCategory,
+  "FOOD" | "TRANSPORT" | "SHOPPING" | "ENTERTAINMENT" | "HOUSEHOLD" | "OTHER_VARIABLE"
+>;
+
+/**
+ * Display-layer category read for the home surface.
+ *
+ * Root cause A of the "everything is 其他" complaint: the D-01 mirror pins
+ * `category='OTHER_VARIABLE'`, so reading the V1 ledger loses the real V2
+ * category. The mirror is contract-frozen; the display reads V2 instead.
+ */
+async function recentExpensesForDisplay(
+  repositories: Repositories,
+  profileId: string,
+  asOfDate: string,
+): Promise<NonNullable<HomeApplicationState["recentExpenses"]>> {
+  const month = asOfDate.slice(0, 7);
+  const [hasV2Expenses, hasCategories] = await Promise.all([
+    repositories.hasTable("expenses"),
+    repositories.hasTable("expense_categories"),
+  ]);
+  const categories = hasCategories ? await repositories.listExpenseCategories(profileId) : [];
+  const v2Expenses = hasV2Expenses ? await repositories.listV2Expenses(profileId, month) : [];
+  const categoryById = new Map(categories.map((category) => [category.id, category]));
+  const v2Recent = v2Expenses
+    .filter((expense) => expense.kind === "CASH_DEBIT")
+    .slice(-3)
+    .reverse();
+  if (v2Recent.length > 0) {
+    return v2Recent.map((expense) => {
+      const category = categoryById.get(expense.categoryId);
+      return {
         id: expense.id,
         amount: String(expense.amount),
-        businessDate: expense.businessDate,
-        category: expense.category as Extract<
-          ExpenseCategory,
-          "FOOD" | "TRANSPORT" | "SHOPPING" | "ENTERTAINMENT" | "HOUSEHOLD" | "OTHER_VARIABLE"
-        >,
-        ...(expense.note === undefined ? {} : { note: expense.note }),
-      }),
-    ),
-    spendingBreakdown: buildSpendingBreakdown(built.input.facts.expenses, asOfDate.slice(0, 7)),
-  };
+        businessDate: expense.occurredOn,
+        category: "OTHER_VARIABLE" as LegacyCategory,
+        categoryId: expense.categoryId,
+        ...(category === undefined
+          ? {}
+          : { categoryName: category.name, categoryColor: category.color }),
+        ...(expense.description ? { note: expense.description } : {}),
+      };
+    });
+  }
+  // Legacy-only databases (and unit fixtures) fall back to V1 rows; essential
+  // payment records are excluded so they never look like variable spending.
+  return (await repositories.listRecentExpenses(3, month))
+    .filter((expense) => expense.kind === "VARIABLE")
+    .map((expense) => ({
+      id: expense.id,
+      amount: String(expense.amount),
+      businessDate: expense.businessDate,
+      category: expense.category as LegacyCategory,
+      ...(expense.note === undefined ? {} : { note: expense.note }),
+    }));
+}
+
+async function buildSpendingBreakdownFromV2(
+  repositories: Repositories,
+  profileId: string,
+  legacyExpenses: ExpenseRecord[],
+  month: string,
+): Promise<HomeApplicationState["spendingBreakdown"]> {
+  const [hasV2Expenses, hasCategories] = await Promise.all([
+    repositories.hasTable("expenses"),
+    repositories.hasTable("expense_categories"),
+  ]);
+  const categories = hasCategories ? await repositories.listExpenseCategories(profileId) : [];
+  const v2Expenses = hasV2Expenses ? await repositories.listV2Expenses(profileId, month) : [];
+  if (v2Expenses.length > 0) {
+    const categoryById = new Map(categories.map((category) => [category.id, category]));
+    const grouped = new Map<string, { amount: ReturnType<typeof money>; count: number }>();
+    for (const expense of v2Expenses) {
+      if (expense.kind !== "CASH_DEBIT") continue;
+      const existing = grouped.get(expense.categoryId) ?? { amount: money(0), count: 0 };
+      existing.amount = existing.amount.plus(money(String(expense.amount)));
+      existing.count += 1;
+      grouped.set(expense.categoryId, existing);
+    }
+    const total = [...grouped.values()].reduce((sum, item) => sum.plus(item.amount), money(0));
+    if (total.isZero()) return [];
+    return [...grouped.entries()]
+      .map(([categoryId, item]) => {
+        const category = categoryById.get(categoryId);
+        return {
+          category: "OTHER_VARIABLE" as LegacyCategory,
+          categoryId,
+          label: category?.name ?? "未分类",
+          amount: item.amount.toString(),
+          share: item.amount.div(total).mul(100).toDecimalPlaces(1).toString(),
+          count: item.count,
+        };
+      })
+      .sort((a, b) => Number(b.amount) - Number(a.amount));
+  }
+  return buildSpendingBreakdown(legacyExpenses, month);
 }
 
 function buildSpendingBreakdown(

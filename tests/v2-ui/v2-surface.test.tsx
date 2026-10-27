@@ -33,6 +33,7 @@ const minimalHome: HomeApplicationState = {
   actualIncomeRecordCount: 0,
   currentCash: "5000",
   currentMonthSpending: "0",
+  currentMonthVariableExpenseCount: 0,
   totalDebt: "2000",
   liquidAssets: "1000",
   desiredMonthlyDiscretionarySpending: "2000",

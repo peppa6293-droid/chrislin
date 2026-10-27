@@ -20,6 +20,7 @@ import type { LedgerExpenseRow } from "../application/ux-ledger-service.js";
 import { assertUserInputMoney, formatMoneyExact, money } from "../model/money.js";
 import type { ExpenseCategory, ExpenseRecord } from "../model/types.js";
 import brandLogo from "./assets/finance/brand-wallet-sprout.svg";
+import type { CardStatus } from "./card-status.js";
 import { localIsoDate } from "./DateField.js";
 import { MoneyAmount } from "./MoneyAmount.js";
 import type { MyFinanceRoute } from "./MyFinancePages.js";
@@ -67,6 +68,7 @@ type V2HomeSurfaceProps = {
   home: HomeApplicationState;
   asOfDate: string;
   pendingDebtFactNames?: string[];
+  cardsStatus?: CardStatus;
   recentExpenses?: ExpenseActivity[];
   wp03PreviewDateControl?: ReactNode;
   selectedTab: SurfaceTab;
@@ -129,6 +131,7 @@ export function V2HomeSurface({
   home,
   asOfDate,
   pendingDebtFactNames = [],
+  cardsStatus = "ready",
   recentExpenses = [],
   wp03PreviewDateControl = null,
   selectedTab,
@@ -368,6 +371,7 @@ export function V2HomeSurface({
               completed={completed}
               safetyProgress={safetyProgress}
               pendingDebtFactNames={pendingDebtFactNames}
+              cardsStatus={cardsStatus}
               recentExpenses={recentExpenses}
               savedExpenseId={savedExpenseId}
               activeMotion={activeMotion}
@@ -467,6 +471,7 @@ function TodayPanel({
   completed,
   safetyProgress,
   pendingDebtFactNames,
+  cardsStatus,
   recentExpenses,
   savedExpenseId,
   activeMotion,
@@ -485,6 +490,7 @@ function TodayPanel({
   completed: boolean;
   safetyProgress: number | null;
   pendingDebtFactNames: string[];
+  cardsStatus: CardStatus;
   recentExpenses: ExpenseActivity[];
   savedExpenseId: string | null;
   activeMotion: ConfirmedMotion | null;
@@ -550,6 +556,7 @@ function TodayPanel({
         <V2StructureCard
           home={home}
           pendingDebtFactNames={pendingDebtFactNames}
+          status={cardsStatus}
           onOpenFixedExpenses={onOpenFixedExpenses}
           onOpenDebt={() => onOpenDetail("DEBT_DETAIL")}
           onOpenCashflow={() => onOpenDetail("CASHFLOW_DETAIL")}
@@ -558,6 +565,7 @@ function TodayPanel({
         <V2MonthlySpendCard
           home={home}
           savedExpenseId={savedExpenseId}
+          status={cardsStatus}
           onOpenDetail={() => onOpenDetail("SPENDING_DETAIL")}
           onOpenLedger={onOpenLedger}
           onOpenExpense={onOpenExpense}

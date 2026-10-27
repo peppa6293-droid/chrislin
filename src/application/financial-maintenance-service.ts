@@ -207,7 +207,9 @@ async function buildMaintenanceModelInput(db: SqlDatabase, asOfDate: string): Pr
         ...(currentMonthDue === undefined ? {} : { currentMonthDue }),
         ...(fixedMonthlyPayment === undefined ? {} : { fixedMonthlyPayment }),
       })),
-      expenses,
+      // Same boundary rule as buildMonthlyModelInput: zero-amount ledger rows
+      // are not spending events and must not reach the frozen Model Core.
+      expenses: expenses.filter((expense) => money(expense.amount).gt(0)),
       previousSnapshot: null,
     },
   };

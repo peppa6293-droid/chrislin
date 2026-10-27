@@ -24,7 +24,7 @@ export function V2ProgressBar({
       aria-valuenow={Math.round(clamped)}
       aria-valuemin={0}
       aria-valuemax={Math.round(max)}
-      aria-valuetext={`${Math.round(value)}%`}
+      aria-valuetext={`${Math.round(Math.max(0, value))}%`}
     >
       <span className="v2-progress__fill" style={{ width: `${clamped}%` }} />
       {showEnd && clamped > 0 && (

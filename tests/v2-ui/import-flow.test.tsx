@@ -104,8 +104,8 @@ describe("EXEC-U-06 CSV import flow", () => {
     expect(screen.getAllByRole("listitem")).toHaveLength(2);
     expect(screen.getByText("2026-10-01")).toBeTruthy();
     expect(screen.getByText("2026-10-02")).toBeTruthy();
-    expect(screen.getByText("35.00")).toBeTruthy();
-    expect(screen.getByText("12.50")).toBeTruthy();
+    expect(screen.getByText("¥35.00")).toBeTruthy();
+    expect(screen.getByText("¥12.50")).toBeTruthy();
     expect(screen.getAllByText("可导入")).toHaveLength(2);
     expect(screen.getByRole("button", { name: "确认导入" }).disabled).toBe(false);
   });
@@ -126,6 +126,48 @@ describe("EXEC-U-06 CSV import flow", () => {
     expect(expenses.every((expense) => expense.kind === "CASH_DEBIT")).toBe(true);
     expect((expenses[0] as { accountId: string }).accountId).toBe("cash-1");
     expect((expenses[1] as { accountId: string }).accountId).toBe("cash-1");
+  });
+
+  it("suggests categories with local rules and flags only the rows it is unsure about", async () => {
+    renderImport();
+    await uploadAlipay();
+    expect((await screen.findByRole("status")).textContent).toContain(
+      "其中 1 条已按本地规则分好，1 条等你确认",
+    );
+    const [first, second] = screen.getAllByRole("combobox", { name: /第 \d+ 条的分类/ });
+    expect((first as HTMLSelectElement).value).toBe("cat-food");
+    expect((second as HTMLSelectElement).value).toBe("cat-food");
+    expect(screen.getByText(/按「餐」建议 · 95%/)).toBeTruthy();
+    expect(screen.getByText("没匹配到规则，先用默认分类")).toBeTruthy();
+  });
+
+  it("writes the category chosen on an individual row", async () => {
+    await repositories.createExpenseCategory({
+      id: "cat-transport",
+      profileId: "profile-v2",
+      name: "交通",
+      icon: "Bus",
+      color: "#457B9D",
+      monthlyBudget: null,
+      overspendingAlert: false,
+      savingsRelated: false,
+      adjustable: true,
+      builtin: true,
+    });
+    renderImport();
+    await uploadAlipay();
+    const second = (await screen.findAllByRole("combobox", { name: /第 \d+ 条的分类/ }))[1];
+    await userEvent.selectOptions(second as HTMLSelectElement, "cat-transport");
+    expect(screen.getByText("已按你的选择")).toBeTruthy();
+    await userEvent.click(screen.getByRole("button", { name: "确认导入" }));
+    await screen.findByText("已写入 2 条，跳过 0 条，失败 0 条");
+    const expenses = await repositories.listV2Expenses("profile-v2", "2026-10");
+    expect(
+      expenses.map((expense) => [expense.amount, expense.occurredOn, expense.categoryId]),
+    ).toEqual([
+      ["35.00", "2026-10-01", "cat-food"],
+      ["12.50", "2026-10-02", "cat-transport"],
+    ]);
   });
 
   it("deduplicates an identical second import completely", async () => {

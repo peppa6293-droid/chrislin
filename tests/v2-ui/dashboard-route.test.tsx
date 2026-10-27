@@ -45,6 +45,7 @@ const home: HomeApplicationState = {
   actualIncomeRecordCount: 0,
   currentCash: "5325.93",
   currentMonthSpending: "0",
+  currentMonthVariableExpenseCount: 0,
   totalDebt: "0",
   liquidAssets: "20000",
   desiredMonthlyDiscretionarySpending: "1600",
@@ -207,18 +208,18 @@ describe("U-14 dashboard route wiring", () => {
 
     // Route entry: navigate from the production home surface into 我的财务.
     await user.click(screen.getByRole("button", { name: "我的财务" }));
-    const entry = await screen.findByText("收支账本");
+    const entry = await screen.findByRole("button", { name: /财务概览/ });
     expect(entry).toBeTruthy();
 
-    // Expanding the fixed entry renders the dashboard with real service data.
+    // Opening the second-level overview renders the dashboard with real service data.
     await user.click(entry);
     await waitFor(() =>
       expect(document.querySelector('[data-testid="v2-dashboard"]')).toBeTruthy(),
     );
     const dashboard = within(document.querySelector('[data-testid="v2-dashboard"]') as HTMLElement);
-    expect(dashboard.getByText("13791.25")).toBeTruthy();
-    expect(dashboard.getByText("经常性收入 12791.25")).toBeTruthy();
-    expect(dashboard.getByText("5325.93")).toBeTruthy();
+    expect(dashboard.getByText("¥13,791.25")).toBeTruthy();
+    expect(dashboard.getByText("经常性收入 ¥12,791.25")).toBeTruthy();
+    expect(dashboard.getByText("¥5,325.93")).toBeTruthy();
     expect(dashboard.getByTestId("income-one-time-badge").textContent).toBe("含一次性收入");
   });
 
@@ -237,7 +238,7 @@ describe("U-14 dashboard route wiring", () => {
       />,
     );
     await user.click(screen.getByRole("button", { name: "我的财务" }));
-    await user.click(await screen.findByText("收支账本"));
+    await user.click(await screen.findByRole("button", { name: /财务概览/ }));
     await waitFor(() =>
       expect(vi.mocked(dashboardServices.getV2DashboardProps).mock.calls[0]?.[0]).toBe("2026-09"),
     );
@@ -278,9 +279,9 @@ describe("U-14 dashboard route wiring", () => {
       />,
     );
     await user.click(screen.getByRole("button", { name: "我的财务" }));
-    await user.click(await screen.findByText("收支账本"));
+    await user.click(await screen.findByRole("button", { name: /财务概览/ }));
     await waitFor(() => expect(screen.getByTestId("v2-dashboard")).toBeTruthy());
     expect(screen.queryByTestId("income-one-time-badge")).toBeNull();
-    expect(screen.getByText("100.00")).toBeTruthy();
+    expect(screen.getByText("¥100.00")).toBeTruthy();
   });
 });

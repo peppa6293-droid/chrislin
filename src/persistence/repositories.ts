@@ -187,6 +187,18 @@ function requireStoredUserInputMoney(value: string): string {
 export class Repositories {
   constructor(private readonly db: SqlDatabase) {}
 
+  /**
+   * Legacy V3 fixtures and pre-migration databases have no V2 `expenses` table.
+   * Display reads use this to fall back to the V1 ledger instead of throwing.
+   */
+  async hasTable(name: string): Promise<boolean> {
+    const rows = await this.db.select<{ name: string }>(
+      "SELECT name FROM sqlite_master WHERE type='table' AND name=?",
+      [name],
+    );
+    return rows.length > 0;
+  }
+
   async createProfile(
     profile: FinancialProfile,
     createdAt = new Date().toISOString(),
