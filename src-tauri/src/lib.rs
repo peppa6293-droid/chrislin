@@ -1377,13 +1377,71 @@ fn run_production_migration_command() -> Result<JsonValue, String> {
 }
 
 fn ensure_smoke_data_dir_isolated(identifier: &str, data_dir: &Path, home_dir: &Path) -> Result<(), String> {
-    if identifier == SMOKE_IDENTIFIER {
-        let production_data_dir: PathBuf = home_dir.join("Library/Application Support").join(PRODUCTION_IDENTIFIER);
-        if data_dir == production_data_dir {
-            return Err("Smoke runtime refused the Production application-data directory.".into());
+    if identifier != SMOKE_IDENTIFIER {
+        return Err("Smoke runtime refused an unexpected application identity.".into());
+    }
+    let support = home_dir.join("Library/Application Support");
+    let expected = support.join(SMOKE_IDENTIFIER);
+    if data_dir != expected {
+        return Err("Smoke runtime refused an unexpected application-data directory.".into());
+    }
+    // The exact binding above already excludes every other identity directory.
+    // The protected names stay explicit so this can not drift back into an
+    // "anything that is not Production" check.
+    for protected in [PRODUCTION_IDENTIFIER, ACCEPTANCE_IDENTIFIER] {
+        if data_dir == support.join(protected) {
+            return Err("Smoke runtime refused a protected application-data directory.".into());
         }
     }
-    Ok(())
+    match std::fs::symlink_metadata(data_dir) {
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(()),
+        Err(error) => Err(error.to_string()),
+        Ok(metadata) => {
+            if !metadata.is_dir() || metadata.file_type().is_symlink() {
+                return Err("Smoke runtime refused an unsafe application-data directory.".into());
+            }
+            let canonical = data_dir.canonicalize().map_err(|error| error.to_string())?;
+            let canonical_parent = expected.parent().ok_or("Smoke data directory has no parent.")?
+                .canonicalize().map_err(|error| error.to_string())?;
+            if canonical != canonical_parent.join(SMOKE_IDENTIFIER) {
+                return Err("Smoke runtime refused a redirected application-data directory.".into());
+            }
+            Ok(())
+        }
+    }
+}
+
+fn ensure_production_data_dir_isolated(identifier: &str, data_dir: &Path, home_dir: &Path) -> Result<(), String> {
+    if identifier != PRODUCTION_IDENTIFIER {
+        return Err("Production runtime refused an unexpected application identity.".into());
+    }
+    let support = home_dir.join("Library/Application Support");
+    let expected = support.join(PRODUCTION_IDENTIFIER);
+    if data_dir != expected {
+        return Err("Production runtime refused an unexpected application-data directory.".into());
+    }
+    // The exact binding above already excludes every other identity directory.
+    // The protected names stay explicit so Production can not drift into a
+    // dedicated runtime namespace.
+    for protected in [SMOKE_IDENTIFIER, ACCEPTANCE_IDENTIFIER] {
+        if data_dir == support.join(protected) {
+            return Err("Production runtime refused a foreign application-data directory.".into());
+        }
+    }
+    match std::fs::symlink_metadata(data_dir) {
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(()),
+        Err(error) => Err(error.to_string()),
+        Ok(metadata) => {
+            if !metadata.is_dir() || metadata.file_type().is_symlink() {
+                return Err("Production runtime refused an unsafe application-data directory.".into());
+            }
+            let canonical = data_dir.canonicalize().map_err(|error| error.to_string())?;
+            if canonical != data_dir {
+                return Err("Production runtime refused a redirected application-data directory.".into());
+            }
+            Ok(())
+        }
+    }
 }
 
 fn ensure_acceptance_data_dir_isolated(identifier: &str, data_dir: &Path, home_dir: &Path) -> Result<(), String> {
@@ -1772,6 +1830,29 @@ fn database_rollback(state: State<'_, DatabaseState>, transaction_id: String) ->
     state.rollback(&transaction_id)
 }
 
+/// Writes a user-triggered local export into the Downloads folder.
+///
+/// The destination directory is fixed and the name is restricted to a plain
+/// ASCII file name, so the frontend can never choose an arbitrary path.
+#[tauri::command]
+fn save_export_file(app: tauri::AppHandle, file_name: String, contents: String) -> Result<String, String> {
+    if file_name.is_empty()
+        || file_name.len() > 160
+        || file_name.starts_with('.')
+        || !file_name.chars().all(|c| c.is_ascii_alphanumeric() || matches!(c, '.' | '-' | '_'))
+    {
+        return Err("Export file name is invalid.".into());
+    }
+    let directory = match app.path().download_dir() {
+        Ok(path) => path,
+        Err(_) => app.path().home_dir().map_err(|error| error.to_string())?.join("Downloads"),
+    };
+    std::fs::create_dir_all(&directory).map_err(|error| error.to_string())?;
+    let path = directory.join(&file_name);
+    std::fs::write(&path, contents.as_bytes()).map_err(|error| error.to_string())?;
+    Ok(path.display().to_string())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1951,7 +2032,12 @@ mod tests {
     fn g_production_fresh_data_directory_is_allowed() {
         let home = Path::new("/Users/tester");
         let production = home.join("Library/Application Support").join(PRODUCTION_IDENTIFIER);
-        assert!(ensure_smoke_data_dir_isolated(PRODUCTION_IDENTIFIER, &production, home).is_ok());
+        let smoke = home.join("Library/Application Support").join(SMOKE_IDENTIFIER);
+        assert!(ensure_production_data_dir_isolated(PRODUCTION_IDENTIFIER, &production, home).is_ok());
+        assert!(ensure_production_data_dir_isolated(SMOKE_IDENTIFIER, &smoke, home).is_err());
+        assert!(ensure_production_data_dir_isolated(PRODUCTION_IDENTIFIER, &smoke, home).is_err());
+        assert!(ensure_production_data_dir_isolated(SMOKE_IDENTIFIER, &production, home).is_err());
+        assert!(ensure_smoke_data_dir_isolated(PRODUCTION_IDENTIFIER, &production, home).is_err());
     }
 
     #[test]
@@ -2102,6 +2188,17 @@ pub fn run() {
     let context = acceptance_context();
     let startup_guard = if context.config().identifier == PRODUCTION_IDENTIFIER {
         let home = PathBuf::from(std::env::var_os("HOME").expect("Production home directory is unavailable"));
+        // Identity, bundle-path and data-directory facts are proven before any
+        // Production namespace is created, locked, or inspected for cutover state.
+        let executable = std::env::current_exe().expect("Production executable path is unavailable");
+        let expected_executable = Path::new(PRODUCTION_APP_BUNDLE).join("Contents/MacOS").join(PRODUCTION_EXECUTABLE);
+        if executable != expected_executable { panic!("Production identity may run only from the verified normal installed app path."); }
+        // The expected data directory is either proven by a stat, owner and
+        // canonical identity check, or proven absent beneath a verified parent
+        // chain. This runs before any authority directory, maintenance lock,
+        // cutover read, or SQLite access can exist.
+        startup_exclusion::verify_production_data_dir(&home, &context.config().identifier)
+            .expect("Production data directory identity is unavailable");
         let authority = startup_exclusion::production_authority(&home, &context.config().identifier)
             .expect("Production startup authority is unavailable");
         let guard = startup_exclusion::acquire(&authority, startup_exclusion::LockMode::Shared)
@@ -2109,9 +2206,6 @@ pub fn run() {
         // Preserve the durable crash boundary while still before Tauri can
         // construct any configured WebViewWindow.
         ensure_no_unresolved_cutover(&authority).expect("Unresolved cutover state blocks Production startup");
-        let executable = std::env::current_exe().expect("Production executable path is unavailable");
-        let expected_executable = Path::new(PRODUCTION_APP_BUNDLE).join("Contents/MacOS").join(PRODUCTION_EXECUTABLE);
-        if executable != expected_executable { panic!("Production identity may run only from the verified normal installed app path."); }
         ensure_production_cutover_startup(&authority, &authority.join(PRODUCTION_DATABASE), &executable, false)
             .expect("Production durable cutover terminal check failed before Builder");
         Some(guard)
@@ -2159,6 +2253,8 @@ pub fn run() {
                     .map_err(std::io::Error::other)?;
             } else if acceptance_runtime {
                 ensure_acceptance_data_dir_isolated(&app.config().identifier, &app_data, &home).map_err(std::io::Error::other)?;
+            } else if production_runtime {
+                ensure_production_data_dir_isolated(&app.config().identifier, &app_data, &home).map_err(std::io::Error::other)?;
             } else {
                 ensure_smoke_data_dir_isolated(&app.config().identifier, &app_data, &home).map_err(std::io::Error::other)?;
             }
@@ -2168,6 +2264,8 @@ pub fn run() {
                     .map_err(std::io::Error::other)?;
             } else if acceptance_runtime {
                 ensure_acceptance_data_dir_isolated(&app.config().identifier, &app_data, &home).map_err(std::io::Error::other)?;
+            } else if production_runtime {
+                ensure_production_data_dir_isolated(&app.config().identifier, &app_data, &home).map_err(std::io::Error::other)?;
             } else {
                 ensure_smoke_data_dir_isolated(&app.config().identifier, &app_data, &home).map_err(std::io::Error::other)?;
             }
@@ -2175,9 +2273,7 @@ pub fn run() {
             let migration_permitted = false;
             let schema_ready = true;
             let mut production_integrity_key: Option<String> = None;
-            // This gate precedes every ordinary runtime's first SQLite access.
-            // The dedicated synthetic maintenance binary is a separate entry.
-            ensure_no_unresolved_cutover(&app_data).map_err(std::io::Error::other)?;
+            let mut production_executable: Option<PathBuf> = None;
             if production_runtime {
                 if app_data != home.join("Library/Application Support").join(PRODUCTION_IDENTIFIER) {
                     return Err(std::io::Error::other("Production runtime refused an unexpected application-data path.").into());
@@ -2187,6 +2283,13 @@ pub fn run() {
                 if executable != expected_executable {
                     return Err(std::io::Error::other("Production identity may run only from the verified normal installed app path.").into());
                 }
+                production_executable = Some(executable);
+            }
+            // This gate precedes every ordinary runtime's first SQLite access.
+            // The dedicated synthetic maintenance binary is a separate entry.
+            ensure_no_unresolved_cutover(&app_data).map_err(std::io::Error::other)?;
+            if production_runtime {
+                let executable = production_executable.ok_or_else(|| std::io::Error::other("Production executable identity is unavailable."))?;
                 ensure_production_cutover_startup(&app_data, &database_path, &executable, false).map_err(std::io::Error::other)?;
                 let terminal_bytes = production_cutover_state::read_terminal(&app_data)
                     .map_err(std::io::Error::other)?
@@ -2229,6 +2332,7 @@ pub fn run() {
         database_rollback,
         database_schema_migration_begin,
         database_schema_migration_end,
+        save_export_file,
         acceptance_runtime_info,
         acceptance_reset,
         wp03_preview_test_date::wp03_preview_get_test_date,
@@ -2244,6 +2348,7 @@ pub fn run() {
         database_rollback,
         database_schema_migration_begin,
         database_schema_migration_end,
+        save_export_file,
         acceptance_runtime_info,
         acceptance_reset,
     ]);

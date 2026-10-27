@@ -56,20 +56,64 @@ pub fn acquire(authority_dir: &Path, mode: LockMode) -> Result<File, String> {
     Ok(file)
 }
 
-pub fn production_authority(home: &Path, identifier: &str) -> Result<PathBuf, String> {
+fn ensure_identity_directory(path: &Path, label: &str) -> Result<(), String> {
+    let metadata = fs::symlink_metadata(path).map_err(|e| format!("{label}_UNAVAILABLE: {e}"))?;
+    // SAFETY: geteuid is a side-effect-free query for the current process owner.
+    let effective_uid = unsafe { libc::geteuid() };
+    if !metadata.is_dir() || metadata.file_type().is_symlink() || metadata.uid() != effective_uid {
+        return Err(format!("{label}_IDENTITY_INVALID"));
+    }
+    let canonical = path.canonicalize().map_err(|e| format!("{label}_UNAVAILABLE: {e}"))?;
+    if canonical != path {
+        return Err(format!("{label}_REDIRECTED"));
+    }
+    Ok(())
+}
+
+fn directory_is_missing(path: &Path, label: &str) -> Result<bool, String> {
+    match fs::symlink_metadata(path) {
+        Ok(_) => Ok(false),
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(true),
+        Err(error) => Err(format!("{label}_UNAVAILABLE: {error}")),
+    }
+}
+
+/// Proves the Production data directory without creating anything: the home
+/// directory, `Library` and `Application Support` must already exist with a
+/// verified identity, and the data directory is either verified as well or
+/// proven absent beneath that verified parent chain.
+pub fn verify_production_data_dir(home: &Path, identifier: &str) -> Result<PathBuf, String> {
     if identifier != "com.personalfinance.console" {
         return Err("STARTUP_LOCK_PRODUCTION_IDENTITY_REQUIRED".into());
     }
     let canonical_home = home.canonicalize().map_err(|e| format!("STARTUP_LOCK_HOME_UNAVAILABLE: {e}"))?;
-    let support = canonical_home.join("Library/Application Support");
-    fs::create_dir_all(&support).map_err(|e| format!("STARTUP_LOCK_DIRECTORY_CREATE_FAILED: {e}"))?;
-    let canonical_support = support.canonicalize().map_err(|e| format!("STARTUP_LOCK_DIRECTORY_UNAVAILABLE: {e}"))?;
-    if canonical_support != support { return Err("STARTUP_LOCK_DIRECTORY_REDIRECTED".into()); }
+    ensure_identity_directory(&canonical_home, "STARTUP_LOCK_HOME")?;
+    let library = canonical_home.join("Library");
+    ensure_identity_directory(&library, "STARTUP_LOCK_LIBRARY")?;
+    let support = library.join("Application Support");
+    if !directory_is_missing(&support, "STARTUP_LOCK_DIRECTORY")? {
+        ensure_identity_directory(&support, "STARTUP_LOCK_DIRECTORY")?;
+    }
     let authority = support.join(identifier);
-    fs::create_dir_all(&authority).map_err(|e| format!("STARTUP_LOCK_DIRECTORY_CREATE_FAILED: {e}"))?;
-    let metadata = fs::symlink_metadata(&authority).map_err(|e| format!("STARTUP_LOCK_DIRECTORY_UNAVAILABLE: {e}"))?;
-    if !metadata.is_dir() || metadata.file_type().is_symlink() || authority.canonicalize().ok().as_deref() != Some(authority.as_path()) {
-        return Err("STARTUP_LOCK_DIRECTORY_IDENTITY_INVALID".into());
+    if !directory_is_missing(&authority, "STARTUP_LOCK_DIRECTORY")? {
+        ensure_identity_directory(&authority, "STARTUP_LOCK_DIRECTORY")?;
+    }
+    Ok(authority)
+}
+
+pub fn production_authority(home: &Path, identifier: &str) -> Result<PathBuf, String> {
+    let authority = verify_production_data_dir(home, identifier)?;
+    let support = authority.parent().ok_or("STARTUP_LOCK_DIRECTORY_UNAVAILABLE: Production data directory has no parent.")?;
+    // Every missing component is created with `mkdir` semantics only after its
+    // parent chain is proven, and is re-verified immediately afterwards. A
+    // pre-existing symlink at either component makes the create attempt fail.
+    if directory_is_missing(support, "STARTUP_LOCK_DIRECTORY")? {
+        fs::create_dir(support).map_err(|e| format!("STARTUP_LOCK_DIRECTORY_CREATE_FAILED: {e}"))?;
+        ensure_identity_directory(support, "STARTUP_LOCK_DIRECTORY")?;
+    }
+    if directory_is_missing(&authority, "STARTUP_LOCK_DIRECTORY")? {
+        fs::create_dir(&authority).map_err(|e| format!("STARTUP_LOCK_DIRECTORY_CREATE_FAILED: {e}"))?;
+        ensure_identity_directory(&authority, "STARTUP_LOCK_DIRECTORY")?;
     }
     Ok(authority)
 }

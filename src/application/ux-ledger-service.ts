@@ -217,6 +217,20 @@ export async function readAuditLog(db: SqlDatabase): Promise<Record<string, unkn
   }
 }
 
+async function readMetadataEntries(
+  db: SqlDatabase,
+  key: string,
+): Promise<Record<string, unknown>[]> {
+  const raw = await new Repositories(db).getMeta(key);
+  if (!raw) return [];
+  try {
+    const parsed: unknown = JSON.parse(raw);
+    return Array.isArray(parsed) ? (parsed as Record<string, unknown>[]) : [];
+  } catch {
+    return [];
+  }
+}
+
 export async function listLedgerExpenses(
   db: SqlDatabase,
   month?: string,
@@ -543,17 +557,29 @@ export async function listEssentialPayments(
      WHERE kind='ESSENTIAL'${month ? " AND business_date LIKE ?" : ""} ORDER BY business_date DESC,created_at DESC`,
     month === undefined ? [] : [`${month}%`],
   );
+  if (rows.length === 0) return [];
   const items = await new Repositories(db).listEssentialExpenses();
-  return rows.map((row) => ({
-    id: text(row, "id"),
-    itemId: "",
-    itemName: items.find((item) => item.category === text(row, "category"))?.name ?? "固定支出",
-    category: text(row, "category") as ExpenseCategory,
-    amount: text(row, "amount"),
-    paidOn: text(row, "occurred_at").slice(0, 10),
-    note: nullableText(row, "note"),
-    recordedAt: text(row, "created_at"),
-  }));
+  const logged = new Map(
+    (await readMetadataEntries(db, ESSENTIAL_PAYMENT_KEY)).map((entry) => [
+      String(entry.id),
+      entry,
+    ]),
+  );
+  return rows.map((row) => {
+    const category = text(row, "category") as ExpenseCategory;
+    const record = logged.get(text(row, "id"));
+    const loggedName = record && typeof record.itemName === "string" ? record.itemName : "";
+    return {
+      id: text(row, "id"),
+      itemId: record && typeof record.itemId === "string" ? record.itemId : "",
+      itemName: loggedName || items.find((item) => item.category === category)?.name || "固定支出",
+      category,
+      amount: text(row, "amount"),
+      paidOn: text(row, "occurred_at").slice(0, 10),
+      note: nullableText(row, "note"),
+      recordedAt: text(row, "created_at"),
+    };
+  });
 }
 
 export async function listDebtPaymentLog(db: SqlDatabase): Promise<DebtPaymentRecord[]> {
