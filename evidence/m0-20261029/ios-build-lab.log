@@ -1,0 +1,112 @@
+        Info Looking up installed tauri packages to check mismatched versions...
+     Running beforeBuildCommand `npm run build:web`
+
+> personal-finance-console@0.1.0 build:web
+> vite build
+
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2013 modules transformed.
+rendering chunks...
+computing gzip size...
+web-dist/index.html                   0.39 kB │ gzip:   0.28 kB
+web-dist/assets/index-BGSV8afB.css  149.92 kB │ gzip:  29.23 kB
+web-dist/assets/index-pmOp4p1F.js   949.50 kB │ gzip: 253.62 kB
+
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 229ms
+    Blocking waiting for file lock on iOS
+Setting version of project personal-finance-console to: 
+    0.1.0.
+
+Also setting CFBundleVersion key (assuming it exists)
+
+Updating CFBundleVersion in Info.plist(s)...
+
+Updated CFBundleVersion in "personal-finance-console.xcodeproj/../personal-finance-console_iOS/Info.plist" to 0.1.0
+
+
+--- xcodebuild: WARNING: Using the first of multiple matching destinations:
+{ platform:iOS Simulator, id:dvtdevice-DVTiOSDeviceSimulatorPlaceholder-iphonesimulator:placeholder, name:Any iOS Simulator Device }
+{ platform:iOS, id:dvtdevice-DVTiPhonePlaceholder-iphoneos:placeholder, name:Any iOS Device }
+{ platform:iOS Simulator, arch:arm64, id:47C308A3-46C9-4587-BF2D-512E7E377843, OS:27.0, name:iPad (A16) }
+{ platform:iOS Simulator, arch:arm64, id:2822AA71-3C55-4831-B165-CD5D53D70937, OS:27.0, name:iPad Air 11-inch (M4) }
+{ platform:iOS Simulator, arch:arm64, id:3DF2A97B-BD03-4106-9BEC-3BD88D624DDD, OS:27.0, name:iPad Air 13-inch (M4) }
+{ platform:iOS Simulator, arch:arm64, id:8215EC4C-23C3-452F-B90B-95144AB2C352, OS:27.0, name:iPad Pro 11-inch (M5) }
+{ platform:iOS Simulator, arch:arm64, id:5EB9182A-8E2A-4693-ABE7-48B0665706CF, OS:27.0, name:iPad Pro 13-inch (M5) }
+{ platform:iOS Simulator, arch:arm64, id:0911BEB7-1139-48B1-BB5E-6843BCB44E34, OS:27.0, name:iPad mini (A17 Pro) }
+{ platform:iOS Simulator, arch:arm64, id:8E49FDE7-83C1-4F1C-8891-8BBDBB864C45, OS:27.0, name:iPhone 17 }
+{ platform:iOS Simulator, arch:arm64, id:E856B1D6-6341-4A3B-B4EA-E1A48CA03FDA, OS:27.0, name:iPhone 17e }
+{ platform:iOS Simulator, arch:arm64, id:0BF810EB-B85A-4C42-8000-63AE0BD40C97, OS:27.0, name:iPhone 18 Pro }
+{ platform:iOS Simulator, arch:arm64, id:F3AB97B6-FEED-4371-83F6-50577A8F4DE8, OS:27.0, name:iPhone 18 Pro Max }
+{ platform:iOS Simulator, arch:arm64, id:D2318A45-C28F-4F4D-BF8B-56D75F28E21D, OS:27.0, name:iPhone Air }
+{ platform:macOS, arch:arm64, variant:Designed for [iPad,iPhone], id:00008142-0010090A3AFB401C, name:My Mac }
+        Info connection; remote_addr=127.0.0.1:58605 conn_id=0
+
+> personal-finance-console@0.1.0 tauri
+> tauri ios xcode-script -v --platform iOS Simulator --sdk-root /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk --framework-search-paths /Users/linte/Library/Developer/Xcode/DerivedData/personal-finance-console-fhzcnycglpuxdlerfjqyblsbkbzp/Build/Intermediates.noindex/ArchiveIntermediates/personal-finance-console_iOS/BuildProductsPath/debug-iphonesimulator  "." --header-search-paths /Users/linte/Library/Developer/Xcode/DerivedData/personal-finance-console-fhzcnycglpuxdlerfjqyblsbkbzp/Build/Intermediates.noindex/ArchiveIntermediates/personal-finance-console_iOS/BuildProductsPath/debug-iphonesimulator/include  --gcc-preprocessor-definitions  --configuration debug arm64
+
+[1m[92m   Compiling[0m tauri v2.12.1
+[1m[92m   Compiling[0m tauri-macros v2.7.1
+[1m[91merror[0m: failed to run custom build command for `tauri v2.12.1`
+
+Caused by:
+  process didn't exit successfully: `/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2/src-tauri/target/debug/build/tauri-373319b08b28f7c7/build-script-build` (exit status: 101)
+  --- stdout
+  cargo:rustc-check-cfg=cfg(custom_protocol)
+  cargo:rustc-cfg=custom_protocol
+  cargo:rustc-check-cfg=cfg(dev)
+  cargo:dev=false
+  cargo:rustc-check-cfg=cfg(desktop)
+  cargo:rustc-check-cfg=cfg(mobile)
+  cargo:rustc-cfg=mobile
+  cargo:rustc-link-search=native=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator
+  cargo:rustc-link-search=native=/usr/lib/swift
+  cargo:rustc-link-lib=clang_rt.iossim
+  cargo:rustc-link-search=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21/lib/darwin
+  Command `cd "/Users/linte/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tauri-2.12.1/mobile/ios-api" && "swift" "build" "--sdk" "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk" "-c" "debug" "--triple" "arm64-apple-ios15.0-simulator" "--build-path" "/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2/src-tauri/target/aarch64-apple-ios-sim/debug/build/tauri-343c6a2632cdedad/out/swift-rs/Tauri" "-Xcc" "--target=arm64-apple-ios15.0-simulator" "-Xcxx" "--target=arm64-apple-ios15.0-simulator"`
+
+  --- stderr
+  Fetching https://github.com/Brendonovich/swift-rs from cache
+  warning: 'swift-rs': skipping cache due to an error: Couldn’t fetch updates from remote repositories:
+      fatal: unable to access 'https://github.com/Brendonovich/swift-rs/': Error in the HTTP2 framing layer
+  Fetching https://github.com/Brendonovich/swift-rs from cache
+  warning: 'swift-rs': skipping cache due to an error: Couldn’t fetch updates from remote repositories:
+      POST git-upload-pack (150 bytes)
+      error: RPC failed; curl 28 Failed to connect to github.com port 443 after 75014 ms: Couldn't connect to server
+      fatal: expected flush after ref listing
+  error: Failed to clone repository https://github.com/Brendonovich/swift-rs:
+      Cloning into bare repository '/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2/src-tauri/target/aarch64-apple-ios-sim/debug/build/tauri-343c6a2632cdedad/out/swift-rs/Tauri/repositories/swift-rs-16819c90'...
+      fatal: unable to access 'https://github.com/Brendonovich/swift-rs/': Error in the HTTP2 framing layer
+
+  thread 'main' (16768798) panicked at /Users/linte/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/swift-rs-1.0.9/src-rs/build.rs:350:17:
+  Failed to compile swift package Tauri
+  stack backtrace:
+     0: __rustc::rust_begin_unwind
+               at /rustc/b940084d7eb6a299eb4bfeb8e34901bc051e7ac4/library/std/src/panicking.rs:679:5
+     1: core::panicking::panic_fmt
+               at /rustc/b940084d7eb6a299eb4bfeb8e34901bc051e7ac4/library/core/src/panicking.rs:80:14
+     2: <swift_rs::build::SwiftLinker>::link
+               at /Users/linte/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/swift-rs-1.0.9/src-rs/build.rs:350:17
+     3: tauri_utils::build::link_swift_library::<&std::path::PathBuf>
+               at /Users/linte/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tauri-utils-2.10.2/src/build.rs:31:4
+     4: tauri_utils::build::link_apple_library::<&std::path::PathBuf>
+               at /Users/linte/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tauri-utils-2.10.2/src/build.rs:11:5
+     5: build_script_build::main
+               at ./build.rs:342:7
+     6: <fn() as core::ops::function::FnOnce<()>>::call_once
+               at /rustc/b940084d7eb6a299eb4bfeb8e34901bc051e7ac4/library/core/src/ops/function.rs:250:5
+  note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+failed to compile iOS app: Failed to run `cargo build`: command ["cargo", "build", "--package", "personal-finance-console", "--manifest-path", "/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2/src-tauri/Cargo.toml", "--target", "aarch64-apple-ios-sim", "--features", "tauri/custom-protocol tauri/custom-protocol", "--lib"] exited with code 101
+[1m[31m       Error[0m failed to compile iOS app: Failed to run `cargo build`: command ["cargo", "build", "--package", "personal-finance-console", "--manifest-path", "/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2/src-tauri/Cargo.toml", "--target", "aarch64-apple-ios-sim", "--features", "tauri/custom-protocol tauri/custom-protocol", "--lib"] exited with code 101
+note: Using codesigning identity override: ""
+warning: Traditional headermap style is no longer supported; please migrate to using separate headermaps and set 'ALWAYS_SEARCH_USER_PATHS' to NO. (in target 'personal-finance-console_iOS' from project 'personal-finance-console')
+note: Run script build phase 'Build Rust Code' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'personal-finance-console_iOS' from project 'personal-finance-console')
+** ARCHIVE FAILED **
+
+failed to archive iOS app: Failed to archive via `xcodebuild`: command ["xcodebuild"] exited with code 65
+       Error failed to archive iOS app: Failed to archive via `xcodebuild`: command ["xcodebuild"] exited with code 65

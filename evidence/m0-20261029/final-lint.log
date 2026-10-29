@@ -1,0 +1,7 @@
+$ npm run lint
+
+> personal-finance-console@0.1.0 lint
+> biome check src tests
+
+Checked 176 files in 182ms. No fixes applied.
+LINT_EXIT=0

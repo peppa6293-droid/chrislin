@@ -2211,6 +2211,8 @@ pub fn run() {
         Some(guard)
     } else { None };
     let builder = tauri::Builder::default()
+        .plugin(tauri_plugin_haptics::init())
+        .plugin(tauri_plugin_notification::init())
         .setup(|app| {
             let app_data = app.path().app_data_dir()?;
             let home = app.path().home_dir()?;
