@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 import { readFileSync } from "node:fs";
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { V2ImportService } from "../../src/application/v2-import-service.js";
@@ -114,8 +114,13 @@ describe("EXEC-U-06 CSV import flow", () => {
     renderImport();
     await uploadAlipay();
     await userEvent.click(await screen.findByRole("button", { name: "确认导入" }));
-    const result = await screen.findByRole("status", { name: undefined });
-    expect(result.textContent).toContain("已写入 2 条，跳过 0 条，失败 0 条");
+    await waitFor(() => {
+      expect(
+        screen
+          .getAllByRole("status")
+          .some((status) => status.textContent?.includes("已写入 2 条，跳过 0 条，失败 0 条")),
+      ).toBe(true);
+    });
     const expenses = await repositories.listV2Expenses("profile-v2", "2026-10");
     expect(
       expenses.map((expense) => [expense.amount, expense.occurredOn, expense.categoryId]),

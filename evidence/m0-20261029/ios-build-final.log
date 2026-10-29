@@ -1,0 +1,53 @@
+        Info Looking up installed tauri packages to check mismatched versions...
+     Running beforeBuildCommand `npm run build:web`
+
+> personal-finance-console@0.1.0 build:web
+> vite build
+
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2013 modules transformed.
+rendering chunks...
+computing gzip size...
+web-dist/index.html                   0.39 kB │ gzip:   0.28 kB
+web-dist/assets/index-CnWHK68v.css  151.05 kB │ gzip:  29.43 kB
+web-dist/assets/index-CPDJcx9G.js   951.75 kB │ gzip: 254.23 kB
+
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 254ms
+Setting version of project personal-finance-console to: 
+    0.1.0.
+
+Also setting CFBundleVersion key (assuming it exists)
+
+Updating CFBundleVersion in Info.plist(s)...
+
+Updated CFBundleVersion in "personal-finance-console.xcodeproj/../personal-finance-console_iOS/Info.plist" to 0.1.0
+
+
+--- xcodebuild: WARNING: Using the first of multiple matching destinations:
+{ platform:iOS Simulator, id:dvtdevice-DVTiOSDeviceSimulatorPlaceholder-iphonesimulator:placeholder, name:Any iOS Simulator Device }
+{ platform:iOS, id:dvtdevice-DVTiPhonePlaceholder-iphoneos:placeholder, name:Any iOS Device }
+{ platform:iOS Simulator, arch:arm64, id:47C308A3-46C9-4587-BF2D-512E7E377843, OS:27.0, name:iPad (A16) }
+{ platform:iOS Simulator, arch:arm64, id:2822AA71-3C55-4831-B165-CD5D53D70937, OS:27.0, name:iPad Air 11-inch (M4) }
+{ platform:iOS Simulator, arch:arm64, id:3DF2A97B-BD03-4106-9BEC-3BD88D624DDD, OS:27.0, name:iPad Air 13-inch (M4) }
+{ platform:iOS Simulator, arch:arm64, id:8215EC4C-23C3-452F-B90B-95144AB2C352, OS:27.0, name:iPad Pro 11-inch (M5) }
+{ platform:iOS Simulator, arch:arm64, id:5EB9182A-8E2A-4693-ABE7-48B0665706CF, OS:27.0, name:iPad Pro 13-inch (M5) }
+{ platform:iOS Simulator, arch:arm64, id:0911BEB7-1139-48B1-BB5E-6843BCB44E34, OS:27.0, name:iPad mini (A17 Pro) }
+{ platform:iOS Simulator, arch:arm64, id:8E49FDE7-83C1-4F1C-8891-8BBDBB864C45, OS:27.0, name:iPhone 17 }
+{ platform:iOS Simulator, arch:arm64, id:E856B1D6-6341-4A3B-B4EA-E1A48CA03FDA, OS:27.0, name:iPhone 17e }
+{ platform:iOS Simulator, arch:arm64, id:0BF810EB-B85A-4C42-8000-63AE0BD40C97, OS:27.0, name:iPhone 18 Pro }
+{ platform:iOS Simulator, arch:arm64, id:F3AB97B6-FEED-4371-83F6-50577A8F4DE8, OS:27.0, name:iPhone 18 Pro Max }
+{ platform:iOS Simulator, arch:arm64, id:D2318A45-C28F-4F4D-BF8B-56D75F28E21D, OS:27.0, name:iPhone Air }
+{ platform:macOS, arch:arm64, variant:Designed for [iPad,iPhone], id:00008142-0010090A3AFB401C, name:My Mac }
+        Info connection; remote_addr=127.0.0.1:62397 conn_id=0
+note: Using codesigning identity override: ""
+warning: Traditional headermap style is no longer supported; please migrate to using separate headermaps and set 'ALWAYS_SEARCH_USER_PATHS' to NO. (in target 'personal-finance-console_iOS' from project 'personal-finance-console')
+note: Run script build phase 'Build Rust Code' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'personal-finance-console_iOS' from project 'personal-finance-console')
+    Finished 1 iOS Bundle at:
+        /Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2/src-tauri/gen/apple/build/arm64-sim/小钱家.app
+

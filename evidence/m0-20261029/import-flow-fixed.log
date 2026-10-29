@@ -1,0 +1,12 @@
+
+ RUN  v5.0.5 /Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2
+
+(node:42794) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ tests/v2-ui/import-flow.test.tsx (8 tests) 213ms
+
+ Test Files  1 passed (1)
+      Tests  8 passed (8)
+   Start at  23:09:30
+   Duration  699ms (tests 33%, environment 31%, import 28%, transform 7%)
+

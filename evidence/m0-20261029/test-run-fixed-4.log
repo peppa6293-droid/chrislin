@@ -1,0 +1,137 @@
+
+> personal-finance-console@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.5 /Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2
+
+(node:43094) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:43095) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:43093) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ tests/debt-fact-service.test.ts (29 tests) 790ms
+(node:43092) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ tests/financial-maintenance-service.test.ts (17 tests) 926ms
+ ✓ tests/persistence.test.ts (40 tests) 1097ms
+(node:43096) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:43090) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:43089) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ tests/v4-acceptance-ui.test.tsx (6 tests) 589ms
+(node:43101) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ tests/v2-ui/dashboard-route.test.tsx (3 tests) 502ms
+(node:43098) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:43102) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:43100) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ tests/product-service.test.ts (18 tests) 342ms
+ ✓ tests/v4-four-p1-correction.test.ts (15 tests) 303ms
+ ✓ tests/v2-ui/import-flow.test.tsx (8 tests) 464ms
+ ✓ tests/p1p2-fixed-page.test.tsx (7 tests) 443ms
+ ✓ tests/v2-ui/today-task.test.tsx (13 tests) 573ms
+(node:43106) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ tests/v2-ledger/v2-expense-service.test.ts (15 tests) 135ms
+(node:43108) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:43104) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ tests/v2-ledger/ux-ledger-dual-ledger.test.ts (5 tests) 99ms
+ ✓ tests/v2-cards-loading.test.tsx (12 tests) 157ms
+(node:43109) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ tests/v2-ui/progress-page.test.tsx (7 tests) 205ms
+ ✓ tests/v4-foundation.test.ts (8 tests) 147ms
+(node:43110) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ tests/v2-ui/v2-surface.test.tsx (6 tests) 200ms
+ ✓ tests/v2-ui/icon-unification.test.tsx (3 tests) 114ms
+ ✓ tests/v4-acceptance-sandbox.test.ts (3 tests) 64ms
+(node:43114) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:43115) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:43116) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ tests/v2-ledger/ledger-sync.test.ts (5 tests) 79ms
+ ✓ tests/v2-ledger/import-write.test.ts (14 tests) 124ms
+ ✓ tests/r8-production-schema-authority.test.ts (19 tests) 131ms
+ ✓ tests/v2-ui/dashboard.test.tsx (13 tests) 100ms
+(node:43117) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ tests/v2-ledger/essential-payment-identity.test.ts (2 tests) 50ms
+(node:43119) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:43118) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ tests/v2-ui/today-page.test.tsx (5 tests) 84ms
+(node:43120) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ tests/application-services.test.ts (5 tests) 69ms
+ ✓ tests/v2-ledger/landing-import.test.ts (3 tests) 87ms
+ ✓ tests/r13-zero-amount-expenses.test.ts (2 tests) 76ms
+(node:43121) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:43122) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ tests/product-restart.test.ts (2 tests) 91ms
+(node:43124) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ tests/model-core.test.ts (65 tests) 58ms
+ ✓ tests/v2-ledger/landing-services.test.ts (4 tests) 120ms
+ ✓ tests/v2-ui/trends.test.tsx (3 tests) 36ms
+ ✓ tests/debt-fact-inactive.test.ts (1 test) 94ms
+(node:43126) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ tests/v2-ui/quick-entry-flow.test.tsx (13 tests) 3240ms
+   ✓ EXEC-U-01 isolated V2 quick entry flow (13)
+     ✓ shows exact Chinese messages for zero, negative, oversized, and malformed amounts 386ms
+     ✓ clears amount and note, shows success, and calls onRecorded once 2090ms
+ ✓ tests/v2-ledger/expense-persistence.test.ts (5 tests) 87ms
+ ✓ tests/v2-ui.test.tsx (40 tests) 3009ms
+(node:43130) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ tests/p1p2-models.test.ts (20 tests) 38ms
+ ✓ tests/r8-native-migration-sql-parity.test.ts (8 tests) 32ms
+(node:43128) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:43133) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:43134) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ tests/v2-ledger/account-crud.test.ts (2 tests) 16ms
+ ✓ tests/v2-ledger/category-crud.test.ts (2 tests) 17ms
+ ✓ tests/future-schema-guard.test.ts (5 tests) 42ms
+ ✓ tests/onboarding-safety-eligibility.test.tsx (7 tests) 3211ms
+   ✓ onboarding safety-resource tri-state (7)
+     ✓ passes the mixed approved candidate through React and the real Application Service in an isolated in-memory DB 2109ms
+ ✓ tests/v2-ledger/cashflow-projection.test.ts (7 tests) 10ms
+ ✓ tests/v2-ledger/import-parse.test.ts (8 tests) 7ms
+ ✓ tests/v2-ledger/savings-goal.test.ts (9 tests) 16ms
+ ✓ tests/v2-ledger/reconciliation.test.ts (6 tests) 8ms
+ ✓ tests/structure-ring.test.ts (7 tests) 8ms
+ ✓ tests/v2-ledger/expense-types.test.ts (7 tests) 7ms
+ ✓ tests/v2-ledger/task-selector.test.ts (5 tests) 7ms
+ ✓ tests/v2-ui/quick-entry.test.ts (4 tests) 5ms
+ ✓ tests/v2-ledger/import-rules.test.ts (6 tests) 5ms
+ ✓ tests/quiescence-ipc-contract.test.ts (6 tests) 4ms
+ ✓ tests/smoke-identity.test.ts (2 tests) 5ms
+ ✓ tests/wp01-product-preview-identity.test.ts (2 tests) 3ms
+ ✓ tests/v2-progress-bar.test.tsx (3 tests) 22ms
+ ✓ tests/ui.test.tsx (80 tests | 44 skipped) 3769ms
+   ✓ Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例） (80)
+     ✓ 6. valid amount saves and a successful submission closes the dialog 311ms
+
+ Test Files  55 passed (55)
+      Tests  568 passed | 44 skipped (612)
+   Start at  23:09:53
+   Duration  5.22s (tests 60%, import 18%, environment 16%, transform 5%, worker 1%)
+

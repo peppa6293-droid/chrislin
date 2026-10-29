@@ -1,8 +1,8 @@
+import { invoke } from "@tauri-apps/api/core";
 import { vibrate } from "@tauri-apps/plugin-haptics";
 import {
   isPermissionGranted,
   requestPermission,
-  Schedule,
   sendNotification,
 } from "@tauri-apps/plugin-notification";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -156,16 +156,26 @@ export function M0Lab() {
             return;
           }
           sendNotification({
+            id: 1,
             title: "M0 自动立即通知",
             body: `自动通知 ${new Date().toLocaleTimeString()}`,
           });
           const at = new Date(Date.now() + 60_000);
-          sendNotification({
-            title: "M0 自动定时通知",
-            body: `计划 ${at.toLocaleTimeString()} 送达`,
-            schedule: Schedule.at(at),
+          await invoke("plugin:notification|notify", {
+            options: {
+              id: 2,
+              title: "M0 自动定时通知",
+              body: `计划 ${at.toLocaleTimeString()} 送达`,
+              schedule: {
+                at: {
+                  date: localScheduleString(at),
+                  repeating: false,
+                  allowWhileIdle: false,
+                },
+              },
+            },
           });
-          setNotificationStatus(`自动通知已发送，并排程 ${at.toLocaleTimeString()}`);
+          setNotificationStatus(`自动通知已发送；直接 invoke 排程 ${at.toLocaleTimeString()}`);
         } catch (error) {
           if (active) setNotificationStatus(`自动通知失败：${errorText(error)}`);
         }
@@ -250,10 +260,19 @@ export function M0Lab() {
     if (!(await ensureNotificationPermission())) return;
     try {
       const at = new Date(Date.now() + 60_000);
-      sendNotification({
-        title: "M0 定时通知",
-        body: `计划 ${at.toLocaleTimeString()} 送达`,
-        schedule: Schedule.at(at),
+      await invoke("plugin:notification|notify", {
+        options: {
+          id: 3,
+          title: "M0 定时通知",
+          body: `计划 ${at.toLocaleTimeString()} 送达`,
+          schedule: {
+            at: {
+              date: localScheduleString(at),
+              repeating: false,
+              allowWhileIdle: false,
+            },
+          },
+        },
       });
       setNotificationStatus(`已排程 ${at.toLocaleTimeString()}`);
     } catch (error) {
@@ -411,6 +430,13 @@ export function M0Lab() {
 
 function errorText(error: unknown): string {
   return error instanceof Error ? error.message : String(error);
+}
+
+function localScheduleString(date: Date): string {
+  const pad = (value: number, length = 2) => String(value).padStart(length, "0");
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(
+    date.getHours(),
+  )}:${pad(date.getMinutes())}:${pad(date.getSeconds())}.${pad(date.getMilliseconds(), 3)}Z`;
 }
 
 function randomSuffix(): string {
