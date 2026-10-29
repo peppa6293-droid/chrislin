@@ -1,0 +1,112 @@
+$ git diff --stat
+ WORKLOG.md | 39 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
+
+$ git diff --cached --stat
+ evidence/m0-20261029/06-patched-rebuild-2.png |  Bin 0 -> 218164 bytes
+ evidence/m0-20261029/09-lab-now.png           |  Bin 0 -> 71228 bytes
+ evidence/m0-20261029/12-relaunch.png          |  Bin 0 -> 83092 bytes
+ evidence/m0-20261029/15-fetch-diag2.png       |  Bin 0 -> 104071 bytes
+ evidence/m0-20261029/17-lab-built.png         |  Bin 0 -> 71188 bytes
+ evidence/m0-20261029/final-lint.log           |    7 +
+ evidence/m0-20261029/final-test-2.log         |  150 ++++
+ evidence/m0-20261029/final-typecheck.log      |    6 +
+ evidence/m0-20261029/ios-build-lab.log        |  112 +++
+ evidence/m0-20261029/ios-dev-2.log            | 1028 +++++++++++++++++++++++++
+ evidence/m0-20261029/ios-dev-4.log            |  715 +++++++++++++++++
+ evidence/m0-20261029/ios-dev-built.log        |  699 +++++++++++++++++
+ evidence/m0-20261029/ios-dev-lab.log          |  796 +++++++++++++++++++
+ evidence/m0-20261029/ios-dev-lab2.log         |  701 +++++++++++++++++
+ evidence/m0-20261029/plugin-haptics.log       |    6 +
+ evidence/m0-20261029/plugin-notification.log  |    6 +
+ evidence/m0-20261029/web-build-lab.log        |   21 +
+ package-lock.json                             |  176 ++---
+ package.json                                  |    5 +-
+ src-tauri/Cargo.lock                          |  586 +++++++++++++-
+ src-tauri/Cargo.toml                          |    4 +
+ src-tauri/capabilities/mobile.json            |   14 +
+ src-tauri/src/lib.rs                          |    2 +
+ src-tauri/tauri.m0lab.conf.json               |    6 +
+ src/lab/M0Lab.tsx                             |  304 ++++++++
+ src/main.tsx                                  |    5 +-
+ src/ui/m0-lab.css                             |  222 ++++++
+ src/ui/v2-tokens.css                          |   16 +
+ 28 files changed, 5475 insertions(+), 112 deletions(-)
+
+$ git status --short
+ M WORKLOG.md
+A  evidence/m0-20261029/06-patched-rebuild-2.png
+A  evidence/m0-20261029/09-lab-now.png
+A  evidence/m0-20261029/12-relaunch.png
+A  evidence/m0-20261029/15-fetch-diag2.png
+A  evidence/m0-20261029/17-lab-built.png
+A  evidence/m0-20261029/final-lint.log
+A  evidence/m0-20261029/final-test-2.log
+A  evidence/m0-20261029/final-typecheck.log
+A  evidence/m0-20261029/ios-build-lab.log
+A  evidence/m0-20261029/ios-dev-2.log
+A  evidence/m0-20261029/ios-dev-4.log
+A  evidence/m0-20261029/ios-dev-built.log
+A  evidence/m0-20261029/ios-dev-lab.log
+A  evidence/m0-20261029/ios-dev-lab2.log
+A  evidence/m0-20261029/plugin-haptics.log
+A  evidence/m0-20261029/plugin-notification.log
+A  evidence/m0-20261029/web-build-lab.log
+M  package-lock.json
+M  package.json
+M  src-tauri/Cargo.lock
+M  src-tauri/Cargo.toml
+A  src-tauri/capabilities/mobile.json
+M  src-tauri/src/lib.rs
+A  src-tauri/tauri.m0lab.conf.json
+A  src/lab/M0Lab.tsx
+M  src/main.tsx
+A  src/ui/m0-lab.css
+M  src/ui/v2-tokens.css
+?? evidence/m0-20261029/01-launch.png
+?? evidence/m0-20261029/02-manual-launch.png
+?? evidence/m0-20261029/03-console-launch.png
+?? evidence/m0-20261029/04-patched-launch.png
+?? evidence/m0-20261029/05-patched-rebuild.png
+?? evidence/m0-20261029/07-lab.png
+?? evidence/m0-20261029/08-lab-2.png
+?? evidence/m0-20261029/10-boot-diag.png
+?? evidence/m0-20261029/11-boot-banner.png
+?? evidence/m0-20261029/13-boot-error.png
+?? evidence/m0-20261029/14-fetch-diag.png
+?? evidence/m0-20261029/16-no-dev-server.png
+?? evidence/m0-20261029/REVIEW.md
+?? evidence/m0-20261029/app-console.log
+?? evidence/m0-20261029/cocoapods-gem-install-2.log
+?? evidence/m0-20261029/cocoapods-gem-install-3.log
+?? evidence/m0-20261029/cocoapods-gem-install.log
+?? evidence/m0-20261029/environment-current.txt
+?? evidence/m0-20261029/environment.txt
+?? evidence/m0-20261029/ffi-1.15.5-install-2.log
+?? evidence/m0-20261029/ffi-1.15.5-install.log
+?? evidence/m0-20261029/ffi-gem-install.log
+?? evidence/m0-20261029/final-test-onboarding-isolated.log
+?? evidence/m0-20261029/final-test.log
+?? evidence/m0-20261029/final-typecheck-lint.log
+?? evidence/m0-20261029/git-state.txt
+?? evidence/m0-20261029/ios-dev-3.log
+?? evidence/m0-20261029/ios-dev.log
+?? evidence/m0-20261029/ios-init-after-xcodegen.log
+?? evidence/m0-20261029/ios-init-success-attempt.log
+?? evidence/m0-20261029/ios-init.log
+?? evidence/m0-20261029/libimobiledevice-check.log
+?? evidence/m0-20261029/libimobiledevice-placeholder.log
+?? evidence/m0-20261029/lint-1.log
+?? evidence/m0-20261029/lint-2.log
+?? evidence/m0-20261029/nkf-build.log
+?? evidence/m0-20261029/npm-install-offline.log
+?? evidence/m0-20261029/typecheck-1.log
+?? evidence/m0-20261029/xcodegen-download.log
+?? evidence/m0-20261029/xcodegen-install.log
+?? evidence/m0-20261029/xcodegen-quarantine.log
+?? evidence/wp-ui-visual-01/p1-p4/interaction-i01-batch-a-review-20261029/
+?? evidence/wp-ui-visual-01/p1-p4/r1-20261029/review-bprime-default-20261029/
+?? evidence/wp-ui-visual-01/p1-p4/r1-20261029/review-bprime-recheck-20261029/
+
+$ git rev-parse HEAD
+9e1fc73ac25def55a9d55d37c5b4691004006701

@@ -1,0 +1,37 @@
+$ date
+2026-10-29 22:22:46 +0800
+
+$ git branch --show-current
+feat/mobile
+$ git rev-parse HEAD
+9e1fc73ac25def55a9d55d37c5b4691004006701
+
+$ xcodebuild -version
+Xcode 27.0
+Build version 27A266a
+$ xcode-select -p
+/Applications/Xcode.app/Contents/Developer
+$ rustc -V
+rustc 1.99.0 (b940084d7 2026-09-28)
+$ rustup target list --installed | grep ios
+aarch64-apple-ios
+aarch64-apple-ios-sim
+$ node -v
+v22.22.0
+$ npm -v
+10.9.4
+$ npx tauri --version
+tauri-cli 2.12.3
+$ pod --version
+1.17.0
+$ xcodegen --version
+Version: 2.46.0
+
+$ xcrun simctl list devices available | grep "iPhone 18 Pro"
+    iPhone 18 Pro (0BF810EB-B85A-4C42-8000-63AE0BD40C97) (Booted) 
+    iPhone 18 Pro Max (F3AB97B6-FEED-4371-83F6-50577A8F4DE8) (Shutdown) 
+
+$ command -v brew xcodegen pod idevicesyslog
+/Users/linte/.local/bin/xcodegen
+/Users/linte/.gem/ruby/2.6.0/bin/pod
+/Users/linte/.local/bin/idevicesyslog
