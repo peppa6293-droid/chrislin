@@ -10,5 +10,8 @@ src-tauri/gen/
 *.bak
 prototype-v2/
 .ekko-tmp/
+.ekko-tmp-*.png
 .eco-tmp/
 .ecko-tmp/
+/data/
+/.claude/
