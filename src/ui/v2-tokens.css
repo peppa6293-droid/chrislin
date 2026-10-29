@@ -87,6 +87,15 @@
   --m0-lab-blob-size: 160px;
   --m0-lab-blob-size-lg: 220px;
   --m0-lab-button-height: 44px;
+  --m0-lab-dark-bg: #10201f;
+  --m0-lab-dark-surface: #172b29;
+  --m0-lab-dark-ink: #e8f3f0;
+  --m0-lab-dark-ink-strong: #ffffff;
+  --m0-lab-dark-muted: #9ab3ae;
+  --m0-lab-dark-line: #2b4743;
+  --m0-lab-dark-teal: #62e0c5;
+  --m0-lab-dark-glass-bg: rgb(30 60 56 / 55%);
+  --m0-lab-dark-glass-border: rgb(255 255 255 / 18%);
 
   --v2-ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
   --v2-ease-emphasized: cubic-bezier(0.16, 1, 0.3, 1);

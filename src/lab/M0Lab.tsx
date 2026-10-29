@@ -5,7 +5,7 @@ import {
   Schedule,
   sendNotification,
 } from "@tauri-apps/plugin-notification";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { TauriSqlDatabase } from "../persistence/tauri-database.js";
 
 type M0Record = {
@@ -24,6 +24,10 @@ export function M0Lab() {
   const [busy, setBusy] = useState(false);
   const [notificationStatus, setNotificationStatus] = useState("通知权限未知");
   const [notificationPermission, setNotificationPermission] = useState<boolean | null>(null);
+  const [bootstrapStatus, setBootstrapStatus] = useState("尚未检查数据库");
+  const [fps, setFps] = useState<number | null>(null);
+  const [minFps, setMinFps] = useState<number | null>(null);
+  const listRef = useRef<HTMLUListElement | null>(null);
 
   const readRecords = useCallback(async () => {
     const pathRows = await db.select<{ file: string }>("PRAGMA database_list");
@@ -42,6 +46,19 @@ export function M0Lab() {
         await db.execute(
           "CREATE TABLE IF NOT EXISTS m0_spike (id INTEGER PRIMARY KEY AUTOINCREMENT, value TEXT NOT NULL, created_at TEXT NOT NULL)",
         );
+        const existing = await db.select<M0Record>(
+          "SELECT id, value, created_at FROM m0_spike ORDER BY id DESC LIMIT 20",
+        );
+        if (existing.length === 0) {
+          const value = `M0-AUTO-${new Date().toISOString()}-${randomSuffix()}`;
+          await db.execute("INSERT INTO m0_spike (value, created_at) VALUES (?, ?)", [
+            value,
+            new Date().toISOString(),
+          ]);
+          if (mounted) setBootstrapStatus(`首次启动自动写入：${value}`);
+        } else if (mounted) {
+          setBootstrapStatus(`已有 ${existing.length} 条记录，本次启动未写入`);
+        }
         if (!mounted) return;
         await readRecords();
       } catch (error) {
@@ -67,6 +84,97 @@ export function M0Lab() {
     })();
     return () => {
       mounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    let raf = 0;
+    let startedAt = 0;
+    let lastSampleAt = 0;
+    let frames = 0;
+    let minimum = Number.POSITIVE_INFINITY;
+    let total = 0;
+    let samples = 0;
+
+    const tick = (now: number) => {
+      if (startedAt === 0) {
+        startedAt = now;
+        lastSampleAt = now;
+      }
+      frames += 1;
+      const elapsed = now - startedAt;
+      if (now - lastSampleAt >= 500) {
+        const current = Math.round((frames * 1000) / (now - lastSampleAt));
+        total += current;
+        samples += 1;
+        minimum = Math.min(minimum, current);
+        setFps(current);
+        setMinFps(minimum);
+        frames = 0;
+        lastSampleAt = now;
+      }
+      if (elapsed >= 1500 && elapsed <= 11500) {
+        const list = listRef.current;
+        if (list) {
+          const max = list.scrollHeight - list.clientHeight;
+          list.scrollTop = max * ((elapsed - 1500) / 10000);
+        }
+      }
+      if (elapsed < 13000) {
+        raf = requestAnimationFrame(tick);
+      } else if (samples > 0) {
+        setFps(Math.round(total / samples));
+      }
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  useEffect(() => {
+    let active = true;
+    const hapticTimer = window.setTimeout(() => {
+      void vibrate(400)
+        .then(() => {
+          if (active) setNotificationStatus("自动震动调用完成（模拟器无物理震动）");
+        })
+        .catch((error: unknown) => {
+          if (active) setNotificationStatus(`自动震动失败：${errorText(error)}`);
+        });
+    }, 18000);
+    const notificationTimer = window.setTimeout(() => {
+      void (async () => {
+        try {
+          let granted = await isPermissionGranted();
+          if (!granted) {
+            const permission = await requestPermission();
+            granted = permission === "granted";
+          }
+          if (!active) return;
+          setNotificationPermission(granted);
+          if (!granted) {
+            setNotificationStatus("自动通知未执行：权限未授予");
+            return;
+          }
+          sendNotification({
+            title: "M0 自动立即通知",
+            body: `自动通知 ${new Date().toLocaleTimeString()}`,
+          });
+          const at = new Date(Date.now() + 60_000);
+          sendNotification({
+            title: "M0 自动定时通知",
+            body: `计划 ${at.toLocaleTimeString()} 送达`,
+            schedule: Schedule.at(at),
+          });
+          setNotificationStatus(`自动通知已发送，并排程 ${at.toLocaleTimeString()}`);
+        } catch (error) {
+          if (active) setNotificationStatus(`自动通知失败：${errorText(error)}`);
+        }
+      })();
+    }, 20000);
+    return () => {
+      active = false;
+      window.clearTimeout(hapticTimer);
+      window.clearTimeout(notificationTimer);
     };
   }, []);
 
@@ -170,6 +278,15 @@ export function M0Lab() {
         <p className="m0-lab__status" aria-live="polite">
           {status}
         </p>
+        <p className="m0-lab__status">{bootstrapStatus}</p>
+        <p className="m0-lab__status">
+          通知权限：
+          {notificationPermission === null ? "未知" : notificationPermission ? "已授予" : "未授予"}{" "}
+          · {notificationStatus}
+        </p>
+        <p className="m0-lab__status">
+          FPS：{fps ?? "…"}（min {minFps ?? "…"}）· 自动滚动 10s
+        </p>
       </header>
 
       <section className="m0-lab__section" aria-labelledby="m0-glass-heading">
@@ -201,7 +318,7 @@ export function M0Lab() {
         <h2 className="m0-lab__heading" id="m0-list-heading">
           200 行滚动列表
         </h2>
-        <ul className="m0-lab__list">
+        <ul className="m0-lab__list" ref={listRef}>
           {LIST_ROWS.map((label) => (
             <li className="m0-lab__row" key={label}>
               <span>{label}</span>

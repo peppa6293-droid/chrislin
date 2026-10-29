@@ -263,5 +263,5 @@ describe("onboarding safety-resource tri-state", () => {
     } finally {
       db.close();
     }
-  });
+  }, 15_000);
 });

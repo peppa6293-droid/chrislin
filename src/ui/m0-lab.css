@@ -220,3 +220,56 @@
 .m0-lab__record span {
   color: var(--v2-muted);
 }
+
+@media (prefers-color-scheme: dark) {
+  .m0-lab {
+    background: var(--m0-lab-dark-bg);
+    color: var(--m0-lab-dark-ink);
+  }
+
+  .m0-lab__title,
+  .m0-lab__heading,
+  .m0-glass__value,
+  .m0-lab__record code {
+    color: var(--m0-lab-dark-ink-strong);
+  }
+
+  .m0-lab__status {
+    color: var(--m0-lab-dark-teal);
+  }
+
+  .m0-lab__eyebrow,
+  .m0-lab__path,
+  .m0-lab__empty,
+  .m0-lab__record span,
+  .m0-glass__label,
+  .m0-lab__row-meta {
+    color: var(--m0-lab-dark-muted);
+  }
+
+  .m0-lab__glass-stage {
+    border-color: var(--m0-lab-dark-line);
+    background: var(--m0-lab-dark-bg);
+  }
+
+  .m0-glass {
+    border-color: var(--m0-lab-dark-glass-border);
+    background: var(--m0-lab-dark-glass-bg);
+  }
+
+  .m0-lab__list,
+  .m0-lab__record {
+    border-color: var(--m0-lab-dark-line);
+    background: var(--m0-lab-dark-surface);
+  }
+
+  .m0-lab__row {
+    border-color: var(--m0-lab-dark-line);
+  }
+
+  .m0-lab__button--secondary {
+    border-color: var(--m0-lab-dark-line);
+    background: var(--m0-lab-dark-surface);
+    color: var(--m0-lab-dark-teal);
+  }
+}
