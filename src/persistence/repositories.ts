@@ -1444,13 +1444,26 @@ export class Repositories {
     const rows = await this.db.select(
       `SELECT d.id FROM debts d
       WHERE d.active=1
+        AND COALESCE((SELECT lifecycle.active FROM debt_revisions lifecycle
+          WHERE lifecycle.debt_id=d.id AND lifecycle.period_month<=? AND lifecycle.as_of_date<=?
+          ORDER BY lifecycle.period_month DESC,lifecycle.as_of_date DESC,lifecycle.revision_id DESC LIMIT 1),d.active)=1
         AND (substr(d.created_at,1,10)<=?
           OR EXISTS(SELECT 1 FROM debt_period_facts prior WHERE prior.debt_id=d.id AND prior.period_month<?)
           OR EXISTS(SELECT 1 FROM debt_revisions prior WHERE prior.debt_id=d.id AND prior.period_month<?))
         AND NOT EXISTS(SELECT 1 FROM debt_period_facts current_fact WHERE current_fact.debt_id=d.id AND current_fact.period_month=? AND current_fact.as_of_date<=?)
         AND NOT EXISTS(SELECT 1 FROM debt_revisions current_revision WHERE current_revision.debt_id=d.id AND current_revision.period_month=? AND current_revision.as_of_date<=?)
       ORDER BY d.id`,
-      [asOfDate, targetMonth, targetMonth, targetMonth, asOfDate, targetMonth, asOfDate],
+      [
+        targetMonth,
+        asOfDate,
+        asOfDate,
+        targetMonth,
+        targetMonth,
+        targetMonth,
+        asOfDate,
+        targetMonth,
+        asOfDate,
+      ],
     );
     return rows.map((row) => text(row, "id"));
   }
