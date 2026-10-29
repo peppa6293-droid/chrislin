@@ -59,4 +59,5 @@ tauri-plugin-haptics = "2"
 
 [patch.crates-io]
 tauri-runtime-wry = { path = "patches/tauri-runtime-wry" }
+tauri-plugin-notification = { path = "patches/tauri-plugin-notification" }
 
