@@ -15,6 +15,7 @@ const home: HomeApplicationState = {
   currentMonth: "2026-10",
   profileDisplayName: "小钱",
   actualIncomeRecordCount: 0,
+  actualIncomeTotal: "13000",
   currentCash: "5000",
   currentMonthSpending: "125.50",
   currentMonthVariableExpenseCount: 2,
@@ -597,31 +598,48 @@ describe("WP-UI-COPY-01 structure and month copy", () => {
     document.querySelector<HTMLElement>(".v2-structure-card") as HTMLElement;
   const monthCard = () => document.querySelector<HTMLElement>(".v2-month-card") as HTMLElement;
 
-  it("S1 default fixture shows the steady structure band and a full income bar", () => {
+  it("S1 default fixture draws both rings and prints both shares", () => {
     renderHome();
     const card = structureCard();
     expect(within(card).getByRole("heading", { name: "账单：不是，他怎么还剩钱？" })).toBeTruthy();
-    expect(card.querySelector(".v2-structure-bar")).toBeTruthy();
-    const income = card.querySelector<HTMLElement>(".v2-structure-bar__fill.is-income");
-    expect(income?.style.width).toBe("100%");
+    expect(card.querySelector(".v2-ring__arc.is-outer")).toBeTruthy();
+    expect(card.querySelector(".v2-ring__arc.is-inner")).toBeTruthy();
+    expect(card.querySelector(".v2-ring__centre-amount")?.textContent).toBe("¥13,000.00");
+    const rows = [...card.querySelectorAll(".v2-ring-row")].map((row) => row.textContent);
+    expect(rows[0]).toContain("固定支出");
+    expect(rows[0]).toContain("占收入 27.1%");
+    expect(rows[1]).toContain("必须偿还月供");
+    expect(rows[1]).toContain("占收入 6.2%");
   });
 
   it("S2 7.7% surplus shows the tight structure band", () => {
-    renderHome({ baseSurplus: "1000" });
+    renderHome({
+      actualIncomeTotal: "1000",
+      essentialExpenses: "300",
+      mandatoryDebtService: "623",
+    });
     expect(
       within(structureCard()).getByRole("heading", { name: "钱包：还活着，先别开香槟。" }),
     ).toBeTruthy();
   });
 
   it("S3 exactly zero surplus shows the even band and is-even tone", () => {
-    renderHome({ baseSurplus: "0" });
+    renderHome({
+      actualIncomeTotal: "1000",
+      essentialExpenses: "400",
+      mandatoryDebtService: "600",
+    });
     const card = structureCard();
     expect(within(card).getByRole("heading", { name: "工资：来过，爱过，没留过。" })).toBeTruthy();
     expect(card.classList.contains("is-even")).toBe(true);
   });
 
   it("S4 a mild deficit shows the mild band and over card tone", () => {
-    renderHome({ baseSurplus: "-500" });
+    renderHome({
+      actualIncomeTotal: "1000",
+      essentialExpenses: "500",
+      mandatoryDebtService: "550",
+    });
     const card = structureCard();
     expect(
       within(card).getByRole("heading", { name: "工资：你们分赃怎么不带我商量？" }),
@@ -630,81 +648,171 @@ describe("WP-UI-COPY-01 structure and month copy", () => {
   });
 
   it("S5 a deep deficit shows the deep band", () => {
-    renderHome({ baseSurplus: "-2000" });
+    renderHome({
+      actualIncomeTotal: "1000",
+      essentialExpenses: "800",
+      mandatoryDebtService: "400",
+    });
     expect(
       within(structureCard()).getByRole("heading", { name: "收入：我一个人打五个？" }),
     ).toBeTruthy();
   });
 
   it("S6a exactly 20% stays in the steady band", () => {
-    renderHome({ baseSurplus: "2600" });
+    renderHome({
+      actualIncomeTotal: "1000",
+      essentialExpenses: "300",
+      mandatoryDebtService: "500",
+    });
     expect(
       within(structureCard()).getByRole("heading", { name: "账单：不是，他怎么还剩钱？" }),
     ).toBeTruthy();
   });
 
   it("S6b exactly -10% is the deep band", () => {
-    renderHome({ baseSurplus: "-1300" });
+    renderHome({
+      actualIncomeTotal: "1000",
+      essentialExpenses: "500",
+      mandatoryDebtService: "600",
+    });
     expect(
       within(structureCard()).getByRole("heading", { name: "收入：我一个人打五个？" }),
     ).toBeTruthy();
   });
 
-  it("S7 zero income with burden shows true amounts and no compare bar", () => {
+  it("S7 missing actual income keeps a neutral track, no arc and never zero-fills", () => {
     renderHome({
-      planningIncome: "0",
+      actualIncomeRecordCount: 0,
+      actualIncomeTotal: "0",
+      planningIncome: "13000",
       essentialExpenses: "3528",
       mandatoryDebtService: "800",
-      baseSurplus: "-4328",
     });
     const card = structureCard();
     expect(
       within(card).getByRole("heading", { name: "收入：暂未出场。账单：戏份拉满。" }),
     ).toBeTruthy();
-    expect(card.querySelector(".v2-structure-bar")).toBeNull();
-    expect(card.textContent).toContain("-¥4,328.00");
+    expect(card.querySelector(".v2-ring__arc")).toBeNull();
+    expect(card.querySelector(".v2-ring__track.is-outer")).toBeTruthy();
+    expect(card.querySelector(".v2-ring-row__percent")).toBeNull();
+    // B-02：缺失不补零——中心印「—」，可访问名称只说「收入 —」，数字位不出现 ¥0.00。
+    expect(card.querySelector(".v2-ring__centre-amount")?.textContent).toBe("—");
+    expect(within(card).getByRole("img", { name: "收入 —" })).toBeTruthy();
+    expect(card.querySelector(".v2-card__value")?.textContent).not.toContain("¥0.00");
+    // 规划收入不得回填到结构卡中心。
+    expect(card.textContent).not.toContain("¥13,000.00");
   });
 
-  it("S8 zero income and zero burden shows the all-zero band and three dots", () => {
+  it("S8 zero income and zero burden shows the all-zero band without arcs or dots", () => {
     renderHome({
+      actualIncomeRecordCount: 0,
+      actualIncomeTotal: "0",
       planningIncome: "0",
       essentialExpenses: "0",
       mandatoryDebtService: "0",
-      baseSurplus: "0",
     });
     const card = structureCard();
     expect(
       within(card).getByRole("heading", { name: "收入：你不来？账单：那我也不来了。" }),
     ).toBeTruthy();
-    expect(card.querySelector(".v2-structure-bar")).toBeNull();
-    expect(card.querySelectorAll(".v2-dot")).toHaveLength(3);
+    expect(card.querySelector(".v2-ring__arc")).toBeNull();
+    expect(card.querySelector(".v2-structure-dots")).toBeNull();
+    expect(card.querySelector(".v2-ring__centre-amount")?.textContent).toBe("—");
+    expect(card.querySelector(".v2-card__value")?.textContent).not.toContain("¥0.00");
   });
 
-  it("S9 pending debt facts hide snapshot amounts and compare bar", () => {
+  it("S9 pending debt facts show confirmed amounts, mask surplus and mark debt 待确认", () => {
     renderHome({}, { pendingDebtFactNames: ["房贷"] });
     const card = structureCard();
     expect(within(card).getByRole("heading", { name: "资料不齐，花点时间补一下" })).toBeTruthy();
     expect(card.textContent).not.toContain("¥8,672.00");
-    expect(card.textContent).not.toContain("¥13,000.00");
-    expect(card.querySelectorAll(".v2-dot")).toHaveLength(0);
-    expect(card.querySelector(".v2-structure-bar")).toBeNull();
+    expect(within(card).getByRole("img", { name: "结构余量待确认" })).toBeTruthy();
+    expect(
+      within(card).getByRole("img", { name: "固定支出占收入 27.1%，必须偿还月供 待确认" }),
+    ).toBeTruthy();
+    expect(card.textContent).toContain("待确认");
+    // 已确认的固定支出照常画外环；月供待确认，内环只有中性轨道。
+    expect(card.querySelector(".v2-ring__arc.is-outer")).toBeTruthy();
+    expect(card.querySelector(".v2-ring__arc.is-inner")).toBeNull();
     expect(within(card).getByRole("button", { name: "查看债务" })).toBeTruthy();
   });
 
-  it("S10 burden over income shows the overhang and tick at the income width", () => {
+  it("S10 burden over income marks the row only and caps the arc at one turn", () => {
     renderHome({
-      planningIncome: "3000",
+      actualIncomeTotal: "3000",
       essentialExpenses: "3528",
       mandatoryDebtService: "800",
-      baseSurplus: "-1328",
     });
     const card = structureCard();
-    expect(card.querySelector(".v2-structure-bar__overhang")).toBeTruthy();
-    expect(card.querySelector(".v2-structure-bar__tick")).toBeTruthy();
-    const income = card.querySelector<HTMLElement>(".v2-structure-bar__fill.is-income");
-    const width = Number.parseFloat(income?.style.width ?? "");
-    expect(width).toBeGreaterThanOrEqual(69.21);
-    expect(width).toBeLessThanOrEqual(69.41);
+    expect(card.querySelectorAll(".v2-ring-row__marker")).toHaveLength(1);
+    // §3.4：不在环上叠标记，超额只在明细行金额左侧表达。
+    expect(card.querySelector(".v2-ring__over-mark")).toBeNull();
+    expect(card.querySelectorAll("svg .v2-ring__over-mark")).toHaveLength(0);
+    expect(card.textContent).toContain("已超出 ¥528.00");
+    expect(card.textContent).not.toContain("已超出 ¥0.00");
+    expect(card.textContent).toContain("占收入 117.6%");
+    const outer = card.querySelector<SVGCircleElement>(".v2-ring__arc.is-outer");
+    const dash = Number.parseFloat(outer?.getAttribute("stroke-dasharray")?.split(" ")[0] ?? "");
+    expect(dash).toBeGreaterThan(653.4);
+    expect(dash).toBeLessThan(653.5);
+  });
+
+  it("S10b a ratio of exactly 100% shows no over mark", () => {
+    renderHome({
+      actualIncomeTotal: "3000",
+      essentialExpenses: "3000",
+      mandatoryDebtService: "0",
+    });
+    const card = structureCard();
+    expect(card.querySelector(".v2-ring__over-mark")).toBeNull();
+    expect(card.querySelectorAll(".v2-ring-row__marker")).toHaveLength(0);
+    expect(card.querySelector(".v2-ring__arc.is-outer")).toBeTruthy();
+    expect(card.textContent).toContain("占收入 100%");
+  });
+
+  it("S12 the 2026-10 real-income fixture uses one source and never double counts", () => {
+    renderHome({
+      actualIncomeRecordCount: 1,
+      actualIncomeTotal: "13791.25",
+      planningIncome: "13000",
+      essentialExpenses: "3528",
+      mandatoryDebtService: "14518.73",
+    });
+    const card = structureCard();
+    expect(card.querySelector(".v2-ring__centre-amount")?.textContent).toBe("¥13,791.25");
+    const rows = [...card.querySelectorAll(".v2-ring-row")].map((row) => row.textContent ?? "");
+    expect(rows[0]).toContain("占收入 25.6%");
+    expect(rows[1]).toContain("占收入 105.3%");
+    expect(card.textContent).toContain("已超出 ¥727.48");
+    expect(card.querySelectorAll(".v2-ring-row__marker")).toHaveLength(1);
+    expect(within(card).getByRole("heading", { name: "收入：我一个人打五个？" })).toBeTruthy();
+    const value = card.querySelector(".v2-card__value")?.textContent ?? "";
+    expect(value).toContain("-¥4,255.48");
+    expect(value).toContain("占收入 -30.9%");
+    // 反例：同一视图不得把 income_records 与 income_entries 相加（27,582.50），
+    // 结构卡也不得回落到规划收入 13,000.00。
+    expect(card.textContent).not.toContain("27,582.50");
+    expect(card.textContent).not.toContain("13,000.00");
+  });
+
+  it("S11 the ring rows toggle selection with pointer and keyboard", async () => {
+    const user = userEvent.setup();
+    renderHome();
+    const card = structureCard();
+    const outerRow = card.querySelector<HTMLButtonElement>(".v2-ring-row[data-ring='outer']");
+    if (!outerRow) throw new Error("outer row missing");
+    expect(outerRow.getAttribute("aria-pressed")).toBe("false");
+    await user.click(outerRow);
+    expect(outerRow.getAttribute("aria-pressed")).toBe("true");
+    expect(card.querySelector(".v2-ring")?.getAttribute("data-selected")).toBe("essential");
+    await user.click(outerRow);
+    expect(outerRow.getAttribute("aria-pressed")).toBe("false");
+    await user.tab();
+    outerRow.focus();
+    await user.keyboard("{Enter}");
+    expect(outerRow.getAttribute("aria-pressed")).toBe("true");
+    await user.keyboard(" ");
+    expect(outerRow.getAttribute("aria-pressed")).toBe("false");
   });
 
   it("M1 empty month shows the deterministic daily line and the empty state", () => {

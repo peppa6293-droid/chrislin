@@ -1,0 +1,19 @@
+=== R11B preflight ===
+2026-10-22T12:35:34Z
+-- app process --
+NO_PROCESS
+-- sidecars --
+NONE
+-- current db hash --
+bb077455bdc5234a118ef07acef83c36261344277ca378f93d4e098664405789  /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3
+-- main backup hash --
+319907d68dafd513a2ebed758d469a066793735677a1a462d034ea7b88b192a3  /Users/linte/Library/Application Support/com.personalfinance.console/production-v8-backups/personal-finance-console.sqlite3.r11-pre-replay-20261022
+-- archive exists? --
+ABSENT
+-- current db integrity --
+ok
+8
+-- expected anchors --
+income_entries|2
+fixed_expense_plans|5
+cash_accounts|5

@@ -1,0 +1,39 @@
+=== R11 write pre-state ===
+timestamp_utc=2026-10-22T11:59:24Z
+process_check:
+NO_PROCESS
+sql_sha256:
+9d442e4e97a8155df360dd1d305550d7b7c4256eb2e33f90c14bd18c9d498f16  evidence/r11-realdata-replay-20261022/30-write/31-replay.sql
+db_sha256_before:
+319907d68dafd513a2ebed758d469a066793735677a1a462d034ea7b88b192a3  /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3
+db_user_version_integrity:
+8
+ok
+target_counts_before:
+cash_accounts|4
+cash_balance_snapshots|4
+cash_account_lifecycle_revisions|0
+assets|4
+asset_value_snapshots|4
+income_entries|0
+fixed_expense_plans|0
+write_exit=0
+=== R11 write post-state ===
+timestamp_utc=2026-10-22T11:59:25Z
+db_sha256_after_write:
+bb077455bdc5234a118ef07acef83c36261344277ca378f93d4e098664405789  /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3
+db_stat:
+size=352256 dev=16777232 inode=30715175 nlink=1 mtime=2026-10-22T19:59:25Z
+db_user_version_integrity_fk:
+8
+ok
+sidecars:
+NONE
+target_counts_after:
+cash_accounts|5
+cash_balance_snapshots|8
+cash_account_lifecycle_revisions|1
+assets|5
+asset_value_snapshots|6
+income_entries|2
+fixed_expense_plans|5

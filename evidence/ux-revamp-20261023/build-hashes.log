@@ -1,0 +1,3 @@
+6f957ba04c6dc6d87a34ad60ce4c8b64a77f63470e1e9300e018cb276b43bae4  src-tauri/target/release/bundle/macos/小钱家.app/Contents/MacOS/personal-finance-console
+41b8aa5a1c1933531c2d986c25d180590ffbf8920aff4483d791a882dc3cfdcb  src-tauri/target/release/bundle/macos/小钱家.app/Contents/Info.plist
+f98b7f7bab5161e8c0c6bb93571ac8ce658c20d81785fc5651ac37f2f9c3d509  src-tauri/target/release/bundle/macos/小钱家.app/Contents/Resources/runtime-compatibility.json

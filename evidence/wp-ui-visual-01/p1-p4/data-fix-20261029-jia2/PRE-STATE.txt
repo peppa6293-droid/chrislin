@@ -1,0 +1,38 @@
+== anchor ==
+singleton|sequence|previous_digest|content_digest|tag
+1|59|bdf712da619520c768c6bb4eaed3a2ddeb0a99de18c0ad62fbd26a765cd5f5df|6fd44af6d4abd6a0a53f4dcfd0a572f9e2702b534c63885a01a04c9f971e0f86|b46af3414b89477fcb256f8a0c5980753238c8140ece0255e9024f084c547229
+== counts ==
+t|c|act
+debts|5|5
+debt_period_facts|10|
+debt_revisions|0|
+income_records|7|
+income_entries|6|
+expenses|831|
+expense_records|832|
+== debts ==
+id|name|active|fixed_monthly_payment
+a1ff0b1a-2a5f-4980-a058-9af7bf79249b|京东白条|1|
+6ab6256a-fe7b-450b-9853-f55c8402f92b|招商分期|1|
+5f50bd18-7b79-49aa-a0da-fa8a19555a69|浦发车贷|1|3487.87
+2a6a027d-806d-44f8-92e0-131f78c6d14b|美团月付|1|
+c7fa0eae-c78a-4d0d-8031-bbf80c523d23|花呗|1|
+== facts ==
+debt_id|period_month|current_balance|current_month_due|as_of_date
+2a6a027d-806d-44f8-92e0-131f78c6d14b|2026-10|331.37|331.37|2026-10-04
+5f50bd18-7b79-49aa-a0da-fa8a19555a69|2026-10|118137.60|3487.87|2026-10-04
+6ab6256a-fe7b-450b-9853-f55c8402f92b|2026-10|46605.10|5679.47|2026-10-04
+a1ff0b1a-2a5f-4980-a058-9af7bf79249b|2026-10|2198.70|657.46|2026-10-04
+c7fa0eae-c78a-4d0d-8031-bbf80c523d23|2026-10|5306.76|4362.56|2026-10-04
+2a6a027d-806d-44f8-92e0-131f78c6d14b|2026-11|1.88|1.88|2026-10-21
+5f50bd18-7b79-49aa-a0da-fa8a19555a69|2026-11|118137.60|3487.87|2026-10-21
+6ab6256a-fe7b-450b-9853-f55c8402f92b|2026-11|36626.20|4132.00|2026-10-21
+a1ff0b1a-2a5f-4980-a058-9af7bf79249b|2026-11|1541.24|653.50|2026-10-21
+c7fa0eae-c78a-4d0d-8031-bbf80c523d23|2026-11|921.39|575.78|2026-10-21
+== month due totals ==
+period_month|total
+2026-10|14518.73
+2026-11|8851.03
+== planning/income ==
+profile_id|safety_coverage_target_months|minimum_cash_coverage_months|safety_recovery_horizon_months|desired_monthly_discretionary_spending
+ffb61fa9-1206-4bdd-923b-7e440468139c|6.0|2.0||1600

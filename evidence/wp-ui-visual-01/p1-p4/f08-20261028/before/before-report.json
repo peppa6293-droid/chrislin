@@ -1,0 +1,1252 @@
+{
+  "label": "before",
+  "asset": "/tmp/f08-before",
+  "generatedAt": "2026-10-28T05:58:23.501Z",
+  "widths": [
+    390,
+    760,
+    980
+  ],
+  "states": [
+    "overload",
+    "roomy"
+  ],
+  "contrast": {
+    "markOnWhite": 4.66,
+    "markOnPage": 4.3,
+    "noteOnWhite": 15.03,
+    "tealEdgeOnWhite": 6.06
+  },
+  "exceptions": [],
+  "remoteRequests": [],
+  "total": 9,
+  "passed": 3,
+  "failures": [
+    {
+      "state": "overload",
+      "width": 390,
+      "name": "no-legacy-stripes-or-pattern",
+      "ok": false,
+      "detail": 6
+    },
+    {
+      "state": "overload",
+      "width": 390,
+      "name": "marker-count",
+      "ok": false,
+      "detail": "0/2"
+    },
+    {
+      "state": "overload",
+      "width": 390,
+      "name": "aria-label",
+      "ok": false,
+      "detail": {
+        "actual": "固定负担 123.1%，消费 143.6%，已超出 ¥3,000.00",
+        "expected": "固定负担 123.1%，已超出 ¥3,000.00，消费 143.6%，已超出 ¥480.00"
+      }
+    },
+    {
+      "state": "overload",
+      "width": 390,
+      "name": "notes-text",
+      "ok": false,
+      "detail": []
+    },
+    {
+      "state": "overload",
+      "width": 390,
+      "name": "no-warning-icon-in-chart",
+      "ok": false,
+      "detail": [
+        "ring",
+        "other-svg"
+      ]
+    },
+    {
+      "state": "overload",
+      "width": 760,
+      "name": "no-legacy-stripes-or-pattern",
+      "ok": false,
+      "detail": 6
+    },
+    {
+      "state": "overload",
+      "width": 760,
+      "name": "marker-count",
+      "ok": false,
+      "detail": "0/2"
+    },
+    {
+      "state": "overload",
+      "width": 760,
+      "name": "aria-label",
+      "ok": false,
+      "detail": {
+        "actual": "固定负担 123.1%，消费 143.6%，已超出 ¥3,000.00",
+        "expected": "固定负担 123.1%，已超出 ¥3,000.00，消费 143.6%，已超出 ¥480.00"
+      }
+    },
+    {
+      "state": "overload",
+      "width": 760,
+      "name": "notes-text",
+      "ok": false,
+      "detail": []
+    },
+    {
+      "state": "overload",
+      "width": 760,
+      "name": "no-warning-icon-in-chart",
+      "ok": false,
+      "detail": [
+        "ring",
+        "other-svg"
+      ]
+    },
+    {
+      "state": "overload",
+      "width": 980,
+      "name": "no-legacy-stripes-or-pattern",
+      "ok": false,
+      "detail": 6
+    },
+    {
+      "state": "overload",
+      "width": 980,
+      "name": "marker-count",
+      "ok": false,
+      "detail": "0/2"
+    },
+    {
+      "state": "overload",
+      "width": 980,
+      "name": "aria-label",
+      "ok": false,
+      "detail": {
+        "actual": "固定负担 123.1%，消费 143.6%，已超出 ¥3,000.00",
+        "expected": "固定负担 123.1%，已超出 ¥3,000.00，消费 143.6%，已超出 ¥480.00"
+      }
+    },
+    {
+      "state": "overload",
+      "width": 980,
+      "name": "notes-text",
+      "ok": false,
+      "detail": []
+    },
+    {
+      "state": "overload",
+      "width": 980,
+      "name": "no-warning-icon-in-chart",
+      "ok": false,
+      "detail": [
+        "ring",
+        "other-svg"
+      ]
+    },
+    {
+      "state": "roomy",
+      "width": 390,
+      "name": "no-legacy-stripes-or-pattern",
+      "ok": false,
+      "detail": 1
+    },
+    {
+      "state": "roomy",
+      "width": 760,
+      "name": "no-legacy-stripes-or-pattern",
+      "ok": false,
+      "detail": 1
+    },
+    {
+      "state": "roomy",
+      "width": 980,
+      "name": "no-legacy-stripes-or-pattern",
+      "ok": false,
+      "detail": 1
+    }
+  ],
+  "report": [
+    {
+      "label": "before",
+      "state": "overload",
+      "width": 390,
+      "height": 1522,
+      "screenshot": "before-home-overload-390.png",
+      "checks": [
+        {
+          "name": "no-legacy-stripes-or-pattern",
+          "ok": false,
+          "detail": 6
+        },
+        {
+          "name": "marker-count",
+          "ok": false,
+          "detail": "0/2"
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "docScrollWidth": 390,
+            "width": 390,
+            "overflow": []
+          }
+        },
+        {
+          "name": "aria-label",
+          "ok": false,
+          "detail": {
+            "actual": "固定负担 123.1%，消费 143.6%，已超出 ¥3,000.00",
+            "expected": "固定负担 123.1%，已超出 ¥3,000.00，消费 143.6%，已超出 ¥480.00"
+          }
+        },
+        {
+          "name": "notes-text",
+          "ok": false,
+          "detail": []
+        },
+        {
+          "name": "notes-not-clipped",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-size-3x14",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-color-c2503c",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-radius-2",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-decorative",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-left-of-amount",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "amount-not-clipped",
+          "ok": true,
+          "detail": [
+            "固定负担123.1%",
+            "消费143.6%"
+          ]
+        },
+        {
+          "name": "single-lap-arcs",
+          "ok": true,
+          "detail": [
+            {
+              "r": 94,
+              "dash": "590.6194188748811 590.6194188748811"
+            },
+            {
+              "r": 71,
+              "dash": "446.10615680975064 446.10615680975064"
+            }
+          ]
+        },
+        {
+          "name": "no-warning-icon-in-chart",
+          "ok": false,
+          "detail": [
+            "ring",
+            "other-svg"
+          ]
+        },
+        {
+          "name": "clean-view",
+          "ok": true,
+          "detail": false
+        }
+      ],
+      "pass": false,
+      "data": {
+        "docScrollWidth": 390,
+        "innerWidth": 390,
+        "stripes": 6,
+        "markers": [],
+        "notes": [],
+        "arcs": [
+          {
+            "r": 94,
+            "dash": "590.6194188748811 590.6194188748811"
+          },
+          {
+            "r": 71,
+            "dash": "446.10615680975064 446.10615680975064"
+          }
+        ],
+        "rows": [
+          {
+            "text": "固定负担123.1%",
+            "box": {
+              "x": 33,
+              "y": 789.59,
+              "w": 324,
+              "h": 17,
+              "right": 357,
+              "bottom": 806.59
+            },
+            "clipped": false
+          },
+          {
+            "text": "消费143.6%",
+            "box": {
+              "x": 33,
+              "y": 814.59,
+              "w": 324,
+              "h": 17,
+              "right": 357,
+              "bottom": 831.59
+            },
+            "clipped": false
+          }
+        ],
+        "stray": [
+          "ring",
+          "other-svg"
+        ],
+        "aria": "固定负担 123.1%，消费 143.6%，已超出 ¥3,000.00",
+        "overflow": [],
+        "cardBox": {
+          "x": 14,
+          "y": 573.59,
+          "w": 362,
+          "h": 328,
+          "right": 376,
+          "bottom": 901.59
+        },
+        "reviewToolbar": false
+      }
+    },
+    {
+      "label": "before",
+      "state": "overload",
+      "width": 760,
+      "height": 1678,
+      "screenshot": "before-home-overload-760.png",
+      "checks": [
+        {
+          "name": "no-legacy-stripes-or-pattern",
+          "ok": false,
+          "detail": 6
+        },
+        {
+          "name": "marker-count",
+          "ok": false,
+          "detail": "0/2"
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "docScrollWidth": 760,
+            "width": 760,
+            "overflow": []
+          }
+        },
+        {
+          "name": "aria-label",
+          "ok": false,
+          "detail": {
+            "actual": "固定负担 123.1%，消费 143.6%，已超出 ¥3,000.00",
+            "expected": "固定负担 123.1%，已超出 ¥3,000.00，消费 143.6%，已超出 ¥480.00"
+          }
+        },
+        {
+          "name": "notes-text",
+          "ok": false,
+          "detail": []
+        },
+        {
+          "name": "notes-not-clipped",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-size-3x14",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-color-c2503c",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-radius-2",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-decorative",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-left-of-amount",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "amount-not-clipped",
+          "ok": true,
+          "detail": [
+            "固定负担123.1%",
+            "消费143.6%"
+          ]
+        },
+        {
+          "name": "single-lap-arcs",
+          "ok": true,
+          "detail": [
+            {
+              "r": 94,
+              "dash": "590.6194188748811 590.6194188748811"
+            },
+            {
+              "r": 71,
+              "dash": "446.10615680975064 446.10615680975064"
+            }
+          ]
+        },
+        {
+          "name": "no-warning-icon-in-chart",
+          "ok": false,
+          "detail": [
+            "ring",
+            "other-svg"
+          ]
+        },
+        {
+          "name": "clean-view",
+          "ok": true,
+          "detail": false
+        }
+      ],
+      "pass": false,
+      "data": {
+        "docScrollWidth": 760,
+        "innerWidth": 760,
+        "stripes": 6,
+        "markers": [],
+        "notes": [],
+        "arcs": [
+          {
+            "r": 94,
+            "dash": "590.6194188748811 590.6194188748811"
+          },
+          {
+            "r": 71,
+            "dash": "446.10615680975064 446.10615680975064"
+          }
+        ],
+        "rows": [
+          {
+            "text": "固定负担123.1%",
+            "box": {
+              "x": 170,
+              "y": 918.09,
+              "w": 420,
+              "h": 17,
+              "right": 590,
+              "bottom": 935.09
+            },
+            "clipped": false
+          },
+          {
+            "text": "消费143.6%",
+            "box": {
+              "x": 170,
+              "y": 943.09,
+              "w": 420,
+              "h": 17,
+              "right": 590,
+              "bottom": 960.09
+            },
+            "clipped": false
+          }
+        ],
+        "stray": [
+          "ring",
+          "other-svg"
+        ],
+        "aria": "固定负担 123.1%，消费 143.6%，已超出 ¥3,000.00",
+        "overflow": [],
+        "cardBox": {
+          "x": 20,
+          "y": 627.09,
+          "w": 720,
+          "h": 413,
+          "right": 740,
+          "bottom": 1040.09
+        },
+        "reviewToolbar": false
+      }
+    },
+    {
+      "label": "before",
+      "state": "overload",
+      "width": 980,
+      "height": 1510,
+      "screenshot": "before-home-overload-980.png",
+      "checks": [
+        {
+          "name": "no-legacy-stripes-or-pattern",
+          "ok": false,
+          "detail": 6
+        },
+        {
+          "name": "marker-count",
+          "ok": false,
+          "detail": "0/2"
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "docScrollWidth": 980,
+            "width": 980,
+            "overflow": []
+          }
+        },
+        {
+          "name": "aria-label",
+          "ok": false,
+          "detail": {
+            "actual": "固定负担 123.1%，消费 143.6%，已超出 ¥3,000.00",
+            "expected": "固定负担 123.1%，已超出 ¥3,000.00，消费 143.6%，已超出 ¥480.00"
+          }
+        },
+        {
+          "name": "notes-text",
+          "ok": false,
+          "detail": []
+        },
+        {
+          "name": "notes-not-clipped",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-size-3x14",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-color-c2503c",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-radius-2",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-decorative",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-left-of-amount",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "amount-not-clipped",
+          "ok": true,
+          "detail": [
+            "固定负担123.1%",
+            "消费143.6%"
+          ]
+        },
+        {
+          "name": "single-lap-arcs",
+          "ok": true,
+          "detail": [
+            {
+              "r": 94,
+              "dash": "590.6194188748811 590.6194188748811"
+            },
+            {
+              "r": 71,
+              "dash": "446.10615680975064 446.10615680975064"
+            }
+          ]
+        },
+        {
+          "name": "no-warning-icon-in-chart",
+          "ok": false,
+          "detail": [
+            "ring",
+            "other-svg"
+          ]
+        },
+        {
+          "name": "clean-view",
+          "ok": true,
+          "detail": false
+        }
+      ],
+      "pass": false,
+      "data": {
+        "docScrollWidth": 980,
+        "innerWidth": 980,
+        "stripes": 6,
+        "markers": [],
+        "notes": [],
+        "arcs": [
+          {
+            "r": 94,
+            "dash": "590.6194188748811 590.6194188748811"
+          },
+          {
+            "r": 71,
+            "dash": "446.10615680975064 446.10615680975064"
+          }
+        ],
+        "rows": [
+          {
+            "text": "固定负担123.1%",
+            "box": {
+              "x": 454,
+              "y": 686.09,
+              "w": 320,
+              "h": 17,
+              "right": 774,
+              "bottom": 703.09
+            },
+            "clipped": false
+          },
+          {
+            "text": "消费143.6%",
+            "box": {
+              "x": 454,
+              "y": 715.09,
+              "w": 320,
+              "h": 17,
+              "right": 774,
+              "bottom": 732.09
+            },
+            "clipped": false
+          }
+        ],
+        "stray": [
+          "ring",
+          "other-svg"
+        ],
+        "aria": "固定负担 123.1%，消费 143.6%，已超出 ¥3,000.00",
+        "overflow": [],
+        "cardBox": {
+          "x": 108,
+          "y": 648.09,
+          "w": 848,
+          "h": 310,
+          "right": 956,
+          "bottom": 958.09
+        },
+        "reviewToolbar": false
+      }
+    },
+    {
+      "label": "before",
+      "state": "roomy",
+      "width": 390,
+      "height": 1405,
+      "screenshot": "before-home-roomy-390.png",
+      "checks": [
+        {
+          "name": "no-legacy-stripes-or-pattern",
+          "ok": false,
+          "detail": 1
+        },
+        {
+          "name": "marker-count",
+          "ok": true,
+          "detail": "0/0"
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "docScrollWidth": 390,
+            "width": 390,
+            "overflow": []
+          }
+        },
+        {
+          "name": "aria-label",
+          "ok": true,
+          "detail": {
+            "actual": "固定负担 46.9%，消费 68%",
+            "expected": "固定负担 46.9%，消费 68%"
+          }
+        },
+        {
+          "name": "notes-text",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "notes-not-clipped",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-size-3x14",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-color-c2503c",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-radius-2",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-decorative",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-left-of-amount",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "amount-not-clipped",
+          "ok": true,
+          "detail": [
+            "固定负担46.9%",
+            "消费68%"
+          ]
+        },
+        {
+          "name": "single-lap-arcs",
+          "ok": true,
+          "detail": [
+            {
+              "r": 94,
+              "dash": "277.1368042412904 590.6194188748811"
+            },
+            {
+              "r": 71,
+              "dash": "303.35218663063046 446.10615680975064"
+            }
+          ]
+        },
+        {
+          "name": "no-warning-icon-in-chart",
+          "ok": true,
+          "detail": [
+            "ring"
+          ]
+        },
+        {
+          "name": "clean-view",
+          "ok": true,
+          "detail": false
+        }
+      ],
+      "pass": false,
+      "data": {
+        "docScrollWidth": 390,
+        "innerWidth": 390,
+        "stripes": 1,
+        "markers": [],
+        "notes": [],
+        "arcs": [
+          {
+            "r": 94,
+            "dash": "277.1368042412904 590.6194188748811"
+          },
+          {
+            "r": 71,
+            "dash": "303.35218663063046 446.10615680975064"
+          }
+        ],
+        "rows": [
+          {
+            "text": "固定负担46.9%",
+            "box": {
+              "x": 33,
+              "y": 727.59,
+              "w": 324,
+              "h": 17,
+              "right": 357,
+              "bottom": 744.59
+            },
+            "clipped": false
+          },
+          {
+            "text": "消费68%",
+            "box": {
+              "x": 33,
+              "y": 752.59,
+              "w": 324,
+              "h": 17,
+              "right": 357,
+              "bottom": 769.59
+            },
+            "clipped": false
+          }
+        ],
+        "stray": [
+          "ring"
+        ],
+        "aria": "固定负担 46.9%，消费 68%",
+        "overflow": [],
+        "cardBox": {
+          "x": 14,
+          "y": 511.59,
+          "w": 362,
+          "h": 273,
+          "right": 376,
+          "bottom": 784.59
+        },
+        "reviewToolbar": false
+      }
+    },
+    {
+      "label": "before",
+      "state": "roomy",
+      "width": 760,
+      "height": 1625,
+      "screenshot": "before-home-roomy-760.png",
+      "checks": [
+        {
+          "name": "no-legacy-stripes-or-pattern",
+          "ok": false,
+          "detail": 1
+        },
+        {
+          "name": "marker-count",
+          "ok": true,
+          "detail": "0/0"
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "docScrollWidth": 760,
+            "width": 760,
+            "overflow": []
+          }
+        },
+        {
+          "name": "aria-label",
+          "ok": true,
+          "detail": {
+            "actual": "固定负担 46.9%，消费 68%",
+            "expected": "固定负担 46.9%，消费 68%"
+          }
+        },
+        {
+          "name": "notes-text",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "notes-not-clipped",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-size-3x14",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-color-c2503c",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-radius-2",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-decorative",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-left-of-amount",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "amount-not-clipped",
+          "ok": true,
+          "detail": [
+            "固定负担46.9%",
+            "消费68%"
+          ]
+        },
+        {
+          "name": "single-lap-arcs",
+          "ok": true,
+          "detail": [
+            {
+              "r": 94,
+              "dash": "277.1368042412904 590.6194188748811"
+            },
+            {
+              "r": 71,
+              "dash": "303.35218663063046 446.10615680975064"
+            }
+          ]
+        },
+        {
+          "name": "no-warning-icon-in-chart",
+          "ok": true,
+          "detail": [
+            "ring"
+          ]
+        },
+        {
+          "name": "clean-view",
+          "ok": true,
+          "detail": false
+        }
+      ],
+      "pass": false,
+      "data": {
+        "docScrollWidth": 760,
+        "innerWidth": 760,
+        "stripes": 1,
+        "markers": [],
+        "notes": [],
+        "arcs": [
+          {
+            "r": 94,
+            "dash": "277.1368042412904 590.6194188748811"
+          },
+          {
+            "r": 71,
+            "dash": "303.35218663063046 446.10615680975064"
+          }
+        ],
+        "rows": [
+          {
+            "text": "固定负担46.9%",
+            "box": {
+              "x": 170,
+              "y": 919.09,
+              "w": 420,
+              "h": 17,
+              "right": 590,
+              "bottom": 936.09
+            },
+            "clipped": false
+          },
+          {
+            "text": "消费68%",
+            "box": {
+              "x": 170,
+              "y": 944.09,
+              "w": 420,
+              "h": 17,
+              "right": 590,
+              "bottom": 961.09
+            },
+            "clipped": false
+          }
+        ],
+        "stray": [
+          "ring"
+        ],
+        "aria": "固定负担 46.9%，消费 68%",
+        "overflow": [],
+        "cardBox": {
+          "x": 20,
+          "y": 627.09,
+          "w": 720,
+          "h": 360,
+          "right": 740,
+          "bottom": 987.09
+        },
+        "reviewToolbar": false
+      }
+    },
+    {
+      "label": "before",
+      "state": "roomy",
+      "width": 980,
+      "height": 1510,
+      "screenshot": "before-home-roomy-980.png",
+      "checks": [
+        {
+          "name": "no-legacy-stripes-or-pattern",
+          "ok": false,
+          "detail": 1
+        },
+        {
+          "name": "marker-count",
+          "ok": true,
+          "detail": "0/0"
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "docScrollWidth": 980,
+            "width": 980,
+            "overflow": []
+          }
+        },
+        {
+          "name": "aria-label",
+          "ok": true,
+          "detail": {
+            "actual": "固定负担 46.9%，消费 68%",
+            "expected": "固定负担 46.9%，消费 68%"
+          }
+        },
+        {
+          "name": "notes-text",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "notes-not-clipped",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-size-3x14",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-color-c2503c",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-radius-2",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-decorative",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-left-of-amount",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "amount-not-clipped",
+          "ok": true,
+          "detail": [
+            "固定负担46.9%",
+            "消费68%"
+          ]
+        },
+        {
+          "name": "single-lap-arcs",
+          "ok": true,
+          "detail": [
+            {
+              "r": 94,
+              "dash": "277.1368042412904 590.6194188748811"
+            },
+            {
+              "r": 71,
+              "dash": "303.35218663063046 446.10615680975064"
+            }
+          ]
+        },
+        {
+          "name": "no-warning-icon-in-chart",
+          "ok": true,
+          "detail": [
+            "ring"
+          ]
+        },
+        {
+          "name": "clean-view",
+          "ok": true,
+          "detail": false
+        }
+      ],
+      "pass": false,
+      "data": {
+        "docScrollWidth": 980,
+        "innerWidth": 980,
+        "stripes": 1,
+        "markers": [],
+        "notes": [],
+        "arcs": [
+          {
+            "r": 94,
+            "dash": "277.1368042412904 590.6194188748811"
+          },
+          {
+            "r": 71,
+            "dash": "303.35218663063046 446.10615680975064"
+          }
+        ],
+        "rows": [
+          {
+            "text": "固定负担46.9%",
+            "box": {
+              "x": 454,
+              "y": 686.09,
+              "w": 320,
+              "h": 17,
+              "right": 774,
+              "bottom": 703.09
+            },
+            "clipped": false
+          },
+          {
+            "text": "消费68%",
+            "box": {
+              "x": 454,
+              "y": 715.09,
+              "w": 320,
+              "h": 17,
+              "right": 774,
+              "bottom": 732.09
+            },
+            "clipped": false
+          }
+        ],
+        "stray": [
+          "ring"
+        ],
+        "aria": "固定负担 46.9%，消费 68%",
+        "overflow": [],
+        "cardBox": {
+          "x": 108,
+          "y": 648.09,
+          "w": 848,
+          "h": 310,
+          "right": 956,
+          "bottom": 958.09
+        },
+        "reviewToolbar": false
+      }
+    },
+    {
+      "label": "before",
+      "state": "fixed-normal",
+      "width": 390,
+      "screenshot": "before-fixed-normal-390.png",
+      "checks": [
+        {
+          "name": "no-stripes-on-fixed-page",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "scrollWidth": 390,
+            "width": 390
+          }
+        },
+        {
+          "name": "summary-ring-name-kept",
+          "ok": true,
+          "detail": "所选月份已付占比"
+        },
+        {
+          "name": "pay-button-kept",
+          "ok": true,
+          "detail": true
+        }
+      ],
+      "pass": true
+    },
+    {
+      "label": "before",
+      "state": "fixed-normal",
+      "width": 760,
+      "screenshot": "before-fixed-normal-760.png",
+      "checks": [
+        {
+          "name": "no-stripes-on-fixed-page",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "scrollWidth": 760,
+            "width": 760
+          }
+        },
+        {
+          "name": "summary-ring-name-kept",
+          "ok": true,
+          "detail": "所选月份已付占比"
+        },
+        {
+          "name": "pay-button-kept",
+          "ok": true,
+          "detail": true
+        }
+      ],
+      "pass": true
+    },
+    {
+      "label": "before",
+      "state": "fixed-normal",
+      "width": 980,
+      "screenshot": "before-fixed-normal-980.png",
+      "checks": [
+        {
+          "name": "no-stripes-on-fixed-page",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "scrollWidth": 980,
+            "width": 980
+          }
+        },
+        {
+          "name": "summary-ring-name-kept",
+          "ok": true,
+          "detail": "所选月份已付占比"
+        },
+        {
+          "name": "pay-button-kept",
+          "ok": true,
+          "detail": true
+        }
+      ],
+      "pass": true
+    }
+  ]
+}

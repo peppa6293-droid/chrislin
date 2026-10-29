@@ -1,14 +1,23 @@
 import { Check, Pencil, Plus, Trash2, WalletCards } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { HomeApplicationState } from "../application/product-service.js";
 import type {
   EssentialItemPatch,
   EssentialPaymentRecord,
 } from "../application/ux-ledger-service.js";
+import { money } from "../model/money.js";
 import type { ExpenseCategory } from "../model/types.js";
 import type { ProductApplicationServices } from "./contracts.js";
 import { DateField } from "./DateField.js";
+import {
+  categoryProgress,
+  hasUnownedPayments,
+  itemStatusLine,
+  monthPaidSummary,
+  paidByItem,
+} from "./fixed-expenses-model.js";
 import { formatCurrency } from "./money-format.js";
+import { V2PaidRing } from "./V2PaidRing.js";
 
 const ESSENTIAL_LABELS: Array<{ value: ExpenseCategory; label: string }> = [
   { value: "HOUSING", label: "住房" },
@@ -28,6 +37,10 @@ interface ItemDraft {
 }
 
 const EMPTY_DRAFT: ItemDraft = { name: "", category: "HOUSING", monthlyAmount: "" };
+
+function categoryLabel(category: string): string {
+  return ESSENTIAL_LABELS.find((entry) => entry.value === category)?.label ?? "其他固定支出";
+}
 
 export function FixedExpensesPage({
   asOfDate,
@@ -52,6 +65,7 @@ export function FixedExpensesPage({
   const [feedback, setFeedback] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const amountInputRef = useRef<HTMLInputElement>(null);
 
   const load = useCallback(async () => {
     try {
@@ -73,8 +87,10 @@ export function FixedExpensesPage({
     void load();
   }, [load]);
 
-  const monthTotal = payments.reduce((sum, payment) => sum + Number(payment.amount || 0), 0);
-  const plannedTotal = items.reduce((sum, item) => sum + Number(item.monthlyAmount || 0), 0);
+  const summary = monthPaidSummary(items, payments);
+  const categories = categoryProgress(items, payments);
+  const paidByItemId = paidByItem(payments);
+  const unownedPayments = hasUnownedPayments(payments);
 
   async function saveDraft() {
     if (!draft.name.trim()) {
@@ -133,6 +149,14 @@ export function FixedExpensesPage({
     }
   }
 
+  function beginPayment(item: { id: string; monthlyAmount: string }) {
+    setPaymentItemId(item.id);
+    setPaymentAmount(item.monthlyAmount);
+    const field = amountInputRef.current;
+    field?.scrollIntoView?.({ block: "center" });
+    field?.focus();
+  }
+
   async function submitPayment() {
     if (!paymentItemId) {
       setError("先选一项要支付的固定支出。");
@@ -169,65 +193,141 @@ export function FixedExpensesPage({
         </button>
         <span>{asOfDate.slice(0, 7)}</span>
       </header>
-      <h1 className="detail-title">固定支出</h1>
-      <section className="detail-panel" aria-labelledby="fixed-summary-heading">
-        <h2 id="fixed-summary-heading">这个月固定支出</h2>
-        <p>
-          计划每月 <strong>{formatCurrency(plannedTotal)}</strong>，本月已经付了{" "}
-          <strong>{formatCurrency(monthTotal)}</strong>。
-        </p>
-        <p className="detail-note">
-          记一笔实际支付只进固定支出账，不算进弹性消费，也不会让本月消费看起来变多。
-        </p>
-      </section>
 
-      <section className="detail-panel" aria-labelledby="fixed-list-heading">
-        <h2 id="fixed-list-heading">每月要付的</h2>
-        {items.length === 0 ? (
-          <p>还没有固定支出，先在下面加一项。</p>
-        ) : (
-          <ul className="v2-plain-list">
-            {items.map((item) => (
-              <li key={item.id}>
-                <span>
-                  <strong>{item.name}</strong>
-                  <small>
-                    {ESSENTIAL_LABELS.find((entry) => entry.value === item.category)?.label ??
-                      "其他固定支出"}
-                  </small>
-                </span>
-                <span>{formatCurrency(item.monthlyAmount)} / 月</span>
-                <button
-                  type="button"
-                  className="v2-text-button"
-                  disabled={busy}
-                  onClick={() =>
-                    setDraft({
-                      id: item.id,
-                      name: item.name,
-                      category: item.category as ExpenseCategory,
-                      monthlyAmount: item.monthlyAmount,
-                    })
-                  }
-                >
-                  <Pencil size={15} aria-hidden="true" /> 改
-                </button>
-                <button
-                  type="button"
-                  className="v2-text-button"
-                  disabled={busy}
-                  onClick={() => {
-                    if (!window.confirm(`停用「${item.name}」？以后不再计入固定支出。`)) return;
-                    void deactivate(item);
-                  }}
-                >
-                  <Trash2 size={15} aria-hidden="true" /> 停用
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
+      <div className="fixed-title-row">
+        <h1 className="detail-title">固定支出·{items.length}项</h1>
+      </div>
+
+      {items.length === 0 ? (
+        <div className="fixed-empty">
+          <p>暂无固定支出</p>
+        </div>
+      ) : (
+        <>
+          <section className="detail-panel fixed-summary" aria-label="固定支出">
+            <dl className="fixed-summary__metrics">
+              <div>
+                <dt>计划</dt>
+                <dd>{formatCurrency(summary.plan)}</dd>
+              </div>
+              <div>
+                <dt>已付</dt>
+                <dd className="is-paid">{formatCurrency(summary.paid)}</dd>
+              </div>
+              <div>
+                <dt>未付</dt>
+                <dd>{formatCurrency(summary.unpaid)}</dd>
+              </div>
+            </dl>
+            <div className="fixed-summary__ring">
+              <V2PaidRing
+                progress={summary.progress}
+                percent={summary.percent}
+                label="所选月份已付占比"
+              />
+              <span className="fixed-summary__ring-name" aria-hidden="true">
+                所选月份已付占比
+              </span>
+            </div>
+          </section>
+
+          <section className="detail-panel fixed-list" aria-labelledby="fixed-list-heading">
+            <h2 id="fixed-list-heading" className="v2-sr-only">
+              每月要付的
+            </h2>
+            <ul className="fixed-list__items">
+              {items.map((item) => {
+                const paid = paidByItemId.get(item.id) ?? "0";
+                const paidValue = money(paid);
+                const status =
+                  unownedPayments && !paidValue.gt(0)
+                    ? ""
+                    : itemStatusLine(item.monthlyAmount, paid);
+                return (
+                  <li key={item.id} className={`fixed-item ${paidValue.gt(0) ? "is-paid" : ""}`}>
+                    <div className="fixed-item__main">
+                      <span className="fixed-item__identity">
+                        <strong>{item.name}</strong>
+                        <small>{categoryLabel(item.category)}</small>
+                      </span>
+                      <span className="fixed-item__amount">
+                        {formatCurrency(item.monthlyAmount)} / 月
+                      </span>
+                    </div>
+                    <div className="fixed-item__meta">
+                      <span className="fixed-item__status">{status}</span>
+                      <span className="fixed-item__actions">
+                        {!paidValue.gt(0) && (
+                          <button
+                            type="button"
+                            className="v2-btn v2-btn--primary fixed-item__pay"
+                            disabled={busy}
+                            onClick={() => beginPayment(item)}
+                          >
+                            记一笔
+                          </button>
+                        )}
+                        <button
+                          type="button"
+                          className="v2-text-button"
+                          disabled={busy}
+                          onClick={() =>
+                            setDraft({
+                              id: item.id,
+                              name: item.name,
+                              category: item.category as ExpenseCategory,
+                              monthlyAmount: item.monthlyAmount,
+                            })
+                          }
+                        >
+                          <Pencil size={15} aria-hidden="true" /> 改
+                        </button>
+                        <button
+                          type="button"
+                          className="v2-text-button"
+                          disabled={busy}
+                          onClick={() => {
+                            if (!window.confirm(`停用「${item.name}」？以后不再计入固定支出。`))
+                              return;
+                            void deactivate(item);
+                          }}
+                        >
+                          <Trash2 size={15} aria-hidden="true" /> 停用
+                        </button>
+                      </span>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+
+          <section className="detail-panel fixed-categories" aria-label="固定支出">
+            <div className="fixed-categories__grid">
+              {categories.map((row) => (
+                <div key={row.category} className="fixed-category" data-state={row.progress.state}>
+                  <div className="fixed-category__head">
+                    <span className="fixed-category__name">{categoryLabel(row.category)}</span>
+                    <span className="fixed-category__plan">{formatCurrency(row.plan)}</span>
+                  </div>
+                  <div className="fixed-progress" aria-hidden="true">
+                    <span style={{ width: `${row.progress.progress * 100}%` }} />
+                  </div>
+                  {/* 本月有无归属支付时，不为「已付 = 0」的分类断言「未付」（Q-5：不猜归属）。 */}
+                  {(row.progress.state !== "UNPAID" || !unownedPayments) &&
+                    row.progress.primary && (
+                      <p className="fixed-category__primary">{row.progress.primary}</p>
+                    )}
+                  {(row.progress.state !== "UNPAID" || !unownedPayments) &&
+                    row.progress.secondary && (
+                      <p className="fixed-category__secondary">{row.progress.secondary}</p>
+                    )}
+                </div>
+              ))}
+            </div>
+          </section>
+        </>
+      )}
 
       <section className="detail-panel" aria-labelledby="fixed-edit-heading">
         <h2 id="fixed-edit-heading">{draft.id ? "修改这一项" : "添加一项固定支出"}</h2>
@@ -308,6 +408,7 @@ export function FixedExpensesPage({
         <label>
           金额
           <input
+            ref={amountInputRef}
             inputMode="decimal"
             value={paymentAmount}
             onChange={(event) => setPaymentAmount(event.target.value)}

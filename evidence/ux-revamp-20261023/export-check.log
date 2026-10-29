@@ -1,0 +1,6 @@
+xiaoqianjia-expenses-2026-10-23.csv	80944 bytes	sha256=d9fe43da54f37f116dcc8d8ce1f4ff7c5aa722c9fe4d4a66096ef247527d8c1d
+xiaoqianjia-backup-2026-10-23.json	1027159 bytes	sha256=953403783e9bb944cd91f02a8916556974db5f5f5e319cfb428727efd4e1bb1a
+csv rows=829 total_amount=101187.16
+backup format: xiaohqianjia-backup version: 1
+exportedAt: 2026-10-23T04:24:25.155Z asOfDate: 2026-10-23
+tableCounts: {"accounts": 1, "actual_income_revisions": 0, "app_metadata": 0, "asset_revisions": 5, "asset_value_snapshots": 4, "assets": 5, "cash_account_lifecycle_revisions": 1, "cash_account_revisions": 4, "cash_accounts": 5, "cash_balance_snapshots": 4, "debt_period_facts": 10, "debt_revisions": 0, "debts": 5, "essential_expense_items": 3, "essential_expense_revisions": 0, "essential_expense_snapshots": 3, "expense_categories": 6, "expense_records": 830, "expenses": 829, "financial_settings": 1, "fixed_expense_plans": 0, "import_batches": 12, "income_entries": 0, "income_records": 1, "planning_income_month_revisions": 0, "planning_income_revisions": 0, "profiles": 1, "settings_revisions": 0}

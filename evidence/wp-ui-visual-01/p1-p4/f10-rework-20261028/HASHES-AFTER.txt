@@ -1,0 +1,19 @@
+461bf9e02e0ed4a5382e17da8a6ae147f4799ae9a26da17f596641a9f9aa92e5  src/ui/structure-ring.ts
+7762ec167a57045b30270ed5192b1c3034d586f781f7809441054b19e93e07bf  src/ui/fixed-expenses-model.ts
+b2ad2e0f1dcfdde1f008d6d94ead31ae3ea3c6e65cd1099b1ccb54438a2a7d3c  src/ui/V2StructureRings.tsx
+7523d0f4ef0d239766cf8951ad4b01ddc9a983c638193767b0b915d76804de63  src/ui/V2PaidRing.tsx
+8e4a63e6edd23c038de7f36370ef5cd68ddaf45228a711a791f5ea67bf242172  src/ui/V2StructureCard.tsx
+7bd97feae64841e0939576ccf5fc030860d910a61aa818a39bbd0e15989bd999  src/ui/FixedExpensesPage.tsx
+af4cb3816ceca3ab8ce0399480b9486389b8c8895cd484139ae25dc1b40da7b7  src/ui/v2-structure-ring.css
+a259db480bd01f461f024ebf8c67b1e3a9c4ec545fc51c8d8d1048995ac7adec  src/ui/v2-fixed-page.css
+97abe3d79b80927be921fd10ff11887f92375850d02ca8b6d9c7bdfa72acf8d9  src/ui/v2-home-revamp.css
+58a443b73fe5ceabca50ac1764a1233254a3835d2c986fa9aa6478fb50770785  src/ui/v2-card.css
+ffd71dcb33996aa67ca7c6b4a000b0dab23a860fe61bb487780423d3a5e4e7c0  src/main.tsx
+55b9fda53f3ab6498ed366cb4a7725cb7a4b12b8d24c5e5558e4b627395a98b1  tests/v2-ui.test.tsx
+f3d925126175d197fc83164f0cb0be34c897c2582e2f17951e3c597ac801235c  tests/p1p2-models.test.ts
+68abb8206e892905a1bee650bc6174fa1aa969d4e5a0dc730656dad718c29c2c  tests/p1p2-fixed-page.test.tsx
+
+# 证据台（返工后）
+a0a163d0a5de4f4ce3a37173fb0b95e1b84a40722edda376434290d9a515701b  evidence/wp-ui-visual-01/p1-p4/f10-20261028/harness/shoot.mjs
+6edf3ce38ecd0b3d5ec4e61d388e134389a3715e13005e0cabbcbb1da809067f  evidence/wp-ui-visual-01/p1-p4/f10-20261028/harness/entry.tsx
+45d6105b45ac3170fc865be58f37205fcd88f5e116bbba70bccc60db9d1565f7  evidence/wp-ui-visual-01/p1-p4/f10-20261028/harness/vite.config.ts

@@ -1,0 +1,27 @@
+-- per month (V2) --
+2026-01	45	6203.35
+2026-02	98	16019.73
+2026-03	131	12385.76
+2026-04	91	19104.11
+2026-05	116	12856.56
+2026-06	81	7271.87
+2026-07	32	5771.64
+2026-08	42	5295.21
+2026-09	84	6969.61
+2026-10	109	9309.32
+-- 0-amount rows --
+[Object: null prototype] { n: 14, s: 0 }
+-- 火山 rows --
+{"id":"277113a9-7965-44ae-855f-d24c319a6a0b","occurred_on":"2026-10-21","amount":"49.9","description":"火山","cat":"其他"}
+{"id":"6f67daf3-3eff-4f2c-bd62-8e477c3b7947","occurred_on":"2026-10-22","amount":"49.9","description":"火山","cat":"其他"}
+-- legacy V1-only row --
+[Object: null prototype] {
+  id: 'daea72ab-1124-4fb2-bbee-d9255f1e2b3f',
+  occurred_at: '2026-10-05T01:39:00.000Z',
+  amount: '13.1',
+  category: 'FOOD'
+}
+-- V2 餐饮 2026-10 count --
+[Object: null prototype] { n: 58, s: 2550.42 }
+-- audit --
+[{"at":"2026-10-23T05:57:10.288Z","action":"RECATEGORIZE","assignments":17,"updated":17}]

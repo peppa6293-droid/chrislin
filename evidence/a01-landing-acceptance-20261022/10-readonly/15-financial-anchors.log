@@ -1,0 +1,52 @@
+# A01 §5.1.5 financial anchors (read-only, mode=ro&immutable=1)
+# db=/Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3
+# date=2026-10-22T07:21:16Z
+
+## debts count/distinct
+5|5
+
+## debt ids/names
+2a6a027d-806d-44f8-92e0-131f78c6d14b|美团月付
+5f50bd18-7b79-49aa-a0da-fa8a19555a69|浦发车贷
+6ab6256a-fe7b-450b-9853-f55c8402f92b|招商分期
+a1ff0b1a-2a5f-4980-a058-9af7bf79249b|京东白条
+c7fa0eae-c78a-4d0d-8031-bbf80c523d23|花呗
+
+## 2026-10 debt period facts
+2026-10|172579.53|14518.73|5
+
+## 2026-11 debt period facts
+2026-11|157228.31|8851.03|5
+
+## V1 income_records
+PLANNING|EXPECTED|13000|2026-10-04|
+
+## V1 cash latest snapshot per account
+农业银行|1|0
+房租专用资金|0|3800
+上海银行|1|0
+余额宝|1|4805.61
+
+## V1 cash total
+8605.61
+
+## V1 assets latest snapshot per asset
+短期理财 1|LIQUID_INVESTMENT|0|10000
+支付宝基金|LIQUID_INVESTMENT|1|3842
+短期理财 3|LIQUID_INVESTMENT|0|3000
+短期理财 2|LIQUID_INVESTMENT|0|7000
+
+## V1 safety resources = eligible cash + eligible LIQUID_INVESTMENT assets
+8647.61
+
+## V2 dashboard source: income_entries count/sum
+0|0
+
+## V2 dashboard source: expenses count/sum
+0|0
+
+## V2 account cash (all active cash_accounts latest balances)
+8605.61
+
+## A01 §2 claimed anchors
+debts=5; 2026-11=157228.31; due=8851.03; income=13791.25; recurring=12791.25; cash=5325.93; safety=25325.93; free=21525.93

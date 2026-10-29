@@ -1,0 +1,42 @@
+# 读模型 debtsAt 复算（as_of=2026-10-29，SQL 照 repositories.ts:1457-1490 复刻）
+
+== 2026-09 ==
+id|name|fixed|current_balance|current_month_due
+2a6a027d-806d-44f8-92e0-131f78c6d14b|美团月付|||
+5f50bd18-7b79-49aa-a0da-fa8a19555a69|浦发车贷|3487.87||
+6ab6256a-fe7b-450b-9853-f55c8402f92b|招商分期|||
+a1ff0b1a-2a5f-4980-a058-9af7bf79249b|京东白条|||
+c7fa0eae-c78a-4d0d-8031-bbf80c523d23|花呗|||
+SUM current_month_due = 0.00
+
+== 2026-10 ==
+id|name|fixed|current_balance|current_month_due
+5f50bd18-7b79-49aa-a0da-fa8a19555a69|浦发车贷|3487.87|118137.60|3487.87
+6ab6256a-fe7b-450b-9853-f55c8402f92b|招商分期||46605.10|5679.47
+a1ff0b1a-2a5f-4980-a058-9af7bf79249b|京东白条||2198.70|657.46
+c7fa0eae-c78a-4d0d-8031-bbf80c523d23|花呗||5306.76|4362.56
+SUM current_month_due = 14187.36
+
+== 2026-11 ==
+id|name|fixed|current_balance|current_month_due
+5f50bd18-7b79-49aa-a0da-fa8a19555a69|浦发车贷|3487.87|118137.60|3487.87
+6ab6256a-fe7b-450b-9853-f55c8402f92b|招商分期||36626.20|4132.00
+a1ff0b1a-2a5f-4980-a058-9af7bf79249b|京东白条||1541.24|653.50
+c7fa0eae-c78a-4d0d-8031-bbf80c523d23|花呗||921.39|575.78
+SUM current_month_due = 8849.15
+
+== 2026-12 ==
+id|name|fixed|current_balance|current_month_due
+5f50bd18-7b79-49aa-a0da-fa8a19555a69|浦发车贷|3487.87||
+6ab6256a-fe7b-450b-9853-f55c8402f92b|招商分期|||
+a1ff0b1a-2a5f-4980-a058-9af7bf79249b|京东白条|||
+c7fa0eae-c78a-4d0d-8031-bbf80c523d23|花呗|||
+SUM current_month_due = 0.00
+
+== 2027-01 ==
+id|name|fixed|current_balance|current_month_due
+5f50bd18-7b79-49aa-a0da-fa8a19555a69|浦发车贷|3487.87||
+6ab6256a-fe7b-450b-9853-f55c8402f92b|招商分期|||
+a1ff0b1a-2a5f-4980-a058-9af7bf79249b|京东白条|||
+c7fa0eae-c78a-4d0d-8031-bbf80c523d23|花呗|||
+SUM current_month_due = 0.00

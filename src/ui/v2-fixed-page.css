@@ -1,0 +1,323 @@
+/* P2: 固定支出页整页版式（B-03）。数字全部由 fixed-expenses-model 决定，
+   CSS 只负责排布，不参与任何金额或比例计算。 */
+
+.v2-fixed-page {
+  max-width: 980px;
+}
+
+.v2-fixed-page .detail-title {
+  margin: 0;
+  font-size: 28px;
+  letter-spacing: -0.03em;
+}
+
+.fixed-title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 20px 0 14px;
+}
+
+.fixed-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px 20px;
+  margin-bottom: 14px;
+}
+
+.fixed-summary__metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px 14px;
+  margin: 0;
+}
+
+.fixed-summary__metrics dt {
+  font-size: 12.5px;
+  line-height: 1.3;
+  color: var(--v2-muted);
+}
+
+.fixed-summary__metrics dd {
+  margin: 3px 0 0;
+  color: var(--v2-ink);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.3;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.fixed-summary__metrics dd.is-paid {
+  color: var(--v2-teal-dark);
+}
+
+.fixed-summary__ring {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.v2-paid-ring {
+  width: 84px;
+  height: 84px;
+}
+
+.v2-paid-ring__edge {
+  stroke: #6f827e;
+}
+
+.v2-paid-ring__track {
+  stroke: #e9eeec;
+}
+
+.v2-paid-ring__arc {
+  stroke: #7cc9bf;
+}
+
+.v2-paid-ring__value {
+  fill: var(--v2-ink);
+  font-size: min(1rem, 16px);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  dominant-baseline: central;
+}
+
+.fixed-summary__ring-name {
+  max-width: 112px;
+  white-space: nowrap;
+  color: var(--v2-muted);
+  font-size: 12.5px;
+  line-height: 1.3;
+  text-align: center;
+}
+
+.fixed-list {
+  margin-bottom: 14px;
+}
+
+.fixed-list__items {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fixed-item {
+  display: grid;
+  gap: 6px;
+  padding: 14px 0;
+  border-top: 1px solid var(--v2-line);
+}
+
+.fixed-item:first-child {
+  padding-top: 2px;
+  border-top: 0;
+}
+
+.fixed-item__main {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.fixed-item__identity {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+
+.fixed-item__identity strong {
+  color: var(--v2-ink);
+  font-size: 16px;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.fixed-item__identity small {
+  color: var(--v2-muted);
+  font-size: 12.5px;
+  line-height: 1.3;
+}
+
+.fixed-item__amount {
+  color: var(--v2-ink);
+  font-size: 16px;
+  font-weight: 700;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.fixed-item__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.fixed-item__status {
+  color: var(--v2-muted);
+  font-size: 12.5px;
+  line-height: 1.35;
+}
+
+/* 已付行只用文字与低饱和色，弱于「记一笔」主按钮（B-03 低饱和高对比）。 */
+.fixed-item.is-paid .fixed-item__status {
+  color: var(--v2-teal-dark);
+}
+
+.fixed-item__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.fixed-item__pay {
+  min-height: 32px;
+  padding: 0 12px;
+  font-size: 13px;
+}
+
+.fixed-categories {
+  margin-bottom: 14px;
+}
+
+.fixed-categories__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px 22px;
+}
+
+.fixed-category__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.fixed-category__name {
+  color: var(--v2-ink);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.fixed-category__plan {
+  color: var(--v2-muted);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 细进度线：普通灰底，不用虚线；轨道加 1px 边界保证 3:1 以上。 */
+.fixed-progress {
+  height: 6px;
+  margin: 8px 0 6px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e9eeec;
+  box-shadow: inset 0 0 0 1px #6f827e;
+}
+
+.fixed-progress > span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--v2-teal-dark);
+}
+
+.fixed-category[data-state="OVERPAID"] .fixed-progress > span,
+.fixed-category[data-state="ZERO_PLAN_PAID"] .fixed-progress > span {
+  background: #b7483d;
+}
+
+.fixed-category__primary {
+  margin: 0;
+  color: var(--v2-ink);
+  font-size: 12.5px;
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+}
+
+.fixed-category__secondary {
+  margin: 2px 0 0;
+  color: var(--v2-muted);
+  font-size: 12.5px;
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+}
+
+.fixed-category[data-state="OVERPAID"] .fixed-category__secondary {
+  color: #b7483d;
+}
+
+/* 空态：只留两句已签认文案，无图标、无 CTA；限宽 640 居中，上移约 6%。 */
+.fixed-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 640px;
+  min-height: 360px;
+  margin: 0 auto;
+  transform: translateY(-6%);
+}
+
+.fixed-empty p {
+  margin: 0;
+  color: var(--v2-muted);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.v2-fixed-page .v2-btn--primary {
+  /* 实测：白字压 #24b89a 仅 2.5:1；主操作压深一档到 5.1:1。 */
+  border-color: var(--v2-teal-dark);
+  background: var(--v2-teal-dark);
+}
+
+.v2-fixed-page .v2-btn--primary:hover {
+  border-color: #06685d;
+  background: #06685d;
+}
+
+.v2-fixed-page .v2-btn:focus-visible,
+.v2-fixed-page .v2-text-button:focus-visible,
+.v2-fixed-page .back-button:focus-visible,
+.v2-fixed-page .button:focus-visible,
+.v2-fixed-page input:focus-visible,
+.v2-fixed-page select:focus-visible {
+  outline: 2px solid var(--v2-teal-dark);
+  outline-offset: 2px;
+}
+
+@media (max-width: 620px) {
+  .v2-fixed-page .detail-title {
+    font-size: 24px;
+  }
+
+  .fixed-summary__metrics {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .fixed-summary__metrics > div {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .fixed-summary__metrics dd {
+    margin: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fixed-empty {
+    transform: none;
+  }
+}

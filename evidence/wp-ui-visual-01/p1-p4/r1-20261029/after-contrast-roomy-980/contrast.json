@@ -1,0 +1,247 @@
+{
+  "width": 980,
+  "dpr": 2,
+  "state": "roomy",
+  "states": [
+    {
+      "selected": "none",
+      "rows": [
+        {
+          "ring": "outer",
+          "selected": false,
+          "capped": 0.3692,
+          "bandHalf": 6.5,
+          "bndHalf": 8.5,
+          "arcPixel": "#7cc9bf",
+          "bndOuterPixel": "#556864",
+          "bndInnerPixel": "#556864",
+          "bgPixel": "#f5fbf8",
+          "trackPixel": "#e9eeec",
+          "endPixel": "#556864",
+          "cBndVsArc": 3.09,
+          "cBndInnerVsArc": 3.09,
+          "cBndVsBg": 5.64,
+          "cEndVsTrack": 5.04,
+          "cEndVsArc": 3.09
+        },
+        {
+          "ring": "inner",
+          "selected": false,
+          "capped": 0.1,
+          "bandHalf": 6.5,
+          "bndHalf": 8.5,
+          "arcPixel": "#fbd83b",
+          "bndOuterPixel": "#556864",
+          "bndInnerPixel": "#556864",
+          "bgPixel": "#f5fbf8",
+          "trackPixel": "#f5f1d9",
+          "endPixel": "#556864",
+          "cBndVsArc": 4.22,
+          "cBndInnerVsArc": 4.22,
+          "cBndVsBg": 5.64,
+          "cEndVsTrack": 5.2,
+          "cEndVsArc": 4.22
+        }
+      ],
+      "arcs": [
+        {
+          "band": "outer",
+          "opacity": "1",
+          "stroke": "rgb(124, 201, 191)",
+          "width": "13px"
+        },
+        {
+          "band": "inner",
+          "opacity": "1",
+          "stroke": "rgb(251, 216, 59)",
+          "width": "13px"
+        }
+      ],
+      "shot": "ring-sel-none.png"
+    },
+    {
+      "selected": "essential",
+      "rows": [
+        {
+          "ring": "outer",
+          "selected": true,
+          "capped": 0.3692,
+          "bandHalf": 9,
+          "bndHalf": 11,
+          "arcPixel": "#7cc9bf",
+          "bndOuterPixel": "#556864",
+          "bndInnerPixel": "#556864",
+          "bgPixel": "#f5fbf8",
+          "trackPixel": "#e9eeec",
+          "endPixel": "#546864",
+          "cBndVsArc": 3.09,
+          "cBndInnerVsArc": 3.09,
+          "cBndVsBg": 5.64,
+          "cEndVsTrack": 5.06,
+          "cEndVsArc": 3.1
+        },
+        {
+          "ring": "inner",
+          "selected": false,
+          "capped": 0.1,
+          "bandHalf": 6.5,
+          "bndHalf": 8.5,
+          "arcPixel": "#fbd83b",
+          "bndOuterPixel": "#556864",
+          "bndInnerPixel": "#556864",
+          "bgPixel": "#f5fbf8",
+          "trackPixel": "#f5f1d9",
+          "endPixel": "#556864",
+          "cBndVsArc": 4.22,
+          "cBndInnerVsArc": 4.22,
+          "cBndVsBg": 5.64,
+          "cEndVsTrack": 5.2,
+          "cEndVsArc": 4.22
+        }
+      ],
+      "arcs": [
+        {
+          "band": "outer",
+          "opacity": "1",
+          "stroke": "rgb(124, 201, 191)",
+          "width": "18px"
+        },
+        {
+          "band": "inner",
+          "opacity": "1",
+          "stroke": "rgb(251, 216, 59)",
+          "width": "13px"
+        }
+      ],
+      "shot": "ring-sel-essential.png"
+    },
+    {
+      "selected": "debt",
+      "rows": [
+        {
+          "ring": "outer",
+          "selected": false,
+          "capped": 0.3692,
+          "bandHalf": 6.5,
+          "bndHalf": 8.5,
+          "arcPixel": "#7cc9bf",
+          "bndOuterPixel": "#556864",
+          "bndInnerPixel": "#556864",
+          "bgPixel": "#f5fbf8",
+          "trackPixel": "#e9eeec",
+          "endPixel": "#556864",
+          "cBndVsArc": 3.09,
+          "cBndInnerVsArc": 3.09,
+          "cBndVsBg": 5.64,
+          "cEndVsTrack": 5.04,
+          "cEndVsArc": 3.09
+        },
+        {
+          "ring": "inner",
+          "selected": true,
+          "capped": 0.1,
+          "bandHalf": 9,
+          "bndHalf": 11,
+          "arcPixel": "#fbd83b",
+          "bndOuterPixel": "#556864",
+          "bndInnerPixel": "#556864",
+          "bgPixel": "#f5fbf8",
+          "trackPixel": "#f5f1d9",
+          "endPixel": "#556864",
+          "cBndVsArc": 4.22,
+          "cBndInnerVsArc": 4.22,
+          "cBndVsBg": 5.64,
+          "cEndVsTrack": 5.2,
+          "cEndVsArc": 4.22
+        }
+      ],
+      "arcs": [
+        {
+          "band": "outer",
+          "opacity": "1",
+          "stroke": "rgb(124, 201, 191)",
+          "width": "13px"
+        },
+        {
+          "band": "inner",
+          "opacity": "1",
+          "stroke": "rgb(251, 216, 59)",
+          "width": "18px"
+        }
+      ],
+      "shot": "ring-sel-debt.png"
+    }
+  ],
+  "checks": {
+    "boundaryColorExpected": "#556864",
+    "boundaryComputed": "rgb(85, 104, 100)",
+    "hairlineComputed": [
+      "rgb(85, 104, 100)",
+      "rgb(85, 104, 100)",
+      "rgb(85, 104, 100)",
+      "rgb(85, 104, 100)"
+    ],
+    "endsRendered": 4,
+    "exceptions": []
+  },
+  "problems": [],
+  "computed": {
+    "ring": {
+      "x": 215.5,
+      "y": 270,
+      "w": 232,
+      "h": 232
+    },
+    "chart": {
+      "x": 215.5,
+      "y": 270,
+      "w": 232,
+      "h": 232
+    },
+    "edgeStroke": "rgb(85, 104, 100)",
+    "arcs": [
+      {
+        "cls": "v2-ring__arc is-outer",
+        "opacity": "1",
+        "stroke": "rgb(124, 201, 191)",
+        "width": "13px"
+      },
+      {
+        "cls": "v2-ring__arc is-inner",
+        "opacity": "1",
+        "stroke": "rgb(251, 216, 59)",
+        "width": "13px"
+      }
+    ],
+    "edges": [
+      {
+        "cls": "v2-ring__arc-edge is-outer",
+        "stroke": "rgb(85, 104, 100)",
+        "width": "17px"
+      },
+      {
+        "cls": "v2-ring__arc-edge is-inner",
+        "stroke": "rgb(85, 104, 100)",
+        "width": "17px"
+      }
+    ],
+    "tracks": [
+      {
+        "cls": "v2-ring__track is-outer",
+        "stroke": "rgb(233, 238, 236)"
+      },
+      {
+        "cls": "v2-ring__track is-inner",
+        "stroke": "rgb(245, 241, 217)"
+      }
+    ],
+    "hair": [
+      "rgb(85, 104, 100)",
+      "rgb(85, 104, 100)",
+      "rgb(85, 104, 100)",
+      "rgb(85, 104, 100)"
+    ],
+    "ends": 4,
+    "cardBg": "rgb(245, 251, 248)"
+  }
+}

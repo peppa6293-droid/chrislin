@@ -1,0 +1,17 @@
+# 段 2 返工（R1–R3）哈希指针（2026-10-28）
+
+本目录 HASHES.txt 为**返工前**版本，保留不覆盖。
+返工后 4 个变更文件的哈希与完整清单见：
+
+  ../f10-rework-20261028/HASHES-AFTER.txt
+  ../f10-rework-20261028/BEFORE-HASHES.txt
+  ../f10-rework-20261028/REPORT-REWORK.md
+
+变更文件（前 8 位 → 后 8 位）：
+  src/ui/V2StructureRings.tsx    65dc1e65 → b2ad2e0f
+  src/ui/v2-structure-ring.css   224a0a9a → af4cb381
+  src/ui/v2-fixed-page.css       16192b2e → a259db48
+  tests/v2-ui.test.tsx           44c0f2fe → 55b9fda5
+
+段 2 其余 10 个交付文件哈希与 HASHES.txt 完全一致（未触碰）。
+本目录 shots/ 为返工前原版，返工后 68 场景在 ../f10-rework-20261028/shots/。

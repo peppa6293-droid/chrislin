@@ -1,0 +1,73 @@
+=== R12 read-only readback 2026-10-22 22:49:10 +0800 ===
+DB=/Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3
+mode=ro&immutable=1
+
+--- SQL: select count(*) as expenses from expenses;
+expenses
+--------
+825     
+
+--- SQL: select count(*) as expense_records from expense_records;
+expense_records
+---------------
+826            
+
+--- SQL: select count(*) as import_batches from import_batches;
+import_batches
+--------------
+12            
+
+--- SQL: select round(sum(cast(amount as real)),2) as imported_total from expenses where import_batch_id is not null;
+imported_total
+--------------
+100450.11     
+
+--- SQL: select substr(occurred_on,1,7) as month, count(*) as n, round(sum(cast(amount as real)),2) as total from expenses group by month order by month;
+month    n    total   
+-------  ---  --------
+2026-01  45   6203.35 
+2026-02  98   16019.73
+2026-03  131  12385.76
+2026-04  91   19104.11
+2026-05  116  12856.56
+2026-06  81   7271.87 
+2026-07  32   5771.64 
+2026-08  42   5295.21 
+2026-09  84   6969.61 
+2026-10  105  8622.17 
+
+--- SQL: select count(*) as zero_amount_rows from expenses where cast(amount as real)<=0;
+zero_amount_rows
+----------------
+14              
+
+--- SQL: select count(*) as zero_amount_oct_rows from expenses where cast(amount as real)<=0 and occurred_on between '2026-10-01' and '2026-10-22';
+zero_amount_oct_rows
+--------------------
+3                   
+
+--- SQL: select count(*) as imported_zero_rows from expenses where import_batch_id is not null and cast(amount as real)<=0;
+imported_zero_rows
+------------------
+14                
+
+--- SQL: select total_rows, valid_rows, written_rows, skipped_rows, error_rows, count(*) as batches from import_batches group by total_rows, valid_rows, written_rows, skipped_rows, error_rows;
+total_rows  valid_rows  written_rows  skipped_rows  error_rows  batches
+----------  ----------  ------------  ------------  ----------  -------
+10          10          10            0             0           1      
+13          13          13            0             0           1      
+19          19          19            0             0           1      
+21          21          21            0             0           1      
+58          58          58            0             0           1      
+60          60          60            0             0           1      
+68          68          68            0             0           1      
+78          78          78            0             0           1      
+91          91          91            0             0           1      
+108         108         108           0             0           1      
+149         149         149           0             0           2      
+
+--- SQL: select round(sum(cast(f.current_balance as real)),2) as debt_total_oct from debt_period_facts f where f.period_month='2026-10';
+debt_total_oct
+--------------
+172579.53     
+

@@ -1,0 +1,216 @@
+/* P1-a: 双环结构总览（外=固定支出/收入，内=必须偿还月供/收入，中心=收入）。
+   数字全部来自与文本同一份 Decimal，弧只负责画，不负责说话。 */
+
+.v2-structure-card,
+.v2-fixed-page {
+  /* 实测：产品默认 #6b7f7d 在浅底上仅 4.04:1，新组件内收紧到 5.0:1 以上。 */
+  --v2-muted: #5b6e6c;
+}
+
+.v2-structure-card {
+  container-type: inline-size;
+}
+
+.v2-structure-overview {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: 10px 18px;
+  margin-top: 8px;
+}
+
+/* R-J01：环宽用 rem 表达——根字号 16px 时恰为 232px（默认硬底不变），
+   字号放大时随 rem 增长、被卡片可用宽度封顶，这是「环随字增大」的唯一机制。 */
+.v2-ring {
+  position: relative;
+  width: min(14.5rem, 100%);
+  min-width: 0;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+}
+
+.v2-ring__chart {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* 轨道边界：图形必需，3:1 以上；色值只在圆环内使用，不扩散到别处。
+   R-J02（定案 #556864）：原 #6f827e 对外弧 2.12:1、对内弧 2.90:1，不达 3:1；
+   加深后对两轨 3.09/5.04、对两弧 4.22/5.20，四向全过。 */
+.v2-ring__edge {
+  stroke: #556864;
+}
+
+/* 数据弧的 ≥3:1 分界层：垫在品牌弧下面，每侧比品牌弧再露 2 个 SVG 单位，
+   品牌色只负责说话、不承担分界职责。 */
+.v2-ring__arc-edge {
+  stroke: #556864;
+}
+
+/* butt 端面径向分界：弧端面不得直接贴轨道，端线向两侧各露出约 1 个 SVG 单位。 */
+.v2-ring__arc-end {
+  stroke: #556864;
+  stroke-width: 2;
+}
+
+.v2-ring__track.is-outer {
+  stroke: #e9eeec;
+}
+
+.v2-ring__track.is-inner {
+  stroke: #f5f1d9;
+}
+
+.v2-ring__arc.is-outer {
+  stroke: #7cc9bf;
+}
+
+.v2-ring__arc.is-inner {
+  stroke: #fbd83b;
+}
+
+/* 圆环本身只是指针快捷入口，键盘与读屏走下面的两行明细。 */
+.v2-ring__hit {
+  stroke: transparent;
+  pointer-events: stroke;
+  cursor: pointer;
+}
+
+/* R-J02 强制项：不得用降低透明度表达次要状态。选中态只用加宽弧＋边界层同步加宽区分。 */
+.v2-ring[data-selected] .v2-ring__band[data-selected] .v2-ring__arc {
+  stroke-width: 18px;
+}
+
+.v2-ring[data-selected] .v2-ring__band[data-selected] .v2-ring__arc-edge {
+  stroke-width: 22px;
+}
+
+.v2-ring__centre {
+  position: absolute;
+  inset: 8%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 0 6%;
+  text-align: center;
+  pointer-events: none;
+}
+
+.v2-ring__centre-label {
+  font-size: 12.5px;
+  line-height: 1.3;
+  color: var(--v2-muted);
+}
+
+/* R-J01：不再封顶。1.375rem 在默认根字号下仍是 22px（四级 34/22/16/12.5 不变），
+   随动态字体/根字号等比放大；不缩字号、不隐藏、不截断，过长按可用宽度换行。 */
+.v2-ring__centre-amount {
+  max-width: 100%;
+  color: var(--v2-ink);
+  font-size: 1.375rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+.v2-ring-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* R-J01：内容驱动换组——不设固定宽度断点。默认字号下名称与金额仍同排（与改版前一致），
+   只有放大到实际内容放不下时，金额组才整体换到下一行，名称不再被挤成逐字换行。 */
+.v2-ring-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 12px;
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.v2-ring-row:hover {
+  background: #f4faf7;
+}
+
+.v2-ring-row:focus-visible {
+  outline: 2px solid var(--v2-teal-dark);
+  outline-offset: 2px;
+}
+
+.v2-ring-row[aria-pressed="true"] {
+  border-color: var(--v2-teal-dark);
+  background: #f2faf7;
+}
+
+.v2-ring-row__name {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--v2-ink);
+}
+
+/* 金额＋占比的右侧编组：默认同排靠右，放大后整组换行、内部自然转纵向。 */
+.v2-ring-row__value {
+  flex: 0 0 auto;
+  display: grid;
+  justify-items: end;
+  gap: 2px;
+  min-width: 0;
+  margin-left: auto;
+}
+
+.v2-ring-row__amount {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.375rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  white-space: normal;
+}
+
+.v2-ring-row__percent {
+  font-size: 12.5px;
+  line-height: 1.3;
+  color: var(--v2-muted);
+  white-space: nowrap;
+}
+
+.v2-ring-row__over {
+  flex: 1 0 100%;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--v2-ink);
+}
+
+/* A 方案标记：3×14、r2、金额左侧 8px（与 F-08/F-09 已验收资产一致）。 */
+.v2-ring-row__marker {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 3px;
+  height: 14px;
+  border-radius: 2px;
+  background: #c2503c;
+}

@@ -1,0 +1,24 @@
+production-v8-cutover-terminal.json: sha256=61457ae72f493c6f832cf68f4b348f9b2e262123c6b7903ae8edc9cbaeda64b7
+  mode=0o600 nlink=1 uid=501
+  diff vs audit copy: ['candidateExecutableSha256', 'consumedLedgerSha256', 'releaseReceiptSha256']
+production-v8-release-receipt.json: sha256=66dc64e66612ef3471862d43c0967672e09901368600c42e7d4acdfb6ac0d9db
+  mode=0o600 nlink=1 uid=501
+  diff vs audit copy: ['candidateExecutableSha256', 'hotfixReleaseRotation', 'productionAppInventory[0].executable_sha256']
+production-v8-consumed-authorizations.json: sha256=8a15ea3130afff8aaf9d4cc579179fcb3a22b35023a17a3eea189cb5a2c6a7fe
+  mode=0o600 nlink=1 uid=501
+  diff vs audit copy: ['[0].candidateExecutableSha256']
+cross-check terminal.releaseReceiptSha256 == sha(receipt): True
+cross-check terminal.consumedLedgerSha256 == sha(ledger): True
+cross-check ledger.len: 1 candidate: ea430fe97dac79c006d7a86558454f2f0a6d5a5522699e796d545e7b60f44baa
+cross-check terminal.candidate: ea430fe97dac79c006d7a86558454f2f0a6d5a5522699e796d545e7b60f44baa
+cross-check receipt.candidate: ea430fe97dac79c006d7a86558454f2f0a6d5a5522699e796d545e7b60f44baa
+cross-check inventory: ea430fe97dac79c006d7a86558454f2f0a6d5a5522699e796d545e7b60f44baa
+rotation: {
+  "authorizationId": "owner-approval-r13b-20261022-1",
+  "rotatedAtUtc": "2026-10-22T16:03:34.847Z",
+  "previousExecutableSha256": "444729451aafc3bbe6cf95b52ffd84a2191b75f6c1477d0d840656ace4711b5c",
+  "newExecutableSha256": "ea430fe97dac79c006d7a86558454f2f0a6d5a5522699e796d545e7b60f44baa",
+  "previousReceiptSha256": "93bb61952eee41c7d7df76de9321b7e66086b3789aa116d5daaf40012c68361b",
+  "hotfixAuthorizationSha256": "a734e2e7e99a0164b902fcd6f588c1c4421cddc6b5a61261a1b865dff73e094f"
+}
+migration fields unchanged: True

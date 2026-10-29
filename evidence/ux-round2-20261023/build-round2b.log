@@ -1,0 +1,45 @@
+
+> personal-finance-console@0.1.0 tauri:build
+> tauri build
+
+        Info Looking up installed tauri packages to check mismatched versions...
+     Running beforeBuildCommand `npm run build:web`
+
+> personal-finance-console@0.1.0 build:web
+> vite build
+
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 1999 modules transformed.
+rendering chunks...
+computing gzip size...
+web-dist/index.html                   0.39 kB │ gzip:   0.28 kB
+web-dist/assets/index-Ciu00Jnj.css  137.68 kB │ gzip:  26.95 kB
+web-dist/assets/index-BNHp3f_B.js   621.15 kB │ gzip: 173.34 kB
+
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 170ms
+   Compiling personal-finance-console v0.1.0 (/Users/linte/Documents/ChatGPT/个人财务模型app开发项目 2/src-tauri)
+warning: unused import: `PathBuf`
+ --> src/wp02_preview_isolation.rs:2:23
+  |
+2 | use std::path::{Path, PathBuf};
+  |                       ^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: `personal-finance-console` (lib) generated 1 warning (run `cargo fix --lib -p personal-finance-console` to apply 1 suggestion)
+    Finished `release` profile [optimized] target(s) in 15.96s
+       Built application at: /Users/linte/Documents/ChatGPT/个人财务模型app开发项目 2/src-tauri/target/release/personal-finance-console
+    Bundling 小钱家.app (/Users/linte/Documents/ChatGPT/个人财务模型app开发项目 2/src-tauri/target/release/bundle/macos/小钱家.app)
+    Bundling 小钱家_0.1.0_aarch64.dmg (/Users/linte/Documents/ChatGPT/个人财务模型app开发项目 2/src-tauri/target/release/bundle/dmg/小钱家_0.1.0_aarch64.dmg)
+     Running bundle_dmg.sh
+    Finished 2 bundles at:
+        /Users/linte/Documents/ChatGPT/个人财务模型app开发项目 2/src-tauri/target/release/bundle/macos/小钱家.app (13.08 MiB)
+        /Users/linte/Documents/ChatGPT/个人财务模型app开发项目 2/src-tauri/target/release/bundle/dmg/小钱家_0.1.0_aarch64.dmg (3.88 MiB)
+
+EXIT:0

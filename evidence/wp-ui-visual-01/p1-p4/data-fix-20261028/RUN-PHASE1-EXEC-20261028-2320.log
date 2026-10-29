@@ -1,0 +1,57 @@
+== S0 只读 PRECHECK ==
+ok
+8
+ACTUAL_rows|0
+entries_rows|0
+all_records|1
+== S1 在线一致性备份 ==
+b841c5ea6f8b3c78420c66e394f3e9e86b2bdbdedcda81a62a1e64748bf7f3ea  /Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2/evidence/wp-ui-visual-01/p1-p4/data-fix-20261028/personal-finance-console.sqlite3.prephase1-20261028-232104
+a0bd66c6ff30e8371577f8a44963f7d4b72da3ad48dcf14a934ad7678f820bc7  /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3
+ok 8 
+== S2 单事务写入 12 条 INSERT ==
+== S3 对拍（V2 §4）==
+integrity_check
+---------------
+ok             
+user_version
+------------
+8           
+kind      period_month  date        amount  
+--------  ------------  ----------  --------
+PLANNING                2026-10-04  13000   
+ACTUAL    2026-05       2026-05-20  33347.55
+ACTUAL    2026-06       2026-06-18  10919.10
+ACTUAL    2026-07       2026-07-20  10048.90
+ACTUAL    2026-08       2026-08-20  24441.24
+ACTUAL    2026-09       2026-09-18  12266.47
+ACTUAL    2026-10       2026-10-20  13791.25
+period_month  occurred_at  amount    label
+------------  -----------  --------  -----
+2026-05       2026-05-20   33347.55  工资 
+2026-06       2026-06-18   10919.10  工资 
+2026-07       2026-07-20   10048.90  工资 
+2026-08       2026-08-20   24441.24  工资 
+2026-09       2026-09-18   12266.47  工资 
+2026-10       2026-10-20   13791.25  工资 
+actual_total
+------------
+104814.51   
+entries_total
+-------------
+104814.51    
+debts
+-----
+5    
+debt_facts
+----------
+10        
+expenses
+--------
+831     
+expense_records
+---------------
+832            
+planning_amount
+---------------
+13000          
+备份：/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2/evidence/wp-ui-visual-01/p1-p4/data-fix-20261028/personal-finance-console.sqlite3.prephase1-20261028-232104 （sha256 见上）

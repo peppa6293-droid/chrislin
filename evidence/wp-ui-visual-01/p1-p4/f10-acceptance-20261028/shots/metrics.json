@@ -1,0 +1,5015 @@
+{
+  "metrics": [
+    {
+      "view": "home",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "241.27 653.45",
+        "49.01 490.09"
+      ],
+      "ring": {
+        "x": 79,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 79,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 131.53,
+        "y": 367.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.009999999999990905,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥4,800.00",
+          "percent": "占收入 36.9%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥1,300.00",
+          "percent": "占收入 10%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 36.9%，必须偿还月供占收入 10%",
+      "surplus": "¥6,900.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-roomy-390.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "527.79 653.45",
+        "131.95 490.09"
+      ],
+      "ring": {
+        "x": 80.5,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 80.5,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 133.03,
+        "y": 367.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.009999999999990905,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥10,500.00",
+          "percent": "占收入 80.8%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥3,500.00",
+          "percent": "占收入 26.9%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 80.8%，必须偿还月供占收入 26.9%",
+      "surplus": "-¥1,000.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-light-over-390.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "593.13 653.45",
+        "158.34 490.09"
+      ],
+      "ring": {
+        "x": 80.5,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 80.5,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 133.03,
+        "y": 367.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.009999999999990905,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥11,800.00",
+          "percent": "占收入 90.8%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥4,200.00",
+          "percent": "占收入 32.3%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 90.8%，必须偿还月供占收入 32.3%",
+      "surplus": "-¥3,000.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-overload-390.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "height": 1200,
+      "arcs": 0,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [],
+      "ring": {
+        "x": 80.5,
+        "y": 284,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 80.5,
+        "y": 284,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 164.77,
+        "y": 395.92,
+        "w": 63.47,
+        "h": 26.39
+      },
+      "dx": 0.0049999999999954525,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 30.32,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": null,
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥2,500.00",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥1,000.00",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "收入 ¥0.00",
+      "surplus": "-¥3,500.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-zero-burden-390.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [
+        "rgb(194, 80, 60)"
+      ],
+      "arcDash": [
+        "653.45 653.45",
+        "98.02 490.09"
+      ],
+      "ring": {
+        "x": 80.5,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 80.5,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 133.03,
+        "y": 367.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.009999999999990905,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥15,600.00",
+          "percent": "占收入 120%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥2,600.00"
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥2,600.00",
+          "percent": "占收入 20%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 120%，必须偿还月供占收入 20%",
+      "surplus": "-¥5,200.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-over-outer-390.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [
+        "rgb(194, 80, 60)",
+        "rgb(194, 80, 60)"
+      ],
+      "arcDash": [
+        "653.45 653.45",
+        "490.09 490.09"
+      ],
+      "ring": {
+        "x": 80.5,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 80.5,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 133.03,
+        "y": 367.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.009999999999990905,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥15,600.00",
+          "percent": "占收入 120%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥2,600.00"
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥15,600.00",
+          "percent": "占收入 120%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥2,600.00"
+        }
+      ],
+      "ariaLabel": "固定支出占收入 120%，必须偿还月供占收入 120%",
+      "surplus": "-¥18,200.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-over-both-390.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [
+        "rgb(194, 80, 60)"
+      ],
+      "arcDash": [
+        "653.45 653.45",
+        "49.01 490.09"
+      ],
+      "ring": {
+        "x": 80.5,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 80.5,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 133.03,
+        "y": 367.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.009999999999990905,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥23,000.00",
+          "percent": "占收入 230%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥13,000.00"
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥1,000.00",
+          "percent": "占收入 10%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 230%，必须偿还月供占收入 10%",
+      "surplus": "-¥14,000.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-over-large-390.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "457.42 653.45",
+        "196.04 490.09"
+      ],
+      "ring": {
+        "x": 80.5,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 80.5,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 133.03,
+        "y": 367.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.009999999999990905,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥9,100.00",
+          "percent": "占收入 70%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥5,200.00",
+          "percent": "占收入 40%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 70%，必须偿还月供占收入 40%",
+      "surplus": "-¥1,300.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-over-split-390.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "height": 1200,
+      "arcs": 1,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "177.34 653.45"
+      ],
+      "ring": {
+        "x": 79,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 79,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 131.53,
+        "y": 367.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.009999999999990905,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥3,528.00",
+          "percent": "占收入 27.1%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "待确认",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 27.1%，必须偿还月供 待确认",
+      "surplus": "—结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-pending-390.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "fixed",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "height": 2330,
+      "title": "固定支出·4项",
+      "summary": "计划¥3,528.00已付¥2,628.00未付¥900.0074.5%所选月份已付占比",
+      "ringLabel": "所选月份已付占比 74.5%",
+      "ringArc": true,
+      "empty": null,
+      "emptyText": null,
+      "emptyInnerWidth": null,
+      "categories": [
+        {
+          "state": "PAID",
+          "text": "住房¥1,800.00已付 ¥1,800.00 / 计划 ¥1,800.00已付/计划 100%",
+          "width": "100%"
+        },
+        {
+          "state": "PAID",
+          "text": "水电通讯¥228.00已付 ¥228.00 / 计划 ¥228.00已付/计划 100%",
+          "width": "100%"
+        },
+        {
+          "state": "PARTIAL",
+          "text": "通勤¥900.00已付 ¥600.00 / 计划 ¥900.00已付/计划 66.7%",
+          "width": "66.6667%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "吃饭¥600.00未付",
+          "width": "0%"
+        }
+      ],
+      "items": [
+        {
+          "text": "房租住房¥1,800.00 / 月已付 ¥1,800.00 · 已付/计划 100% 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "水电水电通讯¥228.00 / 月已付 ¥228.00 · 已付/计划 100% 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "地铁通勤¥900.00 / 月已付 ¥600.00 · 已付/计划 66.7% 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "菜钱吃饭¥600.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        }
+      ],
+      "titleFont": "24px",
+      "categoryColumns": "324px",
+      "pageText": "返回首页\n2026-10\n固定支出·4项\n计划\n¥3,528.00\n已付\n¥2,628.00\n未付\n¥900.00\n74.5%\n所选月份已付占比\n每月要付的\n房租\n住房\n¥1,800.00 / 月\n已付 ¥1,800.00 · 已付/计划 100%\n改\n停用\n水电\n水电通讯\n¥228.00 / 月\n已付 ¥228.00 · 已付/计划 100%\n改\n停用\n地铁\n通勤\n¥900.00 / 月\n已付 ¥600.00 · 已付/计划 66.7%\n改\n停用\n菜钱\n吃饭\n¥600.00 / 月\n未付\n记一笔\n改\n停用\n住房\n¥1,800.00\n\n已付 ¥1,800.00 / 计划 ¥1,800.00\n\n已付/计划 100%\n\n水电通讯\n¥228.00\n\n已付 ¥228.00 / 计划 ¥228.00\n\n已付/计划 100%\n\n通勤\n¥900.00\n\n已付 ¥600.00 / 计划 ¥900.00\n\n已付/计划 66.7%\n\n吃饭\n¥600.00\n\n未付\n\n添加一项固定支出\n名称类别\n住房\n吃饭\n通勤\n水电通讯\n保险\n家庭固定责任\n其他固定支出\n每月金额\n保存\n记一笔实际支付\n哪一项\n请选择\n房租\n水电\n地铁\n菜钱\n金额\n支付日期\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n已选 2026-10-14\n今天\n备注（选填）\n记下这笔支付\n本月支付记录\n房租\n2026-10-05\n¥1,800.00\n水电\n2026-10-05\n¥228.00\n地铁\n2026-10-05\n¥600.00",
+      "file": "fixed-normal-390.png",
+      "shotHeight": 2330
+    },
+    {
+      "view": "fixed",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "height": 2171,
+      "title": "固定支出·4项",
+      "summary": "计划¥3,528.00已付¥0.00未付¥3,528.000%所选月份已付占比",
+      "ringLabel": "所选月份已付占比 0%",
+      "ringArc": false,
+      "empty": null,
+      "emptyText": null,
+      "emptyInnerWidth": null,
+      "categories": [
+        {
+          "state": "UNPAID",
+          "text": "住房¥1,800.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "水电通讯¥228.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "通勤¥900.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "吃饭¥600.00未付",
+          "width": "0%"
+        }
+      ],
+      "items": [
+        {
+          "text": "房租住房¥1,800.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "水电水电通讯¥228.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "地铁通勤¥900.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "菜钱吃饭¥600.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        }
+      ],
+      "titleFont": "24px",
+      "categoryColumns": "324px",
+      "pageText": "返回首页\n2026-10\n固定支出·4项\n计划\n¥3,528.00\n已付\n¥0.00\n未付\n¥3,528.00\n0%\n所选月份已付占比\n每月要付的\n房租\n住房\n¥1,800.00 / 月\n未付\n记一笔\n改\n停用\n水电\n水电通讯\n¥228.00 / 月\n未付\n记一笔\n改\n停用\n地铁\n通勤\n¥900.00 / 月\n未付\n记一笔\n改\n停用\n菜钱\n吃饭\n¥600.00 / 月\n未付\n记一笔\n改\n停用\n住房\n¥1,800.00\n\n未付\n\n水电通讯\n¥228.00\n\n未付\n\n通勤\n¥900.00\n\n未付\n\n吃饭\n¥600.00\n\n未付\n\n添加一项固定支出\n名称类别\n住房\n吃饭\n通勤\n水电通讯\n保险\n家庭固定责任\n其他固定支出\n每月金额\n保存\n记一笔实际支付\n哪一项\n请选择\n房租\n水电\n地铁\n菜钱\n金额\n支付日期\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n已选 2026-10-14\n今天\n备注（选填）\n记下这笔支付\n本月支付记录\n\n这个月还没有支付记录。",
+      "file": "fixed-unpaid-390.png",
+      "shotHeight": 2171
+    },
+    {
+      "view": "fixed",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "height": 2324,
+      "title": "固定支出·4项",
+      "summary": "计划¥3,528.00已付¥2,628.00未付¥900.0074.5%所选月份已付占比",
+      "ringLabel": "所选月份已付占比 74.5%",
+      "ringArc": true,
+      "empty": null,
+      "emptyText": null,
+      "emptyInnerWidth": null,
+      "categories": [
+        {
+          "state": "OVERPAID",
+          "text": "住房¥1,800.00已付 ¥2,400.00 / 计划 ¥1,800.00超计划 ¥600.00 · 已付/计划 133.3%",
+          "width": "100%"
+        },
+        {
+          "state": "PAID",
+          "text": "水电通讯¥228.00已付 ¥228.00 / 计划 ¥228.00已付/计划 100%",
+          "width": "100%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "通勤¥900.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "吃饭¥600.00未付",
+          "width": "0%"
+        }
+      ],
+      "items": [
+        {
+          "text": "房租住房¥1,800.00 / 月已付 ¥2,400.00 · 超计划 ¥600.00 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "水电水电通讯¥228.00 / 月已付 ¥228.00 · 已付/计划 100% 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "地铁通勤¥900.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "菜钱吃饭¥600.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        }
+      ],
+      "titleFont": "24px",
+      "categoryColumns": "324px",
+      "pageText": "返回首页\n2026-10\n固定支出·4项\n计划\n¥3,528.00\n已付\n¥2,628.00\n未付\n¥900.00\n74.5%\n所选月份已付占比\n每月要付的\n房租\n住房\n¥1,800.00 / 月\n已付 ¥2,400.00 · 超计划 ¥600.00\n改\n停用\n水电\n水电通讯\n¥228.00 / 月\n已付 ¥228.00 · 已付/计划 100%\n改\n停用\n地铁\n通勤\n¥900.00 / 月\n未付\n记一笔\n改\n停用\n菜钱\n吃饭\n¥600.00 / 月\n未付\n记一笔\n改\n停用\n住房\n¥1,800.00\n\n已付 ¥2,400.00 / 计划 ¥1,800.00\n\n超计划 ¥600.00 · 已付/计划 133.3%\n\n水电通讯\n¥228.00\n\n已付 ¥228.00 / 计划 ¥228.00\n\n已付/计划 100%\n\n通勤\n¥900.00\n\n未付\n\n吃饭\n¥600.00\n\n未付\n\n添加一项固定支出\n名称类别\n住房\n吃饭\n通勤\n水电通讯\n保险\n家庭固定责任\n其他固定支出\n每月金额\n保存\n记一笔实际支付\n哪一项\n请选择\n房租\n水电\n地铁\n菜钱\n金额\n支付日期\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n已选 2026-10-14\n今天\n备注（选填）\n记下这笔支付\n本月支付记录\n房租\n2026-10-05\n¥2,200.00\n房租\n2026-10-05\n¥200.00\n水电\n2026-10-05\n¥228.00",
+      "file": "fixed-overpaid-390.png",
+      "shotHeight": 2324
+    },
+    {
+      "view": "fixed",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "height": 2205,
+      "title": "固定支出·4项",
+      "summary": "计划¥2,628.00已付¥120.00未付¥2,508.004.6%所选月份已付占比",
+      "ringLabel": "所选月份已付占比 4.6%",
+      "ringArc": true,
+      "empty": null,
+      "emptyText": null,
+      "emptyInnerWidth": null,
+      "categories": [
+        {
+          "state": "UNPAID",
+          "text": "住房¥1,800.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "水电通讯¥228.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "吃饭¥600.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "ZERO_PLAN_PAID",
+          "text": "通勤¥0.00计划 ¥0 · 已付 ¥120.00 · 超计划 ¥120.00",
+          "width": "100%"
+        }
+      ],
+      "items": [
+        {
+          "text": "房租住房¥1,800.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "水电水电通讯¥228.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "菜钱吃饭¥600.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "地铁通勤¥0.00 / 月计划 ¥0 · 已付 ¥120.00 · 超计划 ¥120.00 改 停用",
+          "hasPayButton": false
+        }
+      ],
+      "titleFont": "24px",
+      "categoryColumns": "324px",
+      "pageText": "返回首页\n2026-10\n固定支出·4项\n计划\n¥2,628.00\n已付\n¥120.00\n未付\n¥2,508.00\n4.6%\n所选月份已付占比\n每月要付的\n房租\n住房\n¥1,800.00 / 月\n未付\n记一笔\n改\n停用\n水电\n水电通讯\n¥228.00 / 月\n未付\n记一笔\n改\n停用\n菜钱\n吃饭\n¥600.00 / 月\n未付\n记一笔\n改\n停用\n地铁\n通勤\n¥0.00 / 月\n计划 ¥0 · 已付 ¥120.00 · 超计划 ¥120.00\n改\n停用\n住房\n¥1,800.00\n\n未付\n\n水电通讯\n¥228.00\n\n未付\n\n吃饭\n¥600.00\n\n未付\n\n通勤\n¥0.00\n\n计划 ¥0 · 已付 ¥120.00 · 超计划 ¥120.00\n\n添加一项固定支出\n名称类别\n住房\n吃饭\n通勤\n水电通讯\n保险\n家庭固定责任\n其他固定支出\n每月金额\n保存\n记一笔实际支付\n哪一项\n请选择\n房租\n水电\n菜钱\n地铁\n金额\n支付日期\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n已选 2026-10-14\n今天\n备注（选填）\n记下这笔支付\n本月支付记录\n地铁\n2026-10-05\n¥120.00",
+      "file": "fixed-zero-plan-390.png",
+      "shotHeight": 2205
+    },
+    {
+      "view": "fixed",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "height": 1629,
+      "title": "固定支出·0项",
+      "summary": null,
+      "ringLabel": null,
+      "ringArc": false,
+      "empty": {
+        "x": 12,
+        "y": 123,
+        "w": 366,
+        "h": 360
+      },
+      "emptyText": "暂无固定支出",
+      "emptyInnerWidth": 366,
+      "categories": [],
+      "items": [],
+      "titleFont": "24px",
+      "categoryColumns": null,
+      "pageText": "返回首页\n2026-10\n固定支出·0项\n\n暂无固定支出\n\n添加一项固定支出\n名称类别\n住房\n吃饭\n通勤\n水电通讯\n保险\n家庭固定责任\n其他固定支出\n每月金额\n保存\n记一笔实际支付\n哪一项\n请选择\n金额\n支付日期\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n已选 2026-10-14\n今天\n备注（选填）\n记下这笔支付\n本月支付记录\n\n这个月还没有支付记录。",
+      "file": "fixed-empty-390.png",
+      "shotHeight": 1629
+    },
+    {
+      "view": "fixed",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "height": 2205,
+      "title": "固定支出·4项",
+      "summary": "计划¥3,528.00已付¥2,100.00未付¥1,428.0059.5%所选月份已付占比",
+      "ringLabel": "所选月份已付占比 59.5%",
+      "ringArc": true,
+      "empty": null,
+      "emptyText": null,
+      "emptyInnerWidth": null,
+      "categories": [
+        {
+          "state": "PAID",
+          "text": "住房¥1,800.00已付 ¥1,800.00 / 计划 ¥1,800.00已付/计划 100%",
+          "width": "100%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "水电通讯¥228.00",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "通勤¥900.00",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "吃饭¥600.00",
+          "width": "0%"
+        }
+      ],
+      "items": [
+        {
+          "text": "房租住房¥1,800.00 / 月已付 ¥1,800.00 · 已付/计划 100% 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "水电水电通讯¥228.00 / 月记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "地铁通勤¥900.00 / 月记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "菜钱吃饭¥600.00 / 月记一笔 改 停用",
+          "hasPayButton": true
+        }
+      ],
+      "titleFont": "24px",
+      "categoryColumns": "324px",
+      "pageText": "返回首页\n2026-10\n固定支出·4项\n计划\n¥3,528.00\n已付\n¥2,100.00\n未付\n¥1,428.00\n59.5%\n所选月份已付占比\n每月要付的\n房租\n住房\n¥1,800.00 / 月\n已付 ¥1,800.00 · 已付/计划 100%\n改\n停用\n水电\n水电通讯\n¥228.00 / 月\n记一笔\n改\n停用\n地铁\n通勤\n¥900.00 / 月\n记一笔\n改\n停用\n菜钱\n吃饭\n¥600.00 / 月\n记一笔\n改\n停用\n住房\n¥1,800.00\n\n已付 ¥1,800.00 / 计划 ¥1,800.00\n\n已付/计划 100%\n\n水电通讯\n¥228.00\n通勤\n¥900.00\n吃饭\n¥600.00\n添加一项固定支出\n名称类别\n住房\n吃饭\n通勤\n水电通讯\n保险\n家庭固定责任\n其他固定支出\n每月金额\n保存\n记一笔实际支付\n哪一项\n请选择\n房租\n水电\n地铁\n菜钱\n金额\n支付日期\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n已选 2026-10-14\n今天\n备注（选填）\n记下这笔支付\n本月支付记录\n房租\n2026-10-05\n¥1,800.00\n旧记录\n2026-10-05\n¥300.00",
+      "file": "fixed-unowned-390.png",
+      "shotHeight": 2205
+    },
+    {
+      "view": "home",
+      "scrollWidth": 760,
+      "innerWidth": 760,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "241.27 653.45",
+        "49.01 490.09"
+      ],
+      "ring": {
+        "x": 308,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 308,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 360.53,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥4,800.00",
+          "percent": "占收入 36.9%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥1,300.00",
+          "percent": "占收入 10%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 36.9%，必须偿还月供占收入 10%",
+      "surplus": "¥6,900.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-roomy-760.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 760,
+      "innerWidth": 760,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "527.79 653.45",
+        "131.95 490.09"
+      ],
+      "ring": {
+        "x": 309.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 309.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 362.03,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥10,500.00",
+          "percent": "占收入 80.8%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥3,500.00",
+          "percent": "占收入 26.9%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 80.8%，必须偿还月供占收入 26.9%",
+      "surplus": "-¥1,000.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-light-over-760.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 760,
+      "innerWidth": 760,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "593.13 653.45",
+        "158.34 490.09"
+      ],
+      "ring": {
+        "x": 309.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 309.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 362.03,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥11,800.00",
+          "percent": "占收入 90.8%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥4,200.00",
+          "percent": "占收入 32.3%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 90.8%，必须偿还月供占收入 32.3%",
+      "surplus": "-¥3,000.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-overload-760.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 760,
+      "innerWidth": 760,
+      "height": 1200,
+      "arcs": 0,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [],
+      "ring": {
+        "x": 309.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 309.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 393.77,
+        "y": 381.92,
+        "w": 63.47,
+        "h": 26.39
+      },
+      "dx": 0.0049999999999954525,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 30.32,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": null,
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥2,500.00",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥1,000.00",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "收入 ¥0.00",
+      "surplus": "-¥3,500.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-zero-burden-760.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 760,
+      "innerWidth": 760,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [
+        "rgb(194, 80, 60)"
+      ],
+      "arcDash": [
+        "653.45 653.45",
+        "98.02 490.09"
+      ],
+      "ring": {
+        "x": 309.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 309.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 362.03,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥15,600.00",
+          "percent": "占收入 120%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥2,600.00"
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥2,600.00",
+          "percent": "占收入 20%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 120%，必须偿还月供占收入 20%",
+      "surplus": "-¥5,200.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-over-outer-760.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 760,
+      "innerWidth": 760,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [
+        "rgb(194, 80, 60)",
+        "rgb(194, 80, 60)"
+      ],
+      "arcDash": [
+        "653.45 653.45",
+        "490.09 490.09"
+      ],
+      "ring": {
+        "x": 309.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 309.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 362.03,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥15,600.00",
+          "percent": "占收入 120%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥2,600.00"
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥15,600.00",
+          "percent": "占收入 120%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥2,600.00"
+        }
+      ],
+      "ariaLabel": "固定支出占收入 120%，必须偿还月供占收入 120%",
+      "surplus": "-¥18,200.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-over-both-760.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 760,
+      "innerWidth": 760,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [
+        "rgb(194, 80, 60)"
+      ],
+      "arcDash": [
+        "653.45 653.45",
+        "49.01 490.09"
+      ],
+      "ring": {
+        "x": 309.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 309.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 362.03,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥23,000.00",
+          "percent": "占收入 230%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥13,000.00"
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥1,000.00",
+          "percent": "占收入 10%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 230%，必须偿还月供占收入 10%",
+      "surplus": "-¥14,000.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-over-large-760.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 760,
+      "innerWidth": 760,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "457.42 653.45",
+        "196.04 490.09"
+      ],
+      "ring": {
+        "x": 309.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 309.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 362.03,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥9,100.00",
+          "percent": "占收入 70%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥5,200.00",
+          "percent": "占收入 40%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 70%，必须偿还月供占收入 40%",
+      "surplus": "-¥1,300.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-over-split-760.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 760,
+      "innerWidth": 760,
+      "height": 1200,
+      "arcs": 1,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "177.34 653.45"
+      ],
+      "ring": {
+        "x": 308,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 308,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 360.53,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥3,528.00",
+          "percent": "占收入 27.1%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "待确认",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 27.1%，必须偿还月供 待确认",
+      "surplus": "—结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-pending-760.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "fixed",
+      "scrollWidth": 760,
+      "innerWidth": 760,
+      "height": 2347,
+      "title": "固定支出·4项",
+      "summary": "计划¥3,528.00已付¥2,628.00未付¥900.0074.5%所选月份已付占比",
+      "ringLabel": "所选月份已付占比 74.5%",
+      "ringArc": true,
+      "empty": null,
+      "emptyText": null,
+      "emptyInnerWidth": null,
+      "categories": [
+        {
+          "state": "PAID",
+          "text": "住房¥1,800.00已付 ¥1,800.00 / 计划 ¥1,800.00已付/计划 100%",
+          "width": "100%"
+        },
+        {
+          "state": "PAID",
+          "text": "水电通讯¥228.00已付 ¥228.00 / 计划 ¥228.00已付/计划 100%",
+          "width": "100%"
+        },
+        {
+          "state": "PARTIAL",
+          "text": "通勤¥900.00已付 ¥600.00 / 计划 ¥900.00已付/计划 66.7%",
+          "width": "66.6667%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "吃饭¥600.00未付",
+          "width": "0%"
+        }
+      ],
+      "items": [
+        {
+          "text": "房租住房¥1,800.00 / 月已付 ¥1,800.00 · 已付/计划 100% 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "水电水电通讯¥228.00 / 月已付 ¥228.00 · 已付/计划 100% 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "地铁通勤¥900.00 / 月已付 ¥600.00 · 已付/计划 66.7% 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "菜钱吃饭¥600.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        }
+      ],
+      "titleFont": "28px",
+      "categoryColumns": "686px",
+      "pageText": "返回首页\n2026-10\n固定支出·4项\n计划\n¥3,528.00\n已付\n¥2,628.00\n未付\n¥900.00\n74.5%\n所选月份已付占比\n每月要付的\n房租\n住房\n¥1,800.00 / 月\n已付 ¥1,800.00 · 已付/计划 100%\n改\n停用\n水电\n水电通讯\n¥228.00 / 月\n已付 ¥228.00 · 已付/计划 100%\n改\n停用\n地铁\n通勤\n¥900.00 / 月\n已付 ¥600.00 · 已付/计划 66.7%\n改\n停用\n菜钱\n吃饭\n¥600.00 / 月\n未付\n记一笔\n改\n停用\n住房\n¥1,800.00\n\n已付 ¥1,800.00 / 计划 ¥1,800.00\n\n已付/计划 100%\n\n水电通讯\n¥228.00\n\n已付 ¥228.00 / 计划 ¥228.00\n\n已付/计划 100%\n\n通勤\n¥900.00\n\n已付 ¥600.00 / 计划 ¥900.00\n\n已付/计划 66.7%\n\n吃饭\n¥600.00\n\n未付\n\n添加一项固定支出\n名称类别\n住房\n吃饭\n通勤\n水电通讯\n保险\n家庭固定责任\n其他固定支出\n每月金额\n保存\n记一笔实际支付\n哪一项\n请选择\n房租\n水电\n地铁\n菜钱\n金额\n支付日期\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n已选 2026-10-14\n今天\n备注（选填）\n记下这笔支付\n本月支付记录\n房租\n2026-10-05\n¥1,800.00\n水电\n2026-10-05\n¥228.00\n地铁\n2026-10-05\n¥600.00",
+      "file": "fixed-normal-760.png",
+      "shotHeight": 2347
+    },
+    {
+      "view": "fixed",
+      "scrollWidth": 760,
+      "innerWidth": 760,
+      "height": 2188,
+      "title": "固定支出·4项",
+      "summary": "计划¥3,528.00已付¥0.00未付¥3,528.000%所选月份已付占比",
+      "ringLabel": "所选月份已付占比 0%",
+      "ringArc": false,
+      "empty": null,
+      "emptyText": null,
+      "emptyInnerWidth": null,
+      "categories": [
+        {
+          "state": "UNPAID",
+          "text": "住房¥1,800.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "水电通讯¥228.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "通勤¥900.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "吃饭¥600.00未付",
+          "width": "0%"
+        }
+      ],
+      "items": [
+        {
+          "text": "房租住房¥1,800.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "水电水电通讯¥228.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "地铁通勤¥900.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "菜钱吃饭¥600.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        }
+      ],
+      "titleFont": "28px",
+      "categoryColumns": "686px",
+      "pageText": "返回首页\n2026-10\n固定支出·4项\n计划\n¥3,528.00\n已付\n¥0.00\n未付\n¥3,528.00\n0%\n所选月份已付占比\n每月要付的\n房租\n住房\n¥1,800.00 / 月\n未付\n记一笔\n改\n停用\n水电\n水电通讯\n¥228.00 / 月\n未付\n记一笔\n改\n停用\n地铁\n通勤\n¥900.00 / 月\n未付\n记一笔\n改\n停用\n菜钱\n吃饭\n¥600.00 / 月\n未付\n记一笔\n改\n停用\n住房\n¥1,800.00\n\n未付\n\n水电通讯\n¥228.00\n\n未付\n\n通勤\n¥900.00\n\n未付\n\n吃饭\n¥600.00\n\n未付\n\n添加一项固定支出\n名称类别\n住房\n吃饭\n通勤\n水电通讯\n保险\n家庭固定责任\n其他固定支出\n每月金额\n保存\n记一笔实际支付\n哪一项\n请选择\n房租\n水电\n地铁\n菜钱\n金额\n支付日期\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n已选 2026-10-14\n今天\n备注（选填）\n记下这笔支付\n本月支付记录\n\n这个月还没有支付记录。",
+      "file": "fixed-unpaid-760.png",
+      "shotHeight": 2188
+    },
+    {
+      "view": "fixed",
+      "scrollWidth": 760,
+      "innerWidth": 760,
+      "height": 2341,
+      "title": "固定支出·4项",
+      "summary": "计划¥3,528.00已付¥2,628.00未付¥900.0074.5%所选月份已付占比",
+      "ringLabel": "所选月份已付占比 74.5%",
+      "ringArc": true,
+      "empty": null,
+      "emptyText": null,
+      "emptyInnerWidth": null,
+      "categories": [
+        {
+          "state": "OVERPAID",
+          "text": "住房¥1,800.00已付 ¥2,400.00 / 计划 ¥1,800.00超计划 ¥600.00 · 已付/计划 133.3%",
+          "width": "100%"
+        },
+        {
+          "state": "PAID",
+          "text": "水电通讯¥228.00已付 ¥228.00 / 计划 ¥228.00已付/计划 100%",
+          "width": "100%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "通勤¥900.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "吃饭¥600.00未付",
+          "width": "0%"
+        }
+      ],
+      "items": [
+        {
+          "text": "房租住房¥1,800.00 / 月已付 ¥2,400.00 · 超计划 ¥600.00 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "水电水电通讯¥228.00 / 月已付 ¥228.00 · 已付/计划 100% 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "地铁通勤¥900.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "菜钱吃饭¥600.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        }
+      ],
+      "titleFont": "28px",
+      "categoryColumns": "686px",
+      "pageText": "返回首页\n2026-10\n固定支出·4项\n计划\n¥3,528.00\n已付\n¥2,628.00\n未付\n¥900.00\n74.5%\n所选月份已付占比\n每月要付的\n房租\n住房\n¥1,800.00 / 月\n已付 ¥2,400.00 · 超计划 ¥600.00\n改\n停用\n水电\n水电通讯\n¥228.00 / 月\n已付 ¥228.00 · 已付/计划 100%\n改\n停用\n地铁\n通勤\n¥900.00 / 月\n未付\n记一笔\n改\n停用\n菜钱\n吃饭\n¥600.00 / 月\n未付\n记一笔\n改\n停用\n住房\n¥1,800.00\n\n已付 ¥2,400.00 / 计划 ¥1,800.00\n\n超计划 ¥600.00 · 已付/计划 133.3%\n\n水电通讯\n¥228.00\n\n已付 ¥228.00 / 计划 ¥228.00\n\n已付/计划 100%\n\n通勤\n¥900.00\n\n未付\n\n吃饭\n¥600.00\n\n未付\n\n添加一项固定支出\n名称类别\n住房\n吃饭\n通勤\n水电通讯\n保险\n家庭固定责任\n其他固定支出\n每月金额\n保存\n记一笔实际支付\n哪一项\n请选择\n房租\n水电\n地铁\n菜钱\n金额\n支付日期\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n已选 2026-10-14\n今天\n备注（选填）\n记下这笔支付\n本月支付记录\n房租\n2026-10-05\n¥2,200.00\n房租\n2026-10-05\n¥200.00\n水电\n2026-10-05\n¥228.00",
+      "file": "fixed-overpaid-760.png",
+      "shotHeight": 2341
+    },
+    {
+      "view": "fixed",
+      "scrollWidth": 760,
+      "innerWidth": 760,
+      "height": 2195,
+      "title": "固定支出·4项",
+      "summary": "计划¥2,628.00已付¥120.00未付¥2,508.004.6%所选月份已付占比",
+      "ringLabel": "所选月份已付占比 4.6%",
+      "ringArc": true,
+      "empty": null,
+      "emptyText": null,
+      "emptyInnerWidth": null,
+      "categories": [
+        {
+          "state": "UNPAID",
+          "text": "住房¥1,800.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "水电通讯¥228.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "吃饭¥600.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "ZERO_PLAN_PAID",
+          "text": "通勤¥0.00计划 ¥0 · 已付 ¥120.00 · 超计划 ¥120.00",
+          "width": "100%"
+        }
+      ],
+      "items": [
+        {
+          "text": "房租住房¥1,800.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "水电水电通讯¥228.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "菜钱吃饭¥600.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "地铁通勤¥0.00 / 月计划 ¥0 · 已付 ¥120.00 · 超计划 ¥120.00 改 停用",
+          "hasPayButton": false
+        }
+      ],
+      "titleFont": "28px",
+      "categoryColumns": "686px",
+      "pageText": "返回首页\n2026-10\n固定支出·4项\n计划\n¥2,628.00\n已付\n¥120.00\n未付\n¥2,508.00\n4.6%\n所选月份已付占比\n每月要付的\n房租\n住房\n¥1,800.00 / 月\n未付\n记一笔\n改\n停用\n水电\n水电通讯\n¥228.00 / 月\n未付\n记一笔\n改\n停用\n菜钱\n吃饭\n¥600.00 / 月\n未付\n记一笔\n改\n停用\n地铁\n通勤\n¥0.00 / 月\n计划 ¥0 · 已付 ¥120.00 · 超计划 ¥120.00\n改\n停用\n住房\n¥1,800.00\n\n未付\n\n水电通讯\n¥228.00\n\n未付\n\n吃饭\n¥600.00\n\n未付\n\n通勤\n¥0.00\n\n计划 ¥0 · 已付 ¥120.00 · 超计划 ¥120.00\n\n添加一项固定支出\n名称类别\n住房\n吃饭\n通勤\n水电通讯\n保险\n家庭固定责任\n其他固定支出\n每月金额\n保存\n记一笔实际支付\n哪一项\n请选择\n房租\n水电\n菜钱\n地铁\n金额\n支付日期\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n已选 2026-10-14\n今天\n备注（选填）\n记下这笔支付\n本月支付记录\n地铁\n2026-10-05\n¥120.00",
+      "file": "fixed-zero-plan-760.png",
+      "shotHeight": 2195
+    },
+    {
+      "view": "fixed",
+      "scrollWidth": 760,
+      "innerWidth": 760,
+      "height": 1646,
+      "title": "固定支出·0项",
+      "summary": null,
+      "ringLabel": null,
+      "ringArc": false,
+      "empty": {
+        "x": 60,
+        "y": 140,
+        "w": 640,
+        "h": 360
+      },
+      "emptyText": "暂无固定支出",
+      "emptyInnerWidth": 640,
+      "categories": [],
+      "items": [],
+      "titleFont": "28px",
+      "categoryColumns": null,
+      "pageText": "返回首页\n2026-10\n固定支出·0项\n\n暂无固定支出\n\n添加一项固定支出\n名称类别\n住房\n吃饭\n通勤\n水电通讯\n保险\n家庭固定责任\n其他固定支出\n每月金额\n保存\n记一笔实际支付\n哪一项\n请选择\n金额\n支付日期\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n已选 2026-10-14\n今天\n备注（选填）\n记下这笔支付\n本月支付记录\n\n这个月还没有支付记录。",
+      "file": "fixed-empty-760.png",
+      "shotHeight": 1646
+    },
+    {
+      "view": "fixed",
+      "scrollWidth": 760,
+      "innerWidth": 760,
+      "height": 2222,
+      "title": "固定支出·4项",
+      "summary": "计划¥3,528.00已付¥2,100.00未付¥1,428.0059.5%所选月份已付占比",
+      "ringLabel": "所选月份已付占比 59.5%",
+      "ringArc": true,
+      "empty": null,
+      "emptyText": null,
+      "emptyInnerWidth": null,
+      "categories": [
+        {
+          "state": "PAID",
+          "text": "住房¥1,800.00已付 ¥1,800.00 / 计划 ¥1,800.00已付/计划 100%",
+          "width": "100%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "水电通讯¥228.00",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "通勤¥900.00",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "吃饭¥600.00",
+          "width": "0%"
+        }
+      ],
+      "items": [
+        {
+          "text": "房租住房¥1,800.00 / 月已付 ¥1,800.00 · 已付/计划 100% 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "水电水电通讯¥228.00 / 月记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "地铁通勤¥900.00 / 月记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "菜钱吃饭¥600.00 / 月记一笔 改 停用",
+          "hasPayButton": true
+        }
+      ],
+      "titleFont": "28px",
+      "categoryColumns": "686px",
+      "pageText": "返回首页\n2026-10\n固定支出·4项\n计划\n¥3,528.00\n已付\n¥2,100.00\n未付\n¥1,428.00\n59.5%\n所选月份已付占比\n每月要付的\n房租\n住房\n¥1,800.00 / 月\n已付 ¥1,800.00 · 已付/计划 100%\n改\n停用\n水电\n水电通讯\n¥228.00 / 月\n记一笔\n改\n停用\n地铁\n通勤\n¥900.00 / 月\n记一笔\n改\n停用\n菜钱\n吃饭\n¥600.00 / 月\n记一笔\n改\n停用\n住房\n¥1,800.00\n\n已付 ¥1,800.00 / 计划 ¥1,800.00\n\n已付/计划 100%\n\n水电通讯\n¥228.00\n通勤\n¥900.00\n吃饭\n¥600.00\n添加一项固定支出\n名称类别\n住房\n吃饭\n通勤\n水电通讯\n保险\n家庭固定责任\n其他固定支出\n每月金额\n保存\n记一笔实际支付\n哪一项\n请选择\n房租\n水电\n地铁\n菜钱\n金额\n支付日期\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n已选 2026-10-14\n今天\n备注（选填）\n记下这笔支付\n本月支付记录\n房租\n2026-10-05\n¥1,800.00\n旧记录\n2026-10-05\n¥300.00",
+      "file": "fixed-unowned-760.png",
+      "shotHeight": 2222
+    },
+    {
+      "view": "home",
+      "scrollWidth": 980,
+      "innerWidth": 980,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "241.27 653.45",
+        "49.01 490.09"
+      ],
+      "ring": {
+        "x": 215.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 215.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 268.03,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥4,800.00",
+          "percent": "占收入 36.9%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥1,300.00",
+          "percent": "占收入 10%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 36.9%，必须偿还月供占收入 10%",
+      "surplus": "¥6,900.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-roomy-980.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 980,
+      "innerWidth": 980,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "527.79 653.45",
+        "131.95 490.09"
+      ],
+      "ring": {
+        "x": 217,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 217,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 269.53,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥10,500.00",
+          "percent": "占收入 80.8%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥3,500.00",
+          "percent": "占收入 26.9%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 80.8%，必须偿还月供占收入 26.9%",
+      "surplus": "-¥1,000.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-light-over-980.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 980,
+      "innerWidth": 980,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "593.13 653.45",
+        "158.34 490.09"
+      ],
+      "ring": {
+        "x": 217,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 217,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 269.53,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥11,800.00",
+          "percent": "占收入 90.8%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥4,200.00",
+          "percent": "占收入 32.3%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 90.8%，必须偿还月供占收入 32.3%",
+      "surplus": "-¥3,000.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-overload-980.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 980,
+      "innerWidth": 980,
+      "height": 1200,
+      "arcs": 0,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [],
+      "ring": {
+        "x": 217,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 217,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 301.27,
+        "y": 381.92,
+        "w": 63.47,
+        "h": 26.39
+      },
+      "dx": 0.0049999999999954525,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 30.32,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": null,
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥2,500.00",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥1,000.00",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "收入 ¥0.00",
+      "surplus": "-¥3,500.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-zero-burden-980.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 980,
+      "innerWidth": 980,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [
+        "rgb(194, 80, 60)"
+      ],
+      "arcDash": [
+        "653.45 653.45",
+        "98.02 490.09"
+      ],
+      "ring": {
+        "x": 217,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 217,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 269.53,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥15,600.00",
+          "percent": "占收入 120%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥2,600.00"
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥2,600.00",
+          "percent": "占收入 20%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 120%，必须偿还月供占收入 20%",
+      "surplus": "-¥5,200.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-over-outer-980.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 980,
+      "innerWidth": 980,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [
+        "rgb(194, 80, 60)",
+        "rgb(194, 80, 60)"
+      ],
+      "arcDash": [
+        "653.45 653.45",
+        "490.09 490.09"
+      ],
+      "ring": {
+        "x": 217,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 217,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 269.53,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥15,600.00",
+          "percent": "占收入 120%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥2,600.00"
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥15,600.00",
+          "percent": "占收入 120%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥2,600.00"
+        }
+      ],
+      "ariaLabel": "固定支出占收入 120%，必须偿还月供占收入 120%",
+      "surplus": "-¥18,200.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-over-both-980.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 980,
+      "innerWidth": 980,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [
+        "rgb(194, 80, 60)"
+      ],
+      "arcDash": [
+        "653.45 653.45",
+        "49.01 490.09"
+      ],
+      "ring": {
+        "x": 217,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 217,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 269.53,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥23,000.00",
+          "percent": "占收入 230%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥13,000.00"
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥1,000.00",
+          "percent": "占收入 10%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 230%，必须偿还月供占收入 10%",
+      "surplus": "-¥14,000.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-over-large-980.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 980,
+      "innerWidth": 980,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "457.42 653.45",
+        "196.04 490.09"
+      ],
+      "ring": {
+        "x": 217,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 217,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 269.53,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥9,100.00",
+          "percent": "占收入 70%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥5,200.00",
+          "percent": "占收入 40%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 70%，必须偿还月供占收入 40%",
+      "surplus": "-¥1,300.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-over-split-980.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 980,
+      "innerWidth": 980,
+      "height": 1200,
+      "arcs": 1,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "177.34 653.45"
+      ],
+      "ring": {
+        "x": 215.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 215.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 268.03,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥3,528.00",
+          "percent": "占收入 27.1%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "待确认",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 27.1%，必须偿还月供 待确认",
+      "surplus": "—结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-pending-980.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "fixed",
+      "scrollWidth": 980,
+      "innerWidth": 980,
+      "height": 2395,
+      "title": "固定支出·4项",
+      "summary": "计划¥3,528.00已付¥2,628.00未付¥900.0074.5%所选月份已付占比",
+      "ringLabel": "所选月份已付占比 74.5%",
+      "ringArc": true,
+      "empty": null,
+      "emptyText": null,
+      "emptyInnerWidth": null,
+      "categories": [
+        {
+          "state": "PAID",
+          "text": "住房¥1,800.00已付 ¥1,800.00 / 计划 ¥1,800.00已付/计划 100%",
+          "width": "100%"
+        },
+        {
+          "state": "PAID",
+          "text": "水电通讯¥228.00已付 ¥228.00 / 计划 ¥228.00已付/计划 100%",
+          "width": "100%"
+        },
+        {
+          "state": "PARTIAL",
+          "text": "通勤¥900.00已付 ¥600.00 / 计划 ¥900.00已付/计划 66.7%",
+          "width": "66.6667%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "吃饭¥600.00未付",
+          "width": "0%"
+        }
+      ],
+      "items": [
+        {
+          "text": "房租住房¥1,800.00 / 月已付 ¥1,800.00 · 已付/计划 100% 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "水电水电通讯¥228.00 / 月已付 ¥228.00 · 已付/计划 100% 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "地铁通勤¥900.00 / 月已付 ¥600.00 · 已付/计划 66.7% 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "菜钱吃饭¥600.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        }
+      ],
+      "titleFont": "28px",
+      "categoryColumns": "824px",
+      "pageText": "返回首页\n2026-10\n固定支出·4项\n计划\n¥3,528.00\n已付\n¥2,628.00\n未付\n¥900.00\n74.5%\n所选月份已付占比\n每月要付的\n房租\n住房\n¥1,800.00 / 月\n已付 ¥1,800.00 · 已付/计划 100%\n改\n停用\n水电\n水电通讯\n¥228.00 / 月\n已付 ¥228.00 · 已付/计划 100%\n改\n停用\n地铁\n通勤\n¥900.00 / 月\n已付 ¥600.00 · 已付/计划 66.7%\n改\n停用\n菜钱\n吃饭\n¥600.00 / 月\n未付\n记一笔\n改\n停用\n住房\n¥1,800.00\n\n已付 ¥1,800.00 / 计划 ¥1,800.00\n\n已付/计划 100%\n\n水电通讯\n¥228.00\n\n已付 ¥228.00 / 计划 ¥228.00\n\n已付/计划 100%\n\n通勤\n¥900.00\n\n已付 ¥600.00 / 计划 ¥900.00\n\n已付/计划 66.7%\n\n吃饭\n¥600.00\n\n未付\n\n添加一项固定支出\n名称类别\n住房\n吃饭\n通勤\n水电通讯\n保险\n家庭固定责任\n其他固定支出\n每月金额\n保存\n记一笔实际支付\n哪一项\n请选择\n房租\n水电\n地铁\n菜钱\n金额\n支付日期\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n已选 2026-10-14\n今天\n备注（选填）\n记下这笔支付\n本月支付记录\n房租\n2026-10-05\n¥1,800.00\n水电\n2026-10-05\n¥228.00\n地铁\n2026-10-05\n¥600.00",
+      "file": "fixed-normal-980.png",
+      "shotHeight": 2395
+    },
+    {
+      "view": "fixed",
+      "scrollWidth": 980,
+      "innerWidth": 980,
+      "height": 2236,
+      "title": "固定支出·4项",
+      "summary": "计划¥3,528.00已付¥0.00未付¥3,528.000%所选月份已付占比",
+      "ringLabel": "所选月份已付占比 0%",
+      "ringArc": false,
+      "empty": null,
+      "emptyText": null,
+      "emptyInnerWidth": null,
+      "categories": [
+        {
+          "state": "UNPAID",
+          "text": "住房¥1,800.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "水电通讯¥228.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "通勤¥900.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "吃饭¥600.00未付",
+          "width": "0%"
+        }
+      ],
+      "items": [
+        {
+          "text": "房租住房¥1,800.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "水电水电通讯¥228.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "地铁通勤¥900.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "菜钱吃饭¥600.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        }
+      ],
+      "titleFont": "28px",
+      "categoryColumns": "824px",
+      "pageText": "返回首页\n2026-10\n固定支出·4项\n计划\n¥3,528.00\n已付\n¥0.00\n未付\n¥3,528.00\n0%\n所选月份已付占比\n每月要付的\n房租\n住房\n¥1,800.00 / 月\n未付\n记一笔\n改\n停用\n水电\n水电通讯\n¥228.00 / 月\n未付\n记一笔\n改\n停用\n地铁\n通勤\n¥900.00 / 月\n未付\n记一笔\n改\n停用\n菜钱\n吃饭\n¥600.00 / 月\n未付\n记一笔\n改\n停用\n住房\n¥1,800.00\n\n未付\n\n水电通讯\n¥228.00\n\n未付\n\n通勤\n¥900.00\n\n未付\n\n吃饭\n¥600.00\n\n未付\n\n添加一项固定支出\n名称类别\n住房\n吃饭\n通勤\n水电通讯\n保险\n家庭固定责任\n其他固定支出\n每月金额\n保存\n记一笔实际支付\n哪一项\n请选择\n房租\n水电\n地铁\n菜钱\n金额\n支付日期\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n已选 2026-10-14\n今天\n备注（选填）\n记下这笔支付\n本月支付记录\n\n这个月还没有支付记录。",
+      "file": "fixed-unpaid-980.png",
+      "shotHeight": 2236
+    },
+    {
+      "view": "fixed",
+      "scrollWidth": 980,
+      "innerWidth": 980,
+      "height": 2389,
+      "title": "固定支出·4项",
+      "summary": "计划¥3,528.00已付¥2,628.00未付¥900.0074.5%所选月份已付占比",
+      "ringLabel": "所选月份已付占比 74.5%",
+      "ringArc": true,
+      "empty": null,
+      "emptyText": null,
+      "emptyInnerWidth": null,
+      "categories": [
+        {
+          "state": "OVERPAID",
+          "text": "住房¥1,800.00已付 ¥2,400.00 / 计划 ¥1,800.00超计划 ¥600.00 · 已付/计划 133.3%",
+          "width": "100%"
+        },
+        {
+          "state": "PAID",
+          "text": "水电通讯¥228.00已付 ¥228.00 / 计划 ¥228.00已付/计划 100%",
+          "width": "100%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "通勤¥900.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "吃饭¥600.00未付",
+          "width": "0%"
+        }
+      ],
+      "items": [
+        {
+          "text": "房租住房¥1,800.00 / 月已付 ¥2,400.00 · 超计划 ¥600.00 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "水电水电通讯¥228.00 / 月已付 ¥228.00 · 已付/计划 100% 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "地铁通勤¥900.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "菜钱吃饭¥600.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        }
+      ],
+      "titleFont": "28px",
+      "categoryColumns": "824px",
+      "pageText": "返回首页\n2026-10\n固定支出·4项\n计划\n¥3,528.00\n已付\n¥2,628.00\n未付\n¥900.00\n74.5%\n所选月份已付占比\n每月要付的\n房租\n住房\n¥1,800.00 / 月\n已付 ¥2,400.00 · 超计划 ¥600.00\n改\n停用\n水电\n水电通讯\n¥228.00 / 月\n已付 ¥228.00 · 已付/计划 100%\n改\n停用\n地铁\n通勤\n¥900.00 / 月\n未付\n记一笔\n改\n停用\n菜钱\n吃饭\n¥600.00 / 月\n未付\n记一笔\n改\n停用\n住房\n¥1,800.00\n\n已付 ¥2,400.00 / 计划 ¥1,800.00\n\n超计划 ¥600.00 · 已付/计划 133.3%\n\n水电通讯\n¥228.00\n\n已付 ¥228.00 / 计划 ¥228.00\n\n已付/计划 100%\n\n通勤\n¥900.00\n\n未付\n\n吃饭\n¥600.00\n\n未付\n\n添加一项固定支出\n名称类别\n住房\n吃饭\n通勤\n水电通讯\n保险\n家庭固定责任\n其他固定支出\n每月金额\n保存\n记一笔实际支付\n哪一项\n请选择\n房租\n水电\n地铁\n菜钱\n金额\n支付日期\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n已选 2026-10-14\n今天\n备注（选填）\n记下这笔支付\n本月支付记录\n房租\n2026-10-05\n¥2,200.00\n房租\n2026-10-05\n¥200.00\n水电\n2026-10-05\n¥228.00",
+      "file": "fixed-overpaid-980.png",
+      "shotHeight": 2389
+    },
+    {
+      "view": "fixed",
+      "scrollWidth": 980,
+      "innerWidth": 980,
+      "height": 2243,
+      "title": "固定支出·4项",
+      "summary": "计划¥2,628.00已付¥120.00未付¥2,508.004.6%所选月份已付占比",
+      "ringLabel": "所选月份已付占比 4.6%",
+      "ringArc": true,
+      "empty": null,
+      "emptyText": null,
+      "emptyInnerWidth": null,
+      "categories": [
+        {
+          "state": "UNPAID",
+          "text": "住房¥1,800.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "水电通讯¥228.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "吃饭¥600.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "ZERO_PLAN_PAID",
+          "text": "通勤¥0.00计划 ¥0 · 已付 ¥120.00 · 超计划 ¥120.00",
+          "width": "100%"
+        }
+      ],
+      "items": [
+        {
+          "text": "房租住房¥1,800.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "水电水电通讯¥228.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "菜钱吃饭¥600.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "地铁通勤¥0.00 / 月计划 ¥0 · 已付 ¥120.00 · 超计划 ¥120.00 改 停用",
+          "hasPayButton": false
+        }
+      ],
+      "titleFont": "28px",
+      "categoryColumns": "824px",
+      "pageText": "返回首页\n2026-10\n固定支出·4项\n计划\n¥2,628.00\n已付\n¥120.00\n未付\n¥2,508.00\n4.6%\n所选月份已付占比\n每月要付的\n房租\n住房\n¥1,800.00 / 月\n未付\n记一笔\n改\n停用\n水电\n水电通讯\n¥228.00 / 月\n未付\n记一笔\n改\n停用\n菜钱\n吃饭\n¥600.00 / 月\n未付\n记一笔\n改\n停用\n地铁\n通勤\n¥0.00 / 月\n计划 ¥0 · 已付 ¥120.00 · 超计划 ¥120.00\n改\n停用\n住房\n¥1,800.00\n\n未付\n\n水电通讯\n¥228.00\n\n未付\n\n吃饭\n¥600.00\n\n未付\n\n通勤\n¥0.00\n\n计划 ¥0 · 已付 ¥120.00 · 超计划 ¥120.00\n\n添加一项固定支出\n名称类别\n住房\n吃饭\n通勤\n水电通讯\n保险\n家庭固定责任\n其他固定支出\n每月金额\n保存\n记一笔实际支付\n哪一项\n请选择\n房租\n水电\n菜钱\n地铁\n金额\n支付日期\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n已选 2026-10-14\n今天\n备注（选填）\n记下这笔支付\n本月支付记录\n地铁\n2026-10-05\n¥120.00",
+      "file": "fixed-zero-plan-980.png",
+      "shotHeight": 2243
+    },
+    {
+      "view": "fixed",
+      "scrollWidth": 980,
+      "innerWidth": 980,
+      "height": 1670,
+      "title": "固定支出·0项",
+      "summary": null,
+      "ringLabel": null,
+      "ringArc": false,
+      "empty": {
+        "x": 170,
+        "y": 140,
+        "w": 640,
+        "h": 360
+      },
+      "emptyText": "暂无固定支出",
+      "emptyInnerWidth": 640,
+      "categories": [],
+      "items": [],
+      "titleFont": "28px",
+      "categoryColumns": null,
+      "pageText": "返回首页\n2026-10\n固定支出·0项\n\n暂无固定支出\n\n添加一项固定支出\n名称类别\n住房\n吃饭\n通勤\n水电通讯\n保险\n家庭固定责任\n其他固定支出\n每月金额\n保存\n记一笔实际支付\n哪一项\n请选择\n金额\n支付日期\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n已选 2026-10-14\n今天\n备注（选填）\n记下这笔支付\n本月支付记录\n\n这个月还没有支付记录。",
+      "file": "fixed-empty-980.png",
+      "shotHeight": 1670
+    },
+    {
+      "view": "fixed",
+      "scrollWidth": 980,
+      "innerWidth": 980,
+      "height": 2270,
+      "title": "固定支出·4项",
+      "summary": "计划¥3,528.00已付¥2,100.00未付¥1,428.0059.5%所选月份已付占比",
+      "ringLabel": "所选月份已付占比 59.5%",
+      "ringArc": true,
+      "empty": null,
+      "emptyText": null,
+      "emptyInnerWidth": null,
+      "categories": [
+        {
+          "state": "PAID",
+          "text": "住房¥1,800.00已付 ¥1,800.00 / 计划 ¥1,800.00已付/计划 100%",
+          "width": "100%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "水电通讯¥228.00",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "通勤¥900.00",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "吃饭¥600.00",
+          "width": "0%"
+        }
+      ],
+      "items": [
+        {
+          "text": "房租住房¥1,800.00 / 月已付 ¥1,800.00 · 已付/计划 100% 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "水电水电通讯¥228.00 / 月记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "地铁通勤¥900.00 / 月记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "菜钱吃饭¥600.00 / 月记一笔 改 停用",
+          "hasPayButton": true
+        }
+      ],
+      "titleFont": "28px",
+      "categoryColumns": "824px",
+      "pageText": "返回首页\n2026-10\n固定支出·4项\n计划\n¥3,528.00\n已付\n¥2,100.00\n未付\n¥1,428.00\n59.5%\n所选月份已付占比\n每月要付的\n房租\n住房\n¥1,800.00 / 月\n已付 ¥1,800.00 · 已付/计划 100%\n改\n停用\n水电\n水电通讯\n¥228.00 / 月\n记一笔\n改\n停用\n地铁\n通勤\n¥900.00 / 月\n记一笔\n改\n停用\n菜钱\n吃饭\n¥600.00 / 月\n记一笔\n改\n停用\n住房\n¥1,800.00\n\n已付 ¥1,800.00 / 计划 ¥1,800.00\n\n已付/计划 100%\n\n水电通讯\n¥228.00\n通勤\n¥900.00\n吃饭\n¥600.00\n添加一项固定支出\n名称类别\n住房\n吃饭\n通勤\n水电通讯\n保险\n家庭固定责任\n其他固定支出\n每月金额\n保存\n记一笔实际支付\n哪一项\n请选择\n房租\n水电\n地铁\n菜钱\n金额\n支付日期\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n已选 2026-10-14\n今天\n备注（选填）\n记下这笔支付\n本月支付记录\n房租\n2026-10-05\n¥1,800.00\n旧记录\n2026-10-05\n¥300.00",
+      "file": "fixed-unowned-980.png",
+      "shotHeight": 2270
+    },
+    {
+      "view": "home",
+      "scrollWidth": 1000,
+      "innerWidth": 1000,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "241.27 653.45",
+        "49.01 490.09"
+      ],
+      "ring": {
+        "x": 221,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 221,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 273.53,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥4,800.00",
+          "percent": "占收入 36.9%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥1,300.00",
+          "percent": "占收入 10%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 36.9%，必须偿还月供占收入 10%",
+      "surplus": "¥6,900.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-roomy-1000.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 1000,
+      "innerWidth": 1000,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "527.79 653.45",
+        "131.95 490.09"
+      ],
+      "ring": {
+        "x": 222.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 222.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 275.03,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥10,500.00",
+          "percent": "占收入 80.8%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥3,500.00",
+          "percent": "占收入 26.9%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 80.8%，必须偿还月供占收入 26.9%",
+      "surplus": "-¥1,000.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-light-over-1000.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 1000,
+      "innerWidth": 1000,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "593.13 653.45",
+        "158.34 490.09"
+      ],
+      "ring": {
+        "x": 222.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 222.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 275.03,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥11,800.00",
+          "percent": "占收入 90.8%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥4,200.00",
+          "percent": "占收入 32.3%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 90.8%，必须偿还月供占收入 32.3%",
+      "surplus": "-¥3,000.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-overload-1000.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 1000,
+      "innerWidth": 1000,
+      "height": 1200,
+      "arcs": 0,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [],
+      "ring": {
+        "x": 222.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 222.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 306.77,
+        "y": 381.92,
+        "w": 63.47,
+        "h": 26.39
+      },
+      "dx": 0.0049999999999954525,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 30.32,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": null,
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥2,500.00",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥1,000.00",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "收入 ¥0.00",
+      "surplus": "-¥3,500.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-zero-burden-1000.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 1000,
+      "innerWidth": 1000,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [
+        "rgb(194, 80, 60)"
+      ],
+      "arcDash": [
+        "653.45 653.45",
+        "98.02 490.09"
+      ],
+      "ring": {
+        "x": 222.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 222.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 275.03,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥15,600.00",
+          "percent": "占收入 120%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥2,600.00"
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥2,600.00",
+          "percent": "占收入 20%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 120%，必须偿还月供占收入 20%",
+      "surplus": "-¥5,200.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-over-outer-1000.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 1000,
+      "innerWidth": 1000,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [
+        "rgb(194, 80, 60)",
+        "rgb(194, 80, 60)"
+      ],
+      "arcDash": [
+        "653.45 653.45",
+        "490.09 490.09"
+      ],
+      "ring": {
+        "x": 222.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 222.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 275.03,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥15,600.00",
+          "percent": "占收入 120%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥2,600.00"
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥15,600.00",
+          "percent": "占收入 120%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥2,600.00"
+        }
+      ],
+      "ariaLabel": "固定支出占收入 120%，必须偿还月供占收入 120%",
+      "surplus": "-¥18,200.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-over-both-1000.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 1000,
+      "innerWidth": 1000,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [
+        "rgb(194, 80, 60)"
+      ],
+      "arcDash": [
+        "653.45 653.45",
+        "49.01 490.09"
+      ],
+      "ring": {
+        "x": 222.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 222.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 275.03,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥23,000.00",
+          "percent": "占收入 230%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥13,000.00"
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥1,000.00",
+          "percent": "占收入 10%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 230%，必须偿还月供占收入 10%",
+      "surplus": "-¥14,000.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-over-large-1000.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 1000,
+      "innerWidth": 1000,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "457.42 653.45",
+        "196.04 490.09"
+      ],
+      "ring": {
+        "x": 222.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 222.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 275.03,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥9,100.00",
+          "percent": "占收入 70%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥5,200.00",
+          "percent": "占收入 40%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 70%，必须偿还月供占收入 40%",
+      "surplus": "-¥1,300.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-over-split-1000.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 1000,
+      "innerWidth": 1000,
+      "height": 1200,
+      "arcs": 1,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "177.34 653.45"
+      ],
+      "ring": {
+        "x": 221,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 221,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 273.53,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥3,528.00",
+          "percent": "占收入 27.1%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "待确认",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 27.1%，必须偿还月供 待确认",
+      "surplus": "—结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-pending-1000.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "fixed",
+      "scrollWidth": 1000,
+      "innerWidth": 1000,
+      "height": 2395,
+      "title": "固定支出·4项",
+      "summary": "计划¥3,528.00已付¥2,628.00未付¥900.0074.5%所选月份已付占比",
+      "ringLabel": "所选月份已付占比 74.5%",
+      "ringArc": true,
+      "empty": null,
+      "emptyText": null,
+      "emptyInnerWidth": null,
+      "categories": [
+        {
+          "state": "PAID",
+          "text": "住房¥1,800.00已付 ¥1,800.00 / 计划 ¥1,800.00已付/计划 100%",
+          "width": "100%"
+        },
+        {
+          "state": "PAID",
+          "text": "水电通讯¥228.00已付 ¥228.00 / 计划 ¥228.00已付/计划 100%",
+          "width": "100%"
+        },
+        {
+          "state": "PARTIAL",
+          "text": "通勤¥900.00已付 ¥600.00 / 计划 ¥900.00已付/计划 66.7%",
+          "width": "66.6667%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "吃饭¥600.00未付",
+          "width": "0%"
+        }
+      ],
+      "items": [
+        {
+          "text": "房租住房¥1,800.00 / 月已付 ¥1,800.00 · 已付/计划 100% 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "水电水电通讯¥228.00 / 月已付 ¥228.00 · 已付/计划 100% 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "地铁通勤¥900.00 / 月已付 ¥600.00 · 已付/计划 66.7% 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "菜钱吃饭¥600.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        }
+      ],
+      "titleFont": "28px",
+      "categoryColumns": "824px",
+      "pageText": "返回首页\n2026-10\n固定支出·4项\n计划\n¥3,528.00\n已付\n¥2,628.00\n未付\n¥900.00\n74.5%\n所选月份已付占比\n每月要付的\n房租\n住房\n¥1,800.00 / 月\n已付 ¥1,800.00 · 已付/计划 100%\n改\n停用\n水电\n水电通讯\n¥228.00 / 月\n已付 ¥228.00 · 已付/计划 100%\n改\n停用\n地铁\n通勤\n¥900.00 / 月\n已付 ¥600.00 · 已付/计划 66.7%\n改\n停用\n菜钱\n吃饭\n¥600.00 / 月\n未付\n记一笔\n改\n停用\n住房\n¥1,800.00\n\n已付 ¥1,800.00 / 计划 ¥1,800.00\n\n已付/计划 100%\n\n水电通讯\n¥228.00\n\n已付 ¥228.00 / 计划 ¥228.00\n\n已付/计划 100%\n\n通勤\n¥900.00\n\n已付 ¥600.00 / 计划 ¥900.00\n\n已付/计划 66.7%\n\n吃饭\n¥600.00\n\n未付\n\n添加一项固定支出\n名称类别\n住房\n吃饭\n通勤\n水电通讯\n保险\n家庭固定责任\n其他固定支出\n每月金额\n保存\n记一笔实际支付\n哪一项\n请选择\n房租\n水电\n地铁\n菜钱\n金额\n支付日期\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n已选 2026-10-14\n今天\n备注（选填）\n记下这笔支付\n本月支付记录\n房租\n2026-10-05\n¥1,800.00\n水电\n2026-10-05\n¥228.00\n地铁\n2026-10-05\n¥600.00",
+      "file": "fixed-normal-1000.png",
+      "shotHeight": 2395
+    },
+    {
+      "view": "fixed",
+      "scrollWidth": 1000,
+      "innerWidth": 1000,
+      "height": 2236,
+      "title": "固定支出·4项",
+      "summary": "计划¥3,528.00已付¥0.00未付¥3,528.000%所选月份已付占比",
+      "ringLabel": "所选月份已付占比 0%",
+      "ringArc": false,
+      "empty": null,
+      "emptyText": null,
+      "emptyInnerWidth": null,
+      "categories": [
+        {
+          "state": "UNPAID",
+          "text": "住房¥1,800.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "水电通讯¥228.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "通勤¥900.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "吃饭¥600.00未付",
+          "width": "0%"
+        }
+      ],
+      "items": [
+        {
+          "text": "房租住房¥1,800.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "水电水电通讯¥228.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "地铁通勤¥900.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "菜钱吃饭¥600.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        }
+      ],
+      "titleFont": "28px",
+      "categoryColumns": "824px",
+      "pageText": "返回首页\n2026-10\n固定支出·4项\n计划\n¥3,528.00\n已付\n¥0.00\n未付\n¥3,528.00\n0%\n所选月份已付占比\n每月要付的\n房租\n住房\n¥1,800.00 / 月\n未付\n记一笔\n改\n停用\n水电\n水电通讯\n¥228.00 / 月\n未付\n记一笔\n改\n停用\n地铁\n通勤\n¥900.00 / 月\n未付\n记一笔\n改\n停用\n菜钱\n吃饭\n¥600.00 / 月\n未付\n记一笔\n改\n停用\n住房\n¥1,800.00\n\n未付\n\n水电通讯\n¥228.00\n\n未付\n\n通勤\n¥900.00\n\n未付\n\n吃饭\n¥600.00\n\n未付\n\n添加一项固定支出\n名称类别\n住房\n吃饭\n通勤\n水电通讯\n保险\n家庭固定责任\n其他固定支出\n每月金额\n保存\n记一笔实际支付\n哪一项\n请选择\n房租\n水电\n地铁\n菜钱\n金额\n支付日期\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n已选 2026-10-14\n今天\n备注（选填）\n记下这笔支付\n本月支付记录\n\n这个月还没有支付记录。",
+      "file": "fixed-unpaid-1000.png",
+      "shotHeight": 2236
+    },
+    {
+      "view": "fixed",
+      "scrollWidth": 1000,
+      "innerWidth": 1000,
+      "height": 2389,
+      "title": "固定支出·4项",
+      "summary": "计划¥3,528.00已付¥2,628.00未付¥900.0074.5%所选月份已付占比",
+      "ringLabel": "所选月份已付占比 74.5%",
+      "ringArc": true,
+      "empty": null,
+      "emptyText": null,
+      "emptyInnerWidth": null,
+      "categories": [
+        {
+          "state": "OVERPAID",
+          "text": "住房¥1,800.00已付 ¥2,400.00 / 计划 ¥1,800.00超计划 ¥600.00 · 已付/计划 133.3%",
+          "width": "100%"
+        },
+        {
+          "state": "PAID",
+          "text": "水电通讯¥228.00已付 ¥228.00 / 计划 ¥228.00已付/计划 100%",
+          "width": "100%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "通勤¥900.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "吃饭¥600.00未付",
+          "width": "0%"
+        }
+      ],
+      "items": [
+        {
+          "text": "房租住房¥1,800.00 / 月已付 ¥2,400.00 · 超计划 ¥600.00 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "水电水电通讯¥228.00 / 月已付 ¥228.00 · 已付/计划 100% 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "地铁通勤¥900.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "菜钱吃饭¥600.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        }
+      ],
+      "titleFont": "28px",
+      "categoryColumns": "824px",
+      "pageText": "返回首页\n2026-10\n固定支出·4项\n计划\n¥3,528.00\n已付\n¥2,628.00\n未付\n¥900.00\n74.5%\n所选月份已付占比\n每月要付的\n房租\n住房\n¥1,800.00 / 月\n已付 ¥2,400.00 · 超计划 ¥600.00\n改\n停用\n水电\n水电通讯\n¥228.00 / 月\n已付 ¥228.00 · 已付/计划 100%\n改\n停用\n地铁\n通勤\n¥900.00 / 月\n未付\n记一笔\n改\n停用\n菜钱\n吃饭\n¥600.00 / 月\n未付\n记一笔\n改\n停用\n住房\n¥1,800.00\n\n已付 ¥2,400.00 / 计划 ¥1,800.00\n\n超计划 ¥600.00 · 已付/计划 133.3%\n\n水电通讯\n¥228.00\n\n已付 ¥228.00 / 计划 ¥228.00\n\n已付/计划 100%\n\n通勤\n¥900.00\n\n未付\n\n吃饭\n¥600.00\n\n未付\n\n添加一项固定支出\n名称类别\n住房\n吃饭\n通勤\n水电通讯\n保险\n家庭固定责任\n其他固定支出\n每月金额\n保存\n记一笔实际支付\n哪一项\n请选择\n房租\n水电\n地铁\n菜钱\n金额\n支付日期\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n已选 2026-10-14\n今天\n备注（选填）\n记下这笔支付\n本月支付记录\n房租\n2026-10-05\n¥2,200.00\n房租\n2026-10-05\n¥200.00\n水电\n2026-10-05\n¥228.00",
+      "file": "fixed-overpaid-1000.png",
+      "shotHeight": 2389
+    },
+    {
+      "view": "fixed",
+      "scrollWidth": 1000,
+      "innerWidth": 1000,
+      "height": 2243,
+      "title": "固定支出·4项",
+      "summary": "计划¥2,628.00已付¥120.00未付¥2,508.004.6%所选月份已付占比",
+      "ringLabel": "所选月份已付占比 4.6%",
+      "ringArc": true,
+      "empty": null,
+      "emptyText": null,
+      "emptyInnerWidth": null,
+      "categories": [
+        {
+          "state": "UNPAID",
+          "text": "住房¥1,800.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "水电通讯¥228.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "吃饭¥600.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "ZERO_PLAN_PAID",
+          "text": "通勤¥0.00计划 ¥0 · 已付 ¥120.00 · 超计划 ¥120.00",
+          "width": "100%"
+        }
+      ],
+      "items": [
+        {
+          "text": "房租住房¥1,800.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "水电水电通讯¥228.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "菜钱吃饭¥600.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "地铁通勤¥0.00 / 月计划 ¥0 · 已付 ¥120.00 · 超计划 ¥120.00 改 停用",
+          "hasPayButton": false
+        }
+      ],
+      "titleFont": "28px",
+      "categoryColumns": "824px",
+      "pageText": "返回首页\n2026-10\n固定支出·4项\n计划\n¥2,628.00\n已付\n¥120.00\n未付\n¥2,508.00\n4.6%\n所选月份已付占比\n每月要付的\n房租\n住房\n¥1,800.00 / 月\n未付\n记一笔\n改\n停用\n水电\n水电通讯\n¥228.00 / 月\n未付\n记一笔\n改\n停用\n菜钱\n吃饭\n¥600.00 / 月\n未付\n记一笔\n改\n停用\n地铁\n通勤\n¥0.00 / 月\n计划 ¥0 · 已付 ¥120.00 · 超计划 ¥120.00\n改\n停用\n住房\n¥1,800.00\n\n未付\n\n水电通讯\n¥228.00\n\n未付\n\n吃饭\n¥600.00\n\n未付\n\n通勤\n¥0.00\n\n计划 ¥0 · 已付 ¥120.00 · 超计划 ¥120.00\n\n添加一项固定支出\n名称类别\n住房\n吃饭\n通勤\n水电通讯\n保险\n家庭固定责任\n其他固定支出\n每月金额\n保存\n记一笔实际支付\n哪一项\n请选择\n房租\n水电\n菜钱\n地铁\n金额\n支付日期\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n已选 2026-10-14\n今天\n备注（选填）\n记下这笔支付\n本月支付记录\n地铁\n2026-10-05\n¥120.00",
+      "file": "fixed-zero-plan-1000.png",
+      "shotHeight": 2243
+    },
+    {
+      "view": "fixed",
+      "scrollWidth": 1000,
+      "innerWidth": 1000,
+      "height": 1670,
+      "title": "固定支出·0项",
+      "summary": null,
+      "ringLabel": null,
+      "ringArc": false,
+      "empty": {
+        "x": 180,
+        "y": 140,
+        "w": 640,
+        "h": 360
+      },
+      "emptyText": "暂无固定支出",
+      "emptyInnerWidth": 640,
+      "categories": [],
+      "items": [],
+      "titleFont": "28px",
+      "categoryColumns": null,
+      "pageText": "返回首页\n2026-10\n固定支出·0项\n\n暂无固定支出\n\n添加一项固定支出\n名称类别\n住房\n吃饭\n通勤\n水电通讯\n保险\n家庭固定责任\n其他固定支出\n每月金额\n保存\n记一笔实际支付\n哪一项\n请选择\n金额\n支付日期\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n已选 2026-10-14\n今天\n备注（选填）\n记下这笔支付\n本月支付记录\n\n这个月还没有支付记录。",
+      "file": "fixed-empty-1000.png",
+      "shotHeight": 1670
+    },
+    {
+      "view": "fixed",
+      "scrollWidth": 1000,
+      "innerWidth": 1000,
+      "height": 2270,
+      "title": "固定支出·4项",
+      "summary": "计划¥3,528.00已付¥2,100.00未付¥1,428.0059.5%所选月份已付占比",
+      "ringLabel": "所选月份已付占比 59.5%",
+      "ringArc": true,
+      "empty": null,
+      "emptyText": null,
+      "emptyInnerWidth": null,
+      "categories": [
+        {
+          "state": "PAID",
+          "text": "住房¥1,800.00已付 ¥1,800.00 / 计划 ¥1,800.00已付/计划 100%",
+          "width": "100%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "水电通讯¥228.00",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "通勤¥900.00",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "吃饭¥600.00",
+          "width": "0%"
+        }
+      ],
+      "items": [
+        {
+          "text": "房租住房¥1,800.00 / 月已付 ¥1,800.00 · 已付/计划 100% 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "水电水电通讯¥228.00 / 月记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "地铁通勤¥900.00 / 月记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "菜钱吃饭¥600.00 / 月记一笔 改 停用",
+          "hasPayButton": true
+        }
+      ],
+      "titleFont": "28px",
+      "categoryColumns": "824px",
+      "pageText": "返回首页\n2026-10\n固定支出·4项\n计划\n¥3,528.00\n已付\n¥2,100.00\n未付\n¥1,428.00\n59.5%\n所选月份已付占比\n每月要付的\n房租\n住房\n¥1,800.00 / 月\n已付 ¥1,800.00 · 已付/计划 100%\n改\n停用\n水电\n水电通讯\n¥228.00 / 月\n记一笔\n改\n停用\n地铁\n通勤\n¥900.00 / 月\n记一笔\n改\n停用\n菜钱\n吃饭\n¥600.00 / 月\n记一笔\n改\n停用\n住房\n¥1,800.00\n\n已付 ¥1,800.00 / 计划 ¥1,800.00\n\n已付/计划 100%\n\n水电通讯\n¥228.00\n通勤\n¥900.00\n吃饭\n¥600.00\n添加一项固定支出\n名称类别\n住房\n吃饭\n通勤\n水电通讯\n保险\n家庭固定责任\n其他固定支出\n每月金额\n保存\n记一笔实际支付\n哪一项\n请选择\n房租\n水电\n地铁\n菜钱\n金额\n支付日期\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n已选 2026-10-14\n今天\n备注（选填）\n记下这笔支付\n本月支付记录\n房租\n2026-10-05\n¥1,800.00\n旧记录\n2026-10-05\n¥300.00",
+      "file": "fixed-unowned-1000.png",
+      "shotHeight": 2270
+    },
+    {
+      "view": "home",
+      "scrollWidth": 1440,
+      "innerWidth": 1440,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "241.27 653.45",
+        "49.01 490.09"
+      ],
+      "ring": {
+        "x": 419,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 419,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 471.53,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.009999999999990905,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥4,800.00",
+          "percent": "占收入 36.9%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥1,300.00",
+          "percent": "占收入 10%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 36.9%，必须偿还月供占收入 10%",
+      "surplus": "¥6,900.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-roomy-1440.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 1440,
+      "innerWidth": 1440,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "527.79 653.45",
+        "131.95 490.09"
+      ],
+      "ring": {
+        "x": 420.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 420.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 473.03,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.009999999999990905,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥10,500.00",
+          "percent": "占收入 80.8%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥3,500.00",
+          "percent": "占收入 26.9%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 80.8%，必须偿还月供占收入 26.9%",
+      "surplus": "-¥1,000.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-light-over-1440.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 1440,
+      "innerWidth": 1440,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "593.13 653.45",
+        "158.34 490.09"
+      ],
+      "ring": {
+        "x": 420.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 420.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 473.03,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.009999999999990905,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥11,800.00",
+          "percent": "占收入 90.8%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥4,200.00",
+          "percent": "占收入 32.3%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 90.8%，必须偿还月供占收入 32.3%",
+      "surplus": "-¥3,000.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-overload-1440.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 1440,
+      "innerWidth": 1440,
+      "height": 1200,
+      "arcs": 0,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [],
+      "ring": {
+        "x": 420.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 420.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 504.77,
+        "y": 381.92,
+        "w": 63.47,
+        "h": 26.39
+      },
+      "dx": 0.0049999999999954525,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 30.32,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": null,
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥2,500.00",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥1,000.00",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "收入 ¥0.00",
+      "surplus": "-¥3,500.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-zero-burden-1440.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 1440,
+      "innerWidth": 1440,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [
+        "rgb(194, 80, 60)"
+      ],
+      "arcDash": [
+        "653.45 653.45",
+        "98.02 490.09"
+      ],
+      "ring": {
+        "x": 420.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 420.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 473.03,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.009999999999990905,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥15,600.00",
+          "percent": "占收入 120%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥2,600.00"
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥2,600.00",
+          "percent": "占收入 20%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 120%，必须偿还月供占收入 20%",
+      "surplus": "-¥5,200.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-over-outer-1440.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 1440,
+      "innerWidth": 1440,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [
+        "rgb(194, 80, 60)",
+        "rgb(194, 80, 60)"
+      ],
+      "arcDash": [
+        "653.45 653.45",
+        "490.09 490.09"
+      ],
+      "ring": {
+        "x": 420.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 420.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 473.03,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.009999999999990905,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥15,600.00",
+          "percent": "占收入 120%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥2,600.00"
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥15,600.00",
+          "percent": "占收入 120%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥2,600.00"
+        }
+      ],
+      "ariaLabel": "固定支出占收入 120%，必须偿还月供占收入 120%",
+      "surplus": "-¥18,200.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-over-both-1440.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 1440,
+      "innerWidth": 1440,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [
+        "rgb(194, 80, 60)"
+      ],
+      "arcDash": [
+        "653.45 653.45",
+        "49.01 490.09"
+      ],
+      "ring": {
+        "x": 420.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 420.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 473.03,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.009999999999990905,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥23,000.00",
+          "percent": "占收入 230%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥13,000.00"
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥1,000.00",
+          "percent": "占收入 10%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 230%，必须偿还月供占收入 10%",
+      "surplus": "-¥14,000.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-over-large-1440.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 1440,
+      "innerWidth": 1440,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "457.42 653.45",
+        "196.04 490.09"
+      ],
+      "ring": {
+        "x": 420.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 420.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 473.03,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.009999999999990905,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥9,100.00",
+          "percent": "占收入 70%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥5,200.00",
+          "percent": "占收入 40%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 70%，必须偿还月供占收入 40%",
+      "surplus": "-¥1,300.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-over-split-1440.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 1440,
+      "innerWidth": 1440,
+      "height": 1200,
+      "arcs": 1,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "177.34 653.45"
+      ],
+      "ring": {
+        "x": 419,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 419,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 471.53,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.009999999999990905,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥3,528.00",
+          "percent": "占收入 27.1%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "待确认",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 27.1%，必须偿还月供 待确认",
+      "surplus": "—结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-pending-1440.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "fixed",
+      "scrollWidth": 1440,
+      "innerWidth": 1440,
+      "height": 2395,
+      "title": "固定支出·4项",
+      "summary": "计划¥3,528.00已付¥2,628.00未付¥900.0074.5%所选月份已付占比",
+      "ringLabel": "所选月份已付占比 74.5%",
+      "ringArc": true,
+      "empty": null,
+      "emptyText": null,
+      "emptyInnerWidth": null,
+      "categories": [
+        {
+          "state": "PAID",
+          "text": "住房¥1,800.00已付 ¥1,800.00 / 计划 ¥1,800.00已付/计划 100%",
+          "width": "100%"
+        },
+        {
+          "state": "PAID",
+          "text": "水电通讯¥228.00已付 ¥228.00 / 计划 ¥228.00已付/计划 100%",
+          "width": "100%"
+        },
+        {
+          "state": "PARTIAL",
+          "text": "通勤¥900.00已付 ¥600.00 / 计划 ¥900.00已付/计划 66.7%",
+          "width": "66.6667%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "吃饭¥600.00未付",
+          "width": "0%"
+        }
+      ],
+      "items": [
+        {
+          "text": "房租住房¥1,800.00 / 月已付 ¥1,800.00 · 已付/计划 100% 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "水电水电通讯¥228.00 / 月已付 ¥228.00 · 已付/计划 100% 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "地铁通勤¥900.00 / 月已付 ¥600.00 · 已付/计划 66.7% 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "菜钱吃饭¥600.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        }
+      ],
+      "titleFont": "28px",
+      "categoryColumns": "824px",
+      "pageText": "返回首页\n2026-10\n固定支出·4项\n计划\n¥3,528.00\n已付\n¥2,628.00\n未付\n¥900.00\n74.5%\n所选月份已付占比\n每月要付的\n房租\n住房\n¥1,800.00 / 月\n已付 ¥1,800.00 · 已付/计划 100%\n改\n停用\n水电\n水电通讯\n¥228.00 / 月\n已付 ¥228.00 · 已付/计划 100%\n改\n停用\n地铁\n通勤\n¥900.00 / 月\n已付 ¥600.00 · 已付/计划 66.7%\n改\n停用\n菜钱\n吃饭\n¥600.00 / 月\n未付\n记一笔\n改\n停用\n住房\n¥1,800.00\n\n已付 ¥1,800.00 / 计划 ¥1,800.00\n\n已付/计划 100%\n\n水电通讯\n¥228.00\n\n已付 ¥228.00 / 计划 ¥228.00\n\n已付/计划 100%\n\n通勤\n¥900.00\n\n已付 ¥600.00 / 计划 ¥900.00\n\n已付/计划 66.7%\n\n吃饭\n¥600.00\n\n未付\n\n添加一项固定支出\n名称类别\n住房\n吃饭\n通勤\n水电通讯\n保险\n家庭固定责任\n其他固定支出\n每月金额\n保存\n记一笔实际支付\n哪一项\n请选择\n房租\n水电\n地铁\n菜钱\n金额\n支付日期\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n已选 2026-10-14\n今天\n备注（选填）\n记下这笔支付\n本月支付记录\n房租\n2026-10-05\n¥1,800.00\n水电\n2026-10-05\n¥228.00\n地铁\n2026-10-05\n¥600.00",
+      "file": "fixed-normal-1440.png",
+      "shotHeight": 2395
+    },
+    {
+      "view": "fixed",
+      "scrollWidth": 1440,
+      "innerWidth": 1440,
+      "height": 2236,
+      "title": "固定支出·4项",
+      "summary": "计划¥3,528.00已付¥0.00未付¥3,528.000%所选月份已付占比",
+      "ringLabel": "所选月份已付占比 0%",
+      "ringArc": false,
+      "empty": null,
+      "emptyText": null,
+      "emptyInnerWidth": null,
+      "categories": [
+        {
+          "state": "UNPAID",
+          "text": "住房¥1,800.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "水电通讯¥228.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "通勤¥900.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "吃饭¥600.00未付",
+          "width": "0%"
+        }
+      ],
+      "items": [
+        {
+          "text": "房租住房¥1,800.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "水电水电通讯¥228.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "地铁通勤¥900.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "菜钱吃饭¥600.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        }
+      ],
+      "titleFont": "28px",
+      "categoryColumns": "824px",
+      "pageText": "返回首页\n2026-10\n固定支出·4项\n计划\n¥3,528.00\n已付\n¥0.00\n未付\n¥3,528.00\n0%\n所选月份已付占比\n每月要付的\n房租\n住房\n¥1,800.00 / 月\n未付\n记一笔\n改\n停用\n水电\n水电通讯\n¥228.00 / 月\n未付\n记一笔\n改\n停用\n地铁\n通勤\n¥900.00 / 月\n未付\n记一笔\n改\n停用\n菜钱\n吃饭\n¥600.00 / 月\n未付\n记一笔\n改\n停用\n住房\n¥1,800.00\n\n未付\n\n水电通讯\n¥228.00\n\n未付\n\n通勤\n¥900.00\n\n未付\n\n吃饭\n¥600.00\n\n未付\n\n添加一项固定支出\n名称类别\n住房\n吃饭\n通勤\n水电通讯\n保险\n家庭固定责任\n其他固定支出\n每月金额\n保存\n记一笔实际支付\n哪一项\n请选择\n房租\n水电\n地铁\n菜钱\n金额\n支付日期\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n已选 2026-10-14\n今天\n备注（选填）\n记下这笔支付\n本月支付记录\n\n这个月还没有支付记录。",
+      "file": "fixed-unpaid-1440.png",
+      "shotHeight": 2236
+    },
+    {
+      "view": "fixed",
+      "scrollWidth": 1440,
+      "innerWidth": 1440,
+      "height": 2389,
+      "title": "固定支出·4项",
+      "summary": "计划¥3,528.00已付¥2,628.00未付¥900.0074.5%所选月份已付占比",
+      "ringLabel": "所选月份已付占比 74.5%",
+      "ringArc": true,
+      "empty": null,
+      "emptyText": null,
+      "emptyInnerWidth": null,
+      "categories": [
+        {
+          "state": "OVERPAID",
+          "text": "住房¥1,800.00已付 ¥2,400.00 / 计划 ¥1,800.00超计划 ¥600.00 · 已付/计划 133.3%",
+          "width": "100%"
+        },
+        {
+          "state": "PAID",
+          "text": "水电通讯¥228.00已付 ¥228.00 / 计划 ¥228.00已付/计划 100%",
+          "width": "100%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "通勤¥900.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "吃饭¥600.00未付",
+          "width": "0%"
+        }
+      ],
+      "items": [
+        {
+          "text": "房租住房¥1,800.00 / 月已付 ¥2,400.00 · 超计划 ¥600.00 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "水电水电通讯¥228.00 / 月已付 ¥228.00 · 已付/计划 100% 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "地铁通勤¥900.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "菜钱吃饭¥600.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        }
+      ],
+      "titleFont": "28px",
+      "categoryColumns": "824px",
+      "pageText": "返回首页\n2026-10\n固定支出·4项\n计划\n¥3,528.00\n已付\n¥2,628.00\n未付\n¥900.00\n74.5%\n所选月份已付占比\n每月要付的\n房租\n住房\n¥1,800.00 / 月\n已付 ¥2,400.00 · 超计划 ¥600.00\n改\n停用\n水电\n水电通讯\n¥228.00 / 月\n已付 ¥228.00 · 已付/计划 100%\n改\n停用\n地铁\n通勤\n¥900.00 / 月\n未付\n记一笔\n改\n停用\n菜钱\n吃饭\n¥600.00 / 月\n未付\n记一笔\n改\n停用\n住房\n¥1,800.00\n\n已付 ¥2,400.00 / 计划 ¥1,800.00\n\n超计划 ¥600.00 · 已付/计划 133.3%\n\n水电通讯\n¥228.00\n\n已付 ¥228.00 / 计划 ¥228.00\n\n已付/计划 100%\n\n通勤\n¥900.00\n\n未付\n\n吃饭\n¥600.00\n\n未付\n\n添加一项固定支出\n名称类别\n住房\n吃饭\n通勤\n水电通讯\n保险\n家庭固定责任\n其他固定支出\n每月金额\n保存\n记一笔实际支付\n哪一项\n请选择\n房租\n水电\n地铁\n菜钱\n金额\n支付日期\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n已选 2026-10-14\n今天\n备注（选填）\n记下这笔支付\n本月支付记录\n房租\n2026-10-05\n¥2,200.00\n房租\n2026-10-05\n¥200.00\n水电\n2026-10-05\n¥228.00",
+      "file": "fixed-overpaid-1440.png",
+      "shotHeight": 2389
+    },
+    {
+      "view": "fixed",
+      "scrollWidth": 1440,
+      "innerWidth": 1440,
+      "height": 2243,
+      "title": "固定支出·4项",
+      "summary": "计划¥2,628.00已付¥120.00未付¥2,508.004.6%所选月份已付占比",
+      "ringLabel": "所选月份已付占比 4.6%",
+      "ringArc": true,
+      "empty": null,
+      "emptyText": null,
+      "emptyInnerWidth": null,
+      "categories": [
+        {
+          "state": "UNPAID",
+          "text": "住房¥1,800.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "水电通讯¥228.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "吃饭¥600.00未付",
+          "width": "0%"
+        },
+        {
+          "state": "ZERO_PLAN_PAID",
+          "text": "通勤¥0.00计划 ¥0 · 已付 ¥120.00 · 超计划 ¥120.00",
+          "width": "100%"
+        }
+      ],
+      "items": [
+        {
+          "text": "房租住房¥1,800.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "水电水电通讯¥228.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "菜钱吃饭¥600.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "地铁通勤¥0.00 / 月计划 ¥0 · 已付 ¥120.00 · 超计划 ¥120.00 改 停用",
+          "hasPayButton": false
+        }
+      ],
+      "titleFont": "28px",
+      "categoryColumns": "824px",
+      "pageText": "返回首页\n2026-10\n固定支出·4项\n计划\n¥2,628.00\n已付\n¥120.00\n未付\n¥2,508.00\n4.6%\n所选月份已付占比\n每月要付的\n房租\n住房\n¥1,800.00 / 月\n未付\n记一笔\n改\n停用\n水电\n水电通讯\n¥228.00 / 月\n未付\n记一笔\n改\n停用\n菜钱\n吃饭\n¥600.00 / 月\n未付\n记一笔\n改\n停用\n地铁\n通勤\n¥0.00 / 月\n计划 ¥0 · 已付 ¥120.00 · 超计划 ¥120.00\n改\n停用\n住房\n¥1,800.00\n\n未付\n\n水电通讯\n¥228.00\n\n未付\n\n吃饭\n¥600.00\n\n未付\n\n通勤\n¥0.00\n\n计划 ¥0 · 已付 ¥120.00 · 超计划 ¥120.00\n\n添加一项固定支出\n名称类别\n住房\n吃饭\n通勤\n水电通讯\n保险\n家庭固定责任\n其他固定支出\n每月金额\n保存\n记一笔实际支付\n哪一项\n请选择\n房租\n水电\n菜钱\n地铁\n金额\n支付日期\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n已选 2026-10-14\n今天\n备注（选填）\n记下这笔支付\n本月支付记录\n地铁\n2026-10-05\n¥120.00",
+      "file": "fixed-zero-plan-1440.png",
+      "shotHeight": 2243
+    },
+    {
+      "view": "fixed",
+      "scrollWidth": 1440,
+      "innerWidth": 1440,
+      "height": 1670,
+      "title": "固定支出·0项",
+      "summary": null,
+      "ringLabel": null,
+      "ringArc": false,
+      "empty": {
+        "x": 400,
+        "y": 140,
+        "w": 640,
+        "h": 360
+      },
+      "emptyText": "暂无固定支出",
+      "emptyInnerWidth": 640,
+      "categories": [],
+      "items": [],
+      "titleFont": "28px",
+      "categoryColumns": null,
+      "pageText": "返回首页\n2026-10\n固定支出·0项\n\n暂无固定支出\n\n添加一项固定支出\n名称类别\n住房\n吃饭\n通勤\n水电通讯\n保险\n家庭固定责任\n其他固定支出\n每月金额\n保存\n记一笔实际支付\n哪一项\n请选择\n金额\n支付日期\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n已选 2026-10-14\n今天\n备注（选填）\n记下这笔支付\n本月支付记录\n\n这个月还没有支付记录。",
+      "file": "fixed-empty-1440.png",
+      "shotHeight": 1670
+    },
+    {
+      "view": "fixed",
+      "scrollWidth": 1440,
+      "innerWidth": 1440,
+      "height": 2270,
+      "title": "固定支出·4项",
+      "summary": "计划¥3,528.00已付¥2,100.00未付¥1,428.0059.5%所选月份已付占比",
+      "ringLabel": "所选月份已付占比 59.5%",
+      "ringArc": true,
+      "empty": null,
+      "emptyText": null,
+      "emptyInnerWidth": null,
+      "categories": [
+        {
+          "state": "PAID",
+          "text": "住房¥1,800.00已付 ¥1,800.00 / 计划 ¥1,800.00已付/计划 100%",
+          "width": "100%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "水电通讯¥228.00",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "通勤¥900.00",
+          "width": "0%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "吃饭¥600.00",
+          "width": "0%"
+        }
+      ],
+      "items": [
+        {
+          "text": "房租住房¥1,800.00 / 月已付 ¥1,800.00 · 已付/计划 100% 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "水电水电通讯¥228.00 / 月记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "地铁通勤¥900.00 / 月记一笔 改 停用",
+          "hasPayButton": true
+        },
+        {
+          "text": "菜钱吃饭¥600.00 / 月记一笔 改 停用",
+          "hasPayButton": true
+        }
+      ],
+      "titleFont": "28px",
+      "categoryColumns": "824px",
+      "pageText": "返回首页\n2026-10\n固定支出·4项\n计划\n¥3,528.00\n已付\n¥2,100.00\n未付\n¥1,428.00\n59.5%\n所选月份已付占比\n每月要付的\n房租\n住房\n¥1,800.00 / 月\n已付 ¥1,800.00 · 已付/计划 100%\n改\n停用\n水电\n水电通讯\n¥228.00 / 月\n记一笔\n改\n停用\n地铁\n通勤\n¥900.00 / 月\n记一笔\n改\n停用\n菜钱\n吃饭\n¥600.00 / 月\n记一笔\n改\n停用\n住房\n¥1,800.00\n\n已付 ¥1,800.00 / 计划 ¥1,800.00\n\n已付/计划 100%\n\n水电通讯\n¥228.00\n通勤\n¥900.00\n吃饭\n¥600.00\n添加一项固定支出\n名称类别\n住房\n吃饭\n通勤\n水电通讯\n保险\n家庭固定责任\n其他固定支出\n每月金额\n保存\n记一笔实际支付\n哪一项\n请选择\n房租\n水电\n地铁\n菜钱\n金额\n支付日期\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n已选 2026-10-14\n今天\n备注（选填）\n记下这笔支付\n本月支付记录\n房租\n2026-10-05\n¥1,800.00\n旧记录\n2026-10-05\n¥300.00",
+      "file": "fixed-unowned-1440.png",
+      "shotHeight": 2270
+    },
+    {
+      "view": "home",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "241.27 653.45",
+        "49.01 490.09"
+      ],
+      "ring": {
+        "x": 79,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 79,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 131.53,
+        "y": 367.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.009999999999990905,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥4,800.00",
+          "percent": "占收入 36.9%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥1,300.00",
+          "percent": "占收入 10%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 36.9%，必须偿还月供占收入 10%",
+      "surplus": "¥6,900.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "text200-home-roomy-390.png",
+      "scale": 2,
+      "rootFont": "32px",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 980,
+      "innerWidth": 980,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "241.27 653.45",
+        "49.01 490.09"
+      ],
+      "ring": {
+        "x": 215.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 215.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 268.03,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥4,800.00",
+          "percent": "占收入 36.9%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥1,300.00",
+          "percent": "占收入 10%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 36.9%，必须偿还月供占收入 10%",
+      "surplus": "¥6,900.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "text200-home-roomy-980.png",
+      "scale": 2,
+      "rootFont": "32px",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [
+        "rgb(194, 80, 60)"
+      ],
+      "arcDash": [
+        "653.45 653.45",
+        "49.01 490.09"
+      ],
+      "ring": {
+        "x": 80.5,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 80.5,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 133.03,
+        "y": 367.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.009999999999990905,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥23,000.00",
+          "percent": "占收入 230%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥13,000.00"
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥1,000.00",
+          "percent": "占收入 10%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 230%，必须偿还月供占收入 10%",
+      "surplus": "-¥14,000.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "text200-home-over-large-390.png",
+      "scale": 2,
+      "rootFont": "32px",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 980,
+      "innerWidth": 980,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [
+        "rgb(194, 80, 60)"
+      ],
+      "arcDash": [
+        "653.45 653.45",
+        "49.01 490.09"
+      ],
+      "ring": {
+        "x": 217,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 217,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 269.53,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥23,000.00",
+          "percent": "占收入 230%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥13,000.00"
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥1,000.00",
+          "percent": "占收入 10%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 230%，必须偿还月供占收入 10%",
+      "surplus": "-¥14,000.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "text200-home-over-large-980.png",
+      "scale": 2,
+      "rootFont": "32px",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "height": 1200,
+      "arcs": 0,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [],
+      "ring": {
+        "x": 80.5,
+        "y": 284,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 80.5,
+        "y": 284,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 164.77,
+        "y": 395.92,
+        "w": 63.47,
+        "h": 26.39
+      },
+      "dx": 0.0049999999999954525,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 30.32,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": null,
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥2,500.00",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥1,000.00",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "收入 ¥0.00",
+      "surplus": "-¥3,500.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "text200-home-zero-burden-390.png",
+      "scale": 2,
+      "rootFont": "32px",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 980,
+      "innerWidth": 980,
+      "height": 1200,
+      "arcs": 0,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [],
+      "ring": {
+        "x": 217,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 217,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 301.27,
+        "y": 381.92,
+        "w": 63.47,
+        "h": 26.39
+      },
+      "dx": 0.0049999999999954525,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 30.32,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": null,
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥2,500.00",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥1,000.00",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "收入 ¥0.00",
+      "surplus": "-¥3,500.00结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "text200-home-zero-burden-980.png",
+      "scale": 2,
+      "rootFont": "32px",
+      "shotHeight": 1200
+    },
+    {
+      "view": "fixed",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "height": 2559,
+      "title": "固定支出·4项",
+      "summary": "计划¥3,528.00已付¥2,628.00未付¥900.0074.5%所选月份已付占比",
+      "ringLabel": "所选月份已付占比 74.5%",
+      "ringArc": true,
+      "empty": null,
+      "emptyText": null,
+      "emptyInnerWidth": null,
+      "categories": [
+        {
+          "state": "PAID",
+          "text": "住房¥1,800.00已付 ¥1,800.00 / 计划 ¥1,800.00已付/计划 100%",
+          "width": "100%"
+        },
+        {
+          "state": "PAID",
+          "text": "水电通讯¥228.00已付 ¥228.00 / 计划 ¥228.00已付/计划 100%",
+          "width": "100%"
+        },
+        {
+          "state": "PARTIAL",
+          "text": "通勤¥900.00已付 ¥600.00 / 计划 ¥900.00已付/计划 66.7%",
+          "width": "66.6667%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "吃饭¥600.00未付",
+          "width": "0%"
+        }
+      ],
+      "items": [
+        {
+          "text": "房租住房¥1,800.00 / 月已付 ¥1,800.00 · 已付/计划 100% 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "水电水电通讯¥228.00 / 月已付 ¥228.00 · 已付/计划 100% 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "地铁通勤¥900.00 / 月已付 ¥600.00 · 已付/计划 66.7% 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "菜钱吃饭¥600.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        }
+      ],
+      "titleFont": "24px",
+      "categoryColumns": "324px",
+      "pageText": "返回首页\n2026-10\n固定支出·4项\n计划\n¥3,528.00\n已付\n¥2,628.00\n未付\n¥900.00\n74.5%\n所选月份已付占比\n每月要付的\n房租\n住房\n¥1,800.00 / 月\n已付 ¥1,800.00 · 已付/计划 100%\n改\n停用\n水电\n水电通讯\n¥228.00 / 月\n已付 ¥228.00 · 已付/计划 100%\n改\n停用\n地铁\n通勤\n¥900.00 / 月\n已付 ¥600.00 · 已付/计划 66.7%\n改\n停用\n菜钱\n吃饭\n¥600.00 / 月\n未付\n记一笔\n改\n停用\n住房\n¥1,800.00\n\n已付 ¥1,800.00 / 计划 ¥1,800.00\n\n已付/计划 100%\n\n水电通讯\n¥228.00\n\n已付 ¥228.00 / 计划 ¥228.00\n\n已付/计划 100%\n\n通勤\n¥900.00\n\n已付 ¥600.00 / 计划 ¥900.00\n\n已付/计划 66.7%\n\n吃饭\n¥600.00\n\n未付\n\n添加一项固定支出\n名称类别\n住房\n吃饭\n通勤\n水电通讯\n保险\n家庭固定责任\n其他固定支出\n每月金额\n保存\n记一笔实际支付\n哪一项\n请选择\n房租\n水电\n地铁\n菜钱\n金额\n支付日期\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n已选 2026-10-14\n今天\n备注（选填）\n记下这笔支付\n本月支付记录\n房租\n2026-10-05\n¥1,800.00\n水电\n2026-10-05\n¥228.00\n地铁\n2026-10-05\n¥600.00",
+      "file": "text200-fixed-normal-390.png",
+      "scale": 2,
+      "rootFont": "32px",
+      "shotHeight": 2559
+    },
+    {
+      "view": "fixed",
+      "scrollWidth": 980,
+      "innerWidth": 980,
+      "height": 2624,
+      "title": "固定支出·4项",
+      "summary": "计划¥3,528.00已付¥2,628.00未付¥900.0074.5%所选月份已付占比",
+      "ringLabel": "所选月份已付占比 74.5%",
+      "ringArc": true,
+      "empty": null,
+      "emptyText": null,
+      "emptyInnerWidth": null,
+      "categories": [
+        {
+          "state": "PAID",
+          "text": "住房¥1,800.00已付 ¥1,800.00 / 计划 ¥1,800.00已付/计划 100%",
+          "width": "100%"
+        },
+        {
+          "state": "PAID",
+          "text": "水电通讯¥228.00已付 ¥228.00 / 计划 ¥228.00已付/计划 100%",
+          "width": "100%"
+        },
+        {
+          "state": "PARTIAL",
+          "text": "通勤¥900.00已付 ¥600.00 / 计划 ¥900.00已付/计划 66.7%",
+          "width": "66.6667%"
+        },
+        {
+          "state": "UNPAID",
+          "text": "吃饭¥600.00未付",
+          "width": "0%"
+        }
+      ],
+      "items": [
+        {
+          "text": "房租住房¥1,800.00 / 月已付 ¥1,800.00 · 已付/计划 100% 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "水电水电通讯¥228.00 / 月已付 ¥228.00 · 已付/计划 100% 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "地铁通勤¥900.00 / 月已付 ¥600.00 · 已付/计划 66.7% 改 停用",
+          "hasPayButton": false
+        },
+        {
+          "text": "菜钱吃饭¥600.00 / 月未付记一笔 改 停用",
+          "hasPayButton": true
+        }
+      ],
+      "titleFont": "28px",
+      "categoryColumns": "824px",
+      "pageText": "返回首页\n2026-10\n固定支出·4项\n计划\n¥3,528.00\n已付\n¥2,628.00\n未付\n¥900.00\n74.5%\n所选月份已付占比\n每月要付的\n房租\n住房\n¥1,800.00 / 月\n已付 ¥1,800.00 · 已付/计划 100%\n改\n停用\n水电\n水电通讯\n¥228.00 / 月\n已付 ¥228.00 · 已付/计划 100%\n改\n停用\n地铁\n通勤\n¥900.00 / 月\n已付 ¥600.00 · 已付/计划 66.7%\n改\n停用\n菜钱\n吃饭\n¥600.00 / 月\n未付\n记一笔\n改\n停用\n住房\n¥1,800.00\n\n已付 ¥1,800.00 / 计划 ¥1,800.00\n\n已付/计划 100%\n\n水电通讯\n¥228.00\n\n已付 ¥228.00 / 计划 ¥228.00\n\n已付/计划 100%\n\n通勤\n¥900.00\n\n已付 ¥600.00 / 计划 ¥900.00\n\n已付/计划 66.7%\n\n吃饭\n¥600.00\n\n未付\n\n添加一项固定支出\n名称类别\n住房\n吃饭\n通勤\n水电通讯\n保险\n家庭固定责任\n其他固定支出\n每月金额\n保存\n记一笔实际支付\n哪一项\n请选择\n房租\n水电\n地铁\n菜钱\n金额\n支付日期\n2026 年 10 月\n一\n二\n三\n四\n五\n六\n日\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n已选 2026-10-14\n今天\n备注（选填）\n记下这笔支付\n本月支付记录\n房租\n2026-10-05\n¥1,800.00\n水电\n2026-10-05\n¥228.00\n地铁\n2026-10-05\n¥600.00",
+      "file": "text200-fixed-normal-980.png",
+      "scale": 2,
+      "rootFont": "32px",
+      "shotHeight": 2624
+    }
+  ],
+  "interaction": {
+    "hoverBg": "rgb(244, 250, 247)",
+    "selected": {
+      "pressed": "true",
+      "ringSelected": "essential",
+      "bg": "rgb(242, 250, 247)",
+      "outerArcWidth": "13",
+      "innerOpacity": "0.35"
+    },
+    "focus": {
+      "tag": "BUTTON",
+      "cls": "v2-ring-row",
+      "outline": "rgb(8, 124, 110) solid 2px",
+      "offset": "2px"
+    },
+    "pressedBeforeEnter": "false",
+    "afterEnter": "true",
+    "afterSpace": "false",
+    "fixedFocus": {
+      "cls": "v2-btn v2-btn--primary fixed-item__pay",
+      "outline": "rgb(8, 124, 110) solid 2px",
+      "height": 32
+    }
+  },
+  "problems": [],
+  "exceptions": [],
+  "remote": []
+}

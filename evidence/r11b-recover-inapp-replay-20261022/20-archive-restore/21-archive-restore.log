@@ -1,0 +1,28 @@
+=== R11B-1 archive ===
+2026-10-22T12:35:39Z
+-- archive hash --
+bb077455bdc5234a118ef07acef83c36261344277ca378f93d4e098664405789  /Users/linte/Library/Application Support/com.personalfinance.console/production-v8-backups/personal-finance-console.sqlite3.r11-written-20261022
+-- archive stat --
+path=/Users/linte/Library/Application Support/com.personalfinance.console/production-v8-backups/personal-finance-console.sqlite3.r11-written-20261022 dev=16777232 inode=31391427 size=352256 nlink=1 mode=-rw-r--r--
+
+=== R11B-1 restore ===
+-- before overwrite --
+bb077455bdc5234a118ef07acef83c36261344277ca378f93d4e098664405789  /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3
+dev=16777232 inode=30715175 size=352256 nlink=1
+-- after overwrite --
+319907d68dafd513a2ebed758d469a066793735677a1a462d034ea7b88b192a3  /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3
+dev=16777232 inode=30715175 size=352256 nlink=1
+-- integrity/user_version --
+ok
+8
+-- restored counts --
+income_entries|0
+fixed_expense_plans|0
+cash_accounts|4
+cash_balance_snapshots|4
+assets|4
+-- debts --
+5
+2026-11|157228.31|8851.03
+-- sidecars --
+NONE

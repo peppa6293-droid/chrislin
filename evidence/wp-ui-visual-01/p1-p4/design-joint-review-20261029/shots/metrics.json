@@ -1,0 +1,1394 @@
+{
+  "metrics": [
+    {
+      "view": "home",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [
+        "rgb(194, 80, 60)"
+      ],
+      "arcDash": [
+        "167.16 653.45",
+        "490.09 490.09"
+      ],
+      "ring": {
+        "x": 80.5,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 80.5,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 133.03,
+        "y": 367.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.009999999999990905,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥3,528.00",
+          "percent": "占收入 25.6%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥14,518.73",
+          "percent": "占收入 105.3%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥727.48"
+        }
+      ],
+      "ariaLabel": "固定支出占收入 25.6%，必须偿还月供占收入 105.3%",
+      "surplus": "-¥4,255.48结构余量 · 收入 − 固定支出 − 月供占收入 -30.9%",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-actual-390.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "height": 1200,
+      "arcs": 0,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [],
+      "ring": {
+        "x": 79,
+        "y": 284,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 79,
+        "y": 284,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 185.41,
+        "y": 395.92,
+        "w": 19.17,
+        "h": 26.39
+      },
+      "dx": 0.0049999999999954525,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 44.83,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": null,
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥2,500.00",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥1,000.00",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "收入 —",
+      "surplus": "—结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-zero-burden-390.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "height": 1200,
+      "arcs": 1,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "177.34 653.45"
+      ],
+      "ring": {
+        "x": 79,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 79,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 131.53,
+        "y": 367.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.009999999999990905,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥3,528.00",
+          "percent": "占收入 27.1%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "待确认",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 27.1%，必须偿还月供 待确认",
+      "surplus": "—结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-pending-390.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "65.35 653.45",
+        "0.06 490.09"
+      ],
+      "ring": {
+        "x": 79,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 79,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 127.72,
+        "y": 354.73,
+        "w": 134.56,
+        "h": 52.78
+      },
+      "dx": 0,
+      "dy": 9.120000000000005,
+      "holeRadius": 69.12,
+      "centreClearancePx": -6.96,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥12,345,678.90",
+          "percent": "占收入 10%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥14,518.73",
+          "percent": "占收入 0%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 10%，必须偿还月供占收入 0%",
+      "surplus": "¥111,096,591.49结构余量 · 收入 − 固定支出 − 月供占收入 90%",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-large-390.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [
+        "rgb(194, 80, 60)",
+        "rgb(194, 80, 60)"
+      ],
+      "arcDash": [
+        "653.45 653.45",
+        "490.09 490.09"
+      ],
+      "ring": {
+        "x": 80.5,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 80.5,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 133.03,
+        "y": 367.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.009999999999990905,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥15,600.00",
+          "percent": "占收入 120%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥2,600.00"
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥15,600.00",
+          "percent": "占收入 120%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥2,600.00"
+        }
+      ],
+      "ariaLabel": "固定支出占收入 120%，必须偿还月供占收入 120%",
+      "surplus": "-¥18,200.00结构余量 · 收入 − 固定支出 − 月供占收入 -140%",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-over-both-390.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 760,
+      "innerWidth": 760,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [
+        "rgb(194, 80, 60)"
+      ],
+      "arcDash": [
+        "167.16 653.45",
+        "490.09 490.09"
+      ],
+      "ring": {
+        "x": 309.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 309.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 362.03,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥3,528.00",
+          "percent": "占收入 25.6%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥14,518.73",
+          "percent": "占收入 105.3%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥727.48"
+        }
+      ],
+      "ariaLabel": "固定支出占收入 25.6%，必须偿还月供占收入 105.3%",
+      "surplus": "-¥4,255.48结构余量 · 收入 − 固定支出 − 月供占收入 -30.9%",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-actual-760.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 760,
+      "innerWidth": 760,
+      "height": 1200,
+      "arcs": 0,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [],
+      "ring": {
+        "x": 308,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 308,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 414.41,
+        "y": 381.92,
+        "w": 19.17,
+        "h": 26.39
+      },
+      "dx": 0.0049999999999954525,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 44.83,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": null,
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥2,500.00",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥1,000.00",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "收入 —",
+      "surplus": "—结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-zero-burden-760.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 760,
+      "innerWidth": 760,
+      "height": 1200,
+      "arcs": 1,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "177.34 653.45"
+      ],
+      "ring": {
+        "x": 308,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 308,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 360.53,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥3,528.00",
+          "percent": "占收入 27.1%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "待确认",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 27.1%，必须偿还月供 待确认",
+      "surplus": "—结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-pending-760.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 760,
+      "innerWidth": 760,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "65.35 653.45",
+        "0.06 490.09"
+      ],
+      "ring": {
+        "x": 308,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 308,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 356.72,
+        "y": 368.73,
+        "w": 134.56,
+        "h": 52.78
+      },
+      "dx": 0,
+      "dy": 9.120000000000005,
+      "holeRadius": 69.12,
+      "centreClearancePx": -6.96,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥12,345,678.90",
+          "percent": "占收入 10%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥14,518.73",
+          "percent": "占收入 0%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 10%，必须偿还月供占收入 0%",
+      "surplus": "¥111,096,591.49结构余量 · 收入 − 固定支出 − 月供占收入 90%",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-large-760.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 760,
+      "innerWidth": 760,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [
+        "rgb(194, 80, 60)",
+        "rgb(194, 80, 60)"
+      ],
+      "arcDash": [
+        "653.45 653.45",
+        "490.09 490.09"
+      ],
+      "ring": {
+        "x": 309.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 309.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 362.03,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥15,600.00",
+          "percent": "占收入 120%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥2,600.00"
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥15,600.00",
+          "percent": "占收入 120%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥2,600.00"
+        }
+      ],
+      "ariaLabel": "固定支出占收入 120%，必须偿还月供占收入 120%",
+      "surplus": "-¥18,200.00结构余量 · 收入 − 固定支出 − 月供占收入 -140%",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-over-both-760.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 980,
+      "innerWidth": 980,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [
+        "rgb(194, 80, 60)"
+      ],
+      "arcDash": [
+        "167.16 653.45",
+        "490.09 490.09"
+      ],
+      "ring": {
+        "x": 217,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 217,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 269.53,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥3,528.00",
+          "percent": "占收入 25.6%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥14,518.73",
+          "percent": "占收入 105.3%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥727.48"
+        }
+      ],
+      "ariaLabel": "固定支出占收入 25.6%，必须偿还月供占收入 105.3%",
+      "surplus": "-¥4,255.48结构余量 · 收入 − 固定支出 − 月供占收入 -30.9%",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-actual-980.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 980,
+      "innerWidth": 980,
+      "height": 1200,
+      "arcs": 0,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [],
+      "ring": {
+        "x": 215.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 215.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 321.91,
+        "y": 381.92,
+        "w": 19.17,
+        "h": 26.39
+      },
+      "dx": 0.0049999999999954525,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 44.83,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": null,
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥2,500.00",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥1,000.00",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "收入 —",
+      "surplus": "—结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-zero-burden-980.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 980,
+      "innerWidth": 980,
+      "height": 1200,
+      "arcs": 1,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "177.34 653.45"
+      ],
+      "ring": {
+        "x": 215.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 215.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 268.03,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥3,528.00",
+          "percent": "占收入 27.1%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "待确认",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 27.1%，必须偿还月供 待确认",
+      "surplus": "—结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-pending-980.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 980,
+      "innerWidth": 980,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "65.35 653.45",
+        "0.06 490.09"
+      ],
+      "ring": {
+        "x": 215.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 215.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 264.22,
+        "y": 368.73,
+        "w": 134.56,
+        "h": 52.78
+      },
+      "dx": 0,
+      "dy": 9.120000000000005,
+      "holeRadius": 69.12,
+      "centreClearancePx": -6.96,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥12,345,678.90",
+          "percent": "占收入 10%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥14,518.73",
+          "percent": "占收入 0%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 10%，必须偿还月供占收入 0%",
+      "surplus": "¥111,096,591.49结构余量 · 收入 − 固定支出 − 月供占收入 90%",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-large-980.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 980,
+      "innerWidth": 980,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [
+        "rgb(194, 80, 60)",
+        "rgb(194, 80, 60)"
+      ],
+      "arcDash": [
+        "653.45 653.45",
+        "490.09 490.09"
+      ],
+      "ring": {
+        "x": 217,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 217,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 269.53,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥15,600.00",
+          "percent": "占收入 120%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥2,600.00"
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥15,600.00",
+          "percent": "占收入 120%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥2,600.00"
+        }
+      ],
+      "ariaLabel": "固定支出占收入 120%，必须偿还月供占收入 120%",
+      "surplus": "-¥18,200.00结构余量 · 收入 − 固定支出 − 月供占收入 -140%",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "home-over-both-980.png",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [
+        "rgb(194, 80, 60)"
+      ],
+      "arcDash": [
+        "167.16 653.45",
+        "490.09 490.09"
+      ],
+      "ring": {
+        "x": 80.5,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 80.5,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 133.03,
+        "y": 367.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.009999999999990905,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥3,528.00",
+          "percent": "占收入 25.6%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥14,518.73",
+          "percent": "占收入 105.3%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥727.48"
+        }
+      ],
+      "ariaLabel": "固定支出占收入 25.6%，必须偿还月供占收入 105.3%",
+      "surplus": "-¥4,255.48结构余量 · 收入 − 固定支出 − 月供占收入 -30.9%",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "text200-home-actual-390.png",
+      "scale": 2,
+      "rootFont": "32px",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 980,
+      "innerWidth": 980,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [
+        "rgb(194, 80, 60)"
+      ],
+      "arcDash": [
+        "167.16 653.45",
+        "490.09 490.09"
+      ],
+      "ring": {
+        "x": 217,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 217,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 269.53,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥3,528.00",
+          "percent": "占收入 25.6%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥14,518.73",
+          "percent": "占收入 105.3%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥727.48"
+        }
+      ],
+      "ariaLabel": "固定支出占收入 25.6%，必须偿还月供占收入 105.3%",
+      "surplus": "-¥4,255.48结构余量 · 收入 − 固定支出 − 月供占收入 -30.9%",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "text200-home-actual-980.png",
+      "scale": 2,
+      "rootFont": "32px",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "65.35 653.45",
+        "0.06 490.09"
+      ],
+      "ring": {
+        "x": 79,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 79,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 127.72,
+        "y": 354.73,
+        "w": 134.56,
+        "h": 52.78
+      },
+      "dx": 0,
+      "dy": 9.120000000000005,
+      "holeRadius": 69.12,
+      "centreClearancePx": -6.96,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥12,345,678.90",
+          "percent": "占收入 10%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥14,518.73",
+          "percent": "占收入 0%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 10%，必须偿还月供占收入 0%",
+      "surplus": "¥111,096,591.49结构余量 · 收入 − 固定支出 − 月供占收入 90%",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "text200-home-large-390.png",
+      "scale": 2,
+      "rootFont": "32px",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 980,
+      "innerWidth": 980,
+      "height": 1200,
+      "arcs": 2,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [
+        "65.35 653.45",
+        "0.06 490.09"
+      ],
+      "ring": {
+        "x": 215.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 215.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 264.22,
+        "y": 368.73,
+        "w": 134.56,
+        "h": 52.78
+      },
+      "dx": 0,
+      "dy": 9.120000000000005,
+      "holeRadius": 69.12,
+      "centreClearancePx": -6.96,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥12,345,678.90",
+          "percent": "占收入 10%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥14,518.73",
+          "percent": "占收入 0%",
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "固定支出占收入 10%，必须偿还月供占收入 0%",
+      "surplus": "¥111,096,591.49结构余量 · 收入 − 固定支出 − 月供占收入 90%",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "text200-home-large-980.png",
+      "scale": 2,
+      "rootFont": "32px",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "height": 1200,
+      "arcs": 0,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [],
+      "ring": {
+        "x": 79,
+        "y": 284,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 79,
+        "y": 284,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 185.41,
+        "y": 395.92,
+        "w": 19.17,
+        "h": 26.39
+      },
+      "dx": 0.0049999999999954525,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 44.83,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": null,
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥2,500.00",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥1,000.00",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "收入 —",
+      "surplus": "—结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "text200-home-zero-burden-390.png",
+      "scale": 2,
+      "rootFont": "32px",
+      "shotHeight": 1200
+    },
+    {
+      "view": "home",
+      "scrollWidth": 980,
+      "innerWidth": 980,
+      "height": 1200,
+      "arcs": 0,
+      "overMarks": 0,
+      "markerColors": [],
+      "arcDash": [],
+      "ring": {
+        "x": 215.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 215.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 321.91,
+        "y": 381.92,
+        "w": 19.17,
+        "h": 26.39
+      },
+      "dx": 0.0049999999999954525,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 44.83,
+      "centreFont": "22px",
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": null,
+      "rows": [
+        {
+          "name": "固定支出",
+          "amount": "¥2,500.00",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        },
+        {
+          "name": "必须偿还月供",
+          "amount": "¥1,000.00",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null
+        }
+      ],
+      "ariaLabel": "收入 —",
+      "surplus": "—结构余量 · 收入 − 固定支出 − 月供",
+      "hasDots": false,
+      "hasCompareBar": false,
+      "hasLine": true,
+      "file": "text200-home-zero-burden-980.png",
+      "scale": 2,
+      "rootFont": "32px",
+      "shotHeight": 1200
+    }
+  ],
+  "interaction": {
+    "hoverBg": "rgb(244, 250, 247)",
+    "selected": {
+      "pressed": "true",
+      "ringSelected": "essential",
+      "bg": "rgb(242, 250, 247)",
+      "outerArcWidth": "13",
+      "innerOpacity": "0.35"
+    },
+    "focus": {
+      "tag": "BUTTON",
+      "cls": "v2-ring-row",
+      "outline": "rgb(8, 124, 110) solid 2px",
+      "offset": "2px"
+    },
+    "pressedBeforeEnter": "false",
+    "afterEnter": "true",
+    "afterSpace": "false",
+    "fixedFocus": {
+      "cls": "v2-btn v2-btn--primary fixed-item__pay",
+      "outline": "rgb(8, 124, 110) solid 2px",
+      "height": 32
+    }
+  },
+  "problems": [
+    "home-large-390.png: centre text intrudes into the ring (-6.96px)",
+    "home-large-760.png: centre text intrudes into the ring (-6.96px)",
+    "home-large-980.png: centre text intrudes into the ring (-6.96px)",
+    "text200-home-large-390.png: centre text intrudes into the ring (-6.96px)",
+    "text200-home-large-980.png: centre text intrudes into the ring (-6.96px)"
+  ],
+  "exceptions": [],
+  "remote": []
+}

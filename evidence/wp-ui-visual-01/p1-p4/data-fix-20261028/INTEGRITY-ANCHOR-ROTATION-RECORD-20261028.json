@@ -1,0 +1,50 @@
+{
+  "formatVersion": 1,
+  "kind": "PHASE1_INTEGRITY_ANCHOR_ROTATION",
+  "authorization": "chris 2026-10-28 23:54 group authorization \"执行 rotation\"",
+  "scope": "production_integrity_state single row only; Phase 1 verified state",
+  "at": "2026-10-28T23:56:29+0800",
+  "source_state": {
+    "sequence": 58,
+    "previous_digest": "31d50c436b54e8da4378f19db80e202753b89a24fa4a2f490ae7d788ce296820",
+    "content_digest": "bdf712da619520c768c6bb4eaed3a2ddeb0a99de18c0ad62fbd26a765cd5f5df"
+  },
+  "target_state": {
+    "sequence": 59,
+    "previous_digest": "bdf712da619520c768c6bb4eaed3a2ddeb0a99de18c0ad62fbd26a765cd5f5df",
+    "content_digest": "6fd44af6d4abd6a0a53f4dcfd0a572f9e2702b534c63885a01a04c9f971e0f86",
+    "tag": "b46af3414b89477fcb256f8a0c5980753238c8140ece0255e9024f084c547229"
+  },
+  "db_sha256_before": "abb84197355280c21b4f4543a23617953562bb37fe632d5d9f99a5d3e6b183e0",
+  "db_sha256_after": "dfa4e5bfa5df37927aa2f3835e560f70e2a0e64debe7c3add9b068b41056faa5",
+  "db_mtime_before": "2026-10-28 23:21:04",
+  "counts": {
+    "income_records": 7,
+    "income_entries": 6,
+    "debts": 5,
+    "debt_period_facts": 10,
+    "expenses": 831,
+    "expense_records": 832
+  },
+  "sums": {
+    "income_records": "104814.51",
+    "income_entries": "104814.51"
+  },
+  "checks": {
+    "sequence": true,
+    "previous_digest": true,
+    "content_digest_matches_file": true,
+    "tag_valid": true,
+    "integrity_check_ok": true,
+    "sidecars_absent": true,
+    "business_counts_unchanged": true,
+    "db_identity_preserved": true
+  },
+  "result": "PASS",
+  "rollback": {
+    "row_restore": "UPDATE production_integrity_state SET sequence=58, previous_digest='31d50c436b54e8da4378f19db80e202753b89a24fa4a2f490ae7d788ce296820', content_digest='bdf712da619520c768c6bb4eaed3a2ddeb0a99de18c0ad62fbd26a765cd5f5df', tag='<see integrity-row-before.txt>' WHERE singleton = 1",
+    "db_copy": "/Users/linte/Library/Application Support/com.personalfinance.console/production-v8-hotfix-audit/phase1-integrity-anchor-20261028-235629/personal-finance-console.before-anchor.sqlite3",
+    "terminal_before": "/Users/linte/Library/Application Support/com.personalfinance.console/production-v8-hotfix-audit/phase1-integrity-anchor-20261028-235629/terminal-before.json",
+    "note": "terminal JSON and all business tables are untouched; restoring the row (or the DB copy) returns the gate to its pre-rotation verdict."
+  }
+}

@@ -31,6 +31,7 @@ const minimalHome: HomeApplicationState = {
   currentMonth: "2026-10",
   profileDisplayName: null,
   actualIncomeRecordCount: 0,
+  actualIncomeTotal: "10000",
   currentCash: "5000",
   currentMonthSpending: "0",
   currentMonthVariableExpenseCount: 0,

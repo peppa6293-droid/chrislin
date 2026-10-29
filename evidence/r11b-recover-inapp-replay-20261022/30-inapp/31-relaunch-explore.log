@@ -1,0 +1,19 @@
+=== relaunch for in-app replay ===
+2026-10-22T12:36:18Z
+14036 /Applications/Personal Finance Console.app/Contents/MacOS/personal-finance-console
+小钱家, 1604, -1202, 840, 580
+-- top-level UI elements --
+AXGroup, AXButton, AXButton, AXButton, AXStaticText, group, close button, full screen button, minimize button, text, missing value, missing value, missing value, missing value, 小钱家
+=== ax button query ===
+79:149: execution error: “System Events”遇到一个错误：不能将“every button of entire contents of window 1 of process "personal-finance-console" whose name = "编辑"”转换为“specifier”类型。 (-1700)
+83:87: execution error: “System Events”遇到一个错误：不能将“every button of entire contents of window 1 of process "personal-finance-console"”转换为“specifier”类型。 (-1700)
+missing value, 主导航, missing value, missing value, 现金项目
+255:256: syntax error: 不能将“«class crow»”设置为“«class sgrp» 5 of cash”。不允许进行访问。 (-10003)
+button 编辑 of group 5 of group 现金项目 of group 1 of UI element 1 of scroll area 1 of group 1 of group 1 of window 小钱家 of application process personal-finance-console
+182:189: execution error: “System Events”遇到一个错误：不能获得“group 5 of group "编辑现金账户" of UI element 1 of scroll area 1 of group 1 of group 1 of window "小钱家" of application process "personal-finance-console"”。无效的索引。 (-1719)
+168.57
+button 保存 of group 编辑现金账户 of UI element 1 of scroll area 1 of group 1 of group 1 of window 小钱家 of application process personal-finance-console
+=== step 2: 农业银行 5097.04 ===
+2026-10-22T12:37:50Z
+button 编辑 of group 2 of group 现金项目 of group 1 of UI element 1 of scroll area 1 of group 1 of group 1 of window 小钱家 of application process personal-finance-console
+90:104: execution error: “System Events”遇到一个错误：不能获得“group "编辑现金账户" of UI element 1 of scroll area 1 of group 1 of group 1 of window 1 of process "personal-finance-console"”。 (-1728)

@@ -1,0 +1,38 @@
+{
+  "mode": "dry-run",
+  "rotatedAtUtc": "2026-10-23T09:16:51.182Z",
+  "authorizationFile": "/Users/linte/Library/Application Support/com.personalfinance.console/production-v8-hotfix-release-authorization.json",
+  "authorizationSha256": "4e036ff2f01b3713524b8b58a9c1858eb721e4ba2d7f7019db5d8a44bd13782b",
+  "oldExecutableSha256": "6f957ba04c6dc6d87a34ad60ce4c8b64a77f63470e1e9300e018cb276b43bae4",
+  "newExecutableSha256": "bb74f2aa2462e87db26bb2d30ea63f7c05059669a68ef7dc9096c938d8148ece",
+  "before": {
+    "terminal": "341ad1870244d3c9fc0cc30e5d6cd96f2d2caeb77757ae7d29cd24e0cf852e6d",
+    "receipt": "9b0f622bac000054cfbb57249d9feb339cfb1728d1421a073ccb89cf8ce60fab",
+    "ledger": "b975f1ff49077d6d76ebe7ec9d0a283b7fccd13f80e72382271dc3b008cc9755"
+  },
+  "after": {
+    "terminal": "46531081c5c851a3f15ca23ac9a6c3cd1bb1b4178d85aa3c510468b00e245113",
+    "receipt": "6e981b7c847f51c6a07aa9221b09ac883cea6040423a7474f587fd8c5d53f8c0",
+    "ledger": "99f91685d03172454db681e0ae20a48f6ea1ce81d175956aae61d0479194bcbb"
+  },
+  "diffs": {
+    "receipt": [
+      "candidateExecutableSha256",
+      "productionAppInventory[0].executable_sha256",
+      "hotfixReleaseRotation.authorizationId",
+      "hotfixReleaseRotation.rotatedAtUtc",
+      "hotfixReleaseRotation.previousExecutableSha256",
+      "hotfixReleaseRotation.newExecutableSha256",
+      "hotfixReleaseRotation.previousReceiptSha256",
+      "hotfixReleaseRotation.hotfixAuthorizationSha256"
+    ],
+    "ledger": [
+      "[0].candidateExecutableSha256"
+    ],
+    "terminal": [
+      "releaseReceiptSha256",
+      "consumedLedgerSha256",
+      "candidateExecutableSha256"
+    ]
+  }
+}

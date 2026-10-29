@@ -1,0 +1,39 @@
+'--- income_records ---'
+--- income_records ---
+id|kind|status|amount|date|COALESCE(period_month,'NULL')|created_at
+748d415a-7561-4f2d-b9cb-0d80f1ca99fe|PLANNING|EXPECTED|13000|2026-10-04|NULL|2026-10-04T00:00:00.000Z
+'--- income_entries count ---'
+--- income_entries count ---
+COUNT(*)
+0
+'--- debts ---'
+--- debts ---
+id|profile_id|name|fixed_monthly_payment|active|created_at
+2a6a027d-806d-44f8-92e0-131f78c6d14b|ffb61fa9-1206-4bdd-923b-7e440468139c|美团月付||1|2026-10-04T00:00:00.000Z
+5f50bd18-7b79-49aa-a0da-fa8a19555a69|ffb61fa9-1206-4bdd-923b-7e440468139c|浦发车贷|3487.87|1|2026-10-04T00:00:00.000Z
+6ab6256a-fe7b-450b-9853-f55c8402f92b|ffb61fa9-1206-4bdd-923b-7e440468139c|招商分期||1|2026-10-04T00:00:00.000Z
+a1ff0b1a-2a5f-4980-a058-9af7bf79249b|ffb61fa9-1206-4bdd-923b-7e440468139c|京东白条||1|2026-10-04T00:00:00.000Z
+c7fa0eae-c78a-4d0d-8031-bbf80c523d23|ffb61fa9-1206-4bdd-923b-7e440468139c|花呗||1|2026-10-04T00:00:00.000Z
+'--- debt_period_facts ---'
+--- debt_period_facts ---
+id|debt_id|period_month|as_of_date|current_balance|current_month_due|created_at
+1bcd9e63-a600-4854-ab52-6a1dac70d125|a1ff0b1a-2a5f-4980-a058-9af7bf79249b|2026-10|2026-10-04|2198.70|657.46|2026-10-04T00:00:00.000Z
+295b642a-7973-4000-9656-518abcc42a43|5f50bd18-7b79-49aa-a0da-fa8a19555a69|2026-10|2026-10-04|118137.60|3487.87|2026-10-04T00:00:00.000Z
+6bbafd60-d5f7-4f3b-8c0f-90d5e0c266d4|c7fa0eae-c78a-4d0d-8031-bbf80c523d23|2026-10|2026-10-04|5306.76|4362.56|2026-10-04T00:00:00.000Z
+a76a1f4e-9d7a-4a13-a776-ede3e95ab4e4|2a6a027d-806d-44f8-92e0-131f78c6d14b|2026-10|2026-10-04|331.37|331.37|2026-10-04T00:00:00.000Z
+f18b380d-d391-488f-a7f8-bd2c27e6277c|6ab6256a-fe7b-450b-9853-f55c8402f92b|2026-10|2026-10-04|46605.10|5679.47|2026-10-04T00:00:00.000Z
+seed-2026-11-cmb-installments|6ab6256a-fe7b-450b-9853-f55c8402f92b|2026-11|2026-10-21|36626.20|4132.00|2026-10-21T08:46:30.669Z
+seed-2026-11-huabei|c7fa0eae-c78a-4d0d-8031-bbf80c523d23|2026-11|2026-10-21|921.39|575.78|2026-10-21T08:46:30.669Z
+seed-2026-11-jd-baitiao|a1ff0b1a-2a5f-4980-a058-9af7bf79249b|2026-11|2026-10-21|1541.24|653.50|2026-10-21T08:46:30.669Z
+seed-2026-11-meituan|2a6a027d-806d-44f8-92e0-131f78c6d14b|2026-11|2026-10-21|1.88|1.88|2026-10-21T08:46:30.669Z
+seed-2026-11-pufa-car-loan|5f50bd18-7b79-49aa-a0da-fa8a19555a69|2026-11|2026-10-21|118137.60|3487.87|2026-10-21T08:46:30.669Z
+'--- counts ---'
+--- counts ---
+'debts'|COUNT(*)
+debts|5
+'debt_period_facts'|COUNT(*)
+debt_period_facts|10
+'expenses'|COUNT(*)
+expenses|831
+'expense_records'|COUNT(*)
+expense_records|832

@@ -78,84 +78,6 @@
   color: var(--v2-coral-dark);
 }
 
-.v2-structure-dots {
-  display: inline-flex;
-  gap: 6px;
-}
-
-.v2-structure-dots .v2-dot {
-  width: 8px;
-  height: 8px;
-}
-
-.v2-structure-bar {
-  display: flex;
-  flex-direction: column;
-  gap: var(--v2-space-2);
-}
-
-.v2-structure-bar__row {
-  display: grid;
-  grid-template-columns: 52px minmax(0, 1fr) 88px;
-  align-items: center;
-  gap: var(--v2-space-2);
-}
-
-.v2-structure-bar__label {
-  color: var(--v2-muted);
-  font-size: 12px;
-  line-height: 18px;
-}
-
-.v2-structure-bar__track {
-  position: relative;
-  display: flex;
-  height: 10px;
-  overflow: hidden;
-  background: var(--v2-line);
-  border-radius: var(--v2-radius-pill);
-}
-
-.v2-structure-bar__fill {
-  height: 100%;
-}
-
-.v2-structure-bar__fill.is-income {
-  background: var(--v2-teal);
-}
-
-.v2-structure-bar__fill.is-essential {
-  background: var(--v2-ink-strong);
-  opacity: 0.55;
-}
-
-.v2-structure-bar__fill.is-debt {
-  background: var(--v2-muted-light);
-}
-
-.v2-structure-bar__overhang {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  background: var(--v2-coral);
-}
-
-.v2-structure-bar__tick {
-  position: absolute;
-  top: -2px;
-  bottom: -2px;
-  width: 2px;
-  background: var(--v2-ink);
-}
-
-.v2-structure-bar__amount {
-  color: var(--v2-muted);
-  font-size: 12px;
-  line-height: 18px;
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
 .v2-month-empty {
   display: flex;
   flex-direction: column;
@@ -266,8 +188,7 @@
 .v2-card.is-disabled .v2-card__line,
 .v2-card.is-disabled .v2-card__actions,
 .v2-card.is-disabled .v2-structure-value,
-.v2-card.is-disabled .v2-structure-dots,
-.v2-card.is-disabled .v2-structure-bar,
+.v2-card.is-disabled .v2-structure-overview,
 .v2-card.is-disabled .v2-month-empty,
 .v2-card.is-disabled [role="progressbar"] {
   display: none;

@@ -1,0 +1,20 @@
+# Preflight (read-only) 2026-10-23T04:16:07Z
+
+## Gate files SHA-256
+8a15ea3130afff8aaf9d4cc579179fcb3a22b35023a17a3eea189cb5a2c6a7fe  /Users/linte/Library/Application Support/com.personalfinance.console/production-v8-consumed-authorizations.json
+61457ae72f493c6f832cf68f4b348f9b2e262123c6b7903ae8edc9cbaeda64b7  /Users/linte/Library/Application Support/com.personalfinance.console/production-v8-cutover-terminal.json
+a734e2e7e99a0164b902fcd6f588c1c4421cddc6b5a61261a1b865dff73e094f  /Users/linte/Library/Application Support/com.personalfinance.console/production-v8-hotfix-release-authorization.json
+6d7952953c2a6cafe44bb58c3a275b68ec6a0891269e431a1e16ff4ea0cfeab3  /Users/linte/Library/Application Support/com.personalfinance.console/production-v8-hotfix-rotations.json
+66dc64e66612ef3471862d43c0967672e09901368600c42e7d4acdfb6ac0d9db  /Users/linte/Library/Application Support/com.personalfinance.console/production-v8-release-receipt.json
+980f1df5f1995237ccdaa3bf8f0d65ae67c9e3479d816f40dddfa5437faef51e  /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3
+
+## Installed app
+ea430fe97dac79c006d7a86558454f2f0a6d5a5522699e796d545e7b60f44baa  /Applications/Personal Finance Console.app/Contents/MacOS/personal-finance-console
+41b8aa5a1c1933531c2d986c25d180590ffbf8920aff4483d791a882dc3cfdcb  /Applications/Personal Finance Console.app/Contents/Info.plist
+f98b7f7bab5161e8c0c6bb93571ac8ce658c20d81785fc5651ac37f2f9c3d509  /Applications/Personal Finance Console.app/Contents/Resources/runtime-compatibility.json
+
+## Permits (must be absent)
+ls: /Users/linte/Library/Application Support/com.personalfinance.console/production-v8-migration-authorization.json: No such file or directory
+
+## Running process
+15404 /Applications/Personal Finance Console.app/Contents/MacOS/personal-finance-console

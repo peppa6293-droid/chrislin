@@ -1,0 +1,4023 @@
+{
+  "mode": "default",
+  "metrics": [
+    {
+      "view": "home",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "docHeight": 1400,
+      "ring": {
+        "x": 80.5,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 80.5,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 133.03,
+        "y": 367.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "centreLabel": {
+        "x": 184,
+        "y": 349.67,
+        "w": 25,
+        "h": 16.25
+      },
+      "dx": 0.009999999999990905,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "centreLines": 1,
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "labelFont": "12.5px",
+      "rows": [
+        {
+          "ring": "outer",
+          "name": "固定支出",
+          "amount": "¥3,528.00",
+          "percent": "占收入 25.6%",
+          "pressed": "false",
+          "marker": false,
+          "over": null,
+          "rowW": 309,
+          "rowH": 62.64,
+          "nameW": 162.39,
+          "nameLines": 1,
+          "amountLines": 1,
+          "percentLines": 1,
+          "overlapNameAmount": false,
+          "horizontal": true,
+          "amountFits": true
+        },
+        {
+          "ring": "inner",
+          "name": "必须偿还月供",
+          "amount": "¥14,518.73",
+          "percent": "占收入 105.3%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥727.48",
+          "rowW": 309,
+          "rowH": 82.14,
+          "nameW": 137.08,
+          "nameLines": 1,
+          "amountLines": 1,
+          "percentLines": 1,
+          "overlapNameAmount": false,
+          "horizontal": true,
+          "amountFits": true
+        }
+      ],
+      "style": {
+        "edge": {
+          "stroke": "rgb(111, 130, 126)",
+          "strokeWidth": "1px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcEdgeOuter": null,
+        "arcEdgeInner": null,
+        "trackOuter": {
+          "stroke": "rgb(233, 238, 236)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "trackInner": {
+          "stroke": "rgb(245, 241, 217)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcOuter": {
+          "stroke": "rgb(124, 201, 191)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": "167.16 653.45",
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcInner": {
+          "stroke": "rgb(251, 216, 59)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": "490.09 490.09",
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "cardBg": "rgb(245, 251, 248)",
+        "svgRectCount": 4
+      },
+      "arcDash": [
+        "167.16 653.45",
+        "490.09 490.09"
+      ],
+      "arcEdgeDash": [],
+      "ariaLabel": "固定支出占收入 25.6%，必须偿还月供占收入 105.3%",
+      "surplus": "-¥4,255.48结构余量 · 收入 − 固定支出 − 月供占收入 -30.9%",
+      "structureTitle": "收入：我一个人打五个？",
+      "pageText": "每月固定收支\n为什么\n收入：我一个人打五个？\n-¥4,255.48\n结构余量 · 收入 − 固定支出 − 月供\n占收入 -30.9%\n收入\n¥13,791.25\n固定支出\n¥3,528.00\n占收入 25.6%\n必须偿还月供\n¥14,518.73\n占收入 105.3%\n已超出 ¥727.48\n查看固定支出\n查看债务\n本月消费\n消费详情\n支付软件：你是不是把我卸了？\n¥125.50\n本月已花 · 目标 ¥1,600.00\n剩余 ¥1,474.50\n查看本月记录",
+      "overMarks": 0,
+      "forbidden": {
+        "m27582": false,
+        "s13000": false,
+        "zero00": false
+      },
+      "state": "actual",
+      "width": 390,
+      "mode": "default",
+      "contrast": {
+        "arcOuter/trackOuter": 1.63,
+        "arcInner/trackInner": 1.23,
+        "arcEdge/trackOuter": null,
+        "arcEdge/trackInner": null,
+        "arcEdge/arcOuter": null,
+        "arcEdge/arcInner": null,
+        "edge/trackOuter": 3.46,
+        "edge/trackInner": 3.57,
+        "edge/arcOuter": 2.12,
+        "edge/arcInner": 2.9,
+        "arcEdge/cardBg": null,
+        "arcOuter/cardBg": 1.83
+      },
+      "selected": {
+        "ring": {
+          "x": 80.5,
+          "y": 256,
+          "w": 232,
+          "h": 232
+        },
+        "centre": {
+          "x": 133.03,
+          "y": 367.92,
+          "w": 126.92,
+          "h": 26.39
+        },
+        "centreClearancePx": 1.84,
+        "rows": [
+          {
+            "ring": "outer",
+            "name": "固定支出",
+            "amount": "¥3,528.00",
+            "percent": "占收入 25.6%",
+            "pressed": "true",
+            "marker": false,
+            "over": null,
+            "rowW": 309,
+            "rowH": 62.64,
+            "nameW": 162.39,
+            "nameLines": 1,
+            "amountLines": 1,
+            "percentLines": 1,
+            "overlapNameAmount": false,
+            "horizontal": true,
+            "amountFits": true
+          },
+          {
+            "ring": "inner",
+            "name": "必须偿还月供",
+            "amount": "¥14,518.73",
+            "percent": "占收入 105.3%",
+            "pressed": "false",
+            "marker": true,
+            "over": "已超出 ¥727.48",
+            "rowW": 309,
+            "rowH": 82.14,
+            "nameW": 137.08,
+            "nameLines": 1,
+            "amountLines": 1,
+            "percentLines": 1,
+            "overlapNameAmount": false,
+            "horizontal": true,
+            "amountFits": true
+          }
+        ],
+        "style": {
+          "edge": {
+            "stroke": "rgb(111, 130, 126)",
+            "strokeWidth": "1px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcEdgeOuter": null,
+          "arcEdgeInner": null,
+          "trackOuter": {
+            "stroke": "rgb(233, 238, 236)",
+            "strokeWidth": "13px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "trackInner": {
+            "stroke": "rgb(245, 241, 217)",
+            "strokeWidth": "13px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcOuter": {
+            "stroke": "rgb(124, 201, 191)",
+            "strokeWidth": "18px",
+            "opacity": "1",
+            "strokeDasharray": "167.16 653.45",
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcInner": {
+            "stroke": "rgb(251, 216, 59)",
+            "strokeWidth": "13px",
+            "opacity": "0.35",
+            "strokeDasharray": "490.09 490.09",
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "cardBg": "rgb(245, 251, 248)",
+          "svgRectCount": 4
+        },
+        "scrollWidth": 390,
+        "innerWidth": 390,
+        "ariaLabel": "固定支出占收入 25.6%，必须偿还月供占收入 105.3%",
+        "contrast": {
+          "arcOuter/trackOuter": 1.63,
+          "arcInner/trackInner": 1.23,
+          "arcEdge/trackOuter": null,
+          "arcEdge/trackInner": null,
+          "arcEdge/arcOuter": null,
+          "arcEdge/arcInner": null,
+          "edge/trackOuter": 3.46,
+          "edge/trackInner": 3.57,
+          "edge/arcOuter": 2.12,
+          "edge/arcInner": 2.9,
+          "arcEdge/cardBg": null,
+          "arcOuter/cardBg": 1.83
+        }
+      },
+      "file": "home-actual-390.png",
+      "shotHeight": 1400,
+      "problems": []
+    },
+    {
+      "view": "home",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "docHeight": 1400,
+      "ring": {
+        "x": 79,
+        "y": 284,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 79,
+        "y": 284,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 185.41,
+        "y": 395.92,
+        "w": 19.17,
+        "h": 26.39
+      },
+      "centreLabel": {
+        "x": 182.5,
+        "y": 377.67,
+        "w": 25,
+        "h": 16.25
+      },
+      "dx": 0.0049999999999954525,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 44.83,
+      "centreFont": "22px",
+      "centreLines": 1,
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": null,
+      "labelFont": "12.5px",
+      "rows": [
+        {
+          "ring": "outer",
+          "name": "固定支出",
+          "amount": "¥2,500.00",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null,
+          "rowW": 312,
+          "rowH": 46.39,
+          "nameW": 165.39,
+          "nameLines": 1,
+          "amountLines": 1,
+          "percentLines": null,
+          "overlapNameAmount": false,
+          "horizontal": false,
+          "amountFits": true
+        },
+        {
+          "ring": "inner",
+          "name": "必须偿还月供",
+          "amount": "¥1,000.00",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null,
+          "rowW": 312,
+          "rowH": 46.39,
+          "nameW": 165.39,
+          "nameLines": 1,
+          "amountLines": 1,
+          "percentLines": null,
+          "overlapNameAmount": false,
+          "horizontal": false,
+          "amountFits": true
+        }
+      ],
+      "style": {
+        "edge": {
+          "stroke": "rgb(111, 130, 126)",
+          "strokeWidth": "1px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcEdgeOuter": null,
+        "arcEdgeInner": null,
+        "trackOuter": {
+          "stroke": "rgb(233, 238, 236)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "trackInner": {
+          "stroke": "rgb(245, 241, 217)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcOuter": null,
+        "arcInner": null,
+        "cardBg": "rgb(245, 251, 248)",
+        "svgRectCount": 4
+      },
+      "arcDash": [],
+      "arcEdgeDash": [],
+      "ariaLabel": "收入 —",
+      "surplus": "—结构余量 · 收入 − 固定支出 − 月供",
+      "structureTitle": "收入：暂未出场。账单：戏份拉满。",
+      "pageText": "每月固定收支\n为什么\n收入：暂未出场。账单：戏份拉满。\n—\n结构余量 · 收入 − 固定支出 − 月供\n收入\n—\n固定支出\n¥2,500.00\n必须偿还月供\n¥1,000.00\n查看固定支出\n本月消费\n消费详情\n支付软件：你是不是把我卸了？\n¥125.50\n本月已花 · 目标 ¥1,600.00\n剩余 ¥1,474.50\n查看本月记录",
+      "overMarks": 0,
+      "forbidden": {
+        "m27582": false,
+        "s13000": false,
+        "zero00": false
+      },
+      "state": "zero-burden",
+      "width": 390,
+      "mode": "default",
+      "contrast": {
+        "arcOuter/trackOuter": null,
+        "arcInner/trackInner": null,
+        "arcEdge/trackOuter": null,
+        "arcEdge/trackInner": null,
+        "arcEdge/arcOuter": null,
+        "arcEdge/arcInner": null,
+        "edge/trackOuter": 3.46,
+        "edge/trackInner": 3.57,
+        "edge/arcOuter": null,
+        "edge/arcInner": null,
+        "arcEdge/cardBg": null,
+        "arcOuter/cardBg": null
+      },
+      "selected": {
+        "ring": {
+          "x": 79,
+          "y": 284,
+          "w": 232,
+          "h": 232
+        },
+        "centre": {
+          "x": 185.41,
+          "y": 395.92,
+          "w": 19.17,
+          "h": 26.39
+        },
+        "centreClearancePx": 44.83,
+        "rows": [
+          {
+            "ring": "outer",
+            "name": "固定支出",
+            "amount": "¥2,500.00",
+            "percent": null,
+            "pressed": "true",
+            "marker": false,
+            "over": null,
+            "rowW": 312,
+            "rowH": 46.39,
+            "nameW": 165.39,
+            "nameLines": 1,
+            "amountLines": 1,
+            "percentLines": null,
+            "overlapNameAmount": false,
+            "horizontal": false,
+            "amountFits": true
+          },
+          {
+            "ring": "inner",
+            "name": "必须偿还月供",
+            "amount": "¥1,000.00",
+            "percent": null,
+            "pressed": "false",
+            "marker": false,
+            "over": null,
+            "rowW": 312,
+            "rowH": 46.39,
+            "nameW": 165.39,
+            "nameLines": 1,
+            "amountLines": 1,
+            "percentLines": null,
+            "overlapNameAmount": false,
+            "horizontal": false,
+            "amountFits": true
+          }
+        ],
+        "style": {
+          "edge": {
+            "stroke": "rgb(111, 130, 126)",
+            "strokeWidth": "1px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcEdgeOuter": null,
+          "arcEdgeInner": null,
+          "trackOuter": {
+            "stroke": "rgb(233, 238, 236)",
+            "strokeWidth": "13px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "trackInner": {
+            "stroke": "rgb(245, 241, 217)",
+            "strokeWidth": "13px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcOuter": null,
+          "arcInner": null,
+          "cardBg": "rgb(245, 251, 248)",
+          "svgRectCount": 4
+        },
+        "scrollWidth": 390,
+        "innerWidth": 390,
+        "ariaLabel": "收入 —",
+        "contrast": {
+          "arcOuter/trackOuter": null,
+          "arcInner/trackInner": null,
+          "arcEdge/trackOuter": null,
+          "arcEdge/trackInner": null,
+          "arcEdge/arcOuter": null,
+          "arcEdge/arcInner": null,
+          "edge/trackOuter": 3.46,
+          "edge/trackInner": 3.57,
+          "edge/arcOuter": null,
+          "edge/arcInner": null,
+          "arcEdge/cardBg": null,
+          "arcOuter/cardBg": null
+        }
+      },
+      "file": "home-zero-burden-390.png",
+      "shotHeight": 1400,
+      "problems": []
+    },
+    {
+      "view": "home",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "docHeight": 1400,
+      "ring": {
+        "x": 79,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 79,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 131.53,
+        "y": 367.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "centreLabel": {
+        "x": 182.5,
+        "y": 349.67,
+        "w": 25,
+        "h": 16.25
+      },
+      "dx": 0.009999999999990905,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "centreLines": 1,
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "labelFont": "12.5px",
+      "rows": [
+        {
+          "ring": "outer",
+          "name": "固定支出",
+          "amount": "¥3,528.00",
+          "percent": "占收入 27.1%",
+          "pressed": "false",
+          "marker": false,
+          "over": null,
+          "rowW": 312,
+          "rowH": 62.64,
+          "nameW": 165.39,
+          "nameLines": 1,
+          "amountLines": 1,
+          "percentLines": 1,
+          "overlapNameAmount": false,
+          "horizontal": true,
+          "amountFits": true
+        },
+        {
+          "ring": "inner",
+          "name": "必须偿还月供",
+          "amount": "待确认",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null,
+          "rowW": 312,
+          "rowH": 46.39,
+          "nameW": 212.66,
+          "nameLines": 1,
+          "amountLines": 1,
+          "percentLines": null,
+          "overlapNameAmount": false,
+          "horizontal": false,
+          "amountFits": true
+        }
+      ],
+      "style": {
+        "edge": {
+          "stroke": "rgb(111, 130, 126)",
+          "strokeWidth": "1px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcEdgeOuter": null,
+        "arcEdgeInner": null,
+        "trackOuter": {
+          "stroke": "rgb(233, 238, 236)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "trackInner": {
+          "stroke": "rgb(245, 241, 217)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcOuter": {
+          "stroke": "rgb(124, 201, 191)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": "177.34 653.45",
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcInner": null,
+        "cardBg": "rgb(245, 251, 248)",
+        "svgRectCount": 4
+      },
+      "arcDash": [
+        "177.34 653.45"
+      ],
+      "arcEdgeDash": [],
+      "ariaLabel": "固定支出占收入 27.1%，必须偿还月供 待确认",
+      "surplus": "—结构余量 · 收入 − 固定支出 − 月供",
+      "structureTitle": "资料不齐，花点时间补一下",
+      "pageText": "每月固定收支\n为什么\n资料不齐，花点时间补一下\n—\n结构余量 · 收入 − 固定支出 − 月供\n收入\n¥13,000.00\n固定支出\n¥3,528.00\n占收入 27.1%\n必须偿还月供\n待确认\n查看固定支出\n查看债务\n本月消费\n消费详情\n支付软件：你是不是把我卸了？\n¥125.50\n本月已花 · 目标 ¥1,600.00\n剩余 ¥1,474.50\n查看本月记录",
+      "overMarks": 0,
+      "forbidden": {
+        "m27582": false,
+        "s13000": true,
+        "zero00": false
+      },
+      "state": "pending",
+      "width": 390,
+      "mode": "default",
+      "contrast": {
+        "arcOuter/trackOuter": 1.63,
+        "arcInner/trackInner": null,
+        "arcEdge/trackOuter": null,
+        "arcEdge/trackInner": null,
+        "arcEdge/arcOuter": null,
+        "arcEdge/arcInner": null,
+        "edge/trackOuter": 3.46,
+        "edge/trackInner": 3.57,
+        "edge/arcOuter": 2.12,
+        "edge/arcInner": null,
+        "arcEdge/cardBg": null,
+        "arcOuter/cardBg": 1.83
+      },
+      "selected": {
+        "ring": {
+          "x": 79,
+          "y": 256,
+          "w": 232,
+          "h": 232
+        },
+        "centre": {
+          "x": 131.53,
+          "y": 367.92,
+          "w": 126.92,
+          "h": 26.39
+        },
+        "centreClearancePx": 1.84,
+        "rows": [
+          {
+            "ring": "outer",
+            "name": "固定支出",
+            "amount": "¥3,528.00",
+            "percent": "占收入 27.1%",
+            "pressed": "true",
+            "marker": false,
+            "over": null,
+            "rowW": 312,
+            "rowH": 62.64,
+            "nameW": 165.39,
+            "nameLines": 1,
+            "amountLines": 1,
+            "percentLines": 1,
+            "overlapNameAmount": false,
+            "horizontal": true,
+            "amountFits": true
+          },
+          {
+            "ring": "inner",
+            "name": "必须偿还月供",
+            "amount": "待确认",
+            "percent": null,
+            "pressed": "false",
+            "marker": false,
+            "over": null,
+            "rowW": 312,
+            "rowH": 46.39,
+            "nameW": 212.66,
+            "nameLines": 1,
+            "amountLines": 1,
+            "percentLines": null,
+            "overlapNameAmount": false,
+            "horizontal": false,
+            "amountFits": true
+          }
+        ],
+        "style": {
+          "edge": {
+            "stroke": "rgb(111, 130, 126)",
+            "strokeWidth": "1px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcEdgeOuter": null,
+          "arcEdgeInner": null,
+          "trackOuter": {
+            "stroke": "rgb(233, 238, 236)",
+            "strokeWidth": "13px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "trackInner": {
+            "stroke": "rgb(245, 241, 217)",
+            "strokeWidth": "13px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcOuter": {
+            "stroke": "rgb(124, 201, 191)",
+            "strokeWidth": "18px",
+            "opacity": "1",
+            "strokeDasharray": "177.34 653.45",
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcInner": null,
+          "cardBg": "rgb(245, 251, 248)",
+          "svgRectCount": 4
+        },
+        "scrollWidth": 390,
+        "innerWidth": 390,
+        "ariaLabel": "固定支出占收入 27.1%，必须偿还月供 待确认",
+        "contrast": {
+          "arcOuter/trackOuter": 1.63,
+          "arcInner/trackInner": null,
+          "arcEdge/trackOuter": null,
+          "arcEdge/trackInner": null,
+          "arcEdge/arcOuter": null,
+          "arcEdge/arcInner": null,
+          "edge/trackOuter": 3.46,
+          "edge/trackInner": 3.57,
+          "edge/arcOuter": 2.12,
+          "edge/arcInner": null,
+          "arcEdge/cardBg": null,
+          "arcOuter/cardBg": 1.83
+        }
+      },
+      "file": "home-pending-390.png",
+      "shotHeight": 1400,
+      "problems": []
+    },
+    {
+      "view": "home",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "docHeight": 1400,
+      "ring": {
+        "x": 79,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 79,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 127.72,
+        "y": 354.73,
+        "w": 134.56,
+        "h": 52.78
+      },
+      "centreLabel": {
+        "x": 182.5,
+        "y": 336.48,
+        "w": 25,
+        "h": 16.25
+      },
+      "dx": 0,
+      "dy": 9.120000000000005,
+      "holeRadius": 69.12,
+      "centreClearancePx": -6.96,
+      "centreFont": "22px",
+      "centreLines": 2,
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "labelFont": "12.5px",
+      "rows": [
+        {
+          "ring": "outer",
+          "name": "固定支出",
+          "amount": "¥12,345,678.90",
+          "percent": "占收入 10%",
+          "pressed": "false",
+          "marker": false,
+          "over": null,
+          "rowW": 312,
+          "rowH": 62.64,
+          "nameW": 101.92,
+          "nameLines": 1,
+          "amountLines": 1,
+          "percentLines": 1,
+          "overlapNameAmount": false,
+          "horizontal": true,
+          "amountFits": true
+        },
+        {
+          "ring": "inner",
+          "name": "必须偿还月供",
+          "amount": "¥14,518.73",
+          "percent": "占收入 0%",
+          "pressed": "false",
+          "marker": false,
+          "over": null,
+          "rowW": 312,
+          "rowH": 62.64,
+          "nameW": 151.08,
+          "nameLines": 1,
+          "amountLines": 1,
+          "percentLines": 1,
+          "overlapNameAmount": false,
+          "horizontal": true,
+          "amountFits": true
+        }
+      ],
+      "style": {
+        "edge": {
+          "stroke": "rgb(111, 130, 126)",
+          "strokeWidth": "1px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcEdgeOuter": null,
+        "arcEdgeInner": null,
+        "trackOuter": {
+          "stroke": "rgb(233, 238, 236)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "trackInner": {
+          "stroke": "rgb(245, 241, 217)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcOuter": {
+          "stroke": "rgb(124, 201, 191)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": "65.35 653.45",
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcInner": {
+          "stroke": "rgb(251, 216, 59)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": "0.06 490.09",
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "cardBg": "rgb(245, 251, 248)",
+        "svgRectCount": 4
+      },
+      "arcDash": [
+        "65.35 653.45",
+        "0.06 490.09"
+      ],
+      "arcEdgeDash": [],
+      "ariaLabel": "固定支出占收入 10%，必须偿还月供占收入 0%",
+      "surplus": "¥111,096,591.49结构余量 · 收入 − 固定支出 − 月供占收入 90%",
+      "structureTitle": "账单：不是，他怎么还剩钱？",
+      "pageText": "每月固定收支\n为什么\n账单：不是，他怎么还剩钱？\n¥111,096,591.49\n结构余量 · 收入 − 固定支出 − 月供\n占收入 90%\n收入\n¥123,456,789.12\n固定支出\n¥12,345,678.90\n占收入 10%\n必须偿还月供\n¥14,518.73\n占收入 0%\n查看固定支出\n本月消费\n消费详情\n支付软件：你是不是把我卸了？\n¥125.50\n本月已花 · 目标 ¥1,600.00\n剩余 ¥1,474.50\n查看本月记录",
+      "overMarks": 0,
+      "forbidden": {
+        "m27582": false,
+        "s13000": false,
+        "zero00": false
+      },
+      "state": "large",
+      "width": 390,
+      "mode": "default",
+      "contrast": {
+        "arcOuter/trackOuter": 1.63,
+        "arcInner/trackInner": 1.23,
+        "arcEdge/trackOuter": null,
+        "arcEdge/trackInner": null,
+        "arcEdge/arcOuter": null,
+        "arcEdge/arcInner": null,
+        "edge/trackOuter": 3.46,
+        "edge/trackInner": 3.57,
+        "edge/arcOuter": 2.12,
+        "edge/arcInner": 2.9,
+        "arcEdge/cardBg": null,
+        "arcOuter/cardBg": 1.83
+      },
+      "selected": {
+        "ring": {
+          "x": 79,
+          "y": 256,
+          "w": 232,
+          "h": 232
+        },
+        "centre": {
+          "x": 127.72,
+          "y": 354.73,
+          "w": 134.56,
+          "h": 52.78
+        },
+        "centreClearancePx": -6.96,
+        "rows": [
+          {
+            "ring": "outer",
+            "name": "固定支出",
+            "amount": "¥12,345,678.90",
+            "percent": "占收入 10%",
+            "pressed": "true",
+            "marker": false,
+            "over": null,
+            "rowW": 312,
+            "rowH": 62.64,
+            "nameW": 101.92,
+            "nameLines": 1,
+            "amountLines": 1,
+            "percentLines": 1,
+            "overlapNameAmount": false,
+            "horizontal": true,
+            "amountFits": true
+          },
+          {
+            "ring": "inner",
+            "name": "必须偿还月供",
+            "amount": "¥14,518.73",
+            "percent": "占收入 0%",
+            "pressed": "false",
+            "marker": false,
+            "over": null,
+            "rowW": 312,
+            "rowH": 62.64,
+            "nameW": 151.08,
+            "nameLines": 1,
+            "amountLines": 1,
+            "percentLines": 1,
+            "overlapNameAmount": false,
+            "horizontal": true,
+            "amountFits": true
+          }
+        ],
+        "style": {
+          "edge": {
+            "stroke": "rgb(111, 130, 126)",
+            "strokeWidth": "1px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcEdgeOuter": null,
+          "arcEdgeInner": null,
+          "trackOuter": {
+            "stroke": "rgb(233, 238, 236)",
+            "strokeWidth": "13px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "trackInner": {
+            "stroke": "rgb(245, 241, 217)",
+            "strokeWidth": "13px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcOuter": {
+            "stroke": "rgb(124, 201, 191)",
+            "strokeWidth": "18px",
+            "opacity": "1",
+            "strokeDasharray": "65.35 653.45",
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcInner": {
+            "stroke": "rgb(251, 216, 59)",
+            "strokeWidth": "13px",
+            "opacity": "0.35",
+            "strokeDasharray": "0.06 490.09",
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "cardBg": "rgb(245, 251, 248)",
+          "svgRectCount": 4
+        },
+        "scrollWidth": 390,
+        "innerWidth": 390,
+        "ariaLabel": "固定支出占收入 10%，必须偿还月供占收入 0%",
+        "contrast": {
+          "arcOuter/trackOuter": 1.63,
+          "arcInner/trackInner": 1.23,
+          "arcEdge/trackOuter": null,
+          "arcEdge/trackInner": null,
+          "arcEdge/arcOuter": null,
+          "arcEdge/arcInner": null,
+          "edge/trackOuter": 3.46,
+          "edge/trackInner": 3.57,
+          "edge/arcOuter": 2.12,
+          "edge/arcInner": 2.9,
+          "arcEdge/cardBg": null,
+          "arcOuter/cardBg": 1.83
+        }
+      },
+      "file": "home-large-390.png",
+      "shotHeight": 1400,
+      "problems": [
+        "CLEARANCE -6.96"
+      ]
+    },
+    {
+      "view": "home",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "docHeight": 1400,
+      "ring": {
+        "x": 80.5,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 80.5,
+        "y": 256,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 133.03,
+        "y": 367.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "centreLabel": {
+        "x": 184,
+        "y": 349.67,
+        "w": 25,
+        "h": 16.25
+      },
+      "dx": 0.009999999999990905,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "centreLines": 1,
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "labelFont": "12.5px",
+      "rows": [
+        {
+          "ring": "outer",
+          "name": "固定支出",
+          "amount": "¥15,600.00",
+          "percent": "占收入 120%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥2,600.00",
+          "rowW": 309,
+          "rowH": 82.14,
+          "nameW": 137.08,
+          "nameLines": 1,
+          "amountLines": 1,
+          "percentLines": 1,
+          "overlapNameAmount": false,
+          "horizontal": true,
+          "amountFits": true
+        },
+        {
+          "ring": "inner",
+          "name": "必须偿还月供",
+          "amount": "¥15,600.00",
+          "percent": "占收入 120%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥2,600.00",
+          "rowW": 309,
+          "rowH": 82.14,
+          "nameW": 137.08,
+          "nameLines": 1,
+          "amountLines": 1,
+          "percentLines": 1,
+          "overlapNameAmount": false,
+          "horizontal": true,
+          "amountFits": true
+        }
+      ],
+      "style": {
+        "edge": {
+          "stroke": "rgb(111, 130, 126)",
+          "strokeWidth": "1px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcEdgeOuter": null,
+        "arcEdgeInner": null,
+        "trackOuter": {
+          "stroke": "rgb(233, 238, 236)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "trackInner": {
+          "stroke": "rgb(245, 241, 217)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcOuter": {
+          "stroke": "rgb(124, 201, 191)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": "653.45 653.45",
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcInner": {
+          "stroke": "rgb(251, 216, 59)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": "490.09 490.09",
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "cardBg": "rgb(245, 251, 248)",
+        "svgRectCount": 4
+      },
+      "arcDash": [
+        "653.45 653.45",
+        "490.09 490.09"
+      ],
+      "arcEdgeDash": [],
+      "ariaLabel": "固定支出占收入 120%，必须偿还月供占收入 120%",
+      "surplus": "-¥18,200.00结构余量 · 收入 − 固定支出 − 月供占收入 -140%",
+      "structureTitle": "收入：我一个人打五个？",
+      "pageText": "每月固定收支\n为什么\n收入：我一个人打五个？\n-¥18,200.00\n结构余量 · 收入 − 固定支出 − 月供\n占收入 -140%\n收入\n¥13,000.00\n固定支出\n¥15,600.00\n占收入 120%\n已超出 ¥2,600.00\n必须偿还月供\n¥15,600.00\n占收入 120%\n已超出 ¥2,600.00\n查看固定支出\n查看债务\n本月消费\n消费详情\n支付软件：你是不是把我卸了？\n¥125.50\n本月已花 · 目标 ¥1,600.00\n剩余 ¥1,474.50\n查看本月记录",
+      "overMarks": 0,
+      "forbidden": {
+        "m27582": false,
+        "s13000": true,
+        "zero00": false
+      },
+      "state": "over-both",
+      "width": 390,
+      "mode": "default",
+      "contrast": {
+        "arcOuter/trackOuter": 1.63,
+        "arcInner/trackInner": 1.23,
+        "arcEdge/trackOuter": null,
+        "arcEdge/trackInner": null,
+        "arcEdge/arcOuter": null,
+        "arcEdge/arcInner": null,
+        "edge/trackOuter": 3.46,
+        "edge/trackInner": 3.57,
+        "edge/arcOuter": 2.12,
+        "edge/arcInner": 2.9,
+        "arcEdge/cardBg": null,
+        "arcOuter/cardBg": 1.83
+      },
+      "selected": {
+        "ring": {
+          "x": 80.5,
+          "y": 256,
+          "w": 232,
+          "h": 232
+        },
+        "centre": {
+          "x": 133.03,
+          "y": 367.92,
+          "w": 126.92,
+          "h": 26.39
+        },
+        "centreClearancePx": 1.84,
+        "rows": [
+          {
+            "ring": "outer",
+            "name": "固定支出",
+            "amount": "¥15,600.00",
+            "percent": "占收入 120%",
+            "pressed": "true",
+            "marker": true,
+            "over": "已超出 ¥2,600.00",
+            "rowW": 309,
+            "rowH": 82.14,
+            "nameW": 137.08,
+            "nameLines": 1,
+            "amountLines": 1,
+            "percentLines": 1,
+            "overlapNameAmount": false,
+            "horizontal": true,
+            "amountFits": true
+          },
+          {
+            "ring": "inner",
+            "name": "必须偿还月供",
+            "amount": "¥15,600.00",
+            "percent": "占收入 120%",
+            "pressed": "false",
+            "marker": true,
+            "over": "已超出 ¥2,600.00",
+            "rowW": 309,
+            "rowH": 82.14,
+            "nameW": 137.08,
+            "nameLines": 1,
+            "amountLines": 1,
+            "percentLines": 1,
+            "overlapNameAmount": false,
+            "horizontal": true,
+            "amountFits": true
+          }
+        ],
+        "style": {
+          "edge": {
+            "stroke": "rgb(111, 130, 126)",
+            "strokeWidth": "1px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcEdgeOuter": null,
+          "arcEdgeInner": null,
+          "trackOuter": {
+            "stroke": "rgb(233, 238, 236)",
+            "strokeWidth": "13px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "trackInner": {
+            "stroke": "rgb(245, 241, 217)",
+            "strokeWidth": "13px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcOuter": {
+            "stroke": "rgb(124, 201, 191)",
+            "strokeWidth": "18px",
+            "opacity": "1",
+            "strokeDasharray": "653.45 653.45",
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcInner": {
+            "stroke": "rgb(251, 216, 59)",
+            "strokeWidth": "13px",
+            "opacity": "0.35",
+            "strokeDasharray": "490.09 490.09",
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "cardBg": "rgb(245, 251, 248)",
+          "svgRectCount": 4
+        },
+        "scrollWidth": 390,
+        "innerWidth": 390,
+        "ariaLabel": "固定支出占收入 120%，必须偿还月供占收入 120%",
+        "contrast": {
+          "arcOuter/trackOuter": 1.63,
+          "arcInner/trackInner": 1.23,
+          "arcEdge/trackOuter": null,
+          "arcEdge/trackInner": null,
+          "arcEdge/arcOuter": null,
+          "arcEdge/arcInner": null,
+          "edge/trackOuter": 3.46,
+          "edge/trackInner": 3.57,
+          "edge/arcOuter": 2.12,
+          "edge/arcInner": 2.9,
+          "arcEdge/cardBg": null,
+          "arcOuter/cardBg": 1.83
+        }
+      },
+      "file": "home-over-both-390.png",
+      "shotHeight": 1400,
+      "problems": []
+    },
+    {
+      "view": "home",
+      "scrollWidth": 760,
+      "innerWidth": 760,
+      "docHeight": 1400,
+      "ring": {
+        "x": 309.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 309.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 362.03,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "centreLabel": {
+        "x": 413,
+        "y": 363.67,
+        "w": 25,
+        "h": 16.25
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "centreLines": 1,
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "labelFont": "12.5px",
+      "rows": [
+        {
+          "ring": "outer",
+          "name": "固定支出",
+          "amount": "¥3,528.00",
+          "percent": "占收入 25.6%",
+          "pressed": "false",
+          "marker": false,
+          "over": null,
+          "rowW": 543,
+          "rowH": 62.64,
+          "nameW": 396.39,
+          "nameLines": 1,
+          "amountLines": 1,
+          "percentLines": 1,
+          "overlapNameAmount": false,
+          "horizontal": true,
+          "amountFits": true
+        },
+        {
+          "ring": "inner",
+          "name": "必须偿还月供",
+          "amount": "¥14,518.73",
+          "percent": "占收入 105.3%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥727.48",
+          "rowW": 543,
+          "rowH": 82.14,
+          "nameW": 371.08,
+          "nameLines": 1,
+          "amountLines": 1,
+          "percentLines": 1,
+          "overlapNameAmount": false,
+          "horizontal": true,
+          "amountFits": true
+        }
+      ],
+      "style": {
+        "edge": {
+          "stroke": "rgb(111, 130, 126)",
+          "strokeWidth": "1px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcEdgeOuter": null,
+        "arcEdgeInner": null,
+        "trackOuter": {
+          "stroke": "rgb(233, 238, 236)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "trackInner": {
+          "stroke": "rgb(245, 241, 217)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcOuter": {
+          "stroke": "rgb(124, 201, 191)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": "167.16 653.45",
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcInner": {
+          "stroke": "rgb(251, 216, 59)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": "490.09 490.09",
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "cardBg": "rgb(245, 251, 248)",
+        "svgRectCount": 4
+      },
+      "arcDash": [
+        "167.16 653.45",
+        "490.09 490.09"
+      ],
+      "arcEdgeDash": [],
+      "ariaLabel": "固定支出占收入 25.6%，必须偿还月供占收入 105.3%",
+      "surplus": "-¥4,255.48结构余量 · 收入 − 固定支出 − 月供占收入 -30.9%",
+      "structureTitle": "收入：我一个人打五个？",
+      "pageText": "每月固定收支\n为什么\n收入：我一个人打五个？\n-¥4,255.48\n结构余量 · 收入 − 固定支出 − 月供\n占收入 -30.9%\n收入\n¥13,791.25\n固定支出\n¥3,528.00\n占收入 25.6%\n必须偿还月供\n¥14,518.73\n占收入 105.3%\n已超出 ¥727.48\n查看固定支出\n查看债务\n本月消费\n消费详情\n支付软件：你是不是把我卸了？\n¥125.50\n本月已花 · 目标 ¥1,600.00\n剩余 ¥1,474.50\n查看本月记录",
+      "overMarks": 0,
+      "forbidden": {
+        "m27582": false,
+        "s13000": false,
+        "zero00": false
+      },
+      "state": "actual",
+      "width": 760,
+      "mode": "default",
+      "contrast": {
+        "arcOuter/trackOuter": 1.63,
+        "arcInner/trackInner": 1.23,
+        "arcEdge/trackOuter": null,
+        "arcEdge/trackInner": null,
+        "arcEdge/arcOuter": null,
+        "arcEdge/arcInner": null,
+        "edge/trackOuter": 3.46,
+        "edge/trackInner": 3.57,
+        "edge/arcOuter": 2.12,
+        "edge/arcInner": 2.9,
+        "arcEdge/cardBg": null,
+        "arcOuter/cardBg": 1.83
+      },
+      "selected": {
+        "ring": {
+          "x": 309.5,
+          "y": 270,
+          "w": 232,
+          "h": 232
+        },
+        "centre": {
+          "x": 362.03,
+          "y": 381.92,
+          "w": 126.92,
+          "h": 26.39
+        },
+        "centreClearancePx": 1.84,
+        "rows": [
+          {
+            "ring": "outer",
+            "name": "固定支出",
+            "amount": "¥3,528.00",
+            "percent": "占收入 25.6%",
+            "pressed": "true",
+            "marker": false,
+            "over": null,
+            "rowW": 543,
+            "rowH": 62.64,
+            "nameW": 396.39,
+            "nameLines": 1,
+            "amountLines": 1,
+            "percentLines": 1,
+            "overlapNameAmount": false,
+            "horizontal": true,
+            "amountFits": true
+          },
+          {
+            "ring": "inner",
+            "name": "必须偿还月供",
+            "amount": "¥14,518.73",
+            "percent": "占收入 105.3%",
+            "pressed": "false",
+            "marker": true,
+            "over": "已超出 ¥727.48",
+            "rowW": 543,
+            "rowH": 82.14,
+            "nameW": 371.08,
+            "nameLines": 1,
+            "amountLines": 1,
+            "percentLines": 1,
+            "overlapNameAmount": false,
+            "horizontal": true,
+            "amountFits": true
+          }
+        ],
+        "style": {
+          "edge": {
+            "stroke": "rgb(111, 130, 126)",
+            "strokeWidth": "1px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcEdgeOuter": null,
+          "arcEdgeInner": null,
+          "trackOuter": {
+            "stroke": "rgb(233, 238, 236)",
+            "strokeWidth": "13px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "trackInner": {
+            "stroke": "rgb(245, 241, 217)",
+            "strokeWidth": "13px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcOuter": {
+            "stroke": "rgb(124, 201, 191)",
+            "strokeWidth": "18px",
+            "opacity": "1",
+            "strokeDasharray": "167.16 653.45",
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcInner": {
+            "stroke": "rgb(251, 216, 59)",
+            "strokeWidth": "13px",
+            "opacity": "0.35",
+            "strokeDasharray": "490.09 490.09",
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "cardBg": "rgb(245, 251, 248)",
+          "svgRectCount": 4
+        },
+        "scrollWidth": 760,
+        "innerWidth": 760,
+        "ariaLabel": "固定支出占收入 25.6%，必须偿还月供占收入 105.3%",
+        "contrast": {
+          "arcOuter/trackOuter": 1.63,
+          "arcInner/trackInner": 1.23,
+          "arcEdge/trackOuter": null,
+          "arcEdge/trackInner": null,
+          "arcEdge/arcOuter": null,
+          "arcEdge/arcInner": null,
+          "edge/trackOuter": 3.46,
+          "edge/trackInner": 3.57,
+          "edge/arcOuter": 2.12,
+          "edge/arcInner": 2.9,
+          "arcEdge/cardBg": null,
+          "arcOuter/cardBg": 1.83
+        }
+      },
+      "file": "home-actual-760.png",
+      "shotHeight": 1400,
+      "problems": []
+    },
+    {
+      "view": "home",
+      "scrollWidth": 760,
+      "innerWidth": 760,
+      "docHeight": 1400,
+      "ring": {
+        "x": 308,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 308,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 414.41,
+        "y": 381.92,
+        "w": 19.17,
+        "h": 26.39
+      },
+      "centreLabel": {
+        "x": 411.5,
+        "y": 363.67,
+        "w": 25,
+        "h": 16.25
+      },
+      "dx": 0.0049999999999954525,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 44.83,
+      "centreFont": "22px",
+      "centreLines": 1,
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": null,
+      "labelFont": "12.5px",
+      "rows": [
+        {
+          "ring": "outer",
+          "name": "固定支出",
+          "amount": "¥2,500.00",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null,
+          "rowW": 546,
+          "rowH": 46.39,
+          "nameW": 399.39,
+          "nameLines": 1,
+          "amountLines": 1,
+          "percentLines": null,
+          "overlapNameAmount": false,
+          "horizontal": false,
+          "amountFits": true
+        },
+        {
+          "ring": "inner",
+          "name": "必须偿还月供",
+          "amount": "¥1,000.00",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null,
+          "rowW": 546,
+          "rowH": 46.39,
+          "nameW": 399.39,
+          "nameLines": 1,
+          "amountLines": 1,
+          "percentLines": null,
+          "overlapNameAmount": false,
+          "horizontal": false,
+          "amountFits": true
+        }
+      ],
+      "style": {
+        "edge": {
+          "stroke": "rgb(111, 130, 126)",
+          "strokeWidth": "1px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcEdgeOuter": null,
+        "arcEdgeInner": null,
+        "trackOuter": {
+          "stroke": "rgb(233, 238, 236)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "trackInner": {
+          "stroke": "rgb(245, 241, 217)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcOuter": null,
+        "arcInner": null,
+        "cardBg": "rgb(245, 251, 248)",
+        "svgRectCount": 4
+      },
+      "arcDash": [],
+      "arcEdgeDash": [],
+      "ariaLabel": "收入 —",
+      "surplus": "—结构余量 · 收入 − 固定支出 − 月供",
+      "structureTitle": "收入：暂未出场。账单：戏份拉满。",
+      "pageText": "每月固定收支\n为什么\n收入：暂未出场。账单：戏份拉满。\n—\n结构余量 · 收入 − 固定支出 − 月供\n收入\n—\n固定支出\n¥2,500.00\n必须偿还月供\n¥1,000.00\n查看固定支出\n本月消费\n消费详情\n支付软件：你是不是把我卸了？\n¥125.50\n本月已花 · 目标 ¥1,600.00\n剩余 ¥1,474.50\n查看本月记录",
+      "overMarks": 0,
+      "forbidden": {
+        "m27582": false,
+        "s13000": false,
+        "zero00": false
+      },
+      "state": "zero-burden",
+      "width": 760,
+      "mode": "default",
+      "contrast": {
+        "arcOuter/trackOuter": null,
+        "arcInner/trackInner": null,
+        "arcEdge/trackOuter": null,
+        "arcEdge/trackInner": null,
+        "arcEdge/arcOuter": null,
+        "arcEdge/arcInner": null,
+        "edge/trackOuter": 3.46,
+        "edge/trackInner": 3.57,
+        "edge/arcOuter": null,
+        "edge/arcInner": null,
+        "arcEdge/cardBg": null,
+        "arcOuter/cardBg": null
+      },
+      "selected": {
+        "ring": {
+          "x": 308,
+          "y": 270,
+          "w": 232,
+          "h": 232
+        },
+        "centre": {
+          "x": 414.41,
+          "y": 381.92,
+          "w": 19.17,
+          "h": 26.39
+        },
+        "centreClearancePx": 44.83,
+        "rows": [
+          {
+            "ring": "outer",
+            "name": "固定支出",
+            "amount": "¥2,500.00",
+            "percent": null,
+            "pressed": "true",
+            "marker": false,
+            "over": null,
+            "rowW": 546,
+            "rowH": 46.39,
+            "nameW": 399.39,
+            "nameLines": 1,
+            "amountLines": 1,
+            "percentLines": null,
+            "overlapNameAmount": false,
+            "horizontal": false,
+            "amountFits": true
+          },
+          {
+            "ring": "inner",
+            "name": "必须偿还月供",
+            "amount": "¥1,000.00",
+            "percent": null,
+            "pressed": "false",
+            "marker": false,
+            "over": null,
+            "rowW": 546,
+            "rowH": 46.39,
+            "nameW": 399.39,
+            "nameLines": 1,
+            "amountLines": 1,
+            "percentLines": null,
+            "overlapNameAmount": false,
+            "horizontal": false,
+            "amountFits": true
+          }
+        ],
+        "style": {
+          "edge": {
+            "stroke": "rgb(111, 130, 126)",
+            "strokeWidth": "1px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcEdgeOuter": null,
+          "arcEdgeInner": null,
+          "trackOuter": {
+            "stroke": "rgb(233, 238, 236)",
+            "strokeWidth": "13px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "trackInner": {
+            "stroke": "rgb(245, 241, 217)",
+            "strokeWidth": "13px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcOuter": null,
+          "arcInner": null,
+          "cardBg": "rgb(245, 251, 248)",
+          "svgRectCount": 4
+        },
+        "scrollWidth": 760,
+        "innerWidth": 760,
+        "ariaLabel": "收入 —",
+        "contrast": {
+          "arcOuter/trackOuter": null,
+          "arcInner/trackInner": null,
+          "arcEdge/trackOuter": null,
+          "arcEdge/trackInner": null,
+          "arcEdge/arcOuter": null,
+          "arcEdge/arcInner": null,
+          "edge/trackOuter": 3.46,
+          "edge/trackInner": 3.57,
+          "edge/arcOuter": null,
+          "edge/arcInner": null,
+          "arcEdge/cardBg": null,
+          "arcOuter/cardBg": null
+        }
+      },
+      "file": "home-zero-burden-760.png",
+      "shotHeight": 1400,
+      "problems": []
+    },
+    {
+      "view": "home",
+      "scrollWidth": 760,
+      "innerWidth": 760,
+      "docHeight": 1400,
+      "ring": {
+        "x": 308,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 308,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 360.53,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "centreLabel": {
+        "x": 411.5,
+        "y": 363.67,
+        "w": 25,
+        "h": 16.25
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "centreLines": 1,
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "labelFont": "12.5px",
+      "rows": [
+        {
+          "ring": "outer",
+          "name": "固定支出",
+          "amount": "¥3,528.00",
+          "percent": "占收入 27.1%",
+          "pressed": "false",
+          "marker": false,
+          "over": null,
+          "rowW": 546,
+          "rowH": 62.64,
+          "nameW": 399.39,
+          "nameLines": 1,
+          "amountLines": 1,
+          "percentLines": 1,
+          "overlapNameAmount": false,
+          "horizontal": true,
+          "amountFits": true
+        },
+        {
+          "ring": "inner",
+          "name": "必须偿还月供",
+          "amount": "待确认",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null,
+          "rowW": 546,
+          "rowH": 46.39,
+          "nameW": 446.66,
+          "nameLines": 1,
+          "amountLines": 1,
+          "percentLines": null,
+          "overlapNameAmount": false,
+          "horizontal": false,
+          "amountFits": true
+        }
+      ],
+      "style": {
+        "edge": {
+          "stroke": "rgb(111, 130, 126)",
+          "strokeWidth": "1px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcEdgeOuter": null,
+        "arcEdgeInner": null,
+        "trackOuter": {
+          "stroke": "rgb(233, 238, 236)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "trackInner": {
+          "stroke": "rgb(245, 241, 217)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcOuter": {
+          "stroke": "rgb(124, 201, 191)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": "177.34 653.45",
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcInner": null,
+        "cardBg": "rgb(245, 251, 248)",
+        "svgRectCount": 4
+      },
+      "arcDash": [
+        "177.34 653.45"
+      ],
+      "arcEdgeDash": [],
+      "ariaLabel": "固定支出占收入 27.1%，必须偿还月供 待确认",
+      "surplus": "—结构余量 · 收入 − 固定支出 − 月供",
+      "structureTitle": "资料不齐，花点时间补一下",
+      "pageText": "每月固定收支\n为什么\n资料不齐，花点时间补一下\n—\n结构余量 · 收入 − 固定支出 − 月供\n收入\n¥13,000.00\n固定支出\n¥3,528.00\n占收入 27.1%\n必须偿还月供\n待确认\n查看固定支出\n查看债务\n本月消费\n消费详情\n支付软件：你是不是把我卸了？\n¥125.50\n本月已花 · 目标 ¥1,600.00\n剩余 ¥1,474.50\n查看本月记录",
+      "overMarks": 0,
+      "forbidden": {
+        "m27582": false,
+        "s13000": true,
+        "zero00": false
+      },
+      "state": "pending",
+      "width": 760,
+      "mode": "default",
+      "contrast": {
+        "arcOuter/trackOuter": 1.63,
+        "arcInner/trackInner": null,
+        "arcEdge/trackOuter": null,
+        "arcEdge/trackInner": null,
+        "arcEdge/arcOuter": null,
+        "arcEdge/arcInner": null,
+        "edge/trackOuter": 3.46,
+        "edge/trackInner": 3.57,
+        "edge/arcOuter": 2.12,
+        "edge/arcInner": null,
+        "arcEdge/cardBg": null,
+        "arcOuter/cardBg": 1.83
+      },
+      "selected": {
+        "ring": {
+          "x": 308,
+          "y": 270,
+          "w": 232,
+          "h": 232
+        },
+        "centre": {
+          "x": 360.53,
+          "y": 381.92,
+          "w": 126.92,
+          "h": 26.39
+        },
+        "centreClearancePx": 1.84,
+        "rows": [
+          {
+            "ring": "outer",
+            "name": "固定支出",
+            "amount": "¥3,528.00",
+            "percent": "占收入 27.1%",
+            "pressed": "true",
+            "marker": false,
+            "over": null,
+            "rowW": 546,
+            "rowH": 62.64,
+            "nameW": 399.39,
+            "nameLines": 1,
+            "amountLines": 1,
+            "percentLines": 1,
+            "overlapNameAmount": false,
+            "horizontal": true,
+            "amountFits": true
+          },
+          {
+            "ring": "inner",
+            "name": "必须偿还月供",
+            "amount": "待确认",
+            "percent": null,
+            "pressed": "false",
+            "marker": false,
+            "over": null,
+            "rowW": 546,
+            "rowH": 46.39,
+            "nameW": 446.66,
+            "nameLines": 1,
+            "amountLines": 1,
+            "percentLines": null,
+            "overlapNameAmount": false,
+            "horizontal": false,
+            "amountFits": true
+          }
+        ],
+        "style": {
+          "edge": {
+            "stroke": "rgb(111, 130, 126)",
+            "strokeWidth": "1px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcEdgeOuter": null,
+          "arcEdgeInner": null,
+          "trackOuter": {
+            "stroke": "rgb(233, 238, 236)",
+            "strokeWidth": "13px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "trackInner": {
+            "stroke": "rgb(245, 241, 217)",
+            "strokeWidth": "13px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcOuter": {
+            "stroke": "rgb(124, 201, 191)",
+            "strokeWidth": "18px",
+            "opacity": "1",
+            "strokeDasharray": "177.34 653.45",
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcInner": null,
+          "cardBg": "rgb(245, 251, 248)",
+          "svgRectCount": 4
+        },
+        "scrollWidth": 760,
+        "innerWidth": 760,
+        "ariaLabel": "固定支出占收入 27.1%，必须偿还月供 待确认",
+        "contrast": {
+          "arcOuter/trackOuter": 1.63,
+          "arcInner/trackInner": null,
+          "arcEdge/trackOuter": null,
+          "arcEdge/trackInner": null,
+          "arcEdge/arcOuter": null,
+          "arcEdge/arcInner": null,
+          "edge/trackOuter": 3.46,
+          "edge/trackInner": 3.57,
+          "edge/arcOuter": 2.12,
+          "edge/arcInner": null,
+          "arcEdge/cardBg": null,
+          "arcOuter/cardBg": 1.83
+        }
+      },
+      "file": "home-pending-760.png",
+      "shotHeight": 1400,
+      "problems": []
+    },
+    {
+      "view": "home",
+      "scrollWidth": 760,
+      "innerWidth": 760,
+      "docHeight": 1400,
+      "ring": {
+        "x": 308,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 308,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 356.72,
+        "y": 368.73,
+        "w": 134.56,
+        "h": 52.78
+      },
+      "centreLabel": {
+        "x": 411.5,
+        "y": 350.48,
+        "w": 25,
+        "h": 16.25
+      },
+      "dx": 0,
+      "dy": 9.120000000000005,
+      "holeRadius": 69.12,
+      "centreClearancePx": -6.96,
+      "centreFont": "22px",
+      "centreLines": 2,
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "labelFont": "12.5px",
+      "rows": [
+        {
+          "ring": "outer",
+          "name": "固定支出",
+          "amount": "¥12,345,678.90",
+          "percent": "占收入 10%",
+          "pressed": "false",
+          "marker": false,
+          "over": null,
+          "rowW": 546,
+          "rowH": 62.64,
+          "nameW": 335.92,
+          "nameLines": 1,
+          "amountLines": 1,
+          "percentLines": 1,
+          "overlapNameAmount": false,
+          "horizontal": true,
+          "amountFits": true
+        },
+        {
+          "ring": "inner",
+          "name": "必须偿还月供",
+          "amount": "¥14,518.73",
+          "percent": "占收入 0%",
+          "pressed": "false",
+          "marker": false,
+          "over": null,
+          "rowW": 546,
+          "rowH": 62.64,
+          "nameW": 385.08,
+          "nameLines": 1,
+          "amountLines": 1,
+          "percentLines": 1,
+          "overlapNameAmount": false,
+          "horizontal": true,
+          "amountFits": true
+        }
+      ],
+      "style": {
+        "edge": {
+          "stroke": "rgb(111, 130, 126)",
+          "strokeWidth": "1px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcEdgeOuter": null,
+        "arcEdgeInner": null,
+        "trackOuter": {
+          "stroke": "rgb(233, 238, 236)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "trackInner": {
+          "stroke": "rgb(245, 241, 217)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcOuter": {
+          "stroke": "rgb(124, 201, 191)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": "65.35 653.45",
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcInner": {
+          "stroke": "rgb(251, 216, 59)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": "0.06 490.09",
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "cardBg": "rgb(245, 251, 248)",
+        "svgRectCount": 4
+      },
+      "arcDash": [
+        "65.35 653.45",
+        "0.06 490.09"
+      ],
+      "arcEdgeDash": [],
+      "ariaLabel": "固定支出占收入 10%，必须偿还月供占收入 0%",
+      "surplus": "¥111,096,591.49结构余量 · 收入 − 固定支出 − 月供占收入 90%",
+      "structureTitle": "账单：不是，他怎么还剩钱？",
+      "pageText": "每月固定收支\n为什么\n账单：不是，他怎么还剩钱？\n¥111,096,591.49\n结构余量 · 收入 − 固定支出 − 月供\n占收入 90%\n收入\n¥123,456,789.12\n固定支出\n¥12,345,678.90\n占收入 10%\n必须偿还月供\n¥14,518.73\n占收入 0%\n查看固定支出\n本月消费\n消费详情\n支付软件：你是不是把我卸了？\n¥125.50\n本月已花 · 目标 ¥1,600.00\n剩余 ¥1,474.50\n查看本月记录",
+      "overMarks": 0,
+      "forbidden": {
+        "m27582": false,
+        "s13000": false,
+        "zero00": false
+      },
+      "state": "large",
+      "width": 760,
+      "mode": "default",
+      "contrast": {
+        "arcOuter/trackOuter": 1.63,
+        "arcInner/trackInner": 1.23,
+        "arcEdge/trackOuter": null,
+        "arcEdge/trackInner": null,
+        "arcEdge/arcOuter": null,
+        "arcEdge/arcInner": null,
+        "edge/trackOuter": 3.46,
+        "edge/trackInner": 3.57,
+        "edge/arcOuter": 2.12,
+        "edge/arcInner": 2.9,
+        "arcEdge/cardBg": null,
+        "arcOuter/cardBg": 1.83
+      },
+      "selected": {
+        "ring": {
+          "x": 308,
+          "y": 270,
+          "w": 232,
+          "h": 232
+        },
+        "centre": {
+          "x": 356.72,
+          "y": 368.73,
+          "w": 134.56,
+          "h": 52.78
+        },
+        "centreClearancePx": -6.96,
+        "rows": [
+          {
+            "ring": "outer",
+            "name": "固定支出",
+            "amount": "¥12,345,678.90",
+            "percent": "占收入 10%",
+            "pressed": "true",
+            "marker": false,
+            "over": null,
+            "rowW": 546,
+            "rowH": 62.64,
+            "nameW": 335.92,
+            "nameLines": 1,
+            "amountLines": 1,
+            "percentLines": 1,
+            "overlapNameAmount": false,
+            "horizontal": true,
+            "amountFits": true
+          },
+          {
+            "ring": "inner",
+            "name": "必须偿还月供",
+            "amount": "¥14,518.73",
+            "percent": "占收入 0%",
+            "pressed": "false",
+            "marker": false,
+            "over": null,
+            "rowW": 546,
+            "rowH": 62.64,
+            "nameW": 385.08,
+            "nameLines": 1,
+            "amountLines": 1,
+            "percentLines": 1,
+            "overlapNameAmount": false,
+            "horizontal": true,
+            "amountFits": true
+          }
+        ],
+        "style": {
+          "edge": {
+            "stroke": "rgb(111, 130, 126)",
+            "strokeWidth": "1px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcEdgeOuter": null,
+          "arcEdgeInner": null,
+          "trackOuter": {
+            "stroke": "rgb(233, 238, 236)",
+            "strokeWidth": "13px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "trackInner": {
+            "stroke": "rgb(245, 241, 217)",
+            "strokeWidth": "13px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcOuter": {
+            "stroke": "rgb(124, 201, 191)",
+            "strokeWidth": "18px",
+            "opacity": "1",
+            "strokeDasharray": "65.35 653.45",
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcInner": {
+            "stroke": "rgb(251, 216, 59)",
+            "strokeWidth": "13px",
+            "opacity": "0.35",
+            "strokeDasharray": "0.06 490.09",
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "cardBg": "rgb(245, 251, 248)",
+          "svgRectCount": 4
+        },
+        "scrollWidth": 760,
+        "innerWidth": 760,
+        "ariaLabel": "固定支出占收入 10%，必须偿还月供占收入 0%",
+        "contrast": {
+          "arcOuter/trackOuter": 1.63,
+          "arcInner/trackInner": 1.23,
+          "arcEdge/trackOuter": null,
+          "arcEdge/trackInner": null,
+          "arcEdge/arcOuter": null,
+          "arcEdge/arcInner": null,
+          "edge/trackOuter": 3.46,
+          "edge/trackInner": 3.57,
+          "edge/arcOuter": 2.12,
+          "edge/arcInner": 2.9,
+          "arcEdge/cardBg": null,
+          "arcOuter/cardBg": 1.83
+        }
+      },
+      "file": "home-large-760.png",
+      "shotHeight": 1400,
+      "problems": [
+        "CLEARANCE -6.96"
+      ]
+    },
+    {
+      "view": "home",
+      "scrollWidth": 760,
+      "innerWidth": 760,
+      "docHeight": 1400,
+      "ring": {
+        "x": 309.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 309.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 362.03,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "centreLabel": {
+        "x": 413,
+        "y": 363.67,
+        "w": 25,
+        "h": 16.25
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "centreLines": 1,
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "labelFont": "12.5px",
+      "rows": [
+        {
+          "ring": "outer",
+          "name": "固定支出",
+          "amount": "¥15,600.00",
+          "percent": "占收入 120%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥2,600.00",
+          "rowW": 543,
+          "rowH": 82.14,
+          "nameW": 371.08,
+          "nameLines": 1,
+          "amountLines": 1,
+          "percentLines": 1,
+          "overlapNameAmount": false,
+          "horizontal": true,
+          "amountFits": true
+        },
+        {
+          "ring": "inner",
+          "name": "必须偿还月供",
+          "amount": "¥15,600.00",
+          "percent": "占收入 120%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥2,600.00",
+          "rowW": 543,
+          "rowH": 82.14,
+          "nameW": 371.08,
+          "nameLines": 1,
+          "amountLines": 1,
+          "percentLines": 1,
+          "overlapNameAmount": false,
+          "horizontal": true,
+          "amountFits": true
+        }
+      ],
+      "style": {
+        "edge": {
+          "stroke": "rgb(111, 130, 126)",
+          "strokeWidth": "1px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcEdgeOuter": null,
+        "arcEdgeInner": null,
+        "trackOuter": {
+          "stroke": "rgb(233, 238, 236)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "trackInner": {
+          "stroke": "rgb(245, 241, 217)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcOuter": {
+          "stroke": "rgb(124, 201, 191)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": "653.45 653.45",
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcInner": {
+          "stroke": "rgb(251, 216, 59)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": "490.09 490.09",
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "cardBg": "rgb(245, 251, 248)",
+        "svgRectCount": 4
+      },
+      "arcDash": [
+        "653.45 653.45",
+        "490.09 490.09"
+      ],
+      "arcEdgeDash": [],
+      "ariaLabel": "固定支出占收入 120%，必须偿还月供占收入 120%",
+      "surplus": "-¥18,200.00结构余量 · 收入 − 固定支出 − 月供占收入 -140%",
+      "structureTitle": "收入：我一个人打五个？",
+      "pageText": "每月固定收支\n为什么\n收入：我一个人打五个？\n-¥18,200.00\n结构余量 · 收入 − 固定支出 − 月供\n占收入 -140%\n收入\n¥13,000.00\n固定支出\n¥15,600.00\n占收入 120%\n已超出 ¥2,600.00\n必须偿还月供\n¥15,600.00\n占收入 120%\n已超出 ¥2,600.00\n查看固定支出\n查看债务\n本月消费\n消费详情\n支付软件：你是不是把我卸了？\n¥125.50\n本月已花 · 目标 ¥1,600.00\n剩余 ¥1,474.50\n查看本月记录",
+      "overMarks": 0,
+      "forbidden": {
+        "m27582": false,
+        "s13000": true,
+        "zero00": false
+      },
+      "state": "over-both",
+      "width": 760,
+      "mode": "default",
+      "contrast": {
+        "arcOuter/trackOuter": 1.63,
+        "arcInner/trackInner": 1.23,
+        "arcEdge/trackOuter": null,
+        "arcEdge/trackInner": null,
+        "arcEdge/arcOuter": null,
+        "arcEdge/arcInner": null,
+        "edge/trackOuter": 3.46,
+        "edge/trackInner": 3.57,
+        "edge/arcOuter": 2.12,
+        "edge/arcInner": 2.9,
+        "arcEdge/cardBg": null,
+        "arcOuter/cardBg": 1.83
+      },
+      "selected": {
+        "ring": {
+          "x": 309.5,
+          "y": 270,
+          "w": 232,
+          "h": 232
+        },
+        "centre": {
+          "x": 362.03,
+          "y": 381.92,
+          "w": 126.92,
+          "h": 26.39
+        },
+        "centreClearancePx": 1.84,
+        "rows": [
+          {
+            "ring": "outer",
+            "name": "固定支出",
+            "amount": "¥15,600.00",
+            "percent": "占收入 120%",
+            "pressed": "true",
+            "marker": true,
+            "over": "已超出 ¥2,600.00",
+            "rowW": 543,
+            "rowH": 82.14,
+            "nameW": 371.08,
+            "nameLines": 1,
+            "amountLines": 1,
+            "percentLines": 1,
+            "overlapNameAmount": false,
+            "horizontal": true,
+            "amountFits": true
+          },
+          {
+            "ring": "inner",
+            "name": "必须偿还月供",
+            "amount": "¥15,600.00",
+            "percent": "占收入 120%",
+            "pressed": "false",
+            "marker": true,
+            "over": "已超出 ¥2,600.00",
+            "rowW": 543,
+            "rowH": 82.14,
+            "nameW": 371.08,
+            "nameLines": 1,
+            "amountLines": 1,
+            "percentLines": 1,
+            "overlapNameAmount": false,
+            "horizontal": true,
+            "amountFits": true
+          }
+        ],
+        "style": {
+          "edge": {
+            "stroke": "rgb(111, 130, 126)",
+            "strokeWidth": "1px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcEdgeOuter": null,
+          "arcEdgeInner": null,
+          "trackOuter": {
+            "stroke": "rgb(233, 238, 236)",
+            "strokeWidth": "13px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "trackInner": {
+            "stroke": "rgb(245, 241, 217)",
+            "strokeWidth": "13px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcOuter": {
+            "stroke": "rgb(124, 201, 191)",
+            "strokeWidth": "18px",
+            "opacity": "1",
+            "strokeDasharray": "653.45 653.45",
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcInner": {
+            "stroke": "rgb(251, 216, 59)",
+            "strokeWidth": "13px",
+            "opacity": "0.35",
+            "strokeDasharray": "490.09 490.09",
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "cardBg": "rgb(245, 251, 248)",
+          "svgRectCount": 4
+        },
+        "scrollWidth": 760,
+        "innerWidth": 760,
+        "ariaLabel": "固定支出占收入 120%，必须偿还月供占收入 120%",
+        "contrast": {
+          "arcOuter/trackOuter": 1.63,
+          "arcInner/trackInner": 1.23,
+          "arcEdge/trackOuter": null,
+          "arcEdge/trackInner": null,
+          "arcEdge/arcOuter": null,
+          "arcEdge/arcInner": null,
+          "edge/trackOuter": 3.46,
+          "edge/trackInner": 3.57,
+          "edge/arcOuter": 2.12,
+          "edge/arcInner": 2.9,
+          "arcEdge/cardBg": null,
+          "arcOuter/cardBg": 1.83
+        }
+      },
+      "file": "home-over-both-760.png",
+      "shotHeight": 1400,
+      "problems": []
+    },
+    {
+      "view": "home",
+      "scrollWidth": 980,
+      "innerWidth": 980,
+      "docHeight": 1400,
+      "ring": {
+        "x": 217,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 217,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 269.53,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "centreLabel": {
+        "x": 320.5,
+        "y": 363.67,
+        "w": 25,
+        "h": 16.25
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "centreLines": 1,
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "labelFont": "12.5px",
+      "rows": [
+        {
+          "ring": "outer",
+          "name": "固定支出",
+          "amount": "¥3,528.00",
+          "percent": "占收入 25.6%",
+          "pressed": "false",
+          "marker": false,
+          "over": null,
+          "rowW": 336,
+          "rowH": 62.64,
+          "nameW": 189.39,
+          "nameLines": 1,
+          "amountLines": 1,
+          "percentLines": 1,
+          "overlapNameAmount": false,
+          "horizontal": true,
+          "amountFits": true
+        },
+        {
+          "ring": "inner",
+          "name": "必须偿还月供",
+          "amount": "¥14,518.73",
+          "percent": "占收入 105.3%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥727.48",
+          "rowW": 336,
+          "rowH": 82.14,
+          "nameW": 164.08,
+          "nameLines": 1,
+          "amountLines": 1,
+          "percentLines": 1,
+          "overlapNameAmount": false,
+          "horizontal": true,
+          "amountFits": true
+        }
+      ],
+      "style": {
+        "edge": {
+          "stroke": "rgb(111, 130, 126)",
+          "strokeWidth": "1px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcEdgeOuter": null,
+        "arcEdgeInner": null,
+        "trackOuter": {
+          "stroke": "rgb(233, 238, 236)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "trackInner": {
+          "stroke": "rgb(245, 241, 217)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcOuter": {
+          "stroke": "rgb(124, 201, 191)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": "167.16 653.45",
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcInner": {
+          "stroke": "rgb(251, 216, 59)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": "490.09 490.09",
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "cardBg": "rgb(245, 251, 248)",
+        "svgRectCount": 4
+      },
+      "arcDash": [
+        "167.16 653.45",
+        "490.09 490.09"
+      ],
+      "arcEdgeDash": [],
+      "ariaLabel": "固定支出占收入 25.6%，必须偿还月供占收入 105.3%",
+      "surplus": "-¥4,255.48结构余量 · 收入 − 固定支出 − 月供占收入 -30.9%",
+      "structureTitle": "收入：我一个人打五个？",
+      "pageText": "每月固定收支\n为什么\n收入：我一个人打五个？\n-¥4,255.48\n结构余量 · 收入 − 固定支出 − 月供\n占收入 -30.9%\n收入\n¥13,791.25\n固定支出\n¥3,528.00\n占收入 25.6%\n必须偿还月供\n¥14,518.73\n占收入 105.3%\n已超出 ¥727.48\n查看固定支出\n查看债务\n本月消费\n消费详情\n支付软件：你是不是把我卸了？\n¥125.50\n本月已花 · 目标 ¥1,600.00\n剩余 ¥1,474.50\n查看本月记录",
+      "overMarks": 0,
+      "forbidden": {
+        "m27582": false,
+        "s13000": false,
+        "zero00": false
+      },
+      "state": "actual",
+      "width": 980,
+      "mode": "default",
+      "contrast": {
+        "arcOuter/trackOuter": 1.63,
+        "arcInner/trackInner": 1.23,
+        "arcEdge/trackOuter": null,
+        "arcEdge/trackInner": null,
+        "arcEdge/arcOuter": null,
+        "arcEdge/arcInner": null,
+        "edge/trackOuter": 3.46,
+        "edge/trackInner": 3.57,
+        "edge/arcOuter": 2.12,
+        "edge/arcInner": 2.9,
+        "arcEdge/cardBg": null,
+        "arcOuter/cardBg": 1.83
+      },
+      "selected": {
+        "ring": {
+          "x": 217,
+          "y": 270,
+          "w": 232,
+          "h": 232
+        },
+        "centre": {
+          "x": 269.53,
+          "y": 381.92,
+          "w": 126.92,
+          "h": 26.39
+        },
+        "centreClearancePx": 1.84,
+        "rows": [
+          {
+            "ring": "outer",
+            "name": "固定支出",
+            "amount": "¥3,528.00",
+            "percent": "占收入 25.6%",
+            "pressed": "true",
+            "marker": false,
+            "over": null,
+            "rowW": 336,
+            "rowH": 62.64,
+            "nameW": 189.39,
+            "nameLines": 1,
+            "amountLines": 1,
+            "percentLines": 1,
+            "overlapNameAmount": false,
+            "horizontal": true,
+            "amountFits": true
+          },
+          {
+            "ring": "inner",
+            "name": "必须偿还月供",
+            "amount": "¥14,518.73",
+            "percent": "占收入 105.3%",
+            "pressed": "false",
+            "marker": true,
+            "over": "已超出 ¥727.48",
+            "rowW": 336,
+            "rowH": 82.14,
+            "nameW": 164.08,
+            "nameLines": 1,
+            "amountLines": 1,
+            "percentLines": 1,
+            "overlapNameAmount": false,
+            "horizontal": true,
+            "amountFits": true
+          }
+        ],
+        "style": {
+          "edge": {
+            "stroke": "rgb(111, 130, 126)",
+            "strokeWidth": "1px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcEdgeOuter": null,
+          "arcEdgeInner": null,
+          "trackOuter": {
+            "stroke": "rgb(233, 238, 236)",
+            "strokeWidth": "13px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "trackInner": {
+            "stroke": "rgb(245, 241, 217)",
+            "strokeWidth": "13px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcOuter": {
+            "stroke": "rgb(124, 201, 191)",
+            "strokeWidth": "18px",
+            "opacity": "1",
+            "strokeDasharray": "167.16 653.45",
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcInner": {
+            "stroke": "rgb(251, 216, 59)",
+            "strokeWidth": "13px",
+            "opacity": "0.35",
+            "strokeDasharray": "490.09 490.09",
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "cardBg": "rgb(245, 251, 248)",
+          "svgRectCount": 4
+        },
+        "scrollWidth": 980,
+        "innerWidth": 980,
+        "ariaLabel": "固定支出占收入 25.6%，必须偿还月供占收入 105.3%",
+        "contrast": {
+          "arcOuter/trackOuter": 1.63,
+          "arcInner/trackInner": 1.23,
+          "arcEdge/trackOuter": null,
+          "arcEdge/trackInner": null,
+          "arcEdge/arcOuter": null,
+          "arcEdge/arcInner": null,
+          "edge/trackOuter": 3.46,
+          "edge/trackInner": 3.57,
+          "edge/arcOuter": 2.12,
+          "edge/arcInner": 2.9,
+          "arcEdge/cardBg": null,
+          "arcOuter/cardBg": 1.83
+        }
+      },
+      "file": "home-actual-980.png",
+      "shotHeight": 1400,
+      "problems": []
+    },
+    {
+      "view": "home",
+      "scrollWidth": 980,
+      "innerWidth": 980,
+      "docHeight": 1400,
+      "ring": {
+        "x": 215.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 215.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 321.91,
+        "y": 381.92,
+        "w": 19.17,
+        "h": 26.39
+      },
+      "centreLabel": {
+        "x": 319,
+        "y": 363.67,
+        "w": 25,
+        "h": 16.25
+      },
+      "dx": 0.0049999999999954525,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 44.83,
+      "centreFont": "22px",
+      "centreLines": 1,
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": null,
+      "labelFont": "12.5px",
+      "rows": [
+        {
+          "ring": "outer",
+          "name": "固定支出",
+          "amount": "¥2,500.00",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null,
+          "rowW": 339,
+          "rowH": 46.39,
+          "nameW": 192.39,
+          "nameLines": 1,
+          "amountLines": 1,
+          "percentLines": null,
+          "overlapNameAmount": false,
+          "horizontal": false,
+          "amountFits": true
+        },
+        {
+          "ring": "inner",
+          "name": "必须偿还月供",
+          "amount": "¥1,000.00",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null,
+          "rowW": 339,
+          "rowH": 46.39,
+          "nameW": 192.39,
+          "nameLines": 1,
+          "amountLines": 1,
+          "percentLines": null,
+          "overlapNameAmount": false,
+          "horizontal": false,
+          "amountFits": true
+        }
+      ],
+      "style": {
+        "edge": {
+          "stroke": "rgb(111, 130, 126)",
+          "strokeWidth": "1px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcEdgeOuter": null,
+        "arcEdgeInner": null,
+        "trackOuter": {
+          "stroke": "rgb(233, 238, 236)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "trackInner": {
+          "stroke": "rgb(245, 241, 217)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcOuter": null,
+        "arcInner": null,
+        "cardBg": "rgb(245, 251, 248)",
+        "svgRectCount": 4
+      },
+      "arcDash": [],
+      "arcEdgeDash": [],
+      "ariaLabel": "收入 —",
+      "surplus": "—结构余量 · 收入 − 固定支出 − 月供",
+      "structureTitle": "收入：暂未出场。账单：戏份拉满。",
+      "pageText": "每月固定收支\n为什么\n收入：暂未出场。账单：戏份拉满。\n—\n结构余量 · 收入 − 固定支出 − 月供\n收入\n—\n固定支出\n¥2,500.00\n必须偿还月供\n¥1,000.00\n查看固定支出\n本月消费\n消费详情\n支付软件：你是不是把我卸了？\n¥125.50\n本月已花 · 目标 ¥1,600.00\n剩余 ¥1,474.50\n查看本月记录",
+      "overMarks": 0,
+      "forbidden": {
+        "m27582": false,
+        "s13000": false,
+        "zero00": false
+      },
+      "state": "zero-burden",
+      "width": 980,
+      "mode": "default",
+      "contrast": {
+        "arcOuter/trackOuter": null,
+        "arcInner/trackInner": null,
+        "arcEdge/trackOuter": null,
+        "arcEdge/trackInner": null,
+        "arcEdge/arcOuter": null,
+        "arcEdge/arcInner": null,
+        "edge/trackOuter": 3.46,
+        "edge/trackInner": 3.57,
+        "edge/arcOuter": null,
+        "edge/arcInner": null,
+        "arcEdge/cardBg": null,
+        "arcOuter/cardBg": null
+      },
+      "selected": {
+        "ring": {
+          "x": 215.5,
+          "y": 270,
+          "w": 232,
+          "h": 232
+        },
+        "centre": {
+          "x": 321.91,
+          "y": 381.92,
+          "w": 19.17,
+          "h": 26.39
+        },
+        "centreClearancePx": 44.83,
+        "rows": [
+          {
+            "ring": "outer",
+            "name": "固定支出",
+            "amount": "¥2,500.00",
+            "percent": null,
+            "pressed": "true",
+            "marker": false,
+            "over": null,
+            "rowW": 339,
+            "rowH": 46.39,
+            "nameW": 192.39,
+            "nameLines": 1,
+            "amountLines": 1,
+            "percentLines": null,
+            "overlapNameAmount": false,
+            "horizontal": false,
+            "amountFits": true
+          },
+          {
+            "ring": "inner",
+            "name": "必须偿还月供",
+            "amount": "¥1,000.00",
+            "percent": null,
+            "pressed": "false",
+            "marker": false,
+            "over": null,
+            "rowW": 339,
+            "rowH": 46.39,
+            "nameW": 192.39,
+            "nameLines": 1,
+            "amountLines": 1,
+            "percentLines": null,
+            "overlapNameAmount": false,
+            "horizontal": false,
+            "amountFits": true
+          }
+        ],
+        "style": {
+          "edge": {
+            "stroke": "rgb(111, 130, 126)",
+            "strokeWidth": "1px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcEdgeOuter": null,
+          "arcEdgeInner": null,
+          "trackOuter": {
+            "stroke": "rgb(233, 238, 236)",
+            "strokeWidth": "13px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "trackInner": {
+            "stroke": "rgb(245, 241, 217)",
+            "strokeWidth": "13px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcOuter": null,
+          "arcInner": null,
+          "cardBg": "rgb(245, 251, 248)",
+          "svgRectCount": 4
+        },
+        "scrollWidth": 980,
+        "innerWidth": 980,
+        "ariaLabel": "收入 —",
+        "contrast": {
+          "arcOuter/trackOuter": null,
+          "arcInner/trackInner": null,
+          "arcEdge/trackOuter": null,
+          "arcEdge/trackInner": null,
+          "arcEdge/arcOuter": null,
+          "arcEdge/arcInner": null,
+          "edge/trackOuter": 3.46,
+          "edge/trackInner": 3.57,
+          "edge/arcOuter": null,
+          "edge/arcInner": null,
+          "arcEdge/cardBg": null,
+          "arcOuter/cardBg": null
+        }
+      },
+      "file": "home-zero-burden-980.png",
+      "shotHeight": 1400,
+      "problems": []
+    },
+    {
+      "view": "home",
+      "scrollWidth": 980,
+      "innerWidth": 980,
+      "docHeight": 1400,
+      "ring": {
+        "x": 215.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 215.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 268.03,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "centreLabel": {
+        "x": 319,
+        "y": 363.67,
+        "w": 25,
+        "h": 16.25
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "centreLines": 1,
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "labelFont": "12.5px",
+      "rows": [
+        {
+          "ring": "outer",
+          "name": "固定支出",
+          "amount": "¥3,528.00",
+          "percent": "占收入 27.1%",
+          "pressed": "false",
+          "marker": false,
+          "over": null,
+          "rowW": 339,
+          "rowH": 62.64,
+          "nameW": 192.39,
+          "nameLines": 1,
+          "amountLines": 1,
+          "percentLines": 1,
+          "overlapNameAmount": false,
+          "horizontal": true,
+          "amountFits": true
+        },
+        {
+          "ring": "inner",
+          "name": "必须偿还月供",
+          "amount": "待确认",
+          "percent": null,
+          "pressed": "false",
+          "marker": false,
+          "over": null,
+          "rowW": 339,
+          "rowH": 46.39,
+          "nameW": 239.66,
+          "nameLines": 1,
+          "amountLines": 1,
+          "percentLines": null,
+          "overlapNameAmount": false,
+          "horizontal": false,
+          "amountFits": true
+        }
+      ],
+      "style": {
+        "edge": {
+          "stroke": "rgb(111, 130, 126)",
+          "strokeWidth": "1px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcEdgeOuter": null,
+        "arcEdgeInner": null,
+        "trackOuter": {
+          "stroke": "rgb(233, 238, 236)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "trackInner": {
+          "stroke": "rgb(245, 241, 217)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcOuter": {
+          "stroke": "rgb(124, 201, 191)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": "177.34 653.45",
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcInner": null,
+        "cardBg": "rgb(245, 251, 248)",
+        "svgRectCount": 4
+      },
+      "arcDash": [
+        "177.34 653.45"
+      ],
+      "arcEdgeDash": [],
+      "ariaLabel": "固定支出占收入 27.1%，必须偿还月供 待确认",
+      "surplus": "—结构余量 · 收入 − 固定支出 − 月供",
+      "structureTitle": "资料不齐，花点时间补一下",
+      "pageText": "每月固定收支\n为什么\n资料不齐，花点时间补一下\n—\n结构余量 · 收入 − 固定支出 − 月供\n收入\n¥13,000.00\n固定支出\n¥3,528.00\n占收入 27.1%\n必须偿还月供\n待确认\n查看固定支出\n查看债务\n本月消费\n消费详情\n支付软件：你是不是把我卸了？\n¥125.50\n本月已花 · 目标 ¥1,600.00\n剩余 ¥1,474.50\n查看本月记录",
+      "overMarks": 0,
+      "forbidden": {
+        "m27582": false,
+        "s13000": true,
+        "zero00": false
+      },
+      "state": "pending",
+      "width": 980,
+      "mode": "default",
+      "contrast": {
+        "arcOuter/trackOuter": 1.63,
+        "arcInner/trackInner": null,
+        "arcEdge/trackOuter": null,
+        "arcEdge/trackInner": null,
+        "arcEdge/arcOuter": null,
+        "arcEdge/arcInner": null,
+        "edge/trackOuter": 3.46,
+        "edge/trackInner": 3.57,
+        "edge/arcOuter": 2.12,
+        "edge/arcInner": null,
+        "arcEdge/cardBg": null,
+        "arcOuter/cardBg": 1.83
+      },
+      "selected": {
+        "ring": {
+          "x": 215.5,
+          "y": 270,
+          "w": 232,
+          "h": 232
+        },
+        "centre": {
+          "x": 268.03,
+          "y": 381.92,
+          "w": 126.92,
+          "h": 26.39
+        },
+        "centreClearancePx": 1.84,
+        "rows": [
+          {
+            "ring": "outer",
+            "name": "固定支出",
+            "amount": "¥3,528.00",
+            "percent": "占收入 27.1%",
+            "pressed": "true",
+            "marker": false,
+            "over": null,
+            "rowW": 339,
+            "rowH": 62.64,
+            "nameW": 192.39,
+            "nameLines": 1,
+            "amountLines": 1,
+            "percentLines": 1,
+            "overlapNameAmount": false,
+            "horizontal": true,
+            "amountFits": true
+          },
+          {
+            "ring": "inner",
+            "name": "必须偿还月供",
+            "amount": "待确认",
+            "percent": null,
+            "pressed": "false",
+            "marker": false,
+            "over": null,
+            "rowW": 339,
+            "rowH": 46.39,
+            "nameW": 239.66,
+            "nameLines": 1,
+            "amountLines": 1,
+            "percentLines": null,
+            "overlapNameAmount": false,
+            "horizontal": false,
+            "amountFits": true
+          }
+        ],
+        "style": {
+          "edge": {
+            "stroke": "rgb(111, 130, 126)",
+            "strokeWidth": "1px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcEdgeOuter": null,
+          "arcEdgeInner": null,
+          "trackOuter": {
+            "stroke": "rgb(233, 238, 236)",
+            "strokeWidth": "13px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "trackInner": {
+            "stroke": "rgb(245, 241, 217)",
+            "strokeWidth": "13px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcOuter": {
+            "stroke": "rgb(124, 201, 191)",
+            "strokeWidth": "18px",
+            "opacity": "1",
+            "strokeDasharray": "177.34 653.45",
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcInner": null,
+          "cardBg": "rgb(245, 251, 248)",
+          "svgRectCount": 4
+        },
+        "scrollWidth": 980,
+        "innerWidth": 980,
+        "ariaLabel": "固定支出占收入 27.1%，必须偿还月供 待确认",
+        "contrast": {
+          "arcOuter/trackOuter": 1.63,
+          "arcInner/trackInner": null,
+          "arcEdge/trackOuter": null,
+          "arcEdge/trackInner": null,
+          "arcEdge/arcOuter": null,
+          "arcEdge/arcInner": null,
+          "edge/trackOuter": 3.46,
+          "edge/trackInner": 3.57,
+          "edge/arcOuter": 2.12,
+          "edge/arcInner": null,
+          "arcEdge/cardBg": null,
+          "arcOuter/cardBg": 1.83
+        }
+      },
+      "file": "home-pending-980.png",
+      "shotHeight": 1400,
+      "problems": []
+    },
+    {
+      "view": "home",
+      "scrollWidth": 980,
+      "innerWidth": 980,
+      "docHeight": 1400,
+      "ring": {
+        "x": 215.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 215.5,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 264.22,
+        "y": 368.73,
+        "w": 134.56,
+        "h": 52.78
+      },
+      "centreLabel": {
+        "x": 319,
+        "y": 350.48,
+        "w": 25,
+        "h": 16.25
+      },
+      "dx": 0,
+      "dy": 9.120000000000005,
+      "holeRadius": 69.12,
+      "centreClearancePx": -6.96,
+      "centreFont": "22px",
+      "centreLines": 2,
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "labelFont": "12.5px",
+      "rows": [
+        {
+          "ring": "outer",
+          "name": "固定支出",
+          "amount": "¥12,345,678.90",
+          "percent": "占收入 10%",
+          "pressed": "false",
+          "marker": false,
+          "over": null,
+          "rowW": 339,
+          "rowH": 62.64,
+          "nameW": 128.92,
+          "nameLines": 1,
+          "amountLines": 1,
+          "percentLines": 1,
+          "overlapNameAmount": false,
+          "horizontal": true,
+          "amountFits": true
+        },
+        {
+          "ring": "inner",
+          "name": "必须偿还月供",
+          "amount": "¥14,518.73",
+          "percent": "占收入 0%",
+          "pressed": "false",
+          "marker": false,
+          "over": null,
+          "rowW": 339,
+          "rowH": 62.64,
+          "nameW": 178.08,
+          "nameLines": 1,
+          "amountLines": 1,
+          "percentLines": 1,
+          "overlapNameAmount": false,
+          "horizontal": true,
+          "amountFits": true
+        }
+      ],
+      "style": {
+        "edge": {
+          "stroke": "rgb(111, 130, 126)",
+          "strokeWidth": "1px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcEdgeOuter": null,
+        "arcEdgeInner": null,
+        "trackOuter": {
+          "stroke": "rgb(233, 238, 236)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "trackInner": {
+          "stroke": "rgb(245, 241, 217)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcOuter": {
+          "stroke": "rgb(124, 201, 191)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": "65.35 653.45",
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcInner": {
+          "stroke": "rgb(251, 216, 59)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": "0.06 490.09",
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "cardBg": "rgb(245, 251, 248)",
+        "svgRectCount": 4
+      },
+      "arcDash": [
+        "65.35 653.45",
+        "0.06 490.09"
+      ],
+      "arcEdgeDash": [],
+      "ariaLabel": "固定支出占收入 10%，必须偿还月供占收入 0%",
+      "surplus": "¥111,096,591.49结构余量 · 收入 − 固定支出 − 月供占收入 90%",
+      "structureTitle": "账单：不是，他怎么还剩钱？",
+      "pageText": "每月固定收支\n为什么\n账单：不是，他怎么还剩钱？\n¥111,096,591.49\n结构余量 · 收入 − 固定支出 − 月供\n占收入 90%\n收入\n¥123,456,789.12\n固定支出\n¥12,345,678.90\n占收入 10%\n必须偿还月供\n¥14,518.73\n占收入 0%\n查看固定支出\n本月消费\n消费详情\n支付软件：你是不是把我卸了？\n¥125.50\n本月已花 · 目标 ¥1,600.00\n剩余 ¥1,474.50\n查看本月记录",
+      "overMarks": 0,
+      "forbidden": {
+        "m27582": false,
+        "s13000": false,
+        "zero00": false
+      },
+      "state": "large",
+      "width": 980,
+      "mode": "default",
+      "contrast": {
+        "arcOuter/trackOuter": 1.63,
+        "arcInner/trackInner": 1.23,
+        "arcEdge/trackOuter": null,
+        "arcEdge/trackInner": null,
+        "arcEdge/arcOuter": null,
+        "arcEdge/arcInner": null,
+        "edge/trackOuter": 3.46,
+        "edge/trackInner": 3.57,
+        "edge/arcOuter": 2.12,
+        "edge/arcInner": 2.9,
+        "arcEdge/cardBg": null,
+        "arcOuter/cardBg": 1.83
+      },
+      "selected": {
+        "ring": {
+          "x": 215.5,
+          "y": 270,
+          "w": 232,
+          "h": 232
+        },
+        "centre": {
+          "x": 264.22,
+          "y": 368.73,
+          "w": 134.56,
+          "h": 52.78
+        },
+        "centreClearancePx": -6.96,
+        "rows": [
+          {
+            "ring": "outer",
+            "name": "固定支出",
+            "amount": "¥12,345,678.90",
+            "percent": "占收入 10%",
+            "pressed": "true",
+            "marker": false,
+            "over": null,
+            "rowW": 339,
+            "rowH": 62.64,
+            "nameW": 128.92,
+            "nameLines": 1,
+            "amountLines": 1,
+            "percentLines": 1,
+            "overlapNameAmount": false,
+            "horizontal": true,
+            "amountFits": true
+          },
+          {
+            "ring": "inner",
+            "name": "必须偿还月供",
+            "amount": "¥14,518.73",
+            "percent": "占收入 0%",
+            "pressed": "false",
+            "marker": false,
+            "over": null,
+            "rowW": 339,
+            "rowH": 62.64,
+            "nameW": 178.08,
+            "nameLines": 1,
+            "amountLines": 1,
+            "percentLines": 1,
+            "overlapNameAmount": false,
+            "horizontal": true,
+            "amountFits": true
+          }
+        ],
+        "style": {
+          "edge": {
+            "stroke": "rgb(111, 130, 126)",
+            "strokeWidth": "1px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcEdgeOuter": null,
+          "arcEdgeInner": null,
+          "trackOuter": {
+            "stroke": "rgb(233, 238, 236)",
+            "strokeWidth": "13px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "trackInner": {
+            "stroke": "rgb(245, 241, 217)",
+            "strokeWidth": "13px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcOuter": {
+            "stroke": "rgb(124, 201, 191)",
+            "strokeWidth": "18px",
+            "opacity": "1",
+            "strokeDasharray": "65.35 653.45",
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcInner": {
+            "stroke": "rgb(251, 216, 59)",
+            "strokeWidth": "13px",
+            "opacity": "0.35",
+            "strokeDasharray": "0.06 490.09",
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "cardBg": "rgb(245, 251, 248)",
+          "svgRectCount": 4
+        },
+        "scrollWidth": 980,
+        "innerWidth": 980,
+        "ariaLabel": "固定支出占收入 10%，必须偿还月供占收入 0%",
+        "contrast": {
+          "arcOuter/trackOuter": 1.63,
+          "arcInner/trackInner": 1.23,
+          "arcEdge/trackOuter": null,
+          "arcEdge/trackInner": null,
+          "arcEdge/arcOuter": null,
+          "arcEdge/arcInner": null,
+          "edge/trackOuter": 3.46,
+          "edge/trackInner": 3.57,
+          "edge/arcOuter": 2.12,
+          "edge/arcInner": 2.9,
+          "arcEdge/cardBg": null,
+          "arcOuter/cardBg": 1.83
+        }
+      },
+      "file": "home-large-980.png",
+      "shotHeight": 1400,
+      "problems": [
+        "CLEARANCE -6.96"
+      ]
+    },
+    {
+      "view": "home",
+      "scrollWidth": 980,
+      "innerWidth": 980,
+      "docHeight": 1400,
+      "ring": {
+        "x": 217,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "chart": {
+        "x": 217,
+        "y": 270,
+        "w": 232,
+        "h": 232
+      },
+      "centre": {
+        "x": 269.53,
+        "y": 381.92,
+        "w": 126.92,
+        "h": 26.39
+      },
+      "centreLabel": {
+        "x": 320.5,
+        "y": 363.67,
+        "w": 25,
+        "h": 16.25
+      },
+      "dx": 0.010000000000047748,
+      "dy": 9.115000000000009,
+      "holeRadius": 69.12,
+      "centreClearancePx": 1.84,
+      "centreFont": "22px",
+      "centreLines": 1,
+      "amountFont": "22px",
+      "rowFont": "16px",
+      "percentFont": "12.5px",
+      "labelFont": "12.5px",
+      "rows": [
+        {
+          "ring": "outer",
+          "name": "固定支出",
+          "amount": "¥15,600.00",
+          "percent": "占收入 120%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥2,600.00",
+          "rowW": 336,
+          "rowH": 82.14,
+          "nameW": 164.08,
+          "nameLines": 1,
+          "amountLines": 1,
+          "percentLines": 1,
+          "overlapNameAmount": false,
+          "horizontal": true,
+          "amountFits": true
+        },
+        {
+          "ring": "inner",
+          "name": "必须偿还月供",
+          "amount": "¥15,600.00",
+          "percent": "占收入 120%",
+          "pressed": "false",
+          "marker": true,
+          "over": "已超出 ¥2,600.00",
+          "rowW": 336,
+          "rowH": 82.14,
+          "nameW": 164.08,
+          "nameLines": 1,
+          "amountLines": 1,
+          "percentLines": 1,
+          "overlapNameAmount": false,
+          "horizontal": true,
+          "amountFits": true
+        }
+      ],
+      "style": {
+        "edge": {
+          "stroke": "rgb(111, 130, 126)",
+          "strokeWidth": "1px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcEdgeOuter": null,
+        "arcEdgeInner": null,
+        "trackOuter": {
+          "stroke": "rgb(233, 238, 236)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "trackInner": {
+          "stroke": "rgb(245, 241, 217)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": null,
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcOuter": {
+          "stroke": "rgb(124, 201, 191)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": "653.45 653.45",
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "arcInner": {
+          "stroke": "rgb(251, 216, 59)",
+          "strokeWidth": "13px",
+          "opacity": "1",
+          "strokeDasharray": "490.09 490.09",
+          "strokeDashoffset": null,
+          "linecap": "butt"
+        },
+        "cardBg": "rgb(245, 251, 248)",
+        "svgRectCount": 4
+      },
+      "arcDash": [
+        "653.45 653.45",
+        "490.09 490.09"
+      ],
+      "arcEdgeDash": [],
+      "ariaLabel": "固定支出占收入 120%，必须偿还月供占收入 120%",
+      "surplus": "-¥18,200.00结构余量 · 收入 − 固定支出 − 月供占收入 -140%",
+      "structureTitle": "收入：我一个人打五个？",
+      "pageText": "每月固定收支\n为什么\n收入：我一个人打五个？\n-¥18,200.00\n结构余量 · 收入 − 固定支出 − 月供\n占收入 -140%\n收入\n¥13,000.00\n固定支出\n¥15,600.00\n占收入 120%\n已超出 ¥2,600.00\n必须偿还月供\n¥15,600.00\n占收入 120%\n已超出 ¥2,600.00\n查看固定支出\n查看债务\n本月消费\n消费详情\n支付软件：你是不是把我卸了？\n¥125.50\n本月已花 · 目标 ¥1,600.00\n剩余 ¥1,474.50\n查看本月记录",
+      "overMarks": 0,
+      "forbidden": {
+        "m27582": false,
+        "s13000": true,
+        "zero00": false
+      },
+      "state": "over-both",
+      "width": 980,
+      "mode": "default",
+      "contrast": {
+        "arcOuter/trackOuter": 1.63,
+        "arcInner/trackInner": 1.23,
+        "arcEdge/trackOuter": null,
+        "arcEdge/trackInner": null,
+        "arcEdge/arcOuter": null,
+        "arcEdge/arcInner": null,
+        "edge/trackOuter": 3.46,
+        "edge/trackInner": 3.57,
+        "edge/arcOuter": 2.12,
+        "edge/arcInner": 2.9,
+        "arcEdge/cardBg": null,
+        "arcOuter/cardBg": 1.83
+      },
+      "selected": {
+        "ring": {
+          "x": 217,
+          "y": 270,
+          "w": 232,
+          "h": 232
+        },
+        "centre": {
+          "x": 269.53,
+          "y": 381.92,
+          "w": 126.92,
+          "h": 26.39
+        },
+        "centreClearancePx": 1.84,
+        "rows": [
+          {
+            "ring": "outer",
+            "name": "固定支出",
+            "amount": "¥15,600.00",
+            "percent": "占收入 120%",
+            "pressed": "true",
+            "marker": true,
+            "over": "已超出 ¥2,600.00",
+            "rowW": 336,
+            "rowH": 82.14,
+            "nameW": 164.08,
+            "nameLines": 1,
+            "amountLines": 1,
+            "percentLines": 1,
+            "overlapNameAmount": false,
+            "horizontal": true,
+            "amountFits": true
+          },
+          {
+            "ring": "inner",
+            "name": "必须偿还月供",
+            "amount": "¥15,600.00",
+            "percent": "占收入 120%",
+            "pressed": "false",
+            "marker": true,
+            "over": "已超出 ¥2,600.00",
+            "rowW": 336,
+            "rowH": 82.14,
+            "nameW": 164.08,
+            "nameLines": 1,
+            "amountLines": 1,
+            "percentLines": 1,
+            "overlapNameAmount": false,
+            "horizontal": true,
+            "amountFits": true
+          }
+        ],
+        "style": {
+          "edge": {
+            "stroke": "rgb(111, 130, 126)",
+            "strokeWidth": "1px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcEdgeOuter": null,
+          "arcEdgeInner": null,
+          "trackOuter": {
+            "stroke": "rgb(233, 238, 236)",
+            "strokeWidth": "13px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "trackInner": {
+            "stroke": "rgb(245, 241, 217)",
+            "strokeWidth": "13px",
+            "opacity": "1",
+            "strokeDasharray": null,
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcOuter": {
+            "stroke": "rgb(124, 201, 191)",
+            "strokeWidth": "18px",
+            "opacity": "1",
+            "strokeDasharray": "653.45 653.45",
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "arcInner": {
+            "stroke": "rgb(251, 216, 59)",
+            "strokeWidth": "13px",
+            "opacity": "0.35",
+            "strokeDasharray": "490.09 490.09",
+            "strokeDashoffset": null,
+            "linecap": "butt"
+          },
+          "cardBg": "rgb(245, 251, 248)",
+          "svgRectCount": 4
+        },
+        "scrollWidth": 980,
+        "innerWidth": 980,
+        "ariaLabel": "固定支出占收入 120%，必须偿还月供占收入 120%",
+        "contrast": {
+          "arcOuter/trackOuter": 1.63,
+          "arcInner/trackInner": 1.23,
+          "arcEdge/trackOuter": null,
+          "arcEdge/trackInner": null,
+          "arcEdge/arcOuter": null,
+          "arcEdge/arcInner": null,
+          "edge/trackOuter": 3.46,
+          "edge/trackInner": 3.57,
+          "edge/arcOuter": 2.12,
+          "edge/arcInner": 2.9,
+          "arcEdge/cardBg": null,
+          "arcOuter/cardBg": 1.83
+        }
+      },
+      "file": "home-over-both-980.png",
+      "shotHeight": 1400,
+      "problems": []
+    }
+  ],
+  "problems": [
+    {
+      "state": "large",
+      "width": 390,
+      "problems": [
+        "CLEARANCE -6.96"
+      ]
+    },
+    {
+      "state": "large",
+      "width": 760,
+      "problems": [
+        "CLEARANCE -6.96"
+      ]
+    },
+    {
+      "state": "large",
+      "width": 980,
+      "problems": [
+        "CLEARANCE -6.96"
+      ]
+    }
+  ],
+  "exceptions": [],
+  "remote": []
+}

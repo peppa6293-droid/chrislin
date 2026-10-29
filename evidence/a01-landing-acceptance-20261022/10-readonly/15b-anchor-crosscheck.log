@@ -1,0 +1,38 @@
+== A01 §2 dashboard anchor cross-check (read-only) ==
+timestamp_utc=2026-10-22T07:31:04Z
+db=/Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3
+
+-- V2 income_entries (dashboard income source) --
+0|0
+
+-- V2 expenses (dashboard spent source) --
+0|0
+
+-- V1 income_records (home screen source) --
+id                                    kind      status    amount  date        period_month
+------------------------------------  --------  --------  ------  ----------  ------------
+748d415a-7561-4f2d-b9cb-0d80f1ca99fe  PLANNING  EXPECTED  13000   2026-10-04              
+
+-- cash accounts: latest balance per account + account cash total --
+name          in_safety  reserved_amount  latest_balance
+------------  ---------  ---------------  --------------
+上海银行      1          0.00             0             
+余额宝        1          0.00             4805.61       
+农业银行      1          0.00             0             
+房租专用资金  0          0.00             3800          
+8605.61
+
+-- assets: latest value + total --
+name        kind               in_safety  latest_value
+----------  -----------------  ---------  ------------
+支付宝基金  LIQUID_INVESTMENT  1          3842        
+短期理财 1  LIQUID_INVESTMENT  0          10000       
+短期理财 2  LIQUID_INVESTMENT  0          7000        
+短期理财 3  LIQUID_INVESTMENT  0          3000        
+23842.00
+
+-- safety resources per app rule: eligible cash + LIQUID_INVESTMENT eligible assets --
+8647.61
+0.00
+
+expected_A01: income=13791.25 recurring=12791.25 account_cash=5325.93 safety=25325.93 free=21525.93

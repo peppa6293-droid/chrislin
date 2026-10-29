@@ -1,0 +1,13 @@
+{
+  "prepared": true,
+  "auditDir": "/Users/linte/Library/Application Support/com.personalfinance.console/production-v8-hotfix-audit/ux-revamp-20261023",
+  "backupDir": "/Users/linte/Library/Application Support/com.personalfinance.console/backups/pre-ux-revamp-gate-20261023T041639",
+  "before": {
+    "terminal": "61457ae72f493c6f832cf68f4b348f9b2e262123c6b7903ae8edc9cbaeda64b7",
+    "receipt": "66dc64e66612ef3471862d43c0967672e09901368600c42e7d4acdfb6ac0d9db",
+    "ledger": "8a15ea3130afff8aaf9d4cc579179fcb3a22b35023a17a3eea189cb5a2c6a7fe",
+    "rotations": "6d7952953c2a6cafe44bb58c3a275b68ec6a0891269e431a1e16ff4ea0cfeab3",
+    "authorization": "a734e2e7e99a0164b902fcd6f588c1c4421cddc6b5a61261a1b865dff73e094f"
+  },
+  "authorizationSha256": "438e9a51a4a40b721495b23d45d7e53db96ac42e256d1c3f991766dbc2df7c21"
+}

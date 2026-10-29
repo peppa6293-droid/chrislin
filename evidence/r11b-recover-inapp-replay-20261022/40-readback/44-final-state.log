@@ -1,0 +1,18 @@
+# final state after relaunch verification + clean quit
+2026-10-22 20:51:48 +0800
+
+-- process --
+NO_PROCESS
+-- db sha256 --
+8cfe86bcf0fa5640e49f8b720092177757ff74adf9908b1ca68172f77b8d8dd0  /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3
+-- db sha256 after quit vs after replay --
+after replay (20:47): 8cfe86bcf0fa5640e49f8b720092177757ff74adf9908b1ca68172f77b8d8dd0
+-- sidecars --
+NONE
+
+-- code/package unchanged --
+  NO_CHANGES_IN_SRC
+
+-- package --
+drwxr-xr-x@ 3 linte  admin  96 Oct 22 14:27 /Applications/Personal Finance Console.app
+  mtime: 2026-10-22 14:27:26

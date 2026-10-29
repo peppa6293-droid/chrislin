@@ -1,0 +1,73 @@
+# R11B final readback (read-only, revision tables are the app's source of truth)
+# timestamp: 2026-10-22 20:51:27 +0800
+# db: /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3
+# db sha256: 8cfe86bcf0fa5640e49f8b720092177757ff74adf9908b1ca68172f77b8d8dd0
+
+## integrity
+ok
+
+## cash account latest revisions + effective active
+account       balance  in_safety  eff_active  revision_date
+------------  -------  ---------  ----------  -------------
+上海银行      4.44     1          1           2026-10-22   
+余额宝        168.57   1          1           2026-10-22   
+农业银行      5097.04  1          1           2026-10-22   
+微信零钱      55.88    1          1           2026-10-22   
+房租专用资金                      0                        
+
+## cash total (effective active)
+5325.93
+
+## asset latest revisions
+asset       value  kind               in_safety  active  revision_date
+----------  -----  -----------------  ---------  ------  -------------
+支付宝基金  0      LIQUID_INVESTMENT  1          1       2026-10-22   
+短期理财 1  10000  OTHER              0          1       2026-10-04   
+短期理财 2  7000   OTHER              0          1       2026-10-04   
+短期理财 3  3000   OTHER              0          1       2026-10-04   
+证券账户    20000  LIQUID_INVESTMENT  1          1       2026-10-22   
+
+## safety resources total
+25325.93
+
+## lifecycle revisions
+account       as_of_date  active
+------------  ----------  ------
+房租专用资金  2026-10-22  0     
+
+## reserved amounts
+name          reserved_amount
+------------  ---------------
+上海银行      0.00           
+余额宝        0.00           
+农业银行      0.00           
+微信零钱      0.00           
+房租专用资金  0.00           
+reserved_total: 0.00
+
+## debts
+debt_count: 5
+period_month  balance    due     
+------------  ---------  --------
+2026-10       172579.53  14518.73
+2026-11       157228.31  8851.03 
+
+## V2 gap state
+income_entries: 0
+fixed_expense_plans: 0
+
+## red-line tables (must be unchanged)
+expense_records: 1
+expenses: 0
+import_batches: 0
+expense_categories: 6
+income_records: 1
+essential_expense_items: 3
+
+## snapshot tables (informational: app now reads revisions)
+as_of_date  rows
+----------  ----
+2026-10-04  4   
+as_of_date  rows
+----------  ----
+2026-10-04  4   

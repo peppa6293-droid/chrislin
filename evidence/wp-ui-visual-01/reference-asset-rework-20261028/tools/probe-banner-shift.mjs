@@ -1,0 +1,74 @@
+// Evidence-correction probe (C-2, pending-1000): measure review banner height vs first-module y.
+// Usage: node probe-banner-shift.mjs --root <asset dir> --label before|after
+import { spawn } from 'node:child_process';
+import { mkdtemp, readFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { tmpdir } from 'node:os';
+
+const args = Object.fromEntries(process.argv.slice(2).reduce((acc, cur, i, arr) => {
+  if (cur.startsWith('--')) acc.push([cur.slice(2), arr[i + 1]]);
+  return acc;
+}, []));
+const asset = resolve(args.root);
+const label = args.label || 'run';
+
+const profile = await mkdtemp(resolve(tmpdir(), 'xqj-banner-'));
+const chrome = spawn('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', [
+  '--headless=new', '--disable-gpu', '--hide-scrollbars', '--no-first-run', '--no-default-browser-check',
+  '--remote-debugging-port=0', `--user-data-dir=${profile}`, 'about:blank',
+], { stdio: 'ignore' });
+
+try {
+  let port;
+  for (let i = 0; i < 120; i++) {
+    try { port = (await readFile(resolve(profile, 'DevToolsActivePort'), 'utf8')).split('\n')[0]; break; }
+    catch { await new Promise(r => setTimeout(r, 50)); }
+  }
+  if (!port) throw new Error('Chrome did not expose its debugging port');
+  const targets = await fetch(`http://127.0.0.1:${port}/json/list`).then(r => r.json());
+  const socket = new WebSocket(targets.find(t => t.type === 'page').webSocketDebuggerUrl);
+  await new Promise((res, rej) => { socket.addEventListener('open', res, { once: true }); socket.addEventListener('error', rej, { once: true }); });
+  let seq = 0;
+  const waiting = new Map();
+  socket.addEventListener('message', ({ data }) => {
+    const m = JSON.parse(data);
+    if (m.id && waiting.has(m.id)) { const w = waiting.get(m.id); waiting.delete(m.id); m.error ? w.rej(new Error(m.error.message)) : w.res(m.result); }
+  });
+  const send = (method, params = {}) => new Promise((res, rej) => {
+    const id = ++seq; waiting.set(id, { res, rej });
+    socket.send(JSON.stringify({ id, method, params }));
+  });
+  const evaluate = async expr => {
+    const r = await send('Runtime.evaluate', { expression: expr, returnByValue: true, awaitPromise: true });
+    if (r.exceptionDetails) throw new Error(r.exceptionDetails.text);
+    return r.result.value;
+  };
+  await send('Page.enable'); await send('Runtime.enable');
+  await send('Emulation.setDeviceMetricsOverride', { width: 1000, height: 1100, deviceScaleFactor: 1, mobile: false, screenWidth: 1000, screenHeight: 1100 });
+
+  const url = pathToFileURL(resolve(asset, 'index.html'));
+  url.search = 'state=pending&view=review&notes=open';
+  await send('Page.navigate', { url: url.href });
+  for (let i = 0; i < 80; i++) {
+    try { if (await evaluate(`document.readyState==='complete' && !!window.visualReference`)) break; } catch {}
+    await new Promise(r => setTimeout(r, 40));
+  }
+  await evaluate('document.fonts.ready'); await new Promise(r => setTimeout(r, 80));
+  const out = await evaluate(`(() => {
+    const box = s => { const el = document.querySelector(s); if (!el) return null; const r = el.getBoundingClientRect(); return { y: +r.top.toFixed(1), height: +r.height.toFixed(1), bottom: +r.bottom.toFixed(1) }; };
+    return {
+      viewport: innerWidth + 'x' + innerHeight,
+      docHeight: document.documentElement.scrollHeight,
+      reviewTools: box('.review-tools'),
+      annotationPanel: box('.annotation-panel'),
+      annotationText: document.querySelector('.annotation-panel')?.innerText.replace(/\s+/g, ' ').trim().slice(0, 80) ?? null,
+      content: box('.content'), heading: box('.heading'),
+      reviewText: document.querySelector('.review-tools')?.innerText.replace(/\\s+/g, ' ').trim().slice(0, 120) ?? null,
+      hero: box('.hero'), firstModule: box('.module'), modules: box('.modules'),
+    };
+  })()`);
+  console.log(JSON.stringify({ label, root: asset, ...out }, null, 1));
+} finally {
+  chrome.kill('SIGKILL');
+}

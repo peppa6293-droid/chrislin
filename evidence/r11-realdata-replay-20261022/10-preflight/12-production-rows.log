@@ -1,0 +1,44 @@
+=== production cash_accounts ===
+id|profile_id|name|include_in_safety_resources|active|created_at|reserved_amount
+3787daaa-35da-4ccd-a28c-954fda066bfe|ffb61fa9-1206-4bdd-923b-7e440468139c|农业银行|1|1|2026-10-04T00:00:00.000Z|0.00
+a0c23914-394e-444b-b8b9-de95ec931712|ffb61fa9-1206-4bdd-923b-7e440468139c|房租专用资金|0|1|2026-10-04T00:00:00.000Z|0.00
+c5e4626f-137d-40c7-bbb5-1cd0c0c11846|ffb61fa9-1206-4bdd-923b-7e440468139c|上海银行|1|1|2026-10-04T00:00:00.000Z|0.00
+cd4f47d0-f811-4c65-9188-bd51aa6b2d91|ffb61fa9-1206-4bdd-923b-7e440468139c|余额宝|1|1|2026-10-04T00:00:00.000Z|0.00
+=== production cash_balance_snapshots ===
+id|account_id|as_of_date|balance|created_at
+24004315-bfc2-4f81-9ebb-279cf17b4b49|c5e4626f-137d-40c7-bbb5-1cd0c0c11846|2026-10-04|0|2026-10-04T00:00:00.000Z
+4b01ecf3-d618-429f-a212-3a12bc2b56d7|cd4f47d0-f811-4c65-9188-bd51aa6b2d91|2026-10-04|4805.61|2026-10-04T00:00:00.000Z
+768f28b9-e5c4-45c6-b03f-fbfaf2d4ba1f|3787daaa-35da-4ccd-a28c-954fda066bfe|2026-10-04|0|2026-10-04T00:00:00.000Z
+f5f7ebff-022a-4a78-80bf-1f7ee319c8ef|a0c23914-394e-444b-b8b9-de95ec931712|2026-10-04|3800|2026-10-04T00:00:00.000Z
+=== production cash_account_lifecycle_revisions ===
+=== production assets ===
+id|profile_id|name|kind|include_in_safety_resources|active|created_at
+36ae96f9-828d-43ca-b7f8-6736b52d80e1|ffb61fa9-1206-4bdd-923b-7e440468139c|短期理财 1|LIQUID_INVESTMENT|0|1|2026-10-04T00:00:00.000Z
+950288d5-4fd6-456e-a16b-a9245005d7c7|ffb61fa9-1206-4bdd-923b-7e440468139c|支付宝基金|LIQUID_INVESTMENT|1|1|2026-10-04T00:00:00.000Z
+ac8b550c-20d4-45d9-8032-872c55d048a9|ffb61fa9-1206-4bdd-923b-7e440468139c|短期理财 3|LIQUID_INVESTMENT|0|1|2026-10-04T00:00:00.000Z
+ea61e164-e064-4e35-8999-b0900881b5d1|ffb61fa9-1206-4bdd-923b-7e440468139c|短期理财 2|LIQUID_INVESTMENT|0|1|2026-10-04T00:00:00.000Z
+=== production asset_value_snapshots ===
+id|asset_id|as_of_date|value|created_at
+1a6a00ec-204e-4658-a5a5-5c925850cd6b|ac8b550c-20d4-45d9-8032-872c55d048a9|2026-10-04|3000|2026-10-04T00:00:00.000Z
+1cccc6c3-8758-46df-be95-8709960aa73c|ea61e164-e064-4e35-8999-b0900881b5d1|2026-10-04|7000|2026-10-04T00:00:00.000Z
+494bec41-f914-4839-8f1a-2571028c986b|950288d5-4fd6-456e-a16b-a9245005d7c7|2026-10-04|3842|2026-10-04T00:00:00.000Z
+d39d0f27-395a-425d-8275-e9708c775e2e|36ae96f9-828d-43ca-b7f8-6736b52d80e1|2026-10-04|10000|2026-10-04T00:00:00.000Z
+=== production income_entries ===
+=== production fixed_expense_plans ===
+=== production income_records (V1, readonly context) ===
+id|profile_id|kind|status|amount|date|period_month|created_at
+748d415a-7561-4f2d-b9cb-0d80f1ca99fe|ffb61fa9-1206-4bdd-923b-7e440468139c|PLANNING|EXPECTED|13000|2026-10-04||2026-10-04T00:00:00.000Z
+=== production debts summary (must not change) ===
+id|name
+2a6a027d-806d-44f8-92e0-131f78c6d14b|美团月付
+5f50bd18-7b79-49aa-a0da-fa8a19555a69|浦发车贷
+6ab6256a-fe7b-450b-9853-f55c8402f92b|招商分期
+a1ff0b1a-2a5f-4980-a058-9af7bf79249b|京东白条
+c7fa0eae-c78a-4d0d-8031-bbf80c523d23|花呗
+Error: in prepare, no such column: remaining_balance
+  SELECT COUNT(*), SUM(COALESCE(remaining_balance,'0')) FROM debt_period_facts
+                  error here ---^
+=== production debt_period_facts period check ===
+Error: in prepare, no such column: remaining_principal
+  SELECT period_month, COUNT(*), SUM(remaining_principal), SUM(amount_due) FROM 
+                       error here ---^

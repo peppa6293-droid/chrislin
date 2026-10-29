@@ -290,28 +290,3 @@
   border-radius: var(--v2-radius-lg);
   box-shadow: var(--v2-shadow-float);
 }
-
-.v2-dots {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.v2-dot {
-  width: 10px;
-  height: 10px;
-  background: var(--v2-line-strong);
-  border-radius: 50%;
-}
-
-.v2-dot.is-on {
-  background: var(--v2-teal);
-}
-
-.v2-dot.is-warn {
-  background: var(--v2-yellow);
-}
-
-.v2-dot.is-over {
-  background: var(--v2-coral);
-}

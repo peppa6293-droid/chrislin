@@ -1,0 +1,2 @@
+980f1df5f1995237ccdaa3bf8f0d65ae67c9e3479d816f40dddfa5437faef51e  /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3
+-rw-r--r--@ 1 linte  staff  1282048 Oct 23 10:03 /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3

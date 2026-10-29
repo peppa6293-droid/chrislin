@@ -1,0 +1,4 @@
+65dc1e6593759414f76c76b9f3f6b81ab14910fe5d663cef394580314b879ef0  src/ui/V2StructureRings.tsx
+224a0a9af015117419cb7ac6edd7d008627a58eb154f8d9d4f920b8bb9ec4f9e  src/ui/v2-structure-ring.css
+16192b2ea71caf44d1c130243b78d2efa722d68e919a602b20c0824b7e6e1eed  src/ui/v2-fixed-page.css
+44c0f2fe5476c15efd5b703ec91448a9bcffd0e05200bfa313476c5d692fe1bb  tests/v2-ui.test.tsx

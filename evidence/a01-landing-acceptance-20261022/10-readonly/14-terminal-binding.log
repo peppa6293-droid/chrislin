@@ -1,0 +1,31 @@
+PASS terminal.state :: V8_VERIFIED
+PASS terminal.syntheticOnly
+PASS terminal.databasePath :: /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3
+PASS terminal.databaseDevice :: (16777232, 16777232)
+PASS terminal.databaseInode :: (30715175, 30715175)
+PASS terminal.databasePreMigrationSha256
+PASS terminal.backupPath :: /Users/linte/Library/Application Support/com.personalfinance.console/production-v8-backups/personal-finance-console.sqlite3
+PASS terminal.backupDevice :: (16777232, 16777232)
+PASS terminal.backupInode :: (31243956, 31243956)
+PASS terminal.backupSha256 :: ebdd7c2d52c904dc0ce763302b461a8530ce0f6f3b4bc13c695ca5386f0d29bc
+PASS terminal.releaseReceiptSha256 :: ('93bb61952eee41c7d7df76de9321b7e66086b3789aa116d5daaf40012c68361b', '93bb61952eee41c7d7df76de9321b7e66086b3789aa116d5daaf40012c68361b')
+PASS terminal.consumedLedgerSha256 :: ('4b337dcd7ff490e05162d5530076b43330e591b02d53a752e6d3084f9a867bbf', '4b337dcd7ff490e05162d5530076b43330e591b02d53a752e6d3084f9a867bbf')
+PASS terminal.candidateExecutableSha256
+PASS terminal.candidateInfoPlistSha256
+PASS terminal.compatibilityManifestSha256
+PASS terminal.sourceVersions
+PASS terminal.targetVersions
+PASS terminal.migrationRows
+PASS terminal.integrityCheck
+PASS terminal.foreignKeyViolationCount
+PASS terminal.sidecarsAbsent
+PASS ledger.length :: 1
+PASS ledger.authorizationId
+PASS ledger.nonce
+PASS ledger.candidateExecutableSha256
+PASS receipt.status is preflight (known gate behavior) :: PREFLIGHT_PASS_READY_FOR_SEPARATELY_AUTHORIZED_MIGRATION
+PASS receipt.hash is terminal releaseReceiptSha256
+NOTE databasePostMigrationSha256 f32014c7f5a7ac16f5e8f1a9f900299a8adf0f3c353e673058265e3df62986a2
+NOTE current database sha256 319907d68dafd513a2ebed758d469a066793735677a1a462d034ea7b88b192a3
+NOTE current != post-migration is allowed by design (EXEC-A01 §2)
+RESULT=PASS

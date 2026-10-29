@@ -1,0 +1,15 @@
+--- is e6aa8d5 ancestor of HEAD ---
+ancestor_exit=0
+--- commits e6aa8d5..HEAD ---
+41f9843 (HEAD -> main) plan: A-01 landing acceptance handoff + remaining issues list + phase status refresh
+--- diff stat e6aa8d5..HEAD ---
+ WORKLOG.md                                       |   1 +
+ docs/CURRENT_PHASE.md                            |  12 +++
+ docs/EXEC-A01-LANDING-ACCEPTANCE-INSTRUCTIONS.md | 127 +++++++++++++++++++++++
+ docs/REMAINING-ISSUES-20261022.md                |  82 +++++++++++++++
+ 4 files changed, 222 insertions(+)
+--- changed paths ---
+M	WORKLOG.md
+M	docs/CURRENT_PHASE.md
+A	docs/EXEC-A01-LANDING-ACCEPTANCE-INSTRUCTIONS.md
+A	docs/REMAINING-ISSUES-20261022.md

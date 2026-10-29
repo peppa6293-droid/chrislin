@@ -1,0 +1,6 @@
+
+> personal-finance-console@0.1.0 lint
+> biome check src tests
+
+Checked 157 files in 164ms. No fixes applied.
+EXIT:0

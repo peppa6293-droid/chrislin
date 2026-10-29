@@ -1,0 +1,17 @@
+=== 2026-10-22T07:29:30Z post-runtime DB state (read-only) ===
+319907d68dafd513a2ebed758d469a066793735677a1a462d034ea7b88b192a3  /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3
+8
+ok
+schema_migrations|1,2,3,4,5,6,7,8
+--- business counts ---
+debts|5
+debt_period_facts|10
+income_entries|0
+expenses|0
+expense_records|1
+income_records|1
+--- backups ---
+ebdd7c2d52c904dc0ce763302b461a8530ce0f6f3b4bc13c695ca5386f0d29bc  /Users/linte/Library/Application Support/com.personalfinance.console/production-v8-backups/personal-finance-console.sqlite3
+ebdd7c2d52c904dc0ce763302b461a8530ce0f6f3b4bc13c695ca5386f0d29bc  /Users/linte/Documents/pfc-v8-migration-backup-20261022/personal-finance-console.sqlite3
+--- sidecars ---
+none

@@ -1,0 +1,46 @@
+# 段 2 残留文案 / 旧类名清点（2026-10-28，src/ 全量）
+
+命令口径：grep -rn --include='*.tsx' --include='*.ts' --include='*.css' <pat> src
+
+## 待付
+(0 处)
+
+## 本月已付占比
+(0 处)
+
+## 再记一笔
+src/ui/V2HomeSurface.tsx:533:          <p>{completed ? "你随时可以再记一笔，或者先去看看本月进展。" : task.detail}</p>
+src/ui/V2HomeSurface.tsx:540:          {completed ? "再记一笔" : task.button}
+
+## v2-structure-bar
+(0 处)
+
+## v2-structure-dots
+(0 处)
+
+## v2-dot
+(0 处)
+
+## V2StructureCompareBar
+(0 处)
+
+## __overhang
+(0 处)
+
+## __tick
+(0 处)
+
+## 关键签认文案出现次数（.ts + .tsx）
+固定支出· = 1
+暂无固定支出 = 1
+所选月份已付占比 = 3
+超计划 = 4
+已付/计划 = 3
+未付 = 3
+待确认 = 19
+已超出 = 3
+结构余量待确认 = 1
+
+## 说明
+- 「再记一笔」仅剩 V2HomeSurface.tsx:533/540 的首页任务卡按钮，属既有功能，不在 D-03（固定支出已付行）范围；固定支出页 0 处。
+- 「待付」全仓 0 处；「本月已付占比」0 处（现网可见名称只有「所选月份已付占比」）。

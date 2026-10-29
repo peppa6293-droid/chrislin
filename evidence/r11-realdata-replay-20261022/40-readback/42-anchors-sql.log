@@ -1,0 +1,93 @@
+=== R11 §2 SQL readback ===
+timestamp_utc=2026-10-22T12:00:11Z
+db=/Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3
+
+-- 1. income_entries by month --
+period_month  rows  total     recurring  one_time_rows
+------------  ----  --------  ---------  -------------
+2026-09       2     13791.25  12791.25   1            
+-- 1b. 2026-09 detail --
+id                         period_month  occurred_at  amount    label   one_time
+-------------------------  ------------  -----------  --------  ------  --------
+seed-income-bonus-202609   2026-09       2026-09-30   1000.00   进步奖  1       
+seed-income-salary-202609  2026-09       2026-09-30   12791.25  工资    0       
+
+-- 2/3. cash at 2026-09-30 (active only, latest snapshot <= date) --
+id                                    name          include_in_safety_resources  reserved_amount  balance  eff_active
+------------------------------------  ------------  ---------------------------  ---------------  -------  ----------
+c5e4626f-137d-40c7-bbb5-1cd0c0c11846  上海银行      1                            0.00                      1         
+cd4f47d0-f811-4c65-9188-bd51aa6b2d91  余额宝        1                            0.00                      1         
+3787daaa-35da-4ccd-a28c-954fda066bfe  农业银行      1                            3800.00                   1         
+seed-wechat-cash-20261021             微信零钱      1                            0.00                      1         
+a0c23914-394e-444b-b8b9-de95ec931712  房租专用资金  0                            0.00                      1         
+account_cash_2026-09-30|0.00
+-- 3. assets at 2026-09-30 --
+id                                    name        kind               include_in_safety_resources  value
+------------------------------------  ----------  -----------------  ---------------------------  -----
+950288d5-4fd6-456e-a16b-a9245005d7c7  支付宝基金  LIQUID_INVESTMENT  1                                 
+36ae96f9-828d-43ca-b7f8-6736b52d80e1  短期理财 1  LIQUID_INVESTMENT  0                                 
+ea61e164-e064-4e35-8999-b0900881b5d1  短期理财 2  LIQUID_INVESTMENT  0                                 
+ac8b550c-20d4-45d9-8032-872c55d048a9  短期理财 3  LIQUID_INVESTMENT  0                                 
+seed-securities-asset-20261021        证券账户    LIQUID_INVESTMENT  1                                 
+safety_resources_2026-09-30|0.00
+reserved_2026-09-30|3800.00
+
+-- 2/3. cash at 2026-10-21 (active only, latest snapshot <= date) --
+id                                    name      include_in_safety_resources  reserved_amount  balance  eff_active
+------------------------------------  --------  ---------------------------  ---------------  -------  ----------
+c5e4626f-137d-40c7-bbb5-1cd0c0c11846  上海银行  1                            0.00             4.44     1         
+cd4f47d0-f811-4c65-9188-bd51aa6b2d91  余额宝    1                            0.00             168.57   1         
+3787daaa-35da-4ccd-a28c-954fda066bfe  农业银行  1                            3800.00          5097.04  1         
+seed-wechat-cash-20261021             微信零钱  1                            0.00             55.88    1         
+account_cash_2026-10-21|5325.93
+-- 3. assets at 2026-10-21 --
+id                                    name        kind               include_in_safety_resources  value   
+------------------------------------  ----------  -----------------  ---------------------------  --------
+950288d5-4fd6-456e-a16b-a9245005d7c7  支付宝基金  LIQUID_INVESTMENT  1                            0.00    
+36ae96f9-828d-43ca-b7f8-6736b52d80e1  短期理财 1  LIQUID_INVESTMENT  0                            10000   
+ea61e164-e064-4e35-8999-b0900881b5d1  短期理财 2  LIQUID_INVESTMENT  0                            7000    
+ac8b550c-20d4-45d9-8032-872c55d048a9  短期理财 3  LIQUID_INVESTMENT  0                            3000    
+seed-securities-asset-20261021        证券账户    LIQUID_INVESTMENT  1                            20000.00
+safety_resources_2026-10-21|25325.93
+reserved_2026-10-21|3800.00
+
+-- 2/3. cash at 2026-10-31 (active only, latest snapshot <= date) --
+id                                    name      include_in_safety_resources  reserved_amount  balance  eff_active
+------------------------------------  --------  ---------------------------  ---------------  -------  ----------
+c5e4626f-137d-40c7-bbb5-1cd0c0c11846  上海银行  1                            0.00             4.44     1         
+cd4f47d0-f811-4c65-9188-bd51aa6b2d91  余额宝    1                            0.00             168.57   1         
+3787daaa-35da-4ccd-a28c-954fda066bfe  农业银行  1                            3800.00          5097.04  1         
+seed-wechat-cash-20261021             微信零钱  1                            0.00             55.88    1         
+account_cash_2026-10-31|5325.93
+-- 3. assets at 2026-10-31 --
+id                                    name        kind               include_in_safety_resources  value   
+------------------------------------  ----------  -----------------  ---------------------------  --------
+950288d5-4fd6-456e-a16b-a9245005d7c7  支付宝基金  LIQUID_INVESTMENT  1                            0.00    
+36ae96f9-828d-43ca-b7f8-6736b52d80e1  短期理财 1  LIQUID_INVESTMENT  0                            10000   
+ea61e164-e064-4e35-8999-b0900881b5d1  短期理财 2  LIQUID_INVESTMENT  0                            7000    
+ac8b550c-20d4-45d9-8032-872c55d048a9  短期理财 3  LIQUID_INVESTMENT  0                            3000    
+seed-securities-asset-20261021        证券账户    LIQUID_INVESTMENT  1                            20000.00
+safety_resources_2026-10-31|25325.93
+reserved_2026-10-31|3800.00
+
+-- 4. fixed plans total effective 2026-11-30 --
+id                          name               monthly_amount  effective_from  active
+--------------------------  -----------------  --------------  --------------  ------
+seed-plan-battery-202609    电池租赁           728.00          2026-09-01      1     
+seed-plan-diet-202609       饮食规划           1500.00         2026-09-01      1     
+seed-plan-insurance-202609  车险+无忧年度预提  648.31          2026-09-01      1     
+seed-plan-parking-202609    停车               300.00          2026-09-01      1     
+seed-plan-rent-202609       房租               1900.00         2026-09-01      1     
+fixed_plan_total|5076.31
+-- 4b. 2026-11 debt due --
+debt_due_2026-11|8851.03
+core_obligation_2026-11|13927.34
+
+-- 5. debts unchanged --
+debt_rows
+---------
+5        
+period_month  facts  balance_total  due_total
+------------  -----  -------------  ---------
+2026-10       5      172579.53      14518.73 
+2026-11       5      157228.31      8851.03  

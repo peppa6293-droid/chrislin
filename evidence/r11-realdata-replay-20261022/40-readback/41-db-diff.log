@@ -1,0 +1,43 @@
+=== target tables vs quarantine (ordered dump) ===
+cash_accounts: MATCH
+cash_balance_snapshots: MATCH
+cash_account_lifecycle_revisions: MATCH
+assets: MATCH
+asset_value_snapshots: MATCH
+income_entries: MATCH
+fixed_expense_plans: MATCH
+
+=== all non-target tables: pre-replay backup vs production ===
+accounts: UNCHANGED
+actual_income_revisions: UNCHANGED
+app_metadata: UNCHANGED
+asset_revisions: UNCHANGED
+cash_account_revisions: UNCHANGED
+debt_period_facts: UNCHANGED
+debt_revisions: UNCHANGED
+debts: UNCHANGED
+essential_expense_items: UNCHANGED
+essential_expense_revisions: UNCHANGED
+essential_expense_snapshots: UNCHANGED
+expense_categories: UNCHANGED
+expense_records: UNCHANGED
+expenses: UNCHANGED
+financial_settings: UNCHANGED
+import_batches: UNCHANGED
+income_records: UNCHANGED
+planning_income_month_revisions: UNCHANGED
+planning_income_revisions: UNCHANGED
+production_integrity_state: UNCHANGED
+profiles: UNCHANGED
+schema_migrations: UNCHANGED
+settings_revisions: UNCHANGED
+
+=== prohibited table counts (production) ===
+debts|5
+debt_period_facts|10
+expense_records|1
+expenses|0
+import_batches|0
+expense_categories|6
+income_records|1
+essential_expense_items|3

@@ -1,0 +1,20 @@
+# 返工后残留检查（2026-10-28）
+
+## R1 环顶标记（应只剩测试断言，无实现/样式）
+../../../../tests/v2-ui.test.tsx:718:    expect(card.querySelector(".v2-ring__over-mark")).toBeNull();
+../../../../tests/v2-ui.test.tsx:719:    expect(card.querySelectorAll("svg .v2-ring__over-mark")).toHaveLength(0);
+../../../../tests/v2-ui.test.tsx:737:    expect(card.querySelector(".v2-ring__over-mark")).toBeNull();
+
+## R1 旧色 #8f352b（应 0 处）
+(none)
+
+## R2 明细标记色
+../../../../src/ui/v2-structure-ring.css:185:.v2-ring-row__marker {
+../../../../src/ui/v2-structure-ring.css-191-  background: #c2503c;
+
+## R3 断点 720px（v2-fixed-page.css 应 0 处）
+(none)
+
+## 观察项：非 A 标记处的 #b7483d（本次未改，留验收员判）
+234:  background: #b7483d;
+254:  color: #b7483d;

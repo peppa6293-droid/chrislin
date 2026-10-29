@@ -1,0 +1,563 @@
+{
+  "home-roomy": [
+    {
+      "sel": ".v2-card__kicker",
+      "fg": "rgb(91, 110, 108)",
+      "bg": "rgb(245, 251, 248)",
+      "ratio": 5.15,
+      "need": 4.5,
+      "font": "12px",
+      "weight": "600"
+    },
+    {
+      "sel": ".v2-card__title",
+      "fg": "rgb(23, 59, 58)",
+      "bg": "rgb(245, 251, 248)",
+      "ratio": 11.63,
+      "need": 4.5,
+      "font": "20px",
+      "weight": "700"
+    },
+    {
+      "sel": ".v2-card__value",
+      "fg": "rgb(8, 124, 110)",
+      "bg": "rgb(245, 251, 248)",
+      "ratio": 4.87,
+      "need": 4.5,
+      "font": "28px",
+      "weight": "800"
+    },
+    {
+      "sel": ".v2-ring__centre-label",
+      "fg": "rgb(91, 110, 108)",
+      "bg": "rgb(245, 251, 248)",
+      "ratio": 5.15,
+      "need": 4.5,
+      "font": "12.5px",
+      "weight": "400"
+    },
+    {
+      "sel": ".v2-ring__centre-amount",
+      "fg": "rgb(23, 59, 58)",
+      "bg": "rgb(245, 251, 248)",
+      "ratio": 11.63,
+      "need": 4.5,
+      "font": "22px",
+      "weight": "800"
+    },
+    {
+      "sel": ".v2-ring-row__name",
+      "fg": "rgb(23, 59, 58)",
+      "bg": "rgb(245, 251, 248)",
+      "ratio": 11.63,
+      "need": 4.5,
+      "font": "16px",
+      "weight": "600"
+    },
+    {
+      "sel": ".v2-ring-row__amount",
+      "fg": "rgb(23, 59, 58)",
+      "bg": "rgb(245, 251, 248)",
+      "ratio": 11.63,
+      "need": 4.5,
+      "font": "22px",
+      "weight": "800"
+    },
+    {
+      "sel": ".v2-ring-row__percent",
+      "fg": "rgb(91, 110, 108)",
+      "bg": "rgb(245, 251, 248)",
+      "ratio": 5.15,
+      "need": 4.5,
+      "font": "12.5px",
+      "weight": "400"
+    },
+    {
+      "sel": ".v2-ring__arc.is-outer",
+      "fg": "rgb(124, 201, 191)",
+      "bg": "rgb(233, 238, 236)",
+      "ratio": 1.63,
+      "need": 3,
+      "font": "16px",
+      "weight": "400"
+    },
+    {
+      "sel": ".v2-ring__track.is-outer",
+      "fg": "rgb(0, 0, 0)",
+      "bg": "rgb(245, 251, 248)",
+      "ratio": 20.04,
+      "need": 3,
+      "font": "16px",
+      "weight": "400"
+    }
+  ],
+  "home-over-large": [
+    {
+      "sel": ".v2-card__kicker",
+      "fg": "rgb(91, 110, 108)",
+      "bg": "rgb(245, 251, 248)",
+      "ratio": 5.15,
+      "need": 4.5,
+      "font": "12px",
+      "weight": "600"
+    },
+    {
+      "sel": ".v2-card__title",
+      "fg": "rgb(23, 59, 58)",
+      "bg": "rgb(245, 251, 248)",
+      "ratio": 11.63,
+      "need": 4.5,
+      "font": "20px",
+      "weight": "700"
+    },
+    {
+      "sel": ".v2-card__value",
+      "fg": "rgb(183, 72, 61)",
+      "bg": "rgb(245, 251, 248)",
+      "ratio": 5,
+      "need": 4.5,
+      "font": "28px",
+      "weight": "800"
+    },
+    {
+      "sel": ".v2-ring__centre-label",
+      "fg": "rgb(91, 110, 108)",
+      "bg": "rgb(245, 251, 248)",
+      "ratio": 5.15,
+      "need": 4.5,
+      "font": "12.5px",
+      "weight": "400"
+    },
+    {
+      "sel": ".v2-ring__centre-amount",
+      "fg": "rgb(23, 59, 58)",
+      "bg": "rgb(245, 251, 248)",
+      "ratio": 11.63,
+      "need": 4.5,
+      "font": "22px",
+      "weight": "800"
+    },
+    {
+      "sel": ".v2-ring-row__name",
+      "fg": "rgb(23, 59, 58)",
+      "bg": "rgb(245, 251, 248)",
+      "ratio": 11.63,
+      "need": 4.5,
+      "font": "16px",
+      "weight": "600"
+    },
+    {
+      "sel": ".v2-ring-row__amount",
+      "fg": "rgb(23, 59, 58)",
+      "bg": "rgb(245, 251, 248)",
+      "ratio": 11.63,
+      "need": 4.5,
+      "font": "22px",
+      "weight": "800"
+    },
+    {
+      "sel": ".v2-ring-row__percent",
+      "fg": "rgb(91, 110, 108)",
+      "bg": "rgb(245, 251, 248)",
+      "ratio": 5.15,
+      "need": 4.5,
+      "font": "12.5px",
+      "weight": "400"
+    },
+    {
+      "sel": ".v2-ring-row__over",
+      "fg": "rgb(23, 59, 58)",
+      "bg": "rgb(245, 251, 248)",
+      "ratio": 11.63,
+      "need": 4.5,
+      "font": "12.5px",
+      "weight": "400"
+    },
+    {
+      "sel": ".v2-ring-row__marker",
+      "fg": "rgb(194, 80, 60)",
+      "bg": "rgb(245, 251, 248)",
+      "ratio": 4.45,
+      "need": 3,
+      "font": "22px",
+      "weight": "800"
+    },
+    {
+      "sel": ".v2-ring__arc.is-outer",
+      "fg": "rgb(124, 201, 191)",
+      "bg": "rgb(233, 238, 236)",
+      "ratio": 1.63,
+      "need": 3,
+      "font": "16px",
+      "weight": "400"
+    },
+    {
+      "sel": ".v2-ring__track.is-outer",
+      "fg": "rgb(0, 0, 0)",
+      "bg": "rgb(245, 251, 248)",
+      "ratio": 20.04,
+      "need": 3,
+      "font": "16px",
+      "weight": "400"
+    }
+  ],
+  "home-pending": [
+    {
+      "sel": ".v2-card__kicker",
+      "fg": "rgb(91, 110, 108)",
+      "bg": "rgb(245, 251, 248)",
+      "ratio": 5.15,
+      "need": 4.5,
+      "font": "12px",
+      "weight": "600"
+    },
+    {
+      "sel": ".v2-card__title",
+      "fg": "rgb(23, 59, 58)",
+      "bg": "rgb(245, 251, 248)",
+      "ratio": 11.63,
+      "need": 4.5,
+      "font": "20px",
+      "weight": "700"
+    },
+    {
+      "sel": ".v2-card__value",
+      "fg": "rgb(23, 59, 58)",
+      "bg": "rgb(245, 251, 248)",
+      "ratio": 11.63,
+      "need": 4.5,
+      "font": "28px",
+      "weight": "800"
+    },
+    {
+      "sel": ".v2-ring__centre-label",
+      "fg": "rgb(91, 110, 108)",
+      "bg": "rgb(245, 251, 248)",
+      "ratio": 5.15,
+      "need": 4.5,
+      "font": "12.5px",
+      "weight": "400"
+    },
+    {
+      "sel": ".v2-ring__centre-amount",
+      "fg": "rgb(23, 59, 58)",
+      "bg": "rgb(245, 251, 248)",
+      "ratio": 11.63,
+      "need": 4.5,
+      "font": "22px",
+      "weight": "800"
+    },
+    {
+      "sel": ".v2-ring-row__name",
+      "fg": "rgb(23, 59, 58)",
+      "bg": "rgb(245, 251, 248)",
+      "ratio": 11.63,
+      "need": 4.5,
+      "font": "16px",
+      "weight": "600"
+    },
+    {
+      "sel": ".v2-ring-row__amount",
+      "fg": "rgb(23, 59, 58)",
+      "bg": "rgb(245, 251, 248)",
+      "ratio": 11.63,
+      "need": 4.5,
+      "font": "22px",
+      "weight": "800"
+    },
+    {
+      "sel": ".v2-ring-row__percent",
+      "fg": "rgb(91, 110, 108)",
+      "bg": "rgb(245, 251, 248)",
+      "ratio": 5.15,
+      "need": 4.5,
+      "font": "12.5px",
+      "weight": "400"
+    },
+    {
+      "sel": ".v2-ring__arc.is-outer",
+      "fg": "rgb(124, 201, 191)",
+      "bg": "rgb(233, 238, 236)",
+      "ratio": 1.63,
+      "need": 3,
+      "font": "16px",
+      "weight": "400"
+    },
+    {
+      "sel": ".v2-ring__track.is-outer",
+      "fg": "rgb(0, 0, 0)",
+      "bg": "rgb(245, 251, 248)",
+      "ratio": 20.04,
+      "need": 3,
+      "font": "16px",
+      "weight": "400"
+    }
+  ],
+  "fixed-normal": [
+    {
+      "sel": "h1",
+      "fg": "rgb(52, 69, 58)",
+      "bg": "rgb(245, 248, 248)",
+      "ratio": 9.55,
+      "need": 4.5,
+      "font": "24px",
+      "weight": "630"
+    },
+    {
+      "sel": ".fixed-summary__metrics dt",
+      "fg": "rgb(91, 110, 108)",
+      "bg": "rgb(255, 255, 255)",
+      "ratio": 5.4,
+      "need": 4.5,
+      "font": "12.5px",
+      "weight": "400"
+    },
+    {
+      "sel": ".fixed-summary__metrics dd",
+      "fg": "rgb(23, 59, 58)",
+      "bg": "rgb(255, 255, 255)",
+      "ratio": 12.19,
+      "need": 4.5,
+      "font": "16px",
+      "weight": "700"
+    },
+    {
+      "sel": ".fixed-item__amount",
+      "fg": "rgb(23, 59, 58)",
+      "bg": "rgb(255, 255, 255)",
+      "ratio": 12.19,
+      "need": 4.5,
+      "font": "16px",
+      "weight": "700"
+    },
+    {
+      "sel": ".fixed-summary__ring-name",
+      "fg": "rgb(91, 110, 108)",
+      "bg": "rgb(255, 255, 255)",
+      "ratio": 5.4,
+      "need": 4.5,
+      "font": "12.5px",
+      "weight": "400"
+    },
+    {
+      "sel": ".fixed-item__status",
+      "fg": "rgb(8, 124, 110)",
+      "bg": "rgb(255, 255, 255)",
+      "ratio": 5.1,
+      "need": 4.5,
+      "font": "12.5px",
+      "weight": "400"
+    },
+    {
+      "sel": ".fixed-category__name",
+      "fg": "rgb(23, 59, 58)",
+      "bg": "rgb(255, 255, 255)",
+      "ratio": 12.19,
+      "need": 4.5,
+      "font": "14px",
+      "weight": "600"
+    },
+    {
+      "sel": ".fixed-category__plan",
+      "fg": "rgb(91, 110, 108)",
+      "bg": "rgb(255, 255, 255)",
+      "ratio": 5.4,
+      "need": 4.5,
+      "font": "13px",
+      "weight": "400"
+    },
+    {
+      "sel": ".fixed-category__primary",
+      "fg": "rgb(23, 59, 58)",
+      "bg": "rgb(255, 255, 255)",
+      "ratio": 12.19,
+      "need": 4.5,
+      "font": "12.5px",
+      "weight": "400"
+    },
+    {
+      "sel": ".fixed-category__secondary",
+      "fg": "rgb(91, 110, 108)",
+      "bg": "rgb(255, 255, 255)",
+      "ratio": 5.4,
+      "need": 4.5,
+      "font": "12.5px",
+      "weight": "400"
+    },
+    {
+      "sel": ".v2-paid-ring__value",
+      "fg": "rgb(40, 53, 46)",
+      "bg": "rgb(255, 255, 255)",
+      "ratio": 12.81,
+      "need": 4.5,
+      "font": "16px",
+      "weight": "700"
+    },
+    {
+      "sel": ".fixed-progress > span",
+      "fg": "rgb(8, 124, 110)",
+      "bg": "rgb(233, 238, 236)",
+      "ratio": 4.35,
+      "need": 3,
+      "font": "16px",
+      "weight": "400"
+    },
+    {
+      "sel": ".v2-btn--primary",
+      "fg": "rgb(255, 255, 255)",
+      "bg": "rgb(8, 124, 110)",
+      "ratio": 5.1,
+      "need": 4.5,
+      "font": "13px",
+      "weight": "600"
+    }
+  ],
+  "fixed-overpaid": [
+    {
+      "sel": "h1",
+      "fg": "rgb(52, 69, 58)",
+      "bg": "rgb(245, 248, 248)",
+      "ratio": 9.55,
+      "need": 4.5,
+      "font": "24px",
+      "weight": "630"
+    },
+    {
+      "sel": ".fixed-summary__metrics dt",
+      "fg": "rgb(91, 110, 108)",
+      "bg": "rgb(255, 255, 255)",
+      "ratio": 5.4,
+      "need": 4.5,
+      "font": "12.5px",
+      "weight": "400"
+    },
+    {
+      "sel": ".fixed-summary__metrics dd",
+      "fg": "rgb(23, 59, 58)",
+      "bg": "rgb(255, 255, 255)",
+      "ratio": 12.19,
+      "need": 4.5,
+      "font": "16px",
+      "weight": "700"
+    },
+    {
+      "sel": ".fixed-item__amount",
+      "fg": "rgb(23, 59, 58)",
+      "bg": "rgb(255, 255, 255)",
+      "ratio": 12.19,
+      "need": 4.5,
+      "font": "16px",
+      "weight": "700"
+    },
+    {
+      "sel": ".fixed-summary__ring-name",
+      "fg": "rgb(91, 110, 108)",
+      "bg": "rgb(255, 255, 255)",
+      "ratio": 5.4,
+      "need": 4.5,
+      "font": "12.5px",
+      "weight": "400"
+    },
+    {
+      "sel": ".fixed-item__status",
+      "fg": "rgb(8, 124, 110)",
+      "bg": "rgb(255, 255, 255)",
+      "ratio": 5.1,
+      "need": 4.5,
+      "font": "12.5px",
+      "weight": "400"
+    },
+    {
+      "sel": ".fixed-category__name",
+      "fg": "rgb(23, 59, 58)",
+      "bg": "rgb(255, 255, 255)",
+      "ratio": 12.19,
+      "need": 4.5,
+      "font": "14px",
+      "weight": "600"
+    },
+    {
+      "sel": ".fixed-category__plan",
+      "fg": "rgb(91, 110, 108)",
+      "bg": "rgb(255, 255, 255)",
+      "ratio": 5.4,
+      "need": 4.5,
+      "font": "13px",
+      "weight": "400"
+    },
+    {
+      "sel": ".fixed-category__primary",
+      "fg": "rgb(23, 59, 58)",
+      "bg": "rgb(255, 255, 255)",
+      "ratio": 12.19,
+      "need": 4.5,
+      "font": "12.5px",
+      "weight": "400"
+    },
+    {
+      "sel": ".fixed-category__secondary",
+      "fg": "rgb(183, 72, 61)",
+      "bg": "rgb(255, 255, 255)",
+      "ratio": 5.24,
+      "need": 4.5,
+      "font": "12.5px",
+      "weight": "400"
+    },
+    {
+      "sel": ".fixed-category[data-state=OVERPAID] .fixed-category__secondary",
+      "fg": "rgb(183, 72, 61)",
+      "bg": "rgb(255, 255, 255)",
+      "ratio": 5.24,
+      "need": 4.5,
+      "font": "12.5px",
+      "weight": "400"
+    },
+    {
+      "sel": ".v2-paid-ring__value",
+      "fg": "rgb(40, 53, 46)",
+      "bg": "rgb(255, 255, 255)",
+      "ratio": 12.81,
+      "need": 4.5,
+      "font": "16px",
+      "weight": "700"
+    },
+    {
+      "sel": ".fixed-progress > span",
+      "fg": "rgb(183, 72, 61)",
+      "bg": "rgb(233, 238, 236)",
+      "ratio": 4.47,
+      "need": 3,
+      "font": "16px",
+      "weight": "400"
+    },
+    {
+      "sel": ".v2-btn--primary",
+      "fg": "rgb(255, 255, 255)",
+      "bg": "rgb(8, 124, 110)",
+      "ratio": 5.1,
+      "need": 4.5,
+      "font": "13px",
+      "weight": "600"
+    }
+  ],
+  "fixed-empty": [
+    {
+      "sel": "h1",
+      "fg": "rgb(52, 69, 58)",
+      "bg": "rgb(245, 248, 248)",
+      "ratio": 9.55,
+      "need": 4.5,
+      "font": "24px",
+      "weight": "630"
+    },
+    {
+      "sel": ".fixed-empty p",
+      "fg": "rgb(91, 110, 108)",
+      "bg": "rgb(245, 248, 248)",
+      "ratio": 5.05,
+      "need": 4.5,
+      "font": "16px",
+      "weight": "400"
+    }
+  ]
+}

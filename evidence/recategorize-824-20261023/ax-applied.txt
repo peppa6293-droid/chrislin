@@ -1,0 +1,907 @@
+AXWindow title="小钱家"
+  AXGroup
+    AXGroup
+      AXScrollArea
+        AXWebArea desc="小钱家"
+          AXGroup
+            AXGroup
+              AXButton title="返回今天首页" desc="返回今天首页"
+              AXStaticText value="2026 年 10 月"
+              AXButton title="记一笔"
+              AXButton title="更新财务数据" desc="更新财务数据"
+            AXGroup title="主导航" desc="主导航"
+              AXButton title="今天"
+              AXButton title="记录"
+              AXButton title="进展"
+              AXButton title="我的财务" desc="我的财务"
+            AXGroup
+              AXButton title="返回首页" desc="返回首页"
+              AXStaticText value="2026-10"
+            AXHeading title="流水" value="1"
+              AXStaticText value="流水"
+            AXButton title="自动归类"
+            AXButton title="导出备份"
+            AXGroup title="本月记录" desc="本月记录"
+              AXHeading title="本月记录" value="2"
+                AXStaticText value="本月记录"
+              AXGroup
+                AXGroup
+                  AXGroup
+                    AXStaticText value="其他"
+                  AXStaticText value="2026-10-01"
+                  AXStaticText value=" · 杭州闲鱼信息技术有限公司"
+                  AXStaticText value="¥4.18"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-01"
+                  AXStaticText value=" · 麦当劳"
+                  AXStaticText value="¥30.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="其他"
+                  AXStaticText value="2026-10-01"
+                  AXStaticText value=" · x***0"
+                  AXStaticText value="¥6.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-01"
+                  AXStaticText value=" · luckincoffee"
+                  AXStaticText value="¥16.50"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="交通"
+                  AXStaticText value="2026-10-01"
+                  AXStaticText value=" · 蔚来汽车"
+                  AXStaticText value="¥67.51"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="其他"
+                  AXStaticText value="2026-10-01"
+                  AXStaticText value=" · 杭州闲鱼信息技术有限公司"
+                  AXStaticText value="¥41.76"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-02"
+                  AXStaticText value=" · 小店"
+                  AXStaticText value="¥113.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-02"
+                  AXStaticText value=" · 美团"
+                  AXStaticText value="¥280.40"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-02"
+                  AXStaticText value=" · luckincoffee"
+                  AXStaticText value="¥10.90"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-03"
+                  AXStaticText value=" · 美团"
+                  AXStaticText value="¥13.10"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="其他"
+                  AXStaticText value="2026-10-03"
+                  AXStaticText value=" · 中国移动"
+                  AXStaticText value="¥50.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="其他"
+                  AXStaticText value="2026-10-04"
+                  AXStaticText value=" · 柳市康惠皮肤科诊所"
+                  AXStaticText value="¥85.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="交通"
+                  AXStaticText value="2026-10-04"
+                  AXStaticText value=" · 滴滴出行"
+                  AXStaticText value="¥126.63"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="交通"
+                  AXStaticText value="2026-10-04"
+                  AXStaticText value=" · 乐清市畅驿智慧停车服务有限公司"
+                  AXStaticText value="¥22.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-04"
+                  AXStaticText value=" · 程氏饼铺"
+                  AXStaticText value="¥15.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-04"
+                  AXStaticText value=" · zhangyu1516"
+                  AXStaticText value="¥15.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="交通"
+                  AXStaticText value="2026-10-04"
+                  AXStaticText value=" · 滴滴出行"
+                  AXStaticText value="¥19.20"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-04"
+                  AXStaticText value=" · luckincoffee"
+                  AXStaticText value="¥13.90"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="交通"
+                  AXStaticText value="2026-10-05"
+                  AXStaticText value=" · 智慧停车场"
+                  AXStaticText value="¥20.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-05"
+                  AXStaticText value=" · 麦当劳"
+                  AXStaticText value="¥56.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="交通"
+                  AXStaticText value="2026-10-05"
+                  AXStaticText value=" · 乐清市畅驿智慧停车服务有限公司"
+                  AXStaticText value="¥15.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-05"
+                  AXStaticText value=" · 乐清市柳市阿豪西饼屋"
+                  AXStaticText value="¥188.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="其他"
+                  AXStaticText value="2026-10-05"
+                  AXStaticText value=" · 滨辰府房东(**婵)"
+                  AXStaticText value="¥331.26"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="交通"
+                  AXStaticText value="2026-10-05"
+                  AXStaticText value=" · 蔚来汽车"
+                  AXStaticText value="¥53.59"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-06"
+                  AXStaticText value=" · 临海服务区"
+                  AXStaticText value="¥24.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-06"
+                  AXStaticText value=" · 美团"
+                  AXStaticText value="¥12.40"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="交通"
+                  AXStaticText value="2026-10-06"
+                  AXStaticText value=" · 蔚来汽车"
+                  AXStaticText value="¥77.24"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="交通"
+                  AXStaticText value="2026-10-06"
+                  AXStaticText value=" · 蔚来汽车"
+                  AXStaticText value="¥80.62"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-06"
+                  AXStaticText value=" · 美团"
+                  AXStaticText value="¥15.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="交通"
+                  AXStaticText value="2026-10-06"
+                  AXStaticText value=" · 乐清市畅驿智慧停车服务有限公司"
+                  AXStaticText value="¥15.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="购物"
+                  AXStaticText value="2026-10-06"
+                  AXStaticText value=" · 抖音电商商家"
+                  AXStaticText value="¥1,129.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-07"
+                  AXStaticText value=" · 美团"
+                  AXStaticText value="¥14.20"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="购物"
+                  AXStaticText value="2026-10-07"
+                  AXStaticText value=" · 得物平台商户"
+                  AXStaticText value="¥373.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-07"
+                  AXStaticText value=" · 天**"
+                  AXStaticText value="¥87.18"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-07"
+                  AXStaticText value=" · 美团"
+                  AXStaticText value="¥13.10"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="其他"
+                  AXStaticText value="2026-10-07"
+                  AXStaticText value=" · 杭州闲鱼信息技术有限公司"
+                  AXStaticText value="¥1.55"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="购物"
+                  AXStaticText value="2026-10-07"
+                  AXStaticText value=" · 山姆会员商店"
+                  AXStaticText value="¥105.50"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-08"
+                  AXStaticText value=" · 麦当劳"
+                  AXStaticText value="¥44.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-08"
+                  AXStaticText value=" · 美团"
+                  AXStaticText value="¥12.50"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-08"
+                  AXStaticText value=" · luckincoffee"
+                  AXStaticText value="¥10.90"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-09"
+                  AXStaticText value=" · luckincoffee"
+                  AXStaticText value="¥10.90"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="其他"
+                  AXStaticText value="2026-10-09"
+                  AXStaticText value=" · 淘天物流科技有限公司"
+                  AXStaticText value="¥7.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="购物"
+                  AXStaticText value="2026-10-09"
+                  AXStaticText value=" · 百亿**选"
+                  AXStaticText value="¥71.90"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-09"
+                  AXStaticText value=" · 美团"
+                  AXStaticText value="¥12.50"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-09"
+                  AXStaticText value=" · 美团"
+                  AXStaticText value="¥12.50"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-10"
+                  AXStaticText value=" · 麦当劳"
+                  AXStaticText value="¥65.50"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="其他"
+                  AXStaticText value="2026-10-11"
+                  AXStaticText value=" · 宁波明州医院"
+                  AXStaticText value="¥0.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="其他"
+                  AXStaticText value="2026-10-11"
+                  AXStaticText value=" · 杭州闲鱼信息技术有限公司"
+                  AXStaticText value="¥7.26"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="交通"
+                  AXStaticText value="2026-10-11"
+                  AXStaticText value=" · 山东高速"
+                  AXStaticText value="¥5.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-11"
+                  AXStaticText value=" · Gingin"
+                  AXStaticText value="¥119.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-11"
+                  AXStaticText value=" · luckincoffee"
+                  AXStaticText value="¥10.50"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="其他"
+                  AXStaticText value="2026-10-11"
+                  AXStaticText value=" · 宁波明州医院"
+                  AXStaticText value="¥0.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="其他"
+                  AXStaticText value="2026-10-11"
+                  AXStaticText value=" · 杭州闲鱼信息技术有限公司"
+                  AXStaticText value="¥0.73"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-12"
+                  AXStaticText value=" · 美团"
+                  AXStaticText value="¥16.50"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-12"
+                  AXStaticText value=" · luckincoffee"
+                  AXStaticText value="¥9.90"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-12"
+                  AXStaticText value=" · 美团"
+                  AXStaticText value="¥189.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-12"
+                  AXStaticText value=" · luckincoffee"
+                  AXStaticText value="¥10.90"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="交通"
+                  AXStaticText value="2026-10-12"
+                  AXStaticText value=" · 蔚来汽车"
+                  AXStaticText value="¥101.88"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="购物"
+                  AXStaticText value="2026-10-13"
+                  AXStaticText value=" · 拼多多平台商户"
+                  AXStaticText value="¥63.48"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-13"
+                  AXStaticText value=" · 西北楼牛肉面鄞大大厦店"
+                  AXStaticText value="¥19.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-13"
+                  AXStaticText value=" · luckincoffee"
+                  AXStaticText value="¥10.50"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-13"
+                  AXStaticText value=" · 美团"
+                  AXStaticText value="¥25.76"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-14"
+                  AXStaticText value=" · 美团"
+                  AXStaticText value="¥12.60"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="其他"
+                  AXStaticText value="2026-10-14"
+                  AXStaticText value=" · fo**g"
+                  AXStaticText value="¥158.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-14"
+                  AXStaticText value=" · luckincoffee"
+                  AXStaticText value="¥12.90"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-15"
+                  AXStaticText value=" · 美团"
+                  AXStaticText value="¥20.98"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="购物"
+                  AXStaticText value="2026-10-15"
+                  AXStaticText value=" · 得物-得到美好事物"
+                  AXStaticText value="¥338.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-15"
+                  AXStaticText value=" · luckincoffee瑞幸咖啡"
+                  AXStaticText value="¥9.90"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-15"
+                  AXStaticText value=" · 肯德基（宁波新环球城银泰店）"
+                  AXStaticText value="¥102.70"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-15"
+                  AXStaticText value=" · 美团"
+                  AXStaticText value="¥14.10"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-16"
+                  AXStaticText value=" · luckincoffee"
+                  AXStaticText value="¥18.40"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-16"
+                  AXStaticText value=" · luckincoffee"
+                  AXStaticText value="¥10.90"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="交通"
+                  AXStaticText value="2026-10-16"
+                  AXStaticText value=" · 宁波柠柚科技有限公司"
+                  AXStaticText value="¥15.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-17"
+                  AXStaticText value=" · 美团"
+                  AXStaticText value="¥16.40"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-17"
+                  AXStaticText value=" · 美团"
+                  AXStaticText value="¥13.10"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="交通"
+                  AXStaticText value="2026-10-18"
+                  AXStaticText value=" · 停容易"
+                  AXStaticText value="¥5.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="购物"
+                  AXStaticText value="2026-10-18"
+                  AXStaticText value=" · 参半**店"
+                  AXStaticText value="¥0.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="交通"
+                  AXStaticText value="2026-10-18"
+                  AXStaticText value=" · 宁波小遛共享智能科技"
+                  AXStaticText value="¥1.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-18"
+                  AXStaticText value=" · idk coffee & bakery"
+                  AXStaticText value="¥58.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="购物"
+                  AXStaticText value="2026-10-18"
+                  AXStaticText value=" · 山姆会员商店"
+                  AXStaticText value="¥307.50"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-19"
+                  AXStaticText value=" · 美团"
+                  AXStaticText value="¥43.50"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="其他"
+                  AXStaticText value="2026-10-19"
+                  AXStaticText value=" · fo**g"
+                  AXStaticText value="¥82.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="其他"
+                  AXStaticText value="2026-10-19"
+                  AXStaticText value=" · 发哥AI订阅"
+                  AXStaticText value="¥155.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="其他"
+                  AXStaticText value="2026-10-19"
+                  AXStaticText value=" · 中国移动"
+                  AXStaticText value="¥50.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="其他"
+                  AXStaticText value="2026-10-19"
+                  AXStaticText value=" · 宁波鄞州泰康拜博口腔门诊部有限公司"
+                  AXStaticText value="¥480.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="交通"
+                  AXStaticText value="2026-10-19"
+                  AXStaticText value=" · 宁波柠柚科技有限公司"
+                  AXStaticText value="¥300.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-19"
+                  AXStaticText value=" · 美团"
+                  AXStaticText value="¥177.01"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="其他"
+                  AXStaticText value="2026-10-19"
+                  AXStaticText value=" · Kitool， Inc."
+                  AXStaticText value="¥5.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-19"
+                  AXStaticText value=" · luckincoffee"
+                  AXStaticText value="¥17.80"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-20"
+                  AXStaticText value=" · 想**"
+                  AXStaticText value="¥54.21"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="购物"
+                  AXStaticText value="2026-10-20"
+                  AXStaticText value=" · 宁波**司"
+                  AXStaticText value="¥45.19"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-20"
+                  AXStaticText value=" · 天**"
+                  AXStaticText value="¥37.09"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-20"
+                  AXStaticText value=" · 美团"
+                  AXStaticText value="¥12.50"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-20"
+                  AXStaticText value=" · 美团"
+                  AXStaticText value="¥186.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-20"
+                  AXStaticText value=" · luckincoffee"
+                  AXStaticText value="¥17.80"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="购物"
+                  AXStaticText value="2026-10-20"
+                  AXStaticText value=" · 参半**店"
+                  AXStaticText value="¥70.51"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-20"
+                  AXStaticText value=" · 美团"
+                  AXStaticText value="¥12.50"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="购物"
+                  AXStaticText value="2026-10-20"
+                  AXStaticText value=" · ba**店"
+                  AXStaticText value="¥106.17"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-20"
+                  AXStaticText value=" · 康师**店"
+                  AXStaticText value="¥27.91"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="交通"
+                  AXStaticText value="2026-10-20"
+                  AXStaticText value=" · 蔚来汽车"
+                  AXStaticText value="¥728.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-20"
+                  AXStaticText value=" · 统一**店"
+                  AXStaticText value="¥124.43"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="购物"
+                  AXStaticText value="2026-10-20"
+                  AXStaticText value=" · be**店"
+                  AXStaticText value="¥231.26"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="购物"
+                  AXStaticText value="2026-10-20"
+                  AXStaticText value=" · or**店"
+                  AXStaticText value="¥105.18"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="其他"
+                  AXStaticText value="2026-10-21"
+                  AXStaticText value=" · 火山"
+                  AXStaticText value="¥49.90"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-21"
+                  AXStaticText value=" · luckincoffee"
+                  AXStaticText value="¥9.90"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="购物"
+                  AXStaticText value="2026-10-21"
+                  AXStaticText value=" · 项链"
+                  AXStaticText value="¥595.00"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="其他"
+                  AXStaticText value="2026-10-22"
+                  AXStaticText value=" · 火山"
+                  AXStaticText value="¥49.90"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-22"
+                  AXStaticText value=" · 老娘舅"
+                  AXStaticText value="¥23.85"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+                AXGroup
+                  AXGroup
+                    AXStaticText value="餐饮"
+                  AXStaticText value="2026-10-23"
+                  AXStaticText value=" · 早饭"
+                  AXStaticText value="¥18.40"
+                  AXButton title="编辑"
+                  AXButton title="删除"
+            AXGroup
+              AXStaticText value="改好 17 笔分类。总金额 ¥101,187.16 不变。"
+  AXButton
+  AXButton
+    AXGroup
+      AXGroup
+  AXButton
+  AXStaticText value="小钱家"

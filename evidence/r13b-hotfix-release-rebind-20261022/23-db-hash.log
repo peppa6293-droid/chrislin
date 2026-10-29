@@ -1,0 +1,21 @@
+db_hash_at=2026-10-22T16:09:38Z
+expected=857fda164fdb0a46853a8f9a716d2bc0099ebce898984228b208d4f16e6d2a2f
+857fda164fdb0a46853a8f9a716d2bc0099ebce898984228b208d4f16e6d2a2f  /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3
+-rw-r--r--@ 1 linte  staff  1282048 Oct 22 22:44 /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3
+size=1282048 mtime=2026-10-22T22:44:36+0800
+--- backup anchors ---
+total 2504
+-rw-r--r--@ 1 linte  staff  1282048 Oct 22 22:44 pre-r13-20261022-233309.sqlite3
+drwx------@ 5 linte  staff      160 Oct 23 00:03 pre-r13b-gate-20261023-000315
+857fda164fdb0a46853a8f9a716d2bc0099ebce898984228b208d4f16e6d2a2f  /Users/linte/Library/Application Support/com.personalfinance.console/backups/pre-r13-20261022-233309.sqlite3
+--- gate files after acceptance (mode/owner/nlink/sha) ---
+/Users/linte/Library/Application Support/com.personalfinance.console/production-v8-cutover-terminal.json mode=-rw------- uid=501 nlink=1 size=2606
+61457ae72f493c6f832cf68f4b348f9b2e262123c6b7903ae8edc9cbaeda64b7  /Users/linte/Library/Application Support/com.personalfinance.console/production-v8-cutover-terminal.json
+/Users/linte/Library/Application Support/com.personalfinance.console/production-v8-release-receipt.json mode=-rw------- uid=501 nlink=1 size=3837
+66dc64e66612ef3471862d43c0967672e09901368600c42e7d4acdfb6ac0d9db  /Users/linte/Library/Application Support/com.personalfinance.console/production-v8-release-receipt.json
+/Users/linte/Library/Application Support/com.personalfinance.console/production-v8-consumed-authorizations.json mode=-rw------- uid=501 nlink=1 size=365
+8a15ea3130afff8aaf9d4cc579179fcb3a22b35023a17a3eea189cb5a2c6a7fe  /Users/linte/Library/Application Support/com.personalfinance.console/production-v8-consumed-authorizations.json
+/Users/linte/Library/Application Support/com.personalfinance.console/production-v8-hotfix-rotations.json mode=-rw------- uid=501 nlink=1 size=3102
+6d7952953c2a6cafe44bb58c3a275b68ec6a0891269e431a1e16ff4ea0cfeab3  /Users/linte/Library/Application Support/com.personalfinance.console/production-v8-hotfix-rotations.json
+/Users/linte/Library/Application Support/com.personalfinance.console/production-v8-hotfix-release-authorization.json mode=-rw------- uid=501 nlink=1 size=732
+a734e2e7e99a0164b902fcd6f588c1c4421cddc6b5a61261a1b865dff73e094f  /Users/linte/Library/Application Support/com.personalfinance.console/production-v8-hotfix-release-authorization.json

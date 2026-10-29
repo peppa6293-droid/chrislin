@@ -1,0 +1,5 @@
+home-large-390.png: centre text intrudes into the ring (-6.96px)
+home-large-760.png: centre text intrudes into the ring (-6.96px)
+home-large-980.png: centre text intrudes into the ring (-6.96px)
+text200-home-large-390.png: centre text intrudes into the ring (-6.96px)
+text200-home-large-980.png: centre text intrudes into the ring (-6.96px)

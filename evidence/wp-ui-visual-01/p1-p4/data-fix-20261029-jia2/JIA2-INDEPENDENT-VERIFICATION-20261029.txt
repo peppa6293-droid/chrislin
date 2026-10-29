@@ -1,0 +1,49 @@
+== evidence hashes ==
+PASS | sha256 backup/personal-finance-console.sqlite3.prejia2-20261029-113413 | 22e9696a01be57017f21f4927dad9268308b27ed0df4eb2224fde9940e2d235f
+PASS | sha256 PRE-STATE.txt | 237068341f28b5878c84ce783dd2960d273ab5a89ba71ca9e1a79d2f1f07f917
+PASS | sha256 POST-STATE.txt | 93a0643ee86fbaae8871dcb96e8a777786e6d75e61fe537f4df272246b9a0988
+PASS | sha256 shots/01-confirm-dialog-before.png | 6e8f0fb852d75dd81dd2adbedb6da1ffedea52be42bee8621f4153972814bc6f
+PASS | sha256 shots/02-debt-list-after.png | 3639187a63842420205391b5052982b2668a76dace8cef676d553cc918c03d46
+PASS | sha256 shots/03-home-after.png | d37f525c7cba7601f7134d6c2fb3e5c280cc03f8332df19939ddf4a5fe5d249c
+PASS | sha256 shots/04-debt-list-history-expanded.png | 62f3ae6a11f0683a2e63dc20303305f20683d92c932d17e971703184c15190e3
+PASS | backup size | 1294336
+== backup direct read (mode=ro) ==
+PASS | backup integrity_check | ok
+PASS | backup user_version | 8
+PASS | backup anchor seq59 exact | seq=59
+PASS | backup count debts | 5
+PASS | backup count debt_period_facts | 10
+PASS | backup count debt_revisions | 0
+PASS | backup count income_records | 7
+PASS | backup count income_entries | 6
+PASS | backup count expenses | 831
+PASS | backup count expense_records | 832
+PASS | backup debts all active
+PASS | backup facts unique 10 rows
+PASS | backup base due 2026-10 | 14518.73
+PASS | backup base due 2026-11 | 8851.03
+== PRE/POST consistency ==
+PASS | PRE anchor equals backup
+PASS | PRE facts equal backup direct rows | 10 rows
+PASS | POST facts equal backup direct rows (zero drift) | 10 rows
+PASS | POST chain seq 59 to 60
+PASS | POST previous_digest equals seq59 content_digest | 6fd44af6d4abd6a0a53f4dcfd0a572f9e2702b534c63885a01a04c9f971e0f86
+PASS | POST new content/tag recorded
+PASS | POST integrity/user_version
+PASS | POST counts only revisions +1 | {'debts': 5, 'debt_period_facts': 10, 'debt_revisions': 1, 'income_records': 7, 'income_entries': 6, 'expenses': 831, 'expense_records': 832}
+PASS | POST sole revision exact v2.2 shape | 1|2a6a027d-806d-44f8-92e0-131f78c6d14b|2026-10|2026-10-28|美团月付|331.37|331.37||0|2026-10-29T03:39:08.413Z
+== independent in-memory debtsAt replay ==
+PASS | debtsAt 2026-09 count/due/美团 | count=5 due=0.00 names=美团月付,浦发车贷,招商分期,京东白条,花呗
+PASS | debtsAt 2026-10 count/due/美团 | count=4 due=14187.36 names=浦发车贷,招商分期,京东白条,花呗
+PASS | debtsAt 2026-11 count/due/美团 | count=4 due=8849.15 names=浦发车贷,招商分期,京东白条,花呗
+PASS | 2026-11 no 331.37/1.88 residual
+PASS | debtsAt 2026-12 count/due/美团 | count=4 due=0.00 names=浦发车贷,招商分期,京东白条,花呗
+PASS | 2026-12 no 331.37/1.88 residual
+PASS | debtsAt 2027-01 count/due/美团 | count=4 due=0.00 names=浦发车贷,招商分期,京东白条,花呗
+PASS | 2027-01 no 331.37/1.88 residual
+PASS | 2026-10 visible debt balance | 172248.16
+PASS | arithmetic 14518.73-331.37
+PASS | arithmetic 8851.03-1.88
+== gates ==
+PASS | independent gates all green
+RESULT: PASS; checks=43; failed=0

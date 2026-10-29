@@ -1,0 +1,121 @@
+{
+  "mode": "apply",
+  "rotatedAtUtc": "2026-10-23T09:16:53.663Z",
+  "authorizationFile": "/Users/linte/Library/Application Support/com.personalfinance.console/production-v8-hotfix-release-authorization.json",
+  "authorizationSha256": "4e036ff2f01b3713524b8b58a9c1858eb721e4ba2d7f7019db5d8a44bd13782b",
+  "oldExecutableSha256": "6f957ba04c6dc6d87a34ad60ce4c8b64a77f63470e1e9300e018cb276b43bae4",
+  "newExecutableSha256": "bb74f2aa2462e87db26bb2d30ea63f7c05059669a68ef7dc9096c938d8148ece",
+  "before": {
+    "terminal": "341ad1870244d3c9fc0cc30e5d6cd96f2d2caeb77757ae7d29cd24e0cf852e6d",
+    "receipt": "9b0f622bac000054cfbb57249d9feb339cfb1728d1421a073ccb89cf8ce60fab",
+    "ledger": "b975f1ff49077d6d76ebe7ec9d0a283b7fccd13f80e72382271dc3b008cc9755"
+  },
+  "after": {
+    "terminal": "d4931cbd90012e5f6209100f9439dea751294dcaeca044aec65a0f3670fb9fc7",
+    "receipt": "8896137e19ceb49be7b259c363a713858271a15fde633cb997380787efdd4676",
+    "ledger": "99f91685d03172454db681e0ae20a48f6ea1ce81d175956aae61d0479194bcbb"
+  },
+  "diffs": {
+    "receipt": [
+      "candidateExecutableSha256",
+      "productionAppInventory[0].executable_sha256",
+      "hotfixReleaseRotation.authorizationId",
+      "hotfixReleaseRotation.rotatedAtUtc",
+      "hotfixReleaseRotation.previousExecutableSha256",
+      "hotfixReleaseRotation.newExecutableSha256",
+      "hotfixReleaseRotation.previousReceiptSha256",
+      "hotfixReleaseRotation.hotfixAuthorizationSha256"
+    ],
+    "ledger": [
+      "[0].candidateExecutableSha256"
+    ],
+    "terminal": [
+      "releaseReceiptSha256",
+      "consumedLedgerSha256",
+      "candidateExecutableSha256"
+    ]
+  }
+}
+{
+  "rotationsSha256": "1f0ee79f756e34001d934060acb342ea31296c1480b465bf14943a1abdfc4164",
+  "record": {
+    "formatVersion": 1,
+    "domain": "PRODUCTION",
+    "kind": "AUTHORIZED_HOTFIX_CANDIDATE_BINDING_ROTATION",
+    "semanticStatement": "候选指纹的含义由「上一次授权生产包」更新为「当前授权生产包」；迁移事实由历史字段与审计副本继续作证。这是有意的、经授权的绑定轮换，不是篡改迁移记录。",
+    "authorizationId": "owner-approval-ux-round2-20261023-1",
+    "ownerApproval": "2026-10-23 EXEC-UX-ROUND2 任务书 §0",
+    "taskBook": "docs/EXEC-UX-ROUND2-20261023.md §0",
+    "scope": "仅限任务书 §3 字段清单：三件套候选可执行指纹 + 终态 releaseReceiptSha256 / consumedLedgerSha256",
+    "prerequisiteRelease": "owner-approval-ux-round2-20261023-1",
+    "authorizationFile": "/Users/linte/Library/Application Support/com.personalfinance.console/production-v8-hotfix-release-authorization.json",
+    "authorizationSha256": "4e036ff2f01b3713524b8b58a9c1858eb721e4ba2d7f7019db5d8a44bd13782b",
+    "rotatedAtUtc": "2026-10-23T09:16:53.663Z",
+    "previousExecutableSha256": "6f957ba04c6dc6d87a34ad60ce4c8b64a77f63470e1e9300e018cb276b43bae4",
+    "newExecutableSha256": "bb74f2aa2462e87db26bb2d30ea63f7c05059669a68ef7dc9096c938d8148ece",
+    "auditCopies": [
+      {
+        "path": "/Users/linte/Library/Application Support/com.personalfinance.console/production-v8-hotfix-audit/ux-round2-20261023",
+        "files": [
+          {
+            "name": "production-v8-cutover-terminal.json",
+            "sha256": "341ad1870244d3c9fc0cc30e5d6cd96f2d2caeb77757ae7d29cd24e0cf852e6d"
+          },
+          {
+            "name": "production-v8-release-receipt.json",
+            "sha256": "9b0f622bac000054cfbb57249d9feb339cfb1728d1421a073ccb89cf8ce60fab"
+          },
+          {
+            "name": "production-v8-consumed-authorizations.json",
+            "sha256": "b975f1ff49077d6d76ebe7ec9d0a283b7fccd13f80e72382271dc3b008cc9755"
+          },
+          {
+            "name": "production-v8-hotfix-rotations.json",
+            "sha256": "fbfbcbc3d7ea45af5252bae060539cf6f9fa1a6fcaaf80a8db43683015a5194b"
+          },
+          {
+            "name": "production-v8-hotfix-release-authorization.json",
+            "sha256": "438e9a51a4a40b721495b23d45d7e53db96ac42e256d1c3f991766dbc2df7c21"
+          }
+        ]
+      },
+      {
+        "path": "/Users/linte/Library/Application Support/com.personalfinance.console/backups/pre-ux-round2-gate-20261023T091645",
+        "files": [
+          {
+            "name": "production-v8-cutover-terminal.json",
+            "sha256": "341ad1870244d3c9fc0cc30e5d6cd96f2d2caeb77757ae7d29cd24e0cf852e6d"
+          },
+          {
+            "name": "production-v8-release-receipt.json",
+            "sha256": "9b0f622bac000054cfbb57249d9feb339cfb1728d1421a073ccb89cf8ce60fab"
+          },
+          {
+            "name": "production-v8-consumed-authorizations.json",
+            "sha256": "b975f1ff49077d6d76ebe7ec9d0a283b7fccd13f80e72382271dc3b008cc9755"
+          },
+          {
+            "name": "production-v8-hotfix-rotations.json",
+            "sha256": "fbfbcbc3d7ea45af5252bae060539cf6f9fa1a6fcaaf80a8db43683015a5194b"
+          },
+          {
+            "name": "production-v8-hotfix-release-authorization.json",
+            "sha256": "438e9a51a4a40b721495b23d45d7e53db96ac42e256d1c3f991766dbc2df7c21"
+          }
+        ]
+      }
+    ],
+    "before": {
+      "terminal": "341ad1870244d3c9fc0cc30e5d6cd96f2d2caeb77757ae7d29cd24e0cf852e6d",
+      "receipt": "9b0f622bac000054cfbb57249d9feb339cfb1728d1421a073ccb89cf8ce60fab",
+      "ledger": "b975f1ff49077d6d76ebe7ec9d0a283b7fccd13f80e72382271dc3b008cc9755"
+    },
+    "after": {
+      "production-v8-cutover-terminal.json": "d4931cbd90012e5f6209100f9439dea751294dcaeca044aec65a0f3670fb9fc7",
+      "production-v8-release-receipt.json": "8896137e19ceb49be7b259c363a713858271a15fde633cb997380787efdd4676",
+      "production-v8-consumed-authorizations.json": "99f91685d03172454db681e0ae20a48f6ea1ce81d175956aae61d0479194bcbb"
+    },
+    "gateReadsThisFile": false
+  }
+}
+UX_ROUND2_REBIND_APPLIED

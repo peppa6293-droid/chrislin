@@ -8,6 +8,8 @@ import "./ui/v2-surface.css";
 import "./ui/v2-tokens.css";
 import "./ui/v2-card.css";
 import "./ui/v2-home-revamp.css";
+import "./ui/v2-structure-ring.css";
+import "./ui/v2-fixed-page.css";
 import "./ui/v2-feedback.css";
 import "./ui/v2-calendar-picker.css";
 import "./ui/v2-detail-visual.css";

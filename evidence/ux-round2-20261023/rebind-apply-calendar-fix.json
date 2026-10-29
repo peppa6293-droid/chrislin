@@ -1,0 +1,90 @@
+{
+  "production-v8-cutover-terminal.json": "d714aed7c9caa3c9fc387d5e6675f02a1303326315df025ef55ef227f2716fe9",
+  "production-v8-release-receipt.json": "9b3e440cefd8281381e1594507df47a09bd5d18d2cbfc0bf46fe805a10737e81",
+  "production-v8-consumed-authorizations.json": "0d7db2bb369c9459c9845cd5a2ed82a2cc9e7a9a5430732b346d6ca324d285c1",
+  "production-v8-hotfix-rotations.json": "4b2c66dfd14967a2f36f849e03cd0f06ba5a60a8f298cb70d313dc6caa646f52",
+  "production-v8-hotfix-release-authorization.json": "c70344a3105174261bc4b5068636fed3f81d8de594f99b2e7e06d94ff144c0ea",
+  "terminal.candidateExecutableSha256": "d407b7bf554263a25c805cfb385b108393e626248a8aeb84f8adf88c0c09c86c",
+  "terminal.releaseReceiptSha256": "9b3e440cefd8281381e1594507df47a09bd5d18d2cbfc0bf46fe805a10737e81",
+  "terminal.consumedLedgerSha256": "0d7db2bb369c9459c9845cd5a2ed82a2cc9e7a9a5430732b346d6ca324d285c1",
+  "rotations.count": 3,
+  "rotations.last": {
+    "formatVersion": 1,
+    "domain": "PRODUCTION",
+    "kind": "AUTHORIZED_HOTFIX_CANDIDATE_BINDING_ROTATION",
+    "semanticStatement": "候选指纹的含义由「上一次授权生产包」更新为「当前授权生产包」；迁移事实由历史字段与审计副本继续作证。这是有意的、经授权的绑定轮换，不是篡改迁移记录。",
+    "authorizationId": "owner-approval-ux-round2-20261023-1",
+    "ownerApproval": "2026-10-23 EXEC-UX-ROUND2 任务书 §0",
+    "taskBook": "docs/EXEC-UX-ROUND2-20261023.md §0",
+    "scope": "仅限任务书 §3 字段清单：三件套候选可执行指纹 + 终态 releaseReceiptSha256 / consumedLedgerSha256",
+    "prerequisiteRelease": "owner-approval-ux-round2-20261023-1",
+    "authorizationFile": "/Users/linte/Library/Application Support/com.personalfinance.console/production-v8-hotfix-release-authorization.json",
+    "authorizationSha256": "c70344a3105174261bc4b5068636fed3f81d8de594f99b2e7e06d94ff144c0ea",
+    "rotatedAtUtc": "2026-10-23T10:38:08.741Z",
+    "previousExecutableSha256": "bb74f2aa2462e87db26bb2d30ea63f7c05059669a68ef7dc9096c938d8148ece",
+    "newExecutableSha256": "d407b7bf554263a25c805cfb385b108393e626248a8aeb84f8adf88c0c09c86c",
+    "auditCopies": [
+      {
+        "path": "/Users/linte/Library/Application Support/com.personalfinance.console/production-v8-hotfix-audit/ux-round2-20261023-calendar-fix",
+        "files": [
+          {
+            "name": "production-v8-cutover-terminal.json",
+            "sha256": "d4931cbd90012e5f6209100f9439dea751294dcaeca044aec65a0f3670fb9fc7"
+          },
+          {
+            "name": "production-v8-release-receipt.json",
+            "sha256": "8896137e19ceb49be7b259c363a713858271a15fde633cb997380787efdd4676"
+          },
+          {
+            "name": "production-v8-consumed-authorizations.json",
+            "sha256": "99f91685d03172454db681e0ae20a48f6ea1ce81d175956aae61d0479194bcbb"
+          },
+          {
+            "name": "production-v8-hotfix-rotations.json",
+            "sha256": "1f0ee79f756e34001d934060acb342ea31296c1480b465bf14943a1abdfc4164"
+          },
+          {
+            "name": "production-v8-hotfix-release-authorization.json",
+            "sha256": "4e036ff2f01b3713524b8b58a9c1858eb721e4ba2d7f7019db5d8a44bd13782b"
+          }
+        ]
+      },
+      {
+        "path": "/Users/linte/Library/Application Support/com.personalfinance.console/backups/pre-ux-round2-gate-20261023T103758",
+        "files": [
+          {
+            "name": "production-v8-cutover-terminal.json",
+            "sha256": "d4931cbd90012e5f6209100f9439dea751294dcaeca044aec65a0f3670fb9fc7"
+          },
+          {
+            "name": "production-v8-release-receipt.json",
+            "sha256": "8896137e19ceb49be7b259c363a713858271a15fde633cb997380787efdd4676"
+          },
+          {
+            "name": "production-v8-consumed-authorizations.json",
+            "sha256": "99f91685d03172454db681e0ae20a48f6ea1ce81d175956aae61d0479194bcbb"
+          },
+          {
+            "name": "production-v8-hotfix-rotations.json",
+            "sha256": "1f0ee79f756e34001d934060acb342ea31296c1480b465bf14943a1abdfc4164"
+          },
+          {
+            "name": "production-v8-hotfix-release-authorization.json",
+            "sha256": "4e036ff2f01b3713524b8b58a9c1858eb721e4ba2d7f7019db5d8a44bd13782b"
+          }
+        ]
+      }
+    ],
+    "before": {
+      "terminal": "d4931cbd90012e5f6209100f9439dea751294dcaeca044aec65a0f3670fb9fc7",
+      "receipt": "8896137e19ceb49be7b259c363a713858271a15fde633cb997380787efdd4676",
+      "ledger": "99f91685d03172454db681e0ae20a48f6ea1ce81d175956aae61d0479194bcbb"
+    },
+    "after": {
+      "production-v8-cutover-terminal.json": "d714aed7c9caa3c9fc387d5e6675f02a1303326315df025ef55ef227f2716fe9",
+      "production-v8-release-receipt.json": "9b3e440cefd8281381e1594507df47a09bd5d18d2cbfc0bf46fe805a10737e81",
+      "production-v8-consumed-authorizations.json": "0d7db2bb369c9459c9845cd5a2ed82a2cc9e7a9a5430732b346d6ca324d285c1"
+    },
+    "gateReadsThisFile": false
+  }
+}

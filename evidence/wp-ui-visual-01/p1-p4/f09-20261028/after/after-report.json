@@ -1,0 +1,7490 @@
+{
+  "label": "after",
+  "asset": "/Users/linte/Documents/ChatGPT/小钱家-新/小钱家V3_WP-UI-VISUAL-01_设计参考资产",
+  "generatedAt": "2026-10-28T06:38:11.673Z",
+  "widths": [
+    390,
+    760,
+    980
+  ],
+  "states": [
+    "over-outer",
+    "over-both",
+    "over-large",
+    "over-split",
+    "overload",
+    "roomy",
+    "light-over",
+    "zero-burden",
+    "pending"
+  ],
+  "contrast": {
+    "markOnWhite": 4.66,
+    "markOnPage": 4.3,
+    "amountOnWhite": 15.03,
+    "shareOnWhite": 4.97,
+    "tealEdgeOnWhite": 6.06
+  },
+  "regression": [
+    {
+      "name": "F-05 first module offset at 390",
+      "ok": true,
+      "detail": {
+        "firstModuleY": 796.6,
+        "heroY": 154,
+        "chartY": 511.6
+      }
+    },
+    {
+      "name": "F-01 collapsed summary from real values",
+      "ok": true,
+      "detail": "支付日期 2026-10-27 · 备注 地铁月卡"
+    },
+    {
+      "name": "F-03 aria-controls points at a real container",
+      "ok": true,
+      "detail": {
+        "controls": "payment-details",
+        "targetExists": true
+      }
+    },
+    {
+      "name": "F-03 expanded target visible / collapsed target hidden",
+      "ok": true,
+      "detail": {
+        "collapsed": "支付日期 2026-10-27 · 备注 地铁月卡",
+        "controls": "payment-details",
+        "targetExists": true,
+        "expandedHidden": false,
+        "expandedAria": "true",
+        "collapsedHidden": true,
+        "ariaLabel": "展开支付日期与备注（支付日期 2026-10-27 · 备注 地铁月卡）"
+      }
+    },
+    {
+      "name": "F-06 submit reachable at 320px height",
+      "ok": true,
+      "detail": {
+        "bottom": 303,
+        "vh": 320
+      }
+    }
+  ],
+  "exceptions": [],
+  "remoteRequests": [],
+  "total": 36,
+  "passed": 36,
+  "failures": [],
+  "report": [
+    {
+      "label": "after",
+      "state": "over-outer",
+      "width": 390,
+      "height": 1423,
+      "screenshot": "after-home-over-outer-390.png",
+      "checks": [
+        {
+          "name": "no-legacy-stripes-or-pattern",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-overflow-summary-block",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "no-category-extra",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "marker-count",
+          "ok": true,
+          "detail": "1/1"
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "docScrollWidth": 390,
+            "width": 390,
+            "overflow": []
+          }
+        },
+        {
+          "name": "aria-label",
+          "ok": true,
+          "detail": {
+            "actual": "固定支出 120%，已超出 ¥2,600.00，必须偿还月供 20%",
+            "expected": "固定支出 120%，已超出 ¥2,600.00，必须偿还月供 20%"
+          }
+        },
+        {
+          "name": "ring-has-no-spend-word",
+          "ok": true,
+          "detail": "固定支出¥15,600.00占收入 120%已超出 ¥2,600.00必须偿还月供¥2,600.00占收入 20%"
+        },
+        {
+          "name": "notes-text",
+          "ok": true,
+          "detail": [
+            "已超出 ¥2,600.00"
+          ]
+        },
+        {
+          "name": "notes-not-clipped",
+          "ok": true,
+          "detail": [
+            357
+          ]
+        },
+        {
+          "name": "row-count",
+          "ok": true,
+          "detail": "2/2"
+        },
+        {
+          "name": "row-name-amount-share",
+          "ok": true,
+          "detail": [
+            [
+              "固定支出",
+              "¥15,600.00",
+              "占收入 120%"
+            ],
+            [
+              "必须偿还月供",
+              "¥2,600.00",
+              "占收入 20%"
+            ]
+          ]
+        },
+        {
+          "name": "row-over-flag",
+          "ok": true,
+          "detail": [
+            "true",
+            "false"
+          ]
+        },
+        {
+          "name": "row-not-clipped",
+          "ok": true,
+          "detail": [
+            "固定支出",
+            "必须偿还月供"
+          ]
+        },
+        {
+          "name": "center-is-income",
+          "ok": true,
+          "detail": {
+            "actual": "¥13,000",
+            "expected": "¥13,000"
+          }
+        },
+        {
+          "name": "surplus-value",
+          "ok": true,
+          "detail": {
+            "actual": "−¥5,200.00",
+            "expected": "−¥5,200.00"
+          }
+        },
+        {
+          "name": "ratio-value",
+          "ok": true,
+          "detail": {
+            "actual": "占收入 -40%",
+            "expected": "占收入 -40%"
+          }
+        },
+        {
+          "name": "marker-size-3x14",
+          "ok": true,
+          "detail": [
+            [
+              3,
+              14
+            ],
+            null
+          ]
+        },
+        {
+          "name": "marker-color-c2503c",
+          "ok": true,
+          "detail": [
+            "rgb(194, 80, 60)",
+            null
+          ]
+        },
+        {
+          "name": "marker-radius-2",
+          "ok": true,
+          "detail": [
+            "2px",
+            null
+          ]
+        },
+        {
+          "name": "marker-decorative",
+          "ok": true,
+          "detail": [
+            "true",
+            null
+          ]
+        },
+        {
+          "name": "marker-left-of-amount-8px",
+          "ok": true,
+          "detail": [
+            8,
+            null
+          ]
+        },
+        {
+          "name": "single-lap-arcs",
+          "ok": true,
+          "detail": [
+            {
+              "r": 94,
+              "dash": "590.6194188748811 590.6194188748811"
+            },
+            {
+              "r": 71,
+              "dash": "89.22123136195013 446.10615680975064"
+            }
+          ]
+        },
+        {
+          "name": "no-warning-icon-in-chart",
+          "ok": true,
+          "detail": [
+            "ring"
+          ]
+        },
+        {
+          "name": "clean-view",
+          "ok": true,
+          "detail": false
+        }
+      ],
+      "pass": true,
+      "data": {
+        "docScrollWidth": 390,
+        "innerWidth": 390,
+        "stripes": 0,
+        "overflowSummary": false,
+        "categoryExtra": false,
+        "rows": [
+          {
+            "name": "固定支出",
+            "amount": "¥15,600.00",
+            "share": "占收入 120%",
+            "over": "true",
+            "box": {
+              "x": 33,
+              "y": 723.59,
+              "w": 324,
+              "h": 23,
+              "right": 357,
+              "bottom": 746.59
+            },
+            "clipped": false,
+            "marker": {
+              "box": {
+                "x": 139.39,
+                "y": 730.59,
+                "w": 3,
+                "h": 14,
+                "right": 142.39,
+                "bottom": 744.59
+              },
+              "bg": "rgb(194, 80, 60)",
+              "radius": "2px",
+              "ariaHidden": "true",
+              "gap": 8
+            },
+            "amountBox": {
+              "x": 150.39,
+              "y": 721.59,
+              "w": 123.98,
+              "h": 26,
+              "right": 274.38,
+              "bottom": 747.59
+            }
+          },
+          {
+            "name": "必须偿还月供",
+            "amount": "¥2,600.00",
+            "share": "占收入 20%",
+            "over": "false",
+            "box": {
+              "x": 33,
+              "y": 771.34,
+              "w": 324,
+              "h": 23,
+              "right": 357,
+              "bottom": 794.34
+            },
+            "clipped": false,
+            "marker": null,
+            "amountBox": {
+              "x": 170.17,
+              "y": 769.34,
+              "w": 109.97,
+              "h": 26,
+              "right": 280.14,
+              "bottom": 795.34
+            }
+          }
+        ],
+        "notes": [
+          {
+            "text": "已超出 ¥2,600.00",
+            "box": {
+              "x": 33,
+              "y": 746.59,
+              "w": 324,
+              "h": 18.75,
+              "right": 357,
+              "bottom": 765.34
+            },
+            "clipped": false
+          }
+        ],
+        "arcs": [
+          {
+            "r": 94,
+            "dash": "590.6194188748811 590.6194188748811"
+          },
+          {
+            "r": 71,
+            "dash": "89.22123136195013 446.10615680975064"
+          }
+        ],
+        "stray": [
+          "ring"
+        ],
+        "aria": "固定支出 120%，已超出 ¥2,600.00，必须偿还月供 20%",
+        "ringText": "固定支出¥15,600.00占收入 120%已超出 ¥2,600.00必须偿还月供¥2,600.00占收入 20%",
+        "hasSpendWord": false,
+        "surplus": "−¥5,200.00",
+        "ratio": "占收入 -40%",
+        "center": "¥13,000",
+        "overflow": [],
+        "reviewToolbar": false
+      }
+    },
+    {
+      "label": "after",
+      "state": "over-outer",
+      "width": 760,
+      "height": 1656,
+      "screenshot": "after-home-over-outer-760.png",
+      "checks": [
+        {
+          "name": "no-legacy-stripes-or-pattern",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-overflow-summary-block",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "no-category-extra",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "marker-count",
+          "ok": true,
+          "detail": "1/1"
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "docScrollWidth": 760,
+            "width": 760,
+            "overflow": []
+          }
+        },
+        {
+          "name": "aria-label",
+          "ok": true,
+          "detail": {
+            "actual": "固定支出 120%，已超出 ¥2,600.00，必须偿还月供 20%",
+            "expected": "固定支出 120%，已超出 ¥2,600.00，必须偿还月供 20%"
+          }
+        },
+        {
+          "name": "ring-has-no-spend-word",
+          "ok": true,
+          "detail": "固定支出¥15,600.00占收入 120%已超出 ¥2,600.00必须偿还月供¥2,600.00占收入 20%"
+        },
+        {
+          "name": "notes-text",
+          "ok": true,
+          "detail": [
+            "已超出 ¥2,600.00"
+          ]
+        },
+        {
+          "name": "notes-not-clipped",
+          "ok": true,
+          "detail": [
+            590
+          ]
+        },
+        {
+          "name": "row-count",
+          "ok": true,
+          "detail": "2/2"
+        },
+        {
+          "name": "row-name-amount-share",
+          "ok": true,
+          "detail": [
+            [
+              "固定支出",
+              "¥15,600.00",
+              "占收入 120%"
+            ],
+            [
+              "必须偿还月供",
+              "¥2,600.00",
+              "占收入 20%"
+            ]
+          ]
+        },
+        {
+          "name": "row-over-flag",
+          "ok": true,
+          "detail": [
+            "true",
+            "false"
+          ]
+        },
+        {
+          "name": "row-not-clipped",
+          "ok": true,
+          "detail": [
+            "固定支出",
+            "必须偿还月供"
+          ]
+        },
+        {
+          "name": "center-is-income",
+          "ok": true,
+          "detail": {
+            "actual": "¥13,000",
+            "expected": "¥13,000"
+          }
+        },
+        {
+          "name": "surplus-value",
+          "ok": true,
+          "detail": {
+            "actual": "−¥5,200.00",
+            "expected": "−¥5,200.00"
+          }
+        },
+        {
+          "name": "ratio-value",
+          "ok": true,
+          "detail": {
+            "actual": "占收入 -40%",
+            "expected": "占收入 -40%"
+          }
+        },
+        {
+          "name": "marker-size-3x14",
+          "ok": true,
+          "detail": [
+            [
+              3,
+              14
+            ],
+            null
+          ]
+        },
+        {
+          "name": "marker-color-c2503c",
+          "ok": true,
+          "detail": [
+            "rgb(194, 80, 60)",
+            null
+          ]
+        },
+        {
+          "name": "marker-radius-2",
+          "ok": true,
+          "detail": [
+            "2px",
+            null
+          ]
+        },
+        {
+          "name": "marker-decorative",
+          "ok": true,
+          "detail": [
+            "true",
+            null
+          ]
+        },
+        {
+          "name": "marker-left-of-amount-8px",
+          "ok": true,
+          "detail": [
+            8,
+            null
+          ]
+        },
+        {
+          "name": "single-lap-arcs",
+          "ok": true,
+          "detail": [
+            {
+              "r": 94,
+              "dash": "590.6194188748811 590.6194188748811"
+            },
+            {
+              "r": 71,
+              "dash": "89.22123136195013 446.10615680975064"
+            }
+          ]
+        },
+        {
+          "name": "no-warning-icon-in-chart",
+          "ok": true,
+          "detail": [
+            "ring"
+          ]
+        },
+        {
+          "name": "clean-view",
+          "ok": true,
+          "detail": false
+        }
+      ],
+      "pass": true,
+      "data": {
+        "docScrollWidth": 760,
+        "innerWidth": 760,
+        "stripes": 0,
+        "overflowSummary": false,
+        "categoryExtra": false,
+        "rows": [
+          {
+            "name": "固定支出",
+            "amount": "¥15,600.00",
+            "share": "占收入 120%",
+            "over": "true",
+            "box": {
+              "x": 170,
+              "y": 918.09,
+              "w": 420,
+              "h": 23,
+              "right": 590,
+              "bottom": 941.09
+            },
+            "clipped": false,
+            "marker": {
+              "box": {
+                "x": 372.39,
+                "y": 925.09,
+                "w": 3,
+                "h": 14,
+                "right": 375.39,
+                "bottom": 939.09
+              },
+              "bg": "rgb(194, 80, 60)",
+              "radius": "2px",
+              "ariaHidden": "true",
+              "gap": 8
+            },
+            "amountBox": {
+              "x": 383.39,
+              "y": 916.09,
+              "w": 123.98,
+              "h": 26,
+              "right": 507.38,
+              "bottom": 942.09
+            }
+          },
+          {
+            "name": "必须偿还月供",
+            "amount": "¥2,600.00",
+            "share": "占收入 20%",
+            "over": "false",
+            "box": {
+              "x": 170,
+              "y": 969.84,
+              "w": 420,
+              "h": 23,
+              "right": 590,
+              "bottom": 992.84
+            },
+            "clipped": false,
+            "marker": null,
+            "amountBox": {
+              "x": 403.17,
+              "y": 967.84,
+              "w": 109.97,
+              "h": 26,
+              "right": 513.14,
+              "bottom": 993.84
+            }
+          }
+        ],
+        "notes": [
+          {
+            "text": "已超出 ¥2,600.00",
+            "box": {
+              "x": 170,
+              "y": 943.09,
+              "w": 420,
+              "h": 18.75,
+              "right": 590,
+              "bottom": 961.84
+            },
+            "clipped": false
+          }
+        ],
+        "arcs": [
+          {
+            "r": 94,
+            "dash": "590.6194188748811 590.6194188748811"
+          },
+          {
+            "r": 71,
+            "dash": "89.22123136195013 446.10615680975064"
+          }
+        ],
+        "stray": [
+          "ring"
+        ],
+        "aria": "固定支出 120%，已超出 ¥2,600.00，必须偿还月供 20%",
+        "ringText": "固定支出¥15,600.00占收入 120%已超出 ¥2,600.00必须偿还月供¥2,600.00占收入 20%",
+        "hasSpendWord": false,
+        "surplus": "−¥5,200.00",
+        "ratio": "占收入 -40%",
+        "center": "¥13,000",
+        "overflow": [],
+        "reviewToolbar": false
+      }
+    },
+    {
+      "label": "after",
+      "state": "over-outer",
+      "width": 980,
+      "height": 1510,
+      "screenshot": "after-home-over-outer-980.png",
+      "checks": [
+        {
+          "name": "no-legacy-stripes-or-pattern",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-overflow-summary-block",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "no-category-extra",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "marker-count",
+          "ok": true,
+          "detail": "1/1"
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "docScrollWidth": 980,
+            "width": 980,
+            "overflow": []
+          }
+        },
+        {
+          "name": "aria-label",
+          "ok": true,
+          "detail": {
+            "actual": "固定支出 120%，已超出 ¥2,600.00，必须偿还月供 20%",
+            "expected": "固定支出 120%，已超出 ¥2,600.00，必须偿还月供 20%"
+          }
+        },
+        {
+          "name": "ring-has-no-spend-word",
+          "ok": true,
+          "detail": "固定支出¥15,600.00占收入 120%已超出 ¥2,600.00必须偿还月供¥2,600.00占收入 20%"
+        },
+        {
+          "name": "notes-text",
+          "ok": true,
+          "detail": [
+            "已超出 ¥2,600.00"
+          ]
+        },
+        {
+          "name": "notes-not-clipped",
+          "ok": true,
+          "detail": [
+            774
+          ]
+        },
+        {
+          "name": "row-count",
+          "ok": true,
+          "detail": "2/2"
+        },
+        {
+          "name": "row-name-amount-share",
+          "ok": true,
+          "detail": [
+            [
+              "固定支出",
+              "¥15,600.00",
+              "占收入 120%"
+            ],
+            [
+              "必须偿还月供",
+              "¥2,600.00",
+              "占收入 20%"
+            ]
+          ]
+        },
+        {
+          "name": "row-over-flag",
+          "ok": true,
+          "detail": [
+            "true",
+            "false"
+          ]
+        },
+        {
+          "name": "row-not-clipped",
+          "ok": true,
+          "detail": [
+            "固定支出",
+            "必须偿还月供"
+          ]
+        },
+        {
+          "name": "center-is-income",
+          "ok": true,
+          "detail": {
+            "actual": "¥13,000",
+            "expected": "¥13,000"
+          }
+        },
+        {
+          "name": "surplus-value",
+          "ok": true,
+          "detail": {
+            "actual": "−¥5,200.00",
+            "expected": "−¥5,200.00"
+          }
+        },
+        {
+          "name": "ratio-value",
+          "ok": true,
+          "detail": {
+            "actual": "占收入 -40%",
+            "expected": "占收入 -40%"
+          }
+        },
+        {
+          "name": "marker-size-3x14",
+          "ok": true,
+          "detail": [
+            [
+              3,
+              14
+            ],
+            null
+          ]
+        },
+        {
+          "name": "marker-color-c2503c",
+          "ok": true,
+          "detail": [
+            "rgb(194, 80, 60)",
+            null
+          ]
+        },
+        {
+          "name": "marker-radius-2",
+          "ok": true,
+          "detail": [
+            "2px",
+            null
+          ]
+        },
+        {
+          "name": "marker-decorative",
+          "ok": true,
+          "detail": [
+            "true",
+            null
+          ]
+        },
+        {
+          "name": "marker-left-of-amount-8px",
+          "ok": true,
+          "detail": [
+            8,
+            null
+          ]
+        },
+        {
+          "name": "single-lap-arcs",
+          "ok": true,
+          "detail": [
+            {
+              "r": 94,
+              "dash": "590.6194188748811 590.6194188748811"
+            },
+            {
+              "r": 71,
+              "dash": "89.22123136195013 446.10615680975064"
+            }
+          ]
+        },
+        {
+          "name": "no-warning-icon-in-chart",
+          "ok": true,
+          "detail": [
+            "ring"
+          ]
+        },
+        {
+          "name": "clean-view",
+          "ok": true,
+          "detail": false
+        }
+      ],
+      "pass": true,
+      "data": {
+        "docScrollWidth": 980,
+        "innerWidth": 980,
+        "stripes": 0,
+        "overflowSummary": false,
+        "categoryExtra": false,
+        "rows": [
+          {
+            "name": "固定支出",
+            "amount": "¥15,600.00",
+            "share": "占收入 120%",
+            "over": "true",
+            "box": {
+              "x": 454,
+              "y": 686.09,
+              "w": 320,
+              "h": 23,
+              "right": 774,
+              "bottom": 709.09
+            },
+            "clipped": false,
+            "marker": {
+              "box": {
+                "x": 556.39,
+                "y": 693.09,
+                "w": 3,
+                "h": 14,
+                "right": 559.39,
+                "bottom": 707.09
+              },
+              "bg": "rgb(194, 80, 60)",
+              "radius": "2px",
+              "ariaHidden": "true",
+              "gap": 8
+            },
+            "amountBox": {
+              "x": 567.39,
+              "y": 684.09,
+              "w": 123.98,
+              "h": 26,
+              "right": 691.38,
+              "bottom": 710.09
+            }
+          },
+          {
+            "name": "必须偿还月供",
+            "amount": "¥2,600.00",
+            "share": "占收入 20%",
+            "over": "false",
+            "box": {
+              "x": 454,
+              "y": 745.84,
+              "w": 320,
+              "h": 23,
+              "right": 774,
+              "bottom": 768.84
+            },
+            "clipped": false,
+            "marker": null,
+            "amountBox": {
+              "x": 587.17,
+              "y": 743.84,
+              "w": 109.97,
+              "h": 26,
+              "right": 697.14,
+              "bottom": 769.84
+            }
+          }
+        ],
+        "notes": [
+          {
+            "text": "已超出 ¥2,600.00",
+            "box": {
+              "x": 454,
+              "y": 715.09,
+              "w": 320,
+              "h": 18.75,
+              "right": 774,
+              "bottom": 733.84
+            },
+            "clipped": false
+          }
+        ],
+        "arcs": [
+          {
+            "r": 94,
+            "dash": "590.6194188748811 590.6194188748811"
+          },
+          {
+            "r": 71,
+            "dash": "89.22123136195013 446.10615680975064"
+          }
+        ],
+        "stray": [
+          "ring"
+        ],
+        "aria": "固定支出 120%，已超出 ¥2,600.00，必须偿还月供 20%",
+        "ringText": "固定支出¥15,600.00占收入 120%已超出 ¥2,600.00必须偿还月供¥2,600.00占收入 20%",
+        "hasSpendWord": false,
+        "surplus": "−¥5,200.00",
+        "ratio": "占收入 -40%",
+        "center": "¥13,000",
+        "overflow": [],
+        "reviewToolbar": false
+      }
+    },
+    {
+      "label": "after",
+      "state": "over-both",
+      "width": 390,
+      "height": 1442,
+      "screenshot": "after-home-over-both-390.png",
+      "checks": [
+        {
+          "name": "no-legacy-stripes-or-pattern",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-overflow-summary-block",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "no-category-extra",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "marker-count",
+          "ok": true,
+          "detail": "2/2"
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "docScrollWidth": 390,
+            "width": 390,
+            "overflow": []
+          }
+        },
+        {
+          "name": "aria-label",
+          "ok": true,
+          "detail": {
+            "actual": "固定支出 120%，已超出 ¥2,600.00，必须偿还月供 120%，已超出 ¥2,600.00",
+            "expected": "固定支出 120%，已超出 ¥2,600.00，必须偿还月供 120%，已超出 ¥2,600.00"
+          }
+        },
+        {
+          "name": "ring-has-no-spend-word",
+          "ok": true,
+          "detail": "固定支出¥15,600.00占收入 120%已超出 ¥2,600.00必须偿还月供¥15,600.00占收入 120%已超出 ¥2,600.00"
+        },
+        {
+          "name": "notes-text",
+          "ok": true,
+          "detail": [
+            "已超出 ¥2,600.00",
+            "已超出 ¥2,600.00"
+          ]
+        },
+        {
+          "name": "notes-not-clipped",
+          "ok": true,
+          "detail": [
+            357,
+            357
+          ]
+        },
+        {
+          "name": "row-count",
+          "ok": true,
+          "detail": "2/2"
+        },
+        {
+          "name": "row-name-amount-share",
+          "ok": true,
+          "detail": [
+            [
+              "固定支出",
+              "¥15,600.00",
+              "占收入 120%"
+            ],
+            [
+              "必须偿还月供",
+              "¥15,600.00",
+              "占收入 120%"
+            ]
+          ]
+        },
+        {
+          "name": "row-over-flag",
+          "ok": true,
+          "detail": [
+            "true",
+            "true"
+          ]
+        },
+        {
+          "name": "row-not-clipped",
+          "ok": true,
+          "detail": [
+            "固定支出",
+            "必须偿还月供"
+          ]
+        },
+        {
+          "name": "center-is-income",
+          "ok": true,
+          "detail": {
+            "actual": "¥13,000",
+            "expected": "¥13,000"
+          }
+        },
+        {
+          "name": "surplus-value",
+          "ok": true,
+          "detail": {
+            "actual": "−¥18,200.00",
+            "expected": "−¥18,200.00"
+          }
+        },
+        {
+          "name": "ratio-value",
+          "ok": true,
+          "detail": {
+            "actual": "占收入 -140%",
+            "expected": "占收入 -140%"
+          }
+        },
+        {
+          "name": "marker-size-3x14",
+          "ok": true,
+          "detail": [
+            [
+              3,
+              14
+            ],
+            [
+              3,
+              14
+            ]
+          ]
+        },
+        {
+          "name": "marker-color-c2503c",
+          "ok": true,
+          "detail": [
+            "rgb(194, 80, 60)",
+            "rgb(194, 80, 60)"
+          ]
+        },
+        {
+          "name": "marker-radius-2",
+          "ok": true,
+          "detail": [
+            "2px",
+            "2px"
+          ]
+        },
+        {
+          "name": "marker-decorative",
+          "ok": true,
+          "detail": [
+            "true",
+            "true"
+          ]
+        },
+        {
+          "name": "marker-left-of-amount-8px",
+          "ok": true,
+          "detail": [
+            8,
+            8
+          ]
+        },
+        {
+          "name": "single-lap-arcs",
+          "ok": true,
+          "detail": [
+            {
+              "r": 94,
+              "dash": "590.6194188748811 590.6194188748811"
+            },
+            {
+              "r": 71,
+              "dash": "446.10615680975064 446.10615680975064"
+            }
+          ]
+        },
+        {
+          "name": "no-warning-icon-in-chart",
+          "ok": true,
+          "detail": [
+            "ring"
+          ]
+        },
+        {
+          "name": "clean-view",
+          "ok": true,
+          "detail": false
+        }
+      ],
+      "pass": true,
+      "data": {
+        "docScrollWidth": 390,
+        "innerWidth": 390,
+        "stripes": 0,
+        "overflowSummary": false,
+        "categoryExtra": false,
+        "rows": [
+          {
+            "name": "固定支出",
+            "amount": "¥15,600.00",
+            "share": "占收入 120%",
+            "over": "true",
+            "box": {
+              "x": 33,
+              "y": 723.59,
+              "w": 324,
+              "h": 23,
+              "right": 357,
+              "bottom": 746.59
+            },
+            "clipped": false,
+            "marker": {
+              "box": {
+                "x": 139.39,
+                "y": 730.59,
+                "w": 3,
+                "h": 14,
+                "right": 142.39,
+                "bottom": 744.59
+              },
+              "bg": "rgb(194, 80, 60)",
+              "radius": "2px",
+              "ariaHidden": "true",
+              "gap": 8
+            },
+            "amountBox": {
+              "x": 150.39,
+              "y": 721.59,
+              "w": 123.98,
+              "h": 26,
+              "right": 274.38,
+              "bottom": 747.59
+            }
+          },
+          {
+            "name": "必须偿还月供",
+            "amount": "¥15,600.00",
+            "share": "占收入 120%",
+            "over": "true",
+            "box": {
+              "x": 33,
+              "y": 771.34,
+              "w": 324,
+              "h": 23,
+              "right": 357,
+              "bottom": 794.34
+            },
+            "clipped": false,
+            "marker": {
+              "box": {
+                "x": 139.39,
+                "y": 778.34,
+                "w": 3,
+                "h": 14,
+                "right": 142.39,
+                "bottom": 792.34
+              },
+              "bg": "rgb(194, 80, 60)",
+              "radius": "2px",
+              "ariaHidden": "true",
+              "gap": 8
+            },
+            "amountBox": {
+              "x": 150.39,
+              "y": 769.34,
+              "w": 123.98,
+              "h": 26,
+              "right": 274.38,
+              "bottom": 795.34
+            }
+          }
+        ],
+        "notes": [
+          {
+            "text": "已超出 ¥2,600.00",
+            "box": {
+              "x": 33,
+              "y": 746.59,
+              "w": 324,
+              "h": 18.75,
+              "right": 357,
+              "bottom": 765.34
+            },
+            "clipped": false
+          },
+          {
+            "text": "已超出 ¥2,600.00",
+            "box": {
+              "x": 33,
+              "y": 794.34,
+              "w": 324,
+              "h": 18.75,
+              "right": 357,
+              "bottom": 813.09
+            },
+            "clipped": false
+          }
+        ],
+        "arcs": [
+          {
+            "r": 94,
+            "dash": "590.6194188748811 590.6194188748811"
+          },
+          {
+            "r": 71,
+            "dash": "446.10615680975064 446.10615680975064"
+          }
+        ],
+        "stray": [
+          "ring"
+        ],
+        "aria": "固定支出 120%，已超出 ¥2,600.00，必须偿还月供 120%，已超出 ¥2,600.00",
+        "ringText": "固定支出¥15,600.00占收入 120%已超出 ¥2,600.00必须偿还月供¥15,600.00占收入 120%已超出 ¥2,600.00",
+        "hasSpendWord": false,
+        "surplus": "−¥18,200.00",
+        "ratio": "占收入 -140%",
+        "center": "¥13,000",
+        "overflow": [],
+        "reviewToolbar": false
+      }
+    },
+    {
+      "label": "after",
+      "state": "over-both",
+      "width": 760,
+      "height": 1677,
+      "screenshot": "after-home-over-both-760.png",
+      "checks": [
+        {
+          "name": "no-legacy-stripes-or-pattern",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-overflow-summary-block",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "no-category-extra",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "marker-count",
+          "ok": true,
+          "detail": "2/2"
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "docScrollWidth": 760,
+            "width": 760,
+            "overflow": []
+          }
+        },
+        {
+          "name": "aria-label",
+          "ok": true,
+          "detail": {
+            "actual": "固定支出 120%，已超出 ¥2,600.00，必须偿还月供 120%，已超出 ¥2,600.00",
+            "expected": "固定支出 120%，已超出 ¥2,600.00，必须偿还月供 120%，已超出 ¥2,600.00"
+          }
+        },
+        {
+          "name": "ring-has-no-spend-word",
+          "ok": true,
+          "detail": "固定支出¥15,600.00占收入 120%已超出 ¥2,600.00必须偿还月供¥15,600.00占收入 120%已超出 ¥2,600.00"
+        },
+        {
+          "name": "notes-text",
+          "ok": true,
+          "detail": [
+            "已超出 ¥2,600.00",
+            "已超出 ¥2,600.00"
+          ]
+        },
+        {
+          "name": "notes-not-clipped",
+          "ok": true,
+          "detail": [
+            590,
+            590
+          ]
+        },
+        {
+          "name": "row-count",
+          "ok": true,
+          "detail": "2/2"
+        },
+        {
+          "name": "row-name-amount-share",
+          "ok": true,
+          "detail": [
+            [
+              "固定支出",
+              "¥15,600.00",
+              "占收入 120%"
+            ],
+            [
+              "必须偿还月供",
+              "¥15,600.00",
+              "占收入 120%"
+            ]
+          ]
+        },
+        {
+          "name": "row-over-flag",
+          "ok": true,
+          "detail": [
+            "true",
+            "true"
+          ]
+        },
+        {
+          "name": "row-not-clipped",
+          "ok": true,
+          "detail": [
+            "固定支出",
+            "必须偿还月供"
+          ]
+        },
+        {
+          "name": "center-is-income",
+          "ok": true,
+          "detail": {
+            "actual": "¥13,000",
+            "expected": "¥13,000"
+          }
+        },
+        {
+          "name": "surplus-value",
+          "ok": true,
+          "detail": {
+            "actual": "−¥18,200.00",
+            "expected": "−¥18,200.00"
+          }
+        },
+        {
+          "name": "ratio-value",
+          "ok": true,
+          "detail": {
+            "actual": "占收入 -140%",
+            "expected": "占收入 -140%"
+          }
+        },
+        {
+          "name": "marker-size-3x14",
+          "ok": true,
+          "detail": [
+            [
+              3,
+              14
+            ],
+            [
+              3,
+              14
+            ]
+          ]
+        },
+        {
+          "name": "marker-color-c2503c",
+          "ok": true,
+          "detail": [
+            "rgb(194, 80, 60)",
+            "rgb(194, 80, 60)"
+          ]
+        },
+        {
+          "name": "marker-radius-2",
+          "ok": true,
+          "detail": [
+            "2px",
+            "2px"
+          ]
+        },
+        {
+          "name": "marker-decorative",
+          "ok": true,
+          "detail": [
+            "true",
+            "true"
+          ]
+        },
+        {
+          "name": "marker-left-of-amount-8px",
+          "ok": true,
+          "detail": [
+            8,
+            8
+          ]
+        },
+        {
+          "name": "single-lap-arcs",
+          "ok": true,
+          "detail": [
+            {
+              "r": 94,
+              "dash": "590.6194188748811 590.6194188748811"
+            },
+            {
+              "r": 71,
+              "dash": "446.10615680975064 446.10615680975064"
+            }
+          ]
+        },
+        {
+          "name": "no-warning-icon-in-chart",
+          "ok": true,
+          "detail": [
+            "ring"
+          ]
+        },
+        {
+          "name": "clean-view",
+          "ok": true,
+          "detail": false
+        }
+      ],
+      "pass": true,
+      "data": {
+        "docScrollWidth": 760,
+        "innerWidth": 760,
+        "stripes": 0,
+        "overflowSummary": false,
+        "categoryExtra": false,
+        "rows": [
+          {
+            "name": "固定支出",
+            "amount": "¥15,600.00",
+            "share": "占收入 120%",
+            "over": "true",
+            "box": {
+              "x": 170,
+              "y": 918.09,
+              "w": 420,
+              "h": 23,
+              "right": 590,
+              "bottom": 941.09
+            },
+            "clipped": false,
+            "marker": {
+              "box": {
+                "x": 372.39,
+                "y": 925.09,
+                "w": 3,
+                "h": 14,
+                "right": 375.39,
+                "bottom": 939.09
+              },
+              "bg": "rgb(194, 80, 60)",
+              "radius": "2px",
+              "ariaHidden": "true",
+              "gap": 8
+            },
+            "amountBox": {
+              "x": 383.39,
+              "y": 916.09,
+              "w": 123.98,
+              "h": 26,
+              "right": 507.38,
+              "bottom": 942.09
+            }
+          },
+          {
+            "name": "必须偿还月供",
+            "amount": "¥15,600.00",
+            "share": "占收入 120%",
+            "over": "true",
+            "box": {
+              "x": 170,
+              "y": 969.84,
+              "w": 420,
+              "h": 23,
+              "right": 590,
+              "bottom": 992.84
+            },
+            "clipped": false,
+            "marker": {
+              "box": {
+                "x": 372.39,
+                "y": 976.84,
+                "w": 3,
+                "h": 14,
+                "right": 375.39,
+                "bottom": 990.84
+              },
+              "bg": "rgb(194, 80, 60)",
+              "radius": "2px",
+              "ariaHidden": "true",
+              "gap": 8
+            },
+            "amountBox": {
+              "x": 383.39,
+              "y": 967.84,
+              "w": 123.98,
+              "h": 26,
+              "right": 507.38,
+              "bottom": 993.84
+            }
+          }
+        ],
+        "notes": [
+          {
+            "text": "已超出 ¥2,600.00",
+            "box": {
+              "x": 170,
+              "y": 943.09,
+              "w": 420,
+              "h": 18.75,
+              "right": 590,
+              "bottom": 961.84
+            },
+            "clipped": false
+          },
+          {
+            "text": "已超出 ¥2,600.00",
+            "box": {
+              "x": 170,
+              "y": 994.84,
+              "w": 420,
+              "h": 18.75,
+              "right": 590,
+              "bottom": 1013.59
+            },
+            "clipped": false
+          }
+        ],
+        "arcs": [
+          {
+            "r": 94,
+            "dash": "590.6194188748811 590.6194188748811"
+          },
+          {
+            "r": 71,
+            "dash": "446.10615680975064 446.10615680975064"
+          }
+        ],
+        "stray": [
+          "ring"
+        ],
+        "aria": "固定支出 120%，已超出 ¥2,600.00，必须偿还月供 120%，已超出 ¥2,600.00",
+        "ringText": "固定支出¥15,600.00占收入 120%已超出 ¥2,600.00必须偿还月供¥15,600.00占收入 120%已超出 ¥2,600.00",
+        "hasSpendWord": false,
+        "surplus": "−¥18,200.00",
+        "ratio": "占收入 -140%",
+        "center": "¥13,000",
+        "overflow": [],
+        "reviewToolbar": false
+      }
+    },
+    {
+      "label": "after",
+      "state": "over-both",
+      "width": 980,
+      "height": 1510,
+      "screenshot": "after-home-over-both-980.png",
+      "checks": [
+        {
+          "name": "no-legacy-stripes-or-pattern",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-overflow-summary-block",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "no-category-extra",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "marker-count",
+          "ok": true,
+          "detail": "2/2"
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "docScrollWidth": 980,
+            "width": 980,
+            "overflow": []
+          }
+        },
+        {
+          "name": "aria-label",
+          "ok": true,
+          "detail": {
+            "actual": "固定支出 120%，已超出 ¥2,600.00，必须偿还月供 120%，已超出 ¥2,600.00",
+            "expected": "固定支出 120%，已超出 ¥2,600.00，必须偿还月供 120%，已超出 ¥2,600.00"
+          }
+        },
+        {
+          "name": "ring-has-no-spend-word",
+          "ok": true,
+          "detail": "固定支出¥15,600.00占收入 120%已超出 ¥2,600.00必须偿还月供¥15,600.00占收入 120%已超出 ¥2,600.00"
+        },
+        {
+          "name": "notes-text",
+          "ok": true,
+          "detail": [
+            "已超出 ¥2,600.00",
+            "已超出 ¥2,600.00"
+          ]
+        },
+        {
+          "name": "notes-not-clipped",
+          "ok": true,
+          "detail": [
+            774,
+            774
+          ]
+        },
+        {
+          "name": "row-count",
+          "ok": true,
+          "detail": "2/2"
+        },
+        {
+          "name": "row-name-amount-share",
+          "ok": true,
+          "detail": [
+            [
+              "固定支出",
+              "¥15,600.00",
+              "占收入 120%"
+            ],
+            [
+              "必须偿还月供",
+              "¥15,600.00",
+              "占收入 120%"
+            ]
+          ]
+        },
+        {
+          "name": "row-over-flag",
+          "ok": true,
+          "detail": [
+            "true",
+            "true"
+          ]
+        },
+        {
+          "name": "row-not-clipped",
+          "ok": true,
+          "detail": [
+            "固定支出",
+            "必须偿还月供"
+          ]
+        },
+        {
+          "name": "center-is-income",
+          "ok": true,
+          "detail": {
+            "actual": "¥13,000",
+            "expected": "¥13,000"
+          }
+        },
+        {
+          "name": "surplus-value",
+          "ok": true,
+          "detail": {
+            "actual": "−¥18,200.00",
+            "expected": "−¥18,200.00"
+          }
+        },
+        {
+          "name": "ratio-value",
+          "ok": true,
+          "detail": {
+            "actual": "占收入 -140%",
+            "expected": "占收入 -140%"
+          }
+        },
+        {
+          "name": "marker-size-3x14",
+          "ok": true,
+          "detail": [
+            [
+              3,
+              14
+            ],
+            [
+              3,
+              14
+            ]
+          ]
+        },
+        {
+          "name": "marker-color-c2503c",
+          "ok": true,
+          "detail": [
+            "rgb(194, 80, 60)",
+            "rgb(194, 80, 60)"
+          ]
+        },
+        {
+          "name": "marker-radius-2",
+          "ok": true,
+          "detail": [
+            "2px",
+            "2px"
+          ]
+        },
+        {
+          "name": "marker-decorative",
+          "ok": true,
+          "detail": [
+            "true",
+            "true"
+          ]
+        },
+        {
+          "name": "marker-left-of-amount-8px",
+          "ok": true,
+          "detail": [
+            8,
+            8
+          ]
+        },
+        {
+          "name": "single-lap-arcs",
+          "ok": true,
+          "detail": [
+            {
+              "r": 94,
+              "dash": "590.6194188748811 590.6194188748811"
+            },
+            {
+              "r": 71,
+              "dash": "446.10615680975064 446.10615680975064"
+            }
+          ]
+        },
+        {
+          "name": "no-warning-icon-in-chart",
+          "ok": true,
+          "detail": [
+            "ring"
+          ]
+        },
+        {
+          "name": "clean-view",
+          "ok": true,
+          "detail": false
+        }
+      ],
+      "pass": true,
+      "data": {
+        "docScrollWidth": 980,
+        "innerWidth": 980,
+        "stripes": 0,
+        "overflowSummary": false,
+        "categoryExtra": false,
+        "rows": [
+          {
+            "name": "固定支出",
+            "amount": "¥15,600.00",
+            "share": "占收入 120%",
+            "over": "true",
+            "box": {
+              "x": 454,
+              "y": 686.09,
+              "w": 320,
+              "h": 23,
+              "right": 774,
+              "bottom": 709.09
+            },
+            "clipped": false,
+            "marker": {
+              "box": {
+                "x": 556.39,
+                "y": 693.09,
+                "w": 3,
+                "h": 14,
+                "right": 559.39,
+                "bottom": 707.09
+              },
+              "bg": "rgb(194, 80, 60)",
+              "radius": "2px",
+              "ariaHidden": "true",
+              "gap": 8
+            },
+            "amountBox": {
+              "x": 567.39,
+              "y": 684.09,
+              "w": 123.98,
+              "h": 26,
+              "right": 691.38,
+              "bottom": 710.09
+            }
+          },
+          {
+            "name": "必须偿还月供",
+            "amount": "¥15,600.00",
+            "share": "占收入 120%",
+            "over": "true",
+            "box": {
+              "x": 454,
+              "y": 745.84,
+              "w": 320,
+              "h": 23,
+              "right": 774,
+              "bottom": 768.84
+            },
+            "clipped": false,
+            "marker": {
+              "box": {
+                "x": 556.39,
+                "y": 752.84,
+                "w": 3,
+                "h": 14,
+                "right": 559.39,
+                "bottom": 766.84
+              },
+              "bg": "rgb(194, 80, 60)",
+              "radius": "2px",
+              "ariaHidden": "true",
+              "gap": 8
+            },
+            "amountBox": {
+              "x": 567.39,
+              "y": 743.84,
+              "w": 123.98,
+              "h": 26,
+              "right": 691.38,
+              "bottom": 769.84
+            }
+          }
+        ],
+        "notes": [
+          {
+            "text": "已超出 ¥2,600.00",
+            "box": {
+              "x": 454,
+              "y": 715.09,
+              "w": 320,
+              "h": 18.75,
+              "right": 774,
+              "bottom": 733.84
+            },
+            "clipped": false
+          },
+          {
+            "text": "已超出 ¥2,600.00",
+            "box": {
+              "x": 454,
+              "y": 774.84,
+              "w": 320,
+              "h": 18.75,
+              "right": 774,
+              "bottom": 793.59
+            },
+            "clipped": false
+          }
+        ],
+        "arcs": [
+          {
+            "r": 94,
+            "dash": "590.6194188748811 590.6194188748811"
+          },
+          {
+            "r": 71,
+            "dash": "446.10615680975064 446.10615680975064"
+          }
+        ],
+        "stray": [
+          "ring"
+        ],
+        "aria": "固定支出 120%，已超出 ¥2,600.00，必须偿还月供 120%，已超出 ¥2,600.00",
+        "ringText": "固定支出¥15,600.00占收入 120%已超出 ¥2,600.00必须偿还月供¥15,600.00占收入 120%已超出 ¥2,600.00",
+        "hasSpendWord": false,
+        "surplus": "−¥18,200.00",
+        "ratio": "占收入 -140%",
+        "center": "¥13,000",
+        "overflow": [],
+        "reviewToolbar": false
+      }
+    },
+    {
+      "label": "after",
+      "state": "over-large",
+      "width": 390,
+      "height": 1423,
+      "screenshot": "after-home-over-large-390.png",
+      "checks": [
+        {
+          "name": "no-legacy-stripes-or-pattern",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-overflow-summary-block",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "no-category-extra",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "marker-count",
+          "ok": true,
+          "detail": "1/1"
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "docScrollWidth": 390,
+            "width": 390,
+            "overflow": []
+          }
+        },
+        {
+          "name": "aria-label",
+          "ok": true,
+          "detail": {
+            "actual": "固定支出 230%，已超出 ¥13,000.00，必须偿还月供 10%",
+            "expected": "固定支出 230%，已超出 ¥13,000.00，必须偿还月供 10%"
+          }
+        },
+        {
+          "name": "ring-has-no-spend-word",
+          "ok": true,
+          "detail": "固定支出¥23,000.00占收入 230%已超出 ¥13,000.00必须偿还月供¥1,000.00占收入 10%"
+        },
+        {
+          "name": "notes-text",
+          "ok": true,
+          "detail": [
+            "已超出 ¥13,000.00"
+          ]
+        },
+        {
+          "name": "notes-not-clipped",
+          "ok": true,
+          "detail": [
+            357
+          ]
+        },
+        {
+          "name": "row-count",
+          "ok": true,
+          "detail": "2/2"
+        },
+        {
+          "name": "row-name-amount-share",
+          "ok": true,
+          "detail": [
+            [
+              "固定支出",
+              "¥23,000.00",
+              "占收入 230%"
+            ],
+            [
+              "必须偿还月供",
+              "¥1,000.00",
+              "占收入 10%"
+            ]
+          ]
+        },
+        {
+          "name": "row-over-flag",
+          "ok": true,
+          "detail": [
+            "true",
+            "false"
+          ]
+        },
+        {
+          "name": "row-not-clipped",
+          "ok": true,
+          "detail": [
+            "固定支出",
+            "必须偿还月供"
+          ]
+        },
+        {
+          "name": "center-is-income",
+          "ok": true,
+          "detail": {
+            "actual": "¥10,000",
+            "expected": "¥10,000"
+          }
+        },
+        {
+          "name": "surplus-value",
+          "ok": true,
+          "detail": {
+            "actual": "−¥14,000.00",
+            "expected": "−¥14,000.00"
+          }
+        },
+        {
+          "name": "ratio-value",
+          "ok": true,
+          "detail": {
+            "actual": "占收入 -140%",
+            "expected": "占收入 -140%"
+          }
+        },
+        {
+          "name": "marker-size-3x14",
+          "ok": true,
+          "detail": [
+            [
+              3,
+              14
+            ],
+            null
+          ]
+        },
+        {
+          "name": "marker-color-c2503c",
+          "ok": true,
+          "detail": [
+            "rgb(194, 80, 60)",
+            null
+          ]
+        },
+        {
+          "name": "marker-radius-2",
+          "ok": true,
+          "detail": [
+            "2px",
+            null
+          ]
+        },
+        {
+          "name": "marker-decorative",
+          "ok": true,
+          "detail": [
+            "true",
+            null
+          ]
+        },
+        {
+          "name": "marker-left-of-amount-8px",
+          "ok": true,
+          "detail": [
+            8,
+            null
+          ]
+        },
+        {
+          "name": "single-lap-arcs",
+          "ok": true,
+          "detail": [
+            {
+              "r": 94,
+              "dash": "590.6194188748811 590.6194188748811"
+            },
+            {
+              "r": 71,
+              "dash": "44.610615680975066 446.10615680975064"
+            }
+          ]
+        },
+        {
+          "name": "no-warning-icon-in-chart",
+          "ok": true,
+          "detail": [
+            "ring"
+          ]
+        },
+        {
+          "name": "clean-view",
+          "ok": true,
+          "detail": false
+        }
+      ],
+      "pass": true,
+      "data": {
+        "docScrollWidth": 390,
+        "innerWidth": 390,
+        "stripes": 0,
+        "overflowSummary": false,
+        "categoryExtra": false,
+        "rows": [
+          {
+            "name": "固定支出",
+            "amount": "¥23,000.00",
+            "share": "占收入 230%",
+            "over": "true",
+            "box": {
+              "x": 33,
+              "y": 723.59,
+              "w": 324,
+              "h": 23,
+              "right": 357,
+              "bottom": 746.59
+            },
+            "clipped": false,
+            "marker": {
+              "box": {
+                "x": 137.36,
+                "y": 730.59,
+                "w": 3,
+                "h": 14,
+                "right": 140.36,
+                "bottom": 744.59
+              },
+              "bg": "rgb(194, 80, 60)",
+              "radius": "2px",
+              "ariaHidden": "true",
+              "gap": 8
+            },
+            "amountBox": {
+              "x": 148.36,
+              "y": 721.59,
+              "w": 123.98,
+              "h": 26,
+              "right": 272.34,
+              "bottom": 747.59
+            }
+          },
+          {
+            "name": "必须偿还月供",
+            "amount": "¥1,000.00",
+            "share": "占收入 10%",
+            "over": "false",
+            "box": {
+              "x": 33,
+              "y": 771.34,
+              "w": 324,
+              "h": 23,
+              "right": 357,
+              "bottom": 794.34
+            },
+            "clipped": false,
+            "marker": null,
+            "amountBox": {
+              "x": 171.92,
+              "y": 769.34,
+              "w": 109.97,
+              "h": 26,
+              "right": 281.89,
+              "bottom": 795.34
+            }
+          }
+        ],
+        "notes": [
+          {
+            "text": "已超出 ¥13,000.00",
+            "box": {
+              "x": 33,
+              "y": 746.59,
+              "w": 324,
+              "h": 18.75,
+              "right": 357,
+              "bottom": 765.34
+            },
+            "clipped": false
+          }
+        ],
+        "arcs": [
+          {
+            "r": 94,
+            "dash": "590.6194188748811 590.6194188748811"
+          },
+          {
+            "r": 71,
+            "dash": "44.610615680975066 446.10615680975064"
+          }
+        ],
+        "stray": [
+          "ring"
+        ],
+        "aria": "固定支出 230%，已超出 ¥13,000.00，必须偿还月供 10%",
+        "ringText": "固定支出¥23,000.00占收入 230%已超出 ¥13,000.00必须偿还月供¥1,000.00占收入 10%",
+        "hasSpendWord": false,
+        "surplus": "−¥14,000.00",
+        "ratio": "占收入 -140%",
+        "center": "¥10,000",
+        "overflow": [],
+        "reviewToolbar": false
+      }
+    },
+    {
+      "label": "after",
+      "state": "over-large",
+      "width": 760,
+      "height": 1656,
+      "screenshot": "after-home-over-large-760.png",
+      "checks": [
+        {
+          "name": "no-legacy-stripes-or-pattern",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-overflow-summary-block",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "no-category-extra",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "marker-count",
+          "ok": true,
+          "detail": "1/1"
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "docScrollWidth": 760,
+            "width": 760,
+            "overflow": []
+          }
+        },
+        {
+          "name": "aria-label",
+          "ok": true,
+          "detail": {
+            "actual": "固定支出 230%，已超出 ¥13,000.00，必须偿还月供 10%",
+            "expected": "固定支出 230%，已超出 ¥13,000.00，必须偿还月供 10%"
+          }
+        },
+        {
+          "name": "ring-has-no-spend-word",
+          "ok": true,
+          "detail": "固定支出¥23,000.00占收入 230%已超出 ¥13,000.00必须偿还月供¥1,000.00占收入 10%"
+        },
+        {
+          "name": "notes-text",
+          "ok": true,
+          "detail": [
+            "已超出 ¥13,000.00"
+          ]
+        },
+        {
+          "name": "notes-not-clipped",
+          "ok": true,
+          "detail": [
+            590
+          ]
+        },
+        {
+          "name": "row-count",
+          "ok": true,
+          "detail": "2/2"
+        },
+        {
+          "name": "row-name-amount-share",
+          "ok": true,
+          "detail": [
+            [
+              "固定支出",
+              "¥23,000.00",
+              "占收入 230%"
+            ],
+            [
+              "必须偿还月供",
+              "¥1,000.00",
+              "占收入 10%"
+            ]
+          ]
+        },
+        {
+          "name": "row-over-flag",
+          "ok": true,
+          "detail": [
+            "true",
+            "false"
+          ]
+        },
+        {
+          "name": "row-not-clipped",
+          "ok": true,
+          "detail": [
+            "固定支出",
+            "必须偿还月供"
+          ]
+        },
+        {
+          "name": "center-is-income",
+          "ok": true,
+          "detail": {
+            "actual": "¥10,000",
+            "expected": "¥10,000"
+          }
+        },
+        {
+          "name": "surplus-value",
+          "ok": true,
+          "detail": {
+            "actual": "−¥14,000.00",
+            "expected": "−¥14,000.00"
+          }
+        },
+        {
+          "name": "ratio-value",
+          "ok": true,
+          "detail": {
+            "actual": "占收入 -140%",
+            "expected": "占收入 -140%"
+          }
+        },
+        {
+          "name": "marker-size-3x14",
+          "ok": true,
+          "detail": [
+            [
+              3,
+              14
+            ],
+            null
+          ]
+        },
+        {
+          "name": "marker-color-c2503c",
+          "ok": true,
+          "detail": [
+            "rgb(194, 80, 60)",
+            null
+          ]
+        },
+        {
+          "name": "marker-radius-2",
+          "ok": true,
+          "detail": [
+            "2px",
+            null
+          ]
+        },
+        {
+          "name": "marker-decorative",
+          "ok": true,
+          "detail": [
+            "true",
+            null
+          ]
+        },
+        {
+          "name": "marker-left-of-amount-8px",
+          "ok": true,
+          "detail": [
+            8,
+            null
+          ]
+        },
+        {
+          "name": "single-lap-arcs",
+          "ok": true,
+          "detail": [
+            {
+              "r": 94,
+              "dash": "590.6194188748811 590.6194188748811"
+            },
+            {
+              "r": 71,
+              "dash": "44.610615680975066 446.10615680975064"
+            }
+          ]
+        },
+        {
+          "name": "no-warning-icon-in-chart",
+          "ok": true,
+          "detail": [
+            "ring"
+          ]
+        },
+        {
+          "name": "clean-view",
+          "ok": true,
+          "detail": false
+        }
+      ],
+      "pass": true,
+      "data": {
+        "docScrollWidth": 760,
+        "innerWidth": 760,
+        "stripes": 0,
+        "overflowSummary": false,
+        "categoryExtra": false,
+        "rows": [
+          {
+            "name": "固定支出",
+            "amount": "¥23,000.00",
+            "share": "占收入 230%",
+            "over": "true",
+            "box": {
+              "x": 170,
+              "y": 918.09,
+              "w": 420,
+              "h": 23,
+              "right": 590,
+              "bottom": 941.09
+            },
+            "clipped": false,
+            "marker": {
+              "box": {
+                "x": 370.36,
+                "y": 925.09,
+                "w": 3,
+                "h": 14,
+                "right": 373.36,
+                "bottom": 939.09
+              },
+              "bg": "rgb(194, 80, 60)",
+              "radius": "2px",
+              "ariaHidden": "true",
+              "gap": 8
+            },
+            "amountBox": {
+              "x": 381.36,
+              "y": 916.09,
+              "w": 123.98,
+              "h": 26,
+              "right": 505.34,
+              "bottom": 942.09
+            }
+          },
+          {
+            "name": "必须偿还月供",
+            "amount": "¥1,000.00",
+            "share": "占收入 10%",
+            "over": "false",
+            "box": {
+              "x": 170,
+              "y": 969.84,
+              "w": 420,
+              "h": 23,
+              "right": 590,
+              "bottom": 992.84
+            },
+            "clipped": false,
+            "marker": null,
+            "amountBox": {
+              "x": 404.92,
+              "y": 967.84,
+              "w": 109.97,
+              "h": 26,
+              "right": 514.89,
+              "bottom": 993.84
+            }
+          }
+        ],
+        "notes": [
+          {
+            "text": "已超出 ¥13,000.00",
+            "box": {
+              "x": 170,
+              "y": 943.09,
+              "w": 420,
+              "h": 18.75,
+              "right": 590,
+              "bottom": 961.84
+            },
+            "clipped": false
+          }
+        ],
+        "arcs": [
+          {
+            "r": 94,
+            "dash": "590.6194188748811 590.6194188748811"
+          },
+          {
+            "r": 71,
+            "dash": "44.610615680975066 446.10615680975064"
+          }
+        ],
+        "stray": [
+          "ring"
+        ],
+        "aria": "固定支出 230%，已超出 ¥13,000.00，必须偿还月供 10%",
+        "ringText": "固定支出¥23,000.00占收入 230%已超出 ¥13,000.00必须偿还月供¥1,000.00占收入 10%",
+        "hasSpendWord": false,
+        "surplus": "−¥14,000.00",
+        "ratio": "占收入 -140%",
+        "center": "¥10,000",
+        "overflow": [],
+        "reviewToolbar": false
+      }
+    },
+    {
+      "label": "after",
+      "state": "over-large",
+      "width": 980,
+      "height": 1510,
+      "screenshot": "after-home-over-large-980.png",
+      "checks": [
+        {
+          "name": "no-legacy-stripes-or-pattern",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-overflow-summary-block",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "no-category-extra",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "marker-count",
+          "ok": true,
+          "detail": "1/1"
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "docScrollWidth": 980,
+            "width": 980,
+            "overflow": []
+          }
+        },
+        {
+          "name": "aria-label",
+          "ok": true,
+          "detail": {
+            "actual": "固定支出 230%，已超出 ¥13,000.00，必须偿还月供 10%",
+            "expected": "固定支出 230%，已超出 ¥13,000.00，必须偿还月供 10%"
+          }
+        },
+        {
+          "name": "ring-has-no-spend-word",
+          "ok": true,
+          "detail": "固定支出¥23,000.00占收入 230%已超出 ¥13,000.00必须偿还月供¥1,000.00占收入 10%"
+        },
+        {
+          "name": "notes-text",
+          "ok": true,
+          "detail": [
+            "已超出 ¥13,000.00"
+          ]
+        },
+        {
+          "name": "notes-not-clipped",
+          "ok": true,
+          "detail": [
+            774
+          ]
+        },
+        {
+          "name": "row-count",
+          "ok": true,
+          "detail": "2/2"
+        },
+        {
+          "name": "row-name-amount-share",
+          "ok": true,
+          "detail": [
+            [
+              "固定支出",
+              "¥23,000.00",
+              "占收入 230%"
+            ],
+            [
+              "必须偿还月供",
+              "¥1,000.00",
+              "占收入 10%"
+            ]
+          ]
+        },
+        {
+          "name": "row-over-flag",
+          "ok": true,
+          "detail": [
+            "true",
+            "false"
+          ]
+        },
+        {
+          "name": "row-not-clipped",
+          "ok": true,
+          "detail": [
+            "固定支出",
+            "必须偿还月供"
+          ]
+        },
+        {
+          "name": "center-is-income",
+          "ok": true,
+          "detail": {
+            "actual": "¥10,000",
+            "expected": "¥10,000"
+          }
+        },
+        {
+          "name": "surplus-value",
+          "ok": true,
+          "detail": {
+            "actual": "−¥14,000.00",
+            "expected": "−¥14,000.00"
+          }
+        },
+        {
+          "name": "ratio-value",
+          "ok": true,
+          "detail": {
+            "actual": "占收入 -140%",
+            "expected": "占收入 -140%"
+          }
+        },
+        {
+          "name": "marker-size-3x14",
+          "ok": true,
+          "detail": [
+            [
+              3,
+              14
+            ],
+            null
+          ]
+        },
+        {
+          "name": "marker-color-c2503c",
+          "ok": true,
+          "detail": [
+            "rgb(194, 80, 60)",
+            null
+          ]
+        },
+        {
+          "name": "marker-radius-2",
+          "ok": true,
+          "detail": [
+            "2px",
+            null
+          ]
+        },
+        {
+          "name": "marker-decorative",
+          "ok": true,
+          "detail": [
+            "true",
+            null
+          ]
+        },
+        {
+          "name": "marker-left-of-amount-8px",
+          "ok": true,
+          "detail": [
+            8,
+            null
+          ]
+        },
+        {
+          "name": "single-lap-arcs",
+          "ok": true,
+          "detail": [
+            {
+              "r": 94,
+              "dash": "590.6194188748811 590.6194188748811"
+            },
+            {
+              "r": 71,
+              "dash": "44.610615680975066 446.10615680975064"
+            }
+          ]
+        },
+        {
+          "name": "no-warning-icon-in-chart",
+          "ok": true,
+          "detail": [
+            "ring"
+          ]
+        },
+        {
+          "name": "clean-view",
+          "ok": true,
+          "detail": false
+        }
+      ],
+      "pass": true,
+      "data": {
+        "docScrollWidth": 980,
+        "innerWidth": 980,
+        "stripes": 0,
+        "overflowSummary": false,
+        "categoryExtra": false,
+        "rows": [
+          {
+            "name": "固定支出",
+            "amount": "¥23,000.00",
+            "share": "占收入 230%",
+            "over": "true",
+            "box": {
+              "x": 454,
+              "y": 686.09,
+              "w": 320,
+              "h": 23,
+              "right": 774,
+              "bottom": 709.09
+            },
+            "clipped": false,
+            "marker": {
+              "box": {
+                "x": 554.36,
+                "y": 693.09,
+                "w": 3,
+                "h": 14,
+                "right": 557.36,
+                "bottom": 707.09
+              },
+              "bg": "rgb(194, 80, 60)",
+              "radius": "2px",
+              "ariaHidden": "true",
+              "gap": 8
+            },
+            "amountBox": {
+              "x": 565.36,
+              "y": 684.09,
+              "w": 123.98,
+              "h": 26,
+              "right": 689.34,
+              "bottom": 710.09
+            }
+          },
+          {
+            "name": "必须偿还月供",
+            "amount": "¥1,000.00",
+            "share": "占收入 10%",
+            "over": "false",
+            "box": {
+              "x": 454,
+              "y": 745.84,
+              "w": 320,
+              "h": 23,
+              "right": 774,
+              "bottom": 768.84
+            },
+            "clipped": false,
+            "marker": null,
+            "amountBox": {
+              "x": 588.92,
+              "y": 743.84,
+              "w": 109.97,
+              "h": 26,
+              "right": 698.89,
+              "bottom": 769.84
+            }
+          }
+        ],
+        "notes": [
+          {
+            "text": "已超出 ¥13,000.00",
+            "box": {
+              "x": 454,
+              "y": 715.09,
+              "w": 320,
+              "h": 18.75,
+              "right": 774,
+              "bottom": 733.84
+            },
+            "clipped": false
+          }
+        ],
+        "arcs": [
+          {
+            "r": 94,
+            "dash": "590.6194188748811 590.6194188748811"
+          },
+          {
+            "r": 71,
+            "dash": "44.610615680975066 446.10615680975064"
+          }
+        ],
+        "stray": [
+          "ring"
+        ],
+        "aria": "固定支出 230%，已超出 ¥13,000.00，必须偿还月供 10%",
+        "ringText": "固定支出¥23,000.00占收入 230%已超出 ¥13,000.00必须偿还月供¥1,000.00占收入 10%",
+        "hasSpendWord": false,
+        "surplus": "−¥14,000.00",
+        "ratio": "占收入 -140%",
+        "center": "¥10,000",
+        "overflow": [],
+        "reviewToolbar": false
+      }
+    },
+    {
+      "label": "after",
+      "state": "over-split",
+      "width": 390,
+      "height": 1405,
+      "screenshot": "after-home-over-split-390.png",
+      "checks": [
+        {
+          "name": "no-legacy-stripes-or-pattern",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-overflow-summary-block",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "no-category-extra",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "marker-count",
+          "ok": true,
+          "detail": "0/0"
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "docScrollWidth": 390,
+            "width": 390,
+            "overflow": []
+          }
+        },
+        {
+          "name": "aria-label",
+          "ok": true,
+          "detail": {
+            "actual": "固定支出 70%，必须偿还月供 40%",
+            "expected": "固定支出 70%，必须偿还月供 40%"
+          }
+        },
+        {
+          "name": "ring-has-no-spend-word",
+          "ok": true,
+          "detail": "固定支出¥9,100.00占收入 70%必须偿还月供¥5,200.00占收入 40%"
+        },
+        {
+          "name": "notes-text",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "notes-not-clipped",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "row-count",
+          "ok": true,
+          "detail": "2/2"
+        },
+        {
+          "name": "row-name-amount-share",
+          "ok": true,
+          "detail": [
+            [
+              "固定支出",
+              "¥9,100.00",
+              "占收入 70%"
+            ],
+            [
+              "必须偿还月供",
+              "¥5,200.00",
+              "占收入 40%"
+            ]
+          ]
+        },
+        {
+          "name": "row-over-flag",
+          "ok": true,
+          "detail": [
+            "false",
+            "false"
+          ]
+        },
+        {
+          "name": "row-not-clipped",
+          "ok": true,
+          "detail": [
+            "固定支出",
+            "必须偿还月供"
+          ]
+        },
+        {
+          "name": "center-is-income",
+          "ok": true,
+          "detail": {
+            "actual": "¥13,000",
+            "expected": "¥13,000"
+          }
+        },
+        {
+          "name": "surplus-value",
+          "ok": true,
+          "detail": {
+            "actual": "−¥1,300.00",
+            "expected": "−¥1,300.00"
+          }
+        },
+        {
+          "name": "ratio-value",
+          "ok": true,
+          "detail": {
+            "actual": "占收入 -10%",
+            "expected": "占收入 -10%"
+          }
+        },
+        {
+          "name": "marker-size-3x14",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-color-c2503c",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-radius-2",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-decorative",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-left-of-amount-8px",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "single-lap-arcs",
+          "ok": true,
+          "detail": [
+            {
+              "r": 94,
+              "dash": "413.4335932124168 590.6194188748811"
+            },
+            {
+              "r": 71,
+              "dash": "178.44246272390026 446.10615680975064"
+            }
+          ]
+        },
+        {
+          "name": "no-warning-icon-in-chart",
+          "ok": true,
+          "detail": [
+            "ring"
+          ]
+        },
+        {
+          "name": "clean-view",
+          "ok": true,
+          "detail": false
+        }
+      ],
+      "pass": true,
+      "data": {
+        "docScrollWidth": 390,
+        "innerWidth": 390,
+        "stripes": 0,
+        "overflowSummary": false,
+        "categoryExtra": false,
+        "rows": [
+          {
+            "name": "固定支出",
+            "amount": "¥9,100.00",
+            "share": "占收入 70%",
+            "over": "false",
+            "box": {
+              "x": 33,
+              "y": 723.59,
+              "w": 324,
+              "h": 23,
+              "right": 357,
+              "bottom": 746.59
+            },
+            "clipped": false,
+            "marker": null,
+            "amountBox": {
+              "x": 170.78,
+              "y": 721.59,
+              "w": 109.97,
+              "h": 26,
+              "right": 280.75,
+              "bottom": 747.59
+            }
+          },
+          {
+            "name": "必须偿还月供",
+            "amount": "¥5,200.00",
+            "share": "占收入 40%",
+            "over": "false",
+            "box": {
+              "x": 33,
+              "y": 752.59,
+              "w": 324,
+              "h": 23,
+              "right": 357,
+              "bottom": 775.59
+            },
+            "clipped": false,
+            "marker": null,
+            "amountBox": {
+              "x": 169.67,
+              "y": 750.59,
+              "w": 109.97,
+              "h": 26,
+              "right": 279.64,
+              "bottom": 776.59
+            }
+          }
+        ],
+        "notes": [],
+        "arcs": [
+          {
+            "r": 94,
+            "dash": "413.4335932124168 590.6194188748811"
+          },
+          {
+            "r": 71,
+            "dash": "178.44246272390026 446.10615680975064"
+          }
+        ],
+        "stray": [
+          "ring"
+        ],
+        "aria": "固定支出 70%，必须偿还月供 40%",
+        "ringText": "固定支出¥9,100.00占收入 70%必须偿还月供¥5,200.00占收入 40%",
+        "hasSpendWord": false,
+        "surplus": "−¥1,300.00",
+        "ratio": "占收入 -10%",
+        "center": "¥13,000",
+        "overflow": [],
+        "reviewToolbar": false
+      }
+    },
+    {
+      "label": "after",
+      "state": "over-split",
+      "width": 760,
+      "height": 1635,
+      "screenshot": "after-home-over-split-760.png",
+      "checks": [
+        {
+          "name": "no-legacy-stripes-or-pattern",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-overflow-summary-block",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "no-category-extra",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "marker-count",
+          "ok": true,
+          "detail": "0/0"
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "docScrollWidth": 760,
+            "width": 760,
+            "overflow": []
+          }
+        },
+        {
+          "name": "aria-label",
+          "ok": true,
+          "detail": {
+            "actual": "固定支出 70%，必须偿还月供 40%",
+            "expected": "固定支出 70%，必须偿还月供 40%"
+          }
+        },
+        {
+          "name": "ring-has-no-spend-word",
+          "ok": true,
+          "detail": "固定支出¥9,100.00占收入 70%必须偿还月供¥5,200.00占收入 40%"
+        },
+        {
+          "name": "notes-text",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "notes-not-clipped",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "row-count",
+          "ok": true,
+          "detail": "2/2"
+        },
+        {
+          "name": "row-name-amount-share",
+          "ok": true,
+          "detail": [
+            [
+              "固定支出",
+              "¥9,100.00",
+              "占收入 70%"
+            ],
+            [
+              "必须偿还月供",
+              "¥5,200.00",
+              "占收入 40%"
+            ]
+          ]
+        },
+        {
+          "name": "row-over-flag",
+          "ok": true,
+          "detail": [
+            "false",
+            "false"
+          ]
+        },
+        {
+          "name": "row-not-clipped",
+          "ok": true,
+          "detail": [
+            "固定支出",
+            "必须偿还月供"
+          ]
+        },
+        {
+          "name": "center-is-income",
+          "ok": true,
+          "detail": {
+            "actual": "¥13,000",
+            "expected": "¥13,000"
+          }
+        },
+        {
+          "name": "surplus-value",
+          "ok": true,
+          "detail": {
+            "actual": "−¥1,300.00",
+            "expected": "−¥1,300.00"
+          }
+        },
+        {
+          "name": "ratio-value",
+          "ok": true,
+          "detail": {
+            "actual": "占收入 -10%",
+            "expected": "占收入 -10%"
+          }
+        },
+        {
+          "name": "marker-size-3x14",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-color-c2503c",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-radius-2",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-decorative",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-left-of-amount-8px",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "single-lap-arcs",
+          "ok": true,
+          "detail": [
+            {
+              "r": 94,
+              "dash": "413.4335932124168 590.6194188748811"
+            },
+            {
+              "r": 71,
+              "dash": "178.44246272390026 446.10615680975064"
+            }
+          ]
+        },
+        {
+          "name": "no-warning-icon-in-chart",
+          "ok": true,
+          "detail": [
+            "ring"
+          ]
+        },
+        {
+          "name": "clean-view",
+          "ok": true,
+          "detail": false
+        }
+      ],
+      "pass": true,
+      "data": {
+        "docScrollWidth": 760,
+        "innerWidth": 760,
+        "stripes": 0,
+        "overflowSummary": false,
+        "categoryExtra": false,
+        "rows": [
+          {
+            "name": "固定支出",
+            "amount": "¥9,100.00",
+            "share": "占收入 70%",
+            "over": "false",
+            "box": {
+              "x": 170,
+              "y": 918.09,
+              "w": 420,
+              "h": 23,
+              "right": 590,
+              "bottom": 941.09
+            },
+            "clipped": false,
+            "marker": null,
+            "amountBox": {
+              "x": 403.78,
+              "y": 916.09,
+              "w": 109.97,
+              "h": 26,
+              "right": 513.75,
+              "bottom": 942.09
+            }
+          },
+          {
+            "name": "必须偿还月供",
+            "amount": "¥5,200.00",
+            "share": "占收入 40%",
+            "over": "false",
+            "box": {
+              "x": 170,
+              "y": 949.09,
+              "w": 420,
+              "h": 23,
+              "right": 590,
+              "bottom": 972.09
+            },
+            "clipped": false,
+            "marker": null,
+            "amountBox": {
+              "x": 402.67,
+              "y": 947.09,
+              "w": 109.97,
+              "h": 26,
+              "right": 512.64,
+              "bottom": 973.09
+            }
+          }
+        ],
+        "notes": [],
+        "arcs": [
+          {
+            "r": 94,
+            "dash": "413.4335932124168 590.6194188748811"
+          },
+          {
+            "r": 71,
+            "dash": "178.44246272390026 446.10615680975064"
+          }
+        ],
+        "stray": [
+          "ring"
+        ],
+        "aria": "固定支出 70%，必须偿还月供 40%",
+        "ringText": "固定支出¥9,100.00占收入 70%必须偿还月供¥5,200.00占收入 40%",
+        "hasSpendWord": false,
+        "surplus": "−¥1,300.00",
+        "ratio": "占收入 -10%",
+        "center": "¥13,000",
+        "overflow": [],
+        "reviewToolbar": false
+      }
+    },
+    {
+      "label": "after",
+      "state": "over-split",
+      "width": 980,
+      "height": 1510,
+      "screenshot": "after-home-over-split-980.png",
+      "checks": [
+        {
+          "name": "no-legacy-stripes-or-pattern",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-overflow-summary-block",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "no-category-extra",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "marker-count",
+          "ok": true,
+          "detail": "0/0"
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "docScrollWidth": 980,
+            "width": 980,
+            "overflow": []
+          }
+        },
+        {
+          "name": "aria-label",
+          "ok": true,
+          "detail": {
+            "actual": "固定支出 70%，必须偿还月供 40%",
+            "expected": "固定支出 70%，必须偿还月供 40%"
+          }
+        },
+        {
+          "name": "ring-has-no-spend-word",
+          "ok": true,
+          "detail": "固定支出¥9,100.00占收入 70%必须偿还月供¥5,200.00占收入 40%"
+        },
+        {
+          "name": "notes-text",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "notes-not-clipped",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "row-count",
+          "ok": true,
+          "detail": "2/2"
+        },
+        {
+          "name": "row-name-amount-share",
+          "ok": true,
+          "detail": [
+            [
+              "固定支出",
+              "¥9,100.00",
+              "占收入 70%"
+            ],
+            [
+              "必须偿还月供",
+              "¥5,200.00",
+              "占收入 40%"
+            ]
+          ]
+        },
+        {
+          "name": "row-over-flag",
+          "ok": true,
+          "detail": [
+            "false",
+            "false"
+          ]
+        },
+        {
+          "name": "row-not-clipped",
+          "ok": true,
+          "detail": [
+            "固定支出",
+            "必须偿还月供"
+          ]
+        },
+        {
+          "name": "center-is-income",
+          "ok": true,
+          "detail": {
+            "actual": "¥13,000",
+            "expected": "¥13,000"
+          }
+        },
+        {
+          "name": "surplus-value",
+          "ok": true,
+          "detail": {
+            "actual": "−¥1,300.00",
+            "expected": "−¥1,300.00"
+          }
+        },
+        {
+          "name": "ratio-value",
+          "ok": true,
+          "detail": {
+            "actual": "占收入 -10%",
+            "expected": "占收入 -10%"
+          }
+        },
+        {
+          "name": "marker-size-3x14",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-color-c2503c",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-radius-2",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-decorative",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-left-of-amount-8px",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "single-lap-arcs",
+          "ok": true,
+          "detail": [
+            {
+              "r": 94,
+              "dash": "413.4335932124168 590.6194188748811"
+            },
+            {
+              "r": 71,
+              "dash": "178.44246272390026 446.10615680975064"
+            }
+          ]
+        },
+        {
+          "name": "no-warning-icon-in-chart",
+          "ok": true,
+          "detail": [
+            "ring"
+          ]
+        },
+        {
+          "name": "clean-view",
+          "ok": true,
+          "detail": false
+        }
+      ],
+      "pass": true,
+      "data": {
+        "docScrollWidth": 980,
+        "innerWidth": 980,
+        "stripes": 0,
+        "overflowSummary": false,
+        "categoryExtra": false,
+        "rows": [
+          {
+            "name": "固定支出",
+            "amount": "¥9,100.00",
+            "share": "占收入 70%",
+            "over": "false",
+            "box": {
+              "x": 454,
+              "y": 686.09,
+              "w": 320,
+              "h": 23,
+              "right": 774,
+              "bottom": 709.09
+            },
+            "clipped": false,
+            "marker": null,
+            "amountBox": {
+              "x": 587.78,
+              "y": 684.09,
+              "w": 109.97,
+              "h": 26,
+              "right": 697.75,
+              "bottom": 710.09
+            }
+          },
+          {
+            "name": "必须偿还月供",
+            "amount": "¥5,200.00",
+            "share": "占收入 40%",
+            "over": "false",
+            "box": {
+              "x": 454,
+              "y": 721.09,
+              "w": 320,
+              "h": 23,
+              "right": 774,
+              "bottom": 744.09
+            },
+            "clipped": false,
+            "marker": null,
+            "amountBox": {
+              "x": 586.67,
+              "y": 719.09,
+              "w": 109.97,
+              "h": 26,
+              "right": 696.64,
+              "bottom": 745.09
+            }
+          }
+        ],
+        "notes": [],
+        "arcs": [
+          {
+            "r": 94,
+            "dash": "413.4335932124168 590.6194188748811"
+          },
+          {
+            "r": 71,
+            "dash": "178.44246272390026 446.10615680975064"
+          }
+        ],
+        "stray": [
+          "ring"
+        ],
+        "aria": "固定支出 70%，必须偿还月供 40%",
+        "ringText": "固定支出¥9,100.00占收入 70%必须偿还月供¥5,200.00占收入 40%",
+        "hasSpendWord": false,
+        "surplus": "−¥1,300.00",
+        "ratio": "占收入 -10%",
+        "center": "¥13,000",
+        "overflow": [],
+        "reviewToolbar": false
+      }
+    },
+    {
+      "label": "after",
+      "state": "overload",
+      "width": 390,
+      "height": 1405,
+      "screenshot": "after-home-overload-390.png",
+      "checks": [
+        {
+          "name": "no-legacy-stripes-or-pattern",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-overflow-summary-block",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "no-category-extra",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "marker-count",
+          "ok": true,
+          "detail": "0/0"
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "docScrollWidth": 390,
+            "width": 390,
+            "overflow": []
+          }
+        },
+        {
+          "name": "aria-label",
+          "ok": true,
+          "detail": {
+            "actual": "固定支出 90.8%，必须偿还月供 32.3%",
+            "expected": "固定支出 90.8%，必须偿还月供 32.3%"
+          }
+        },
+        {
+          "name": "ring-has-no-spend-word",
+          "ok": true,
+          "detail": "固定支出¥11,800.00占收入 90.8%必须偿还月供¥4,200.00占收入 32.3%"
+        },
+        {
+          "name": "notes-text",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "notes-not-clipped",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "row-count",
+          "ok": true,
+          "detail": "2/2"
+        },
+        {
+          "name": "row-name-amount-share",
+          "ok": true,
+          "detail": [
+            [
+              "固定支出",
+              "¥11,800.00",
+              "占收入 90.8%"
+            ],
+            [
+              "必须偿还月供",
+              "¥4,200.00",
+              "占收入 32.3%"
+            ]
+          ]
+        },
+        {
+          "name": "row-over-flag",
+          "ok": true,
+          "detail": [
+            "false",
+            "false"
+          ]
+        },
+        {
+          "name": "row-not-clipped",
+          "ok": true,
+          "detail": [
+            "固定支出",
+            "必须偿还月供"
+          ]
+        },
+        {
+          "name": "center-is-income",
+          "ok": true,
+          "detail": {
+            "actual": "¥13,000",
+            "expected": "¥13,000"
+          }
+        },
+        {
+          "name": "surplus-value",
+          "ok": true,
+          "detail": {
+            "actual": "−¥3,000.00",
+            "expected": "−¥3,000.00"
+          }
+        },
+        {
+          "name": "ratio-value",
+          "ok": true,
+          "detail": {
+            "actual": "占收入 -23.1%",
+            "expected": "占收入 -23.1%"
+          }
+        },
+        {
+          "name": "marker-size-3x14",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-color-c2503c",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-radius-2",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-decorative",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-left-of-amount-8px",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "single-lap-arcs",
+          "ok": true,
+          "detail": [
+            {
+              "r": 94,
+              "dash": "536.1007032864305 590.6194188748811"
+            },
+            {
+              "r": 71,
+              "dash": "144.1266045077656 446.10615680975064"
+            }
+          ]
+        },
+        {
+          "name": "no-warning-icon-in-chart",
+          "ok": true,
+          "detail": [
+            "ring"
+          ]
+        },
+        {
+          "name": "clean-view",
+          "ok": true,
+          "detail": false
+        }
+      ],
+      "pass": true,
+      "data": {
+        "docScrollWidth": 390,
+        "innerWidth": 390,
+        "stripes": 0,
+        "overflowSummary": false,
+        "categoryExtra": false,
+        "rows": [
+          {
+            "name": "固定支出",
+            "amount": "¥11,800.00",
+            "share": "占收入 90.8%",
+            "over": "false",
+            "box": {
+              "x": 33,
+              "y": 723.59,
+              "w": 324,
+              "h": 23,
+              "right": 357,
+              "bottom": 746.59
+            },
+            "clipped": false,
+            "marker": null,
+            "amountBox": {
+              "x": 145.03,
+              "y": 721.59,
+              "w": 123.98,
+              "h": 26,
+              "right": 269.02,
+              "bottom": 747.59
+            }
+          },
+          {
+            "name": "必须偿还月供",
+            "amount": "¥4,200.00",
+            "share": "占收入 32.3%",
+            "over": "false",
+            "box": {
+              "x": 33,
+              "y": 752.59,
+              "w": 324,
+              "h": 23,
+              "right": 357,
+              "bottom": 775.59
+            },
+            "clipped": false,
+            "marker": null,
+            "amountBox": {
+              "x": 159.28,
+              "y": 750.59,
+              "w": 109.97,
+              "h": 26,
+              "right": 269.25,
+              "bottom": 776.59
+            }
+          }
+        ],
+        "notes": [],
+        "arcs": [
+          {
+            "r": 94,
+            "dash": "536.1007032864305 590.6194188748811"
+          },
+          {
+            "r": 71,
+            "dash": "144.1266045077656 446.10615680975064"
+          }
+        ],
+        "stray": [
+          "ring"
+        ],
+        "aria": "固定支出 90.8%，必须偿还月供 32.3%",
+        "ringText": "固定支出¥11,800.00占收入 90.8%必须偿还月供¥4,200.00占收入 32.3%",
+        "hasSpendWord": false,
+        "surplus": "−¥3,000.00",
+        "ratio": "占收入 -23.1%",
+        "center": "¥13,000",
+        "overflow": [],
+        "reviewToolbar": false
+      }
+    },
+    {
+      "label": "after",
+      "state": "overload",
+      "width": 760,
+      "height": 1635,
+      "screenshot": "after-home-overload-760.png",
+      "checks": [
+        {
+          "name": "no-legacy-stripes-or-pattern",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-overflow-summary-block",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "no-category-extra",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "marker-count",
+          "ok": true,
+          "detail": "0/0"
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "docScrollWidth": 760,
+            "width": 760,
+            "overflow": []
+          }
+        },
+        {
+          "name": "aria-label",
+          "ok": true,
+          "detail": {
+            "actual": "固定支出 90.8%，必须偿还月供 32.3%",
+            "expected": "固定支出 90.8%，必须偿还月供 32.3%"
+          }
+        },
+        {
+          "name": "ring-has-no-spend-word",
+          "ok": true,
+          "detail": "固定支出¥11,800.00占收入 90.8%必须偿还月供¥4,200.00占收入 32.3%"
+        },
+        {
+          "name": "notes-text",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "notes-not-clipped",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "row-count",
+          "ok": true,
+          "detail": "2/2"
+        },
+        {
+          "name": "row-name-amount-share",
+          "ok": true,
+          "detail": [
+            [
+              "固定支出",
+              "¥11,800.00",
+              "占收入 90.8%"
+            ],
+            [
+              "必须偿还月供",
+              "¥4,200.00",
+              "占收入 32.3%"
+            ]
+          ]
+        },
+        {
+          "name": "row-over-flag",
+          "ok": true,
+          "detail": [
+            "false",
+            "false"
+          ]
+        },
+        {
+          "name": "row-not-clipped",
+          "ok": true,
+          "detail": [
+            "固定支出",
+            "必须偿还月供"
+          ]
+        },
+        {
+          "name": "center-is-income",
+          "ok": true,
+          "detail": {
+            "actual": "¥13,000",
+            "expected": "¥13,000"
+          }
+        },
+        {
+          "name": "surplus-value",
+          "ok": true,
+          "detail": {
+            "actual": "−¥3,000.00",
+            "expected": "−¥3,000.00"
+          }
+        },
+        {
+          "name": "ratio-value",
+          "ok": true,
+          "detail": {
+            "actual": "占收入 -23.1%",
+            "expected": "占收入 -23.1%"
+          }
+        },
+        {
+          "name": "marker-size-3x14",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-color-c2503c",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-radius-2",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-decorative",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-left-of-amount-8px",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "single-lap-arcs",
+          "ok": true,
+          "detail": [
+            {
+              "r": 94,
+              "dash": "536.1007032864305 590.6194188748811"
+            },
+            {
+              "r": 71,
+              "dash": "144.1266045077656 446.10615680975064"
+            }
+          ]
+        },
+        {
+          "name": "no-warning-icon-in-chart",
+          "ok": true,
+          "detail": [
+            "ring"
+          ]
+        },
+        {
+          "name": "clean-view",
+          "ok": true,
+          "detail": false
+        }
+      ],
+      "pass": true,
+      "data": {
+        "docScrollWidth": 760,
+        "innerWidth": 760,
+        "stripes": 0,
+        "overflowSummary": false,
+        "categoryExtra": false,
+        "rows": [
+          {
+            "name": "固定支出",
+            "amount": "¥11,800.00",
+            "share": "占收入 90.8%",
+            "over": "false",
+            "box": {
+              "x": 170,
+              "y": 918.09,
+              "w": 420,
+              "h": 23,
+              "right": 590,
+              "bottom": 941.09
+            },
+            "clipped": false,
+            "marker": null,
+            "amountBox": {
+              "x": 378.03,
+              "y": 916.09,
+              "w": 123.98,
+              "h": 26,
+              "right": 502.02,
+              "bottom": 942.09
+            }
+          },
+          {
+            "name": "必须偿还月供",
+            "amount": "¥4,200.00",
+            "share": "占收入 32.3%",
+            "over": "false",
+            "box": {
+              "x": 170,
+              "y": 949.09,
+              "w": 420,
+              "h": 23,
+              "right": 590,
+              "bottom": 972.09
+            },
+            "clipped": false,
+            "marker": null,
+            "amountBox": {
+              "x": 392.28,
+              "y": 947.09,
+              "w": 109.97,
+              "h": 26,
+              "right": 502.25,
+              "bottom": 973.09
+            }
+          }
+        ],
+        "notes": [],
+        "arcs": [
+          {
+            "r": 94,
+            "dash": "536.1007032864305 590.6194188748811"
+          },
+          {
+            "r": 71,
+            "dash": "144.1266045077656 446.10615680975064"
+          }
+        ],
+        "stray": [
+          "ring"
+        ],
+        "aria": "固定支出 90.8%，必须偿还月供 32.3%",
+        "ringText": "固定支出¥11,800.00占收入 90.8%必须偿还月供¥4,200.00占收入 32.3%",
+        "hasSpendWord": false,
+        "surplus": "−¥3,000.00",
+        "ratio": "占收入 -23.1%",
+        "center": "¥13,000",
+        "overflow": [],
+        "reviewToolbar": false
+      }
+    },
+    {
+      "label": "after",
+      "state": "overload",
+      "width": 980,
+      "height": 1510,
+      "screenshot": "after-home-overload-980.png",
+      "checks": [
+        {
+          "name": "no-legacy-stripes-or-pattern",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-overflow-summary-block",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "no-category-extra",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "marker-count",
+          "ok": true,
+          "detail": "0/0"
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "docScrollWidth": 980,
+            "width": 980,
+            "overflow": []
+          }
+        },
+        {
+          "name": "aria-label",
+          "ok": true,
+          "detail": {
+            "actual": "固定支出 90.8%，必须偿还月供 32.3%",
+            "expected": "固定支出 90.8%，必须偿还月供 32.3%"
+          }
+        },
+        {
+          "name": "ring-has-no-spend-word",
+          "ok": true,
+          "detail": "固定支出¥11,800.00占收入 90.8%必须偿还月供¥4,200.00占收入 32.3%"
+        },
+        {
+          "name": "notes-text",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "notes-not-clipped",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "row-count",
+          "ok": true,
+          "detail": "2/2"
+        },
+        {
+          "name": "row-name-amount-share",
+          "ok": true,
+          "detail": [
+            [
+              "固定支出",
+              "¥11,800.00",
+              "占收入 90.8%"
+            ],
+            [
+              "必须偿还月供",
+              "¥4,200.00",
+              "占收入 32.3%"
+            ]
+          ]
+        },
+        {
+          "name": "row-over-flag",
+          "ok": true,
+          "detail": [
+            "false",
+            "false"
+          ]
+        },
+        {
+          "name": "row-not-clipped",
+          "ok": true,
+          "detail": [
+            "固定支出",
+            "必须偿还月供"
+          ]
+        },
+        {
+          "name": "center-is-income",
+          "ok": true,
+          "detail": {
+            "actual": "¥13,000",
+            "expected": "¥13,000"
+          }
+        },
+        {
+          "name": "surplus-value",
+          "ok": true,
+          "detail": {
+            "actual": "−¥3,000.00",
+            "expected": "−¥3,000.00"
+          }
+        },
+        {
+          "name": "ratio-value",
+          "ok": true,
+          "detail": {
+            "actual": "占收入 -23.1%",
+            "expected": "占收入 -23.1%"
+          }
+        },
+        {
+          "name": "marker-size-3x14",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-color-c2503c",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-radius-2",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-decorative",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-left-of-amount-8px",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "single-lap-arcs",
+          "ok": true,
+          "detail": [
+            {
+              "r": 94,
+              "dash": "536.1007032864305 590.6194188748811"
+            },
+            {
+              "r": 71,
+              "dash": "144.1266045077656 446.10615680975064"
+            }
+          ]
+        },
+        {
+          "name": "no-warning-icon-in-chart",
+          "ok": true,
+          "detail": [
+            "ring"
+          ]
+        },
+        {
+          "name": "clean-view",
+          "ok": true,
+          "detail": false
+        }
+      ],
+      "pass": true,
+      "data": {
+        "docScrollWidth": 980,
+        "innerWidth": 980,
+        "stripes": 0,
+        "overflowSummary": false,
+        "categoryExtra": false,
+        "rows": [
+          {
+            "name": "固定支出",
+            "amount": "¥11,800.00",
+            "share": "占收入 90.8%",
+            "over": "false",
+            "box": {
+              "x": 454,
+              "y": 686.09,
+              "w": 320,
+              "h": 23,
+              "right": 774,
+              "bottom": 709.09
+            },
+            "clipped": false,
+            "marker": null,
+            "amountBox": {
+              "x": 562.03,
+              "y": 684.09,
+              "w": 123.98,
+              "h": 26,
+              "right": 686.02,
+              "bottom": 710.09
+            }
+          },
+          {
+            "name": "必须偿还月供",
+            "amount": "¥4,200.00",
+            "share": "占收入 32.3%",
+            "over": "false",
+            "box": {
+              "x": 454,
+              "y": 721.09,
+              "w": 320,
+              "h": 23,
+              "right": 774,
+              "bottom": 744.09
+            },
+            "clipped": false,
+            "marker": null,
+            "amountBox": {
+              "x": 576.28,
+              "y": 719.09,
+              "w": 109.97,
+              "h": 26,
+              "right": 686.25,
+              "bottom": 745.09
+            }
+          }
+        ],
+        "notes": [],
+        "arcs": [
+          {
+            "r": 94,
+            "dash": "536.1007032864305 590.6194188748811"
+          },
+          {
+            "r": 71,
+            "dash": "144.1266045077656 446.10615680975064"
+          }
+        ],
+        "stray": [
+          "ring"
+        ],
+        "aria": "固定支出 90.8%，必须偿还月供 32.3%",
+        "ringText": "固定支出¥11,800.00占收入 90.8%必须偿还月供¥4,200.00占收入 32.3%",
+        "hasSpendWord": false,
+        "surplus": "−¥3,000.00",
+        "ratio": "占收入 -23.1%",
+        "center": "¥13,000",
+        "overflow": [],
+        "reviewToolbar": false
+      }
+    },
+    {
+      "label": "after",
+      "state": "roomy",
+      "width": 390,
+      "height": 1405,
+      "screenshot": "after-home-roomy-390.png",
+      "checks": [
+        {
+          "name": "no-legacy-stripes-or-pattern",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-overflow-summary-block",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "no-category-extra",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "marker-count",
+          "ok": true,
+          "detail": "0/0"
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "docScrollWidth": 390,
+            "width": 390,
+            "overflow": []
+          }
+        },
+        {
+          "name": "aria-label",
+          "ok": true,
+          "detail": {
+            "actual": "固定支出 36.9%，必须偿还月供 10%",
+            "expected": "固定支出 36.9%，必须偿还月供 10%"
+          }
+        },
+        {
+          "name": "ring-has-no-spend-word",
+          "ok": true,
+          "detail": "固定支出¥4,800.00占收入 36.9%必须偿还月供¥1,300.00占收入 10%"
+        },
+        {
+          "name": "notes-text",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "notes-not-clipped",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "row-count",
+          "ok": true,
+          "detail": "2/2"
+        },
+        {
+          "name": "row-name-amount-share",
+          "ok": true,
+          "detail": [
+            [
+              "固定支出",
+              "¥4,800.00",
+              "占收入 36.9%"
+            ],
+            [
+              "必须偿还月供",
+              "¥1,300.00",
+              "占收入 10%"
+            ]
+          ]
+        },
+        {
+          "name": "row-over-flag",
+          "ok": true,
+          "detail": [
+            "false",
+            "false"
+          ]
+        },
+        {
+          "name": "row-not-clipped",
+          "ok": true,
+          "detail": [
+            "固定支出",
+            "必须偿还月供"
+          ]
+        },
+        {
+          "name": "center-is-income",
+          "ok": true,
+          "detail": {
+            "actual": "¥13,000",
+            "expected": "¥13,000"
+          }
+        },
+        {
+          "name": "surplus-value",
+          "ok": true,
+          "detail": {
+            "actual": "¥6,900.00",
+            "expected": "¥6,900.00"
+          }
+        },
+        {
+          "name": "ratio-value",
+          "ok": true,
+          "detail": {
+            "actual": "占收入 53.1%",
+            "expected": "占收入 53.1%"
+          }
+        },
+        {
+          "name": "marker-size-3x14",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-color-c2503c",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-radius-2",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-decorative",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-left-of-amount-8px",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "single-lap-arcs",
+          "ok": true,
+          "detail": [
+            {
+              "r": 94,
+              "dash": "218.07486235380227 590.6194188748811"
+            },
+            {
+              "r": 71,
+              "dash": "44.610615680975066 446.10615680975064"
+            }
+          ]
+        },
+        {
+          "name": "no-warning-icon-in-chart",
+          "ok": true,
+          "detail": [
+            "ring"
+          ]
+        },
+        {
+          "name": "clean-view",
+          "ok": true,
+          "detail": false
+        }
+      ],
+      "pass": true,
+      "data": {
+        "docScrollWidth": 390,
+        "innerWidth": 390,
+        "stripes": 0,
+        "overflowSummary": false,
+        "categoryExtra": false,
+        "rows": [
+          {
+            "name": "固定支出",
+            "amount": "¥4,800.00",
+            "share": "占收入 36.9%",
+            "over": "false",
+            "box": {
+              "x": 33,
+              "y": 723.59,
+              "w": 324,
+              "h": 23,
+              "right": 357,
+              "bottom": 746.59
+            },
+            "clipped": false,
+            "marker": null,
+            "amountBox": {
+              "x": 159.11,
+              "y": 721.59,
+              "w": 109.97,
+              "h": 26,
+              "right": 269.08,
+              "bottom": 747.59
+            }
+          },
+          {
+            "name": "必须偿还月供",
+            "amount": "¥1,300.00",
+            "share": "占收入 10%",
+            "over": "false",
+            "box": {
+              "x": 33,
+              "y": 752.59,
+              "w": 324,
+              "h": 23,
+              "right": 357,
+              "bottom": 775.59
+            },
+            "clipped": false,
+            "marker": null,
+            "amountBox": {
+              "x": 171.92,
+              "y": 750.59,
+              "w": 109.97,
+              "h": 26,
+              "right": 281.89,
+              "bottom": 776.59
+            }
+          }
+        ],
+        "notes": [],
+        "arcs": [
+          {
+            "r": 94,
+            "dash": "218.07486235380227 590.6194188748811"
+          },
+          {
+            "r": 71,
+            "dash": "44.610615680975066 446.10615680975064"
+          }
+        ],
+        "stray": [
+          "ring"
+        ],
+        "aria": "固定支出 36.9%，必须偿还月供 10%",
+        "ringText": "固定支出¥4,800.00占收入 36.9%必须偿还月供¥1,300.00占收入 10%",
+        "hasSpendWord": false,
+        "surplus": "¥6,900.00",
+        "ratio": "占收入 53.1%",
+        "center": "¥13,000",
+        "overflow": [],
+        "reviewToolbar": false
+      }
+    },
+    {
+      "label": "after",
+      "state": "roomy",
+      "width": 760,
+      "height": 1635,
+      "screenshot": "after-home-roomy-760.png",
+      "checks": [
+        {
+          "name": "no-legacy-stripes-or-pattern",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-overflow-summary-block",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "no-category-extra",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "marker-count",
+          "ok": true,
+          "detail": "0/0"
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "docScrollWidth": 760,
+            "width": 760,
+            "overflow": []
+          }
+        },
+        {
+          "name": "aria-label",
+          "ok": true,
+          "detail": {
+            "actual": "固定支出 36.9%，必须偿还月供 10%",
+            "expected": "固定支出 36.9%，必须偿还月供 10%"
+          }
+        },
+        {
+          "name": "ring-has-no-spend-word",
+          "ok": true,
+          "detail": "固定支出¥4,800.00占收入 36.9%必须偿还月供¥1,300.00占收入 10%"
+        },
+        {
+          "name": "notes-text",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "notes-not-clipped",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "row-count",
+          "ok": true,
+          "detail": "2/2"
+        },
+        {
+          "name": "row-name-amount-share",
+          "ok": true,
+          "detail": [
+            [
+              "固定支出",
+              "¥4,800.00",
+              "占收入 36.9%"
+            ],
+            [
+              "必须偿还月供",
+              "¥1,300.00",
+              "占收入 10%"
+            ]
+          ]
+        },
+        {
+          "name": "row-over-flag",
+          "ok": true,
+          "detail": [
+            "false",
+            "false"
+          ]
+        },
+        {
+          "name": "row-not-clipped",
+          "ok": true,
+          "detail": [
+            "固定支出",
+            "必须偿还月供"
+          ]
+        },
+        {
+          "name": "center-is-income",
+          "ok": true,
+          "detail": {
+            "actual": "¥13,000",
+            "expected": "¥13,000"
+          }
+        },
+        {
+          "name": "surplus-value",
+          "ok": true,
+          "detail": {
+            "actual": "¥6,900.00",
+            "expected": "¥6,900.00"
+          }
+        },
+        {
+          "name": "ratio-value",
+          "ok": true,
+          "detail": {
+            "actual": "占收入 53.1%",
+            "expected": "占收入 53.1%"
+          }
+        },
+        {
+          "name": "marker-size-3x14",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-color-c2503c",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-radius-2",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-decorative",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-left-of-amount-8px",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "single-lap-arcs",
+          "ok": true,
+          "detail": [
+            {
+              "r": 94,
+              "dash": "218.07486235380227 590.6194188748811"
+            },
+            {
+              "r": 71,
+              "dash": "44.610615680975066 446.10615680975064"
+            }
+          ]
+        },
+        {
+          "name": "no-warning-icon-in-chart",
+          "ok": true,
+          "detail": [
+            "ring"
+          ]
+        },
+        {
+          "name": "clean-view",
+          "ok": true,
+          "detail": false
+        }
+      ],
+      "pass": true,
+      "data": {
+        "docScrollWidth": 760,
+        "innerWidth": 760,
+        "stripes": 0,
+        "overflowSummary": false,
+        "categoryExtra": false,
+        "rows": [
+          {
+            "name": "固定支出",
+            "amount": "¥4,800.00",
+            "share": "占收入 36.9%",
+            "over": "false",
+            "box": {
+              "x": 170,
+              "y": 918.09,
+              "w": 420,
+              "h": 23,
+              "right": 590,
+              "bottom": 941.09
+            },
+            "clipped": false,
+            "marker": null,
+            "amountBox": {
+              "x": 392.11,
+              "y": 916.09,
+              "w": 109.97,
+              "h": 26,
+              "right": 502.08,
+              "bottom": 942.09
+            }
+          },
+          {
+            "name": "必须偿还月供",
+            "amount": "¥1,300.00",
+            "share": "占收入 10%",
+            "over": "false",
+            "box": {
+              "x": 170,
+              "y": 949.09,
+              "w": 420,
+              "h": 23,
+              "right": 590,
+              "bottom": 972.09
+            },
+            "clipped": false,
+            "marker": null,
+            "amountBox": {
+              "x": 404.92,
+              "y": 947.09,
+              "w": 109.97,
+              "h": 26,
+              "right": 514.89,
+              "bottom": 973.09
+            }
+          }
+        ],
+        "notes": [],
+        "arcs": [
+          {
+            "r": 94,
+            "dash": "218.07486235380227 590.6194188748811"
+          },
+          {
+            "r": 71,
+            "dash": "44.610615680975066 446.10615680975064"
+          }
+        ],
+        "stray": [
+          "ring"
+        ],
+        "aria": "固定支出 36.9%，必须偿还月供 10%",
+        "ringText": "固定支出¥4,800.00占收入 36.9%必须偿还月供¥1,300.00占收入 10%",
+        "hasSpendWord": false,
+        "surplus": "¥6,900.00",
+        "ratio": "占收入 53.1%",
+        "center": "¥13,000",
+        "overflow": [],
+        "reviewToolbar": false
+      }
+    },
+    {
+      "label": "after",
+      "state": "roomy",
+      "width": 980,
+      "height": 1510,
+      "screenshot": "after-home-roomy-980.png",
+      "checks": [
+        {
+          "name": "no-legacy-stripes-or-pattern",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-overflow-summary-block",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "no-category-extra",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "marker-count",
+          "ok": true,
+          "detail": "0/0"
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "docScrollWidth": 980,
+            "width": 980,
+            "overflow": []
+          }
+        },
+        {
+          "name": "aria-label",
+          "ok": true,
+          "detail": {
+            "actual": "固定支出 36.9%，必须偿还月供 10%",
+            "expected": "固定支出 36.9%，必须偿还月供 10%"
+          }
+        },
+        {
+          "name": "ring-has-no-spend-word",
+          "ok": true,
+          "detail": "固定支出¥4,800.00占收入 36.9%必须偿还月供¥1,300.00占收入 10%"
+        },
+        {
+          "name": "notes-text",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "notes-not-clipped",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "row-count",
+          "ok": true,
+          "detail": "2/2"
+        },
+        {
+          "name": "row-name-amount-share",
+          "ok": true,
+          "detail": [
+            [
+              "固定支出",
+              "¥4,800.00",
+              "占收入 36.9%"
+            ],
+            [
+              "必须偿还月供",
+              "¥1,300.00",
+              "占收入 10%"
+            ]
+          ]
+        },
+        {
+          "name": "row-over-flag",
+          "ok": true,
+          "detail": [
+            "false",
+            "false"
+          ]
+        },
+        {
+          "name": "row-not-clipped",
+          "ok": true,
+          "detail": [
+            "固定支出",
+            "必须偿还月供"
+          ]
+        },
+        {
+          "name": "center-is-income",
+          "ok": true,
+          "detail": {
+            "actual": "¥13,000",
+            "expected": "¥13,000"
+          }
+        },
+        {
+          "name": "surplus-value",
+          "ok": true,
+          "detail": {
+            "actual": "¥6,900.00",
+            "expected": "¥6,900.00"
+          }
+        },
+        {
+          "name": "ratio-value",
+          "ok": true,
+          "detail": {
+            "actual": "占收入 53.1%",
+            "expected": "占收入 53.1%"
+          }
+        },
+        {
+          "name": "marker-size-3x14",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-color-c2503c",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-radius-2",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-decorative",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-left-of-amount-8px",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "single-lap-arcs",
+          "ok": true,
+          "detail": [
+            {
+              "r": 94,
+              "dash": "218.07486235380227 590.6194188748811"
+            },
+            {
+              "r": 71,
+              "dash": "44.610615680975066 446.10615680975064"
+            }
+          ]
+        },
+        {
+          "name": "no-warning-icon-in-chart",
+          "ok": true,
+          "detail": [
+            "ring"
+          ]
+        },
+        {
+          "name": "clean-view",
+          "ok": true,
+          "detail": false
+        }
+      ],
+      "pass": true,
+      "data": {
+        "docScrollWidth": 980,
+        "innerWidth": 980,
+        "stripes": 0,
+        "overflowSummary": false,
+        "categoryExtra": false,
+        "rows": [
+          {
+            "name": "固定支出",
+            "amount": "¥4,800.00",
+            "share": "占收入 36.9%",
+            "over": "false",
+            "box": {
+              "x": 454,
+              "y": 686.09,
+              "w": 320,
+              "h": 23,
+              "right": 774,
+              "bottom": 709.09
+            },
+            "clipped": false,
+            "marker": null,
+            "amountBox": {
+              "x": 576.11,
+              "y": 684.09,
+              "w": 109.97,
+              "h": 26,
+              "right": 686.08,
+              "bottom": 710.09
+            }
+          },
+          {
+            "name": "必须偿还月供",
+            "amount": "¥1,300.00",
+            "share": "占收入 10%",
+            "over": "false",
+            "box": {
+              "x": 454,
+              "y": 721.09,
+              "w": 320,
+              "h": 23,
+              "right": 774,
+              "bottom": 744.09
+            },
+            "clipped": false,
+            "marker": null,
+            "amountBox": {
+              "x": 588.92,
+              "y": 719.09,
+              "w": 109.97,
+              "h": 26,
+              "right": 698.89,
+              "bottom": 745.09
+            }
+          }
+        ],
+        "notes": [],
+        "arcs": [
+          {
+            "r": 94,
+            "dash": "218.07486235380227 590.6194188748811"
+          },
+          {
+            "r": 71,
+            "dash": "44.610615680975066 446.10615680975064"
+          }
+        ],
+        "stray": [
+          "ring"
+        ],
+        "aria": "固定支出 36.9%，必须偿还月供 10%",
+        "ringText": "固定支出¥4,800.00占收入 36.9%必须偿还月供¥1,300.00占收入 10%",
+        "hasSpendWord": false,
+        "surplus": "¥6,900.00",
+        "ratio": "占收入 53.1%",
+        "center": "¥13,000",
+        "overflow": [],
+        "reviewToolbar": false
+      }
+    },
+    {
+      "label": "after",
+      "state": "light-over",
+      "width": 390,
+      "height": 1439,
+      "screenshot": "after-home-light-over-390.png",
+      "checks": [
+        {
+          "name": "no-legacy-stripes-or-pattern",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-overflow-summary-block",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "no-category-extra",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "marker-count",
+          "ok": true,
+          "detail": "0/0"
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "docScrollWidth": 390,
+            "width": 390,
+            "overflow": []
+          }
+        },
+        {
+          "name": "aria-label",
+          "ok": true,
+          "detail": {
+            "actual": "固定支出 80.8%，必须偿还月供 26.9%",
+            "expected": "固定支出 80.8%，必须偿还月供 26.9%"
+          }
+        },
+        {
+          "name": "ring-has-no-spend-word",
+          "ok": true,
+          "detail": "固定支出¥10,500.00占收入 80.8%必须偿还月供¥3,500.00占收入 26.9%"
+        },
+        {
+          "name": "notes-text",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "notes-not-clipped",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "row-count",
+          "ok": true,
+          "detail": "2/2"
+        },
+        {
+          "name": "row-name-amount-share",
+          "ok": true,
+          "detail": [
+            [
+              "固定支出",
+              "¥10,500.00",
+              "占收入 80.8%"
+            ],
+            [
+              "必须偿还月供",
+              "¥3,500.00",
+              "占收入 26.9%"
+            ]
+          ]
+        },
+        {
+          "name": "row-over-flag",
+          "ok": true,
+          "detail": [
+            "false",
+            "false"
+          ]
+        },
+        {
+          "name": "row-not-clipped",
+          "ok": true,
+          "detail": [
+            "固定支出",
+            "必须偿还月供"
+          ]
+        },
+        {
+          "name": "center-is-income",
+          "ok": true,
+          "detail": {
+            "actual": "¥13,000",
+            "expected": "¥13,000"
+          }
+        },
+        {
+          "name": "surplus-value",
+          "ok": true,
+          "detail": {
+            "actual": "−¥1,000.00",
+            "expected": "−¥1,000.00"
+          }
+        },
+        {
+          "name": "ratio-value",
+          "ok": true,
+          "detail": {
+            "actual": "占收入 -7.7%",
+            "expected": "占收入 -7.7%"
+          }
+        },
+        {
+          "name": "marker-size-3x14",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-color-c2503c",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-radius-2",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-decorative",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-left-of-amount-8px",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "single-lap-arcs",
+          "ok": true,
+          "detail": [
+            {
+              "r": 94,
+              "dash": "477.0387613989425 590.6194188748811"
+            },
+            {
+              "r": 71,
+              "dash": "120.10550375647132 446.10615680975064"
+            }
+          ]
+        },
+        {
+          "name": "no-warning-icon-in-chart",
+          "ok": true,
+          "detail": [
+            "ring"
+          ]
+        },
+        {
+          "name": "clean-view",
+          "ok": true,
+          "detail": false
+        }
+      ],
+      "pass": true,
+      "data": {
+        "docScrollWidth": 390,
+        "innerWidth": 390,
+        "stripes": 0,
+        "overflowSummary": false,
+        "categoryExtra": false,
+        "rows": [
+          {
+            "name": "固定支出",
+            "amount": "¥10,500.00",
+            "share": "占收入 80.8%",
+            "over": "false",
+            "box": {
+              "x": 33,
+              "y": 758.39,
+              "w": 324,
+              "h": 23,
+              "right": 357,
+              "bottom": 781.39
+            },
+            "clipped": false,
+            "marker": null,
+            "amountBox": {
+              "x": 145.02,
+              "y": 756.39,
+              "w": 123.98,
+              "h": 26,
+              "right": 269,
+              "bottom": 782.39
+            }
+          },
+          {
+            "name": "必须偿还月供",
+            "amount": "¥3,500.00",
+            "share": "占收入 26.9%",
+            "over": "false",
+            "box": {
+              "x": 33,
+              "y": 787.39,
+              "w": 324,
+              "h": 23,
+              "right": 357,
+              "bottom": 810.39
+            },
+            "clipped": false,
+            "marker": null,
+            "amountBox": {
+              "x": 159.41,
+              "y": 785.39,
+              "w": 109.97,
+              "h": 26,
+              "right": 269.38,
+              "bottom": 811.39
+            }
+          }
+        ],
+        "notes": [],
+        "arcs": [
+          {
+            "r": 94,
+            "dash": "477.0387613989425 590.6194188748811"
+          },
+          {
+            "r": 71,
+            "dash": "120.10550375647132 446.10615680975064"
+          }
+        ],
+        "stray": [
+          "ring"
+        ],
+        "aria": "固定支出 80.8%，必须偿还月供 26.9%",
+        "ringText": "固定支出¥10,500.00占收入 80.8%必须偿还月供¥3,500.00占收入 26.9%",
+        "hasSpendWord": false,
+        "surplus": "−¥1,000.00",
+        "ratio": "占收入 -7.7%",
+        "center": "¥13,000",
+        "overflow": [],
+        "reviewToolbar": false
+      }
+    },
+    {
+      "label": "after",
+      "state": "light-over",
+      "width": 760,
+      "height": 1635,
+      "screenshot": "after-home-light-over-760.png",
+      "checks": [
+        {
+          "name": "no-legacy-stripes-or-pattern",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-overflow-summary-block",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "no-category-extra",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "marker-count",
+          "ok": true,
+          "detail": "0/0"
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "docScrollWidth": 760,
+            "width": 760,
+            "overflow": []
+          }
+        },
+        {
+          "name": "aria-label",
+          "ok": true,
+          "detail": {
+            "actual": "固定支出 80.8%，必须偿还月供 26.9%",
+            "expected": "固定支出 80.8%，必须偿还月供 26.9%"
+          }
+        },
+        {
+          "name": "ring-has-no-spend-word",
+          "ok": true,
+          "detail": "固定支出¥10,500.00占收入 80.8%必须偿还月供¥3,500.00占收入 26.9%"
+        },
+        {
+          "name": "notes-text",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "notes-not-clipped",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "row-count",
+          "ok": true,
+          "detail": "2/2"
+        },
+        {
+          "name": "row-name-amount-share",
+          "ok": true,
+          "detail": [
+            [
+              "固定支出",
+              "¥10,500.00",
+              "占收入 80.8%"
+            ],
+            [
+              "必须偿还月供",
+              "¥3,500.00",
+              "占收入 26.9%"
+            ]
+          ]
+        },
+        {
+          "name": "row-over-flag",
+          "ok": true,
+          "detail": [
+            "false",
+            "false"
+          ]
+        },
+        {
+          "name": "row-not-clipped",
+          "ok": true,
+          "detail": [
+            "固定支出",
+            "必须偿还月供"
+          ]
+        },
+        {
+          "name": "center-is-income",
+          "ok": true,
+          "detail": {
+            "actual": "¥13,000",
+            "expected": "¥13,000"
+          }
+        },
+        {
+          "name": "surplus-value",
+          "ok": true,
+          "detail": {
+            "actual": "−¥1,000.00",
+            "expected": "−¥1,000.00"
+          }
+        },
+        {
+          "name": "ratio-value",
+          "ok": true,
+          "detail": {
+            "actual": "占收入 -7.7%",
+            "expected": "占收入 -7.7%"
+          }
+        },
+        {
+          "name": "marker-size-3x14",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-color-c2503c",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-radius-2",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-decorative",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-left-of-amount-8px",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "single-lap-arcs",
+          "ok": true,
+          "detail": [
+            {
+              "r": 94,
+              "dash": "477.0387613989425 590.6194188748811"
+            },
+            {
+              "r": 71,
+              "dash": "120.10550375647132 446.10615680975064"
+            }
+          ]
+        },
+        {
+          "name": "no-warning-icon-in-chart",
+          "ok": true,
+          "detail": [
+            "ring"
+          ]
+        },
+        {
+          "name": "clean-view",
+          "ok": true,
+          "detail": false
+        }
+      ],
+      "pass": true,
+      "data": {
+        "docScrollWidth": 760,
+        "innerWidth": 760,
+        "stripes": 0,
+        "overflowSummary": false,
+        "categoryExtra": false,
+        "rows": [
+          {
+            "name": "固定支出",
+            "amount": "¥10,500.00",
+            "share": "占收入 80.8%",
+            "over": "false",
+            "box": {
+              "x": 170,
+              "y": 918.09,
+              "w": 420,
+              "h": 23,
+              "right": 590,
+              "bottom": 941.09
+            },
+            "clipped": false,
+            "marker": null,
+            "amountBox": {
+              "x": 378.02,
+              "y": 916.09,
+              "w": 123.98,
+              "h": 26,
+              "right": 502,
+              "bottom": 942.09
+            }
+          },
+          {
+            "name": "必须偿还月供",
+            "amount": "¥3,500.00",
+            "share": "占收入 26.9%",
+            "over": "false",
+            "box": {
+              "x": 170,
+              "y": 949.09,
+              "w": 420,
+              "h": 23,
+              "right": 590,
+              "bottom": 972.09
+            },
+            "clipped": false,
+            "marker": null,
+            "amountBox": {
+              "x": 392.41,
+              "y": 947.09,
+              "w": 109.97,
+              "h": 26,
+              "right": 502.38,
+              "bottom": 973.09
+            }
+          }
+        ],
+        "notes": [],
+        "arcs": [
+          {
+            "r": 94,
+            "dash": "477.0387613989425 590.6194188748811"
+          },
+          {
+            "r": 71,
+            "dash": "120.10550375647132 446.10615680975064"
+          }
+        ],
+        "stray": [
+          "ring"
+        ],
+        "aria": "固定支出 80.8%，必须偿还月供 26.9%",
+        "ringText": "固定支出¥10,500.00占收入 80.8%必须偿还月供¥3,500.00占收入 26.9%",
+        "hasSpendWord": false,
+        "surplus": "−¥1,000.00",
+        "ratio": "占收入 -7.7%",
+        "center": "¥13,000",
+        "overflow": [],
+        "reviewToolbar": false
+      }
+    },
+    {
+      "label": "after",
+      "state": "light-over",
+      "width": 980,
+      "height": 1510,
+      "screenshot": "after-home-light-over-980.png",
+      "checks": [
+        {
+          "name": "no-legacy-stripes-or-pattern",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-overflow-summary-block",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "no-category-extra",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "marker-count",
+          "ok": true,
+          "detail": "0/0"
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "docScrollWidth": 980,
+            "width": 980,
+            "overflow": []
+          }
+        },
+        {
+          "name": "aria-label",
+          "ok": true,
+          "detail": {
+            "actual": "固定支出 80.8%，必须偿还月供 26.9%",
+            "expected": "固定支出 80.8%，必须偿还月供 26.9%"
+          }
+        },
+        {
+          "name": "ring-has-no-spend-word",
+          "ok": true,
+          "detail": "固定支出¥10,500.00占收入 80.8%必须偿还月供¥3,500.00占收入 26.9%"
+        },
+        {
+          "name": "notes-text",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "notes-not-clipped",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "row-count",
+          "ok": true,
+          "detail": "2/2"
+        },
+        {
+          "name": "row-name-amount-share",
+          "ok": true,
+          "detail": [
+            [
+              "固定支出",
+              "¥10,500.00",
+              "占收入 80.8%"
+            ],
+            [
+              "必须偿还月供",
+              "¥3,500.00",
+              "占收入 26.9%"
+            ]
+          ]
+        },
+        {
+          "name": "row-over-flag",
+          "ok": true,
+          "detail": [
+            "false",
+            "false"
+          ]
+        },
+        {
+          "name": "row-not-clipped",
+          "ok": true,
+          "detail": [
+            "固定支出",
+            "必须偿还月供"
+          ]
+        },
+        {
+          "name": "center-is-income",
+          "ok": true,
+          "detail": {
+            "actual": "¥13,000",
+            "expected": "¥13,000"
+          }
+        },
+        {
+          "name": "surplus-value",
+          "ok": true,
+          "detail": {
+            "actual": "−¥1,000.00",
+            "expected": "−¥1,000.00"
+          }
+        },
+        {
+          "name": "ratio-value",
+          "ok": true,
+          "detail": {
+            "actual": "占收入 -7.7%",
+            "expected": "占收入 -7.7%"
+          }
+        },
+        {
+          "name": "marker-size-3x14",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-color-c2503c",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-radius-2",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-decorative",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "marker-left-of-amount-8px",
+          "ok": true,
+          "detail": [
+            null,
+            null
+          ]
+        },
+        {
+          "name": "single-lap-arcs",
+          "ok": true,
+          "detail": [
+            {
+              "r": 94,
+              "dash": "477.0387613989425 590.6194188748811"
+            },
+            {
+              "r": 71,
+              "dash": "120.10550375647132 446.10615680975064"
+            }
+          ]
+        },
+        {
+          "name": "no-warning-icon-in-chart",
+          "ok": true,
+          "detail": [
+            "ring"
+          ]
+        },
+        {
+          "name": "clean-view",
+          "ok": true,
+          "detail": false
+        }
+      ],
+      "pass": true,
+      "data": {
+        "docScrollWidth": 980,
+        "innerWidth": 980,
+        "stripes": 0,
+        "overflowSummary": false,
+        "categoryExtra": false,
+        "rows": [
+          {
+            "name": "固定支出",
+            "amount": "¥10,500.00",
+            "share": "占收入 80.8%",
+            "over": "false",
+            "box": {
+              "x": 454,
+              "y": 686.09,
+              "w": 320,
+              "h": 23,
+              "right": 774,
+              "bottom": 709.09
+            },
+            "clipped": false,
+            "marker": null,
+            "amountBox": {
+              "x": 562.02,
+              "y": 684.09,
+              "w": 123.98,
+              "h": 26,
+              "right": 686,
+              "bottom": 710.09
+            }
+          },
+          {
+            "name": "必须偿还月供",
+            "amount": "¥3,500.00",
+            "share": "占收入 26.9%",
+            "over": "false",
+            "box": {
+              "x": 454,
+              "y": 721.09,
+              "w": 320,
+              "h": 23,
+              "right": 774,
+              "bottom": 744.09
+            },
+            "clipped": false,
+            "marker": null,
+            "amountBox": {
+              "x": 576.41,
+              "y": 719.09,
+              "w": 109.97,
+              "h": 26,
+              "right": 686.38,
+              "bottom": 745.09
+            }
+          }
+        ],
+        "notes": [],
+        "arcs": [
+          {
+            "r": 94,
+            "dash": "477.0387613989425 590.6194188748811"
+          },
+          {
+            "r": 71,
+            "dash": "120.10550375647132 446.10615680975064"
+          }
+        ],
+        "stray": [
+          "ring"
+        ],
+        "aria": "固定支出 80.8%，必须偿还月供 26.9%",
+        "ringText": "固定支出¥10,500.00占收入 80.8%必须偿还月供¥3,500.00占收入 26.9%",
+        "hasSpendWord": false,
+        "surplus": "−¥1,000.00",
+        "ratio": "占收入 -7.7%",
+        "center": "¥13,000",
+        "overflow": [],
+        "reviewToolbar": false
+      }
+    },
+    {
+      "label": "after",
+      "state": "zero-burden",
+      "width": 390,
+      "height": 1424,
+      "screenshot": "after-home-zero-burden-390.png",
+      "checks": [
+        {
+          "name": "no-legacy-stripes-or-pattern",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-overflow-summary-block",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "no-category-extra",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "marker-count",
+          "ok": true,
+          "detail": "0/0"
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "docScrollWidth": 390,
+            "width": 390,
+            "overflow": []
+          }
+        },
+        {
+          "name": "aria-label",
+          "ok": true,
+          "detail": {
+            "actual": "收入 ¥0，固定支出 ¥2,500.00，必须偿还月供 ¥1,000.00，不显示百分比",
+            "expected": "收入 ¥0，固定支出 ¥2,500.00，必须偿还月供 ¥1,000.00，不显示百分比"
+          }
+        },
+        {
+          "name": "ring-has-no-spend-word",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "notes-text",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "notes-not-clipped",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "row-count",
+          "ok": true,
+          "detail": "0/0"
+        },
+        {
+          "name": "row-name-amount-share",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "row-over-flag",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "row-not-clipped",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "center-is-income",
+          "ok": true,
+          "detail": {
+            "actual": "¥0",
+            "expected": "¥0"
+          }
+        },
+        {
+          "name": "surplus-value",
+          "ok": true,
+          "detail": {
+            "actual": "−¥3,500.00",
+            "expected": "−¥3,500.00"
+          }
+        },
+        {
+          "name": "ratio-value",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "marker-size-3x14",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-color-c2503c",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-radius-2",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-decorative",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-left-of-amount-8px",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "single-lap-arcs",
+          "ok": true,
+          "detail": [
+            {
+              "r": 94,
+              "dash": "0 590.6194188748811"
+            },
+            {
+              "r": 71,
+              "dash": "0 446.10615680975064"
+            }
+          ]
+        },
+        {
+          "name": "no-warning-icon-in-chart",
+          "ok": true,
+          "detail": [
+            "ring"
+          ]
+        },
+        {
+          "name": "clean-view",
+          "ok": true,
+          "detail": false
+        }
+      ],
+      "pass": true,
+      "data": {
+        "docScrollWidth": 390,
+        "innerWidth": 390,
+        "stripes": 0,
+        "overflowSummary": false,
+        "categoryExtra": false,
+        "rows": [],
+        "notes": [],
+        "arcs": [
+          {
+            "r": 94,
+            "dash": "0 590.6194188748811"
+          },
+          {
+            "r": 71,
+            "dash": "0 446.10615680975064"
+          }
+        ],
+        "stray": [
+          "ring"
+        ],
+        "aria": "收入 ¥0，固定支出 ¥2,500.00，必须偿还月供 ¥1,000.00，不显示百分比",
+        "ringText": "",
+        "hasSpendWord": false,
+        "surplus": "−¥3,500.00",
+        "center": "¥0",
+        "overflow": [],
+        "reviewToolbar": false
+      }
+    },
+    {
+      "label": "after",
+      "state": "zero-burden",
+      "width": 760,
+      "height": 1613,
+      "screenshot": "after-home-zero-burden-760.png",
+      "checks": [
+        {
+          "name": "no-legacy-stripes-or-pattern",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-overflow-summary-block",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "no-category-extra",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "marker-count",
+          "ok": true,
+          "detail": "0/0"
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "docScrollWidth": 760,
+            "width": 760,
+            "overflow": []
+          }
+        },
+        {
+          "name": "aria-label",
+          "ok": true,
+          "detail": {
+            "actual": "收入 ¥0，固定支出 ¥2,500.00，必须偿还月供 ¥1,000.00，不显示百分比",
+            "expected": "收入 ¥0，固定支出 ¥2,500.00，必须偿还月供 ¥1,000.00，不显示百分比"
+          }
+        },
+        {
+          "name": "ring-has-no-spend-word",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "notes-text",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "notes-not-clipped",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "row-count",
+          "ok": true,
+          "detail": "0/0"
+        },
+        {
+          "name": "row-name-amount-share",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "row-over-flag",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "row-not-clipped",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "center-is-income",
+          "ok": true,
+          "detail": {
+            "actual": "¥0",
+            "expected": "¥0"
+          }
+        },
+        {
+          "name": "surplus-value",
+          "ok": true,
+          "detail": {
+            "actual": "−¥3,500.00",
+            "expected": "−¥3,500.00"
+          }
+        },
+        {
+          "name": "ratio-value",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "marker-size-3x14",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-color-c2503c",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-radius-2",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-decorative",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-left-of-amount-8px",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "single-lap-arcs",
+          "ok": true,
+          "detail": [
+            {
+              "r": 94,
+              "dash": "0 590.6194188748811"
+            },
+            {
+              "r": 71,
+              "dash": "0 446.10615680975064"
+            }
+          ]
+        },
+        {
+          "name": "no-warning-icon-in-chart",
+          "ok": true,
+          "detail": [
+            "ring"
+          ]
+        },
+        {
+          "name": "clean-view",
+          "ok": true,
+          "detail": false
+        }
+      ],
+      "pass": true,
+      "data": {
+        "docScrollWidth": 760,
+        "innerWidth": 760,
+        "stripes": 0,
+        "overflowSummary": false,
+        "categoryExtra": false,
+        "rows": [],
+        "notes": [],
+        "arcs": [
+          {
+            "r": 94,
+            "dash": "0 590.6194188748811"
+          },
+          {
+            "r": 71,
+            "dash": "0 446.10615680975064"
+          }
+        ],
+        "stray": [
+          "ring"
+        ],
+        "aria": "收入 ¥0，固定支出 ¥2,500.00，必须偿还月供 ¥1,000.00，不显示百分比",
+        "ringText": "",
+        "hasSpendWord": false,
+        "surplus": "−¥3,500.00",
+        "center": "¥0",
+        "overflow": [],
+        "reviewToolbar": false
+      }
+    },
+    {
+      "label": "after",
+      "state": "zero-burden",
+      "width": 980,
+      "height": 1486,
+      "screenshot": "after-home-zero-burden-980.png",
+      "checks": [
+        {
+          "name": "no-legacy-stripes-or-pattern",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-overflow-summary-block",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "no-category-extra",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "marker-count",
+          "ok": true,
+          "detail": "0/0"
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "docScrollWidth": 980,
+            "width": 980,
+            "overflow": []
+          }
+        },
+        {
+          "name": "aria-label",
+          "ok": true,
+          "detail": {
+            "actual": "收入 ¥0，固定支出 ¥2,500.00，必须偿还月供 ¥1,000.00，不显示百分比",
+            "expected": "收入 ¥0，固定支出 ¥2,500.00，必须偿还月供 ¥1,000.00，不显示百分比"
+          }
+        },
+        {
+          "name": "ring-has-no-spend-word",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "notes-text",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "notes-not-clipped",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "row-count",
+          "ok": true,
+          "detail": "0/0"
+        },
+        {
+          "name": "row-name-amount-share",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "row-over-flag",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "row-not-clipped",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "center-is-income",
+          "ok": true,
+          "detail": {
+            "actual": "¥0",
+            "expected": "¥0"
+          }
+        },
+        {
+          "name": "surplus-value",
+          "ok": true,
+          "detail": {
+            "actual": "−¥3,500.00",
+            "expected": "−¥3,500.00"
+          }
+        },
+        {
+          "name": "ratio-value",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "marker-size-3x14",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-color-c2503c",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-radius-2",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-decorative",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-left-of-amount-8px",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "single-lap-arcs",
+          "ok": true,
+          "detail": [
+            {
+              "r": 94,
+              "dash": "0 590.6194188748811"
+            },
+            {
+              "r": 71,
+              "dash": "0 446.10615680975064"
+            }
+          ]
+        },
+        {
+          "name": "no-warning-icon-in-chart",
+          "ok": true,
+          "detail": [
+            "ring"
+          ]
+        },
+        {
+          "name": "clean-view",
+          "ok": true,
+          "detail": false
+        }
+      ],
+      "pass": true,
+      "data": {
+        "docScrollWidth": 980,
+        "innerWidth": 980,
+        "stripes": 0,
+        "overflowSummary": false,
+        "categoryExtra": false,
+        "rows": [],
+        "notes": [],
+        "arcs": [
+          {
+            "r": 94,
+            "dash": "0 590.6194188748811"
+          },
+          {
+            "r": 71,
+            "dash": "0 446.10615680975064"
+          }
+        ],
+        "stray": [
+          "ring"
+        ],
+        "aria": "收入 ¥0，固定支出 ¥2,500.00，必须偿还月供 ¥1,000.00，不显示百分比",
+        "ringText": "",
+        "hasSpendWord": false,
+        "surplus": "−¥3,500.00",
+        "center": "¥0",
+        "overflow": [],
+        "reviewToolbar": false
+      }
+    },
+    {
+      "label": "after",
+      "state": "pending",
+      "width": 390,
+      "height": 1876,
+      "screenshot": "after-home-pending-390.png",
+      "checks": [
+        {
+          "name": "no-legacy-stripes-or-pattern",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-overflow-summary-block",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "no-category-extra",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "marker-count",
+          "ok": true,
+          "detail": "0/0"
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "docScrollWidth": 390,
+            "width": 390,
+            "overflow": []
+          }
+        },
+        {
+          "name": "aria-label",
+          "ok": true,
+          "detail": {
+            "actual": "资料不齐，金额与比例待确认",
+            "expected": "资料不齐，金额与比例待确认"
+          }
+        },
+        {
+          "name": "ring-has-no-spend-word",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "notes-text",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "notes-not-clipped",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "row-count",
+          "ok": true,
+          "detail": "0/0"
+        },
+        {
+          "name": "row-name-amount-share",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "row-over-flag",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "row-not-clipped",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "center-is-income",
+          "ok": true,
+          "detail": {
+            "actual": "待确认",
+            "expected": "待确认"
+          }
+        },
+        {
+          "name": "surplus-value",
+          "ok": true,
+          "detail": {
+            "actual": "—",
+            "expected": "—"
+          }
+        },
+        {
+          "name": "ratio-value",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "marker-size-3x14",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-color-c2503c",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-radius-2",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-decorative",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-left-of-amount-8px",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "single-lap-arcs",
+          "ok": true,
+          "detail": [
+            {
+              "r": 94,
+              "dash": "0 590.6194188748811"
+            },
+            {
+              "r": 71,
+              "dash": "0 446.10615680975064"
+            }
+          ]
+        },
+        {
+          "name": "no-warning-icon-in-chart",
+          "ok": true,
+          "detail": [
+            "ring"
+          ]
+        }
+      ],
+      "pass": true,
+      "data": {
+        "docScrollWidth": 390,
+        "innerWidth": 390,
+        "stripes": 0,
+        "overflowSummary": false,
+        "categoryExtra": false,
+        "rows": [],
+        "notes": [],
+        "arcs": [
+          {
+            "r": 94,
+            "dash": "0 590.6194188748811"
+          },
+          {
+            "r": 71,
+            "dash": "0 446.10615680975064"
+          }
+        ],
+        "stray": [
+          "ring"
+        ],
+        "aria": "资料不齐，金额与比例待确认",
+        "ringText": "",
+        "hasSpendWord": false,
+        "surplus": "—",
+        "center": "待确认",
+        "overflow": [],
+        "reviewToolbar": true
+      }
+    },
+    {
+      "label": "after",
+      "state": "pending",
+      "width": 760,
+      "height": 1841,
+      "screenshot": "after-home-pending-760.png",
+      "checks": [
+        {
+          "name": "no-legacy-stripes-or-pattern",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-overflow-summary-block",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "no-category-extra",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "marker-count",
+          "ok": true,
+          "detail": "0/0"
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "docScrollWidth": 760,
+            "width": 760,
+            "overflow": []
+          }
+        },
+        {
+          "name": "aria-label",
+          "ok": true,
+          "detail": {
+            "actual": "资料不齐，金额与比例待确认",
+            "expected": "资料不齐，金额与比例待确认"
+          }
+        },
+        {
+          "name": "ring-has-no-spend-word",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "notes-text",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "notes-not-clipped",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "row-count",
+          "ok": true,
+          "detail": "0/0"
+        },
+        {
+          "name": "row-name-amount-share",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "row-over-flag",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "row-not-clipped",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "center-is-income",
+          "ok": true,
+          "detail": {
+            "actual": "待确认",
+            "expected": "待确认"
+          }
+        },
+        {
+          "name": "surplus-value",
+          "ok": true,
+          "detail": {
+            "actual": "—",
+            "expected": "—"
+          }
+        },
+        {
+          "name": "ratio-value",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "marker-size-3x14",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-color-c2503c",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-radius-2",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-decorative",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-left-of-amount-8px",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "single-lap-arcs",
+          "ok": true,
+          "detail": [
+            {
+              "r": 94,
+              "dash": "0 590.6194188748811"
+            },
+            {
+              "r": 71,
+              "dash": "0 446.10615680975064"
+            }
+          ]
+        },
+        {
+          "name": "no-warning-icon-in-chart",
+          "ok": true,
+          "detail": [
+            "ring"
+          ]
+        }
+      ],
+      "pass": true,
+      "data": {
+        "docScrollWidth": 760,
+        "innerWidth": 760,
+        "stripes": 0,
+        "overflowSummary": false,
+        "categoryExtra": false,
+        "rows": [],
+        "notes": [],
+        "arcs": [
+          {
+            "r": 94,
+            "dash": "0 590.6194188748811"
+          },
+          {
+            "r": 71,
+            "dash": "0 446.10615680975064"
+          }
+        ],
+        "stray": [
+          "ring"
+        ],
+        "aria": "资料不齐，金额与比例待确认",
+        "ringText": "",
+        "hasSpendWord": false,
+        "surplus": "—",
+        "center": "待确认",
+        "overflow": [],
+        "reviewToolbar": true
+      }
+    },
+    {
+      "label": "after",
+      "state": "pending",
+      "width": 980,
+      "height": 1730,
+      "screenshot": "after-home-pending-980.png",
+      "checks": [
+        {
+          "name": "no-legacy-stripes-or-pattern",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-overflow-summary-block",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "no-category-extra",
+          "ok": true,
+          "detail": false
+        },
+        {
+          "name": "marker-count",
+          "ok": true,
+          "detail": "0/0"
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "docScrollWidth": 980,
+            "width": 980,
+            "overflow": []
+          }
+        },
+        {
+          "name": "aria-label",
+          "ok": true,
+          "detail": {
+            "actual": "资料不齐，金额与比例待确认",
+            "expected": "资料不齐，金额与比例待确认"
+          }
+        },
+        {
+          "name": "ring-has-no-spend-word",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "notes-text",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "notes-not-clipped",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "row-count",
+          "ok": true,
+          "detail": "0/0"
+        },
+        {
+          "name": "row-name-amount-share",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "row-over-flag",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "row-not-clipped",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "center-is-income",
+          "ok": true,
+          "detail": {
+            "actual": "待确认",
+            "expected": "待确认"
+          }
+        },
+        {
+          "name": "surplus-value",
+          "ok": true,
+          "detail": {
+            "actual": "—",
+            "expected": "—"
+          }
+        },
+        {
+          "name": "ratio-value",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "marker-size-3x14",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-color-c2503c",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-radius-2",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-decorative",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "marker-left-of-amount-8px",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "name": "single-lap-arcs",
+          "ok": true,
+          "detail": [
+            {
+              "r": 94,
+              "dash": "0 590.6194188748811"
+            },
+            {
+              "r": 71,
+              "dash": "0 446.10615680975064"
+            }
+          ]
+        },
+        {
+          "name": "no-warning-icon-in-chart",
+          "ok": true,
+          "detail": [
+            "ring"
+          ]
+        }
+      ],
+      "pass": true,
+      "data": {
+        "docScrollWidth": 980,
+        "innerWidth": 980,
+        "stripes": 0,
+        "overflowSummary": false,
+        "categoryExtra": false,
+        "rows": [],
+        "notes": [],
+        "arcs": [
+          {
+            "r": 94,
+            "dash": "0 590.6194188748811"
+          },
+          {
+            "r": 71,
+            "dash": "0 446.10615680975064"
+          }
+        ],
+        "stray": [
+          "ring"
+        ],
+        "aria": "资料不齐，金额与比例待确认",
+        "ringText": "",
+        "hasSpendWord": false,
+        "surplus": "—",
+        "center": "待确认",
+        "overflow": [],
+        "reviewToolbar": true
+      }
+    },
+    {
+      "label": "after",
+      "state": "fixed-normal",
+      "width": 390,
+      "screenshot": "after-fixed-normal-390.png",
+      "checks": [
+        {
+          "name": "no-hatching-on-fixed-page",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "scrollWidth": 390,
+            "width": 390
+          }
+        },
+        {
+          "name": "summary-ring-name-kept",
+          "ok": true,
+          "detail": "所选月份已付占比"
+        },
+        {
+          "name": "pay-button-kept",
+          "ok": true,
+          "detail": true
+        }
+      ],
+      "pass": true,
+      "data": {
+        "stripes": 0,
+        "overflow": 390,
+        "ringName": "所选月份已付占比",
+        "payButton": true
+      }
+    },
+    {
+      "label": "after",
+      "state": "fixed-normal",
+      "width": 760,
+      "screenshot": "after-fixed-normal-760.png",
+      "checks": [
+        {
+          "name": "no-hatching-on-fixed-page",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "scrollWidth": 760,
+            "width": 760
+          }
+        },
+        {
+          "name": "summary-ring-name-kept",
+          "ok": true,
+          "detail": "所选月份已付占比"
+        },
+        {
+          "name": "pay-button-kept",
+          "ok": true,
+          "detail": true
+        }
+      ],
+      "pass": true,
+      "data": {
+        "stripes": 0,
+        "overflow": 760,
+        "ringName": "所选月份已付占比",
+        "payButton": true
+      }
+    },
+    {
+      "label": "after",
+      "state": "fixed-normal",
+      "width": 980,
+      "screenshot": "after-fixed-normal-980.png",
+      "checks": [
+        {
+          "name": "no-hatching-on-fixed-page",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "scrollWidth": 980,
+            "width": 980
+          }
+        },
+        {
+          "name": "summary-ring-name-kept",
+          "ok": true,
+          "detail": "所选月份已付占比"
+        },
+        {
+          "name": "pay-button-kept",
+          "ok": true,
+          "detail": true
+        }
+      ],
+      "pass": true,
+      "data": {
+        "stripes": 0,
+        "overflow": 980,
+        "ringName": "所选月份已付占比",
+        "payButton": true
+      }
+    },
+    {
+      "label": "after",
+      "state": "fixed-overpaid",
+      "width": 390,
+      "screenshot": "after-fixed-overpaid-390.png",
+      "checks": [
+        {
+          "name": "no-hatching-on-fixed-page",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "scrollWidth": 390,
+            "width": 390
+          }
+        },
+        {
+          "name": "b03-overpaid-wording",
+          "ok": true,
+          "detail": "B-03 已签认 · 超计划 ¥225.00 · 已付/计划 125%"
+        }
+      ],
+      "pass": true,
+      "data": {
+        "stripes": 0,
+        "overflow": 390,
+        "payButton": false,
+        "overpaidSlot": "B-03 已签认 · 超计划 ¥225.00 · 已付/计划 125%"
+      }
+    },
+    {
+      "label": "after",
+      "state": "fixed-overpaid",
+      "width": 760,
+      "screenshot": "after-fixed-overpaid-760.png",
+      "checks": [
+        {
+          "name": "no-hatching-on-fixed-page",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "scrollWidth": 760,
+            "width": 760
+          }
+        },
+        {
+          "name": "b03-overpaid-wording",
+          "ok": true,
+          "detail": "B-03 已签认 · 超计划 ¥225.00 · 已付/计划 125%"
+        }
+      ],
+      "pass": true,
+      "data": {
+        "stripes": 0,
+        "overflow": 760,
+        "payButton": false,
+        "overpaidSlot": "B-03 已签认 · 超计划 ¥225.00 · 已付/计划 125%"
+      }
+    },
+    {
+      "label": "after",
+      "state": "fixed-overpaid",
+      "width": 980,
+      "screenshot": "after-fixed-overpaid-980.png",
+      "checks": [
+        {
+          "name": "no-hatching-on-fixed-page",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "scrollWidth": 980,
+            "width": 980
+          }
+        },
+        {
+          "name": "b03-overpaid-wording",
+          "ok": true,
+          "detail": "B-03 已签认 · 超计划 ¥225.00 · 已付/计划 125%"
+        }
+      ],
+      "pass": true,
+      "data": {
+        "stripes": 0,
+        "overflow": 980,
+        "payButton": false,
+        "overpaidSlot": "B-03 已签认 · 超计划 ¥225.00 · 已付/计划 125%"
+      }
+    },
+    {
+      "label": "after",
+      "state": "fixed-zero-plan",
+      "width": 390,
+      "screenshot": "after-fixed-zero-plan-390.png",
+      "checks": [
+        {
+          "name": "no-hatching-on-fixed-page",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "scrollWidth": 390,
+            "width": 390
+          }
+        },
+        {
+          "name": "b03-zero-plan-wording",
+          "ok": true,
+          "detail": "B-03 已签认 · 计划 ¥0 · 已付 ¥120.00 · 超计划 ¥120.00"
+        }
+      ],
+      "pass": true,
+      "data": {
+        "stripes": 0,
+        "overflow": 390,
+        "payButton": false,
+        "overpaidSlot": "B-03 已签认 · 计划 ¥0 · 已付 ¥120.00 · 超计划 ¥120.00"
+      }
+    },
+    {
+      "label": "after",
+      "state": "fixed-zero-plan",
+      "width": 760,
+      "screenshot": "after-fixed-zero-plan-760.png",
+      "checks": [
+        {
+          "name": "no-hatching-on-fixed-page",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "scrollWidth": 760,
+            "width": 760
+          }
+        },
+        {
+          "name": "b03-zero-plan-wording",
+          "ok": true,
+          "detail": "B-03 已签认 · 计划 ¥0 · 已付 ¥120.00 · 超计划 ¥120.00"
+        }
+      ],
+      "pass": true,
+      "data": {
+        "stripes": 0,
+        "overflow": 760,
+        "payButton": false,
+        "overpaidSlot": "B-03 已签认 · 计划 ¥0 · 已付 ¥120.00 · 超计划 ¥120.00"
+      }
+    },
+    {
+      "label": "after",
+      "state": "fixed-zero-plan",
+      "width": 980,
+      "screenshot": "after-fixed-zero-plan-980.png",
+      "checks": [
+        {
+          "name": "no-hatching-on-fixed-page",
+          "ok": true,
+          "detail": 0
+        },
+        {
+          "name": "no-horizontal-overflow",
+          "ok": true,
+          "detail": {
+            "scrollWidth": 980,
+            "width": 980
+          }
+        },
+        {
+          "name": "b03-zero-plan-wording",
+          "ok": true,
+          "detail": "B-03 已签认 · 计划 ¥0 · 已付 ¥120.00 · 超计划 ¥120.00"
+        }
+      ],
+      "pass": true,
+      "data": {
+        "stripes": 0,
+        "overflow": 980,
+        "payButton": false,
+        "overpaidSlot": "B-03 已签认 · 计划 ¥0 · 已付 ¥120.00 · 超计划 ¥120.00"
+      }
+    }
+  ]
+}

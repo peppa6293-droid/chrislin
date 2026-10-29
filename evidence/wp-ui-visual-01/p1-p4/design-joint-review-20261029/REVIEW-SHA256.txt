@@ -1,0 +1,14 @@
+252de1bc0e00f923ff1e70474f99c67fb2501bb4f3666a7e5bc49bf74658fde1  src/application/product-service.ts
+efaf8d1531e0e1138e904d2ce2c65e9c0958842df773ce50291d2bca5e74291f  src/ui/V2StructureCard.tsx
+50dbfea7f7525e4943e2bd38c09b7f676225349ae496a94885f2e00d11654794  src/ui/V2StructureRings.tsx
+04f7bcc99d522d7c12bb1fef80b7ddbe3722994f02900814e330c3aeab350c86  src/ui/structure-ring.ts
+af4cb3816ceca3ab8ce0399480b9486389b8c8895cd484139ae25dc1b40da7b7  src/ui/v2-structure-ring.css
+58a443b73fe5ceabca50ac1764a1233254a3835d2c986fa9aa6478fb50770785  src/ui/v2-card.css
+97abe3d79b80927be921fd10ff11887f92375850d02ca8b6d9c7bdfa72acf8d9  src/ui/v2-home-revamp.css
+f906e57af9d4f7a21a7acd67853751723fe90c35b741fec4dc3bd803da091fc6  evidence/wp-ui-visual-01/p1-p4/design-joint-review-20261029/harness/entry.tsx
+6c2f45a41fc4b20ee38b04698cbd680f1e7ee46b4fe38f15573d05bc6954eff2  evidence/wp-ui-visual-01/p1-p4/design-joint-review-20261029/harness/shoot.mjs
+ce7bfd72be02b405bfd687835c51f3eb27a71ee8bc990e7032d84a6d9aad2bd9  evidence/wp-ui-visual-01/p1-p4/design-joint-review-20261029/harness/shoot-true-text200.mjs
+af884f0f0e2940c1a605ded95cc6b715ea633d54d0737d983d0a0a65ecf574a4  evidence/wp-ui-visual-01/p1-p4/design-joint-review-20261029/shots/metrics.json
+73c96bcdc7788f3c04703bb1dbe0b5c5e162946e0d7e86add226a831491534f1  evidence/wp-ui-visual-01/p1-p4/design-joint-review-20261029/shots/contrast.json
+6ffc96feb3fe1574fd60732a7922f3e14e0c3fa6eba5039d82ca3bff76eda15b  evidence/wp-ui-visual-01/p1-p4/design-joint-review-20261029/text200-real/metrics.json
+fc34e98c131eea5fdad0d247c924d6a298997d8ea9853abc4ad26d18819dfaab  evidence/wp-ui-visual-01/p1-p4/design-joint-review-20261029/DESIGN-JOINT-REVIEW-20261029.md

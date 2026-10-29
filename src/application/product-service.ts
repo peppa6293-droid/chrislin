@@ -54,6 +54,12 @@ export interface HomeApplicationState {
   currentMonth: string;
   profileDisplayName: string | null;
   actualIncomeRecordCount: number;
+  /**
+   * 所选月份 ACTUAL 收入合计（`income_records`，与收入页同源）。
+   * 只读派生：由已在内存的 `facts.actualIncomeRecords` 求和，不新增查询；
+   * 无记录时为 "0"，展示层必须据此走缺失态而不是补零。
+   */
+  actualIncomeTotal: string;
   currentCash: string;
   currentMonthSpending: string;
   /** 本月全部可变支出记录数（按 businessDate 的月份统计，不用 asOfDate 截断）。 */
@@ -420,6 +426,9 @@ async function homeFromDatabase(db: SqlDatabase, asOfDate: string): Promise<Home
     currentMonth: asOfDate.slice(0, 7),
     profileDisplayName: built.input.profile.displayName ?? null,
     actualIncomeRecordCount: built.input.facts.actualIncomeRecords.length,
+    actualIncomeTotal: built.input.facts.actualIncomeRecords
+      .reduce((total, income) => total.plus(money(income.amount)), money(0))
+      .toString(),
     currentCash: cash.reduce((total, row) => total.plus(money(row.balance)), money(0)).toString(),
     currentMonthSpending: model.spending.actualVariableSpending.toString(),
     currentMonthVariableExpenseCount: built.input.facts.expenses.filter(

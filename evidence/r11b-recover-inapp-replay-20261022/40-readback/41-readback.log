@@ -1,0 +1,38 @@
+== integrity ==
+ok
+== cash accounts (base + latest snapshot <= 2026-10-22 + effective active) ==
+name          balance  safety  reserved_amount  eff_active
+------------  -------  ------  ---------------  ----------
+上海银行      0        1       0.00             1         
+余额宝        4805.61  1       0.00             1         
+农业银行      0        1       0.00             1         
+微信零钱               1       0.00             1         
+房租专用资金  3800     0       0.00             0         
+== cash total (effective active) ==
+Error: in prepare, no such column: lc.eff_active
+  c JOIN snap s ON s.account_id=c.id WHERE COALESCE(lc.eff_active, c.active)=1 A
+                                      error here ---^
+== assets (latest snapshot <= 2026-10-22) ==
+name        kind               safety  active  value
+----------  -----------------  ------  ------  -----
+支付宝基金  LIQUID_INVESTMENT  1       1       3842 
+短期理财 1  LIQUID_INVESTMENT  0       1       10000
+短期理财 2  LIQUID_INVESTMENT  0       1       7000 
+短期理财 3  LIQUID_INVESTMENT  0       1       3000 
+证券账户    LIQUID_INVESTMENT  1       1            
+== safety resources total ==
+Error: in prepare, no such column: lc.eff_active
+  HERE c.include_in_safety_resources=1 AND COALESCE(lc.eff_active,c.active)=1),0
+                                      error here ---^
+== reserved total / free cash ==
+0.00
+== debts ==
+count|5
+2026-11 total balance|157228.31|due|8851.03
+2026-10 total balance|172579.53|due|14518.73
+== gaps ==
+income_entries|0
+fixed_expense_plans|0
+== V1 untouched ==
+expense_records|1
+income_records|1

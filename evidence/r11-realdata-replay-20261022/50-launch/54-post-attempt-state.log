@@ -1,0 +1,43 @@
+=== post-write / post-launch-attempt state ===
+2026-10-22T12:01:58Z
+-- process --
+no app process
+-- sidecars --
+none
+-- db hash --
+bb077455bdc5234a118ef07acef83c36261344277ca378f93d4e098664405789  /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3
+-- backup hashes --
+319907d68dafd513a2ebed758d469a066793735677a1a462d034ea7b88b192a3  /Users/linte/Library/Application Support/com.personalfinance.console/production-v8-backups/personal-finance-console.sqlite3.r11-pre-replay-20261022
+319907d68dafd513a2ebed758d469a066793735677a1a462d034ea7b88b192a3  /Users/linte/Documents/pfc-r11-replay-backup-20261022/personal-finance-console.sqlite3
+-- integrity/user_version --
+ok
+8
+-- counts --
+cash_accounts|5
+cash_balance_snapshots|8
+lifecycle|1
+assets|5
+asset_value_snapshots|6
+income_entries|2
+fixed_expense_plans|5
+-- production_integrity_state current --
+singleton  sequence  previous_digest                                               content_digest                                                tag                                                         
+---------  --------  ------------------------------------------------------------  ------------------------------------------------------------  ------------------------------------------------------------
+1          3         7daca8df5ec6f89d942ee531c07ad9e5b176c884e58f5d7534a6f5daa66d  50e6a032cd5d35d31181fd81ac9fbfbbbbdd64ac0fa11bfce23c2a616d8a  1049713efa94a073215d16645f09b4e3b2500aa969d88e696d1e7469d47e
+                     a6ab                                                          b801                                                          fa67                                                        
+-- production_integrity_state pre-replay backup --
+singleton  sequence  previous_digest                                               content_digest                                                tag                                                         
+---------  --------  ------------------------------------------------------------  ------------------------------------------------------------  ------------------------------------------------------------
+1          3         7daca8df5ec6f89d942ee531c07ad9e5b176c884e58f5d7534a6f5daa66d  50e6a032cd5d35d31181fd81ac9fbfbbbbdd64ac0fa11bfce23c2a616d8a  1049713efa94a073215d16645f09b4e3b2500aa969d88e696d1e7469d47e
+                     a6ab                                                          b801                                                          fa67                                                        
+-- prohibited tables unchanged (counts) --
+debts|5
+debt_period_facts|10
+expense_records|1
+expenses|0
+import_batches|0
+expense_categories|6
+income_records|1
+essential_expense_items|3
+-- free cash --
+21525.93

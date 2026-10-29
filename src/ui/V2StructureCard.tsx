@@ -1,10 +1,11 @@
 import { ArrowRight, WalletCards } from "lucide-react";
+import { useState } from "react";
 import type { HomeApplicationState } from "../application/product-service.js";
 import { money } from "../model/money.js";
 import { CARD_DISABLED_TITLE, type CardStatus } from "./card-status.js";
 import { MoneyAmount } from "./MoneyAmount.js";
-import { formatCurrency } from "./money-format.js";
-import { V2StructureCompareBar } from "./V2StructureCompareBar.js";
+import { structureSurplus } from "./structure-ring.js";
+import { type RingKey, V2StructureRings } from "./V2StructureRings.js";
 
 const KICKER = "每月固定收支";
 const INCOMPLETE_TITLE = "资料不齐，花点时间补一下";
@@ -40,14 +41,20 @@ export function V2StructureCard({
   onOpenCashflow: () => void;
   status?: CardStatus;
 }) {
-  const income = money(home.planningIncome);
+  const [selected, setSelected] = useState<RingKey | null>(null);
   const essentialExpenses = money(home.essentialExpenses);
   const mandatoryDebtService = money(home.mandatoryDebtService);
   const burden = essentialExpenses.plus(mandatoryDebtService);
-  const surplus = money(home.baseSurplus);
+  // B-01/B-02：三个数同源，都读所选月份实际收入（income_records）。
+  const structure = structureSurplus({
+    income: home.actualIncomeTotal,
+    essentialExpenses: home.essentialExpenses,
+    mandatoryDebtService: home.mandatoryDebtService,
+  });
+  const surplus = structure.available && structure.amount != null ? money(structure.amount) : null;
 
   const pending = pendingDebtFactNames.length > 0;
-  const ratio = pending || !income.gt(0) ? null : surplus.dividedBy(income);
+  const ratio = pending || structure.ratio == null ? null : money(structure.ratio);
   const band: StructureBand | null =
     ratio == null
       ? null
@@ -69,7 +76,14 @@ export function V2StructureCard({
         ? ZERO_INCOME_COPY.WITH_BURDEN
         : ZERO_INCOME_COPY.ALL_ZERO;
 
-  const tone = pending ? "" : surplus.lt(0) ? "is-short" : surplus.eq(0) ? "is-even" : "is-steady";
+  const tone =
+    pending || surplus == null
+      ? ""
+      : surplus.lt(0)
+        ? "is-short"
+        : surplus.eq(0)
+          ? "is-even"
+          : "is-steady";
 
   const loading = status === "loading";
   const disabled = status === "disabled";
@@ -83,7 +97,7 @@ export function V2StructureCard({
         "v2-today-snapshot",
         "v2-structure-card",
         tone,
-        !pending && surplus.lt(0) ? "v2-card--over" : "",
+        !pending && surplus != null && surplus.lt(0) ? "v2-card--over" : "",
         disabled ? "v2-card--disabled is-disabled" : "",
         loading ? "is-loading" : "",
       ]
@@ -103,50 +117,30 @@ export function V2StructureCard({
         {titleText}
       </h2>
       <div className="v2-card__value v2-structure-value">
-        {pending ? (
+        {pending || surplus == null ? (
           <span role="img" aria-label="结构余量待确认">
             —
           </span>
         ) : (
-          <MoneyAmount value={home.baseSurplus} size="summary" />
+          <MoneyAmount value={structure.amount} size="summary" />
         )}
         <small>结构余量 · 收入 − 固定支出 − 月供</small>
+        {!pending && structure.percent != null && <small>占收入 {structure.percent}</small>}
       </div>
-      {!pending && (
-        <div className="v2-structure-dots" aria-hidden="true">
-          <span className={`v2-dot ${tone === "is-steady" ? "is-on" : ""}`} />
-          <span className={`v2-dot ${tone === "is-steady" ? "is-on" : ""}`} />
-          <span
-            className={`v2-dot ${
-              tone === "is-short" ? "is-over" : tone === "is-even" ? "is-warn" : "is-on"
-            }`}
-          />
-        </div>
-      )}
-      {band != null && (
-        <V2StructureCompareBar
-          income={home.planningIncome}
-          essentialExpenses={home.essentialExpenses}
-          mandatoryDebtService={home.mandatoryDebtService}
-        />
-      )}
-      <p className="v2-card__line">
-        {pending ? (
-          <>收入 — · 固定支出 — · 月供 待确认</>
-        ) : (
-          <>
-            收入 {formatCurrency(home.planningIncome)} · 固定支出{" "}
-            {formatCurrency(home.essentialExpenses)} · 月供{" "}
-            {formatCurrency(home.mandatoryDebtService)}
-          </>
-        )}
-      </p>
+      <V2StructureRings
+        income={home.actualIncomeTotal}
+        essentialExpenses={home.essentialExpenses}
+        mandatoryDebtService={home.mandatoryDebtService}
+        pendingDebt={pending}
+        selected={selected}
+        onToggle={(ring) => setSelected((current) => (current === ring ? null : ring))}
+      />
       <div className="v2-card__actions">
         <button className="v2-btn v2-btn--secondary" type="button" onClick={onOpenFixedExpenses}>
           <WalletCards size={16} aria-hidden="true" />
           查看固定支出
         </button>
-        {(pending || surplus.lt(0)) && (
+        {(pending || surplus?.lt(0)) && (
           <button className="v2-btn v2-btn--secondary" type="button" onClick={onOpenDebt}>
             查看债务
           </button>

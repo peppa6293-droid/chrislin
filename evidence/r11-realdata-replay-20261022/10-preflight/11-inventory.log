@@ -1,0 +1,125 @@
+=== timestamp ===
+2026-10-22T10:12:21Z
+=== file identity ===
+path=/Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3 dev=16777232 inode=30715175 size=352256 nlink=1 mode=100644
+path=/Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3.v8-quarantined dev=16777232 inode=21120760 size=348160 nlink=1 mode=100644
+319907d68dafd513a2ebed758d469a066793735677a1a462d034ea7b88b192a3  /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3
+cbf16d1cb9b9b1fd89e07bd40653dc633c537b05826881466774e13da2223181  /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3.v8-quarantined
+=== production table counts ===
+accounts = 1
+actual_income_revisions = 0
+app_metadata = 0
+asset_revisions = 3
+asset_value_snapshots = 4
+assets = 4
+cash_account_lifecycle_revisions = 0
+cash_account_revisions = 0
+cash_accounts = 4
+cash_balance_snapshots = 4
+debt_period_facts = 10
+debt_revisions = 0
+debts = 5
+essential_expense_items = 3
+essential_expense_revisions = 0
+essential_expense_snapshots = 3
+expense_categories = 6
+expense_records = 1
+expenses = 0
+financial_settings = 1
+fixed_expense_plans = 0
+import_batches = 0
+income_entries = 0
+income_records = 1
+planning_income_month_revisions = 0
+planning_income_revisions = 0
+production_integrity_state = 1
+profiles = 1
+schema_migrations = 8
+settings_revisions = 0
+=== production schema (target tables) ===
+CREATE TABLE asset_value_snapshots (
+  id TEXT PRIMARY KEY,
+  asset_id TEXT NOT NULL REFERENCES assets(id) ON DELETE RESTRICT,
+  as_of_date TEXT NOT NULL,
+  value TEXT NOT NULL,
+  created_at TEXT NOT NULL,
+  UNIQUE(asset_id, as_of_date)
+)
+CREATE TABLE assets (
+  id TEXT PRIMARY KEY,
+  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,
+  name TEXT NOT NULL,
+  kind TEXT NOT NULL CHECK (kind IN ('LIQUID_INVESTMENT','OTHER')),
+  include_in_safety_resources INTEGER NOT NULL CHECK (include_in_safety_resources IN (0,1)),
+  active INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0,1)),
+  created_at TEXT NOT NULL
+)
+CREATE TABLE cash_account_lifecycle_revisions (
+  revision_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  account_id TEXT NOT NULL REFERENCES cash_accounts(id) ON DELETE RESTRICT,
+  as_of_date TEXT NOT NULL,
+  active INTEGER NOT NULL CHECK (active IN (0,1)),
+  created_at TEXT NOT NULL
+)
+CREATE TABLE cash_accounts (
+  id TEXT PRIMARY KEY,
+  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,
+  name TEXT NOT NULL,
+  include_in_safety_resources INTEGER NOT NULL CHECK (include_in_safety_resources IN (0,1)),
+  active INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0,1)),
+  created_at TEXT NOT NULL
+, reserved_amount TEXT NOT NULL DEFAULT '0.00')
+CREATE TABLE cash_balance_snapshots (
+  id TEXT PRIMARY KEY,
+  account_id TEXT NOT NULL REFERENCES cash_accounts(id) ON DELETE RESTRICT,
+  as_of_date TEXT NOT NULL,
+  balance TEXT NOT NULL,
+  created_at TEXT NOT NULL,
+  UNIQUE(account_id, as_of_date)
+)
+CREATE TABLE fixed_expense_plans (
+  id TEXT PRIMARY KEY,
+  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,
+  name TEXT NOT NULL,
+  monthly_amount TEXT NOT NULL,
+  effective_from TEXT NOT NULL,
+  note TEXT,
+  active INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0,1)),
+  created_at TEXT NOT NULL
+)
+CREATE TABLE income_entries (
+  id TEXT PRIMARY KEY,
+  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,
+  period_month TEXT NOT NULL CHECK (
+    length(period_month)=7 AND substr(period_month,5,1)='-'
+    AND substr(period_month,6,2) BETWEEN '01' AND '12'
+    AND substr(period_month,1,4) NOT GLOB '*[^0-9]*'
+  ),
+  occurred_at TEXT NOT NULL,
+  amount TEXT NOT NULL,
+  label TEXT NOT NULL DEFAULT '',
+  one_time INTEGER NOT NULL DEFAULT 0 CHECK (one_time IN (0,1)),
+  created_at TEXT NOT NULL,
+  UNIQUE(profile_id, occurred_at, label, amount)
+)
+CREATE TABLE production_integrity_state (singleton INTEGER PRIMARY KEY CHECK (singleton = 1),sequence INTEGER NOT NULL CHECK (sequence >= 1),previous_digest TEXT NOT NULL,content_digest TEXT NOT NULL,tag TEXT NOT NULL) STRICT
+CREATE TABLE profiles (
+  id TEXT PRIMARY KEY,
+  singleton_id INTEGER NOT NULL DEFAULT 1 UNIQUE CHECK (singleton_id = 1),
+  display_name TEXT,
+  created_at TEXT NOT NULL
+)
+=== production integrity state ===
+3|7daca8df5ec6f89d942ee531c07ad9e5b176c884e58f5d7534a6f5daa66da6ab|50e6a032cd5d35d31181fd81ac9fbfbbbbdd64ac0fa11bfce23c2a616d8ab801|1049713efa94a073215d16645f09b4e3b2500aa969d88e696d1e7469d47efa67
+=== profiles ===
+ffb61fa9-1206-4bdd-923b-7e440468139c|1||2026-10-04T00:00:00.000Z
+=== schema versions ===
+8
+1|2026-10-03T06:42:34.155Z
+2|2026-10-03T06:42:34.155Z
+3|2026-10-04T09:19:41.860Z
+4|2026-10-22T06:28:04.052Z
+5|2026-10-22T06:28:04.052Z
+6|2026-10-22T06:28:04.053Z
+7|2026-10-22T06:28:04.053Z
+8|2026-10-22T06:28:04.053Z

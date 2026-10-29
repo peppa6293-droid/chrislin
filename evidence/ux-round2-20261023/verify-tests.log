@@ -1,0 +1,65 @@
+
+ RUN  v5.0.5 /Users/linte/Documents/ChatGPT/个人财务模型app开发项目 2
+
+ ✓ tests/debt-fact-service.test.ts (29 tests) 620ms
+ ✓ tests/financial-maintenance-service.test.ts (17 tests) 761ms
+ ✓ tests/persistence.test.ts (40 tests) 873ms
+ ✓ tests/v4-acceptance-ui.test.tsx (6 tests) 440ms
+ ✓ tests/v2-ui/today-task.test.tsx (13 tests) 467ms
+ ✓ tests/v2-ui/import-flow.test.tsx (8 tests) 413ms
+ ✓ tests/product-service.test.ts (18 tests) 284ms
+ ✓ tests/v4-four-p1-correction.test.ts (15 tests) 384ms
+ ✓ tests/v2-ledger/ux-ledger-dual-ledger.test.ts (5 tests) 80ms
+ ✓ tests/v4-foundation.test.ts (8 tests) 183ms
+ ✓ tests/v2-ui/dashboard-route.test.tsx (3 tests) 376ms
+ ✓ tests/v2-ledger/import-write.test.ts (14 tests) 71ms
+ ✓ tests/v4-acceptance-sandbox.test.ts (3 tests) 51ms
+ ✓ tests/v2-ui/today-page.test.tsx (5 tests) 70ms
+ ✓ tests/v2-ui/progress-page.test.tsx (7 tests) 250ms
+ ✓ tests/v2-ledger/ledger-sync.test.ts (5 tests) 72ms
+ ✓ tests/application-services.test.ts (5 tests) 69ms
+ ✓ tests/v2-ledger/v2-expense-service.test.ts (15 tests) 85ms
+ ✓ tests/v2-ui/v2-surface.test.tsx (6 tests) 237ms
+ ✓ tests/r13-zero-amount-expenses.test.ts (2 tests) 46ms
+ ✓ tests/product-restart.test.ts (2 tests) 90ms
+ ✓ tests/r8-production-schema-authority.test.ts (19 tests) 122ms
+ ✓ tests/v2-ui/dashboard.test.tsx (13 tests) 89ms
+ ✓ tests/v2-ledger/landing-services.test.ts (4 tests) 58ms
+ ✓ tests/model-core.test.ts (65 tests) 57ms
+ ✓ tests/v2-ledger/landing-import.test.ts (3 tests) 59ms
+ ✓ tests/v2-ledger/expense-persistence.test.ts (5 tests) 40ms
+ ✓ tests/future-schema-guard.test.ts (5 tests) 29ms
+ ✓ tests/v2-ui/icon-unification.test.tsx (3 tests) 91ms
+ ✓ tests/v2-ledger/category-crud.test.ts (2 tests) 19ms
+ ✓ tests/v2-ledger/account-crud.test.ts (2 tests) 17ms
+ ✓ tests/r8-native-migration-sql-parity.test.ts (8 tests) 26ms
+ ✓ tests/v2-ui/trends.test.tsx (3 tests) 19ms
+ ✓ tests/v2-ledger/cashflow-projection.test.ts (7 tests) 11ms
+ ✓ tests/v2-ledger/import-parse.test.ts (8 tests) 10ms
+ ✓ tests/v2-ledger/reconciliation.test.ts (6 tests) 6ms
+ ✓ tests/v2-ledger/task-selector.test.ts (5 tests) 4ms
+ ✓ tests/v2-ledger/savings-goal.test.ts (9 tests) 12ms
+ ✓ tests/quiescence-ipc-contract.test.ts (6 tests) 5ms
+ ✓ tests/v2-ledger/expense-types.test.ts (7 tests) 28ms
+ ✓ tests/smoke-identity.test.ts (2 tests) 4ms
+ ✓ tests/v2-ledger/import-rules.test.ts (6 tests) 3ms
+ ✓ tests/v2-ui.test.tsx (19 tests) 1961ms
+   ✓ V2 product surface (19)
+     ✓ animates the saved debt row and responsibility node after matching readback 302ms
+ ✓ tests/v2-ui/quick-entry.test.ts (4 tests) 6ms
+ ✓ tests/wp01-product-preview-identity.test.ts (2 tests) 2ms
+ ↓ tests/ui.test.tsx (80 tests | 80 skipped)
+ ✓ tests/v2-ui/quick-entry-flow.test.tsx (11 tests) 2894ms
+   ✓ EXEC-U-01 isolated V2 quick entry flow (11)
+     ✓ shows exact Chinese messages for zero, negative, oversized, and malformed amounts 418ms
+     ✓ clears amount and note, shows success, and calls onRecorded once 2081ms
+ ✓ tests/onboarding-safety-eligibility.test.tsx (7 tests) 2528ms
+   ✓ onboarding safety-resource tri-state (7)
+     ✓ passes the mixed approved candidate through React and the real Application Service in an isolated in-memory DB 1514ms
+
+ Test Files  47 passed | 1 skipped (48)
+      Tests  457 passed | 80 skipped (537)
+   Start at  18:42:41
+   Duration  3.92s (tests 55%, import 19%, environment 17%, transform 8%, worker 1%)
+
+EXIT:0

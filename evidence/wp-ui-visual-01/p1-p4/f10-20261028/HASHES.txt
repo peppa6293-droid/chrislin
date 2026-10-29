@@ -1,0 +1,23 @@
+# 段 2 变更文件 SHA-256（2026-10-28，最终工作树）
+
+src/ui/structure-ring.ts                      461bf9e02e0ed4a5382e17da8a6ae147f4799ae9a26da17f596641a9f9aa92e5
+src/ui/fixed-expenses-model.ts                7762ec167a57045b30270ed5192b1c3034d586f781f7809441054b19e93e07bf
+src/ui/V2StructureRings.tsx                   65dc1e6593759414f76c76b9f3f6b81ab14910fe5d663cef394580314b879ef0
+src/ui/V2PaidRing.tsx                         7523d0f4ef0d239766cf8951ad4b01ddc9a983c638193767b0b915d76804de63
+src/ui/V2StructureCard.tsx                    8e4a63e6edd23c038de7f36370ef5cd68ddaf45228a711a791f5ea67bf242172
+src/ui/FixedExpensesPage.tsx                  7bd97feae64841e0939576ccf5fc030860d910a61aa818a39bbd0e15989bd999
+src/ui/v2-structure-ring.css                  224a0a9af015117419cb7ac6edd7d008627a58eb154f8d9d4f920b8bb9ec4f9e
+src/ui/v2-fixed-page.css                      16192b2ea71caf44d1c130243b78d2efa722d68e919a602b20c0824b7e6e1eed
+src/ui/v2-home-revamp.css                     97abe3d79b80927be921fd10ff11887f92375850d02ca8b6d9c7bdfa72acf8d9
+src/ui/v2-card.css                            58a443b73fe5ceabca50ac1764a1233254a3835d2c986fa9aa6478fb50770785
+src/main.tsx                                  ffd71dcb33996aa67ca7c6b4a000b0dab23a860fe61bb487780423d3a5e4e7c0
+tests/v2-ui.test.tsx                          44c0f2fe5476c15efd5b703ec91448a9bcffd0e05200bfa313476c5d692fe1bb
+tests/p1p2-models.test.ts                     f3d925126175d197fc83164f0cb0be34c897c2582e2f17951e3c597ac801235c
+tests/p1p2-fixed-page.test.tsx                68abb8206e892905a1bee650bc6174fa1aa969d4e5a0dc730656dad718c29c2c
+
+已删除：src/ui/V2StructureCompareBar.tsx（git 记录 D，无残留引用，见 COPY-GREP.txt）
+
+证据台（可复现）：
+harness/entry.tsx                             6edf3ce38ecd0b3d5ec4e61d388e134389a3715e13005e0cabbcbb1da809067f
+harness/vite.config.ts                        45d6105b45ac3170fc865be58f37205fcd88f5e116bbba70bccc60db9d1565f7
+harness/shoot.mjs                             9cc25473c57f3d2223d3720e8548236ab4a8afbd4d16aaedb2f6d88bf93b9187

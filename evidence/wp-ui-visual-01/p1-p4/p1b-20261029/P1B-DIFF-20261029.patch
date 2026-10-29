@@ -1,0 +1,487 @@
+# P1-b diff vs git HEAD (2026-10-29)
+# 注意：V2StructureCard.tsx 的 diff 含段2既有未提交改动（双环集成），非本回合全部新增；
+# 本回合语义改动清单见 P1B-IMPLEMENTATION-REPORT-20261029.md §2。
+# structure-ring.ts / V2StructureRings.tsx 为段2未跟踪文件（git HEAD 无基线），改动见报告 §2。
+
+diff --git a/src/application/product-service.ts b/src/application/product-service.ts
+index f0c8e2b..221e921 100644
+--- a/src/application/product-service.ts
++++ b/src/application/product-service.ts
+@@ -54,6 +54,12 @@ export interface HomeApplicationState {
+   currentMonth: string;
+   profileDisplayName: string | null;
+   actualIncomeRecordCount: number;
++  /**
++   * 所选月份 ACTUAL 收入合计（`income_records`，与收入页同源）。
++   * 只读派生：由已在内存的 `facts.actualIncomeRecords` 求和，不新增查询；
++   * 无记录时为 "0"，展示层必须据此走缺失态而不是补零。
++   */
++  actualIncomeTotal: string;
+   currentCash: string;
+   currentMonthSpending: string;
+   /** 本月全部可变支出记录数（按 businessDate 的月份统计，不用 asOfDate 截断）。 */
+@@ -420,6 +426,9 @@ async function homeFromDatabase(db: SqlDatabase, asOfDate: string): Promise<Home
+     currentMonth: asOfDate.slice(0, 7),
+     profileDisplayName: built.input.profile.displayName ?? null,
+     actualIncomeRecordCount: built.input.facts.actualIncomeRecords.length,
++    actualIncomeTotal: built.input.facts.actualIncomeRecords
++      .reduce((total, income) => total.plus(money(income.amount)), money(0))
++      .toString(),
+     currentCash: cash.reduce((total, row) => total.plus(money(row.balance)), money(0)).toString(),
+     currentMonthSpending: model.spending.actualVariableSpending.toString(),
+     currentMonthVariableExpenseCount: built.input.facts.expenses.filter(
+diff --git a/src/ui/V2StructureCard.tsx b/src/ui/V2StructureCard.tsx
+index 1842132..ca0d8e9 100644
+--- a/src/ui/V2StructureCard.tsx
++++ b/src/ui/V2StructureCard.tsx
+@@ -1,10 +1,11 @@
+ import { ArrowRight, WalletCards } from "lucide-react";
++import { useState } from "react";
+ import type { HomeApplicationState } from "../application/product-service.js";
+ import { money } from "../model/money.js";
+ import { CARD_DISABLED_TITLE, type CardStatus } from "./card-status.js";
+ import { MoneyAmount } from "./MoneyAmount.js";
+-import { formatCurrency } from "./money-format.js";
+-import { V2StructureCompareBar } from "./V2StructureCompareBar.js";
++import { structureSurplus } from "./structure-ring.js";
++import { type RingKey, V2StructureRings } from "./V2StructureRings.js";
+ 
+ const KICKER = "每月固定收支";
+ const INCOMPLETE_TITLE = "资料不齐，花点时间补一下";
+@@ -40,14 +41,20 @@ export function V2StructureCard({
+   onOpenCashflow: () => void;
+   status?: CardStatus;
+ }) {
+-  const income = money(home.planningIncome);
++  const [selected, setSelected] = useState<RingKey | null>(null);
+   const essentialExpenses = money(home.essentialExpenses);
+   const mandatoryDebtService = money(home.mandatoryDebtService);
+   const burden = essentialExpenses.plus(mandatoryDebtService);
+-  const surplus = money(home.baseSurplus);
++  // B-01/B-02：三个数同源，都读所选月份实际收入（income_records）。
++  const structure = structureSurplus({
++    income: home.actualIncomeTotal,
++    essentialExpenses: home.essentialExpenses,
++    mandatoryDebtService: home.mandatoryDebtService,
++  });
++  const surplus = structure.available && structure.amount != null ? money(structure.amount) : null;
+ 
+   const pending = pendingDebtFactNames.length > 0;
+-  const ratio = pending || !income.gt(0) ? null : surplus.dividedBy(income);
++  const ratio = pending || structure.ratio == null ? null : money(structure.ratio);
+   const band: StructureBand | null =
+     ratio == null
+       ? null
+@@ -69,7 +76,14 @@ export function V2StructureCard({
+         ? ZERO_INCOME_COPY.WITH_BURDEN
+         : ZERO_INCOME_COPY.ALL_ZERO;
+ 
+-  const tone = pending ? "" : surplus.lt(0) ? "is-short" : surplus.eq(0) ? "is-even" : "is-steady";
++  const tone =
++    pending || surplus == null
++      ? ""
++      : surplus.lt(0)
++        ? "is-short"
++        : surplus.eq(0)
++          ? "is-even"
++          : "is-steady";
+ 
+   const loading = status === "loading";
+   const disabled = status === "disabled";
+@@ -83,7 +97,7 @@ export function V2StructureCard({
+         "v2-today-snapshot",
+         "v2-structure-card",
+         tone,
+-        !pending && surplus.lt(0) ? "v2-card--over" : "",
++        !pending && surplus != null && surplus.lt(0) ? "v2-card--over" : "",
+         disabled ? "v2-card--disabled is-disabled" : "",
+         loading ? "is-loading" : "",
+       ]
+@@ -103,50 +117,30 @@ export function V2StructureCard({
+         {titleText}
+       </h2>
+       <div className="v2-card__value v2-structure-value">
+-        {pending ? (
++        {pending || surplus == null ? (
+           <span role="img" aria-label="结构余量待确认">
+             —
+           </span>
+         ) : (
+-          <MoneyAmount value={home.baseSurplus} size="summary" />
++          <MoneyAmount value={structure.amount} size="summary" />
+         )}
+         <small>结构余量 · 收入 − 固定支出 − 月供</small>
++        {!pending && structure.percent != null && <small>占收入 {structure.percent}</small>}
+       </div>
+-      {!pending && (
+-        <div className="v2-structure-dots" aria-hidden="true">
+-          <span className={`v2-dot ${tone === "is-steady" ? "is-on" : ""}`} />
+-          <span className={`v2-dot ${tone === "is-steady" ? "is-on" : ""}`} />
+-          <span
+-            className={`v2-dot ${
+-              tone === "is-short" ? "is-over" : tone === "is-even" ? "is-warn" : "is-on"
+-            }`}
+-          />
+-        </div>
+-      )}
+-      {band != null && (
+-        <V2StructureCompareBar
+-          income={home.planningIncome}
+-          essentialExpenses={home.essentialExpenses}
+-          mandatoryDebtService={home.mandatoryDebtService}
+-        />
+-      )}
+-      <p className="v2-card__line">
+-        {pending ? (
+-          <>收入 — · 固定支出 — · 月供 待确认</>
+-        ) : (
+-          <>
+-            收入 {formatCurrency(home.planningIncome)} · 固定支出{" "}
+-            {formatCurrency(home.essentialExpenses)} · 月供{" "}
+-            {formatCurrency(home.mandatoryDebtService)}
+-          </>
+-        )}
+-      </p>
++      <V2StructureRings
++        income={home.actualIncomeTotal}
++        essentialExpenses={home.essentialExpenses}
++        mandatoryDebtService={home.mandatoryDebtService}
++        pendingDebt={pending}
++        selected={selected}
++        onToggle={(ring) => setSelected((current) => (current === ring ? null : ring))}
++      />
+       <div className="v2-card__actions">
+         <button className="v2-btn v2-btn--secondary" type="button" onClick={onOpenFixedExpenses}>
+           <WalletCards size={16} aria-hidden="true" />
+           查看固定支出
+         </button>
+-        {(pending || surplus.lt(0)) && (
++        {(pending || surplus?.lt(0)) && (
+           <button className="v2-btn v2-btn--secondary" type="button" onClick={onOpenDebt}>
+             查看债务
+           </button>
+diff --git a/tests/ui.test.tsx b/tests/ui.test.tsx
+index 9319604..c6a349d 100644
+--- a/tests/ui.test.tsx
++++ b/tests/ui.test.tsx
+@@ -41,6 +41,7 @@ const baselineHome: HomeApplicationState = {
+   currentMonth: "2026-10",
+   profileDisplayName: null,
+   actualIncomeRecordCount: 0,
++  actualIncomeTotal: "13000",
+   currentCash: "5000",
+   currentMonthSpending: "125.5",
+   currentMonthVariableExpenseCount: 1,
+diff --git a/tests/v2-cards-loading.test.tsx b/tests/v2-cards-loading.test.tsx
+index 2acf100..2a9e2c3 100644
+--- a/tests/v2-cards-loading.test.tsx
++++ b/tests/v2-cards-loading.test.tsx
+@@ -12,6 +12,7 @@ const baseHome: HomeApplicationState = {
+   currentMonth: "2026-10",
+   profileDisplayName: "小钱",
+   actualIncomeRecordCount: 0,
++  actualIncomeTotal: "13000",
+   currentCash: "5000",
+   currentMonthSpending: "125.50",
+   currentMonthVariableExpenseCount: 2,
+diff --git a/tests/v2-ui.test.tsx b/tests/v2-ui.test.tsx
+index 168ff22..16c84eb 100644
+--- a/tests/v2-ui.test.tsx
++++ b/tests/v2-ui.test.tsx
+@@ -15,6 +15,7 @@ const home: HomeApplicationState = {
+   currentMonth: "2026-10",
+   profileDisplayName: "小钱",
+   actualIncomeRecordCount: 0,
++  actualIncomeTotal: "13000",
+   currentCash: "5000",
+   currentMonthSpending: "125.50",
+   currentMonthVariableExpenseCount: 2,
+@@ -597,31 +598,48 @@ describe("WP-UI-COPY-01 structure and month copy", () => {
+     document.querySelector<HTMLElement>(".v2-structure-card") as HTMLElement;
+   const monthCard = () => document.querySelector<HTMLElement>(".v2-month-card") as HTMLElement;
+ 
+-  it("S1 default fixture shows the steady structure band and a full income bar", () => {
++  it("S1 default fixture draws both rings and prints both shares", () => {
+     renderHome();
+     const card = structureCard();
+     expect(within(card).getByRole("heading", { name: "账单：不是，他怎么还剩钱？" })).toBeTruthy();
+-    expect(card.querySelector(".v2-structure-bar")).toBeTruthy();
+-    const income = card.querySelector<HTMLElement>(".v2-structure-bar__fill.is-income");
+-    expect(income?.style.width).toBe("100%");
++    expect(card.querySelector(".v2-ring__arc.is-outer")).toBeTruthy();
++    expect(card.querySelector(".v2-ring__arc.is-inner")).toBeTruthy();
++    expect(card.querySelector(".v2-ring__centre-amount")?.textContent).toBe("¥13,000.00");
++    const rows = [...card.querySelectorAll(".v2-ring-row")].map((row) => row.textContent);
++    expect(rows[0]).toContain("固定支出");
++    expect(rows[0]).toContain("占收入 27.1%");
++    expect(rows[1]).toContain("必须偿还月供");
++    expect(rows[1]).toContain("占收入 6.2%");
+   });
+ 
+   it("S2 7.7% surplus shows the tight structure band", () => {
+-    renderHome({ baseSurplus: "1000" });
++    renderHome({
++      actualIncomeTotal: "1000",
++      essentialExpenses: "300",
++      mandatoryDebtService: "623",
++    });
+     expect(
+       within(structureCard()).getByRole("heading", { name: "钱包：还活着，先别开香槟。" }),
+     ).toBeTruthy();
+   });
+ 
+   it("S3 exactly zero surplus shows the even band and is-even tone", () => {
+-    renderHome({ baseSurplus: "0" });
++    renderHome({
++      actualIncomeTotal: "1000",
++      essentialExpenses: "400",
++      mandatoryDebtService: "600",
++    });
+     const card = structureCard();
+     expect(within(card).getByRole("heading", { name: "工资：来过，爱过，没留过。" })).toBeTruthy();
+     expect(card.classList.contains("is-even")).toBe(true);
+   });
+ 
+   it("S4 a mild deficit shows the mild band and over card tone", () => {
+-    renderHome({ baseSurplus: "-500" });
++    renderHome({
++      actualIncomeTotal: "1000",
++      essentialExpenses: "500",
++      mandatoryDebtService: "550",
++    });
+     const card = structureCard();
+     expect(
+       within(card).getByRole("heading", { name: "工资：你们分赃怎么不带我商量？" }),
+@@ -630,81 +648,171 @@ describe("WP-UI-COPY-01 structure and month copy", () => {
+   });
+ 
+   it("S5 a deep deficit shows the deep band", () => {
+-    renderHome({ baseSurplus: "-2000" });
++    renderHome({
++      actualIncomeTotal: "1000",
++      essentialExpenses: "800",
++      mandatoryDebtService: "400",
++    });
+     expect(
+       within(structureCard()).getByRole("heading", { name: "收入：我一个人打五个？" }),
+     ).toBeTruthy();
+   });
+ 
+   it("S6a exactly 20% stays in the steady band", () => {
+-    renderHome({ baseSurplus: "2600" });
++    renderHome({
++      actualIncomeTotal: "1000",
++      essentialExpenses: "300",
++      mandatoryDebtService: "500",
++    });
+     expect(
+       within(structureCard()).getByRole("heading", { name: "账单：不是，他怎么还剩钱？" }),
+     ).toBeTruthy();
+   });
+ 
+   it("S6b exactly -10% is the deep band", () => {
+-    renderHome({ baseSurplus: "-1300" });
++    renderHome({
++      actualIncomeTotal: "1000",
++      essentialExpenses: "500",
++      mandatoryDebtService: "600",
++    });
+     expect(
+       within(structureCard()).getByRole("heading", { name: "收入：我一个人打五个？" }),
+     ).toBeTruthy();
+   });
+ 
+-  it("S7 zero income with burden shows true amounts and no compare bar", () => {
++  it("S7 missing actual income keeps a neutral track, no arc and never zero-fills", () => {
+     renderHome({
+-      planningIncome: "0",
++      actualIncomeRecordCount: 0,
++      actualIncomeTotal: "0",
++      planningIncome: "13000",
+       essentialExpenses: "3528",
+       mandatoryDebtService: "800",
+-      baseSurplus: "-4328",
+     });
+     const card = structureCard();
+     expect(
+       within(card).getByRole("heading", { name: "收入：暂未出场。账单：戏份拉满。" }),
+     ).toBeTruthy();
+-    expect(card.querySelector(".v2-structure-bar")).toBeNull();
+-    expect(card.textContent).toContain("-¥4,328.00");
++    expect(card.querySelector(".v2-ring__arc")).toBeNull();
++    expect(card.querySelector(".v2-ring__track.is-outer")).toBeTruthy();
++    expect(card.querySelector(".v2-ring-row__percent")).toBeNull();
++    // B-02：缺失不补零——中心印「—」，可访问名称只说「收入 —」，数字位不出现 ¥0.00。
++    expect(card.querySelector(".v2-ring__centre-amount")?.textContent).toBe("—");
++    expect(within(card).getByRole("img", { name: "收入 —" })).toBeTruthy();
++    expect(card.querySelector(".v2-card__value")?.textContent).not.toContain("¥0.00");
++    // 规划收入不得回填到结构卡中心。
++    expect(card.textContent).not.toContain("¥13,000.00");
+   });
+ 
+-  it("S8 zero income and zero burden shows the all-zero band and three dots", () => {
++  it("S8 zero income and zero burden shows the all-zero band without arcs or dots", () => {
+     renderHome({
++      actualIncomeRecordCount: 0,
++      actualIncomeTotal: "0",
+       planningIncome: "0",
+       essentialExpenses: "0",
+       mandatoryDebtService: "0",
+-      baseSurplus: "0",
+     });
+     const card = structureCard();
+     expect(
+       within(card).getByRole("heading", { name: "收入：你不来？账单：那我也不来了。" }),
+     ).toBeTruthy();
+-    expect(card.querySelector(".v2-structure-bar")).toBeNull();
+-    expect(card.querySelectorAll(".v2-dot")).toHaveLength(3);
++    expect(card.querySelector(".v2-ring__arc")).toBeNull();
++    expect(card.querySelector(".v2-structure-dots")).toBeNull();
++    expect(card.querySelector(".v2-ring__centre-amount")?.textContent).toBe("—");
++    expect(card.querySelector(".v2-card__value")?.textContent).not.toContain("¥0.00");
+   });
+ 
+-  it("S9 pending debt facts hide snapshot amounts and compare bar", () => {
++  it("S9 pending debt facts show confirmed amounts, mask surplus and mark debt 待确认", () => {
+     renderHome({}, { pendingDebtFactNames: ["房贷"] });
+     const card = structureCard();
+     expect(within(card).getByRole("heading", { name: "资料不齐，花点时间补一下" })).toBeTruthy();
+     expect(card.textContent).not.toContain("¥8,672.00");
+-    expect(card.textContent).not.toContain("¥13,000.00");
+-    expect(card.querySelectorAll(".v2-dot")).toHaveLength(0);
+-    expect(card.querySelector(".v2-structure-bar")).toBeNull();
++    expect(within(card).getByRole("img", { name: "结构余量待确认" })).toBeTruthy();
++    expect(
++      within(card).getByRole("img", { name: "固定支出占收入 27.1%，必须偿还月供 待确认" }),
++    ).toBeTruthy();
++    expect(card.textContent).toContain("待确认");
++    // 已确认的固定支出照常画外环；月供待确认，内环只有中性轨道。
++    expect(card.querySelector(".v2-ring__arc.is-outer")).toBeTruthy();
++    expect(card.querySelector(".v2-ring__arc.is-inner")).toBeNull();
+     expect(within(card).getByRole("button", { name: "查看债务" })).toBeTruthy();
+   });
+ 
+-  it("S10 burden over income shows the overhang and tick at the income width", () => {
++  it("S10 burden over income marks the row only and caps the arc at one turn", () => {
+     renderHome({
+-      planningIncome: "3000",
++      actualIncomeTotal: "3000",
+       essentialExpenses: "3528",
+       mandatoryDebtService: "800",
+-      baseSurplus: "-1328",
+     });
+     const card = structureCard();
+-    expect(card.querySelector(".v2-structure-bar__overhang")).toBeTruthy();
+-    expect(card.querySelector(".v2-structure-bar__tick")).toBeTruthy();
+-    const income = card.querySelector<HTMLElement>(".v2-structure-bar__fill.is-income");
+-    const width = Number.parseFloat(income?.style.width ?? "");
+-    expect(width).toBeGreaterThanOrEqual(69.21);
+-    expect(width).toBeLessThanOrEqual(69.41);
++    expect(card.querySelectorAll(".v2-ring-row__marker")).toHaveLength(1);
++    // §3.4：不在环上叠标记，超额只在明细行金额左侧表达。
++    expect(card.querySelector(".v2-ring__over-mark")).toBeNull();
++    expect(card.querySelectorAll("svg .v2-ring__over-mark")).toHaveLength(0);
++    expect(card.textContent).toContain("已超出 ¥528.00");
++    expect(card.textContent).not.toContain("已超出 ¥0.00");
++    expect(card.textContent).toContain("占收入 117.6%");
++    const outer = card.querySelector<SVGCircleElement>(".v2-ring__arc.is-outer");
++    const dash = Number.parseFloat(outer?.getAttribute("stroke-dasharray")?.split(" ")[0] ?? "");
++    expect(dash).toBeGreaterThan(653.4);
++    expect(dash).toBeLessThan(653.5);
++  });
++
++  it("S10b a ratio of exactly 100% shows no over mark", () => {
++    renderHome({
++      actualIncomeTotal: "3000",
++      essentialExpenses: "3000",
++      mandatoryDebtService: "0",
++    });
++    const card = structureCard();
++    expect(card.querySelector(".v2-ring__over-mark")).toBeNull();
++    expect(card.querySelectorAll(".v2-ring-row__marker")).toHaveLength(0);
++    expect(card.querySelector(".v2-ring__arc.is-outer")).toBeTruthy();
++    expect(card.textContent).toContain("占收入 100%");
++  });
++
++  it("S12 the 2026-10 real-income fixture uses one source and never double counts", () => {
++    renderHome({
++      actualIncomeRecordCount: 1,
++      actualIncomeTotal: "13791.25",
++      planningIncome: "13000",
++      essentialExpenses: "3528",
++      mandatoryDebtService: "14518.73",
++    });
++    const card = structureCard();
++    expect(card.querySelector(".v2-ring__centre-amount")?.textContent).toBe("¥13,791.25");
++    const rows = [...card.querySelectorAll(".v2-ring-row")].map((row) => row.textContent ?? "");
++    expect(rows[0]).toContain("占收入 25.6%");
++    expect(rows[1]).toContain("占收入 105.3%");
++    expect(card.textContent).toContain("已超出 ¥727.48");
++    expect(card.querySelectorAll(".v2-ring-row__marker")).toHaveLength(1);
++    expect(within(card).getByRole("heading", { name: "收入：我一个人打五个？" })).toBeTruthy();
++    const value = card.querySelector(".v2-card__value")?.textContent ?? "";
++    expect(value).toContain("-¥4,255.48");
++    expect(value).toContain("占收入 -30.9%");
++    // 反例：同一视图不得把 income_records 与 income_entries 相加（27,582.50），
++    // 结构卡也不得回落到规划收入 13,000.00。
++    expect(card.textContent).not.toContain("27,582.50");
++    expect(card.textContent).not.toContain("13,000.00");
++  });
++
++  it("S11 the ring rows toggle selection with pointer and keyboard", async () => {
++    const user = userEvent.setup();
++    renderHome();
++    const card = structureCard();
++    const outerRow = card.querySelector<HTMLButtonElement>(".v2-ring-row[data-ring='outer']");
++    if (!outerRow) throw new Error("outer row missing");
++    expect(outerRow.getAttribute("aria-pressed")).toBe("false");
++    await user.click(outerRow);
++    expect(outerRow.getAttribute("aria-pressed")).toBe("true");
++    expect(card.querySelector(".v2-ring")?.getAttribute("data-selected")).toBe("essential");
++    await user.click(outerRow);
++    expect(outerRow.getAttribute("aria-pressed")).toBe("false");
++    await user.tab();
++    outerRow.focus();
++    await user.keyboard("{Enter}");
++    expect(outerRow.getAttribute("aria-pressed")).toBe("true");
++    await user.keyboard(" ");
++    expect(outerRow.getAttribute("aria-pressed")).toBe("false");
+   });
+ 
+   it("M1 empty month shows the deterministic daily line and the empty state", () => {
+diff --git a/tests/v2-ui/dashboard-route.test.tsx b/tests/v2-ui/dashboard-route.test.tsx
+index 67264b6..0a5e51f 100644
+--- a/tests/v2-ui/dashboard-route.test.tsx
++++ b/tests/v2-ui/dashboard-route.test.tsx
+@@ -43,6 +43,7 @@ const home: HomeApplicationState = {
+   currentMonth: "2026-09",
+   profileDisplayName: "小钱",
+   actualIncomeRecordCount: 0,
++  actualIncomeTotal: "12791.25",
+   currentCash: "5325.93",
+   currentMonthSpending: "0",
+   currentMonthVariableExpenseCount: 0,
+diff --git a/tests/v2-ui/icon-unification.test.tsx b/tests/v2-ui/icon-unification.test.tsx
+index 4a18fb0..b4d8cae 100644
+--- a/tests/v2-ui/icon-unification.test.tsx
++++ b/tests/v2-ui/icon-unification.test.tsx
+@@ -13,6 +13,7 @@ const home: HomeApplicationState = {
+   currentMonth: "2026-10",
+   profileDisplayName: "小钱",
+   actualIncomeRecordCount: 0,
++  actualIncomeTotal: "13000",
+   currentCash: "5000",
+   currentMonthSpending: "125.50",
+   currentMonthVariableExpenseCount: 1,
+diff --git a/tests/v2-ui/v2-surface.test.tsx b/tests/v2-ui/v2-surface.test.tsx
+index 1835116..aa486c0 100644
+--- a/tests/v2-ui/v2-surface.test.tsx
++++ b/tests/v2-ui/v2-surface.test.tsx
+@@ -31,6 +31,7 @@ const minimalHome: HomeApplicationState = {
+   currentMonth: "2026-10",
+   profileDisplayName: null,
+   actualIncomeRecordCount: 0,
++  actualIncomeTotal: "10000",
+   currentCash: "5000",
+   currentMonthSpending: "0",
+   currentMonthVariableExpenseCount: 0,

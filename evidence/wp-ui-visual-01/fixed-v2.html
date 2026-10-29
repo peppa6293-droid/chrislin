@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<title>固定支出页 v2（修订稿）</title>
+<style>
+  :root{
+    --bg:#fff9f2; --surface:#fff; --soft:#f5fbf8;
+    --ink:#173b3a; --ink-strong:#10302f; --muted:#6b7f7d; --muted-light:#9aa9a6;
+    --line:#dce9e5; --line-strong:#b9d6d0;
+    --teal:#24b89a; --teal-dark:#087c6e; --teal-soft:#ddf7ef;
+    --radius:20px;
+    --shadow:0 8px 24px rgb(23 59 58 / 7%), 0 2px 6px rgb(23 59 58 / 4%);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Helvetica Neue",sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .page{width:1120px; margin:0 auto; padding:36px 0 48px}
+
+  /* ---------- header ---------- */
+  .head{display:flex; align-items:center; gap:18px; margin-bottom:22px}
+  .back{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);
+    background:#fff;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:15px}
+  .title{font-size:28px;line-height:36px;font-weight:800;letter-spacing:.5px;margin:0}
+  .subtitle{font-size:13px;color:var(--muted);margin-top:4px}
+  .head-right{margin-left:auto;display:flex;align-items:center;gap:12px}
+  .month{background:#fff;border:1px solid var(--line);border-radius:999px;
+    padding:9px 16px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:10px}
+  .caret{color:var(--muted);font-size:10px}
+  .export{background:var(--teal-soft);color:var(--teal-dark);border:0;border-radius:999px;
+    padding:10px 20px;font-size:14px;font-weight:700;font-family:inherit}
+
+  /* ---------- grid ---------- */
+  .grid{display:grid; grid-template-columns:1fr 372px; gap:22px; align-items:start}
+  .card{background:var(--surface); border-radius:var(--radius); box-shadow:var(--shadow)}
+
+  /* ---------- summary ---------- */
+  .summary{padding:22px 26px; display:flex; align-items:center; gap:34px; margin-bottom:18px}
+  .stat-label{font-size:12px;color:var(--muted);margin-bottom:6px}
+  .stat-value{font-size:26px;font-weight:800;letter-spacing:.2px}
+  .stat-value.muted{color:var(--muted-light)}
+  .money{font-variant-numeric:tabular-nums}
+  .cents{font-size:15px;font-weight:700;opacity:.75}
+  .progress-wrap{flex:1; min-width:0}
+  .track{height:8px;border-radius:999px;background:#eef4f2;overflow:hidden}
+  .track > i{display:block;height:100%;width:75%;border-radius:999px;background:var(--teal)}
+  .progress-meta{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:8px}
+  .progress-meta b{color:var(--ink);font-weight:700}
+
+  /* ---------- list ---------- */
+  .list-head{padding:20px 24px 14px; display:flex; align-items:baseline; gap:12px}
+  .list-head h2{font-size:16px;font-weight:800;margin:0}
+  .list-hint{margin-left:auto;font-size:12px;color:var(--muted)}
+  .row{display:flex;align-items:center;gap:14px;padding:14px 24px;border-top:1px solid var(--line)}
+  .ico{width:40px;height:40px;border-radius:12px;background:var(--soft);display:flex;
+    align-items:center;justify-content:center;color:var(--teal-dark);flex:none}
+  .ico svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.7;
+    stroke-linecap:round;stroke-linejoin:round}
+  .name{font-size:16px;font-weight:700}
+  .cat{font-size:12.5px;color:var(--muted);margin-top:2px}
+  .amount{margin-left:auto;width:104px;text-align:right;font-size:20px;font-weight:800;font-variant-numeric:tabular-nums}
+  .badge{font-size:12px;font-weight:700;border-radius:999px;padding:4px 11px;flex:none}
+  .badge.paid{background:var(--teal-soft);color:var(--teal-dark)}
+  .badge.todo{background:#f1f5f3;color:var(--muted)}
+  .btn{font-family:inherit;font-size:13px;font-weight:700;border-radius:999px;padding:8px 16px;white-space:nowrap}
+  .btn.ghost{background:#fff;border:1px solid var(--line-strong);color:var(--teal-dark)}
+  .btn.solid{background:#0f7a6a;border:1px solid #0f7a6a;color:#fff;box-shadow:0 3px 0 #0a5f53}
+
+  /* ---------- inline panel ---------- */
+  .panel{padding:4px 24px 20px;border-top:1px solid var(--line);background:#fcfdfc}
+  .fields{display:flex;gap:14px;align-items:flex-end}
+  .field label{display:block;font-size:12px;color:var(--muted);margin:12px 0 6px}
+  .input{height:44px;border:1px solid var(--line);border-radius:12px;background:#fff;
+    display:flex;align-items:center;padding:0 14px;font-size:15px;font-weight:700;gap:8px}
+  .input.active{border:1.5px solid var(--teal);box-shadow:0 0 0 3px rgb(36 184 154 / 12%)}
+  .input.plain{font-weight:400;color:var(--muted);justify-content:space-between}
+  .w-money{width:198px}
+  .w-date{width:176px}
+  .w-note{flex:1}
+  .panel-actions{display:flex;gap:10px;margin-left:auto;padding-bottom:2px}
+
+  .add-row{display:flex;align-items:center;gap:10px;padding:18px 24px;border-top:1px solid var(--line);
+    font-size:14px;font-weight:700;color:var(--teal-dark)}
+  .plus{width:24px;height:24px;border-radius:50%;background:var(--teal-soft);display:flex;
+    align-items:center;justify-content:center;font-size:15px;font-weight:700}
+
+  /* ---------- right column ---------- */
+  .ring-card{padding:26px 24px 22px;text-align:center;margin-bottom:18px}
+  .ring{position:relative;width:168px;height:168px;margin:0 auto 14px}
+  .ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .ring-pct{font-size:34px;font-weight:800;letter-spacing:.5px}
+  .ring-cap{font-size:12px;color:var(--muted);margin-top:2px}
+  .ring-foot{font-size:13px;color:var(--muted)}
+  .ring-foot b{color:var(--ink);font-weight:700}
+  .side-card{padding:20px 24px 22px}
+  .side-title{font-size:16px;font-weight:800;margin:0 0 6px}
+  .side-cap{font-size:11.5px;color:var(--muted-light);margin-bottom:16px;letter-spacing:.2px}
+  .cat-row + .cat-row{margin-top:16px}
+  .cat-line{display:flex;align-items:baseline;font-size:13px;margin-bottom:7px}
+  .cat-name{font-weight:700}
+  .cat-amt{margin-left:auto;font-weight:700;font-variant-numeric:tabular-nums}
+  .cat-tag{font-size:11px;font-weight:700;color:var(--muted-light);margin-left:8px}
+  .cat-bar{position:relative;height:7px}
+  .cat-plan{position:absolute;left:0;top:0;height:7px;border-radius:999px;background:#eef4f2}
+  .cat-plan.unpaid{background:transparent;border:1px dashed var(--line-strong)}
+  .cat-fill{position:absolute;left:0;top:0;height:7px;border-radius:999px;background:var(--teal)}
+  .tip{background:var(--teal-soft);border-radius:16px;padding:14px 16px;font-size:12.5px;
+    line-height:20px;color:#14504a}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="head">
+    <div class="back">‹</div>
+    <div>
+      <h1 class="title">固定支出</h1>
+      <div class="subtitle">每月要付的 · 3 项</div>
+    </div>
+    <div class="head-right">
+      <div class="month">2026 年 10 月 <span class="caret">▾</span></div>
+      <button class="export">导出备份</button>
+    </div>
+  </div>
+
+  <div class="card summary">
+    <div>
+      <div class="stat-label">本月计划</div>
+      <div class="stat-value money">3,528<span class="cents">.00</span></div>
+    </div>
+    <div>
+      <div class="stat-label">已付</div>
+      <div class="stat-value money" style="color:var(--teal-dark)">2,628<span class="cents">.00</span></div>
+    </div>
+    <div>
+      <div class="stat-label">待付</div>
+      <div class="stat-value money">900<span class="cents">.00</span></div>
+    </div>
+    <div class="progress-wrap">
+      <div class="track"><i></i></div>
+      <div class="progress-meta"><span>已完成 <b>75%</b></span><span>剩 1 项</span></div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div>
+      <div class="card">
+        <div class="list-head">
+          <h2>每月要付的</h2>
+          <span class="list-hint">点右侧按钮登记实际支付</span>
+        </div>
+
+        <div class="row">
+          <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 10.6 12 4l8 6.6V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="M9.6 21v-6h4.8v6"/></svg></div>
+          <div>
+            <div class="name">房租</div>
+            <div class="cat">住房</div>
+          </div>
+          <div class="amount">¥1,800</div>
+          <span class="badge paid">已付</span>
+          <button class="btn ghost">再记一笔</button>
+        </div>
+
+        <div class="row">
+          <div class="ico"><svg viewBox="0 0 24 24"><path d="M13 2.5 4.8 13.4H11l-1 8.1 8.2-10.9H12z"/></svg></div>
+          <div>
+            <div class="name">水电与通讯</div>
+            <div class="cat">水电通讯</div>
+          </div>
+          <div class="amount">¥828</div>
+          <span class="badge paid">已付</span>
+          <button class="btn ghost">再记一笔</button>
+        </div>
+
+        <div class="row" style="border-bottom:0">
+          <div class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="13" rx="3"/><path d="M4 10.5h16"/><path d="M7.5 13.5h1.5M15 13.5h1.5"/><circle cx="8.6" cy="19" r="1.6"/><circle cx="15.4" cy="19" r="1.6"/></svg></div>
+          <div>
+            <div class="name">通勤</div>
+            <div class="cat">通勤</div>
+          </div>
+          <div class="amount">¥900</div>
+          <span class="badge todo">未付</span>
+          <button class="btn solid">记一笔</button>
+        </div>
+
+        <div class="panel">
+          <div class="fields">
+            <div class="field w-money">
+              <label>实际金额</label>
+              <div class="input active"><span style="color:var(--muted);font-weight:400">¥</span>900.00</div>
+            </div>
+            <div class="field w-date">
+              <label>支付日期</label>
+              <div class="input plain">10 月 27 日 <span class="caret">▾</span></div>
+            </div>
+            <div class="field w-note">
+              <label>备注（可选）</label>
+              <div class="input plain">地铁月卡</div>
+            </div>
+            <div class="panel-actions">
+              <button class="btn ghost">取消</button>
+              <button class="btn solid">保存</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="add-row"><span class="plus">+</span>添加固定支出</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card ring-card">
+        <div class="ring">
+          <svg width="168" height="168" viewBox="0 0 168 168">
+            <circle cx="84" cy="84" r="72" fill="none" stroke="#eef4f2" stroke-width="14"/>
+            <circle cx="84" cy="84" r="72" fill="none" stroke="#24b89a" stroke-width="14"
+                    stroke-linecap="round" stroke-dasharray="339.3 452.4"
+                    transform="rotate(-90 84 84)"/>
+          </svg>
+          <div class="ring-center">
+            <div class="ring-pct">75%</div>
+            <div class="ring-cap">本月已付占比</div>
+          </div>
+        </div>
+        <div class="ring-foot">已付 <b>¥2,628</b> / 共 <b>¥3,528</b></div>
+      </div>
+
+      <div class="card side-card">
+        <h3 class="side-title">分类小计</h3>
+        <div class="side-cap">条长 = 占本月计划；实色 = 已付</div>
+
+        <div class="cat-row">
+          <div class="cat-line"><span class="cat-name">住房</span><span class="cat-amt">¥1,800</span></div>
+          <div class="cat-bar">
+            <span class="cat-plan" style="width:51%"></span>
+            <span class="cat-fill" style="width:51%"></span>
+          </div>
+        </div>
+
+        <div class="cat-row">
+          <div class="cat-line"><span class="cat-name">水电通讯</span><span class="cat-amt">¥828</span></div>
+          <div class="cat-bar">
+            <span class="cat-plan" style="width:23.5%"></span>
+            <span class="cat-fill" style="width:23.5%"></span>
+          </div>
+        </div>
+
+        <div class="cat-row">
+          <div class="cat-line"><span class="cat-name">通勤</span><span class="cat-tag">未付</span><span class="cat-amt">¥900</span></div>
+          <div class="cat-bar">
+            <span class="cat-plan unpaid" style="width:25.5%"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip" style="margin-top:18px">记一笔只登记实际支付，不改计划金额；改计划点左侧名称。</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

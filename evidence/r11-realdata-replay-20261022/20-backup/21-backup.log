@@ -1,0 +1,16 @@
+=== timestamp ===
+2026-10-22T10:25:25Z
+=== source db before/after copy ===
+319907d68dafd513a2ebed758d469a066793735677a1a462d034ea7b88b192a3  /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3
+=== r11 backups (main=new file in gate dir, secondary=out-of-repo) ===
+319907d68dafd513a2ebed758d469a066793735677a1a462d034ea7b88b192a3  /Users/linte/Library/Application Support/com.personalfinance.console/production-v8-backups/personal-finance-console.sqlite3.r11-pre-replay-20261022
+319907d68dafd513a2ebed758d469a066793735677a1a462d034ea7b88b192a3  /Users/linte/Documents/pfc-r11-replay-backup-20261022/personal-finance-console.sqlite3
+=== stat ===
+path=/Users/linte/Library/Application Support/com.personalfinance.console/production-v8-backups/personal-finance-console.sqlite3.r11-pre-replay-20261022 dev=16777232 inode=31366622 size=352256 nlink=1 mode=100644
+path=/Users/linte/Documents/pfc-r11-replay-backup-20261022/personal-finance-console.sqlite3 dev=16777232 inode=31366623 size=352256 nlink=1 mode=100644
+=== protected originals must remain untouched ===
+ebdd7c2d52c904dc0ce763302b461a8530ce0f6f3b4bc13c695ca5386f0d29bc  /Users/linte/Library/Application Support/com.personalfinance.console/production-v8-backups/personal-finance-console.sqlite3
+ebdd7c2d52c904dc0ce763302b461a8530ce0f6f3b4bc13c695ca5386f0d29bc  /Users/linte/Documents/pfc-v8-migration-backup-20261022/personal-finance-console.sqlite3
+cbf16d1cb9b9b1fd89e07bd40653dc633c537b05826881466774e13da2223181  /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3.v8-quarantined
+=== note ===
+任务书/指令给的主备份固定路径 production-v8-backups/personal-finance-console.sqlite3 已被 R10 迁移备份原件占用（sha ebdd7c2d...，迁移前 V3 原件）。红线“不删改两份迁移备份/不碰备份原件”+ App 启动绑定该校验，不能覆盖，故主备份落在同目录、另起文件名。

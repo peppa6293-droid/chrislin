@@ -1,0 +1,20 @@
+--- git HEAD ---
+41f9843023529f9e7b23c7c573397fbef1c18ba7
+--- git status --short ---
+?? .claude/
+?? evidence/a01-landing-acceptance-20261022/
+?? pelican-bicycle-animation.html
+?? pelican-bicycle.html
+?? pelican-bike-ride.html
+?? pelican-bike.html
+?? pelican-cycling.html
+--- app executable/plist ---
+444729451aafc3bbe6cf95b52ffd84a2191b75f6c1477d0d840656ace4711b5c  /Applications/Personal Finance Console.app/Contents/MacOS/personal-finance-console
+41b8aa5a1c1933531c2d986c25d180590ffbf8920aff4483d791a882dc3cfdcb  /Applications/Personal Finance Console.app/Contents/Info.plist
+--- app identity ---
+  "CFBundleDisplayName" => "小钱家"
+  "CFBundleExecutable" => "personal-finance-console"
+  "CFBundleIdentifier" => "com.personalfinance.console"
+  "CFBundleName" => "小钱家"
+--- process before acceptance ---
+pgrep_exit=1

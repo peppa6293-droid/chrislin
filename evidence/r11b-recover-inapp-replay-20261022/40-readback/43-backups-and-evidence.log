@@ -1,0 +1,113 @@
+# backups / archive / quarantine integrity (read-only hashing)
+2026-10-22 20:51:32 +0800
+
+PATH: /Users/linte/Library/Application Support/com.personalfinance.console/production-v8-backups/personal-finance-console.sqlite3.r11-pre-replay-20261022
+  sha256: 319907d68dafd513a2ebed758d469a066793735677a1a462d034ea7b88b192a3
+  size: 352256  mtime: 2026-10-22 18:25:25
+PATH: /Users/linte/Documents/pfc-r11-replay-backup-20261022/personal-finance-console.sqlite3
+  sha256: 319907d68dafd513a2ebed758d469a066793735677a1a462d034ea7b88b192a3
+  size: 352256  mtime: 2026-10-22 18:25:25
+PATH: /Users/linte/Library/Application Support/com.personalfinance.console/production-v8-backups/personal-finance-console.sqlite3.r11-written-20261022
+  sha256: bb077455bdc5234a118ef07acef83c36261344277ca378f93d4e098664405789
+  size: 352256  mtime: 2026-10-22 20:35:39
+PATH: /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3.v8-quarantined
+  sha256: cbf16d1cb9b9b1fd89e07bd40653dc633c537b05826881466774e13da2223181
+  size: 348160  mtime: 2026-10-21 23:02:27
+
+# evidence screenshots (mtime order)
+    
+Oct 22 20:36:29 2026 32-home.png
+Oct 22 20:36:35 2026 33-my-finance.png
+Oct 22 20:36:41 2026 34-cash-list.png
+Oct 22 20:36:49 2026 35-ax-dump.txt
+Oct 22 20:37:16 2026 36-edit-yuebao.png
+Oct 22 20:37:20 2026 37-ax-edit-dialog.txt
+Oct 22 20:37:35 2026 39-ax-edit-dialog-2.txt
+Oct 22 20:37:39 2026 38-yuebao-typed.png
+Oct 22 20:37:44 2026 40-after-yuebao.png
+Oct 22 20:37:51 2026 31-relaunch-explore.log
+Oct 22 20:37:54 2026 41-after-abc.png
+Oct 22 20:37:56 2026 41-abc-state.png
+Oct 22 20:37:56 2026 41-ax.txt
+Oct 22 20:38:39 2026 42-abc-filled.png
+Oct 22 20:38:45 2026 43-abc-typed.png
+Oct 22 20:38:48 2026 43-ax.txt
+Oct 22 20:38:51 2026 44-abc-typed.png
+Oct 22 20:38:55 2026 45-after-abc.png
+Oct 22 20:39:03 2026 46-ax.txt
+Oct 22 20:39:07 2026 47-bosc-filled.png
+Oct 22 20:39:09 2026 47-ax.txt
+Oct 22 20:39:14 2026 48-after-bosc.png
+Oct 22 20:39:16 2026 49-ax-newcash.txt
+Oct 22 20:39:18 2026 49-ax.txt
+Oct 22 20:39:22 2026 50-ax-newcash.txt
+Oct 22 20:39:26 2026 51-wechat-filled.png
+Oct 22 20:39:28 2026 51-ax.txt
+Oct 22 20:39:33 2026 52-after-ime-escape.png
+Oct 22 20:39:37 2026 53-ax.txt
+Oct 22 20:39:39 2026 54-newcash-state.png
+Oct 22 20:39:44 2026 55-wechat-name.png
+Oct 22 20:39:48 2026 56-wechat-filled.png
+Oct 22 20:39:55 2026 57-ax-confirm.txt
+Oct 22 20:39:58 2026 58-wechat-resume.png
+Oct 22 20:40:02 2026 59-wechat-safety-on.png
+Oct 22 20:40:04 2026 59-ax.txt
+Oct 22 20:40:08 2026 60-wechat-safety-on.png
+Oct 22 20:40:14 2026 61-after-wechat.png
+Oct 22 20:40:20 2026 62-ax-deactivate.txt
+Oct 22 20:40:23 2026 63-deactivate-prompt.png
+Oct 22 20:40:28 2026 64-ax-confirm.txt
+Oct 22 20:40:32 2026 65-after-deactivate.png
+Oct 22 20:40:39 2026 66-scrolled-assets.png
+Oct 22 20:40:48 2026 67-ax-full.txt
+Oct 22 20:41:01 2026 68-scroll-test.png
+Oct 22 20:41:08 2026 69-top.png
+Oct 22 20:41:12 2026 70-ax.txt
+Oct 22 20:41:16 2026 71-my-finance.png
+Oct 22 20:41:21 2026 72-ax.txt
+Oct 22 20:41:25 2026 73-assets.png
+Oct 22 20:41:32 2026 74-assets-bottom.png
+Oct 22 20:41:32 2026 74-ax.txt
+Oct 22 20:41:37 2026 75-ax-newasset.txt
+Oct 22 20:41:42 2026 76-sec-name.png
+Oct 22 20:41:46 2026 77-ax.txt
+Oct 22 20:41:52 2026 78-sec-name2.png
+Oct 22 20:42:02 2026 79-sec-name3.png
+Oct 22 20:42:07 2026 80-sec-value.png
+Oct 22 20:42:14 2026 81-popup.png
+Oct 22 20:42:21 2026 81-ax-menu.txt
+Oct 22 20:42:21 2026 82-popup-open.png
+Oct 22 20:42:28 2026 83-category-down.png
+Oct 22 20:42:33 2026 84-category-space.png
+Oct 22 20:42:39 2026 85-popup-click.png
+Oct 22 20:42:46 2026 86-category-selected.png
+Oct 22 20:42:52 2026 87-category-correct.png
+Oct 22 20:43:11 2026 88-category-keynav.png
+Oct 22 20:43:17 2026 89-category-up.png
+Oct 22 20:43:46 2026 90-category-591.png
+Oct 22 20:43:58 2026 91-category-upnav.png
+Oct 22 20:44:02 2026 92-sec-ready.png
+Oct 22 20:44:44 2026 93-after-sec.png
+Oct 22 20:44:50 2026 94-assets-top.png
+Oct 22 20:45:05 2026 95-edit-fund.png
+Oct 22 20:45:16 2026 96-fund-zero.png
+Oct 22 20:45:22 2026 97-after-fund.png
+Oct 22 20:45:28 2026 98-assets-final.png
+Oct 22 20:45:36 2026 99-home-final.png
+Oct 22 20:45:43 2026 100-home-scroll.png
+Oct 22 20:45:49 2026 101-progress.png
+Oct 22 20:45:57 2026 102-myfinance-final.png
+Oct 22 20:46:04 2026 103-advanced.png
+Oct 22 20:46:23 2026 104-cancelled-update.png
+Oct 22 20:46:30 2026 105-maint.png
+Oct 22 20:46:47 2026 106-cash-page.png
+Oct 22 20:47:57 2026 107-cash-accounts-final.png
+Oct 22 20:49:45 2026 108-relaunch-after-replay.png
+Oct 22 20:49:52 2026 109-home-scrolled-relaunch.png
+Oct 22 20:50:04 2026 110-myfinance-relaunch.png
+Oct 22 20:50:17 2026 111-cash-detail-relaunch.png
+Oct 22 20:50:23 2026 112-cash-summary-relaunch.png
+Oct 22 20:50:36 2026 113-safety-relaunch.png
+Oct 22 20:50:42 2026 114-progress-relaunch.png
+Oct 22 20:51:03 2026 115-safety-detail-relaunch.png
+Oct 22 20:51:09 2026 116-safety-reserve-relaunch.png

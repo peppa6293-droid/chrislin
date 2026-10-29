@@ -1,0 +1,16 @@
+-- V2 expenses by category (all) --
+餐饮	246	13585.1
+交通	209	18643.14
+其他	159	30599.08
+购物	119	19144.89
+娱乐	64	11310.53
+家居	32	7904.42
+V2 TOTAL	829	101187.16
+V2 2026-10	109	9309.32
+V1 VARIABLE	830	101200.26
+V1 2026-10	110	9322.42
+-- V1 by category --
+OTHER_VARIABLE	829	101187.16
+FOOD	1	13.1
+-- other tables --
+{"import_batches":12,"import_sum":100450.11,"zero_rows":14,"zero_oct":3,"debts":[{"period_month":"2026-10","n":5,"bal":172579.53,"due":14518.73},{"period_month":"2026-11","n":5,"bal":157228.31,"due":8851.03}],"essential_items":3,"user_version":8,"integrity":"ok"}

@@ -1,0 +1,84 @@
+== A01 §5.4 source cross-check ==
+timestamp_utc=2026-10-22T07:31:35Z
+HEAD=41f9843023529f9e7b23c7c573397fbef1c18ba7
+
+-- A1: bundle.icon in tauri.conf.json --
+ABSENT: no bundle.icon
+
+-- A2/B3: V2HomeSurface lines --
+            }}
+          />
+        </div>
+        <div className="v2-snapshot-foot">
+          <span>已花 {formatYuan(home.currentMonthSpending)}</span>
+          <span>{spendingTarget == null ? "未设目标" : `目标 ${formatYuan(spendingTarget)}`}</span>
+        </div>
+        <div className="v2-snapshot-actions">
+  return (
+    <section className="v2-recent-list" aria-label="最近消费记录">
+      {expenses.slice(0, 3).map((expense) => (
+        <div
+          className={`v2-recent-row ${savedExpenseId === expense.id ? "is-newly-saved" : ""}`}
+
+-- V2 dashboard placeholders --
+195:      <section className="v2-dashboard__section" aria-label="资产与债务概览">
+203:            <p className="v2-dashboard__placeholder">待接入</p>
+210:            <p className="v2-dashboard__placeholder">待接入</p>
+217:            <p className="v2-dashboard__placeholder">待接入</p>
+
+-- V2 dashboard billStatuses is always empty (getMonthSummary) --
+  async getMonthSummary(profileId: string, month: string): Promise<V2MonthSummary> {
+    assertRequiredText(profileId, "INVALID_PROFILE", "Profile id is required.");
+    assertCalendarMonth(month);
+    const expenses = await this.repositories.listV2Expenses(profileId, month);
+    const dailyExpenseTotal = expenses
+      .reduce((total, expense) => {
+        if (expense.kind === "CASH_DEBIT" || expense.kind === "CREDIT_ONE_TIME") {
+          return total.plus(new Decimal(expense.amount));
+        }
+        return total.plus(new Decimal(expense.installmentAmount));
+      }, new Decimal(0))
+      .toDecimalPlaces(2, Decimal.ROUND_HALF_UP);
+    return {
+      dailyExpenseTotal: formatMoney(dailyExpenseTotal),
+      billStatuses: [],
+    };
+  }
+
+-- B1: write entry points --
+149:  async recordCashDebitExpense(draft: CashDebitExpenseDraft): Promise<{
+202:  async recordCreditExpense(draft: CreditExpenseDraft): Promise<{
+302:  async recordCreditCardPayment(paymentDraft: CreditCardPaymentDraft): Promise<{
+319:  async recordIncomeEntry(draft: IncomeEntryDraft): Promise<IncomeEntryRecord> {
+
+-- B2: legacy mirror category --
+      await transactionDb.execute(
+        `INSERT INTO expense_records(id,profile_id,amount,occurred_at,kind,category,note,created_at,business_date)
+         VALUES(?,?,?,?,?,?,?,?,?)`,
+        [
+          expense.id,
+          expense.profileId,
+          requireStoredUserInputMoney(legacy.amount),
+          legacy.occurredAt,
+          "VARIABLE",
+          "OTHER_VARIABLE",
+          legacy.note,
+          legacy.createdAt,
+          legacy.businessDate,
+        ],
+      );
+
+-- B4: import UI error display --
+        </p>
+      ) : null}
+      {result ? (
+        <p className="v2-import__result" role="status">
+          已写入 {result.writtenRows} 条，跳过 {result.skippedRows} 条，失败 {result.errorRows} 条
+          <button type="button" onClick={reset}>
+            再导入一份
+
+-- D1: commit 4442c39 stat --
+4442c39 build-48: U-12 — truncation fixes for owner instances U1-U4
+ src/style.css         |  1 +
+ src/ui/v2-surface.css | 13 ++++++++++---
+ 2 files changed, 11 insertions(+), 3 deletions(-)

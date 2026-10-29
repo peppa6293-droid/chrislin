@@ -41,6 +41,7 @@ const baselineHome: HomeApplicationState = {
   currentMonth: "2026-10",
   profileDisplayName: null,
   actualIncomeRecordCount: 0,
+  actualIncomeTotal: "13000",
   currentCash: "5000",
   currentMonthSpending: "125.5",
   currentMonthVariableExpenseCount: 1,

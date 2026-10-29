@@ -1,0 +1,35 @@
+sql_readback_at=2026-10-22T16:09:36Z
+db=/Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3
+mode=ro&immutable=1
+
+--- counts ---
+expenses|825
+expense_records|826
+import_batches|12
+
+--- totals (cents-exact) ---
+import_sum_expense_records|100513.11
+expenses_table_sum|100500.01
+
+--- zero-amount rows ---
+zero_rows_expense_records|14
+zero_rows_2026_10|3
+zero_rows_expenses_table|14
+
+--- 2026-10 debt ---
+debt_count_2026_10|5
+debt_balance_2026_10|172579.53
+debt_due_2026_10|14518.73
+
+--- per-debt 2026-10 ---
+name      as_of_date  current_balance  current_month_due
+--------  ----------  ---------------  -----------------
+京东白条  2026-10-04  2198.70          657.46           
+招商分期  2026-10-04  46605.10         5679.47          
+浦发车贷  2026-10-04  118137.60        3487.87          
+美团月付  2026-10-04  331.37           331.37           
+花呗      2026-10-04  5306.76          4362.56          
+
+--- integrity/schema ---
+8
+ok

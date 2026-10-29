@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>超载三档 v2（文案统一稿）</title>
+<style>
+  :root{--bg:#fff9f2;--surface:#fff;--ink:#173b3a;--muted:#6b7f7d;--line:#dce9e5;
+    --teal:#24b89a;--teal-dark:#087c6e;--yellow:#ffc94a;--yellow-dark:#a66a00;
+    --coral:#f47b68;--coral-dark:#b7483d;
+    --shadow:0 8px 24px rgb(23 59 58 / 7%),0 2px 6px rgb(23 59 58 / 4%)}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;
+    font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Helvetica Neue",sans-serif}
+  .page{width:980px;margin:0 auto;padding:36px 0 44px}
+  h1{font-size:22px;font-weight:800;margin:0 0 8px}
+  .lead{font-size:12.5px;color:var(--muted);margin:0 0 22px}
+  .card{background:var(--surface);border-radius:20px;box-shadow:var(--shadow);padding:22px 26px;margin-bottom:16px}
+  .top{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+  .pill{font-size:12px;font-weight:700;border-radius:999px;padding:4px 12px}
+  .pill.ok{background:#ddf7ef;color:#087c6e}
+  .pill.warn{background:#fff2c7;color:#a66a00}
+  .pill.over{background:#ffe5df;color:#b7483d}
+  .state{font-size:15px;font-weight:700}
+  .ratio{margin-left:auto;font-size:13px;color:var(--muted)}
+  .stats{display:flex;gap:44px;margin-bottom:0}
+  .s-label{font-size:12px;color:var(--muted);margin-bottom:5px}
+  .s-value{font-size:26px;font-weight:800;font-variant-numeric:tabular-nums}
+  .cents{font-size:15px;font-weight:700;opacity:.72}
+  .bar-wrap{position:relative;height:10px;margin-top:26px;margin-bottom:8px}
+  .bar{position:absolute;inset:0;border-radius:999px;background:#eef4f2;overflow:hidden}
+  .bar > i{display:block;height:100%;border-radius:999px}
+  .income-line{position:absolute;top:-6px;width:2px;height:22px;background:#fff;
+    box-shadow:0 0 0 1px rgb(23 59 58 / 14%);border-radius:2px}
+  .tick{position:absolute;top:20px;font-size:11px;color:var(--muted);transform:translateX(-50%)}
+  .over-label{position:absolute;top:-26px;font-size:12px;font-weight:700;color:var(--coral-dark);
+    text-align:right;white-space:nowrap}
+  .concl{font-size:12.5px;color:var(--muted);margin-top:26px}
+  .concl b{color:var(--ink);font-weight:700}
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>超载状态：三档颜色与结论句</h1>
+  <p class="lead">刻度终点取「收入」与「固定负担」的较大者；白线 = 收入位置（带着「收入」二字，金额在刻度下方）；不设三色图例。</p>
+
+  <!-- 正常 -->
+  <div class="card">
+    <div class="top">
+      <span class="pill ok">正常</span>
+      <span class="state">固定负担低于收入</span>
+      <span class="ratio">占收入 60%</span>
+    </div>
+    <div class="stats">
+      <div><div class="s-label">本月收入</div><div class="s-value">13,000<span class="cents">.00</span></div></div>
+      <div><div class="s-label">固定负担</div><div class="s-value">7,800<span class="cents">.00</span></div></div>
+      <div><div class="s-label">可用结余</div><div class="s-value" style="color:var(--teal-dark)">5,200<span class="cents">.00</span></div></div>
+    </div>
+    <div class="bar-wrap">
+      <div class="bar"><i style="width:60%;background:var(--teal)"></i></div>
+      <div class="income-line" style="left:60%"></div>
+      <div class="tick" style="left:60%;color:var(--ink);font-weight:700">收入</div>
+    </div>
+    <div class="concl">固定支出占收入 <b>60%</b>，还剩 <b>¥5,200</b> 可支配。</div>
+  </div>
+
+  <!-- 临界 -->
+  <div class="card">
+    <div class="top">
+      <span class="pill warn">临界</span>
+      <span class="state">收支刚好打平（100%）</span>
+      <span class="ratio">占收入 100%</span>
+    </div>
+    <div class="stats">
+      <div><div class="s-label">本月收入</div><div class="s-value">13,000<span class="cents">.00</span></div></div>
+      <div><div class="s-label">固定负担</div><div class="s-value">13,000<span class="cents">.00</span></div></div>
+      <div><div class="s-label">可用结余</div><div class="s-value" style="color:var(--yellow-dark)">0<span class="cents">.00</span></div></div>
+    </div>
+    <div class="bar-wrap">
+      <div class="bar"><i style="width:100%;background:var(--yellow)"></i></div>
+      <div class="income-line" style="left:calc(100% - 2px)"></div>
+      <div class="tick" style="left:calc(100% - 30px);color:var(--ink);font-weight:700">收入</div>
+    </div>
+    <div class="concl">固定支出刚好等于本月收入，<b>没有余量</b>。</div>
+  </div>
+
+  <!-- 超载 -->
+  <div class="card">
+    <div class="top">
+      <span class="pill over">超载</span>
+      <span class="state">固定负担高于收入</span>
+      <span class="ratio">占收入 139%</span>
+    </div>
+    <div class="stats">
+      <div><div class="s-label">本月收入</div><div class="s-value">13,000<span class="cents">.00</span></div></div>
+      <div><div class="s-label">固定负担</div><div class="s-value" style="color:var(--coral-dark)">18,046<span class="cents">.73</span></div></div>
+      <div><div class="s-label">可用结余</div><div class="s-value" style="color:var(--coral-dark)">−5,046<span class="cents">.73</span></div></div>
+    </div>
+    <div class="bar-wrap">
+      <div class="over-label" style="right:0;width:30%">超出 ¥5,046.73</div>
+      <div class="bar"><i style="width:72.05%;background:var(--teal)"></i></div>
+      <div style="position:absolute;left:72.05%;top:0;width:27.95%;height:100%;border-radius:999px;
+                  background:repeating-linear-gradient(45deg,#f47b68 0 6px,#ffd8d1 6px 12px)"></div>
+      <div class="income-line" style="left:calc(72.05% - 1px)"></div>
+      <div class="tick" style="left:72.05%;color:var(--ink);font-weight:700">收入</div>
+    </div>
+    <div class="concl">固定支出超出收入 <b>¥5,046.73</b>。</div>
+  </div>
+</div>
+</body>
+</html>

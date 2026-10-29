@@ -1,0 +1,1 @@
+ed46bc2ff889cc0c30c12e695248345906f0097c65f9f3377867d101600aa8c6  /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3

@@ -1,0 +1,14 @@
+=== clean quit ===
+2026-10-22T12:36:10Z
+NO_PROCESS
+-- db hash --
+319907d68dafd513a2ebed758d469a066793735677a1a462d034ea7b88b192a3  /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3
+-- sidecars --
+NONE
+=== tool availability ===
+cliclick not found
+/usr/bin/swift
+/usr/bin/python3
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+ModuleNotFoundError: No module named 'Quartz'

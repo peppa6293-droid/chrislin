@@ -12,6 +12,7 @@ const baseHome: HomeApplicationState = {
   currentMonth: "2026-10",
   profileDisplayName: "小钱",
   actualIncomeRecordCount: 0,
+  actualIncomeTotal: "13000",
   currentCash: "5000",
   currentMonthSpending: "125.50",
   currentMonthVariableExpenseCount: 2,

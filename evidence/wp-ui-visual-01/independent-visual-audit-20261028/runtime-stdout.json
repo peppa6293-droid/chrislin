@@ -1,0 +1,1135 @@
+{
+  "generatedAt": "2026-10-27T16:20:52.645Z",
+  "asset": "/Users/linte/Documents/ChatGPT/小钱家-新/小钱家V3_WP-UI-VISUAL-01_设计参考资产",
+  "scope": "isolated reference only; independent audit; no product imports or persistence",
+  "cases": [
+    {
+      "page": "home",
+      "state": "roomy",
+      "url": "file:///Users/linte/Documents/ChatGPT/%E5%B0%8F%E9%92%B1%E5%AE%B6-%E6%96%B0/%E5%B0%8F%E9%92%B1%E5%AE%B6V3_WP-UI-VISUAL-01_%E8%AE%BE%E8%AE%A1%E5%8F%82%E8%80%83%E8%B5%84%E4%BA%A7/index.html?state=roomy",
+      "file": "home-roomy-390-viewport.png",
+      "viewport": {
+        "w": 390,
+        "h": 844
+      },
+      "scrollWidth": 390,
+      "scrollHeight": 1611,
+      "content": {
+        "x": 0,
+        "y": 74,
+        "width": 390,
+        "height": 1536.796875,
+        "bottom": 1610.796875,
+        "right": 390
+      },
+      "hero": {
+        "x": 14,
+        "y": 183,
+        "width": 362,
+        "height": 414.796875,
+        "bottom": 597.796875,
+        "right": 376
+      },
+      "chart": {
+        "x": 14,
+        "y": 617.796875,
+        "width": 362,
+        "height": 365,
+        "bottom": 982.796875,
+        "right": 376
+      },
+      "modules": [
+        {
+          "title": "固定支出",
+          "x": 14,
+          "y": 1002.796875,
+          "width": 362,
+          "height": 160,
+          "bottom": 1162.796875,
+          "right": 376,
+          "balance": {
+            "x": 271.484375,
+            "y": 1023.796875,
+            "width": 83.515625,
+            "height": 39,
+            "bottom": 1062.796875,
+            "right": 355
+          }
+        },
+        {
+          "title": "消费",
+          "x": 14,
+          "y": 1176.796875,
+          "width": 362,
+          "height": 160,
+          "bottom": 1336.796875,
+          "right": 376,
+          "balance": {
+            "x": 287.171875,
+            "y": 1197.796875,
+            "width": 67.828125,
+            "height": 39,
+            "bottom": 1236.796875,
+            "right": 355
+          }
+        },
+        {
+          "title": "现金安全",
+          "x": 14,
+          "y": 1350.796875,
+          "width": 362,
+          "height": 160,
+          "bottom": 1510.796875,
+          "right": 376,
+          "balance": {
+            "x": 271.484375,
+            "y": 1371.796875,
+            "width": 83.515625,
+            "height": 39,
+            "bottom": 1410.796875,
+            "right": 355
+          }
+        }
+      ],
+      "nav": {
+        "x": 0,
+        "y": 774,
+        "width": 390,
+        "height": 70,
+        "bottom": 844,
+        "right": 390
+      },
+      "dialog": null,
+      "heroColumns": "362px"
+    },
+    {
+      "page": "home",
+      "state": "overload",
+      "url": "file:///Users/linte/Documents/ChatGPT/%E5%B0%8F%E9%92%B1%E5%AE%B6-%E6%96%B0/%E5%B0%8F%E9%92%B1%E5%AE%B6V3_WP-UI-VISUAL-01_%E8%AE%BE%E8%AE%A1%E5%8F%82%E8%80%83%E8%B5%84%E4%BA%A7/index.html?state=overload",
+      "file": "home-overload-390-viewport.png",
+      "viewport": {
+        "w": 390,
+        "h": 844
+      },
+      "scrollWidth": 390,
+      "scrollHeight": 1734,
+      "content": {
+        "x": 0,
+        "y": 74,
+        "width": 390,
+        "height": 1659.796875,
+        "bottom": 1733.796875,
+        "right": 390
+      },
+      "hero": {
+        "x": 14,
+        "y": 183,
+        "width": 362,
+        "height": 482.796875,
+        "bottom": 665.796875,
+        "right": 376
+      },
+      "chart": {
+        "x": 14,
+        "y": 685.796875,
+        "width": 362,
+        "height": 420,
+        "bottom": 1105.796875,
+        "right": 376
+      },
+      "modules": [
+        {
+          "title": "固定支出",
+          "x": 14,
+          "y": 1125.796875,
+          "width": 362,
+          "height": 160,
+          "bottom": 1285.796875,
+          "right": 376,
+          "balance": {
+            "x": 261.0625,
+            "y": 1146.796875,
+            "width": 93.9375,
+            "height": 39,
+            "bottom": 1185.796875,
+            "right": 355
+          }
+        },
+        {
+          "title": "消费",
+          "x": 14,
+          "y": 1299.796875,
+          "width": 362,
+          "height": 160,
+          "bottom": 1459.796875,
+          "right": 376,
+          "balance": {
+            "x": 276.734375,
+            "y": 1320.796875,
+            "width": 78.265625,
+            "height": 39,
+            "bottom": 1359.796875,
+            "right": 355
+          }
+        },
+        {
+          "title": "现金安全",
+          "x": 14,
+          "y": 1473.796875,
+          "width": 362,
+          "height": 160,
+          "bottom": 1633.796875,
+          "right": 376,
+          "balance": {
+            "x": 261.0625,
+            "y": 1494.796875,
+            "width": 93.9375,
+            "height": 39,
+            "bottom": 1533.796875,
+            "right": 355
+          }
+        }
+      ],
+      "nav": {
+        "x": 0,
+        "y": 774,
+        "width": 390,
+        "height": 70,
+        "bottom": 844,
+        "right": 390
+      },
+      "dialog": null,
+      "heroColumns": "362px"
+    },
+    {
+      "page": "home",
+      "state": "zero-burden",
+      "url": "file:///Users/linte/Documents/ChatGPT/%E5%B0%8F%E9%92%B1%E5%AE%B6-%E6%96%B0/%E5%B0%8F%E9%92%B1%E5%AE%B6V3_WP-UI-VISUAL-01_%E8%AE%BE%E8%AE%A1%E5%8F%82%E8%80%83%E8%B5%84%E4%BA%A7/index.html?state=zero-burden",
+      "file": "home-zero-burden-390-viewport.png",
+      "viewport": {
+        "w": 390,
+        "h": 844
+      },
+      "scrollWidth": 390,
+      "scrollHeight": 1623,
+      "content": {
+        "x": 0,
+        "y": 74,
+        "width": 390,
+        "height": 1548.796875,
+        "bottom": 1622.796875,
+        "right": 390
+      },
+      "hero": {
+        "x": 14,
+        "y": 183,
+        "width": 362,
+        "height": 426.796875,
+        "bottom": 609.796875,
+        "right": 376
+      },
+      "chart": {
+        "x": 14,
+        "y": 629.796875,
+        "width": 362,
+        "height": 365,
+        "bottom": 994.796875,
+        "right": 376
+      },
+      "modules": [
+        {
+          "title": "固定支出",
+          "x": 14,
+          "y": 1014.796875,
+          "width": 362,
+          "height": 160,
+          "bottom": 1174.796875,
+          "right": 376,
+          "balance": {
+            "x": 261.0625,
+            "y": 1035.796875,
+            "width": 93.9375,
+            "height": 39,
+            "bottom": 1074.796875,
+            "right": 355
+          }
+        },
+        {
+          "title": "消费",
+          "x": 14,
+          "y": 1188.796875,
+          "width": 362,
+          "height": 160,
+          "bottom": 1348.796875,
+          "right": 376,
+          "balance": {
+            "x": 271.484375,
+            "y": 1209.796875,
+            "width": 83.515625,
+            "height": 39,
+            "bottom": 1248.796875,
+            "right": 355
+          }
+        },
+        {
+          "title": "现金安全",
+          "x": 14,
+          "y": 1362.796875,
+          "width": 362,
+          "height": 160,
+          "bottom": 1522.796875,
+          "right": 376,
+          "balance": {
+            "x": 261.0625,
+            "y": 1383.796875,
+            "width": 93.9375,
+            "height": 39,
+            "bottom": 1422.796875,
+            "right": 355
+          }
+        }
+      ],
+      "nav": {
+        "x": 0,
+        "y": 774,
+        "width": 390,
+        "height": 70,
+        "bottom": 844,
+        "right": 390
+      },
+      "dialog": null,
+      "heroColumns": "362px"
+    },
+    {
+      "page": "home",
+      "state": "roomy",
+      "url": "file:///Users/linte/Documents/ChatGPT/%E5%B0%8F%E9%92%B1%E5%AE%B6-%E6%96%B0/%E5%B0%8F%E9%92%B1%E5%AE%B6V3_WP-UI-VISUAL-01_%E8%AE%BE%E8%AE%A1%E5%8F%82%E8%80%83%E8%B5%84%E4%BA%A7/index.html?state=roomy",
+      "file": "home-roomy-980-viewport.png",
+      "viewport": {
+        "w": 980,
+        "h": 900
+      },
+      "scrollWidth": 980,
+      "scrollHeight": 1510,
+      "content": {
+        "x": 84,
+        "y": 78,
+        "width": 896,
+        "height": 1432.09375,
+        "bottom": 1510.09375,
+        "right": 980
+      },
+      "hero": {
+        "x": 108,
+        "y": 213.5,
+        "width": 848,
+        "height": 414.59375,
+        "bottom": 628.09375,
+        "right": 956
+      },
+      "chart": {
+        "x": 108,
+        "y": 648.09375,
+        "width": 848,
+        "height": 310,
+        "bottom": 958.09375,
+        "right": 956
+      },
+      "modules": [
+        {
+          "title": "固定支出",
+          "x": 108,
+          "y": 978.09375,
+          "width": 848,
+          "height": 150,
+          "bottom": 1128.09375,
+          "right": 956,
+          "balance": {
+            "x": 849.484375,
+            "y": 1001.09375,
+            "width": 83.515625,
+            "height": 39,
+            "bottom": 1040.09375,
+            "right": 933
+          }
+        },
+        {
+          "title": "消费",
+          "x": 108,
+          "y": 1142.09375,
+          "width": 848,
+          "height": 150,
+          "bottom": 1292.09375,
+          "right": 956,
+          "balance": {
+            "x": 865.171875,
+            "y": 1165.09375,
+            "width": 67.828125,
+            "height": 39,
+            "bottom": 1204.09375,
+            "right": 933
+          }
+        },
+        {
+          "title": "现金安全",
+          "x": 108,
+          "y": 1306.09375,
+          "width": 848,
+          "height": 150,
+          "bottom": 1456.09375,
+          "right": 956,
+          "balance": {
+            "x": 849.484375,
+            "y": 1329.09375,
+            "width": 83.515625,
+            "height": 39,
+            "bottom": 1368.09375,
+            "right": 933
+          }
+        }
+      ],
+      "nav": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "bottom": 0,
+        "right": 0
+      },
+      "dialog": null,
+      "heroColumns": "848px"
+    },
+    {
+      "page": "home",
+      "state": "overload",
+      "url": "file:///Users/linte/Documents/ChatGPT/%E5%B0%8F%E9%92%B1%E5%AE%B6-%E6%96%B0/%E5%B0%8F%E9%92%B1%E5%AE%B6V3_WP-UI-VISUAL-01_%E8%AE%BE%E8%AE%A1%E5%8F%82%E8%80%83%E8%B5%84%E4%BA%A7/index.html?state=overload",
+      "file": "home-overload-1180-viewport.png",
+      "viewport": {
+        "w": 1180,
+        "h": 900
+      },
+      "scrollWidth": 1180,
+      "scrollHeight": 902,
+      "content": {
+        "x": 84,
+        "y": 78,
+        "width": 1096,
+        "height": 823.5,
+        "bottom": 901.5,
+        "right": 1180
+      },
+      "hero": {
+        "x": 108,
+        "y": 213.5,
+        "width": 698,
+        "height": 428,
+        "bottom": 641.5,
+        "right": 806
+      },
+      "chart": {
+        "x": 826,
+        "y": 213.5,
+        "width": 330,
+        "height": 428,
+        "bottom": 641.5,
+        "right": 1156
+      },
+      "modules": [
+        {
+          "title": "固定支出",
+          "x": 108,
+          "y": 661.5,
+          "width": 340,
+          "height": 186,
+          "bottom": 847.5,
+          "right": 448,
+          "balance": {
+            "x": 331.0625,
+            "y": 684.5,
+            "width": 93.9375,
+            "height": 39,
+            "bottom": 723.5,
+            "right": 425
+          }
+        },
+        {
+          "title": "消费",
+          "x": 462,
+          "y": 661.5,
+          "width": 340,
+          "height": 186,
+          "bottom": 847.5,
+          "right": 802,
+          "balance": {
+            "x": 700.734375,
+            "y": 684.5,
+            "width": 78.265625,
+            "height": 39,
+            "bottom": 723.5,
+            "right": 779
+          }
+        },
+        {
+          "title": "现金安全",
+          "x": 816,
+          "y": 661.5,
+          "width": 340,
+          "height": 186,
+          "bottom": 847.5,
+          "right": 1156,
+          "balance": {
+            "x": 1039.0625,
+            "y": 684.5,
+            "width": 93.9375,
+            "height": 39,
+            "bottom": 723.5,
+            "right": 1133
+          }
+        }
+      ],
+      "nav": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "bottom": 0,
+        "right": 0
+      },
+      "dialog": null,
+      "heroColumns": "698px 330px"
+    },
+    {
+      "page": "home",
+      "state": "roomy",
+      "url": "file:///Users/linte/Documents/ChatGPT/%E5%B0%8F%E9%92%B1%E5%AE%B6-%E6%96%B0/%E5%B0%8F%E9%92%B1%E5%AE%B6V3_WP-UI-VISUAL-01_%E8%AE%BE%E8%AE%A1%E5%8F%82%E8%80%83%E8%B5%84%E4%BA%A7/index.html?state=roomy",
+      "file": "home-roomy-1440-viewport.png",
+      "viewport": {
+        "w": 1440,
+        "h": 1050
+      },
+      "scrollWidth": 1440,
+      "scrollHeight": 1050,
+      "content": {
+        "x": 202,
+        "y": 78,
+        "width": 1120,
+        "height": 810.09375,
+        "bottom": 888.09375,
+        "right": 1322
+      },
+      "hero": {
+        "x": 226,
+        "y": 213.5,
+        "width": 722,
+        "height": 414.59375,
+        "bottom": 628.09375,
+        "right": 948
+      },
+      "chart": {
+        "x": 968,
+        "y": 213.5,
+        "width": 330,
+        "height": 414.59375,
+        "bottom": 628.09375,
+        "right": 1298
+      },
+      "modules": [
+        {
+          "title": "固定支出",
+          "x": 226,
+          "y": 648.09375,
+          "width": 348,
+          "height": 186,
+          "bottom": 834.09375,
+          "right": 574,
+          "balance": {
+            "x": 467.484375,
+            "y": 671.09375,
+            "width": 83.515625,
+            "height": 39,
+            "bottom": 710.09375,
+            "right": 551
+          }
+        },
+        {
+          "title": "消费",
+          "x": 588,
+          "y": 648.09375,
+          "width": 348,
+          "height": 186,
+          "bottom": 834.09375,
+          "right": 936,
+          "balance": {
+            "x": 845.171875,
+            "y": 671.09375,
+            "width": 67.828125,
+            "height": 39,
+            "bottom": 710.09375,
+            "right": 913
+          }
+        },
+        {
+          "title": "现金安全",
+          "x": 950,
+          "y": 648.09375,
+          "width": 348,
+          "height": 186,
+          "bottom": 834.09375,
+          "right": 1298,
+          "balance": {
+            "x": 1191.484375,
+            "y": 671.09375,
+            "width": 83.515625,
+            "height": 39,
+            "bottom": 710.09375,
+            "right": 1275
+          }
+        }
+      ],
+      "nav": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "bottom": 0,
+        "right": 0
+      },
+      "dialog": null,
+      "heroColumns": "722px 330px"
+    },
+    {
+      "page": "fixed",
+      "state": "normal",
+      "url": "file:///Users/linte/Documents/ChatGPT/%E5%B0%8F%E9%92%B1%E5%AE%B6-%E6%96%B0/%E5%B0%8F%E9%92%B1%E5%AE%B6V3_WP-UI-VISUAL-01_%E8%AE%BE%E8%AE%A1%E5%8F%82%E8%80%83%E8%B5%84%E4%BA%A7/fixed-v3-source.html?state=normal",
+      "file": "fixed-normal-390-viewport.png",
+      "viewport": {
+        "w": 390,
+        "h": 844
+      },
+      "scrollWidth": 390,
+      "scrollHeight": 1274,
+      "content": {
+        "x": 0,
+        "y": 74,
+        "width": 390,
+        "height": 1200,
+        "bottom": 1274,
+        "right": 390
+      },
+      "hero": null,
+      "chart": null,
+      "modules": [],
+      "nav": {
+        "x": 0,
+        "y": 774,
+        "width": 390,
+        "height": 70,
+        "bottom": 844,
+        "right": 390
+      },
+      "dialog": null,
+      "heroColumns": null
+    },
+    {
+      "page": "fixed",
+      "state": "normal",
+      "url": "file:///Users/linte/Documents/ChatGPT/%E5%B0%8F%E9%92%B1%E5%AE%B6-%E6%96%B0/%E5%B0%8F%E9%92%B1%E5%AE%B6V3_WP-UI-VISUAL-01_%E8%AE%BE%E8%AE%A1%E5%8F%82%E8%80%83%E8%B5%84%E4%BA%A7/fixed-v3-source.html?state=normal&panel=note",
+      "file": "fixed-note-390-viewport.png",
+      "viewport": {
+        "w": 390,
+        "h": 844
+      },
+      "scrollWidth": 390,
+      "scrollHeight": 1274,
+      "content": {
+        "x": 0,
+        "y": 74,
+        "width": 390,
+        "height": 1200,
+        "bottom": 1274,
+        "right": 390
+      },
+      "hero": null,
+      "chart": null,
+      "modules": [],
+      "nav": {
+        "x": 0,
+        "y": 774,
+        "width": 390,
+        "height": 70,
+        "bottom": 844,
+        "right": 390
+      },
+      "dialog": {
+        "x": 0,
+        "y": 311,
+        "width": 390,
+        "height": 533,
+        "bottom": 844,
+        "right": 390
+      },
+      "heroColumns": null
+    },
+    {
+      "page": "fixed",
+      "state": "normal",
+      "url": "file:///Users/linte/Documents/ChatGPT/%E5%B0%8F%E9%92%B1%E5%AE%B6-%E6%96%B0/%E5%B0%8F%E9%92%B1%E5%AE%B6V3_WP-UI-VISUAL-01_%E8%AE%BE%E8%AE%A1%E5%8F%82%E8%80%83%E8%B5%84%E4%BA%A7/fixed-v3-source.html?state=normal&panel=note",
+      "file": "fixed-note-390x520-viewport.png",
+      "viewport": {
+        "w": 390,
+        "h": 520
+      },
+      "scrollWidth": 390,
+      "scrollHeight": 1274,
+      "content": {
+        "x": 0,
+        "y": 74,
+        "width": 390,
+        "height": 1200,
+        "bottom": 1274,
+        "right": 390
+      },
+      "hero": null,
+      "chart": null,
+      "modules": [],
+      "nav": {
+        "x": 0,
+        "y": 450,
+        "width": 390,
+        "height": 70,
+        "bottom": 520,
+        "right": 390
+      },
+      "dialog": {
+        "x": 0,
+        "y": 24,
+        "width": 390,
+        "height": 496,
+        "bottom": 520,
+        "right": 390
+      },
+      "heroColumns": null
+    },
+    {
+      "page": "home",
+      "state": "overload",
+      "url": "file:///Users/linte/Documents/ChatGPT/%E5%B0%8F%E9%92%B1%E5%AE%B6-%E6%96%B0/%E5%B0%8F%E9%92%B1%E5%AE%B6V3_WP-UI-VISUAL-01_%E8%AE%BE%E8%AE%A1%E5%8F%82%E8%80%83%E8%B5%84%E4%BA%A7/index.html?state=overload&view=review",
+      "file": "home-review-390-viewport.png",
+      "viewport": {
+        "w": 390,
+        "h": 844
+      },
+      "scrollWidth": 390,
+      "scrollHeight": 2165,
+      "content": {
+        "x": 0,
+        "y": 504.96875,
+        "width": 390,
+        "height": 1659.796875,
+        "bottom": 2164.765625,
+        "right": 390
+      },
+      "hero": {
+        "x": 14,
+        "y": 613.96875,
+        "width": 362,
+        "height": 482.796875,
+        "bottom": 1096.765625,
+        "right": 376
+      },
+      "chart": {
+        "x": 14,
+        "y": 1116.765625,
+        "width": 362,
+        "height": 420,
+        "bottom": 1536.765625,
+        "right": 376
+      },
+      "modules": [
+        {
+          "title": "固定支出",
+          "x": 14,
+          "y": 1556.765625,
+          "width": 362,
+          "height": 160,
+          "bottom": 1716.765625,
+          "right": 376,
+          "balance": {
+            "x": 261.0625,
+            "y": 1577.765625,
+            "width": 93.9375,
+            "height": 39,
+            "bottom": 1616.765625,
+            "right": 355
+          }
+        },
+        {
+          "title": "消费",
+          "x": 14,
+          "y": 1730.765625,
+          "width": 362,
+          "height": 160,
+          "bottom": 1890.765625,
+          "right": 376,
+          "balance": {
+            "x": 276.734375,
+            "y": 1751.765625,
+            "width": 78.265625,
+            "height": 39,
+            "bottom": 1790.765625,
+            "right": 355
+          }
+        },
+        {
+          "title": "现金安全",
+          "x": 14,
+          "y": 1904.765625,
+          "width": 362,
+          "height": 160,
+          "bottom": 2064.765625,
+          "right": 376,
+          "balance": {
+            "x": 261.0625,
+            "y": 1925.765625,
+            "width": 93.9375,
+            "height": 39,
+            "bottom": 1964.765625,
+            "right": 355
+          }
+        }
+      ],
+      "nav": {
+        "x": 0,
+        "y": 774,
+        "width": 390,
+        "height": 70,
+        "bottom": 844,
+        "right": 390
+      },
+      "dialog": null,
+      "heroColumns": "362px"
+    },
+    {
+      "page": "fixed",
+      "state": "normal",
+      "panel": "expanded",
+      "boundaryCheck": {
+        "width": 320,
+        "scrollWidth": 320,
+        "dialog": {
+          "x": 0,
+          "right": 320,
+          "bottom": 844,
+          "height": 533,
+          "client": 531,
+          "scroll": 531
+        },
+        "noteWidth": 278,
+        "confirmVisible": true,
+        "fieldsGrid": "278px"
+      }
+    },
+    {
+      "page": "fixed",
+      "state": "normal",
+      "panel": "expanded",
+      "boundaryCheck": {
+        "width": 360,
+        "scrollWidth": 360,
+        "dialog": {
+          "x": 0,
+          "right": 360,
+          "bottom": 844,
+          "height": 533,
+          "client": 531,
+          "scroll": 531
+        },
+        "noteWidth": 318,
+        "confirmVisible": true,
+        "fieldsGrid": "318px"
+      }
+    },
+    {
+      "page": "fixed",
+      "state": "normal",
+      "panel": "expanded",
+      "boundaryCheck": {
+        "width": 620,
+        "scrollWidth": 620,
+        "dialog": {
+          "x": 0,
+          "right": 620,
+          "bottom": 844,
+          "height": 533,
+          "client": 531,
+          "scroll": 531
+        },
+        "noteWidth": 578,
+        "confirmVisible": true,
+        "fieldsGrid": "578px"
+      }
+    },
+    {
+      "page": "fixed",
+      "state": "normal",
+      "panel": "expanded",
+      "boundaryCheck": {
+        "width": 759,
+        "scrollWidth": 759,
+        "dialog": {
+          "x": 18,
+          "right": 741,
+          "bottom": 826,
+          "height": 454,
+          "client": 452,
+          "scroll": 452
+        },
+        "noteWidth": 665,
+        "confirmVisible": true,
+        "fieldsGrid": "325.5px 325.5px"
+      }
+    },
+    {
+      "page": "fixed",
+      "state": "normal",
+      "panel": "expanded",
+      "boundaryCheck": {
+        "width": 760,
+        "scrollWidth": 760,
+        "dialog": {
+          "x": 18,
+          "right": 742,
+          "bottom": 826,
+          "height": 454,
+          "client": 452,
+          "scroll": 452
+        },
+        "noteWidth": 666,
+        "confirmVisible": true,
+        "fieldsGrid": "326px 326px"
+      }
+    },
+    {
+      "page": "fixed",
+      "state": "normal",
+      "panel": "expanded",
+      "boundaryCheck": {
+        "width": 879,
+        "scrollWidth": 879,
+        "dialog": {
+          "x": 18,
+          "right": 861,
+          "bottom": 826,
+          "height": 454,
+          "client": 452,
+          "scroll": 452
+        },
+        "noteWidth": 785,
+        "confirmVisible": true,
+        "fieldsGrid": "385.5px 385.5px"
+      }
+    },
+    {
+      "page": "fixed",
+      "state": "normal",
+      "panel": "expanded",
+      "boundaryCheck": {
+        "width": 880,
+        "scrollWidth": 880,
+        "dialog": {
+          "x": 18,
+          "right": 862,
+          "bottom": 826,
+          "height": 373,
+          "client": 371,
+          "scroll": 371
+        },
+        "noteWidth": 408,
+        "confirmVisible": true,
+        "fieldsGrid": "180px 170px 408px"
+      }
+    },
+    {
+      "page": "fixed",
+      "state": "normal",
+      "panel": "expanded",
+      "boundaryCheck": {
+        "width": 980,
+        "scrollWidth": 980,
+        "dialog": {
+          "x": 65,
+          "right": 915,
+          "bottom": 826,
+          "height": 373,
+          "client": 371,
+          "scroll": 371
+        },
+        "noteWidth": 414,
+        "confirmVisible": true,
+        "fieldsGrid": "180px 170px 414px"
+      }
+    },
+    {
+      "page": "fixed",
+      "state": "normal",
+      "panel": "expanded",
+      "boundaryCheck": {
+        "width": 1000,
+        "scrollWidth": 1000,
+        "dialog": {
+          "x": 75,
+          "right": 925,
+          "bottom": 826,
+          "height": 373,
+          "client": 371,
+          "scroll": 371
+        },
+        "noteWidth": 414,
+        "confirmVisible": true,
+        "fieldsGrid": "180px 170px 414px"
+      }
+    },
+    {
+      "page": "fixed",
+      "state": "normal",
+      "panel": "expanded",
+      "boundaryCheck": {
+        "width": 1179,
+        "scrollWidth": 1179,
+        "dialog": {
+          "x": 164.5,
+          "right": 1014.5,
+          "bottom": 826,
+          "height": 373,
+          "client": 371,
+          "scroll": 371
+        },
+        "noteWidth": 414,
+        "confirmVisible": true,
+        "fieldsGrid": "180px 170px 414px"
+      }
+    },
+    {
+      "page": "fixed",
+      "state": "normal",
+      "panel": "expanded",
+      "boundaryCheck": {
+        "width": 1180,
+        "scrollWidth": 1180,
+        "dialog": {
+          "x": 165,
+          "right": 1015,
+          "bottom": 826,
+          "height": 373,
+          "client": 371,
+          "scroll": 371
+        },
+        "noteWidth": 414,
+        "confirmVisible": true,
+        "fieldsGrid": "180px 170px 414px"
+      }
+    },
+    {
+      "page": "fixed",
+      "state": "normal",
+      "panel": "expanded",
+      "boundaryCheck": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "dialog": {
+          "x": 295,
+          "right": 1145,
+          "bottom": 826,
+          "height": 373,
+          "client": 371,
+          "scroll": 371
+        },
+        "noteWidth": 414,
+        "confirmVisible": true,
+        "fieldsGrid": "180px 170px 414px"
+      }
+    }
+  ],
+  "interaction": {
+    "defaultCollapsed": true,
+    "groupExpanded": true,
+    "collapsePreservesNote": true,
+    "editedNote": "地铁月卡独立审核-保留测试",
+    "collapsedSummary": {
+      "text": "支付日期 · 备注（选填）",
+      "noteHidden": true
+    },
+    "collapsedSummaryIncludesNote": false,
+    "detailsControlTarget": {
+      "id": "payment-details",
+      "target": "<span id=\"payment-details\" hidden=\"\"></span>"
+    },
+    "cancelCloses": true,
+    "cancelRestoresFocus": true,
+    "escCloses": true,
+    "confirmNoFinancialMutation": true,
+    "localRetry": true,
+    "stateSelector": true,
+    "reducedMotion": true,
+    "shortHeight": {
+      "viewport": 520,
+      "dialogClient": 494,
+      "dialogScroll": 531,
+      "confirmBefore": 532,
+      "confirmAfterScroll": 495
+    },
+    "homeEndClearOfNav": true,
+    "copyAssertions": [
+      {
+        "income": 13000,
+        "fixed": 10400,
+        "expected": "账单：不是，他怎么还剩钱？",
+        "actual": "账单：不是，他怎么还剩钱？",
+        "pass": true
+      },
+      {
+        "income": 13000,
+        "fixed": 11700,
+        "expected": "钱包：还活着，先别开香槟。",
+        "actual": "钱包：还活着，先别开香槟。",
+        "pass": true
+      },
+      {
+        "income": 13000,
+        "fixed": 13000,
+        "expected": "工资：来过，爱过，没留过。",
+        "actual": "工资：来过，爱过，没留过。",
+        "pass": true
+      },
+      {
+        "income": 13000,
+        "fixed": 14000,
+        "expected": "工资：你们分赃怎么不带我商量？",
+        "actual": "工资：你们分赃怎么不带我商量？",
+        "pass": true
+      },
+      {
+        "income": 13000,
+        "fixed": 14300,
+        "expected": "收入：我一个人打五个？",
+        "actual": "收入：我一个人打五个？",
+        "pass": true
+      },
+      {
+        "income": 0,
+        "fixed": 0,
+        "expected": "收入：你不来？账单：那我也不来了。",
+        "actual": "收入：你不来？账单：那我也不来了。",
+        "pass": true
+      },
+      {
+        "income": 0,
+        "fixed": 3500,
+        "expected": "收入：暂未出场。账单：戏份拉满。",
+        "actual": "收入：暂未出场。账单：戏份拉满。",
+        "pass": true
+      }
+    ]
+  },
+  "exceptions": []
+}

@@ -1,0 +1,36 @@
+== live sha256 ==
+27f349c565e64913597882b10148e92cce940bceb192145401ec6abd3150117c  /Users/linte/Library/Application Support/com.personalfinance.console/personal-finance-console.sqlite3
+== anchor ==
+singleton|sequence|previous_digest|content_digest|tag
+1|60|6fd44af6d4abd6a0a53f4dcfd0a572f9e2702b534c63885a01a04c9f971e0f86|1503837c865787aa96c0bd032a5601f6e0524142558cf38a0bf2573617cb4d46|ad39df167f4e1c238041b5182906a2a0d0ff2c69c2341d4d1ee5eef7777c427a
+== integrity/user_version ==
+ok
+8
+== counts ==
+t|c|act
+debts|5|5
+debt_period_facts|10|
+debt_revisions|1|
+income_records|7|
+income_entries|6|
+expenses|831|
+expense_records|832|
+== facts ==
+debt_id|period_month|current_balance|current_month_due|as_of_date
+2a6a027d-806d-44f8-92e0-131f78c6d14b|2026-10|331.37|331.37|2026-10-04
+5f50bd18-7b79-49aa-a0da-fa8a19555a69|2026-10|118137.60|3487.87|2026-10-04
+6ab6256a-fe7b-450b-9853-f55c8402f92b|2026-10|46605.10|5679.47|2026-10-04
+a1ff0b1a-2a5f-4980-a058-9af7bf79249b|2026-10|2198.70|657.46|2026-10-04
+c7fa0eae-c78a-4d0d-8031-bbf80c523d23|2026-10|5306.76|4362.56|2026-10-04
+2a6a027d-806d-44f8-92e0-131f78c6d14b|2026-11|1.88|1.88|2026-10-21
+5f50bd18-7b79-49aa-a0da-fa8a19555a69|2026-11|118137.60|3487.87|2026-10-21
+6ab6256a-fe7b-450b-9853-f55c8402f92b|2026-11|36626.20|4132.00|2026-10-21
+a1ff0b1a-2a5f-4980-a058-9af7bf79249b|2026-11|1541.24|653.50|2026-10-21
+c7fa0eae-c78a-4d0d-8031-bbf80c523d23|2026-11|921.39|575.78|2026-10-21
+== month due totals (base facts, pre-revision) ==
+period_month|total
+2026-10|14518.73
+2026-11|8851.03
+== revision ==
+revision_id|debt_id|period_month|as_of_date|name|current_balance|current_month_due|fixed_monthly_payment|active|created_at
+1|2a6a027d-806d-44f8-92e0-131f78c6d14b|2026-10|2026-10-28|美团月付|331.37|331.37||0|2026-10-29T03:39:08.413Z

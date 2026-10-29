@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "Pure TypeScript financial model core for Personal Finance Console",
   "private": true,
+  "engines": {
+    "node": ">=22.3.0"
+  },
   "type": "module",
   "scripts": {
     "lint": "biome check src tests",
@@ -15,10 +18,12 @@
     "build:core": "tsc -p tsconfig.build.json",
     "build:web": "vite build",
     "dev": "vite --host 127.0.0.1",
-    "tauri:dev": "tauri dev",
+    "tauri:dev": "tauri dev --config src-tauri/tauri.smoke.conf.json",
     "tauri:dev:smoke": "tauri dev --config src-tauri/tauri.smoke.conf.json",
-    "tauri:build": "tauri build",
+    "tauri:build": "tauri build --config src-tauri/tauri.smoke.conf.json",
     "tauri:build:smoke": "tauri build --config src-tauri/tauri.smoke.conf.json",
+    "tauri:dev:production": "tauri dev --config src-tauri/tauri.conf.json",
+    "tauri:build:production": "tauri build --config src-tauri/tauri.conf.json",
     "build:v4acceptance": "vite build --config vite.v4acceptance.config.ts",
     "tauri:build:v4acceptance": "CARGO_TARGET_DIR=\"$(pwd)/artifacts/v012-v4-owner-acceptance-sandbox-20261007/cargo-target\" tauri build --features tauri/custom-protocol,v4-acceptance --config src-tauri/tauri.v4acceptance.conf.json",
     "tauri:build:wp03-preview": "python3 scripts/build_wp03_product_preview.py"
