@@ -56,3 +56,7 @@ tauri-plugin-notification = "2"
 
 [target.'cfg(any(target_os = "android", target_os = "ios"))'.dependencies]
 tauri-plugin-haptics = "2"
+
+[patch.crates-io]
+tauri-runtime-wry = { path = "patches/tauri-runtime-wry" }
+
