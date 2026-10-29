@@ -3,11 +3,11 @@
 //   node shoot-r1.mjs --mode default --out ../shots-default
 //   node shoot-r1.mjs --mode text200 --out ../shots-text200
 // mode=default 不放大字号（默认布局回归）；mode=text200 全元素计算字号×2（J-01 合成口径）。
-import { spawn } from "node:child_process";
+import { execFileSync, spawn } from "node:child_process";
 import { mkdir, mkdtemp, readFile, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { resolve } from "node:path";
-import { pathToFileURL } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 const args = Object.fromEntries(
   process.argv.slice(2).reduce((acc, cur, i, arr) => {
@@ -21,6 +21,10 @@ const doubleText = Number(args.double ?? (mode === "text200" ? 1 : 0));
 const out = resolve(args.out ?? `shots-${mode}`);
 const WIDTHS = (args.widths ?? "390,760,980").split(",").map(Number);
 const HOME_STATES = ["actual", "zero-burden", "pending", "large", "over-both"];
+// dist 是 .gitignore 的构建产物：改了 src CSS 却没重建，会让探针量到旧样式。
+// 2026-10-29 复核就因此拿到 padding:0 6% 的旧几何（large -21.67 假 FAIL）。开跑前强制重建。
+const harnessDir = fileURLToPath(new URL(".", import.meta.url));
+execFileSync("npx", ["vite", "build"], { cwd: harnessDir, stdio: "ignore" });
 await mkdir(out, { recursive: true });
 
 const profile = await mkdtemp(resolve(tmpdir(), "xqj-r1-"));
