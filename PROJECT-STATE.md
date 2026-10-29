@@ -1,4 +1,45 @@
-# 最新：设计师｜R1 B′数值签认完成（2026-10-29）
+# 最新：执行员｜批次 A 已提交 + 回报 1 四项答复（2026-10-29）
+
+- 本轮任务/结果：按 chris 回报 1 的四项核对意见处理——批次 A 提交、.gitignore、6 个 scripts 说明、当前 App 构建来源答复；全程不运行脚本、不打生产包、不读写活库。
+- 批次 A 已提交 `64952f2`：产品 diff 仍仅 `src/ui/v2-quick-entry.tsx` +5 与 `tests/v2-ui/quick-entry-flow.test.tsx` +62；提交前三门禁复跑 lint 173 files 无问题、`tsc --noEmit` 0 输出、`test:product` 54 files **567 passed / 44 skipped / 0 failed**，目标 `quick-entry-flow` 13/13。
+- .gitignore 已提交 `d53be1b`：新增 `/data/`、`/.claude/`、`.ekko-tmp-*.png`（根锚定，避免误伤未来 `src/data/`）；`git check-ignore` 四路径全部命中，`git ls-files` 中原无 `data/`、`.claude/` 跟踪文件。
+- 6 个 scripts 只读阅读、未运行、未提交：5 个 rebind 只重写 `~/Library/Application Support/com.personalfinance.console` 下的生产门闸 JSON（不碰活库）；`production-integrity-anchor-rotation.py` 默认 dry-run，`--apply` 才 UPDATE 活库 `production_integrity_state` 单行。
+- 当前 App 构建来源已核实：`/Applications/Personal Finance Console.app` 二进制 mtime **2026-10-27 11:29**，内嵌 `index-GI1xjpsw.js` / `index-Bsv3yx-m.css` 与 2026-10-27 11:28 的 `web-dist` 完全一致；该构建 CSS/JS 中 `v2-ring` 命中 **0**，不含双环首页，属 `e21f1e5`（10-27 11:14，主分支 HEAD）时代的构建；双环相关文件最早入库是 `4d11611`（10-29 15:32）。chris 所见 13,000 / −4,715.36 出自旧单卡，新环心 13,791.25 / 余量 −4,255.48 出自新代码，不可跨构建比较。
+- 边界：未打生产包、未替换 /Applications 应用、未运行 tauri dev、未读写活库、未合并主分支；新首页在 chris 电脑上可见的路径待其批准后执行。
+
+---
+
+# 历史：复核员｜交互批次 A（I-01）复核 PASS（2026-10-29）
+
+- 本轮范围：基线 `84fbb7c` 上的未提交批次 A，产品 diff 仅 `src/ui/v2-quick-entry.tsx` +5 与 `tests/v2-ui/quick-entry-flow.test.tsx` +62，合计 67 行，均在任务书白名单；`V2HomeSurface`、反馈 model/CSS、persistence/services 零 diff。
+- 实现核对：校验通过且未在提交中时，先置 submitting，再清上次成功态并取消其 2s 定时器，然后调用既有保存服务；保存参数、失败草稿保留、成功/失败既有文案与 aria 均未改，无新增动效或依赖。
+- 独立验证：目标测试 13/13；lint 173 files 无修改、typecheck 0 输出、test:product 54 files **567 passed / 44 skipped / 0 failed**。在 `84fbb7c` 隔离工作树仅应用新增测试反向验证，未修复源码精确出现 **1 failed / 12 passed**，失败点即第二笔待提交时旧成功提示仍存在；临时工作树已清理。
+- 结论：**批次 A 普通 UI 复核 PASS，无返工项，执行员可提交本批**。仅放行 I-01 本批；`V2HomeSurface` 防重入守卫及其 `tests/ui.test.tsx` 补测留下一批，不借本次放行扩张。
+- 证据：`evidence/wp-ui-visual-01/p1-p4/interaction-i01-batch-a-review-20261029/`。本轮未改产品代码、未访问业务数据/活库、未提交 git、未合并主分支；后续按新流程交 chris 抽查。
+
+---
+
+# 历史：复核员｜R1 B′复核 PASS，旧 dist 假 FAIL 已撤销（2026-10-29）
+
+- 本轮任务/结果：按普通 UI 流程复核至提交 `84fbb7c`；B′ 产品补丁仍仅为 `.v2-ring__centre` `padding: 0 6%` → `0 2.05rem`，`inset:8%`、环宽与字号未动；返工提交未再改产品 CSS。
+- 前次 FAIL 更正：旧证据台 `dist` 未重建、仍为 6% padding，167.09px 金额框与旧几何吻合，并非源码回退；探针已加开跑前强制 `vite build`。
+- 独立实测：在 `evidence/wp-ui-visual-01/p1-p4/r1-20261029/review-bprime-recheck-20261029/` 复跑官方 `shoot-r1.mjs --mode default`。390/760/980 的 `large` 均 129.31×52.78、2 行、22px、余量 **-4.65px**，优于基线 **-6.96px** 2.31px；其余四态余量 1.84px（zero-burden 44.83px），单行 22px，零横向溢出、无名称金额重叠/裁切/出卡。探针对 large 的负值仍作原始标记，按 R1 §7.4「不劣于基线」判达标。
+- 门禁：在 `84fbb7c` 隔离工作树独立复跑全绿（lint 173 files、typecheck 0、test:product 54 files **565 passed / 44 skipped / 0 failed**）。并行 I-01 工作树出现的 quick-entry 测试格式问题不计入 R1。
+- 结论：**R1 B′普通 UI 批次复核 PASS，前次 FAIL 撤销，可交 chris 抽查**。不宣称 R1 整体或最终视觉验收通过；200%、真机/读屏等按新令归发布前无障碍专项。
+- 边界：本轮未改产品代码/样式/业务数据、未访问活库、未合并主分支；仅新增独立复核证据并更新交接记录。
+
+---
+
+# 历史：复核员｜R1 B′初次复核 FAIL（旧 dist 误判，已撤销）
+
+- 当时任务/结果：按普通 UI 流程复核提交 `191f166`；实际 CSS 补丁与签认一致，仅 `.v2-ring__centre` `padding: 0 6%` → `0 2.05rem`，`inset:8%`、环宽与字号未动。当时独立三门禁全绿。
+- 当时实测：官方 R1 harness 读到旧 `dist`，390/760/980 的 `large` 均报 -21.67px、金额框宽 167.09px；该结果现已确认不是当前源码几何。
+- 当时结论：FAIL 并退执行员返工；现由上方 84fbb7c 独立复测结论取代。
+- 当时边界：未改产品代码/样式/业务数据、未访问活库、未合并主分支。
+
+---
+
+# 历史：设计师｜R1 B′数值签认完成（2026-10-29）
 
 - 本轮任务/结果：B′采用 `padding: 0 2.05rem`，保留 `inset: 8%` 与 `min(14.5rem, 100%)`；默认232px环的内容列计算129.28px≥128px，非渲染实测。签认见 `docs/WP-UI-VISUAL-01-RING-VISUAL-REWORK-R1-20261029.md` §8。
 - 当前阶段：设计数值已签认；设计师退出R1线，由执行员落地、复核员核对；实施及门禁结果尚待执行员交付，不宣称产品验收通过。
