@@ -94,7 +94,9 @@
   align-items: center;
   justify-content: center;
   gap: 2px;
-  padding: 0 6%;
+  /* R1-B′（设计师 2026-10-29 签认）：rem 制内容列，随根字号等比放大；默认 232px 环下
+     内容列 = 232×0.84 − 2×2.05×16 = 129.28px ≥ 128px 硬底，默认金额仍单行。 */
+  padding: 0 2.05rem;
   text-align: center;
   pointer-events: none;
 }
