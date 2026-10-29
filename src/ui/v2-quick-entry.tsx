@@ -169,6 +169,11 @@ export function V2QuickEntry({
       return;
     }
     setSubmitting(true);
+    setSuccess(false);
+    if (successTimerRef.current !== null) {
+      globalThis.clearTimeout(successTimerRef.current);
+      successTimerRef.current = null;
+    }
     setError("");
     try {
       const result = await expenseService.recordCashDebitExpense({

@@ -373,7 +373,69 @@ describe("EXEC-U-01 isolated V2 quick entry flow", () => {
     });
     await waitFor(() => expect(submit.disabled).toBe(false));
   });
+
+  it("clears stale success feedback while a follow-up submit is pending", async () => {
+    const user = userEvent.setup();
+    let release!: () => void;
+    const pending = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    const spy = vi
+      .spyOn(expenseService, "recordCashDebitExpense")
+      .mockResolvedValueOnce(confirmedReceipt("10.00"))
+      .mockReturnValueOnce(pending.then(() => confirmedReceipt("20.00")));
+    renderComponent();
+    await fillAndSubmit(user, "10.00");
+    expect((await screen.findByRole("status")).textContent).toContain("已记入本月消费");
+    await fillAndSubmit(user, "20.00");
+    expect(screen.queryByRole("status")).toBeNull();
+    expect(spy).toHaveBeenCalledTimes(2);
+    await act(async () => {
+      release();
+    });
+    await waitFor(() => expect(screen.getByRole("status").textContent).toContain("已记入本月消费"));
+  });
+
+  it("keeps the draft and saves on retry after a failure", async () => {
+    const user = userEvent.setup();
+    const spy = vi
+      .spyOn(expenseService, "recordCashDebitExpense")
+      .mockRejectedValueOnce(new Error("synthetic"))
+      .mockResolvedValueOnce(confirmedReceipt("18.50"));
+    renderComponent();
+    await fillAndSubmit(user, "18.50", { description: "重试" });
+    expect((await screen.findByRole("alert")).textContent).toContain("保存失败，请重试");
+    expect((screen.getByLabelText("金额") as HTMLInputElement).value).toBe("18.50");
+    expect((screen.getByLabelText("备注") as HTMLInputElement).value).toBe("重试");
+    await user.click(screen.getByRole("button", { name: "记一笔" }));
+    expect((await screen.findByRole("status")).textContent).toContain("已记入本月消费");
+    expect(screen.queryByRole("alert")).toBeNull();
+    expect(spy).toHaveBeenCalledTimes(2);
+  });
 });
+
+function confirmedReceipt(amount: string) {
+  const id = `saved-${amount}`;
+  return {
+    expense: {
+      id,
+      profileId: "profile-v2",
+      kind: "CASH_DEBIT" as const,
+      amount,
+      currency: "CNY",
+      occurredOn: "2026-10-20",
+      categoryId: "cat-food",
+      description: "",
+      accountId: "cash-1",
+    },
+    reconciliation: {
+      expenseId: id,
+      spendingRecognition: amount,
+      cashReduction: amount,
+      countsAsDailyExpense: true as const,
+    },
+  };
+}
 
 function fireEventClick(element: HTMLElement) {
   element.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
