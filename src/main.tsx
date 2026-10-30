@@ -1,5 +1,4 @@
 import { createRoot } from "react-dom/client";
-import { M0Lab } from "./lab/M0Lab.js";
 import { App } from "./ui/App.js";
 import "./style.css";
 import "./ui/trial-experience.css";
@@ -15,9 +14,7 @@ import "./ui/v2-feedback.css";
 import "./ui/v2-calendar-picker.css";
 import "./ui/v2-detail-visual.css";
 import "./ui/v2-savings-room.css";
-import "./ui/m0-lab.css";
 
 const root = document.getElementById("root");
 if (!root) throw new Error("Application root is missing.");
-const isM0Lab = window.location.pathname === "/lab/glass" || import.meta.env.VITE_M0_LAB === "1";
-createRoot(root).render(isM0Lab ? <M0Lab /> : <App />);
+createRoot(root).render(<App />);
