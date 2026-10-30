@@ -1,0 +1,24 @@
+{
+  "device": "00008140-001C55E91A40801C",
+  "process": 1046,
+  "timezone": "Asia/Shanghai",
+  "timezone_source": "LLDB NSTimeZone.localTimeZone.name and native notification log",
+  "applicationState": 0,
+  "scene": "UISceneActivationStateForegroundActive",
+  "page": "M0 glass/SQLite/notification lab",
+  "notificationPermissionText": "已授予",
+  "capture": "App stdout/stderr redirected to own tmp/m0-notification-device.log; copied with devicectl",
+  "foreground_immediate": "willPresent observed",
+  "foreground_scheduled": "willPresent id=3 observed",
+  "background_scheduled_utc": "2026-10-29T18:33:08.261000000Z",
+  "background_transition": "Settings launch succeeded; LLDB UIApplication.applicationState returned 2",
+  "background_applicationState": 2,
+  "background_delivery": {
+    "id": "3",
+    "delivered_at_utc": "2026-10-29T18:33:08Z",
+    "delivered_at_device_local": "2026-10-30T02:33:08+08:00",
+    "trigger_interval_seconds": 59.98717,
+    "source": "UNUserNotificationCenter delivered notifications"
+  },
+  "debugger_cleanup": "stdout/stderr restored, debugger detached"
+}

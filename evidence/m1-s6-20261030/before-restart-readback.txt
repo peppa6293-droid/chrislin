@@ -1,0 +1,9 @@
+profiles=1
+settings=6.0/1.0/2000
+income=10000
+cash=30000
+expenses=4
+expense_records=4
+sum=134.3
+list=100.5/2026-10-30/午餐 ; 20/2026-10-30/- ; 8.8/2026-10-29/补记 ; 5/2026-10-30/-
+integrity=ok

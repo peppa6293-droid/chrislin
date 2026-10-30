@@ -1,0 +1,16 @@
+$ npx vitest run tests/onboarding-safety-eligibility.test.tsx
+
+ RUN  v5.0.5 /Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2
+
+(node:32783) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ tests/onboarding-safety-eligibility.test.tsx (7 tests) 1548ms
+   ✓ onboarding safety-resource tri-state (7)
+     ✓ passes the mixed approved candidate through React and the real Application Service in an isolated in-memory DB 934ms
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  22:21:14
+   Duration  2.06s (tests 78%, import 11%, environment 7%, transform 3%)
+
+ISOLATED_TEST_EXIT=0

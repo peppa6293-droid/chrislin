@@ -1,0 +1,936 @@
+2026-10-29T17:08:33.284Z vite:config config file loaded in 9.86ms
+2026-10-29T17:08:33.285Z vite:env loading env files: [
+  '/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2/.env',
+  '/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2/.env.local',
+  '/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2/.env.production',
+  '/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2/.env.production.local'
+]
+2026-10-29T17:08:33.285Z vite:env env files loaded in 0.14ms
+2026-10-29T17:08:33.285Z vite:env using resolved env: { VITE_M0_LAB: '1' }
+2026-10-29T17:08:33.290Z vite:config using resolved config: {
+  plugins: [
+    'vite:optimized-deps',
+    'vite:watch-package-data',
+    'vite:pre-alias',
+    'alias',
+    'vite:react-babel',
+    'vite:react-refresh-fbm',
+    'vite:react-refresh',
+    'vite:modulepreload-polyfill',
+    'vite:resolve-builtin:get-environment',
+    'vite:resolve-builtin',
+    'vite:html-inline-proxy',
+    'vite:css',
+    'builtin:oxc-runtime',
+    'vite:oxc',
+    'builtin:vite-json',
+    'vite:wasm-helper',
+    'vite:worker',
+    'vite:asset',
+    'vite:forward-console',
+    'vite:react-virtual-preamble',
+    'vite:define',
+    'vite:css-post',
+    'vite:build-html',
+    'vite:worker-import-meta-url',
+    'vite:asset-import-meta-url',
+    'vite:prepare-out-dir',
+    'vite:rollup-options-plugins',
+    'vite:dynamic-import-vars',
+    'vite:import-glob',
+    'vite:react:config-post',
+    'vite:build-import-analysis',
+    'native:import-analysis-build',
+    'vite:terser',
+    'vite:license',
+    'native:manifest',
+    'vite:ssr-manifest',
+    'native:reporter',
+    'builtin:vite-load-fallback',
+    'vite:client-inject',
+    'vite:css-analysis',
+    'vite:import-analysis'
+  ],
+  define: { __WP03_PREVIEW_BUILD__: 'false' },
+  clearScreen: false,
+  server: {
+    port: 1420,
+    strictPort: true,
+    host: undefined,
+    allowedHosts: [],
+    https: undefined,
+    open: false,
+    proxy: undefined,
+    cors: {
+      origin: /^https?:\/\/(?:(?:[^:]+\.)?localhost|127\.0\.0\.1|\[::1\])(?::\d+)?$/
+    },
+    headers: {},
+    warmup: { clientFiles: [], ssrFiles: [] },
+    middlewareMode: false,
+    fs: {
+      strict: true,
+      deny: [
+        '.env',
+        '.env.*',
+        '*.{crt,pem,key,p12,pfx,cer,der}',
+        '.npmrc',
+        '.yarnrc.yml',
+        '**/.git/**'
+      ],
+      allow: [ '/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2' ]
+    },
+    preTransformRequests: true,
+    perEnvironmentStartEndDuringDev: false,
+    perEnvironmentWatchChangeDuringDev: false,
+    forwardConsole: {
+      enabled: true,
+      unhandledErrors: true,
+      logLevels: [ 'error', 'warn' ]
+    },
+    sourcemapIgnoreList: [Function: isInNodeModules],
+    ws: {},
+    hmr: {
+      protocol: [Getter/Setter],
+      host: [Getter/Setter],
+      port: [Getter/Setter],
+      clientPort: [Getter/Setter],
+      path: [Getter/Setter],
+      timeout: [Getter/Setter],
+      server: [Getter/Setter]
+    }
+  },
+  build: {
+    target: [ 'chrome111', 'edge111', 'firefox114', 'safari16.4', 'ios16.4' ],
+    polyfillModulePreload: true,
+    modulePreload: { polyfill: true },
+    outDir: 'web-dist',
+    assetsDir: 'assets',
+    assetsInlineLimit: 4096,
+    sourcemap: false,
+    terserOptions: {},
+    chunkImportMap: false,
+    rolldownOptions: { platform: 'browser', onwarn: [Function: onwarn] },
+    commonjsOptions: { include: [ /node_modules/ ], extensions: [ '.js', '.cjs' ] },
+    dynamicImportVarsOptions: { exclude: [ /node_modules/ ] },
+    write: true,
+    emptyOutDir: true,
+    copyPublicDir: true,
+    license: false,
+    manifest: false,
+    lib: false,
+    ssrManifest: false,
+    ssrEmitAssets: false,
+    reportCompressedSize: true,
+    chunkSizeWarningLimit: 500,
+    watch: null,
+    cssCodeSplit: true,
+    minify: 'oxc',
+    rollupOptions: { platform: 'browser', onwarn: [Function: onwarn] },
+    ssr: false,
+    emitAssets: true,
+    createEnvironment: [Function: createEnvironment],
+    cssTarget: [ 'chrome111', 'edge111', 'firefox114', 'safari16.4', 'ios16.4' ],
+    cssMinify: true
+  },
+  worker: {
+    format: 'iife',
+    plugins: '() => plugins',
+    rollupOptions: {},
+    rolldownOptions: {}
+  },
+  optimizeDeps: {
+    include: [
+      'react',
+      'react-dom',
+      'react/jsx-dev-runtime',
+      'react/jsx-runtime'
+    ],
+    exclude: [],
+    needsInterop: [],
+    rolldownOptions: {
+      transform: { jsx: { runtime: 'automatic' } },
+      resolve: { symlinks: true },
+      output: { topLevelVar: true }
+    },
+    extensions: [],
+    disabled: undefined,
+    holdUntilCrawlEnd: true,
+    force: false,
+    ignoreOutdatedRequests: false,
+    noDiscovery: false,
+    rollupOptions: [Getter/Setter],
+    esbuildOptions: { preserveSymlinks: false }
+  },
+  oxc: {
+    jsx: {
+      development: true,
+      runtime: 'automatic',
+      importSource: undefined,
+      refresh: false
+    },
+    jsxRefreshInclude: /\.[tj]sx?(?:\?.*)?$/,
+    jsxRefreshExclude: /\/node_modules\//
+  },
+  environments: {
+    client: {
+      input: undefined,
+      define: { __WP03_PREVIEW_BUILD__: 'false' },
+      resolve: {
+        externalConditions: [ 'node', 'module-sync' ],
+        extensions: [
+          '.mjs',  '.js',
+          '.mts',  '.ts',
+          '.jsx',  '.tsx',
+          '.json'
+        ],
+        dedupe: [],
+        noExternal: [],
+        external: [],
+        preserveSymlinks: false,
+        tsconfigPaths: false,
+        alias: [
+          {
+            find: /^\/?@vite\/env/,
+            replacement: '/@fs/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2/node_modules/vite/dist/client/env.mjs'
+          },
+          {
+            find: /^\/?@vite\/client/,
+            replacement: '/@fs/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2/node_modules/vite/dist/client/client.mjs'
+          }
+        ],
+        mainFields: [ 'browser', 'module', 'jsnext:main', 'jsnext' ],
+        conditions: [ 'module', 'browser', 'development|production' ],
+        builtins: []
+      },
+      keepProcessEnv: false,
+      consumer: 'client',
+      optimizeDeps: {
+        include: [
+          'react',
+          'react-dom',
+          'react/jsx-dev-runtime',
+          'react/jsx-runtime'
+        ],
+        exclude: [],
+        needsInterop: [],
+        rolldownOptions: {
+          transform: { jsx: { runtime: 'automatic' } },
+          resolve: { symlinks: true },
+          output: { topLevelVar: true }
+        },
+        extensions: [],
+        disabled: undefined,
+        holdUntilCrawlEnd: true,
+        force: false,
+        ignoreOutdatedRequests: false,
+        noDiscovery: false,
+        rollupOptions: [Getter/Setter],
+        esbuildOptions: { preserveSymlinks: false }
+      },
+      dev: {
+        warmup: [],
+        sourcemap: { js: true },
+        sourcemapIgnoreList: [Function: isInNodeModules],
+        preTransformRequests: true,
+        createEnvironment: [Function: defaultCreateClientDevEnvironment],
+        recoverable: true,
+        moduleRunnerTransform: false
+      },
+      build: {
+        target: [
+          'chrome111',
+          'edge111',
+          'firefox114',
+          'safari16.4',
+          'ios16.4'
+        ],
+        polyfillModulePreload: true,
+        modulePreload: { polyfill: true },
+        outDir: 'web-dist',
+        assetsDir: 'assets',
+        assetsInlineLimit: 4096,
+        sourcemap: false,
+        terserOptions: {},
+        chunkImportMap: false,
+        rolldownOptions: { platform: 'browser', onwarn: [Function: onwarn] },
+        commonjsOptions: { include: [ /node_modules/ ], extensions: [ '.js', '.cjs' ] },
+        dynamicImportVarsOptions: { exclude: [ /node_modules/ ] },
+        write: true,
+        emptyOutDir: true,
+        copyPublicDir: true,
+        license: false,
+        manifest: false,
+        lib: false,
+        ssrManifest: false,
+        ssrEmitAssets: false,
+        reportCompressedSize: true,
+        chunkSizeWarningLimit: 500,
+        watch: null,
+        cssCodeSplit: true,
+        minify: 'oxc',
+        rollupOptions: [Getter/Setter],
+        ssr: false,
+        emitAssets: true,
+        createEnvironment: [Function: createEnvironment],
+        cssTarget: [
+          'chrome111',
+          'edge111',
+          'firefox114',
+          'safari16.4',
+          'ios16.4'
+        ],
+        cssMinify: true
+      },
+      isBundled: true,
+      plugins: [
+        {
+          name: 'vite:watch-package-data',
+          buildStart: [Function: buildStart],
+          buildEnd: [Function: buildEnd],
+          watchChange: [Function: watchChange]
+        },
+        BuiltinPlugin {
+          name: 'builtin:vite-alias',
+          _options: {
+            entries: [
+              {
+                find: /^\/?@vite\/env/,
+                replacement: '/@fs/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2/node_modules/vite/dist/client/env.mjs'
+              },
+              {
+                find: /^\/?@vite\/client/,
+                replacement: '/@fs/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2/node_modules/vite/dist/client/client.mjs'
+              }
+            ]
+          },
+          enforce: undefined
+        },
+        {
+          name: 'vite:react-babel',
+          enforce: 'pre',
+          config: [Function: config],
+          configResolved: [Function: configResolved],
+          options: [Function: options]
+        },
+        {
+          name: 'vite:react-refresh-fbm',
+          enforce: 'pre',
+          transformIndexHtml: { handler: [Function: handler], order: 'pre' }
+        },
+        {
+          name: 'vite:react-refresh',
+          enforce: 'pre',
+          config: [Function: config],
+          resolveId: {
+            filter: { id: /^\/@react\-refresh$/ },
+            handler: [Function: handler]
+          },
+          load: {
+            filter: { id: /^\/@react\-refresh$/ },
+            handler: [Function: handler]
+          },
+          transformIndexHtml: [Function: transformIndexHtml]
+        },
+        BuiltinPlugin {
+          name: 'builtin:vite-module-preload-polyfill',
+          _options: { isServer: false },
+          enforce: undefined
+        },
+        {
+          name: 'vite:resolve-builtin:get-environment',
+          buildStart: [Function: buildStart],
+          perEnvironmentStartEndDuringDev: true
+        },
+        BuiltinPlugin {
+          name: 'builtin:vite-resolve',
+          _options: {
+            tsconfig: undefined,
+            resolveOptions: {
+              isBuild: true,
+              isProduction: false,
+              asSrc: true,
+              preferRelative: false,
+              isRequire: undefined,
+              root: '/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2',
+              scan: false,
+              mainFields: [ 'browser', 'module', 'jsnext:main', 'jsnext', 'main' ],
+              conditions: [ 'module', 'browser', 'development|production' ],
+              externalConditions: [ 'node', 'module-sync' ],
+              extensions: [
+                '.mjs',  '.js',
+                '.mts',  '.ts',
+                '.jsx',  '.tsx',
+                '.json'
+              ],
+              tryIndex: true,
+              tryPrefix: undefined,
+              preserveSymlinks: false,
+              tsconfigPaths: false
+            },
+            environmentConsumer: 'client',
+            environmentName: 'client',
+            builtins: [],
+            external: [],
+            noExternal: [],
+            dedupe: [],
+            disableCache: false,
+            legacyInconsistentCjsInterop: undefined,
+            finalizeBareSpecifier: undefined,
+            finalizeOtherSpecifiers: undefined,
+            resolveSubpathImports: [Function: resolveSubpathImports],
+            yarnPnp: false
+          },
+          enforce: undefined,
+          getOrder: [AsyncFunction: wrappedHook],
+          load: [AsyncFunction: wrappedHook],
+          resolveId: [AsyncFunction: wrappedHook],
+          transform: [AsyncFunction: wrappedHook],
+          watchChange: [AsyncFunction: wrappedHook],
+          perEnvironmentWatchChangeDuringDev: true
+        },
+        {
+          name: 'vite:html-inline-proxy',
+          resolveId: {
+            filter: { id: /[?&]html-proxy\b/ },
+            handler: [Function: handler]
+          },
+          load: {
+            filter: { id: /[?&]html-proxy\b/ },
+            handler: [Function: handler]
+          }
+        },
+        {
+          name: 'vite:css',
+          buildStart: [Function: buildStart],
+          buildEnd: [AsyncFunction: buildEnd],
+          load: {
+            filter: {
+              id: /\.(css|less|sass|scss|styl|stylus|pcss|postcss|sss)(?:$|\?)/
+            },
+            handler: [Function: handler]
+          },
+          transform: {
+            filter: {
+              id: {
+                include: /\.(css|less|sass|scss|styl|stylus|pcss|postcss|sss)(?:$|\?)/,
+                exclude: [
+                  /[?&]commonjs-proxy/,
+                  /[?&](?:worker|sharedworker|raw|url)\b/
+                ]
+              }
+            },
+            handler: [AsyncFunction: handler]
+          }
+        },
+        BuiltinPlugin {
+          name: 'builtin:vite-transform',
+          _options: {
+            root: '/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2',
+            tsconfig: undefined,
+            include: [ /\.(m?ts|[jt]sx)$/ ],
+            exclude: [ /\.js$/ ],
+            jsxRefreshInclude: [ /\.[tj]sx?(?:\?.*)?$/ ],
+            jsxRefreshExclude: [ /\/node_modules\// ],
+            isServerConsumer: false,
+            jsxInject: undefined,
+            transformOptions: {
+              jsx: {
+                development: true,
+                runtime: 'automatic',
+                importSource: undefined,
+                refresh: false
+              },
+              sourcemap: true
+            },
+            yarnPnp: false
+          },
+          enforce: undefined
+        },
+        BuiltinPlugin {
+          name: 'builtin:vite-json',
+          _options: { namedExports: true, stringify: 'auto', minify: true },
+          enforce: undefined,
+          getOrder: [AsyncFunction: wrappedHook],
+          load: [AsyncFunction: wrappedHook],
+          resolveId: [AsyncFunction: wrappedHook],
+          transform: [AsyncFunction: wrappedHook],
+          watchChange: [AsyncFunction: wrappedHook]
+        },
+        {
+          name: 'vite:wasm-helper',
+          resolveId: {
+            filter: { id: /^ vite\/wasm\-helper\.js$/ },
+            handler: [Function: handler]
+          },
+          load: {
+            filter: {
+              id: [
+                /^ vite\/wasm\-helper\.js$/,
+                /(?<![?#].*)\.wasm\?init/,
+                /(?<![?#].*)\.wasm$/,
+                /[?&]vite-wasm-instance(?:&|$)/
+              ]
+            },
+            handler: [AsyncFunction: handler]
+          }
+        },
+        {
+          name: 'vite:worker',
+          buildStart: [Function: buildStart],
+          load: {
+            filter: { id: /(?:\?|&)(worker|sharedworker)(?:&|$)/ },
+            handler: [AsyncFunction: handler]
+          },
+          transform: {
+            filter: { id: /(?:\?|&)worker_file&type=(\w+)(?:&|$)/ },
+            handler: [Function: handler]
+          },
+          generateBundle: [Function: generateBundle],
+          watchChange: [Function: watchChange]
+        },
+        {
+          name: 'vite:asset',
+          perEnvironmentStartEndDuringDev: true,
+          buildStart: [Function: buildStart],
+          resolveId: {
+            filter: {
+              id: [
+                /(\?|&)url(?:&|$)/,
+                /\.(?:apng|bmp|png|jpe?g|jfif|pjpeg|pjp|gif|svg|ico|webp|avif|cur|jxl|mp4|webm|ogg|mp3|wav|flac|aac|opus|mov|m4a|vtt|woff2?|eot|ttf|otf|webmanifest|pdf|txt)(\?.*)?$/i
+              ]
+            },
+            handler: [Function: handler]
+          },
+          load: {
+            filter: {
+              id: {
+                include: [
+                  /(\?|&)raw(?:&|$)/,
+                  /(\?|&)url(?:&|$)/,
+                  /\.(?:apng|bmp|png|jpe?g|jfif|pjpeg|pjp|gif|svg|ico|webp|avif|cur|jxl|mp4|webm|ogg|mp3|wav|flac|aac|opus|mov|m4a|vtt|woff2?|eot|ttf|otf|webmanifest|pdf|txt)(\?.*)?$/i
+                ],
+                exclude: /^\0/
+              }
+            },
+            handler: [AsyncFunction: handler]
+          },
+          resolveFileUrl: [Function: resolveFileUrl],
+          renderChunk: [Function: renderChunk],
+          generateBundle: [Function: generateBundle],
+          watchChange: [Function: watchChange]
+        },
+        {
+          name: 'vite:forward-console',
+          apply: 'serve',
+          configureServer: [Function: configureServer]
+        },
+        {
+          name: 'vite:react-virtual-preamble',
+          resolveId: {
+            order: 'pre',
+            filter: { id: /^@vitejs\/plugin\-react\/preamble$/ },
+            handler: [Function: handler]
+          },
+          load: {
+            filter: { id: /^ @vitejs\/plugin\-react\/preamble$/ },
+            handler: [Function: handler]
+          }
+        },
+        { name: 'vite:define', options: [Function: options] },
+        {
+          name: 'vite:css-post',
+          renderStart: [Function: renderStart],
+          transform: {
+            filter: {
+              id: {
+                include: /\.(css|less|sass|scss|styl|stylus|pcss|postcss|sss)(?:$|\?)/,
+                exclude: [
+                  /[?&]commonjs-proxy/,
+                  /[?&](?:worker|sharedworker|raw|url)\b/
+                ]
+              }
+            },
+            handler: [AsyncFunction: handler]
+          },
+          renderChunk: [AsyncFunction: renderChunk],
+          augmentChunkHash: [Function: augmentChunkHash],
+          generateBundle: [AsyncFunction: generateBundle]
+        },
+        {
+          name: 'vite:build-html',
+          applyToEnvironment: [Function: applyToEnvironment],
+          transform: {
+            filter: { id: /\.html$/ },
+            handler: [AsyncFunction: handler]
+          },
+          generateBundle: [AsyncFunction: generateBundle]
+        },
+        {
+          name: 'vite:worker-import-meta-url',
+          applyToEnvironment: [Function: applyToEnvironment],
+          transform: {
+            filter: {
+              code: /\bnew\s+(?:Worker|SharedWorker)\s*\(\s*(new\s+URL\s*\(\s*('[^']+'|"[^"]+"|`[^`]+`)\s*,\s*import\.meta\.url\s*(?:,\s*)?\))/dg
+            },
+            handler: [AsyncFunction: handler]
+          }
+        },
+        {
+          name: 'vite:asset-import-meta-url',
+          applyToEnvironment: [Function: applyToEnvironment],
+          transform: {
+            filter: {
+              id: {
+                exclude: [
+                  /^ vite\/preload\-helper\.js$/,
+                  /^\/Users\/linte\/Documents\/ChatGPT\/小钱家\-新\/个人财务模型app开发项目 2\/node_modules\/vite\/dist\/client\/client\.mjs$/
+                ]
+              },
+              code: /\bnew\s+URL\s*\(\s*('[^']+'|"[^"]+"|`[^`]+`)\s*,\s*import\.meta\.url\s*(?:,\s*)?\)/dg
+            },
+            handler: [AsyncFunction: handler]
+          }
+        },
+        {
+          name: 'vite:prepare-out-dir',
+          watchChange: [Function: watchChange],
+          renderStart: { order: 'pre', handler: [Function: handler] }
+        },
+        BuiltinPlugin {
+          name: 'builtin:vite-dynamic-import-vars',
+          _options: {
+            include: undefined,
+            exclude: [ /node_modules/ ],
+            resolver: [Function: resolver],
+            sourcemap: false
+          },
+          enforce: undefined
+        },
+        BuiltinPlugin {
+          name: 'builtin:vite-import-glob',
+          _options: {
+            root: '/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2',
+            sourcemap: false,
+            restoreQueryExtension: false
+          },
+          enforce: undefined
+        },
+        {
+          name: 'vite:react:config-post',
+          enforce: 'post',
+          config: [Function: config]
+        },
+        {
+          name: 'vite:build-import-analysis',
+          renderChunk: [Function: renderChunk],
+          generateBundle: [AsyncFunction: generateBundle]
+        },
+        BuiltinPlugin {
+          name: 'builtin:vite-build-import-analysis',
+          _options: {
+            preloadCode: `const scriptRel = 'modulepreload';const assetsURL = function(dep) { return "/"+dep };const seen = {};const isCssPreloadUrl = function isCssPreloadUrl(url) {\n` +
+              '\treturn url.pathname.endsWith(".css");\n' +
+              '};export const __vitePreload = function preload(baseModule, deps, importerUrl) {\n' +
+              '\tlet promise = Promise.resolve();\n' +
+              '\tif (__VITE_IS_MODERN__ && deps && deps.length > 0) {\n' +
+              '\t\tlet preloadedHrefs;\n' +
+              '\t\tconst cspNonceMeta = document.querySelector("meta[property=csp-nonce]");\n' +
+              '\t\tconst cspNonce = cspNonceMeta?.nonce || cspNonceMeta?.getAttribute("nonce");\n' +
+              '\t\tfunction allSettled(promises) {\n' +
+              '\t\t\treturn Promise.all(promises.map((p) => Promise.resolve(p).then((value) => ({\n' +
+              '\t\t\t\tstatus: "fulfilled",\n' +
+              '\t\t\t\tvalue\n' +
+              '\t\t\t}), (reason) => ({\n' +
+              '\t\t\t\tstatus: "rejected",\n' +
+              '\t\t\t\treason\n' +
+              '\t\t\t}))));\n' +
+              '\t\t}\n' +
+              '\t\tfunction importMetaResolve(specifier) {\n' +
+              '\t\t\tif (import.meta.resolve) return new URL(import.meta.resolve(specifier));\n' +
+              '\t\t\treturn new URL(\n' +
+              '\t\t\t\tspecifier,\n' +
+              '\t\t\t\t/** #__KEEP__ */\n' +
+              '\t\t\t\timport.meta.url\n' +
+              '\t\t\t);\n' +
+              '\t\t}\n' +
+              '\t\tpromise = allSettled(deps.map((depString) => {\n' +
+              '\t\t\tdepString = assetsURL(depString, importerUrl);\n' +
+              '\t\t\tconst dep = importMetaResolve(depString);\n' +
+              '\t\t\tif (dep.href in seen) return;\n' +
+              '\t\t\tseen[dep.href] = true;\n' +
+              '\t\t\tconst isCss = isCssPreloadUrl(dep);\n' +
+              '\t\t\tif (preloadedHrefs === void 0) {\n' +
+              '\t\t\t\tpreloadedHrefs = {\n' +
+              '\t\t\t\t\tall: /* @__PURE__ */ new Set(),\n' +
+              '\t\t\t\t\tstyles: /* @__PURE__ */ new Set()\n' +
+              '\t\t\t\t};\n' +
+              '\t\t\t\tconst links = document.getElementsByTagName("link");\n' +
+              '\t\t\t\tfor (let i = links.length - 1; i >= 0; i--) {\n' +
+              '\t\t\t\t\tconst link = links[i];\n' +
+              '\t\t\t\t\tpreloadedHrefs.all.add(link.href);\n' +
+              '\t\t\t\t\tif (link.rel === "stylesheet") preloadedHrefs.styles.add(link.href);\n' +
+              '\t\t\t\t}\n' +
+              '\t\t\t}\n' +
+              '\t\t\tif ((isCss ? preloadedHrefs.styles : preloadedHrefs.all).has(dep.href)) return;\n' +
+              '\t\t\tconst link = document.createElement("link");\n' +
+              '\t\t\tlink.rel = isCss ? "stylesheet" : scriptRel;\n' +
+              '\t\t\tif (!isCss) link.as = "script";\n' +
+              '\t\t\tlink.crossOrigin = "";\n' +
+              '\t\t\tlink.href = dep.href;\n' +
+              '\t\t\tif (cspNonce) link.setAttribute("nonce", cspNonce);\n' +
+              '\t\t\tdocument.head.appendChild(link);\n' +
+              '\t\t\tif (isCss) return new Promise((res, rej) => {\n' +
+              '\t\t\t\tlink.addEventListener("load", res);\n' +
+              '\t\t\t\tlink.addEventListener("error", () => rej(/* @__PURE__ */ new Error(`Unable to preload CSS for ${dep}`)));\n' +
+              '\t\t\t});\n' +
+              '\t\t}).filter((p) => p !== void 0));\n' +
+              '\t}\n' +
+              '\tfunction handlePreloadError(err) {\n' +
+              '\t\tconst e = new Event("vite:preloadError", { cancelable: true });\n' +
+              '\t\te.payload = err;\n' +
+              '\t\twindow.dispatchEvent(e);\n' +
+              '\t\tif (!e.defaultPrevented) throw err;\n' +
+              '\t}\n' +
+              '\treturn promise.then((res) => {\n' +
+              '\t\tfor (const item of res || []) {\n' +
+              '\t\t\tif (item.status !== "rejected") continue;\n' +
+              '\t\t\thandlePreloadError(item.reason);\n' +
+              '\t\t}\n' +
+              '\t\treturn baseModule().catch(handlePreloadError);\n' +
+              '\t});\n' +
+              '}',
+            insertPreload: true,
+            optimizeModulePreloadRelativePaths: false,
+            renderBuiltUrl: false,
+            isRelativeBase: false
+          },
+          enforce: undefined
+        },
+        {
+          name: 'vite:terser',
+          applyToEnvironment: [Function: applyToEnvironment],
+          renderChunk: [AsyncFunction: renderChunk],
+          closeBundle: [Function: closeBundle]
+        },
+        {
+          name: 'vite:license',
+          generateBundle: [Function: generateBundle]
+        },
+        BuiltinPlugin {
+          name: 'builtin:vite-reporter',
+          _options: {
+            root: '/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2',
+            isTty: false,
+            isLib: false,
+            assetsDir: 'assets/',
+            chunkLimit: 500,
+            logInfo: [Function (anonymous)],
+            reportCompressedSize: true,
+            warnLargeChunks: true
+          },
+          enforce: undefined
+        },
+        BuiltinPlugin {
+          name: 'builtin:vite-load-fallback',
+          _options: undefined,
+          enforce: undefined
+        }
+      ],
+      optimizeDepsPluginNames: []
+    }
+  },
+  resolve: {
+    externalConditions: [ 'node', 'module-sync' ],
+    extensions: [
+      '.mjs',  '.js',
+      '.mts',  '.ts',
+      '.jsx',  '.tsx',
+      '.json'
+    ],
+    dedupe: [],
+    noExternal: [],
+    external: [],
+    preserveSymlinks: false,
+    tsconfigPaths: false,
+    alias: [
+      {
+        find: /^\/?@vite\/env/,
+        replacement: '/@fs/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2/node_modules/vite/dist/client/env.mjs'
+      },
+      {
+        find: /^\/?@vite\/client/,
+        replacement: '/@fs/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2/node_modules/vite/dist/client/client.mjs'
+      }
+    ],
+    mainFields: [ 'browser', 'module', 'jsnext:main', 'jsnext' ],
+    conditions: [ 'module', 'browser', 'development|production' ],
+    builtins: []
+  },
+  configFile: '/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2/vite.config.ts',
+  configFileDependencies: [
+    '/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2/vite.config.ts'
+  ],
+  inlineConfig: {
+    root: undefined,
+    base: undefined,
+    mode: undefined,
+    configFile: undefined,
+    configLoader: undefined,
+    logLevel: undefined,
+    clearScreen: undefined,
+    build: { rolldownOptions: undefined, rollupOptions: [Getter/Setter] },
+    worker: { rolldownOptions: undefined, rollupOptions: [Getter/Setter] },
+    optimizeDeps: { rolldownOptions: undefined, rollupOptions: [Getter/Setter] }
+  },
+  root: '/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2',
+  tsconfig: undefined,
+  base: '/',
+  decodedBase: '/',
+  rawBase: '/',
+  publicDir: '/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2/public',
+  cacheDir: '/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2/node_modules/.vite',
+  command: 'build',
+  mode: 'production',
+  isWorker: false,
+  mainConfig: null,
+  bundleChain: [],
+  isProduction: false,
+  css: {
+    transformer: 'postcss',
+    preprocessorMaxWorkers: true,
+    devSourcemap: false
+  },
+  json: { namedExports: true, stringify: 'auto' },
+  esbuild: { jsxDev: true, charset: 'utf8', legalComments: 'none' },
+  builder: undefined,
+  preview: {
+    port: 4173,
+    strictPort: true,
+    host: undefined,
+    allowedHosts: [],
+    https: undefined,
+    open: false,
+    proxy: undefined,
+    cors: {
+      origin: /^https?:\/\/(?:(?:[^:]+\.)?localhost|127\.0\.0\.1|\[::1\])(?::\d+)?$/
+    },
+    headers: {}
+  },
+  envDir: '/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2',
+  env: {
+    VITE_M0_LAB: '1',
+    BASE_URL: '/',
+    MODE: 'production',
+    DEV: true,
+    PROD: false
+  },
+  assetsInclude: [Function: assetsInclude],
+  rawAssetsInclude: [],
+  logger: {
+    hasWarned: false,
+    info: [Function: info],
+    warn: [Function: warn],
+    warnOnce: [Function: warnOnce],
+    error: [Function: error],
+    clearScreen: [Function: clearScreen],
+    hasErrorLogged: [Function: hasErrorLogged]
+  },
+  packageCache: Map(1) {
+    'fnpd_/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2' => {
+      dir: '/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2',
+      data: {
+        name: 'personal-finance-console',
+        version: '0.1.0',
+        description: 'Pure TypeScript financial model core for Personal Finance Console',
+        private: true,
+        engines: { node: '>=22.3.0' },
+        type: 'module',
+        scripts: {
+          lint: 'biome check src tests',
+          typecheck: 'tsc --noEmit',
+          test: 'vitest run',
+          'test:product': 'vitest run tests',
+          'test:wp03-preview': 'python3 -m unittest discover -s scripts -p test_wp03_preview_packaging.py -v',
+          'test:release-gate': 'python3 -m unittest scripts/test_production_v4_release_gate.py -v',
+          build: 'npm run build:core && npm run build:web',
+          'build:core': 'tsc -p tsconfig.build.json',
+          'build:web': 'vite build',
+          dev: 'vite --host 127.0.0.1',
+          tauri: 'tauri',
+          'tauri:dev': 'tauri dev --config src-tauri/tauri.smoke.conf.json',
+          'tauri:dev:smoke': 'tauri dev --config src-tauri/tauri.smoke.conf.json',
+          'tauri:build': 'tauri build --config src-tauri/tauri.smoke.conf.json',
+          'tauri:build:smoke': 'tauri build --config src-tauri/tauri.smoke.conf.json',
+          'tauri:dev:production': 'tauri dev --config src-tauri/tauri.conf.json',
+          'tauri:build:production': 'tauri build --config src-tauri/tauri.conf.json',
+          'build:v4acceptance': 'vite build --config vite.v4acceptance.config.ts',
+          'tauri:build:v4acceptance': 'CARGO_TARGET_DIR="$(pwd)/artifacts/v012-v4-owner-acceptance-sandbox-20261007/cargo-target" tauri build --features tauri/custom-protocol,v4-acceptance --config src-tauri/tauri.v4acceptance.conf.json',
+          'tauri:build:wp03-preview': 'python3 scripts/build_wp03_product_preview.py'
+        },
+        keywords: [],
+        author: '',
+        license: 'ISC',
+        dependencies: {
+          '@tauri-apps/api': '^2.12.1',
+          '@tauri-apps/plugin-haptics': '^2.4.2',
+          '@tauri-apps/plugin-notification': '^2.8.0',
+          'decimal.js': '^10.6.0',
+          'lucide-react': '^1.57.0',
+          react: '^19.3.0',
+          'react-dom': '^19.3.0'
+        },
+        devDependencies: {
+          '@biomejs/biome': '^2.5.15',
+          '@tauri-apps/cli': '^2.12.3',
+          '@testing-library/react': '^16.3.3',
+          '@testing-library/user-event': '^14.6.7',
+          '@types/node': '^26.6.4',
+          '@types/react': '^19.3.0',
+          '@types/react-dom': '^19.3.0',
+          '@vitejs/plugin-react': '^6.1.1',
+          'happy-dom': '^20.14.5',
+          typescript: '^7.0.2',
+          vite: '^8.3.2',
+          vitest: '^5.0.5'
+        }
+      },
+      hasSideEffects: [Function: hasSideEffects],
+      setResolvedCache: [Function: setResolvedCache],
+      getResolvedCache: [Function: getResolvedCache]
+    },
+    set: [Function (anonymous)]
+  },
+  appType: 'spa',
+  experimental: {
+    importGlobRestoreExtension: false,
+    renderBuiltUrl: undefined,
+    hmrPartialAccept: false,
+    bundledDev: false
+  },
+  future: undefined,
+  ssr: {
+    target: 'node',
+    optimizeDeps: { esbuildOptions: { preserveSymlinks: false } },
+    resolve: { conditions: undefined, externalConditions: undefined }
+  },
+  input: undefined,
+  dev: {
+    warmup: [],
+    sourcemap: { js: true },
+    sourcemapIgnoreList: [Function: isInNodeModules],
+    preTransformRequests: false,
+    createEnvironment: [Function: defaultCreateDevEnvironment],
+    recoverable: false,
+    moduleRunnerTransform: false
+  },
+  devtools: false,
+  webSocketToken: 'c2Pc_AhwkNp8',
+  getSortedPlugins: [Function: getSortedPlugins],
+  getSortedPluginHooks: [Function: getSortedPluginHooks],
+  createResolver: [Function: createResolver],
+  fsDenyGlob: [Function: arrayMatcher],
+  safeModulePaths: Set(0) {},
+  Symbol(vite:resolved-config): true
+}
+vite v8.3.2 building client environment for production...
+transforming...

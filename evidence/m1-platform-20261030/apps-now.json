@@ -1,0 +1,46 @@
+{
+  "info" : {
+    "arguments" : [
+      "devicectl",
+      "device",
+      "info",
+      "apps",
+      "--device",
+      "00008140-001C55E91A40801C",
+      "--search",
+      "com.personalfinance.console.smoke",
+      "--json-output",
+      "evidence/m1-platform-20261030/apps-now.json"
+    ],
+    "commandType" : "devicectl.device.info.apps",
+    "environment" : {
+
+    },
+    "jsonVersion" : 5,
+    "outcome" : "success",
+    "version" : "642.16"
+  },
+  "result" : {
+    "apps" : [
+      {
+        "appClip" : false,
+        "builtByDeveloper" : true,
+        "bundleIdentifier" : "com.personalfinance.console.smoke",
+        "bundleVersion" : "0.1.0",
+        "containerAccessible" : true,
+        "defaultApp" : false,
+        "hidden" : false,
+        "internalApp" : false,
+        "name" : "小钱家",
+        "removable" : true,
+        "url" : "file:///private/var/containers/Bundle/Application/CCB78CA8-0BAC-45B1-A23E-5156041E74C6/%E5%B0%8F%E9%92%B1%E5%AE%B6.app/",
+        "version" : "0.1.0"
+      }
+    ],
+    "defaultAppsIncluded" : false,
+    "deviceIdentifier" : "2ACFC9A6-9BB5-5A45-B729-398BEF3A0483",
+    "hiddenAppsIncluded" : false,
+    "internalAppsIncluded" : false,
+    "removableAppsIncluded" : true
+  }
+}

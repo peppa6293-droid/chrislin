@@ -1,0 +1,6 @@
+A0 before expense: cash=12000
+A1 after 2000 spent: cash=12000 spending=2000 cashCoverage=3.4013
+A2 cash snapshot rows: [{"balance":"12000","as_of_date":"2026-10-30"}]
+B no debts entered: core=3528 base=9472 gap=9168 recommended=2000 desired=2000 cash=12000 cashCov=3.4013 status=NORMAL gate=CLEAR
+B with the 5 real-looking debts: core=18046.73 base=-5046.73 gap=96280.38 recommended=0 desired=2000 cash=12000 cashCov=0.6649 status=STRUCTURAL_DEFICIT gate=ACTIVE
+C no essentials entered: core=0 base=13000 gap=0 recommended=2000 desired=2000 cash=12000 cashCov=undefined status=NORMAL gate=NOT_APPLICABLE

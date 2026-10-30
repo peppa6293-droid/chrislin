@@ -1,0 +1,2 @@
+model: status=BALANCED_NO_SURPLUS recommended=0 spent=300 aboveRecommendation=300 remaining=0
+screen line: 本月建议额度 ¥0.00 | spent shown: true

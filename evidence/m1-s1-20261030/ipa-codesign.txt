@@ -1,0 +1,2 @@
+Identifier=com.personalfinance.console.smoke
+TeamIdentifier=SSRKA7A4TN

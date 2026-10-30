@@ -1,0 +1,11 @@
+$ RUBYOPT=-r/tmp/ruby_sdk_patch.rb gem install --user-install ffi -v 1.15.5 --no-document
+WARNING:  You don't have /Users/linte/.gem/ruby/2.6.0/bin in your PATH,
+	  gem executables will not run.
+Building native extensions. This could take a while...
+Successfully installed ffi-1.15.5
+1 gem installed
+EXIT=0
+
+$ gem list ffi
+ffi (1.15.5)
+public_suffix (4.0.7)

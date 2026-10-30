@@ -1,0 +1,155 @@
+$ ls -l /Users/linte/Downloads/xcodegen.zip
+-rw-r--r--@ 1 linte  staff  4278764 Oct 29 19:57 /Users/linte/Downloads/xcodegen.zip
+
+$ file /Users/linte/Downloads/xcodegen.zip
+/Users/linte/Downloads/xcodegen.zip: Zip archive data, at least v1.0 to extract, compression method=store
+
+$ shasum -a 256 /Users/linte/Downloads/xcodegen.zip
+4d9e34b62172d645eed6457cac13fc222569974098ef4ee9c3368bedf0196806  /Users/linte/Downloads/xcodegen.zip
+
+$ unzip -l /Users/linte/Downloads/xcodegen.zip
+Archive:  /Users/linte/Downloads/xcodegen.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  07-16-2026 14:27   xcodegen/
+     1067  07-16-2026 14:27   xcodegen/LICENSE
+        0  07-16-2026 14:27   xcodegen/bin/
+ 14229032  07-16-2026 14:27   xcodegen/bin/xcodegen
+      350  07-16-2026 14:27   xcodegen/install.sh
+        0  07-16-2026 14:27   xcodegen/share/
+        0  07-16-2026 14:27   xcodegen/share/xcodegen/
+        0  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/
+        0  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/Platforms/
+      118  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/Platforms/tvOS.yml
+      113  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/Platforms/visionOS.yml
+      120  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/Platforms/macOS.yml
+      121  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/Platforms/iOS.yml
+       63  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/Platforms/watchOS.yml
+        0  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/Products/
+      128  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/Products/bundle.ui-testing.yml
+      128  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/Products/bundle.unit-test.yml
+      265  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/Products/framework.yml
+      153  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/Products/app-extension.intents-service.yml
+       20  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/Products/library.static.yml
+      265  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/Products/framework.static.yml
+      130  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/Products/tv-app-extension.yml
+      164  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/Products/watchkit2-extension.yml
+      110  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/Products/app-extension.yml
+      164  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/Products/app-extension.messages.yml
+     1716  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/base.yml
+        0  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/Product_Platform/
+       81  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/Product_Platform/application_iOS.yml
+      115  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/Product_Platform/application_tvOS.yml
+      106  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/Product_Platform/bundle.unit-test_macOS.yml
+      119  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/Product_Platform/app-extension_macOS.yml
+       44  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/Product_Platform/application_watchOS.yml
+       44  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/Product_Platform/application_visionOS.yml
+       44  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/Product_Platform/application_macOS.yml
+        0  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/SupportedDestinations/
+       76  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/SupportedDestinations/tvOS.yml
+       68  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/SupportedDestinations/macCatalyst.yml
+      107  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/SupportedDestinations/visionOS.yml
+       95  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/SupportedDestinations/macOS.yml
+      186  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/SupportedDestinations/iOS.yml
+       72  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/SupportedDestinations/watchOS.yml
+        0  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/Configs/
+      374  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/Configs/release.yml
+      517  07-16-2026 14:27   xcodegen/share/xcodegen/SettingPresets/Configs/debug.yml
+---------                     -------
+ 14236275                     44 files
+
+$ rm -rf /tmp/xcodegen-extract && mkdir -p /tmp/xcodegen-extract
+
+$ unzip -q /Users/linte/Downloads/xcodegen.zip -d /tmp/xcodegen-extract
+UNZIP_EXIT=0
+
+$ find /tmp/xcodegen-extract -maxdepth 4 -print | sort
+/tmp/xcodegen-extract
+/tmp/xcodegen-extract/xcodegen
+/tmp/xcodegen-extract/xcodegen/LICENSE
+/tmp/xcodegen-extract/xcodegen/bin
+/tmp/xcodegen-extract/xcodegen/bin/xcodegen
+/tmp/xcodegen-extract/xcodegen/install.sh
+/tmp/xcodegen-extract/xcodegen/share
+/tmp/xcodegen-extract/xcodegen/share/xcodegen
+/tmp/xcodegen-extract/xcodegen/share/xcodegen/SettingPresets
+$ cat /tmp/xcodegen-extract/xcodegen/install.sh
+#!/bin/bash
+#
+# name:
+#   install.sh
+#
+# description:
+#   Install XcodeGen to /usr/local
+#
+#     - /usr/local/bin/xcodegen
+#     - /usr/local/share/xcodegen/SettingPresets
+#
+# parameters:
+#   - 1: install location
+
+PREFIX=${PREFIX:-${1:-/usr/local}}
+BASE_DIR=$(cd `dirname $0`; pwd)
+
+cp -r $BASE_DIR/share "${PREFIX}"
+cp -r $BASE_DIR/bin "${PREFIX}"
+
+$ file /tmp/xcodegen-extract/xcodegen/bin/xcodegen
+/tmp/xcodegen-extract/xcodegen/bin/xcodegen: Mach-O universal binary with 2 architectures: [x86_64:Mach-O 64-bit executable x86_64] [arm64]
+/tmp/xcodegen-extract/xcodegen/bin/xcodegen (for architecture x86_64):	Mach-O 64-bit executable x86_64
+/tmp/xcodegen-extract/xcodegen/bin/xcodegen (for architecture arm64):	Mach-O 64-bit executable arm64
+
+$ lipo -archs /tmp/xcodegen-extract/xcodegen/bin/xcodegen
+x86_64 arm64
+
+$ codesign -dv --verbose=2 /tmp/xcodegen-extract/xcodegen/bin/xcodegen
+Executable=/private/tmp/xcodegen-extract/xcodegen/bin/xcodegen
+Identifier=xcodegen
+Format=Mach-O universal (x86_64 arm64)
+CodeDirectory v=20400 size=54401 flags=0x20002(adhoc,linker-signed) hashes=1697+0 location=embedded
+Signature=adhoc
+Info.plist=not bound
+TeamIdentifier=not set
+Sealed Resources=none
+Internal requirements=none
+$ xattr -l /Users/linte/Downloads/xcodegen.zip
+com.apple.macl: 
+com.apple.metadata:kMDItemWhereFroms: bplist00¢_‡https://release-assets.githubusercontent.com/github-production-release-asset/97716052/c7df966f-7ebd-4fd0-a54d-844b38f75454?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-10-29T12%3A53%3A42Z&rscd=attachment%3B+filename%3Dxcodegen.zip&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-10-29T11%3A53%3A37Z&ske=2026-10-29T12%3A53%3A42Z&sks=b&skv=2018-11-09&sig=OlzK%2Bfh83B4jrZPk8f0XpABlma7FYLUn6td59p6nDWc%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5MzI3NTMzNCwibmJmIjoxNzkzMjc1MDM0LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.262kXqVUCVUXf1zsIzntc0aeQxcusKC-54lu4unYBlw&response-content-disposition=attachment%3B%20filename%3Dxcodegen.zip&response-content-type=application%2Foctet-stream_9https://github.com/yonaskolb/XcodeGen/releases/tag/2.46.0
+com.apple.provenance: 
+com.apple.quarantine: 0281;6ae334c9;Chrome;4C19D3DE-511A-43C3-AD13-7D418B6026EC
+
+$ xattr -l /tmp/xcodegen-extract/xcodegen/bin/xcodegen
+com.apple.provenance: 
+com.apple.quarantine: 0281;6ae334e8;;4C19D3DE-511A-43C3-AD13-7D418B6026EC
+
+$ rmdir ~/.local/share/xcodegen
+RMDIR_EXIT=0
+
+$ mv /tmp/xcodegen-extract/xcodegen ~/.local/share/xcodegen
+MV_EXIT=0
+
+$ ln -sf ~/.local/share/xcodegen/bin/xcodegen ~/.local/bin/xcodegen
+LN_EXIT=0
+lrwxr-xr-x@ 1 linte  staff  47 Oct 29 19:58 /Users/linte/.local/bin/xcodegen -> /Users/linte/.local/share/xcodegen/bin/xcodegen
+
+$ export PATH="$HOME/.local/bin:$PATH"
+$ command -v xcodegen
+/Users/linte/.local/bin/xcodegen
+$ xcodegen --version
+bash: line 1:  6007 Killed: 9               xcodegen --version
+XCODEGEN_EXIT=137
+$ spctl -a -vv ~/.local/share/xcodegen/bin/xcodegen
+/Users/linte/.local/share/xcodegen/bin/xcodegen: rejected
+source=no usable signature
+SPCTL_EXIT=3
+
+$ log show --last 3m --style compact --predicate ...
+Timestamp               Ty Process[PID:TID]
+2026-10-29 19:58:44.187 Df syspolicyd[482:fc6439] [com.apple.securityd:gk] temporarySigning type=1 matchFlags=0x0 path=/Users/linte/.local/share/xcodegen/bin/xcodegen
+2026-10-29 19:58:44.375 Df syspolicyd[482:fc6439] [com.apple.syspolicy.exec:default] GK evaluateScanResult: 1, PST: (path: a2a1074a048735c5), (team: (null)), (id: xcodegen), (bundle_id: NOT_A_BUNDLE), 1, 0, 1, 0, 7, 7, 0
+2026-10-29 19:58:44.376 Df syspolicyd[482:fc6439] [com.apple.syspolicy.exec:default] Prompt shown (8, 0), waiting for response: PST: (path: a2a1074a048735c5), (team: (null)), (id: xcodegen), (bundle_id: NOT_A_BUNDLE)
+2026-10-29 19:58:47.462 Df syspolicyd[482:fc6439] [com.apple.syspolicy.exec:default] Adding Gatekeeper denial breadcrumb (direct): PST: (path: a2a1074a048735c5), (team: (null)), (id: xcodegen), (bundle_id: NOT_A_BUNDLE)
+2026-10-29 19:58:47.491 Df syspolicyd[482:fc6439] [com.apple.syspolicy.exec:default] Found provenance data on target: TA(4187979412c59918, 2), PST: (path: a2a1074a048735c5), (team: (null)), (id: xcodegen), (bundle_id: NOT_A_BUNDLE)
+2026-10-29 19:58:47.491 Df syspolicyd[482:fc6439] [com.apple.syspolicy.exec:default] Created provenance data for target: TA(4187979412c59918, 2), PST: (path: a2a1074a048735c5), (team: (null)), (id: xcodegen), (bundle_id: NOT_A_BUNDLE)
+2026-10-29 19:58:55.083 Df syspolicyd[482:fc65cd] [com.apple.securityd:gk] temporarySigning type=1 matchFlags=0x0 path=/Users/linte/.local/share/xcodegen/bin/xcodegen
+2026-10-29 19:58:55.101 Df log[6032:fc67b2] [com.apple.log:] log run noninteractively, parent: 6029 (bash), args: 'log' 'show' '--last' '3m' '--style' 'compact' '--predicate' 'eventMessage CONTAINS[c] "xcodegen" OR process == "xcodegen"'

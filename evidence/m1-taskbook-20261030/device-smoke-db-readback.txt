@@ -1,0 +1,7 @@
+== sha256
+74b02ea1d65388eb268b83fc49509bd6e842a52c10620d4eb727fa4049e0c431  /Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2/evidence/m1-taskbook-20261030/device-smoke-m0-db-copy-20261030.sqlite3
+== user_version / tables / rows
+0
+m0_spike
+sqlite_sequence
+2

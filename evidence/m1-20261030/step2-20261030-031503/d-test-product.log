@@ -1,0 +1,8 @@
+ [32m✓[39m tests/v2-ui/trends.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m tests/v2-ui/dashboard.test.tsx [2m([22m[2m13 tests[22m[2m)[22m[32m 37[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m56 passed[39m[22m[90m (56)[39m
+[2m      Tests [22m [1m[32m570 passed[39m[22m[2m | [22m[33m44 skipped[39m[90m (614)[39m
+[2m   Start at [22m 03:16:39
+[2m   Duration [22m 167.32s[2m (import 64%, environment 33%, transform 1%, tests 1%)[22m
+

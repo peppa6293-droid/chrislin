@@ -1,0 +1,14 @@
+ PROJECT-STATE.md                                   |  25 ++
+ WORKLOG.md                                         |  74 ++++
+ src-tauri/Cargo.lock                               |   3 +-
+ src-tauri/Cargo.toml                               |   2 +
+ .../ios/Sources/Notification.swift                 |   2 +
+ .../ios/Sources/NotificationHandler.swift          |   4 +
+ .../ios/Sources/NotificationManager.swift          |   7 +
+ .../ios/Sources/NotificationPlugin.swift           |   2 +
+ src-tauri/tauri.m0lab.conf.json                    |   6 -
+ src/lab/M0Lab.tsx                                  | 424 ---------------------
+ src/main.tsx                                       |   5 +-
+ src/ui/m0-lab.css                                  | 275 -------------
+ src/ui/v2-tokens.css                               |  25 --
+ 13 files changed, 118 insertions(+), 736 deletions(-)

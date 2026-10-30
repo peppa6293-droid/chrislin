@@ -1,0 +1,63 @@
+[package]
+name = "personal-finance-console"
+version = "0.1.0"
+description = "Personal Finance Console local desktop foundation"
+authors = ["Codex"]
+edition = "2021"
+rust-version = "1.90"
+default-run = "personal-finance-console"
+
+[features]
+v4-acceptance = []
+wp02-preview = []
+wp03-preview = []
+quiescence-fixture = []
+quiescence-tauri = ["quiescence-fixture", "tauri/custom-protocol"]
+wp04-r2b-synthetic = []
+wp04-r2b-recovery-test-hooks = ["wp04-r2b-synthetic"]
+wp04-r2c3a-startup-exclusion-test-hooks = ["wp04-r2b-recovery-test-hooks"]
+
+[[bin]]
+name = "quiescence-tauri"
+path = "src/bin/quiescence_tauri.rs"
+required-features = ["quiescence-tauri"]
+
+[[bin]]
+name = "quiescence-fixture"
+path = "src/bin/quiescence_fixture.rs"
+required-features = ["quiescence-fixture"]
+
+[[bin]]
+name = "quiescence-old-runtime"
+path = "src/bin/quiescence_old_runtime.rs"
+required-features = ["quiescence-fixture"]
+
+[[bin]]
+name = "quiescence_competitor"
+path = "src/bin/quiescence_competitor.rs"
+required-features = ["quiescence-fixture"]
+
+[lib]
+name = "personal_finance_console_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+rusqlite = { version = "0.37", features = ["bundled", "hooks"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"
+libc = "0.2"
+plist = "=1.10.1"
+tauri = { version = "2", features = [] }
+tauri-plugin-notification = "2"
+
+[target.'cfg(any(target_os = "android", target_os = "ios"))'.dependencies]
+tauri-plugin-haptics = "2"
+
+[patch.crates-io]
+tauri-runtime-wry = { path = "patches/tauri-runtime-wry" }
+tauri-plugin-notification = { path = "patches/tauri-plugin-notification" }
+

@@ -1,0 +1,22 @@
+$ npx tauri ios init --ci --skip-targets-install
+/Users/linte/.local/bin/xcodegen
+        Info package `libimobiledevice` not found
+        Info Installing `libimobiledevice` with brew...
+failed to run command pod install: Failed to install `libimobiledevice`: No such file or directory (os error 2)
+       Error failed to run command pod install: Failed to install `libimobiledevice`: No such file or directory (os error 2)
+EXIT=1
+$ command -v ideviceinfo idevice_id
+ideviceinfo: MISSING
+idevice_id: MISSING
+
+$ ls -la src-tauri/gen/apple
+ls: src-tauri/gen/apple: No such file or directory
+LS_EXIT=1
+
+$ git status --short --branch
+## feat/mobile
+ M WORKLOG.md
+?? evidence/m0-20261029/
+?? evidence/wp-ui-visual-01/p1-p4/interaction-i01-batch-a-review-20261029/
+?? evidence/wp-ui-visual-01/p1-p4/r1-20261029/review-bprime-default-20261029/
+?? evidence/wp-ui-visual-01/p1-p4/r1-20261029/review-bprime-recheck-20261029/

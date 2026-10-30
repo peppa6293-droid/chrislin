@@ -1,0 +1,8 @@
+v2_only=0
+legacy_only=0
+v2_rows=3
+legacy_rows=3
+sum_v2=129.3
+integrity=ok
+profiles=1
+cash_snap=30000

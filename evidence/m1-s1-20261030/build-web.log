@@ -1,0 +1,19 @@
+
+> personal-finance-console@0.1.0 build:web
+> vite build
+
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2008 modules transformed.
+rendering chunks...
+computing gzip size...
+web-dist/index.html                   0.39 kB │ gzip:   0.28 kB
+web-dist/assets/index-CV3uXzVN.css  145.94 kB │ gzip:  28.44 kB
+web-dist/assets/index-Brga5wez.js   634.54 kB │ gzip: 177.98 kB
+
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 212ms

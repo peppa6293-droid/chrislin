@@ -1,0 +1,6 @@
+LAUNCH_CONFIRMED foreground-stdout
+PID    Executable Path                                                                            
+----   -------------------------------------------------------------------------------------------
+1036   /private/var/containers/Bundle/Application/A986E7EA-8DC4-4114-AB10-85E776D73222/小钱家.app/小钱家
+
+OBSERVATION_SECONDS 95.4 console_exit None

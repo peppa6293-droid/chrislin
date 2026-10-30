@@ -1,0 +1,10 @@
+{
+  "src-tauri/patches/tauri-plugin-notification/ios/Sources/NotificationManager.swift": "cd1484fa9ebeae0361596ea0efcc3c5faeead91cf00fe63652ad7e0a448102e2",
+  "src-tauri/patches/tauri-plugin-notification/ios/Sources/Notification.swift": "52e25a64b23da2d02261f475ac975bbef81fa43e09b21447da8f5b329635fa5c",
+  "src-tauri/patches/tauri-plugin-notification/ios/Sources/NotificationCategory.swift": "1e3f959c14ca25e3687efd727a52d02a777705a440fbe0ae233bece421629d97",
+  "src-tauri/patches/tauri-plugin-notification/ios/Sources/NotificationPlugin.swift": "858451e3c1e43a695874b5e7004c8bc20c8b0767f82b404b1d5f5141b0d6aa68",
+  "src-tauri/patches/tauri-plugin-notification/ios/Sources/NotificationHandler.swift": "6d232592813930ce0d1362f690a0612cef4f3a284ce62ffb0f001e1042580b7d",
+  "src-tauri/gen/apple/personal-finance-console.xcodeproj/project.pbxproj": "1e934546d5a77acab0fbb319fe19e7366758b53161cf6e3e4ea8f374303f0d87",
+  "src-tauri/tauri.smoke.conf.json": "0aeebb9fb48fbdb1ff6329501a487612ccaecdf052c320d50f3cdda7d263339c",
+  "src/lab/M0Lab.tsx": "05e80287d3f14c86812dac1a4b107a9a40ad661ba7673840c2344d29f7ecdd4c"
+}

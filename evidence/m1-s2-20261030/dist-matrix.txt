@@ -1,0 +1,3 @@
+unset build_exit=0 files=3 js=1 lab_hit_files=0 dist_hash=0087cc7804a3f34f
+VITE_M0_LAB=1 build_exit=0 files=3 js=1 lab_hit_files=0 dist_hash=0087cc7804a3f34f
+VITE_M0_LAB=true build_exit=0 files=3 js=1 lab_hit_files=0 dist_hash=0087cc7804a3f34f

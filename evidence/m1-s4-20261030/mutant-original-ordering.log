@@ -1,0 +1,39 @@
+
+ RUN  v5.0.5 /Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2
+
+ ❯ tests/m1-record-expense.test.ts (24 tests | 1 failed) 87ms
+   ❯ M1 record one expense: amount, category, note, date (24)
+     × recent list: newest business date first, then newest entered, at most 3 9ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/m1-record-expense.test.ts > M1 record one expense: amount, category, note, date > recent list: newest business date first, then newest entered, at most 3
+AssertionError: expected [ '1', '2', '3' ] to deeply equal [ '4', '3', '2' ]
+
+- Expected
++ Received
+
+  [
+-   "4",
+-   "3",
++   "1",
+    "2",
++   "3",
+  ]
+
+ ❯ tests/m1-record-expense.test.ts:155:65
+    153|     await record(exp("3", today));
+    154|     await record(exp("4", today));
+    155|     expect((await home()).recentExpenses?.map((r) => r.amount)).toEqua…
+       |                                                                 ^
+    156|     await record(exp("9", "2026-10-02"));
+    157|     expect((await home()).recentExpenses?.map((r) => r.amount)).toEqua…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 23 passed (24)
+   Start at  03:46:58
+   Duration  181ms (tests 67%, transform 18%, import 14%, worker 1%)
+

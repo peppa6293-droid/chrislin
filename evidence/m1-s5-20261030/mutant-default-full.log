@@ -1,0 +1,2525 @@
+
+ RUN  v5.0.5 /Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2
+
+ ❯ tests/m1-home.test.tsx (9 tests | 9 failed) 9136ms
+   ❯ M1 home shows only spending against target and recent records (9)
+     × empty month: ¥0.00 spent, full recommended amount left, no records, no NaN 1030ms
+     × contains none of the excluded modules and exposes no navigation 1008ms
+     × never shows total debt as zero or any asset total 1010ms
+     × after saving, spent and remaining move by the amount and the record is listed first 1013ms
+     × shows at most the latest three records 1010ms
+     × overspending shows the amount above the recommendation, not a negative remainder 1011ms
+     × a recommendation of zero shows a clear line, no percentage, no NaN 1017ms
+     × the recommendation can be lower than the user's own target and both are shown 1017ms
+     × month boundary: an entry dated next month does not change this month's total 1017ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 9 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/m1-home.test.tsx > M1 home shows only spending against target and recent records > empty month: ¥0.00 spent, full recommended amount left, no records, no NaN
+TestingLibraryElementError: Unable to find an element by: [data-testid="m1-home"]
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<main[39m
+      [33mclass[39m=[32m"v2-shell"[39m
+      [33mdata-testid[39m=[32m"v2-home"[39m
+    [36m>[39m
+      [36m<header[39m
+        [33mclass[39m=[32m"v2-topbar"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"返回今天首页"[39m
+          [33mclass[39m=[32m"v2-brand"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-brand-mark"[39m
+          [36m>[39m
+            [36m<img[39m
+              [33malt[39m=[32m""[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mdata-brand-logo[39m=[32m"brand-wallet-sprout"[39m
+              [33mdraggable[39m=[32m"false"[39m
+              [33msrc[39m=[32m"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20128%20128'%20fill='none'%3e%3ctitle%3e小钱家钱包与嫩芽%3c/title%3e%3cdefs%3e%3clinearGradient%20id='wallet'%20x1='28'%20y1='42'%20x2='98'%20y2='111'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%2375D5A1'/%3e%3cstop%20offset='1'%20stop-color='%232C9D70'/%3e%3c/linearGradient%3e%3clinearGradient%20id='flap'%20x1='34'%20y1='44'%20x2='91'%20y2='78'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%23A9E6B6'/%3e%3cstop%20offset='1'%20stop-color='%2356BE88'/%3e%3c/linearGradient%3e%3cfilter%20id='shadow'%20x='12'%20y='14'%20width='106'%20height='110'%20color-interpolation-filters='sRGB'%20filterUnits='userSpaceOnUse'%3e%3cfeGaussianBlur%20stdDeviation='4'/%3e%3c/filter%3e%3c/defs%3e%3cellipse%20cx='65'%20cy='111'%20fill='%23285C48'%20fill-opacity='.13'%20filter='url(%23shadow)'%20rx='43'%20ry='7'/%3e%3cpath%20d='M63%2052c-2-13%203-22%2012-29'%20stroke='%233D9862'%20stroke-linecap='round'%20stroke-width='5'/%3e%3cpath%20d='M69%2036c-14%202-23-4-25-15%2013-4%2025%202%2025%2015Z'%20fill='%2377C879'/%3e%3cpath%20d='M71%2031c0-14%208-23%2020-24%203%2013-5%2023-20%2024Z'%20fill='%234FAE68'/%3e%3cpath%20d='M25%2052c0-6%205-11%2011-11h55c7%200%2012%205%2012%2012v44c0%208-6%2014-14%2014H39c-8%200-14-6-14-14V52Z'%20fill='url(%23wallet)'/%3e%3cpath%20d='M27%2057c0-7%205-12%2012-12h44c9%200%2015%206%2015%2015v7H27v-10Z'%20fill='url(%23flap)'/%3e%3cpath%20d='M31%2065h65'%20stroke='%23D5F2D7'%20stroke-opacity='.75'%20stroke-width='3'/%3e%3cpath%20d='M79%2078h25c7%200%2011%204%2011%2010v5c0%206-4%2010-11%2010H80c-6%200-10-5-10-12s4-13%209-13Z'%20fill='%23258A62'/%3e%3ccircle%20cx='91'%20cy='90'%20r='3.5'%20fill='%23DFF5C8'/%3e%3cpath%20d='M38%2078h20'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.8'%20stroke-width='4'/%3e%3cpath%20d='M38%2087h13'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.55'%20stroke-width='4'/%3e%3c/svg%3e"[39m
+            [36m/>[39m
+          [36m</span>[39m
+          [36m<div>[39m
+            [36m<strong>[39m
+              [0m小钱家[0m
+            [36m</strong>[39m
+            [36m<span>[39m
+              [0m本地账本[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</button>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"v2-topbar-actions"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"v2-period"[39m
+          [36m>[39m
+            [0m2026 年 10 月[0m
+          [36m</span>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"button button-secondary v2-top-record"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-plus"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"17"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"17"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M5 12h14"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M12 5v14"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [36m<span>[39m
+              [0m记一笔[0m
+            [36m</span>[39m
+          [36m</button>[39m
+          [36m<button[39m
+            [33maria-label[39m=[32m"更新财务数据"[39m
+            [33mclass[39m=[32m"icon-button"[39m
+            [33mtitle[39m=[32m"更新财务数据"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-settings-2"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"18"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M14 17H5"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M19 7h-9"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"17"[39m
+                [33mcy[39m=[32m"17"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"7"[39m
+                [33mcy[39m=[32m"7"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</header>[39m
+      [36m<nav[39m
+        [33maria-label[39m=[32m"主导航"[39m
+        [33mclass[39m=[32m"v2-primary-nav"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-current[39m=[32m"page"[39m
+          [33mclass[39m=[32m"v2-nav-button is-active"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-nav-icon"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-house lucide-home"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstr...
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<main[39m
+      [33mclass[39m=[32m"v2-shell"[39m
+      [33mdata-testid[39m=[32m"v2-home"[39m
+    [36m>[39m
+      [36m<header[39m
+        [33mclass[39m=[32m"v2-topbar"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"返回今天首页"[39m
+          [33mclass[39m=[32m"v2-brand"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-brand-mark"[39m
+          [36m>[39m
+            [36m<img[39m
+              [33malt[39m=[32m""[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mdata-brand-logo[39m=[32m"brand-wallet-sprout"[39m
+              [33mdraggable[39m=[32m"false"[39m
+              [33msrc[39m=[32m"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20128%20128'%20fill='none'%3e%3ctitle%3e小钱家钱包与嫩芽%3c/title%3e%3cdefs%3e%3clinearGradient%20id='wallet'%20x1='28'%20y1='42'%20x2='98'%20y2='111'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%2375D5A1'/%3e%3cstop%20offset='1'%20stop-color='%232C9D70'/%3e%3c/linearGradient%3e%3clinearGradient%20id='flap'%20x1='34'%20y1='44'%20x2='91'%20y2='78'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%23A9E6B6'/%3e%3cstop%20offset='1'%20stop-color='%2356BE88'/%3e%3c/linearGradient%3e%3cfilter%20id='shadow'%20x='12'%20y='14'%20width='106'%20height='110'%20color-interpolation-filters='sRGB'%20filterUnits='userSpaceOnUse'%3e%3cfeGaussianBlur%20stdDeviation='4'/%3e%3c/filter%3e%3c/defs%3e%3cellipse%20cx='65'%20cy='111'%20fill='%23285C48'%20fill-opacity='.13'%20filter='url(%23shadow)'%20rx='43'%20ry='7'/%3e%3cpath%20d='M63%2052c-2-13%203-22%2012-29'%20stroke='%233D9862'%20stroke-linecap='round'%20stroke-width='5'/%3e%3cpath%20d='M69%2036c-14%202-23-4-25-15%2013-4%2025%202%2025%2015Z'%20fill='%2377C879'/%3e%3cpath%20d='M71%2031c0-14%208-23%2020-24%203%2013-5%2023-20%2024Z'%20fill='%234FAE68'/%3e%3cpath%20d='M25%2052c0-6%205-11%2011-11h55c7%200%2012%205%2012%2012v44c0%208-6%2014-14%2014H39c-8%200-14-6-14-14V52Z'%20fill='url(%23wallet)'/%3e%3cpath%20d='M27%2057c0-7%205-12%2012-12h44c9%200%2015%206%2015%2015v7H27v-10Z'%20fill='url(%23flap)'/%3e%3cpath%20d='M31%2065h65'%20stroke='%23D5F2D7'%20stroke-opacity='.75'%20stroke-width='3'/%3e%3cpath%20d='M79%2078h25c7%200%2011%204%2011%2010v5c0%206-4%2010-11%2010H80c-6%200-10-5-10-12s4-13%209-13Z'%20fill='%23258A62'/%3e%3ccircle%20cx='91'%20cy='90'%20r='3.5'%20fill='%23DFF5C8'/%3e%3cpath%20d='M38%2078h20'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.8'%20stroke-width='4'/%3e%3cpath%20d='M38%2087h13'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.55'%20stroke-width='4'/%3e%3c/svg%3e"[39m
+            [36m/>[39m
+          [36m</span>[39m
+          [36m<div>[39m
+            [36m<strong>[39m
+              [0m小钱家[0m
+            [36m</strong>[39m
+            [36m<span>[39m
+              [0m本地账本[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</button>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"v2-topbar-actions"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"v2-period"[39m
+          [36m>[39m
+            [0m2026 年 10 月[0m
+          [36m</span>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"button button-secondary v2-top-record"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-plus"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"17"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"17"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M5 12h14"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M12 5v14"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [36m<span>[39m
+              [0m记一笔[0m
+            [36m</span>[39m
+          [36m</button>[39m
+          [36m<button[39m
+            [33maria-label[39m=[32m"更新财务数据"[39m
+            [33mclass[39m=[32m"icon-button"[39m
+            [33mtitle[39m=[32m"更新财务数据"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-settings-2"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"18"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M14 17H5"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M19 7h-9"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"17"[39m
+                [33mcy[39m=[32m"17"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"7"[39m
+                [33mcy[39m=[32m"7"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</header>[39m
+      [36m<nav[39m
+        [33maria-label[39m=[32m"主导航"[39m
+        [33mclass[39m=[32m"v2-primary-nav"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-current[39m=[32m"page"[39m
+          [33mclass[39m=[32m"v2-nav-button is-active"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-nav-icon"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-house lucide-home"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstr...
+ ❯ waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ tests/m1-home.test.tsx:93:33
+     91|     try {
+     92|       render(<App services={services} />);
+     93|       const home = await screen.findByTestId("m1-home");
+       |                                 ^
+     94|       expect(home.textContent).toContain("¥0.00");
+     95|       expect(home.textContent).toContain("建议上限 ¥2,000.00");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/9]⎯
+
+ FAIL  tests/m1-home.test.tsx > M1 home shows only spending against target and recent records > contains none of the excluded modules and exposes no navigation
+TestingLibraryElementError: Unable to find an element by: [data-testid="m1-home"]
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<main[39m
+      [33mclass[39m=[32m"v2-shell"[39m
+      [33mdata-testid[39m=[32m"v2-home"[39m
+    [36m>[39m
+      [36m<header[39m
+        [33mclass[39m=[32m"v2-topbar"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"返回今天首页"[39m
+          [33mclass[39m=[32m"v2-brand"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-brand-mark"[39m
+          [36m>[39m
+            [36m<img[39m
+              [33malt[39m=[32m""[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mdata-brand-logo[39m=[32m"brand-wallet-sprout"[39m
+              [33mdraggable[39m=[32m"false"[39m
+              [33msrc[39m=[32m"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20128%20128'%20fill='none'%3e%3ctitle%3e小钱家钱包与嫩芽%3c/title%3e%3cdefs%3e%3clinearGradient%20id='wallet'%20x1='28'%20y1='42'%20x2='98'%20y2='111'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%2375D5A1'/%3e%3cstop%20offset='1'%20stop-color='%232C9D70'/%3e%3c/linearGradient%3e%3clinearGradient%20id='flap'%20x1='34'%20y1='44'%20x2='91'%20y2='78'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%23A9E6B6'/%3e%3cstop%20offset='1'%20stop-color='%2356BE88'/%3e%3c/linearGradient%3e%3cfilter%20id='shadow'%20x='12'%20y='14'%20width='106'%20height='110'%20color-interpolation-filters='sRGB'%20filterUnits='userSpaceOnUse'%3e%3cfeGaussianBlur%20stdDeviation='4'/%3e%3c/filter%3e%3c/defs%3e%3cellipse%20cx='65'%20cy='111'%20fill='%23285C48'%20fill-opacity='.13'%20filter='url(%23shadow)'%20rx='43'%20ry='7'/%3e%3cpath%20d='M63%2052c-2-13%203-22%2012-29'%20stroke='%233D9862'%20stroke-linecap='round'%20stroke-width='5'/%3e%3cpath%20d='M69%2036c-14%202-23-4-25-15%2013-4%2025%202%2025%2015Z'%20fill='%2377C879'/%3e%3cpath%20d='M71%2031c0-14%208-23%2020-24%203%2013-5%2023-20%2024Z'%20fill='%234FAE68'/%3e%3cpath%20d='M25%2052c0-6%205-11%2011-11h55c7%200%2012%205%2012%2012v44c0%208-6%2014-14%2014H39c-8%200-14-6-14-14V52Z'%20fill='url(%23wallet)'/%3e%3cpath%20d='M27%2057c0-7%205-12%2012-12h44c9%200%2015%206%2015%2015v7H27v-10Z'%20fill='url(%23flap)'/%3e%3cpath%20d='M31%2065h65'%20stroke='%23D5F2D7'%20stroke-opacity='.75'%20stroke-width='3'/%3e%3cpath%20d='M79%2078h25c7%200%2011%204%2011%2010v5c0%206-4%2010-11%2010H80c-6%200-10-5-10-12s4-13%209-13Z'%20fill='%23258A62'/%3e%3ccircle%20cx='91'%20cy='90'%20r='3.5'%20fill='%23DFF5C8'/%3e%3cpath%20d='M38%2078h20'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.8'%20stroke-width='4'/%3e%3cpath%20d='M38%2087h13'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.55'%20stroke-width='4'/%3e%3c/svg%3e"[39m
+            [36m/>[39m
+          [36m</span>[39m
+          [36m<div>[39m
+            [36m<strong>[39m
+              [0m小钱家[0m
+            [36m</strong>[39m
+            [36m<span>[39m
+              [0m本地账本[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</button>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"v2-topbar-actions"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"v2-period"[39m
+          [36m>[39m
+            [0m2026 年 10 月[0m
+          [36m</span>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"button button-secondary v2-top-record"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-plus"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"17"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"17"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M5 12h14"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M12 5v14"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [36m<span>[39m
+              [0m记一笔[0m
+            [36m</span>[39m
+          [36m</button>[39m
+          [36m<button[39m
+            [33maria-label[39m=[32m"更新财务数据"[39m
+            [33mclass[39m=[32m"icon-button"[39m
+            [33mtitle[39m=[32m"更新财务数据"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-settings-2"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"18"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M14 17H5"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M19 7h-9"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"17"[39m
+                [33mcy[39m=[32m"17"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"7"[39m
+                [33mcy[39m=[32m"7"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</header>[39m
+      [36m<nav[39m
+        [33maria-label[39m=[32m"主导航"[39m
+        [33mclass[39m=[32m"v2-primary-nav"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-current[39m=[32m"page"[39m
+          [33mclass[39m=[32m"v2-nav-button is-active"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-nav-icon"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-house lucide-home"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstr...
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<main[39m
+      [33mclass[39m=[32m"v2-shell"[39m
+      [33mdata-testid[39m=[32m"v2-home"[39m
+    [36m>[39m
+      [36m<header[39m
+        [33mclass[39m=[32m"v2-topbar"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"返回今天首页"[39m
+          [33mclass[39m=[32m"v2-brand"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-brand-mark"[39m
+          [36m>[39m
+            [36m<img[39m
+              [33malt[39m=[32m""[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mdata-brand-logo[39m=[32m"brand-wallet-sprout"[39m
+              [33mdraggable[39m=[32m"false"[39m
+              [33msrc[39m=[32m"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20128%20128'%20fill='none'%3e%3ctitle%3e小钱家钱包与嫩芽%3c/title%3e%3cdefs%3e%3clinearGradient%20id='wallet'%20x1='28'%20y1='42'%20x2='98'%20y2='111'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%2375D5A1'/%3e%3cstop%20offset='1'%20stop-color='%232C9D70'/%3e%3c/linearGradient%3e%3clinearGradient%20id='flap'%20x1='34'%20y1='44'%20x2='91'%20y2='78'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%23A9E6B6'/%3e%3cstop%20offset='1'%20stop-color='%2356BE88'/%3e%3c/linearGradient%3e%3cfilter%20id='shadow'%20x='12'%20y='14'%20width='106'%20height='110'%20color-interpolation-filters='sRGB'%20filterUnits='userSpaceOnUse'%3e%3cfeGaussianBlur%20stdDeviation='4'/%3e%3c/filter%3e%3c/defs%3e%3cellipse%20cx='65'%20cy='111'%20fill='%23285C48'%20fill-opacity='.13'%20filter='url(%23shadow)'%20rx='43'%20ry='7'/%3e%3cpath%20d='M63%2052c-2-13%203-22%2012-29'%20stroke='%233D9862'%20stroke-linecap='round'%20stroke-width='5'/%3e%3cpath%20d='M69%2036c-14%202-23-4-25-15%2013-4%2025%202%2025%2015Z'%20fill='%2377C879'/%3e%3cpath%20d='M71%2031c0-14%208-23%2020-24%203%2013-5%2023-20%2024Z'%20fill='%234FAE68'/%3e%3cpath%20d='M25%2052c0-6%205-11%2011-11h55c7%200%2012%205%2012%2012v44c0%208-6%2014-14%2014H39c-8%200-14-6-14-14V52Z'%20fill='url(%23wallet)'/%3e%3cpath%20d='M27%2057c0-7%205-12%2012-12h44c9%200%2015%206%2015%2015v7H27v-10Z'%20fill='url(%23flap)'/%3e%3cpath%20d='M31%2065h65'%20stroke='%23D5F2D7'%20stroke-opacity='.75'%20stroke-width='3'/%3e%3cpath%20d='M79%2078h25c7%200%2011%204%2011%2010v5c0%206-4%2010-11%2010H80c-6%200-10-5-10-12s4-13%209-13Z'%20fill='%23258A62'/%3e%3ccircle%20cx='91'%20cy='90'%20r='3.5'%20fill='%23DFF5C8'/%3e%3cpath%20d='M38%2078h20'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.8'%20stroke-width='4'/%3e%3cpath%20d='M38%2087h13'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.55'%20stroke-width='4'/%3e%3c/svg%3e"[39m
+            [36m/>[39m
+          [36m</span>[39m
+          [36m<div>[39m
+            [36m<strong>[39m
+              [0m小钱家[0m
+            [36m</strong>[39m
+            [36m<span>[39m
+              [0m本地账本[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</button>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"v2-topbar-actions"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"v2-period"[39m
+          [36m>[39m
+            [0m2026 年 10 月[0m
+          [36m</span>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"button button-secondary v2-top-record"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-plus"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"17"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"17"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M5 12h14"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M12 5v14"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [36m<span>[39m
+              [0m记一笔[0m
+            [36m</span>[39m
+          [36m</button>[39m
+          [36m<button[39m
+            [33maria-label[39m=[32m"更新财务数据"[39m
+            [33mclass[39m=[32m"icon-button"[39m
+            [33mtitle[39m=[32m"更新财务数据"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-settings-2"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"18"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M14 17H5"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M19 7h-9"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"17"[39m
+                [33mcy[39m=[32m"17"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"7"[39m
+                [33mcy[39m=[32m"7"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</header>[39m
+      [36m<nav[39m
+        [33maria-label[39m=[32m"主导航"[39m
+        [33mclass[39m=[32m"v2-primary-nav"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-current[39m=[32m"page"[39m
+          [33mclass[39m=[32m"v2-nav-button is-active"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-nav-icon"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-house lucide-home"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstr...
+ ❯ waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ tests/m1-home.test.tsx:109:33
+    107|     try {
+    108|       render(<App services={services} />);
+    109|       const home = await screen.findByTestId("m1-home");
+       |                                 ^
+    110|       const buttons = within(home)
+    111|         .getAllByRole("button")
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/9]⎯
+
+ FAIL  tests/m1-home.test.tsx > M1 home shows only spending against target and recent records > never shows total debt as zero or any asset total
+TestingLibraryElementError: Unable to find an element by: [data-testid="m1-home"]
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<main[39m
+      [33mclass[39m=[32m"v2-shell"[39m
+      [33mdata-testid[39m=[32m"v2-home"[39m
+    [36m>[39m
+      [36m<header[39m
+        [33mclass[39m=[32m"v2-topbar"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"返回今天首页"[39m
+          [33mclass[39m=[32m"v2-brand"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-brand-mark"[39m
+          [36m>[39m
+            [36m<img[39m
+              [33malt[39m=[32m""[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mdata-brand-logo[39m=[32m"brand-wallet-sprout"[39m
+              [33mdraggable[39m=[32m"false"[39m
+              [33msrc[39m=[32m"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20128%20128'%20fill='none'%3e%3ctitle%3e小钱家钱包与嫩芽%3c/title%3e%3cdefs%3e%3clinearGradient%20id='wallet'%20x1='28'%20y1='42'%20x2='98'%20y2='111'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%2375D5A1'/%3e%3cstop%20offset='1'%20stop-color='%232C9D70'/%3e%3c/linearGradient%3e%3clinearGradient%20id='flap'%20x1='34'%20y1='44'%20x2='91'%20y2='78'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%23A9E6B6'/%3e%3cstop%20offset='1'%20stop-color='%2356BE88'/%3e%3c/linearGradient%3e%3cfilter%20id='shadow'%20x='12'%20y='14'%20width='106'%20height='110'%20color-interpolation-filters='sRGB'%20filterUnits='userSpaceOnUse'%3e%3cfeGaussianBlur%20stdDeviation='4'/%3e%3c/filter%3e%3c/defs%3e%3cellipse%20cx='65'%20cy='111'%20fill='%23285C48'%20fill-opacity='.13'%20filter='url(%23shadow)'%20rx='43'%20ry='7'/%3e%3cpath%20d='M63%2052c-2-13%203-22%2012-29'%20stroke='%233D9862'%20stroke-linecap='round'%20stroke-width='5'/%3e%3cpath%20d='M69%2036c-14%202-23-4-25-15%2013-4%2025%202%2025%2015Z'%20fill='%2377C879'/%3e%3cpath%20d='M71%2031c0-14%208-23%2020-24%203%2013-5%2023-20%2024Z'%20fill='%234FAE68'/%3e%3cpath%20d='M25%2052c0-6%205-11%2011-11h55c7%200%2012%205%2012%2012v44c0%208-6%2014-14%2014H39c-8%200-14-6-14-14V52Z'%20fill='url(%23wallet)'/%3e%3cpath%20d='M27%2057c0-7%205-12%2012-12h44c9%200%2015%206%2015%2015v7H27v-10Z'%20fill='url(%23flap)'/%3e%3cpath%20d='M31%2065h65'%20stroke='%23D5F2D7'%20stroke-opacity='.75'%20stroke-width='3'/%3e%3cpath%20d='M79%2078h25c7%200%2011%204%2011%2010v5c0%206-4%2010-11%2010H80c-6%200-10-5-10-12s4-13%209-13Z'%20fill='%23258A62'/%3e%3ccircle%20cx='91'%20cy='90'%20r='3.5'%20fill='%23DFF5C8'/%3e%3cpath%20d='M38%2078h20'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.8'%20stroke-width='4'/%3e%3cpath%20d='M38%2087h13'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.55'%20stroke-width='4'/%3e%3c/svg%3e"[39m
+            [36m/>[39m
+          [36m</span>[39m
+          [36m<div>[39m
+            [36m<strong>[39m
+              [0m小钱家[0m
+            [36m</strong>[39m
+            [36m<span>[39m
+              [0m本地账本[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</button>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"v2-topbar-actions"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"v2-period"[39m
+          [36m>[39m
+            [0m2026 年 10 月[0m
+          [36m</span>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"button button-secondary v2-top-record"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-plus"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"17"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"17"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M5 12h14"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M12 5v14"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [36m<span>[39m
+              [0m记一笔[0m
+            [36m</span>[39m
+          [36m</button>[39m
+          [36m<button[39m
+            [33maria-label[39m=[32m"更新财务数据"[39m
+            [33mclass[39m=[32m"icon-button"[39m
+            [33mtitle[39m=[32m"更新财务数据"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-settings-2"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"18"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M14 17H5"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M19 7h-9"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"17"[39m
+                [33mcy[39m=[32m"17"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"7"[39m
+                [33mcy[39m=[32m"7"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</header>[39m
+      [36m<nav[39m
+        [33maria-label[39m=[32m"主导航"[39m
+        [33mclass[39m=[32m"v2-primary-nav"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-current[39m=[32m"page"[39m
+          [33mclass[39m=[32m"v2-nav-button is-active"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-nav-icon"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-house lucide-home"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstr...
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<main[39m
+      [33mclass[39m=[32m"v2-shell"[39m
+      [33mdata-testid[39m=[32m"v2-home"[39m
+    [36m>[39m
+      [36m<header[39m
+        [33mclass[39m=[32m"v2-topbar"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"返回今天首页"[39m
+          [33mclass[39m=[32m"v2-brand"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-brand-mark"[39m
+          [36m>[39m
+            [36m<img[39m
+              [33malt[39m=[32m""[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mdata-brand-logo[39m=[32m"brand-wallet-sprout"[39m
+              [33mdraggable[39m=[32m"false"[39m
+              [33msrc[39m=[32m"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20128%20128'%20fill='none'%3e%3ctitle%3e小钱家钱包与嫩芽%3c/title%3e%3cdefs%3e%3clinearGradient%20id='wallet'%20x1='28'%20y1='42'%20x2='98'%20y2='111'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%2375D5A1'/%3e%3cstop%20offset='1'%20stop-color='%232C9D70'/%3e%3c/linearGradient%3e%3clinearGradient%20id='flap'%20x1='34'%20y1='44'%20x2='91'%20y2='78'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%23A9E6B6'/%3e%3cstop%20offset='1'%20stop-color='%2356BE88'/%3e%3c/linearGradient%3e%3cfilter%20id='shadow'%20x='12'%20y='14'%20width='106'%20height='110'%20color-interpolation-filters='sRGB'%20filterUnits='userSpaceOnUse'%3e%3cfeGaussianBlur%20stdDeviation='4'/%3e%3c/filter%3e%3c/defs%3e%3cellipse%20cx='65'%20cy='111'%20fill='%23285C48'%20fill-opacity='.13'%20filter='url(%23shadow)'%20rx='43'%20ry='7'/%3e%3cpath%20d='M63%2052c-2-13%203-22%2012-29'%20stroke='%233D9862'%20stroke-linecap='round'%20stroke-width='5'/%3e%3cpath%20d='M69%2036c-14%202-23-4-25-15%2013-4%2025%202%2025%2015Z'%20fill='%2377C879'/%3e%3cpath%20d='M71%2031c0-14%208-23%2020-24%203%2013-5%2023-20%2024Z'%20fill='%234FAE68'/%3e%3cpath%20d='M25%2052c0-6%205-11%2011-11h55c7%200%2012%205%2012%2012v44c0%208-6%2014-14%2014H39c-8%200-14-6-14-14V52Z'%20fill='url(%23wallet)'/%3e%3cpath%20d='M27%2057c0-7%205-12%2012-12h44c9%200%2015%206%2015%2015v7H27v-10Z'%20fill='url(%23flap)'/%3e%3cpath%20d='M31%2065h65'%20stroke='%23D5F2D7'%20stroke-opacity='.75'%20stroke-width='3'/%3e%3cpath%20d='M79%2078h25c7%200%2011%204%2011%2010v5c0%206-4%2010-11%2010H80c-6%200-10-5-10-12s4-13%209-13Z'%20fill='%23258A62'/%3e%3ccircle%20cx='91'%20cy='90'%20r='3.5'%20fill='%23DFF5C8'/%3e%3cpath%20d='M38%2078h20'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.8'%20stroke-width='4'/%3e%3cpath%20d='M38%2087h13'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.55'%20stroke-width='4'/%3e%3c/svg%3e"[39m
+            [36m/>[39m
+          [36m</span>[39m
+          [36m<div>[39m
+            [36m<strong>[39m
+              [0m小钱家[0m
+            [36m</strong>[39m
+            [36m<span>[39m
+              [0m本地账本[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</button>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"v2-topbar-actions"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"v2-period"[39m
+          [36m>[39m
+            [0m2026 年 10 月[0m
+          [36m</span>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"button button-secondary v2-top-record"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-plus"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"17"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"17"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M5 12h14"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M12 5v14"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [36m<span>[39m
+              [0m记一笔[0m
+            [36m</span>[39m
+          [36m</button>[39m
+          [36m<button[39m
+            [33maria-label[39m=[32m"更新财务数据"[39m
+            [33mclass[39m=[32m"icon-button"[39m
+            [33mtitle[39m=[32m"更新财务数据"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-settings-2"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"18"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M14 17H5"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M19 7h-9"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"17"[39m
+                [33mcy[39m=[32m"17"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"7"[39m
+                [33mcy[39m=[32m"7"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</header>[39m
+      [36m<nav[39m
+        [33maria-label[39m=[32m"主导航"[39m
+        [33mclass[39m=[32m"v2-primary-nav"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-current[39m=[32m"page"[39m
+          [33mclass[39m=[32m"v2-nav-button is-active"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-nav-icon"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-house lucide-home"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstr...
+ ❯ waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ tests/m1-home.test.tsx:130:33
+    128|     try {
+    129|       render(<App services={services} />);
+    130|       const home = await screen.findByTestId("m1-home");
+       |                                 ^
+    131|       expect(home.textContent).not.toContain("总债务");
+    132|       expect(home.textContent).not.toContain("¥30,000.00");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/9]⎯
+
+ FAIL  tests/m1-home.test.tsx > M1 home shows only spending against target and recent records > after saving, spent and remaining move by the amount and the record is listed first
+TestingLibraryElementError: Unable to find an element by: [data-testid="m1-home"]
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<main[39m
+      [33mclass[39m=[32m"v2-shell"[39m
+      [33mdata-testid[39m=[32m"v2-home"[39m
+    [36m>[39m
+      [36m<header[39m
+        [33mclass[39m=[32m"v2-topbar"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"返回今天首页"[39m
+          [33mclass[39m=[32m"v2-brand"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-brand-mark"[39m
+          [36m>[39m
+            [36m<img[39m
+              [33malt[39m=[32m""[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mdata-brand-logo[39m=[32m"brand-wallet-sprout"[39m
+              [33mdraggable[39m=[32m"false"[39m
+              [33msrc[39m=[32m"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20128%20128'%20fill='none'%3e%3ctitle%3e小钱家钱包与嫩芽%3c/title%3e%3cdefs%3e%3clinearGradient%20id='wallet'%20x1='28'%20y1='42'%20x2='98'%20y2='111'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%2375D5A1'/%3e%3cstop%20offset='1'%20stop-color='%232C9D70'/%3e%3c/linearGradient%3e%3clinearGradient%20id='flap'%20x1='34'%20y1='44'%20x2='91'%20y2='78'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%23A9E6B6'/%3e%3cstop%20offset='1'%20stop-color='%2356BE88'/%3e%3c/linearGradient%3e%3cfilter%20id='shadow'%20x='12'%20y='14'%20width='106'%20height='110'%20color-interpolation-filters='sRGB'%20filterUnits='userSpaceOnUse'%3e%3cfeGaussianBlur%20stdDeviation='4'/%3e%3c/filter%3e%3c/defs%3e%3cellipse%20cx='65'%20cy='111'%20fill='%23285C48'%20fill-opacity='.13'%20filter='url(%23shadow)'%20rx='43'%20ry='7'/%3e%3cpath%20d='M63%2052c-2-13%203-22%2012-29'%20stroke='%233D9862'%20stroke-linecap='round'%20stroke-width='5'/%3e%3cpath%20d='M69%2036c-14%202-23-4-25-15%2013-4%2025%202%2025%2015Z'%20fill='%2377C879'/%3e%3cpath%20d='M71%2031c0-14%208-23%2020-24%203%2013-5%2023-20%2024Z'%20fill='%234FAE68'/%3e%3cpath%20d='M25%2052c0-6%205-11%2011-11h55c7%200%2012%205%2012%2012v44c0%208-6%2014-14%2014H39c-8%200-14-6-14-14V52Z'%20fill='url(%23wallet)'/%3e%3cpath%20d='M27%2057c0-7%205-12%2012-12h44c9%200%2015%206%2015%2015v7H27v-10Z'%20fill='url(%23flap)'/%3e%3cpath%20d='M31%2065h65'%20stroke='%23D5F2D7'%20stroke-opacity='.75'%20stroke-width='3'/%3e%3cpath%20d='M79%2078h25c7%200%2011%204%2011%2010v5c0%206-4%2010-11%2010H80c-6%200-10-5-10-12s4-13%209-13Z'%20fill='%23258A62'/%3e%3ccircle%20cx='91'%20cy='90'%20r='3.5'%20fill='%23DFF5C8'/%3e%3cpath%20d='M38%2078h20'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.8'%20stroke-width='4'/%3e%3cpath%20d='M38%2087h13'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.55'%20stroke-width='4'/%3e%3c/svg%3e"[39m
+            [36m/>[39m
+          [36m</span>[39m
+          [36m<div>[39m
+            [36m<strong>[39m
+              [0m小钱家[0m
+            [36m</strong>[39m
+            [36m<span>[39m
+              [0m本地账本[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</button>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"v2-topbar-actions"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"v2-period"[39m
+          [36m>[39m
+            [0m2026 年 10 月[0m
+          [36m</span>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"button button-secondary v2-top-record"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-plus"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"17"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"17"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M5 12h14"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M12 5v14"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [36m<span>[39m
+              [0m记一笔[0m
+            [36m</span>[39m
+          [36m</button>[39m
+          [36m<button[39m
+            [33maria-label[39m=[32m"更新财务数据"[39m
+            [33mclass[39m=[32m"icon-button"[39m
+            [33mtitle[39m=[32m"更新财务数据"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-settings-2"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"18"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M14 17H5"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M19 7h-9"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"17"[39m
+                [33mcy[39m=[32m"17"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"7"[39m
+                [33mcy[39m=[32m"7"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</header>[39m
+      [36m<nav[39m
+        [33maria-label[39m=[32m"主导航"[39m
+        [33mclass[39m=[32m"v2-primary-nav"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-current[39m=[32m"page"[39m
+          [33mclass[39m=[32m"v2-nav-button is-active"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-nav-icon"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-house lucide-home"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstr...
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<main[39m
+      [33mclass[39m=[32m"v2-shell"[39m
+      [33mdata-testid[39m=[32m"v2-home"[39m
+    [36m>[39m
+      [36m<header[39m
+        [33mclass[39m=[32m"v2-topbar"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"返回今天首页"[39m
+          [33mclass[39m=[32m"v2-brand"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-brand-mark"[39m
+          [36m>[39m
+            [36m<img[39m
+              [33malt[39m=[32m""[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mdata-brand-logo[39m=[32m"brand-wallet-sprout"[39m
+              [33mdraggable[39m=[32m"false"[39m
+              [33msrc[39m=[32m"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20128%20128'%20fill='none'%3e%3ctitle%3e小钱家钱包与嫩芽%3c/title%3e%3cdefs%3e%3clinearGradient%20id='wallet'%20x1='28'%20y1='42'%20x2='98'%20y2='111'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%2375D5A1'/%3e%3cstop%20offset='1'%20stop-color='%232C9D70'/%3e%3c/linearGradient%3e%3clinearGradient%20id='flap'%20x1='34'%20y1='44'%20x2='91'%20y2='78'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%23A9E6B6'/%3e%3cstop%20offset='1'%20stop-color='%2356BE88'/%3e%3c/linearGradient%3e%3cfilter%20id='shadow'%20x='12'%20y='14'%20width='106'%20height='110'%20color-interpolation-filters='sRGB'%20filterUnits='userSpaceOnUse'%3e%3cfeGaussianBlur%20stdDeviation='4'/%3e%3c/filter%3e%3c/defs%3e%3cellipse%20cx='65'%20cy='111'%20fill='%23285C48'%20fill-opacity='.13'%20filter='url(%23shadow)'%20rx='43'%20ry='7'/%3e%3cpath%20d='M63%2052c-2-13%203-22%2012-29'%20stroke='%233D9862'%20stroke-linecap='round'%20stroke-width='5'/%3e%3cpath%20d='M69%2036c-14%202-23-4-25-15%2013-4%2025%202%2025%2015Z'%20fill='%2377C879'/%3e%3cpath%20d='M71%2031c0-14%208-23%2020-24%203%2013-5%2023-20%2024Z'%20fill='%234FAE68'/%3e%3cpath%20d='M25%2052c0-6%205-11%2011-11h55c7%200%2012%205%2012%2012v44c0%208-6%2014-14%2014H39c-8%200-14-6-14-14V52Z'%20fill='url(%23wallet)'/%3e%3cpath%20d='M27%2057c0-7%205-12%2012-12h44c9%200%2015%206%2015%2015v7H27v-10Z'%20fill='url(%23flap)'/%3e%3cpath%20d='M31%2065h65'%20stroke='%23D5F2D7'%20stroke-opacity='.75'%20stroke-width='3'/%3e%3cpath%20d='M79%2078h25c7%200%2011%204%2011%2010v5c0%206-4%2010-11%2010H80c-6%200-10-5-10-12s4-13%209-13Z'%20fill='%23258A62'/%3e%3ccircle%20cx='91'%20cy='90'%20r='3.5'%20fill='%23DFF5C8'/%3e%3cpath%20d='M38%2078h20'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.8'%20stroke-width='4'/%3e%3cpath%20d='M38%2087h13'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.55'%20stroke-width='4'/%3e%3c/svg%3e"[39m
+            [36m/>[39m
+          [36m</span>[39m
+          [36m<div>[39m
+            [36m<strong>[39m
+              [0m小钱家[0m
+            [36m</strong>[39m
+            [36m<span>[39m
+              [0m本地账本[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</button>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"v2-topbar-actions"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"v2-period"[39m
+          [36m>[39m
+            [0m2026 年 10 月[0m
+          [36m</span>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"button button-secondary v2-top-record"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-plus"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"17"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"17"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M5 12h14"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M12 5v14"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [36m<span>[39m
+              [0m记一笔[0m
+            [36m</span>[39m
+          [36m</button>[39m
+          [36m<button[39m
+            [33maria-label[39m=[32m"更新财务数据"[39m
+            [33mclass[39m=[32m"icon-button"[39m
+            [33mtitle[39m=[32m"更新财务数据"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-settings-2"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"18"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M14 17H5"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M19 7h-9"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"17"[39m
+                [33mcy[39m=[32m"17"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"7"[39m
+                [33mcy[39m=[32m"7"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</header>[39m
+      [36m<nav[39m
+        [33maria-label[39m=[32m"主导航"[39m
+        [33mclass[39m=[32m"v2-primary-nav"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-current[39m=[32m"page"[39m
+          [33mclass[39m=[32m"v2-nav-button is-active"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-nav-icon"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-house lucide-home"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstr...
+ ❯ waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ tests/m1-home.test.tsx:143:20
+    141|     try {
+    142|       render(<App services={services} />);
+    143|       await screen.findByTestId("m1-home");
+       |                    ^
+    144|       await record(user, "100.50", "吃饭");
+    145|       await waitFor(() =>
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/9]⎯
+
+ FAIL  tests/m1-home.test.tsx > M1 home shows only spending against target and recent records > shows at most the latest three records
+TestingLibraryElementError: Unable to find an element by: [data-testid="m1-home"]
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<main[39m
+      [33mclass[39m=[32m"v2-shell"[39m
+      [33mdata-testid[39m=[32m"v2-home"[39m
+    [36m>[39m
+      [36m<header[39m
+        [33mclass[39m=[32m"v2-topbar"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"返回今天首页"[39m
+          [33mclass[39m=[32m"v2-brand"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-brand-mark"[39m
+          [36m>[39m
+            [36m<img[39m
+              [33malt[39m=[32m""[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mdata-brand-logo[39m=[32m"brand-wallet-sprout"[39m
+              [33mdraggable[39m=[32m"false"[39m
+              [33msrc[39m=[32m"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20128%20128'%20fill='none'%3e%3ctitle%3e小钱家钱包与嫩芽%3c/title%3e%3cdefs%3e%3clinearGradient%20id='wallet'%20x1='28'%20y1='42'%20x2='98'%20y2='111'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%2375D5A1'/%3e%3cstop%20offset='1'%20stop-color='%232C9D70'/%3e%3c/linearGradient%3e%3clinearGradient%20id='flap'%20x1='34'%20y1='44'%20x2='91'%20y2='78'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%23A9E6B6'/%3e%3cstop%20offset='1'%20stop-color='%2356BE88'/%3e%3c/linearGradient%3e%3cfilter%20id='shadow'%20x='12'%20y='14'%20width='106'%20height='110'%20color-interpolation-filters='sRGB'%20filterUnits='userSpaceOnUse'%3e%3cfeGaussianBlur%20stdDeviation='4'/%3e%3c/filter%3e%3c/defs%3e%3cellipse%20cx='65'%20cy='111'%20fill='%23285C48'%20fill-opacity='.13'%20filter='url(%23shadow)'%20rx='43'%20ry='7'/%3e%3cpath%20d='M63%2052c-2-13%203-22%2012-29'%20stroke='%233D9862'%20stroke-linecap='round'%20stroke-width='5'/%3e%3cpath%20d='M69%2036c-14%202-23-4-25-15%2013-4%2025%202%2025%2015Z'%20fill='%2377C879'/%3e%3cpath%20d='M71%2031c0-14%208-23%2020-24%203%2013-5%2023-20%2024Z'%20fill='%234FAE68'/%3e%3cpath%20d='M25%2052c0-6%205-11%2011-11h55c7%200%2012%205%2012%2012v44c0%208-6%2014-14%2014H39c-8%200-14-6-14-14V52Z'%20fill='url(%23wallet)'/%3e%3cpath%20d='M27%2057c0-7%205-12%2012-12h44c9%200%2015%206%2015%2015v7H27v-10Z'%20fill='url(%23flap)'/%3e%3cpath%20d='M31%2065h65'%20stroke='%23D5F2D7'%20stroke-opacity='.75'%20stroke-width='3'/%3e%3cpath%20d='M79%2078h25c7%200%2011%204%2011%2010v5c0%206-4%2010-11%2010H80c-6%200-10-5-10-12s4-13%209-13Z'%20fill='%23258A62'/%3e%3ccircle%20cx='91'%20cy='90'%20r='3.5'%20fill='%23DFF5C8'/%3e%3cpath%20d='M38%2078h20'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.8'%20stroke-width='4'/%3e%3cpath%20d='M38%2087h13'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.55'%20stroke-width='4'/%3e%3c/svg%3e"[39m
+            [36m/>[39m
+          [36m</span>[39m
+          [36m<div>[39m
+            [36m<strong>[39m
+              [0m小钱家[0m
+            [36m</strong>[39m
+            [36m<span>[39m
+              [0m本地账本[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</button>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"v2-topbar-actions"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"v2-period"[39m
+          [36m>[39m
+            [0m2026 年 10 月[0m
+          [36m</span>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"button button-secondary v2-top-record"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-plus"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"17"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"17"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M5 12h14"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M12 5v14"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [36m<span>[39m
+              [0m记一笔[0m
+            [36m</span>[39m
+          [36m</button>[39m
+          [36m<button[39m
+            [33maria-label[39m=[32m"更新财务数据"[39m
+            [33mclass[39m=[32m"icon-button"[39m
+            [33mtitle[39m=[32m"更新财务数据"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-settings-2"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"18"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M14 17H5"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M19 7h-9"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"17"[39m
+                [33mcy[39m=[32m"17"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"7"[39m
+                [33mcy[39m=[32m"7"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</header>[39m
+      [36m<nav[39m
+        [33maria-label[39m=[32m"主导航"[39m
+        [33mclass[39m=[32m"v2-primary-nav"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-current[39m=[32m"page"[39m
+          [33mclass[39m=[32m"v2-nav-button is-active"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-nav-icon"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-house lucide-home"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstr...
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<main[39m
+      [33mclass[39m=[32m"v2-shell"[39m
+      [33mdata-testid[39m=[32m"v2-home"[39m
+    [36m>[39m
+      [36m<header[39m
+        [33mclass[39m=[32m"v2-topbar"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"返回今天首页"[39m
+          [33mclass[39m=[32m"v2-brand"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-brand-mark"[39m
+          [36m>[39m
+            [36m<img[39m
+              [33malt[39m=[32m""[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mdata-brand-logo[39m=[32m"brand-wallet-sprout"[39m
+              [33mdraggable[39m=[32m"false"[39m
+              [33msrc[39m=[32m"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20128%20128'%20fill='none'%3e%3ctitle%3e小钱家钱包与嫩芽%3c/title%3e%3cdefs%3e%3clinearGradient%20id='wallet'%20x1='28'%20y1='42'%20x2='98'%20y2='111'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%2375D5A1'/%3e%3cstop%20offset='1'%20stop-color='%232C9D70'/%3e%3c/linearGradient%3e%3clinearGradient%20id='flap'%20x1='34'%20y1='44'%20x2='91'%20y2='78'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%23A9E6B6'/%3e%3cstop%20offset='1'%20stop-color='%2356BE88'/%3e%3c/linearGradient%3e%3cfilter%20id='shadow'%20x='12'%20y='14'%20width='106'%20height='110'%20color-interpolation-filters='sRGB'%20filterUnits='userSpaceOnUse'%3e%3cfeGaussianBlur%20stdDeviation='4'/%3e%3c/filter%3e%3c/defs%3e%3cellipse%20cx='65'%20cy='111'%20fill='%23285C48'%20fill-opacity='.13'%20filter='url(%23shadow)'%20rx='43'%20ry='7'/%3e%3cpath%20d='M63%2052c-2-13%203-22%2012-29'%20stroke='%233D9862'%20stroke-linecap='round'%20stroke-width='5'/%3e%3cpath%20d='M69%2036c-14%202-23-4-25-15%2013-4%2025%202%2025%2015Z'%20fill='%2377C879'/%3e%3cpath%20d='M71%2031c0-14%208-23%2020-24%203%2013-5%2023-20%2024Z'%20fill='%234FAE68'/%3e%3cpath%20d='M25%2052c0-6%205-11%2011-11h55c7%200%2012%205%2012%2012v44c0%208-6%2014-14%2014H39c-8%200-14-6-14-14V52Z'%20fill='url(%23wallet)'/%3e%3cpath%20d='M27%2057c0-7%205-12%2012-12h44c9%200%2015%206%2015%2015v7H27v-10Z'%20fill='url(%23flap)'/%3e%3cpath%20d='M31%2065h65'%20stroke='%23D5F2D7'%20stroke-opacity='.75'%20stroke-width='3'/%3e%3cpath%20d='M79%2078h25c7%200%2011%204%2011%2010v5c0%206-4%2010-11%2010H80c-6%200-10-5-10-12s4-13%209-13Z'%20fill='%23258A62'/%3e%3ccircle%20cx='91'%20cy='90'%20r='3.5'%20fill='%23DFF5C8'/%3e%3cpath%20d='M38%2078h20'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.8'%20stroke-width='4'/%3e%3cpath%20d='M38%2087h13'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.55'%20stroke-width='4'/%3e%3c/svg%3e"[39m
+            [36m/>[39m
+          [36m</span>[39m
+          [36m<div>[39m
+            [36m<strong>[39m
+              [0m小钱家[0m
+            [36m</strong>[39m
+            [36m<span>[39m
+              [0m本地账本[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</button>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"v2-topbar-actions"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"v2-period"[39m
+          [36m>[39m
+            [0m2026 年 10 月[0m
+          [36m</span>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"button button-secondary v2-top-record"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-plus"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"17"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"17"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M5 12h14"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M12 5v14"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [36m<span>[39m
+              [0m记一笔[0m
+            [36m</span>[39m
+          [36m</button>[39m
+          [36m<button[39m
+            [33maria-label[39m=[32m"更新财务数据"[39m
+            [33mclass[39m=[32m"icon-button"[39m
+            [33mtitle[39m=[32m"更新财务数据"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-settings-2"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"18"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M14 17H5"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M19 7h-9"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"17"[39m
+                [33mcy[39m=[32m"17"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"7"[39m
+                [33mcy[39m=[32m"7"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</header>[39m
+      [36m<nav[39m
+        [33maria-label[39m=[32m"主导航"[39m
+        [33mclass[39m=[32m"v2-primary-nav"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-current[39m=[32m"page"[39m
+          [33mclass[39m=[32m"v2-nav-button is-active"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-nav-icon"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-house lucide-home"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstr...
+ ❯ waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ tests/m1-home.test.tsx:168:20
+    166|     try {
+    167|       render(<App services={services} />);
+    168|       await screen.findByTestId("m1-home");
+       |                    ^
+    169|       for (const a of ["1", "2", "3", "4"]) await record(user, a);
+    170|       await waitFor(() =>
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/9]⎯
+
+ FAIL  tests/m1-home.test.tsx > M1 home shows only spending against target and recent records > overspending shows the amount above the recommendation, not a negative remainder
+TestingLibraryElementError: Unable to find an element by: [data-testid="m1-home"]
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<main[39m
+      [33mclass[39m=[32m"v2-shell"[39m
+      [33mdata-testid[39m=[32m"v2-home"[39m
+    [36m>[39m
+      [36m<header[39m
+        [33mclass[39m=[32m"v2-topbar"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"返回今天首页"[39m
+          [33mclass[39m=[32m"v2-brand"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-brand-mark"[39m
+          [36m>[39m
+            [36m<img[39m
+              [33malt[39m=[32m""[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mdata-brand-logo[39m=[32m"brand-wallet-sprout"[39m
+              [33mdraggable[39m=[32m"false"[39m
+              [33msrc[39m=[32m"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20128%20128'%20fill='none'%3e%3ctitle%3e小钱家钱包与嫩芽%3c/title%3e%3cdefs%3e%3clinearGradient%20id='wallet'%20x1='28'%20y1='42'%20x2='98'%20y2='111'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%2375D5A1'/%3e%3cstop%20offset='1'%20stop-color='%232C9D70'/%3e%3c/linearGradient%3e%3clinearGradient%20id='flap'%20x1='34'%20y1='44'%20x2='91'%20y2='78'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%23A9E6B6'/%3e%3cstop%20offset='1'%20stop-color='%2356BE88'/%3e%3c/linearGradient%3e%3cfilter%20id='shadow'%20x='12'%20y='14'%20width='106'%20height='110'%20color-interpolation-filters='sRGB'%20filterUnits='userSpaceOnUse'%3e%3cfeGaussianBlur%20stdDeviation='4'/%3e%3c/filter%3e%3c/defs%3e%3cellipse%20cx='65'%20cy='111'%20fill='%23285C48'%20fill-opacity='.13'%20filter='url(%23shadow)'%20rx='43'%20ry='7'/%3e%3cpath%20d='M63%2052c-2-13%203-22%2012-29'%20stroke='%233D9862'%20stroke-linecap='round'%20stroke-width='5'/%3e%3cpath%20d='M69%2036c-14%202-23-4-25-15%2013-4%2025%202%2025%2015Z'%20fill='%2377C879'/%3e%3cpath%20d='M71%2031c0-14%208-23%2020-24%203%2013-5%2023-20%2024Z'%20fill='%234FAE68'/%3e%3cpath%20d='M25%2052c0-6%205-11%2011-11h55c7%200%2012%205%2012%2012v44c0%208-6%2014-14%2014H39c-8%200-14-6-14-14V52Z'%20fill='url(%23wallet)'/%3e%3cpath%20d='M27%2057c0-7%205-12%2012-12h44c9%200%2015%206%2015%2015v7H27v-10Z'%20fill='url(%23flap)'/%3e%3cpath%20d='M31%2065h65'%20stroke='%23D5F2D7'%20stroke-opacity='.75'%20stroke-width='3'/%3e%3cpath%20d='M79%2078h25c7%200%2011%204%2011%2010v5c0%206-4%2010-11%2010H80c-6%200-10-5-10-12s4-13%209-13Z'%20fill='%23258A62'/%3e%3ccircle%20cx='91'%20cy='90'%20r='3.5'%20fill='%23DFF5C8'/%3e%3cpath%20d='M38%2078h20'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.8'%20stroke-width='4'/%3e%3cpath%20d='M38%2087h13'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.55'%20stroke-width='4'/%3e%3c/svg%3e"[39m
+            [36m/>[39m
+          [36m</span>[39m
+          [36m<div>[39m
+            [36m<strong>[39m
+              [0m小钱家[0m
+            [36m</strong>[39m
+            [36m<span>[39m
+              [0m本地账本[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</button>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"v2-topbar-actions"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"v2-period"[39m
+          [36m>[39m
+            [0m2026 年 10 月[0m
+          [36m</span>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"button button-secondary v2-top-record"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-plus"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"17"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"17"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M5 12h14"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M12 5v14"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [36m<span>[39m
+              [0m记一笔[0m
+            [36m</span>[39m
+          [36m</button>[39m
+          [36m<button[39m
+            [33maria-label[39m=[32m"更新财务数据"[39m
+            [33mclass[39m=[32m"icon-button"[39m
+            [33mtitle[39m=[32m"更新财务数据"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-settings-2"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"18"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M14 17H5"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M19 7h-9"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"17"[39m
+                [33mcy[39m=[32m"17"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"7"[39m
+                [33mcy[39m=[32m"7"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</header>[39m
+      [36m<nav[39m
+        [33maria-label[39m=[32m"主导航"[39m
+        [33mclass[39m=[32m"v2-primary-nav"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-current[39m=[32m"page"[39m
+          [33mclass[39m=[32m"v2-nav-button is-active"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-nav-icon"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-house lucide-home"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstr...
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<main[39m
+      [33mclass[39m=[32m"v2-shell"[39m
+      [33mdata-testid[39m=[32m"v2-home"[39m
+    [36m>[39m
+      [36m<header[39m
+        [33mclass[39m=[32m"v2-topbar"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"返回今天首页"[39m
+          [33mclass[39m=[32m"v2-brand"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-brand-mark"[39m
+          [36m>[39m
+            [36m<img[39m
+              [33malt[39m=[32m""[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mdata-brand-logo[39m=[32m"brand-wallet-sprout"[39m
+              [33mdraggable[39m=[32m"false"[39m
+              [33msrc[39m=[32m"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20128%20128'%20fill='none'%3e%3ctitle%3e小钱家钱包与嫩芽%3c/title%3e%3cdefs%3e%3clinearGradient%20id='wallet'%20x1='28'%20y1='42'%20x2='98'%20y2='111'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%2375D5A1'/%3e%3cstop%20offset='1'%20stop-color='%232C9D70'/%3e%3c/linearGradient%3e%3clinearGradient%20id='flap'%20x1='34'%20y1='44'%20x2='91'%20y2='78'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%23A9E6B6'/%3e%3cstop%20offset='1'%20stop-color='%2356BE88'/%3e%3c/linearGradient%3e%3cfilter%20id='shadow'%20x='12'%20y='14'%20width='106'%20height='110'%20color-interpolation-filters='sRGB'%20filterUnits='userSpaceOnUse'%3e%3cfeGaussianBlur%20stdDeviation='4'/%3e%3c/filter%3e%3c/defs%3e%3cellipse%20cx='65'%20cy='111'%20fill='%23285C48'%20fill-opacity='.13'%20filter='url(%23shadow)'%20rx='43'%20ry='7'/%3e%3cpath%20d='M63%2052c-2-13%203-22%2012-29'%20stroke='%233D9862'%20stroke-linecap='round'%20stroke-width='5'/%3e%3cpath%20d='M69%2036c-14%202-23-4-25-15%2013-4%2025%202%2025%2015Z'%20fill='%2377C879'/%3e%3cpath%20d='M71%2031c0-14%208-23%2020-24%203%2013-5%2023-20%2024Z'%20fill='%234FAE68'/%3e%3cpath%20d='M25%2052c0-6%205-11%2011-11h55c7%200%2012%205%2012%2012v44c0%208-6%2014-14%2014H39c-8%200-14-6-14-14V52Z'%20fill='url(%23wallet)'/%3e%3cpath%20d='M27%2057c0-7%205-12%2012-12h44c9%200%2015%206%2015%2015v7H27v-10Z'%20fill='url(%23flap)'/%3e%3cpath%20d='M31%2065h65'%20stroke='%23D5F2D7'%20stroke-opacity='.75'%20stroke-width='3'/%3e%3cpath%20d='M79%2078h25c7%200%2011%204%2011%2010v5c0%206-4%2010-11%2010H80c-6%200-10-5-10-12s4-13%209-13Z'%20fill='%23258A62'/%3e%3ccircle%20cx='91'%20cy='90'%20r='3.5'%20fill='%23DFF5C8'/%3e%3cpath%20d='M38%2078h20'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.8'%20stroke-width='4'/%3e%3cpath%20d='M38%2087h13'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.55'%20stroke-width='4'/%3e%3c/svg%3e"[39m
+            [36m/>[39m
+          [36m</span>[39m
+          [36m<div>[39m
+            [36m<strong>[39m
+              [0m小钱家[0m
+            [36m</strong>[39m
+            [36m<span>[39m
+              [0m本地账本[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</button>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"v2-topbar-actions"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"v2-period"[39m
+          [36m>[39m
+            [0m2026 年 10 月[0m
+          [36m</span>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"button button-secondary v2-top-record"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-plus"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"17"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"17"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M5 12h14"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M12 5v14"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [36m<span>[39m
+              [0m记一笔[0m
+            [36m</span>[39m
+          [36m</button>[39m
+          [36m<button[39m
+            [33maria-label[39m=[32m"更新财务数据"[39m
+            [33mclass[39m=[32m"icon-button"[39m
+            [33mtitle[39m=[32m"更新财务数据"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-settings-2"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"18"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M14 17H5"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M19 7h-9"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"17"[39m
+                [33mcy[39m=[32m"17"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"7"[39m
+                [33mcy[39m=[32m"7"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</header>[39m
+      [36m<nav[39m
+        [33maria-label[39m=[32m"主导航"[39m
+        [33mclass[39m=[32m"v2-primary-nav"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-current[39m=[32m"page"[39m
+          [33mclass[39m=[32m"v2-nav-button is-active"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-nav-icon"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-house lucide-home"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstr...
+ ❯ waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ tests/m1-home.test.tsx:186:20
+    184|     try {
+    185|       render(<App services={services} />);
+    186|       await screen.findByTestId("m1-home");
+       |                    ^
+    187|       await record(user, "2500");
+    188|       await waitFor(() =>
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/9]⎯
+
+ FAIL  tests/m1-home.test.tsx > M1 home shows only spending against target and recent records > a recommendation of zero shows a clear line, no percentage, no NaN
+TestingLibraryElementError: Unable to find an element by: [data-testid="m1-home"]
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<main[39m
+      [33mclass[39m=[32m"v2-shell"[39m
+      [33mdata-testid[39m=[32m"v2-home"[39m
+    [36m>[39m
+      [36m<header[39m
+        [33mclass[39m=[32m"v2-topbar"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"返回今天首页"[39m
+          [33mclass[39m=[32m"v2-brand"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-brand-mark"[39m
+          [36m>[39m
+            [36m<img[39m
+              [33malt[39m=[32m""[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mdata-brand-logo[39m=[32m"brand-wallet-sprout"[39m
+              [33mdraggable[39m=[32m"false"[39m
+              [33msrc[39m=[32m"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20128%20128'%20fill='none'%3e%3ctitle%3e小钱家钱包与嫩芽%3c/title%3e%3cdefs%3e%3clinearGradient%20id='wallet'%20x1='28'%20y1='42'%20x2='98'%20y2='111'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%2375D5A1'/%3e%3cstop%20offset='1'%20stop-color='%232C9D70'/%3e%3c/linearGradient%3e%3clinearGradient%20id='flap'%20x1='34'%20y1='44'%20x2='91'%20y2='78'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%23A9E6B6'/%3e%3cstop%20offset='1'%20stop-color='%2356BE88'/%3e%3c/linearGradient%3e%3cfilter%20id='shadow'%20x='12'%20y='14'%20width='106'%20height='110'%20color-interpolation-filters='sRGB'%20filterUnits='userSpaceOnUse'%3e%3cfeGaussianBlur%20stdDeviation='4'/%3e%3c/filter%3e%3c/defs%3e%3cellipse%20cx='65'%20cy='111'%20fill='%23285C48'%20fill-opacity='.13'%20filter='url(%23shadow)'%20rx='43'%20ry='7'/%3e%3cpath%20d='M63%2052c-2-13%203-22%2012-29'%20stroke='%233D9862'%20stroke-linecap='round'%20stroke-width='5'/%3e%3cpath%20d='M69%2036c-14%202-23-4-25-15%2013-4%2025%202%2025%2015Z'%20fill='%2377C879'/%3e%3cpath%20d='M71%2031c0-14%208-23%2020-24%203%2013-5%2023-20%2024Z'%20fill='%234FAE68'/%3e%3cpath%20d='M25%2052c0-6%205-11%2011-11h55c7%200%2012%205%2012%2012v44c0%208-6%2014-14%2014H39c-8%200-14-6-14-14V52Z'%20fill='url(%23wallet)'/%3e%3cpath%20d='M27%2057c0-7%205-12%2012-12h44c9%200%2015%206%2015%2015v7H27v-10Z'%20fill='url(%23flap)'/%3e%3cpath%20d='M31%2065h65'%20stroke='%23D5F2D7'%20stroke-opacity='.75'%20stroke-width='3'/%3e%3cpath%20d='M79%2078h25c7%200%2011%204%2011%2010v5c0%206-4%2010-11%2010H80c-6%200-10-5-10-12s4-13%209-13Z'%20fill='%23258A62'/%3e%3ccircle%20cx='91'%20cy='90'%20r='3.5'%20fill='%23DFF5C8'/%3e%3cpath%20d='M38%2078h20'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.8'%20stroke-width='4'/%3e%3cpath%20d='M38%2087h13'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.55'%20stroke-width='4'/%3e%3c/svg%3e"[39m
+            [36m/>[39m
+          [36m</span>[39m
+          [36m<div>[39m
+            [36m<strong>[39m
+              [0m小钱家[0m
+            [36m</strong>[39m
+            [36m<span>[39m
+              [0m本地账本[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</button>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"v2-topbar-actions"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"v2-period"[39m
+          [36m>[39m
+            [0m2026 年 10 月[0m
+          [36m</span>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"button button-secondary v2-top-record"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-plus"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"17"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"17"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M5 12h14"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M12 5v14"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [36m<span>[39m
+              [0m记一笔[0m
+            [36m</span>[39m
+          [36m</button>[39m
+          [36m<button[39m
+            [33maria-label[39m=[32m"更新财务数据"[39m
+            [33mclass[39m=[32m"icon-button"[39m
+            [33mtitle[39m=[32m"更新财务数据"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-settings-2"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"18"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M14 17H5"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M19 7h-9"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"17"[39m
+                [33mcy[39m=[32m"17"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"7"[39m
+                [33mcy[39m=[32m"7"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</header>[39m
+      [36m<nav[39m
+        [33maria-label[39m=[32m"主导航"[39m
+        [33mclass[39m=[32m"v2-primary-nav"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-current[39m=[32m"page"[39m
+          [33mclass[39m=[32m"v2-nav-button is-active"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-nav-icon"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-house lucide-home"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstr...
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<main[39m
+      [33mclass[39m=[32m"v2-shell"[39m
+      [33mdata-testid[39m=[32m"v2-home"[39m
+    [36m>[39m
+      [36m<header[39m
+        [33mclass[39m=[32m"v2-topbar"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"返回今天首页"[39m
+          [33mclass[39m=[32m"v2-brand"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-brand-mark"[39m
+          [36m>[39m
+            [36m<img[39m
+              [33malt[39m=[32m""[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mdata-brand-logo[39m=[32m"brand-wallet-sprout"[39m
+              [33mdraggable[39m=[32m"false"[39m
+              [33msrc[39m=[32m"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20128%20128'%20fill='none'%3e%3ctitle%3e小钱家钱包与嫩芽%3c/title%3e%3cdefs%3e%3clinearGradient%20id='wallet'%20x1='28'%20y1='42'%20x2='98'%20y2='111'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%2375D5A1'/%3e%3cstop%20offset='1'%20stop-color='%232C9D70'/%3e%3c/linearGradient%3e%3clinearGradient%20id='flap'%20x1='34'%20y1='44'%20x2='91'%20y2='78'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%23A9E6B6'/%3e%3cstop%20offset='1'%20stop-color='%2356BE88'/%3e%3c/linearGradient%3e%3cfilter%20id='shadow'%20x='12'%20y='14'%20width='106'%20height='110'%20color-interpolation-filters='sRGB'%20filterUnits='userSpaceOnUse'%3e%3cfeGaussianBlur%20stdDeviation='4'/%3e%3c/filter%3e%3c/defs%3e%3cellipse%20cx='65'%20cy='111'%20fill='%23285C48'%20fill-opacity='.13'%20filter='url(%23shadow)'%20rx='43'%20ry='7'/%3e%3cpath%20d='M63%2052c-2-13%203-22%2012-29'%20stroke='%233D9862'%20stroke-linecap='round'%20stroke-width='5'/%3e%3cpath%20d='M69%2036c-14%202-23-4-25-15%2013-4%2025%202%2025%2015Z'%20fill='%2377C879'/%3e%3cpath%20d='M71%2031c0-14%208-23%2020-24%203%2013-5%2023-20%2024Z'%20fill='%234FAE68'/%3e%3cpath%20d='M25%2052c0-6%205-11%2011-11h55c7%200%2012%205%2012%2012v44c0%208-6%2014-14%2014H39c-8%200-14-6-14-14V52Z'%20fill='url(%23wallet)'/%3e%3cpath%20d='M27%2057c0-7%205-12%2012-12h44c9%200%2015%206%2015%2015v7H27v-10Z'%20fill='url(%23flap)'/%3e%3cpath%20d='M31%2065h65'%20stroke='%23D5F2D7'%20stroke-opacity='.75'%20stroke-width='3'/%3e%3cpath%20d='M79%2078h25c7%200%2011%204%2011%2010v5c0%206-4%2010-11%2010H80c-6%200-10-5-10-12s4-13%209-13Z'%20fill='%23258A62'/%3e%3ccircle%20cx='91'%20cy='90'%20r='3.5'%20fill='%23DFF5C8'/%3e%3cpath%20d='M38%2078h20'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.8'%20stroke-width='4'/%3e%3cpath%20d='M38%2087h13'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.55'%20stroke-width='4'/%3e%3c/svg%3e"[39m
+            [36m/>[39m
+          [36m</span>[39m
+          [36m<div>[39m
+            [36m<strong>[39m
+              [0m小钱家[0m
+            [36m</strong>[39m
+            [36m<span>[39m
+              [0m本地账本[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</button>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"v2-topbar-actions"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"v2-period"[39m
+          [36m>[39m
+            [0m2026 年 10 月[0m
+          [36m</span>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"button button-secondary v2-top-record"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-plus"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"17"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"17"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M5 12h14"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M12 5v14"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [36m<span>[39m
+              [0m记一笔[0m
+            [36m</span>[39m
+          [36m</button>[39m
+          [36m<button[39m
+            [33maria-label[39m=[32m"更新财务数据"[39m
+            [33mclass[39m=[32m"icon-button"[39m
+            [33mtitle[39m=[32m"更新财务数据"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-settings-2"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"18"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M14 17H5"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M19 7h-9"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"17"[39m
+                [33mcy[39m=[32m"17"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"7"[39m
+                [33mcy[39m=[32m"7"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</header>[39m
+      [36m<nav[39m
+        [33maria-label[39m=[32m"主导航"[39m
+        [33mclass[39m=[32m"v2-primary-nav"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-current[39m=[32m"page"[39m
+          [33mclass[39m=[32m"v2-nav-button is-active"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-nav-icon"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-house lucide-home"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstr...
+ ❯ waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ tests/m1-home.test.tsx:201:33
+    199|     try {
+    200|       render(<App services={services} />);
+    201|       const home = await screen.findByTestId("m1-home");
+       |                                 ^
+    202|       expect(screen.getByTestId("m1-remaining-line").textContent).toBe…
+    203|       expect(within(home).queryByRole("progressbar")).toBeNull();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/9]⎯
+
+ FAIL  tests/m1-home.test.tsx > M1 home shows only spending against target and recent records > the recommendation can be lower than the user's own target and both are shown
+TestingLibraryElementError: Unable to find an element by: [data-testid="m1-home"]
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<main[39m
+      [33mclass[39m=[32m"v2-shell"[39m
+      [33mdata-testid[39m=[32m"v2-home"[39m
+    [36m>[39m
+      [36m<header[39m
+        [33mclass[39m=[32m"v2-topbar"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"返回今天首页"[39m
+          [33mclass[39m=[32m"v2-brand"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-brand-mark"[39m
+          [36m>[39m
+            [36m<img[39m
+              [33malt[39m=[32m""[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mdata-brand-logo[39m=[32m"brand-wallet-sprout"[39m
+              [33mdraggable[39m=[32m"false"[39m
+              [33msrc[39m=[32m"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20128%20128'%20fill='none'%3e%3ctitle%3e小钱家钱包与嫩芽%3c/title%3e%3cdefs%3e%3clinearGradient%20id='wallet'%20x1='28'%20y1='42'%20x2='98'%20y2='111'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%2375D5A1'/%3e%3cstop%20offset='1'%20stop-color='%232C9D70'/%3e%3c/linearGradient%3e%3clinearGradient%20id='flap'%20x1='34'%20y1='44'%20x2='91'%20y2='78'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%23A9E6B6'/%3e%3cstop%20offset='1'%20stop-color='%2356BE88'/%3e%3c/linearGradient%3e%3cfilter%20id='shadow'%20x='12'%20y='14'%20width='106'%20height='110'%20color-interpolation-filters='sRGB'%20filterUnits='userSpaceOnUse'%3e%3cfeGaussianBlur%20stdDeviation='4'/%3e%3c/filter%3e%3c/defs%3e%3cellipse%20cx='65'%20cy='111'%20fill='%23285C48'%20fill-opacity='.13'%20filter='url(%23shadow)'%20rx='43'%20ry='7'/%3e%3cpath%20d='M63%2052c-2-13%203-22%2012-29'%20stroke='%233D9862'%20stroke-linecap='round'%20stroke-width='5'/%3e%3cpath%20d='M69%2036c-14%202-23-4-25-15%2013-4%2025%202%2025%2015Z'%20fill='%2377C879'/%3e%3cpath%20d='M71%2031c0-14%208-23%2020-24%203%2013-5%2023-20%2024Z'%20fill='%234FAE68'/%3e%3cpath%20d='M25%2052c0-6%205-11%2011-11h55c7%200%2012%205%2012%2012v44c0%208-6%2014-14%2014H39c-8%200-14-6-14-14V52Z'%20fill='url(%23wallet)'/%3e%3cpath%20d='M27%2057c0-7%205-12%2012-12h44c9%200%2015%206%2015%2015v7H27v-10Z'%20fill='url(%23flap)'/%3e%3cpath%20d='M31%2065h65'%20stroke='%23D5F2D7'%20stroke-opacity='.75'%20stroke-width='3'/%3e%3cpath%20d='M79%2078h25c7%200%2011%204%2011%2010v5c0%206-4%2010-11%2010H80c-6%200-10-5-10-12s4-13%209-13Z'%20fill='%23258A62'/%3e%3ccircle%20cx='91'%20cy='90'%20r='3.5'%20fill='%23DFF5C8'/%3e%3cpath%20d='M38%2078h20'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.8'%20stroke-width='4'/%3e%3cpath%20d='M38%2087h13'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.55'%20stroke-width='4'/%3e%3c/svg%3e"[39m
+            [36m/>[39m
+          [36m</span>[39m
+          [36m<div>[39m
+            [36m<strong>[39m
+              [0m小钱家[0m
+            [36m</strong>[39m
+            [36m<span>[39m
+              [0m本地账本[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</button>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"v2-topbar-actions"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"v2-period"[39m
+          [36m>[39m
+            [0m2026 年 10 月[0m
+          [36m</span>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"button button-secondary v2-top-record"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-plus"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"17"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"17"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M5 12h14"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M12 5v14"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [36m<span>[39m
+              [0m记一笔[0m
+            [36m</span>[39m
+          [36m</button>[39m
+          [36m<button[39m
+            [33maria-label[39m=[32m"更新财务数据"[39m
+            [33mclass[39m=[32m"icon-button"[39m
+            [33mtitle[39m=[32m"更新财务数据"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-settings-2"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"18"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M14 17H5"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M19 7h-9"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"17"[39m
+                [33mcy[39m=[32m"17"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"7"[39m
+                [33mcy[39m=[32m"7"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</header>[39m
+      [36m<nav[39m
+        [33maria-label[39m=[32m"主导航"[39m
+        [33mclass[39m=[32m"v2-primary-nav"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-current[39m=[32m"page"[39m
+          [33mclass[39m=[32m"v2-nav-button is-active"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-nav-icon"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-house lucide-home"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstr...
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<main[39m
+      [33mclass[39m=[32m"v2-shell"[39m
+      [33mdata-testid[39m=[32m"v2-home"[39m
+    [36m>[39m
+      [36m<header[39m
+        [33mclass[39m=[32m"v2-topbar"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"返回今天首页"[39m
+          [33mclass[39m=[32m"v2-brand"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-brand-mark"[39m
+          [36m>[39m
+            [36m<img[39m
+              [33malt[39m=[32m""[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mdata-brand-logo[39m=[32m"brand-wallet-sprout"[39m
+              [33mdraggable[39m=[32m"false"[39m
+              [33msrc[39m=[32m"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20128%20128'%20fill='none'%3e%3ctitle%3e小钱家钱包与嫩芽%3c/title%3e%3cdefs%3e%3clinearGradient%20id='wallet'%20x1='28'%20y1='42'%20x2='98'%20y2='111'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%2375D5A1'/%3e%3cstop%20offset='1'%20stop-color='%232C9D70'/%3e%3c/linearGradient%3e%3clinearGradient%20id='flap'%20x1='34'%20y1='44'%20x2='91'%20y2='78'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%23A9E6B6'/%3e%3cstop%20offset='1'%20stop-color='%2356BE88'/%3e%3c/linearGradient%3e%3cfilter%20id='shadow'%20x='12'%20y='14'%20width='106'%20height='110'%20color-interpolation-filters='sRGB'%20filterUnits='userSpaceOnUse'%3e%3cfeGaussianBlur%20stdDeviation='4'/%3e%3c/filter%3e%3c/defs%3e%3cellipse%20cx='65'%20cy='111'%20fill='%23285C48'%20fill-opacity='.13'%20filter='url(%23shadow)'%20rx='43'%20ry='7'/%3e%3cpath%20d='M63%2052c-2-13%203-22%2012-29'%20stroke='%233D9862'%20stroke-linecap='round'%20stroke-width='5'/%3e%3cpath%20d='M69%2036c-14%202-23-4-25-15%2013-4%2025%202%2025%2015Z'%20fill='%2377C879'/%3e%3cpath%20d='M71%2031c0-14%208-23%2020-24%203%2013-5%2023-20%2024Z'%20fill='%234FAE68'/%3e%3cpath%20d='M25%2052c0-6%205-11%2011-11h55c7%200%2012%205%2012%2012v44c0%208-6%2014-14%2014H39c-8%200-14-6-14-14V52Z'%20fill='url(%23wallet)'/%3e%3cpath%20d='M27%2057c0-7%205-12%2012-12h44c9%200%2015%206%2015%2015v7H27v-10Z'%20fill='url(%23flap)'/%3e%3cpath%20d='M31%2065h65'%20stroke='%23D5F2D7'%20stroke-opacity='.75'%20stroke-width='3'/%3e%3cpath%20d='M79%2078h25c7%200%2011%204%2011%2010v5c0%206-4%2010-11%2010H80c-6%200-10-5-10-12s4-13%209-13Z'%20fill='%23258A62'/%3e%3ccircle%20cx='91'%20cy='90'%20r='3.5'%20fill='%23DFF5C8'/%3e%3cpath%20d='M38%2078h20'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.8'%20stroke-width='4'/%3e%3cpath%20d='M38%2087h13'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.55'%20stroke-width='4'/%3e%3c/svg%3e"[39m
+            [36m/>[39m
+          [36m</span>[39m
+          [36m<div>[39m
+            [36m<strong>[39m
+              [0m小钱家[0m
+            [36m</strong>[39m
+            [36m<span>[39m
+              [0m本地账本[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</button>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"v2-topbar-actions"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"v2-period"[39m
+          [36m>[39m
+            [0m2026 年 10 月[0m
+          [36m</span>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"button button-secondary v2-top-record"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-plus"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"17"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"17"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M5 12h14"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M12 5v14"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [36m<span>[39m
+              [0m记一笔[0m
+            [36m</span>[39m
+          [36m</button>[39m
+          [36m<button[39m
+            [33maria-label[39m=[32m"更新财务数据"[39m
+            [33mclass[39m=[32m"icon-button"[39m
+            [33mtitle[39m=[32m"更新财务数据"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-settings-2"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"18"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M14 17H5"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M19 7h-9"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"17"[39m
+                [33mcy[39m=[32m"17"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"7"[39m
+                [33mcy[39m=[32m"7"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</header>[39m
+      [36m<nav[39m
+        [33maria-label[39m=[32m"主导航"[39m
+        [33mclass[39m=[32m"v2-primary-nav"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-current[39m=[32m"page"[39m
+          [33mclass[39m=[32m"v2-nav-button is-active"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-nav-icon"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-house lucide-home"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstr...
+ ❯ waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ tests/m1-home.test.tsx:221:33
+    219|     try {
+    220|       render(<App services={services} />);
+    221|       const home = await screen.findByTestId("m1-home");
+       |                                 ^
+    222|       expect(home.textContent).toContain("建议上限 ¥1,000.00");
+    223|       expect(screen.getByTestId("m1-desired-line").textContent).toCont…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/9]⎯
+
+ FAIL  tests/m1-home.test.tsx > M1 home shows only spending against target and recent records > month boundary: an entry dated next month does not change this month's total
+TestingLibraryElementError: Unable to find an element by: [data-testid="m1-home"]
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<main[39m
+      [33mclass[39m=[32m"v2-shell"[39m
+      [33mdata-testid[39m=[32m"v2-home"[39m
+    [36m>[39m
+      [36m<header[39m
+        [33mclass[39m=[32m"v2-topbar"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"返回今天首页"[39m
+          [33mclass[39m=[32m"v2-brand"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-brand-mark"[39m
+          [36m>[39m
+            [36m<img[39m
+              [33malt[39m=[32m""[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mdata-brand-logo[39m=[32m"brand-wallet-sprout"[39m
+              [33mdraggable[39m=[32m"false"[39m
+              [33msrc[39m=[32m"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20128%20128'%20fill='none'%3e%3ctitle%3e小钱家钱包与嫩芽%3c/title%3e%3cdefs%3e%3clinearGradient%20id='wallet'%20x1='28'%20y1='42'%20x2='98'%20y2='111'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%2375D5A1'/%3e%3cstop%20offset='1'%20stop-color='%232C9D70'/%3e%3c/linearGradient%3e%3clinearGradient%20id='flap'%20x1='34'%20y1='44'%20x2='91'%20y2='78'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%23A9E6B6'/%3e%3cstop%20offset='1'%20stop-color='%2356BE88'/%3e%3c/linearGradient%3e%3cfilter%20id='shadow'%20x='12'%20y='14'%20width='106'%20height='110'%20color-interpolation-filters='sRGB'%20filterUnits='userSpaceOnUse'%3e%3cfeGaussianBlur%20stdDeviation='4'/%3e%3c/filter%3e%3c/defs%3e%3cellipse%20cx='65'%20cy='111'%20fill='%23285C48'%20fill-opacity='.13'%20filter='url(%23shadow)'%20rx='43'%20ry='7'/%3e%3cpath%20d='M63%2052c-2-13%203-22%2012-29'%20stroke='%233D9862'%20stroke-linecap='round'%20stroke-width='5'/%3e%3cpath%20d='M69%2036c-14%202-23-4-25-15%2013-4%2025%202%2025%2015Z'%20fill='%2377C879'/%3e%3cpath%20d='M71%2031c0-14%208-23%2020-24%203%2013-5%2023-20%2024Z'%20fill='%234FAE68'/%3e%3cpath%20d='M25%2052c0-6%205-11%2011-11h55c7%200%2012%205%2012%2012v44c0%208-6%2014-14%2014H39c-8%200-14-6-14-14V52Z'%20fill='url(%23wallet)'/%3e%3cpath%20d='M27%2057c0-7%205-12%2012-12h44c9%200%2015%206%2015%2015v7H27v-10Z'%20fill='url(%23flap)'/%3e%3cpath%20d='M31%2065h65'%20stroke='%23D5F2D7'%20stroke-opacity='.75'%20stroke-width='3'/%3e%3cpath%20d='M79%2078h25c7%200%2011%204%2011%2010v5c0%206-4%2010-11%2010H80c-6%200-10-5-10-12s4-13%209-13Z'%20fill='%23258A62'/%3e%3ccircle%20cx='91'%20cy='90'%20r='3.5'%20fill='%23DFF5C8'/%3e%3cpath%20d='M38%2078h20'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.8'%20stroke-width='4'/%3e%3cpath%20d='M38%2087h13'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.55'%20stroke-width='4'/%3e%3c/svg%3e"[39m
+            [36m/>[39m
+          [36m</span>[39m
+          [36m<div>[39m
+            [36m<strong>[39m
+              [0m小钱家[0m
+            [36m</strong>[39m
+            [36m<span>[39m
+              [0m本地账本[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</button>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"v2-topbar-actions"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"v2-period"[39m
+          [36m>[39m
+            [0m2026 年 10 月[0m
+          [36m</span>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"button button-secondary v2-top-record"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-plus"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"17"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"17"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M5 12h14"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M12 5v14"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [36m<span>[39m
+              [0m记一笔[0m
+            [36m</span>[39m
+          [36m</button>[39m
+          [36m<button[39m
+            [33maria-label[39m=[32m"更新财务数据"[39m
+            [33mclass[39m=[32m"icon-button"[39m
+            [33mtitle[39m=[32m"更新财务数据"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-settings-2"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"18"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M14 17H5"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M19 7h-9"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"17"[39m
+                [33mcy[39m=[32m"17"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"7"[39m
+                [33mcy[39m=[32m"7"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</header>[39m
+      [36m<nav[39m
+        [33maria-label[39m=[32m"主导航"[39m
+        [33mclass[39m=[32m"v2-primary-nav"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-current[39m=[32m"page"[39m
+          [33mclass[39m=[32m"v2-nav-button is-active"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-nav-icon"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-house lucide-home"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstr...
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<main[39m
+      [33mclass[39m=[32m"v2-shell"[39m
+      [33mdata-testid[39m=[32m"v2-home"[39m
+    [36m>[39m
+      [36m<header[39m
+        [33mclass[39m=[32m"v2-topbar"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"返回今天首页"[39m
+          [33mclass[39m=[32m"v2-brand"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-brand-mark"[39m
+          [36m>[39m
+            [36m<img[39m
+              [33malt[39m=[32m""[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mdata-brand-logo[39m=[32m"brand-wallet-sprout"[39m
+              [33mdraggable[39m=[32m"false"[39m
+              [33msrc[39m=[32m"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20128%20128'%20fill='none'%3e%3ctitle%3e小钱家钱包与嫩芽%3c/title%3e%3cdefs%3e%3clinearGradient%20id='wallet'%20x1='28'%20y1='42'%20x2='98'%20y2='111'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%2375D5A1'/%3e%3cstop%20offset='1'%20stop-color='%232C9D70'/%3e%3c/linearGradient%3e%3clinearGradient%20id='flap'%20x1='34'%20y1='44'%20x2='91'%20y2='78'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%23A9E6B6'/%3e%3cstop%20offset='1'%20stop-color='%2356BE88'/%3e%3c/linearGradient%3e%3cfilter%20id='shadow'%20x='12'%20y='14'%20width='106'%20height='110'%20color-interpolation-filters='sRGB'%20filterUnits='userSpaceOnUse'%3e%3cfeGaussianBlur%20stdDeviation='4'/%3e%3c/filter%3e%3c/defs%3e%3cellipse%20cx='65'%20cy='111'%20fill='%23285C48'%20fill-opacity='.13'%20filter='url(%23shadow)'%20rx='43'%20ry='7'/%3e%3cpath%20d='M63%2052c-2-13%203-22%2012-29'%20stroke='%233D9862'%20stroke-linecap='round'%20stroke-width='5'/%3e%3cpath%20d='M69%2036c-14%202-23-4-25-15%2013-4%2025%202%2025%2015Z'%20fill='%2377C879'/%3e%3cpath%20d='M71%2031c0-14%208-23%2020-24%203%2013-5%2023-20%2024Z'%20fill='%234FAE68'/%3e%3cpath%20d='M25%2052c0-6%205-11%2011-11h55c7%200%2012%205%2012%2012v44c0%208-6%2014-14%2014H39c-8%200-14-6-14-14V52Z'%20fill='url(%23wallet)'/%3e%3cpath%20d='M27%2057c0-7%205-12%2012-12h44c9%200%2015%206%2015%2015v7H27v-10Z'%20fill='url(%23flap)'/%3e%3cpath%20d='M31%2065h65'%20stroke='%23D5F2D7'%20stroke-opacity='.75'%20stroke-width='3'/%3e%3cpath%20d='M79%2078h25c7%200%2011%204%2011%2010v5c0%206-4%2010-11%2010H80c-6%200-10-5-10-12s4-13%209-13Z'%20fill='%23258A62'/%3e%3ccircle%20cx='91'%20cy='90'%20r='3.5'%20fill='%23DFF5C8'/%3e%3cpath%20d='M38%2078h20'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.8'%20stroke-width='4'/%3e%3cpath%20d='M38%2087h13'%20stroke='%23C4F0CF'%20stroke-linecap='round'%20stroke-opacity='.55'%20stroke-width='4'/%3e%3c/svg%3e"[39m
+            [36m/>[39m
+          [36m</span>[39m
+          [36m<div>[39m
+            [36m<strong>[39m
+              [0m小钱家[0m
+            [36m</strong>[39m
+            [36m<span>[39m
+              [0m本地账本[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</button>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"v2-topbar-actions"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"v2-period"[39m
+          [36m>[39m
+            [0m2026 年 10 月[0m
+          [36m</span>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"button button-secondary v2-top-record"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-plus"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"17"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"17"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M5 12h14"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M12 5v14"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [36m<span>[39m
+              [0m记一笔[0m
+            [36m</span>[39m
+          [36m</button>[39m
+          [36m<button[39m
+            [33maria-label[39m=[32m"更新财务数据"[39m
+            [33mclass[39m=[32m"icon-button"[39m
+            [33mtitle[39m=[32m"更新财务数据"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-settings-2"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"18"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M14 17H5"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M19 7h-9"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"17"[39m
+                [33mcy[39m=[32m"17"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"7"[39m
+                [33mcy[39m=[32m"7"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</header>[39m
+      [36m<nav[39m
+        [33maria-label[39m=[32m"主导航"[39m
+        [33mclass[39m=[32m"v2-primary-nav"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-current[39m=[32m"page"[39m
+          [33mclass[39m=[32m"v2-nav-button is-active"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"v2-nav-icon"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-house lucide-home"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstr...
+ ❯ waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ tests/m1-home.test.tsx:233:20
+    231|     try {
+    232|       render(<App services={services} />);
+    233|       await screen.findByTestId("m1-home");
+       |                    ^
+    234|       await record(user, "50");
+    235|       await waitFor(() =>
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/9]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  9 failed | 7 passed (16)
+   Start at  04:16:05
+   Duration  9.69s (tests 91%, environment 4%, import 3%, transform 2%)
+

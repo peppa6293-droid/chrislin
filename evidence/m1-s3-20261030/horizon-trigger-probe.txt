@@ -1,0 +1,6 @@
+收入10000/必要4000/现金5000/目标6月(缺口,有盈余) => {"requiresSafetyRecoveryHorizon":true}
+同上但现金30000(6月*4000=24000,无缺口) => {"requiresSafetyRecoveryHorizon":false}
+目标0月 => {"requiresSafetyRecoveryHorizon":false}
+收入=必要支出(无盈余) => {"requiresSafetyRecoveryHorizon":false}
+必要支出0(无核心义务) => {"requiresSafetyRecoveryHorizon":false}
+现金选不计入安全储备 => {"requiresSafetyRecoveryHorizon":true}

@@ -1,0 +1,15 @@
+$ npm install --offline --no-audit --no-fund
+
+up to date in 165ms
+EXIT=0
+
+$ ls -l node_modules/.bin/tauri
+ls: node_modules/.bin/tauri: No such file or directory
+
+$ npx tauri --version
+npm error could not determine executable to run
+npm error A complete log of this run can be found in: /Users/linte/.npm/_logs/2026-10-29T13_44_17_576Z-debug-0.log
+
+up to date in 192ms
+
+up to date in 158ms

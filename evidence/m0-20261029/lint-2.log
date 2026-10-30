@@ -1,0 +1,11 @@
+$ npx biome check --write src/lab/M0Lab.tsx src/main.tsx src/ui/m0-lab.css src/ui/v2-tokens.css
+Checked 4 files in 6ms. Fixed 1 file.
+BIOME_EXIT=0
+
+$ npm run lint
+
+> personal-finance-console@0.1.0 lint
+> biome check src tests
+
+Checked 176 files in 106ms. No fixes applied.
+EXIT=0

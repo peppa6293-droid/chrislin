@@ -1,0 +1,2 @@
+				DEVELOPMENT_TEAM = "SSRKA7A4TN";
+				PRODUCT_BUNDLE_IDENTIFIER = com.personalfinance.console.smoke;

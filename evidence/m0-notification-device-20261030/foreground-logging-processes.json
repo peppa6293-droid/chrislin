@@ -1,0 +1,32 @@
+{
+  "info" : {
+    "arguments" : [
+      "devicectl",
+      "device",
+      "info",
+      "processes",
+      "--device",
+      "00008140-001C55E91A40801C",
+      "--search",
+      "小钱家",
+      "--json-output",
+      "/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2/evidence/m0-notification-device-20261030/foreground-logging-processes.json"
+    ],
+    "commandType" : "devicectl.device.info.processes",
+    "environment" : {
+      "TERM" : "dumb"
+    },
+    "jsonVersion" : 5,
+    "outcome" : "success",
+    "version" : "642.16"
+  },
+  "result" : {
+    "deviceIdentifier" : "2ACFC9A6-9BB5-5A45-B729-398BEF3A0483",
+    "runningProcesses" : [
+      {
+        "executable" : "file:///private/var/containers/Bundle/Application/C8B4F707-2C7B-40B0-95C8-55AFA4404DE1/%E5%B0%8F%E9%92%B1%E5%AE%B6.app/%E5%B0%8F%E9%92%B1%E5%AE%B6",
+        "processIdentifier" : 1025
+      }
+    ]
+  }
+}

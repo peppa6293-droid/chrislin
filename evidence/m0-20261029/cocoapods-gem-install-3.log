@@ -1,0 +1,162 @@
+$ RUBYOPT=-r/tmp/ruby_sdk_patch.rb gem install --user-install cocoapods --no-document --conservative
+WARNING:  You don't have /Users/linte/.gem/ruby/2.6.0/bin in your PATH,
+	  gem executables will not run.
+ERROR:  Error installing cocoapods:
+	The last version of securerandom (>= 0.3) to support your Ruby & RubyGems was 0.3.2. Try installing it with `gem install securerandom -v 0.3.2` and then running the current command again
+	securerandom requires Ruby version >= 3.1.0. The current ruby version is 2.6.10.210.
+Successfully installed ethon-0.19.1
+Successfully installed typhoeus-1.7.1
+Successfully installed concurrent-ruby-1.3.8
+Successfully installed httpclient-2.9.0
+A new major version is available for Algolia! Please now use the https://rubygems.org/gems/algolia gem to get the latest features.
+Successfully installed algoliasearch-1.27.5
+Successfully installed fuzzy_match-2.0.4
+Successfully installed benchmark-0.5.0
+EXIT=1
+
+$ gem list cocoapods
+cocoapods-deintegrate (1.0.5)
+cocoapods-downloader (2.1)
+cocoapods-plugins (1.0.0)
+cocoapods-search (1.0.1)
+cocoapods-trunk (1.6.0)
+cocoapods-try (1.2.0)
+
+$ ls ~/.gem/ruby/2.6.0/bin
+total 24
+-rwxr-xr-x@ 1 linte  staff  606 Oct 29 20:51 fuzzy_match
+-rwxr-xr-x@ 1 linte  staff  600 Oct 29 20:51 httpclient
+-rwxr-xr-x@ 1 linte  staff  594 Oct 29 20:48 xcodeproj
+WARNING:  You don't have /Users/linte/.gem/ruby/2.6.0/bin in your PATH,
+	  gem executables will not run.
+Successfully installed securerandom-0.3.2
+1 gem installed
+$ RUBYOPT=-r/tmp/ruby_sdk_patch.rb gem install --user-install cocoapods --no-document --conservative
+WARNING:  You don't have /Users/linte/.gem/ruby/2.6.0/bin in your PATH,
+	  gem executables will not run.
+ERROR:  Error installing cocoapods:
+	The last version of drb (>= 0) to support your Ruby & RubyGems was 2.0.6. Try installing it with `gem install drb -v 2.0.6` and then running the current command again
+	drb requires Ruby version >= 2.7.0. The current ruby version is 2.6.10.210.
+EXIT=1
+
+$ gem list cocoapods
+cocoapods-deintegrate (1.0.5)
+cocoapods-downloader (2.1)
+cocoapods-plugins (1.0.0)
+cocoapods-search (1.0.1)
+cocoapods-trunk (1.6.0)
+cocoapods-try (1.2.0)
+WARNING:  You don't have /Users/linte/.gem/ruby/2.6.0/bin in your PATH,
+	  gem executables will not run.
+Successfully installed ruby2_keywords-0.0.5
+Successfully installed drb-2.0.6
+2 gems installed
+$ RUBYOPT=-r/tmp/ruby_sdk_patch.rb gem install --user-install cocoapods --no-document --conservative
+WARNING:  You don't have /Users/linte/.gem/ruby/2.6.0/bin in your PATH,
+	  gem executables will not run.
+ERROR:  Error installing cocoapods:
+	The last version of i18n (>= 1.6, < 2) to support your Ruby & RubyGems was 1.14.8. Try installing it with `gem install i18n -v 1.14.8` and then running the current command again
+	i18n requires Ruby version >= 3.1. The current ruby version is 2.6.10.210.
+Successfully installed connection_pool-2.5.5
+Successfully installed tzinfo-2.0.6
+EXIT=1
+
+$ gem list cocoapods
+cocoapods-deintegrate (1.0.5)
+cocoapods-downloader (2.1)
+cocoapods-plugins (1.0.0)
+cocoapods-search (1.0.1)
+cocoapods-trunk (1.6.0)
+cocoapods-try (1.2.0)
+WARNING:  You don't have /Users/linte/.gem/ruby/2.6.0/bin in your PATH,
+	  gem executables will not run.
+Successfully installed i18n-1.14.8
+1 gem installed
+$ RUBYOPT=-r/tmp/ruby_sdk_patch.rb gem install --user-install cocoapods --no-document --conservative
+WARNING:  You don't have /Users/linte/.gem/ruby/2.6.0/bin in your PATH,
+	  gem executables will not run.
+ERROR:  Error installing cocoapods:
+	The last version of activesupport (>= 5.0, < 8) to support your Ruby & RubyGems was 6.1.7.10. Try installing it with `gem install activesupport -v 6.1.7.10` and then running the current command again
+	activesupport requires Ruby version >= 3.1.0. The current ruby version is 2.6.10.210.
+EXIT=1
+
+$ gem list cocoapods
+cocoapods-deintegrate (1.0.5)
+cocoapods-downloader (2.1)
+cocoapods-plugins (1.0.0)
+cocoapods-search (1.0.1)
+cocoapods-trunk (1.6.0)
+cocoapods-try (1.2.0)
+WARNING:  You don't have /Users/linte/.gem/ruby/2.6.0/bin in your PATH,
+	  gem executables will not run.
+ERROR:  Error installing activesupport:
+	The last version of zeitwerk (~> 2.3) to support your Ruby & RubyGems was 2.6.18. Try installing it with `gem install zeitwerk -v 2.6.18` and then running the current command again
+	zeitwerk requires Ruby version >= 3.2. The current ruby version is 2.6.10.210.
+$ gem install --user-install zeitwerk -v 2.6.18 --no-document
+WARNING:  You don't have /Users/linte/.gem/ruby/2.6.0/bin in your PATH,
+	  gem executables will not run.
+Successfully installed zeitwerk-2.6.18
+1 gem installed
+ZEITWERK_EXIT=0
+
+$ gem install --user-install activesupport -v 6.1.7.10 --no-document
+$ gem install --local ~/.gem/ruby/2.6.0/cache/activesupport-6.1.7.10.gem --user-install --no-document
+WARNING:  You don't have /Users/linte/.gem/ruby/2.6.0/bin in your PATH,
+	  gem executables will not run.
+Successfully installed activesupport-6.1.7.10
+1 gem installed
+EXIT=0
+
+$ gem list activesupport
+activesupport (6.1.7.10)
+$ gem install --local ~/.gem/ruby/2.6.0/cache/cocoapods-1.17.0.gem --user-install --no-document --conservative
+ERROR:  Could not find a valid gem 'cocoapods-core' (= 1.17.0) (required by '/Users/linte/.gem/ruby/2.6.0/cache/cocoapods-1.17.0.gem' (>= 0)) in any repository
+EXIT=2
+
+$ gem list cocoapods
+cocoapods-deintegrate (1.0.5)
+cocoapods-downloader (2.1)
+cocoapods-plugins (1.0.0)
+cocoapods-search (1.0.1)
+cocoapods-trunk (1.6.0)
+cocoapods-try (1.2.0)
+
+$ ls ~/.gem/ruby/2.6.0/bin
+total 24
+-rwxr-xr-x@ 1 linte  staff  606 Oct 29 20:51 fuzzy_match
+-rwxr-xr-x@ 1 linte  staff  600 Oct 29 20:51 httpclient
+-rwxr-xr-x@ 1 linte  staff  594 Oct 29 20:48 xcodeproj
+$ gem install --local cocoapods-core-1.17.0.gem --user-install --no-document --conservative
+WARNING:  You don't have /Users/linte/.gem/ruby/2.6.0/bin in your PATH,
+	  gem executables will not run.
+Successfully installed cocoapods-core-1.17.0
+1 gem installed
+CORE_EXIT=0
+
+$ gem install --local cocoapods-1.17.0.gem --user-install --no-document --conservative
+WARNING:  You don't have /Users/linte/.gem/ruby/2.6.0/bin in your PATH,
+	  gem executables will not run.
+Successfully installed cocoapods-1.17.0
+1 gem installed
+COCOAPODS_EXIT=0
+
+$ gem list cocoapods
+cocoapods (1.17.0)
+cocoapods-core (1.17.0)
+cocoapods-deintegrate (1.0.5)
+cocoapods-downloader (2.1)
+cocoapods-plugins (1.0.0)
+cocoapods-search (1.0.1)
+cocoapods-trunk (1.6.0)
+cocoapods-try (1.2.0)
+$ export PATH="$HOME/.gem/ruby/2.6.0/bin:$HOME/.local/bin:$PATH"
+$ command -v pod
+/Users/linte/.gem/ruby/2.6.0/bin/pod
+$ pod --version
+    [33mWARNING: CocoaPods requires your terminal to be using UTF-8 encoding.
+    Consider adding the following to ~/.profile:
+
+    export LANG=en_US.UTF-8
+    [0m
+1.17.0
+POD_EXIT=0

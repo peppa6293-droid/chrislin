@@ -1,0 +1,19 @@
+$ cat > ~/.local/bin/idevicesyslog
+
+$ ls -l ~/.local/bin/idevicesyslog
+-rwxr-xr-x@ 1 linte  staff  72 Oct 29 20:06 /Users/linte/.local/bin/idevicesyslog
+
+$ cat ~/.local/bin/idevicesyslog
+#!/bin/sh
+echo "placeholder: libimobiledevice not installed" >&2
+exit 1
+
+$ command -v pod
+MISSING
+
+$ xcrun devicectl --version
+642.16
+DEVICECTL_EXIT=0
+
+$ ruby -e "puts Gem.user_dir"
+/Users/linte/.gem/ruby/2.6.0

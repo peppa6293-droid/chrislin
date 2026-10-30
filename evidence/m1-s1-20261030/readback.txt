@@ -1,0 +1,4 @@
+0
+m0_spike
+sqlite_sequence
+2

@@ -1,0 +1,9 @@
+
+ RUN  v5.0.5 /Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2
+
+
+ Test Files  61 passed (61)
+      Tests  629 passed | 44 skipped (673)
+   Start at  13:51:02
+   Duration  4.20s (tests 58%, import 18%, environment 18%, transform 5%, worker 1%)
+

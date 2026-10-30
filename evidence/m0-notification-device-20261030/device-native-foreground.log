@@ -1,0 +1,7 @@
+[tauri_plugin_notification] request id=-2001822466 title=M0 立即通知 scheduled=false tz=Asia/Shanghai
+[tauri_plugin_notification] request id=3 title=M0 定时通知 scheduled=true tz=Asia/Shanghai
+[tauri_plugin_notification] at raw=2026-10-29T18:31:06.871000000Z parsed=2026-10-29 18:31:06 +0000 tz=Asia/Shanghai
+[tauri_plugin_notification] add id=3 error=none
+[tauri_plugin_notification] willPresent id=-2001822466 title=M0 立即通知
+[tauri_plugin_notification] add id=-2001822466 error=none
+[tauri_plugin_notification] willPresent id=3 title=M0 定时通知

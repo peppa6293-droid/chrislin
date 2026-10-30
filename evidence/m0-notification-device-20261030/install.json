@@ -1,0 +1,39 @@
+{
+  "info" : {
+    "arguments" : [
+      "devicectl",
+      "device",
+      "install",
+      "app",
+      "--device",
+      "00008140-001C55E91A40801C",
+      "/var/folders/hj/7n4_24qx3lsfx5kntghnrv5w0000gn/T/m0-notification-install-fv3luy2f/Payload/小钱家.app",
+      "--json-output",
+      "evidence/m0-notification-device-20261030/install.json",
+      "--timeout",
+      "120"
+    ],
+    "commandType" : "devicectl.device.install.app",
+    "environment" : {
+      "TERM" : "dumb"
+    },
+    "jsonVersion" : 5,
+    "outcome" : "success",
+    "version" : "642.16"
+  },
+  "result" : {
+    "deviceIdentifier" : "2ACFC9A6-9BB5-5A45-B729-398BEF3A0483",
+    "installedApplications" : [
+      {
+        "bundleID" : "com.personalfinance.console.smoke",
+        "databaseSequenceNumber" : 2316,
+        "databaseUUID" : "27C72704-2545-4B96-8BB2-1CACD7D1E97F",
+        "installationURL" : "file:///private/var/containers/Bundle/Application/C8B4F707-2C7B-40B0-95C8-55AFA4404DE1/%E5%B0%8F%E9%92%B1%E5%AE%B6.app/",
+        "launchServicesIdentifier" : "unknown",
+        "options" : {
+
+        }
+      }
+    ]
+  }
+}

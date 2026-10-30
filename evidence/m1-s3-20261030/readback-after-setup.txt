@@ -1,0 +1,11 @@
+profiles=1
+name=chris
+settings: target=6.0 floor=1.0 desired=2000 horizon=NULL
+income: PLANNING/EXPECTED/10000/2026-10-30
+essential: HOUSING=4000
+cash_accounts: 现金/safety=1
+cash_snap: 30000@2026-10-30
+assets=0
+debts=0
+expenses=0
+integrity=ok

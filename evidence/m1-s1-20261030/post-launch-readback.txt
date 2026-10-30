@@ -1,0 +1,6 @@
+8
+ok
+schema_migrations_max=8
+30 tables
+m0_spike exists=0
+profiles=0

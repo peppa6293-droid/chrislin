@@ -1,0 +1,5 @@
+rid  amount  business_date  occurred_at               category        kind      note
+---  ------  -------------  ------------------------  --------------  --------  ----
+1    100.5   2026-10-30     2026-10-30T00:00:00.000Z  OTHER_VARIABLE  VARIABLE  午餐
+2    20      2026-10-30     2026-10-30T00:00:00.000Z  OTHER_VARIABLE  VARIABLE      
+3    8.8     2026-10-29     2026-10-29T00:00:00.000Z  OTHER_VARIABLE  VARIABLE  补记

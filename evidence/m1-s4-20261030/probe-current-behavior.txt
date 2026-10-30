@@ -1,0 +1,16 @@
+A0 initial: spending=0 recommended=2000 remaining=2000 desired=2000 recent=[]
+A1 after 100.50: spending=100.5 remaining=1899.5 recent=[["100.50","2026-10-30","餐饮","午餐"]]
+B same-day entry order amounts 100.50,1,2,3,4 -> recent(3)=["1","3","4"]  (latest entered was 4)
+C backdated 10-02 entered last -> recent(3)=[["1","2026-10-30"],["3","2026-10-30"],["4","2026-10-30"]] spending=119.5
+D future 10-31 saved; spending=119.5 (before 119.5) recent=[["50","2026-10-31"],["1","2026-10-30"],["3","2026-10-30"]]
+E next-month 11-01 saved; Oct spending=119.5
+F legacy mirror=[{"category":"OTHER_VARIABLE","kind":"VARIABLE"}] v2.category_id=[{"category_id":"12b360be-df6f-44bf-86f6-4dd7452199ea"}]
+G asOf 11-01: spending=70
+H amount 0.01 -> ACCEPTED
+H amount 999999999999.99 -> ACCEPTED
+H amount 0 -> REJECTED expense.amount must be positive
+H amount 1e3 -> REJECTED INVALID_EXPENSE_AMOUNT
+H amount 12.345 -> REJECTED INVALID_EXPENSE_AMOUNT
+H amount -5 -> REJECTED INVALID_EXPENSE_AMOUNT
+I duplicate id -> REJECTED ERR_SQLITE_ERROR
+J row counts: expenses=[{"n":10}] expense_records=[{"n":10}]

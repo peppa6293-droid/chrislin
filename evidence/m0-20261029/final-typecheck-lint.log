@@ -1,0 +1,40 @@
+$ npm run typecheck
+
+> personal-finance-console@0.1.0 typecheck
+> tsc --noEmit
+
+TYPECHECK_EXIT=0
+
+$ npm run lint
+
+> personal-finance-console@0.1.0 lint
+> biome check src tests
+
+src/main.tsx format ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Formatter would have printed the following content:
+  
+    20 20 │   const root = document.getElementById("root");
+    21 21 │   if (!root) throw new Error("Application root is missing.");
+    22    │ - const·isM0Lab·=
+    23    │ - ··window.location.pathname·===·"/lab/glass"·||·import.meta.env.VITE_M0_LAB·===·"1";
+       22 │ + const·isM0Lab·=·window.location.pathname·===·"/lab/glass"·||·import.meta.env.VITE_M0_LAB·===·"1";
+    24 23 │   createRoot(root).render(isM0Lab ? <M0Lab /> : <App />);
+    25 24 │   
+  
+
+Checked 176 files in 190ms. No fixes applied.
+Found 1 error.
+check ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Some errors were emitted while running checks.
+  
+
+LINT_EXIT=1
+$ npm run lint
+
+> personal-finance-console@0.1.0 lint
+> biome check src tests
+
+Checked 176 files in 163ms. No fixes applied.
+LINT_EXIT=0

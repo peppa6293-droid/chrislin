@@ -1,0 +1,54 @@
+$ export PATH="$HOME/.gem/ruby/2.6.0/bin:$HOME/.local/bin:$PATH"
+$ npx tauri ios init --ci --skip-targets-install
+/Users/linte/.local/bin/xcodegen
+/Users/linte/.local/bin/idevicesyslog
+/Users/linte/.gem/ruby/2.6.0/bin/pod
+        Warn Failed to check for outdated dependencies: Failed to check for outdated packages with Io(StdoutCapture, Io(StderrCapture, Cmd(["brew", "outdated", "--json=v2"]))): No such file or directory (os error 2)
+        Info "/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2/src-tauri" relative to "/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2/src-tauri/gen/apple" is "../../"
+Generating Xcode project...
+⚙️  Generating plists...
+⚙️  Generating project...
+⚙️  Writing project...
+Created project at /Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2/src-tauri/gen/apple/personal-finance-console.xcodeproj
+No "base" settings found
+No "debug config" settings found
+No "release config" settings found
+No "iOS" settings found
+victory: Project generated successfully!
+    Make cool apps! 🌻 🐕 🎉
+EXIT=0
+=== gen/apple ===
+total 40
+drwxr-xr-x@ 13 linte  staff   416 Oct 29 21:17 .
+drwxr-xr-x@  4 linte  staff   128 Oct 29 21:17 ..
+-rw-r--r--@  1 linte  staff    30 Oct 29 21:17 .gitignore
+drwxr-xr-x@  4 linte  staff   128 Oct 29 21:17 Assets.xcassets
+-rw-r--r--@  1 linte  staff   241 Oct 29 21:17 ExportOptions.plist
+drwxr-xr-x@  2 linte  staff    64 Oct 29 21:17 Externals
+-rw-r--r--@  1 linte  staff  1845 Oct 29 21:17 LaunchScreen.storyboard
+-rw-r--r--@  1 linte  staff   649 Oct 29 21:17 Podfile
+drwxr-xr-x@  3 linte  staff    96 Oct 29 21:17 Sources
+drwxr-xr-x@  2 linte  staff    64 Oct 29 21:17 assets
+drwxr-xr-x@  5 linte  staff   160 Oct 29 21:17 personal-finance-console.xcodeproj
+drwxr-xr-x@  4 linte  staff   128 Oct 29 21:17 personal-finance-console_iOS
+-rw-r--r--@  1 linte  staff  3787 Oct 29 21:17 project.yml
+=== files ===
+src-tauri/gen/apple/.gitignore
+src-tauri/gen/apple/Assets.xcassets/Contents.json
+src-tauri/gen/apple/ExportOptions.plist
+src-tauri/gen/apple/LaunchScreen.storyboard
+src-tauri/gen/apple/Podfile
+src-tauri/gen/apple/personal-finance-console.xcodeproj/project.pbxproj
+src-tauri/gen/apple/personal-finance-console_iOS/Info.plist
+src-tauri/gen/apple/personal-finance-console_iOS/personal-finance-console_iOS.entitlements
+src-tauri/gen/apple/project.yml
+=== bundle id ===
+3:  bundleIdPrefix: com.personalfinance.console
+14:      PRODUCT_BUNDLE_IDENTIFIER: com.personalfinance.console
+=== git status ===
+## feat/mobile
+ M WORKLOG.md
+?? evidence/m0-20261029/
+?? evidence/wp-ui-visual-01/p1-p4/interaction-i01-batch-a-review-20261029/
+?? evidence/wp-ui-visual-01/p1-p4/r1-20261029/review-bprime-default-20261029/
+?? evidence/wp-ui-visual-01/p1-p4/r1-20261029/review-bprime-recheck-20261029/

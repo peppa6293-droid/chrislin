@@ -1,0 +1,20 @@
+$ gem install --user-install cocoapods --no-document
+WARNING:  You don't have /Users/linte/.gem/ruby/2.6.0/bin in your PATH,
+	  gem executables will not run.
+ERROR:  Error installing cocoapods:
+	The last version of ffi (>= 1.15.0) to support your Ruby & RubyGems was 1.17.4. Try installing it with `gem install ffi -v 1.17.4` and then running the current command again
+	ffi requires Ruby version >= 3.0, < 4.1.dev. The current ruby version is 2.6.10.210.
+Successfully installed nanaimo-0.4.0
+Successfully installed claide-1.1.0
+Successfully installed atomos-0.1.3
+Successfully installed xcodeproj-1.28.1
+Successfully installed molinillo-0.8.0
+Successfully installed cocoapods-try-1.2.0
+Successfully installed netrc-0.11.0
+Successfully installed cocoapods-trunk-1.6.0
+Successfully installed cocoapods-search-1.0.1
+Successfully installed cocoapods-plugins-1.0.0
+Successfully installed cocoapods-downloader-2.1
+Successfully installed cocoapods-deintegrate-1.0.5
+Successfully installed logger-1.7.0
+EXIT=1

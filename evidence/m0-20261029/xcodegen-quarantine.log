@@ -1,0 +1,16 @@
+$ xattr -dr com.apple.quarantine ~/.local/share/xcodegen
+XATTR_EXIT=0
+
+$ xattr -l ~/.local/share/xcodegen/bin/xcodegen
+com.apple.provenance: 
+XATTR_LIST_EXIT=0
+
+$ xattr -l ~/.local/share/xcodegen
+com.apple.provenance: 
+
+$ export PATH="$HOME/.local/bin:$PATH"
+$ command -v xcodegen
+/Users/linte/.local/bin/xcodegen
+$ xcodegen --version
+Version: 2.46.0
+XCODEGEN_EXIT=0

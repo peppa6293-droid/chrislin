@@ -1,0 +1,2186 @@
+[
+  {
+    "path": "index.html",
+    "method": "working-tree-copy",
+    "oid": "18c4a91a8ed13cc26bd11b87edc876dee6c9eb79",
+    "copy_matches_index": true,
+    "sha256": "cb7c4ff4f51d374ed2628b15b1d9ebe233d404c65b2ed32ac059351a2cd37af7"
+  },
+  {
+    "path": "package-lock.json",
+    "method": "working-tree-copy",
+    "oid": "acf2db0b555ef0f0cd2c8ee3efd5a2c6bc1352f9",
+    "copy_matches_index": true,
+    "sha256": "92fa91526b45f8287d321424a7987749515ab2c394d1ae6157adb26fa039fad5"
+  },
+  {
+    "path": "package.json",
+    "method": "working-tree-copy",
+    "oid": "5e7a6a07f02f8ce486d7e24bbd1a392dd4bd5045",
+    "copy_matches_index": true,
+    "sha256": "d27745cf7ebc516aed6b24b48c9fdf3b24f6fdc5c42ec6b10dde2acb2f006508"
+  },
+  {
+    "path": "src-tauri/Cargo.lock",
+    "method": "working-tree-copy",
+    "oid": "bc0558f6d260465a7912ed1ba93b168568438971",
+    "copy_matches_index": true,
+    "sha256": "fb17e9ee3487739432418948a057261a16fdbec480d25cfc1b9a51cb4830da44"
+  },
+  {
+    "path": "src-tauri/Cargo.toml",
+    "method": "working-tree-copy",
+    "oid": "61b6b98dc157f40835edcae7d68a399c99b5ee30",
+    "copy_matches_index": true,
+    "sha256": "428ec1046147dad8396924ad411761a5b2258b9e13f74def7034c4e4d96db7ff"
+  },
+  {
+    "path": "src-tauri/build.rs",
+    "method": "working-tree-copy",
+    "oid": "cdca21450edcce65b9c3434cd0c7b977fc30b1f6",
+    "copy_matches_index": true,
+    "sha256": "b2d2640ef3405c1e4d5f219b0e10ecf7f9bad27640f94df68bda6a0702046c81"
+  },
+  {
+    "path": "src-tauri/capabilities/default.json",
+    "method": "working-tree-copy",
+    "oid": "be3dd112663dad5106108e0547e3b0e2c3cd0e61",
+    "copy_matches_index": true,
+    "sha256": "7739e5977fd86fe2026395acf539e9fe9ed583f26bc595e53ed9f294d539e6ed"
+  },
+  {
+    "path": "src-tauri/capabilities/mobile.json",
+    "method": "working-tree-copy",
+    "oid": "d191c894495fc9036f5c7540ede4a6caf32d049b",
+    "copy_matches_index": true,
+    "sha256": "e77afd4cf197c10082c8b14fd177ef44c2904de6c58c39148cfe509c403bbf75"
+  },
+  {
+    "path": "src-tauri/capabilities/quiescence-ipc.json",
+    "method": "working-tree-copy",
+    "oid": "8addf3d5f28a2698a612b8312e7b1d43c3c9fd6f",
+    "copy_matches_index": true,
+    "sha256": "67bc79c9b2cdc66615cda844b066f3a205ccc9a2ffc91f284e520dc299496afc"
+  },
+  {
+    "path": "src-tauri/icon-source.svg",
+    "method": "working-tree-copy",
+    "oid": "321b177ab0a6a2fdbe42bcce842490581700affa",
+    "copy_matches_index": true,
+    "sha256": "4762d77328063b76effccbce19e4e8e1a0b480d8ca3b0892fdce7b5d5c850bc7"
+  },
+  {
+    "path": "src-tauri/icons/128x128.png",
+    "method": "working-tree-copy",
+    "oid": "53ae9a34824bd619d8bb51b2d34358136bcc2755",
+    "copy_matches_index": true,
+    "sha256": "d3cc368a0d5ea679db0158f51b60e8c2400e05b75aa1a2a906d3b5924d44554c"
+  },
+  {
+    "path": "src-tauri/icons/128x128@2x.png",
+    "method": "git-index-blob-cloud-placeholder",
+    "oid": "4df7b87334f9fcff9aabc5185bee9ad8c221e25e",
+    "copy_matches_index": true,
+    "sha256": "bc66013b17bab93372e0f78f19a525eceb4a3371df440e210a57808caa3c1907"
+  },
+  {
+    "path": "src-tauri/icons/32x32.png",
+    "method": "git-index-blob-cloud-placeholder",
+    "oid": "4e120d96286aff28077e2fcdb6fb67c5c0689df6",
+    "copy_matches_index": true,
+    "sha256": "64d7f9279d5a3bbead8fe49b58eb9c99858ad42d0773a398e3913312ca777620"
+  },
+  {
+    "path": "src-tauri/icons/64x64.png",
+    "method": "git-index-blob-cloud-placeholder",
+    "oid": "65d5a9a408e85d6738253979edaa2a3dd921d442",
+    "copy_matches_index": true,
+    "sha256": "33ea423037ae0b7b6318d45b181def2c403bf38016f0b0e49e38348ffa9c977c"
+  },
+  {
+    "path": "src-tauri/icons/Square107x107Logo.png",
+    "method": "working-tree-copy",
+    "oid": "d9fbdafe8f63e5b4ae0d546c6abdb784d30ab1fb",
+    "copy_matches_index": true,
+    "sha256": "8221111a0624a5cc120b2f329fe838dd9ee1a714338e4185a6a92f3786649efd"
+  },
+  {
+    "path": "src-tauri/icons/Square142x142Logo.png",
+    "method": "working-tree-copy",
+    "oid": "0d7dd2c20054347484e960f6cf6356f83fe67351",
+    "copy_matches_index": true,
+    "sha256": "9cfd4f2defffb25fffcd6a83972431a5e2a7b430702566b067e03bcd3de61282"
+  },
+  {
+    "path": "src-tauri/icons/Square150x150Logo.png",
+    "method": "working-tree-copy",
+    "oid": "490e673467bbbf21f389bbfcb056eb456aa0fca8",
+    "copy_matches_index": true,
+    "sha256": "340fcdf693e7c1b58f27bfbebce07587d0692174b9d3690674fb736b0c11e3bc"
+  },
+  {
+    "path": "src-tauri/icons/Square284x284Logo.png",
+    "method": "working-tree-copy",
+    "oid": "dfcbb5160430d80bba34f669db325408998f589f",
+    "copy_matches_index": true,
+    "sha256": "5f3dc15bab5b20c4905bf41f4998ff109ea9f47c6813bc6582f49110917127ab"
+  },
+  {
+    "path": "src-tauri/icons/Square30x30Logo.png",
+    "method": "working-tree-copy",
+    "oid": "ddedcf8800b652a18ecfee10b283d0511bcd384d",
+    "copy_matches_index": true,
+    "sha256": "e8a6929ba3ebbe0af143c4ec53c789ed3aec20a98287469e24c7763251cfaf18"
+  },
+  {
+    "path": "src-tauri/icons/Square310x310Logo.png",
+    "method": "working-tree-copy",
+    "oid": "25fee1fac0429bcd77a4152737aaa5161c0ab8b8",
+    "copy_matches_index": true,
+    "sha256": "1e85294ff355d5712e1be12a10a6221d8df8a12a886b7252dbe50558429959d9"
+  },
+  {
+    "path": "src-tauri/icons/Square44x44Logo.png",
+    "method": "working-tree-copy",
+    "oid": "7579fcf01dfb484bf7c692244bf551f8a925ed45",
+    "copy_matches_index": true,
+    "sha256": "a9cc35231c7a503d76eba1401bcb52f61e3cae32d79f9f48a01d19020a1d53c0"
+  },
+  {
+    "path": "src-tauri/icons/Square71x71Logo.png",
+    "method": "working-tree-copy",
+    "oid": "80e99f9d11ce28f399b6b5e32f1a7611f26d7b59",
+    "copy_matches_index": true,
+    "sha256": "551d272571a98f40e6e6d2c6cf8fb118f165b3b5ad2a80b0f76bee46fc7f7861"
+  },
+  {
+    "path": "src-tauri/icons/Square89x89Logo.png",
+    "method": "working-tree-copy",
+    "oid": "e49bc5017d95a27948dd1dba6454b9e2b60801a8",
+    "copy_matches_index": true,
+    "sha256": "b60f72f3e7ecdcab005f2f8ea2b307088ca44350f666117acdd2296edacefc3b"
+  },
+  {
+    "path": "src-tauri/icons/StoreLogo.png",
+    "method": "working-tree-copy",
+    "oid": "56b33767c8dab6fbe23781e46cc32f9ff51e7fa5",
+    "copy_matches_index": true,
+    "sha256": "bbd09ac37d5a86dad4ed605c32830b0936bc6219af41cae02a533ade199bd6f0"
+  },
+  {
+    "path": "src-tauri/icons/android/mipmap-anydpi-v26/ic_launcher.xml",
+    "method": "working-tree-copy",
+    "oid": "2ffbf24b68988bd935f5c695a59753fcb1a5de0e",
+    "copy_matches_index": true,
+    "sha256": "760d4b8a06bf7163dd010c33ad2cac9e4a75fa0177afaba042f83e311eef0c3e"
+  },
+  {
+    "path": "src-tauri/icons/android/mipmap-hdpi/ic_launcher.png",
+    "method": "working-tree-copy",
+    "oid": "1833930454fce9e234ceedd172a54bf600b519bd",
+    "copy_matches_index": true,
+    "sha256": "2bfc0cb398bdbaf16367228cdb50a28289cc2e8c1827e9af4a03a7d31d8af1df"
+  },
+  {
+    "path": "src-tauri/icons/android/mipmap-hdpi/ic_launcher_foreground.png",
+    "method": "working-tree-copy",
+    "oid": "e70f341629e6b3c9efb006215dd5007c89b1f341",
+    "copy_matches_index": true,
+    "sha256": "d1c7a71f02740fa91545757b566b26215050ac8e21773d68644eade69149e3d3"
+  },
+  {
+    "path": "src-tauri/icons/android/mipmap-hdpi/ic_launcher_round.png",
+    "method": "working-tree-copy",
+    "oid": "e352720f25ddf171d0415182e4cbdb4934637879",
+    "copy_matches_index": true,
+    "sha256": "ddbb2d35ec19fa7fc6a8eba24284bd08060ba5f3c8e63bdee3332341b8305819"
+  },
+  {
+    "path": "src-tauri/icons/android/mipmap-mdpi/ic_launcher.png",
+    "method": "working-tree-copy",
+    "oid": "75769505164f57b76ad637cfd8a374f8d1e2ffe5",
+    "copy_matches_index": true,
+    "sha256": "fc7c5ddb2da0718ef42d1ef54e3385e1c0c1e11ff9cefadf9c79210dc2310f10"
+  },
+  {
+    "path": "src-tauri/icons/android/mipmap-mdpi/ic_launcher_foreground.png",
+    "method": "working-tree-copy",
+    "oid": "e7dca486bb2a78d6b94ecd318e500c28d3f9c3ac",
+    "copy_matches_index": true,
+    "sha256": "76bd5a863756e9a12574ace9e1f80a6dceccda3428b877ec0fada2ac64d73fb8"
+  },
+  {
+    "path": "src-tauri/icons/android/mipmap-mdpi/ic_launcher_round.png",
+    "method": "working-tree-copy",
+    "oid": "dead93a50a7bb0a049c7193ac37fb872ad8e7558",
+    "copy_matches_index": true,
+    "sha256": "c81c5b863c193303833c2d1a3eb44282bab3ced7e411b58eefcaadd30bf285ff"
+  },
+  {
+    "path": "src-tauri/icons/android/mipmap-xhdpi/ic_launcher.png",
+    "method": "working-tree-copy",
+    "oid": "4d9f524111ffca78113bd2595926ede4d31b835e",
+    "copy_matches_index": true,
+    "sha256": "d4a277d257eb6ecaa642f0b498cbc66c50a96bd9f42da6fcf6a77549e7261865"
+  },
+  {
+    "path": "src-tauri/icons/android/mipmap-xhdpi/ic_launcher_foreground.png",
+    "method": "working-tree-copy",
+    "oid": "ff005089fe5dc07e95846bce94f83dd84a13639b",
+    "copy_matches_index": true,
+    "sha256": "9893032022293dbf2e6494bdb17f0f6de3a0237a0dcce0d6a93149d0c55cdb33"
+  },
+  {
+    "path": "src-tauri/icons/android/mipmap-xhdpi/ic_launcher_round.png",
+    "method": "working-tree-copy",
+    "oid": "e4bfb8f66befa0a0e4254a4a62ef4506e5353cb9",
+    "copy_matches_index": true,
+    "sha256": "85f62cc272a22465b5726051e6c1a56ad1142bc9af67d9d1f0af7e1403c88147"
+  },
+  {
+    "path": "src-tauri/icons/android/mipmap-xxhdpi/ic_launcher.png",
+    "method": "working-tree-copy",
+    "oid": "c7d96fabe57121bee1c6e83c39c3db3a9d33748c",
+    "copy_matches_index": true,
+    "sha256": "46d86e09c3a3024d89302c222c45937021c18cde03f5c337fe989bda5f1a3f24"
+  },
+  {
+    "path": "src-tauri/icons/android/mipmap-xxhdpi/ic_launcher_foreground.png",
+    "method": "working-tree-copy",
+    "oid": "58adf686bebd5eb21c85f22a9011de24121ac024",
+    "copy_matches_index": true,
+    "sha256": "745b2946ea1f28ac73e8fba5534a130ba3c8a5c83184eed8a9f9697d015b2b1c"
+  },
+  {
+    "path": "src-tauri/icons/android/mipmap-xxhdpi/ic_launcher_round.png",
+    "method": "working-tree-copy",
+    "oid": "5e7971db58510bdb6c7bb6309414449b7d1f2dab",
+    "copy_matches_index": true,
+    "sha256": "c6f6037e314acfe63b8e42c3ac7d9edc0ab0074446dddef0b1308cccb6ab4631"
+  },
+  {
+    "path": "src-tauri/icons/android/mipmap-xxxhdpi/ic_launcher.png",
+    "method": "working-tree-copy",
+    "oid": "ef1374870434e4b40243c7b62d0ccb74261423ff",
+    "copy_matches_index": true,
+    "sha256": "6ea382d84a4652ef4f6fc59fbd7ade079a11e6802cef55f73e0bcc7219c73a0a"
+  },
+  {
+    "path": "src-tauri/icons/android/mipmap-xxxhdpi/ic_launcher_foreground.png",
+    "method": "working-tree-copy",
+    "oid": "0937be8662b133a9d6c73b85ab0b3f6471c5818c",
+    "copy_matches_index": true,
+    "sha256": "66266d940421b880c124312bb6ecf85b1d21f285a0e85433a3fd3cb16fb3bb4f"
+  },
+  {
+    "path": "src-tauri/icons/android/mipmap-xxxhdpi/ic_launcher_round.png",
+    "method": "working-tree-copy",
+    "oid": "90207481876ea87b7c33445beb2b791442349ba1",
+    "copy_matches_index": true,
+    "sha256": "362c3243290b3907239abfcb563b0bf6c42a6bc3ec09ad60fb248ee22a2e177e"
+  },
+  {
+    "path": "src-tauri/icons/android/values/ic_launcher_background.xml",
+    "method": "working-tree-copy",
+    "oid": "16cdd5aab85549c6464236aa56e2ec77f8fcc4c3",
+    "copy_matches_index": true,
+    "sha256": "b1c42868a1777ed1cf61108b506ffc91d0a826318d8516e36cf8f76fab8c4ced"
+  },
+  {
+    "path": "src-tauri/icons/icon.icns",
+    "method": "working-tree-copy",
+    "oid": "812480ac84011a816eb2cac2343c68d28ab776ed",
+    "copy_matches_index": true,
+    "sha256": "6fb51b77f61987e85a0c83ada416d1a0ca14637599aab3ebe1533283cde6a80a"
+  },
+  {
+    "path": "src-tauri/icons/icon.ico",
+    "method": "working-tree-copy",
+    "oid": "08146c13b54f7e05ce62d02cb263d8cf5ddd83bd",
+    "copy_matches_index": true,
+    "sha256": "da5569648b8a20e2eae7db3fdacb5ed126169758067009465b276cb088333e0d"
+  },
+  {
+    "path": "src-tauri/icons/icon.png",
+    "method": "working-tree-copy",
+    "oid": "7dd2cd599f284dd95392477d3143ed508c8c3a68",
+    "copy_matches_index": true,
+    "sha256": "eca09f79246ca13a095d82a37a24082e9fe560352fab1d15e2ce2ff8bedd2084"
+  },
+  {
+    "path": "src-tauri/icons/ios/AppIcon-20x20@1x.png",
+    "method": "working-tree-copy",
+    "oid": "6574cf8bfcc0b1613d6741933913086652525539",
+    "copy_matches_index": true,
+    "sha256": "027da73796c442b99d5966533e07c7f7d4743408078db6e9c74fb32513ba03b2"
+  },
+  {
+    "path": "src-tauri/icons/ios/AppIcon-20x20@2x-1.png",
+    "method": "working-tree-copy",
+    "oid": "2cd4eaaf4935c5614ed8ab25823eafda0455b2af",
+    "copy_matches_index": true,
+    "sha256": "78b384b37fce20d9eea1dbd0927a9a1c2dcd7eb69de10d33c32583827c08555e"
+  },
+  {
+    "path": "src-tauri/icons/ios/AppIcon-20x20@2x.png",
+    "method": "working-tree-copy",
+    "oid": "2cd4eaaf4935c5614ed8ab25823eafda0455b2af",
+    "copy_matches_index": true,
+    "sha256": "78b384b37fce20d9eea1dbd0927a9a1c2dcd7eb69de10d33c32583827c08555e"
+  },
+  {
+    "path": "src-tauri/icons/ios/AppIcon-20x20@3x.png",
+    "method": "working-tree-copy",
+    "oid": "1c6e44aa10242c920e1ee6df0cc1313bb7ec3dec",
+    "copy_matches_index": true,
+    "sha256": "bd6c1d02a3e683abfec30f8de91c6db16bbe8526213dc7ff8b22e05a76098be0"
+  },
+  {
+    "path": "src-tauri/icons/ios/AppIcon-29x29@1x.png",
+    "method": "working-tree-copy",
+    "oid": "433370218e10de96cb94bd51220deda16f1904d0",
+    "copy_matches_index": true,
+    "sha256": "5b43d14fc799f785b005dbf1ff950f98153bd1a97f376f282dfe05ffe70471b5"
+  },
+  {
+    "path": "src-tauri/icons/ios/AppIcon-29x29@2x-1.png",
+    "method": "working-tree-copy",
+    "oid": "971424421a73912e1bc395c67e7588f79515439c",
+    "copy_matches_index": true,
+    "sha256": "4072abadd575ad82b9c1968f93581aaffcd7cfb1ba8f2a363dece4da7fdb367d"
+  },
+  {
+    "path": "src-tauri/icons/ios/AppIcon-29x29@2x.png",
+    "method": "working-tree-copy",
+    "oid": "971424421a73912e1bc395c67e7588f79515439c",
+    "copy_matches_index": true,
+    "sha256": "4072abadd575ad82b9c1968f93581aaffcd7cfb1ba8f2a363dece4da7fdb367d"
+  },
+  {
+    "path": "src-tauri/icons/ios/AppIcon-29x29@3x.png",
+    "method": "working-tree-copy",
+    "oid": "be3c02570b490841f82f0abdb9e1c5b9dd31e240",
+    "copy_matches_index": true,
+    "sha256": "f3c8e2acabffb5fd12e3cf0c1fd491a29a07a806da2ae2cb0df719311b067041"
+  },
+  {
+    "path": "src-tauri/icons/ios/AppIcon-40x40@1x.png",
+    "method": "working-tree-copy",
+    "oid": "2cd4eaaf4935c5614ed8ab25823eafda0455b2af",
+    "copy_matches_index": true,
+    "sha256": "78b384b37fce20d9eea1dbd0927a9a1c2dcd7eb69de10d33c32583827c08555e"
+  },
+  {
+    "path": "src-tauri/icons/ios/AppIcon-40x40@2x-1.png",
+    "method": "working-tree-copy",
+    "oid": "78382b36f3a051cf1116668361d15dfa7af416fd",
+    "copy_matches_index": true,
+    "sha256": "9ce0c50938f32c9f2e0cf461b4393e49408655734fc4a05e4cc79bb5ae24f5dd"
+  },
+  {
+    "path": "src-tauri/icons/ios/AppIcon-40x40@2x.png",
+    "method": "working-tree-copy",
+    "oid": "78382b36f3a051cf1116668361d15dfa7af416fd",
+    "copy_matches_index": true,
+    "sha256": "9ce0c50938f32c9f2e0cf461b4393e49408655734fc4a05e4cc79bb5ae24f5dd"
+  },
+  {
+    "path": "src-tauri/icons/ios/AppIcon-40x40@3x.png",
+    "method": "working-tree-copy",
+    "oid": "145d75916ff40db182806a59a07aa780f20f1fc3",
+    "copy_matches_index": true,
+    "sha256": "5ea81a7b2604067ab629290aebd702fbb33fff54582915aeafd2278d3c55f485"
+  },
+  {
+    "path": "src-tauri/icons/ios/AppIcon-512@2x.png",
+    "method": "working-tree-copy",
+    "oid": "2cae062badc2bab4d9bc951d7f98cfa19a99bd67",
+    "copy_matches_index": true,
+    "sha256": "df912d84929596526bbbc9a93aae3da319a914a0d13056efed5b906ef1a4dfe8"
+  },
+  {
+    "path": "src-tauri/icons/ios/AppIcon-60x60@2x.png",
+    "method": "working-tree-copy",
+    "oid": "145d75916ff40db182806a59a07aa780f20f1fc3",
+    "copy_matches_index": true,
+    "sha256": "5ea81a7b2604067ab629290aebd702fbb33fff54582915aeafd2278d3c55f485"
+  },
+  {
+    "path": "src-tauri/icons/ios/AppIcon-60x60@3x.png",
+    "method": "working-tree-copy",
+    "oid": "1f63dccae76ddaefe498fcb6ba6e7e5f1a943f27",
+    "copy_matches_index": true,
+    "sha256": "e589fd346b10ac967d3c8fc595162ece7a729c119453902e1c70cca8a73ea0d3"
+  },
+  {
+    "path": "src-tauri/icons/ios/AppIcon-76x76@1x.png",
+    "method": "working-tree-copy",
+    "oid": "0326cdb8e0b2363247d15a62b3ee24690592b5cd",
+    "copy_matches_index": true,
+    "sha256": "a87f3e511c92ee3bf1e8fcb9fd3bf01fd10f58c1105263eb92390ae9a5c081e1"
+  },
+  {
+    "path": "src-tauri/icons/ios/AppIcon-76x76@2x.png",
+    "method": "working-tree-copy",
+    "oid": "1ef3bedf9b56a094ec875da9e406455f18bef296",
+    "copy_matches_index": true,
+    "sha256": "e704e2f6483d8b13298e124a0f865385c2e39d786fb72720f1838eba82ded213"
+  },
+  {
+    "path": "src-tauri/icons/ios/AppIcon-83.5x83.5@2x.png",
+    "method": "git-index-blob-cloud-placeholder",
+    "oid": "72400a0ae7a336008b47ad0933f5da1211629abe",
+    "copy_matches_index": true,
+    "sha256": "c08d50855085c1a7028bacc79f7cd4e74a797c9fc786c20880fa4b01a16143a1"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/CHANGELOG.md",
+    "method": "working-tree-copy",
+    "oid": "87669774e62a6bcf539348aeedfc8b88321fd372",
+    "copy_matches_index": true,
+    "sha256": "fb97c4b0487f5db3696069bc9de6c20307655a711b7ffd1bdef07b5737840bc4"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/Cargo.toml",
+    "method": "working-tree-copy",
+    "oid": "37cb587faa23740eeed6f570d47408be8cf4e541",
+    "copy_matches_index": true,
+    "sha256": "a1da5fed49f4cb6ab458b11392c99d167488967cf1d9fab60ae22301523b06ad"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/LICENSE.spdx",
+    "method": "working-tree-copy",
+    "oid": "cdd0df5ad76e63d23a80834469609c1d8109ff2e",
+    "copy_matches_index": true,
+    "sha256": "eb8a6c84630461b352badcab1dbe5d0168c56d377358b2b8c86b51003272d5ef"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/LICENSE_APACHE-2.0",
+    "method": "working-tree-copy",
+    "oid": "4947287f7b5ccb5d1e8b7b2d3aa5d89f322c160d",
+    "copy_matches_index": true,
+    "sha256": "0cec06e0e55fbc3dc5cee4fca9b607f66cb8f4e4dbcf3b3c013594dd156732e9"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/LICENSE_MIT",
+    "method": "working-tree-copy",
+    "oid": "4d75472566358fac0eed03625b37d1837a33dfe2",
+    "copy_matches_index": true,
+    "sha256": "89ff9689dcf9dd53968785d05a26f7898bb169dbfcada8d032b3e68cf0d55607"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/PATCH.md",
+    "method": "working-tree-copy",
+    "oid": "2a6e69ba58b2bf639b2583400e35de46a6265c94",
+    "copy_matches_index": true,
+    "sha256": "39fd7c027cbe1631ce8f85e19793caeb6416b1974a0eaaff91d3cc9754eb892a"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/README.md",
+    "method": "working-tree-copy",
+    "oid": "c5fc839594488bbd3d4ca94976f2fc0cfa5b4028",
+    "copy_matches_index": true,
+    "sha256": "bfca50dbf3054907e72ee085ce691b6c92236f3d9fbbca8db17869b981a2a061"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/SECURITY.md",
+    "method": "working-tree-copy",
+    "oid": "4f09bbacd45f853fdb857babd8cc49387b3c90ae",
+    "copy_matches_index": true,
+    "sha256": "400507bc36e47e71f99199e78b4f9eb11aedc32f2bd8a0269247d693359a7078"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/android/.gitignore",
+    "method": "working-tree-copy",
+    "oid": "c0f21ec2fd95f3cfffed071cf71c015ae4b7357a",
+    "copy_matches_index": true,
+    "sha256": "fdbd5cf7c75f19d686ef755ac21d20dd525ff9495eaca3acb40e81fd3d99c173"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/android/build.gradle.kts",
+    "method": "working-tree-copy",
+    "oid": "6b3773e2fe497b0a89cfac6db8eba591cca02afe",
+    "copy_matches_index": true,
+    "sha256": "5ede85b3e95a05f2a87ae8a65abfbd33ce11972311a72ed5e9a9cbe52948184c"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/android/consumer-rules.pro",
+    "method": "working-tree-copy",
+    "oid": "481bb434814107eb79d7a30b676d344b0df2f8ce",
+    "copy_matches_index": true,
+    "sha256": "56fd960cf225f6ca40f982b13a5dbb0d8bc3dfde13ff76422825c6070d0a1890"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/android/settings.gradle",
+    "method": "working-tree-copy",
+    "oid": "14a752e4336595ff788cd8f344631c72c0af1747",
+    "copy_matches_index": true,
+    "sha256": "cdbf9332339f23671a3a52024f7485aaad2c9689e2561b07f4eee5d0718069ef"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/android/src/androidTest/java/ExampleInstrumentedTest.kt",
+    "method": "working-tree-copy",
+    "oid": "88ede7f46204d82d2deb578ccd54208aded66b9a",
+    "copy_matches_index": true,
+    "sha256": "3bd3058e98fbe0f1bb296619a294c13f28549c718b366e7880d5459dea9fe434"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/android/src/main/AndroidManifest.xml",
+    "method": "working-tree-copy",
+    "oid": "c49808ee7b637f5d8076a11cc1145ed5e6f7bf95",
+    "copy_matches_index": true,
+    "sha256": "39dd2fb0db9681ecd0a858d33294c892983acd4bc4569024320b56ced752f0e5"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/android/src/main/java/AssetUtils.kt",
+    "method": "working-tree-copy",
+    "oid": "fafccf7aeba6c9ff01f709b29099f1cfb5c3d410",
+    "copy_matches_index": true,
+    "sha256": "095f39c684fa42554e8550609bfca3e3ae1d397ff5553eed6eff19009b0bd9be"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/android/src/main/java/ChannelManager.kt",
+    "method": "working-tree-copy",
+    "oid": "206f340ab48f1829c6ce00c7bd7a99a35fa02827",
+    "copy_matches_index": true,
+    "sha256": "d6c239d649f31933b00cdd5d0595b55016524e71f63e4c90660be74fa1f2f761"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/android/src/main/java/Notification.kt",
+    "method": "working-tree-copy",
+    "oid": "b8dcde5e746c27a828f999efd32d8969af628bf0",
+    "copy_matches_index": true,
+    "sha256": "46a8c2323c3cdbe15f5c5888fd483dcc25561d3017a7822a958636a8907cb44d"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/android/src/main/java/NotificationAttachment.kt",
+    "method": "working-tree-copy",
+    "oid": "56a1381803ee439cb6fe76e58d435b150155135d",
+    "copy_matches_index": true,
+    "sha256": "00a136e989266bf84dae24513c48e37abd43de193538a1aacef8a7620953b484"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/android/src/main/java/NotificationPlugin.kt",
+    "method": "working-tree-copy",
+    "oid": "19a82833de0c95b3be94d841e2828adcc4d37e6c",
+    "copy_matches_index": true,
+    "sha256": "608bd44f52df0f12fc62be375d6b6efd31430e99e7c51ce9bb7a7bf5eadae048"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/android/src/main/java/NotificationSchedule.kt",
+    "method": "working-tree-copy",
+    "oid": "316ff909b26d610536fdfe7bcde3ec1f75f4d157",
+    "copy_matches_index": true,
+    "sha256": "3d29de030405df1d9e24ccee46837895d933e4e1a6c78851a28f2a7d9db5300e"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/android/src/main/java/NotificationStorage.kt",
+    "method": "working-tree-copy",
+    "oid": "d4cb96918b0cd4e01ec273c3f8df04853a5d8971",
+    "copy_matches_index": true,
+    "sha256": "05493552b273c4f0de5e27861a4c520abd63c0f1935ac1c61d50aac0fe9843d6"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/android/src/main/java/TauriNotificationManager.kt",
+    "method": "working-tree-copy",
+    "oid": "a8de1d7bbf48381ee2d777bee2e6517a25236ec7",
+    "copy_matches_index": true,
+    "sha256": "e6f6ec5053cea2e93cc559405324e01b377d6defa40561128acb57713d203fd0"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/android/src/main/res/drawable/ic_transparent.xml",
+    "method": "working-tree-copy",
+    "oid": "fc1779e2b19b713d0f94018e1f0ccc22e13643d8",
+    "copy_matches_index": true,
+    "sha256": "cc0169aee645a3ea84331350078ef319e1b1e0da858bf710ea78cccb73b4a41d"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/android/src/test/java/ExampleUnitTest.kt",
+    "method": "working-tree-copy",
+    "oid": "134a27d4af0b420d0d1f769c8f375fbc8a66d1be",
+    "copy_matches_index": true,
+    "sha256": "4ba3746d4f1397f94f0964f9985bc0f8f038ea3281877437b8cf974601048afc"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/api-iife.js",
+    "method": "working-tree-copy",
+    "oid": "85f75b279b4c2e310a12f49570c9a4d5568de8bc",
+    "copy_matches_index": true,
+    "sha256": "e49db3a890dd327934fb91c4c38d7d2c23f8ab6f489d9e32ee10311136de7652"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/build.rs",
+    "method": "working-tree-copy",
+    "oid": "6858d0601e6643566ab5e1d393772d7ba3bdff15",
+    "copy_matches_index": true,
+    "sha256": "25936ea8beaebb25616b6caad3002955a45d0a65b51ba71092fd94b738c9b7dc"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/ios/.gitignore",
+    "method": "working-tree-copy",
+    "oid": "5922fdaa56386b3c16fa5ecb2167f07481af7ff5",
+    "copy_matches_index": true,
+    "sha256": "bc9466a4cd82cf38d2a4471c15c5c6b8153182f361a72c9926a9f422d966e3b0"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/ios/Package.swift",
+    "method": "working-tree-copy",
+    "oid": "bbd6df9e7eeb7567066ed6884987deba99f6e7d4",
+    "copy_matches_index": true,
+    "sha256": "abbac0555772789fcc618005511e35abca800670eb43906635315fa1174410b8"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/ios/README.md",
+    "method": "working-tree-copy",
+    "oid": "f4900bdd5037d0af3baf5f47b4cf69af977012d6",
+    "copy_matches_index": true,
+    "sha256": "21306ceb647682737400a2dd93cfadb634706010db16ddbbc666b47295f9943d"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/ios/Sources/Notification.swift",
+    "method": "working-tree-copy",
+    "oid": "0b4d8a7f98d6c4aac789a7195a984b7c3be9f81c",
+    "copy_matches_index": true,
+    "sha256": "9b2783145b2dc3677ed9789e46b23ab36c840c5a6da7957256e15999cd8c5698"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/ios/Sources/NotificationCategory.swift",
+    "method": "working-tree-copy",
+    "oid": "f796e03aafc5ba4ee0e7a77ca6abfc59b4b21bcf",
+    "copy_matches_index": true,
+    "sha256": "1e3f959c14ca25e3687efd727a52d02a777705a440fbe0ae233bece421629d97"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/ios/Sources/NotificationHandler.swift",
+    "method": "working-tree-copy",
+    "oid": "1bf134b676bcb2b13b9f28f35d9d0e7e390cdaa5",
+    "copy_matches_index": true,
+    "sha256": "b9541ff03456c1d3a852bf410b9566a8408c0e22f6be5f881e223cdc0e4432b0"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/ios/Sources/NotificationManager.swift",
+    "method": "working-tree-copy",
+    "oid": "81a585bf4bc549b06cf5ce90890ab85a0101165b",
+    "copy_matches_index": true,
+    "sha256": "86c54af979ba5981d2db6418a4714b091c88c39f63133f4f3013e9482d33de03"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/ios/Sources/NotificationPlugin.swift",
+    "method": "working-tree-copy",
+    "oid": "c0300848fe5c15150e30ec581129a336365c7448",
+    "copy_matches_index": true,
+    "sha256": "26d437be6c99fed91958fadb52bb88941dc5711267c0795ccbf3680474b9a103"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/ios/Tests/PluginTests/PluginTests.swift",
+    "method": "working-tree-copy",
+    "oid": "99992ce4c33cdf8d63e26004919443830af45652",
+    "copy_matches_index": true,
+    "sha256": "c7994598153916622bb4f87bbe4c137aee3d5facb7252ffd52eec67174103064"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/permissions/autogenerated/commands/batch.toml",
+    "method": "working-tree-copy",
+    "oid": "c52cc16d65659f5c7cbf701de23ddf6e5ce984a6",
+    "copy_matches_index": true,
+    "sha256": "d504c9c4d9bd6306db20f7b1627e7da106f1148919c388537a99587f9a3c39a9"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/permissions/autogenerated/commands/cancel.toml",
+    "method": "working-tree-copy",
+    "oid": "91efeaa00e1c941d58491d9ac52c4e7fbf97eceb",
+    "copy_matches_index": true,
+    "sha256": "29998cc49205d6a64aa60c3c78994304467e57faf2b0167cd7d7ccf0c125d703"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/permissions/autogenerated/commands/check_permissions.toml",
+    "method": "working-tree-copy",
+    "oid": "f5af08b137bc52a7c653443e0ed87f3e321a1810",
+    "copy_matches_index": true,
+    "sha256": "3c617ea5a3f35a07f0e684992293ed8ae23df4f4cbaae6a48ec8713dc77cfaba"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/permissions/autogenerated/commands/create_channel.toml",
+    "method": "working-tree-copy",
+    "oid": "2c93147429fc0da74b062b9da4fef7f5b1b5f2ce",
+    "copy_matches_index": true,
+    "sha256": "a841e7d72a4d84f497f04cb2f22b47cbeb28836aae4710bc98e87bfda920b908"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/permissions/autogenerated/commands/delete_channel.toml",
+    "method": "working-tree-copy",
+    "oid": "0adaf2bb12d51824c38871193aa2f2acd0ed9a9b",
+    "copy_matches_index": true,
+    "sha256": "2f59bebc25b2001a057272c4fda4549c963c655554b3102c27e899cc203dea1b"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/permissions/autogenerated/commands/get_active.toml",
+    "method": "working-tree-copy",
+    "oid": "b841eb858e1bfd736a0a5ec5628c52fbdcadbbe3",
+    "copy_matches_index": true,
+    "sha256": "4df6ee3a743d0c218f1437e0700afafc0f09b0db10493866489bea15b291da3c"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/permissions/autogenerated/commands/get_pending.toml",
+    "method": "working-tree-copy",
+    "oid": "f3bae7a80d8a0cafafd10f1aa908eb5a56d42f89",
+    "copy_matches_index": true,
+    "sha256": "93e23be21ab42372fe13eebc5bdcef10043b3f101fde9dfda2ae5d05fc0e297f"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/permissions/autogenerated/commands/is_permission_granted.toml",
+    "method": "working-tree-copy",
+    "oid": "5faa73f34a181d0fa9cec8d12af40318fb07885b",
+    "copy_matches_index": true,
+    "sha256": "2fed0eb6316b060f51fe84c7973a1482442b8df4fe619dbe0d8e0689f6fd2f0a"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/permissions/autogenerated/commands/list_channels.toml",
+    "method": "working-tree-copy",
+    "oid": "cb20cd570513edd65fbc38aa44c58ab916aed561",
+    "copy_matches_index": true,
+    "sha256": "cf64b6b1ab3cf4fa79c324ad00b1677348bb6390c023972941706c2332508290"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/permissions/autogenerated/commands/notify.toml",
+    "method": "working-tree-copy",
+    "oid": "7d6d46c2bdd26b201d1570d8746ab38a889706f4",
+    "copy_matches_index": true,
+    "sha256": "6be9cdcd2d4c6e45ad6bf2db65b2342ecd442c1bb7b35c42a809b73652985322"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/permissions/autogenerated/commands/permission_state.toml",
+    "method": "working-tree-copy",
+    "oid": "dddcd86fc90b488c50155ceecb3f713acc5bd617",
+    "copy_matches_index": true,
+    "sha256": "0db9a97b661bafa8f70594808eb03779e8443190a8250b576940b4140ffc1fc3"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/permissions/autogenerated/commands/register_action_types.toml",
+    "method": "working-tree-copy",
+    "oid": "cb5aa89f47acdc4153452b3a8ea086999ae3810d",
+    "copy_matches_index": true,
+    "sha256": "37f457370a77e05b8239f9a538ca1a7782df20aa959a7176ee10ad6cc5706674"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/permissions/autogenerated/commands/register_listener.toml",
+    "method": "working-tree-copy",
+    "oid": "48363c0d5f429c4a2e3b719352a9f3c25c4a61e9",
+    "copy_matches_index": true,
+    "sha256": "053a018f95c410ef07d73f4dd64ca0320b8b08d06aeb4f3c0a572b3ce1c7896b"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/permissions/autogenerated/commands/remove_active.toml",
+    "method": "working-tree-copy",
+    "oid": "9ad2add1a163c0651735a4e6402507c5c6f1319e",
+    "copy_matches_index": true,
+    "sha256": "241824aee998b2c4c9fbac780546a877c8ea525c68ac8085eb9dfad70d9fa1a9"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/permissions/autogenerated/commands/remove_listener.toml",
+    "method": "working-tree-copy",
+    "oid": "9f315e51e01981991a39910d61b834514e9533b7",
+    "copy_matches_index": true,
+    "sha256": "224c63d27a1e13e6a84b76f9ea7e57c84f6a24380c60f295805ca545cb8043c1"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/permissions/autogenerated/commands/request_permission.toml",
+    "method": "working-tree-copy",
+    "oid": "0b410d6a2eb183371c23f4f2c8842a433be0554f",
+    "copy_matches_index": true,
+    "sha256": "dc431482503c7709da73a930d9c21efd09dec721ce87eda0fb20ceb733f039ac"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/permissions/autogenerated/commands/show.toml",
+    "method": "working-tree-copy",
+    "oid": "3d4cbf38bb892a579833c9d714eb8ab779c5effd",
+    "copy_matches_index": true,
+    "sha256": "ca3940ce9bf2b4329b8a88ea95728b3e3a429ac17050d0671a783c530e522647"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/permissions/autogenerated/reference.md",
+    "method": "working-tree-copy",
+    "oid": "c79a441d8a0131923476079a93ce5035d63fe70c",
+    "copy_matches_index": true,
+    "sha256": "1e2f9ed3c5faf052c10389a902e5b1b49151b629e4f644d707952603d29f60df"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/permissions/default.toml",
+    "method": "working-tree-copy",
+    "oid": "76d9e27571304a4dd1471a992c96152e17876f22",
+    "copy_matches_index": true,
+    "sha256": "294cef1a8de85c503e376665c9bb49eecc2ac46180f095415e6484b6bd71fd5c"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/permissions/schemas/schema.json",
+    "method": "working-tree-copy",
+    "oid": "bea41b7e373f1791ee45588d8c1be15ee84be00f",
+    "copy_matches_index": true,
+    "sha256": "f88ed2ab5ec020c409840542537e37c642ec6ca1bb66140eb9726aeb4534df82"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/src/commands.rs",
+    "method": "working-tree-copy",
+    "oid": "073180026b21c39596e906e181764b5be6fc51af",
+    "copy_matches_index": true,
+    "sha256": "0713539d6cf111c915b74ac0e826c52d43f2957d66c6d6fdfbbdf300df45da78"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/src/desktop.rs",
+    "method": "working-tree-copy",
+    "oid": "1a47745028c2a825ac9f2fa30b547fd855390ade",
+    "copy_matches_index": true,
+    "sha256": "990f9a36a4b8c3d13344c072a8c8b5c75ea2c4b14c28eba600475efe882a187d"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/src/error.rs",
+    "method": "working-tree-copy",
+    "oid": "ff5305bef4517df572d373a47177feca28d90516",
+    "copy_matches_index": true,
+    "sha256": "3584dcb36d8f73dafc78137d09135c04b04875f923e6de222a62c8a29f4fe367"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/src/init-iife.js",
+    "method": "working-tree-copy",
+    "oid": "141e4a49f5093db0366c948160d5a45e3f5c833e",
+    "copy_matches_index": true,
+    "sha256": "9867ce33aac437015504cd06030205eb119aeee9db94d2c3a90b09b8d1b69457"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/src/lib.rs",
+    "method": "working-tree-copy",
+    "oid": "c5d77a6aa73eb11890ebc532315cc21b8f4380ba",
+    "copy_matches_index": true,
+    "sha256": "02ba12780f76aa393dc8ffb629f776d5a8abb47264e5f18564d35f9c1f18a945"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/src/mobile.rs",
+    "method": "working-tree-copy",
+    "oid": "f160bec97f5b759fae979c7d349d1dcb1ee90a9b",
+    "copy_matches_index": true,
+    "sha256": "8a3ad1c48e8f07467cee4b8e50d7cf64453a770af4b24998b8c63705325fa58c"
+  },
+  {
+    "path": "src-tauri/patches/tauri-plugin-notification/src/models.rs",
+    "method": "working-tree-copy",
+    "oid": "ddee2ddd54a281170376afe530fc0c2feafa5b26",
+    "copy_matches_index": true,
+    "sha256": "3380057143479522c7e61b212f73035ee7dffecfa95606bd86f946685b2b9570"
+  },
+  {
+    "path": "src-tauri/patches/tauri-runtime-wry/Cargo.toml",
+    "method": "working-tree-copy",
+    "oid": "eaeb7d26ded3e033d0a7a51b979aa464ab4ea437",
+    "copy_matches_index": true,
+    "sha256": "6a735daedfe2acc408fb6ece2affc1caaec024ba6d72385fdd5ffeabc04c30f4"
+  },
+  {
+    "path": "src-tauri/patches/tauri-runtime-wry/LICENSE-APACHE-2.0",
+    "method": "working-tree-copy",
+    "oid": "f433b1a53f5b830a205fd2df78e2b34974656c7b",
+    "copy_matches_index": true,
+    "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+  },
+  {
+    "path": "src-tauri/patches/tauri-runtime-wry/LICENSE-MIT",
+    "method": "working-tree-copy",
+    "oid": "b08530d59433b3060f4fad8751ac2610c0b0aff3",
+    "copy_matches_index": true,
+    "sha256": "9dd42ea92cff2ede5cd477cbfcce051b2d0115c0ac7f368ee88cb545055dff1d"
+  },
+  {
+    "path": "src-tauri/patches/tauri-runtime-wry/PATCH.md",
+    "method": "working-tree-copy",
+    "oid": "4fabcbd5ee28efa067ee49b8e701d6abe2820398",
+    "copy_matches_index": true,
+    "sha256": "0fd2a7b5ad099eb7487e4904e7227be0d277f54e317c964f66970c377347a7a7"
+  },
+  {
+    "path": "src-tauri/patches/tauri-runtime-wry/README.md",
+    "method": "working-tree-copy",
+    "oid": "a452527bc3d8b9ec13e8639a686d70131d5a26d6",
+    "copy_matches_index": true,
+    "sha256": "cf468efdcd6eb86ef6a2c0b1fbe6aca80f0df6a9d3016f77c0bfdb64dc4091c0"
+  },
+  {
+    "path": "src-tauri/patches/tauri-runtime-wry/build.rs",
+    "method": "working-tree-copy",
+    "oid": "9974c5040b19d5f0613cfe849d37cfd0638800b8",
+    "copy_matches_index": true,
+    "sha256": "68b2727346e58a9963803a75ac29695b500aaa7d0673e18551465502b60cbf11"
+  },
+  {
+    "path": "src-tauri/patches/tauri-runtime-wry/src/dialog/mod.rs",
+    "method": "working-tree-copy",
+    "oid": "83d89229f5b80ee3cf374fcc41062015a6980dc1",
+    "copy_matches_index": true,
+    "sha256": "ed391f94760a3f257ea7244fa62ad9b536e41f52f83b3994dedde23e5bbd287d"
+  },
+  {
+    "path": "src-tauri/patches/tauri-runtime-wry/src/dialog/windows.rs",
+    "method": "working-tree-copy",
+    "oid": "26850eb6e50226299b9e986c7a04160739b551b3",
+    "copy_matches_index": true,
+    "sha256": "cb340da9de1e9688e281be9bab126cdb48ddd5802c8aabceb82170c8f1f00518"
+  },
+  {
+    "path": "src-tauri/patches/tauri-runtime-wry/src/lib.rs",
+    "method": "working-tree-copy",
+    "oid": "eeb55aff245873419940055ba08baa10e2949cf5",
+    "copy_matches_index": true,
+    "sha256": "0e25a81816b9af78bae1dd3f5bdef9aa0578f3c6b80422729b4b2b65cb5d7a95"
+  },
+  {
+    "path": "src-tauri/patches/tauri-runtime-wry/src/monitor/linux.rs",
+    "method": "working-tree-copy",
+    "oid": "62f87eb05c03b3829388b3cef75c12606663f135",
+    "copy_matches_index": true,
+    "sha256": "ebf2b48ebe0fa8facd0457fc5d16dc3156842e65a6c6334b1e0e4daa439160b2"
+  },
+  {
+    "path": "src-tauri/patches/tauri-runtime-wry/src/monitor/macos.rs",
+    "method": "working-tree-copy",
+    "oid": "aca8e334d0a51ff147e5c63821bfebb1a8de4429",
+    "copy_matches_index": true,
+    "sha256": "31bfae5bf45dff98c68a1f2f19d8787cba5e3f0575d7d13ec564e524d79abae8"
+  },
+  {
+    "path": "src-tauri/patches/tauri-runtime-wry/src/monitor/mod.rs",
+    "method": "working-tree-copy",
+    "oid": "4322c3cadbd2095d63361e7a519f487f69856360",
+    "copy_matches_index": true,
+    "sha256": "f3a4161b3306afa32edb416d6c81773749d32f3068018eb83e32f055ae4c31c2"
+  },
+  {
+    "path": "src-tauri/patches/tauri-runtime-wry/src/monitor/windows.rs",
+    "method": "git-index-blob-cloud-placeholder",
+    "oid": "8547ac9ddfcd467433e5f02f24d7d5419d2cd613",
+    "copy_matches_index": true,
+    "sha256": "c177f8f1d7d7f40350076a89d495511c1fd24d79d2f44fb6a1efd0d7e1726657"
+  },
+  {
+    "path": "src-tauri/patches/tauri-runtime-wry/src/undecorated_resizing.rs",
+    "method": "working-tree-copy",
+    "oid": "d8db89aa8e13718f8ddf29e28a8163e2175462d4",
+    "copy_matches_index": true,
+    "sha256": "0405880958de0af6eb3260797059061aa934839c153095c9388c7dc4f107075d"
+  },
+  {
+    "path": "src-tauri/patches/tauri-runtime-wry/src/util.rs",
+    "method": "working-tree-copy",
+    "oid": "ede110f2d1b5cb8ae38fd0096bb51f479a3499ec",
+    "copy_matches_index": true,
+    "sha256": "209966a41556057e5f118189bf5c2037825848585171f66e370943be10ceceb0"
+  },
+  {
+    "path": "src-tauri/patches/tauri-runtime-wry/src/webview.rs",
+    "method": "working-tree-copy",
+    "oid": "69a7863a4fd38f28999967718295b71ab7743e86",
+    "copy_matches_index": true,
+    "sha256": "e38ffe02336ee9bd558b444b6c6efa6a6a9fdfbaebfa8b441e925a37ae1828c8"
+  },
+  {
+    "path": "src-tauri/patches/tauri-runtime-wry/src/webview_permissions.rs",
+    "method": "git-index-blob-cloud-placeholder",
+    "oid": "98e1f57b57db463c0cc83902ed58bc263504220f",
+    "copy_matches_index": true,
+    "sha256": "84b1285e40854edb12286731cc2232955fd95ac3bc881f7d5ebb6376a3cab3f3"
+  },
+  {
+    "path": "src-tauri/patches/tauri-runtime-wry/src/window/linux.rs",
+    "method": "git-index-blob-cloud-placeholder",
+    "oid": "e7ee9276bd2a916e89504d7d0cdd63e80cf1e37d",
+    "copy_matches_index": true,
+    "sha256": "8cae057b27bd9576aefada130cb68eb0e39ce0e73af3dad793bab7d03b269ce2"
+  },
+  {
+    "path": "src-tauri/patches/tauri-runtime-wry/src/window/macos.rs",
+    "method": "working-tree-copy",
+    "oid": "4a1d9a3605995f4eec3ceb1741b15a3373286628",
+    "copy_matches_index": true,
+    "sha256": "23568a452b8e0da7b6627929e6ae05dd54b8bcec16cf91cff7ce2b1a7f818142"
+  },
+  {
+    "path": "src-tauri/patches/tauri-runtime-wry/src/window/mod.rs",
+    "method": "git-index-blob-cloud-placeholder",
+    "oid": "56384f4b75eb13431ff34efed5ec91c1fe79f181",
+    "copy_matches_index": true,
+    "sha256": "8f61d6436681791f011367948eef559192e8bee441446525c76c4917f15e5185"
+  },
+  {
+    "path": "src-tauri/patches/tauri-runtime-wry/src/window/windows.rs",
+    "method": "git-index-blob-cloud-placeholder",
+    "oid": "1bfff48618d81eedd4b6436f6b3996b18c4b05b6",
+    "copy_matches_index": true,
+    "sha256": "87236e11e0e18c9a09a916072a5c6a599f0bda44d6416cbcf2ec7a17dd0f6c54"
+  },
+  {
+    "path": "src-tauri/quiescence-runtime-compatibility.json",
+    "method": "git-index-blob-cloud-placeholder",
+    "oid": "221e322edb79dfd68b513ea4cd5f5595d815acd9",
+    "copy_matches_index": true,
+    "sha256": "d9b4488609c1a08d28f9d285eb2c0e9136b29feca26c35599629723b6e192231"
+  },
+  {
+    "path": "src-tauri/runtime-compatibility.json",
+    "method": "working-tree-copy",
+    "oid": "c3bfbb151415c01f988acaa2d26563c3df88b9b9",
+    "copy_matches_index": true,
+    "sha256": "f98b7f7bab5161e8c0c6bb93571ac8ce658c20d81785fc5651ac37f2f9c3d509"
+  },
+  {
+    "path": "src-tauri/src/bin/quiescence_competitor.rs",
+    "method": "git-index-blob-cloud-placeholder",
+    "oid": "2738ea753d57a9415ff35faed69215adf1d9fbe0",
+    "copy_matches_index": true,
+    "sha256": "5845bf112936c2c63403d0321f9fed4787c6c919a66d4ddbcc791e995fca3625"
+  },
+  {
+    "path": "src-tauri/src/bin/quiescence_fixture.rs",
+    "method": "working-tree-copy",
+    "oid": "c2858b978b36c606c4b08f506c83de93de02027b",
+    "copy_matches_index": true,
+    "sha256": "f7538ee2cb33daf02e451b5dc644c27c4a7a850feb27978f7c680bc8bcb376de"
+  },
+  {
+    "path": "src-tauri/src/bin/quiescence_old_runtime.rs",
+    "method": "working-tree-copy",
+    "oid": "4dd1ab70d931bcb40f7afaa1eb9aac5e42217999",
+    "copy_matches_index": true,
+    "sha256": "1cb5040be1183c8ff100267d442cf812fcf7ca591465792034835415136ab9e3"
+  },
+  {
+    "path": "src-tauri/src/bin/quiescence_tauri.rs",
+    "method": "working-tree-copy",
+    "oid": "12eafaa67bd9dc556dbad7e24136dc13f51151f6",
+    "copy_matches_index": true,
+    "sha256": "ec13377911308e6a01c9d96c1d401577c2165fb1248186cb54d8db87b9a11e3f"
+  },
+  {
+    "path": "src-tauri/src/cutover_startup.rs",
+    "method": "working-tree-copy",
+    "oid": "bee25b47d34a51cfcce531fb325a7f2da1426810",
+    "copy_matches_index": true,
+    "sha256": "145990868f9687987e1961c33d48f55e0cfdc4a933557598b26005dd6682bffc"
+  },
+  {
+    "path": "src-tauri/src/lib.rs",
+    "method": "working-tree-copy",
+    "oid": "6a2bbe83016c57cbd1f2f80f42787c2ca292780c",
+    "copy_matches_index": true,
+    "sha256": "4aac9cee57dd02b9ef398ed1a2d79d7ea391e09b04448da4a9a297dc4b5f9cfd"
+  },
+  {
+    "path": "src-tauri/src/main.rs",
+    "method": "working-tree-copy",
+    "oid": "9831075ab5f08e806835adb3cc7ffba147188181",
+    "copy_matches_index": true,
+    "sha256": "61a94b2d12bed3d02db3e4ee6d4306e0f2ed0169ce59c85a8b872e1b4de9e894"
+  },
+  {
+    "path": "src-tauri/src/production_cutover_state.rs",
+    "method": "working-tree-copy",
+    "oid": "fe083500ed4b751af97e2176da46675d37eb8681",
+    "copy_matches_index": true,
+    "sha256": "f7569ffe5f3b1a1b9856ae4dddd310555129a914ae0c416bf52f0b323350af91"
+  },
+  {
+    "path": "src-tauri/src/quiescence.rs",
+    "method": "working-tree-copy",
+    "oid": "5fc335ef5dec08aacee284530d7cdd6d4c673100",
+    "copy_matches_index": true,
+    "sha256": "f2e71f5d017363454c11cc8e72973ed5dede8e7bfd82501842d6897c7f84ff77"
+  },
+  {
+    "path": "src-tauri/src/quiescence_contract.rs",
+    "method": "working-tree-copy",
+    "oid": "a45e81afa8df95f7a6dd9591105837a6acf9aa5d",
+    "copy_matches_index": true,
+    "sha256": "1872b6f4239e1de871eaa70b083af45034f7d4348c2fedebc4c1f43fcda1824e"
+  },
+  {
+    "path": "src-tauri/src/quiescence_recovery.rs",
+    "method": "git-index-blob-cloud-placeholder",
+    "oid": "7c17a27ac677f6398ec2ac56c94c5df926e18eef",
+    "copy_matches_index": true,
+    "sha256": "505bac32ddf059d99b66968c8df22c29c32023a96df54b35a347811b07ee9242"
+  },
+  {
+    "path": "src-tauri/src/startup_exclusion.rs",
+    "method": "working-tree-copy",
+    "oid": "a0ad44579092e7089af9ed19b827aa64a08f7552",
+    "copy_matches_index": true,
+    "sha256": "7a685d5108732bf59b1015438d556c428cb01e35cd12062f12c9ecc1413f9aa2"
+  },
+  {
+    "path": "src-tauri/src/wp02_preview_isolation.rs",
+    "method": "working-tree-copy",
+    "oid": "bfea10a92cafda644cf2883ee8e8fcc6f1e72c88",
+    "copy_matches_index": true,
+    "sha256": "b70d08100c7195af10fc094c3945a2cb6e691cd994b1d24f5acb8ebf506f9582"
+  },
+  {
+    "path": "src-tauri/src/wp03_preview_isolation.rs",
+    "method": "git-index-blob-cloud-placeholder",
+    "oid": "854c0910f1b676522ce2b098f47d7909b3a15d8f",
+    "copy_matches_index": true,
+    "sha256": "aa43c6cfa8581936ec9c919558f5bb9a46d52a832cb1f7b334a771e971cf48c2"
+  },
+  {
+    "path": "src-tauri/src/wp03_preview_test_date.rs",
+    "method": "working-tree-copy",
+    "oid": "8a30fd0dd976ea581488174d64302adf5543837f",
+    "copy_matches_index": true,
+    "sha256": "ee36aebdd73e8690c6142cb36665cd70e60eb8284cdbc5652e22aa67af71380e"
+  },
+  {
+    "path": "src-tauri/tauri.conf.json",
+    "method": "working-tree-copy",
+    "oid": "1226460eca7c69439859abedac2ef5ffd67f71e0",
+    "copy_matches_index": true,
+    "sha256": "0c442bf8421f16d737d086d5036de3f56237f6f01033867e14e6c5cd04baf425"
+  },
+  {
+    "path": "src-tauri/tauri.m0lab.conf.json",
+    "method": "working-tree-copy",
+    "oid": "d8a2b7208008e7ae5c52283cccd76f892f295714",
+    "copy_matches_index": true,
+    "sha256": "ab9a85a0116322b11a15f3a5e6318a0a574f92e1806d72808bd16761c17a5e7b"
+  },
+  {
+    "path": "src-tauri/tauri.quiescence.conf.json",
+    "method": "working-tree-copy",
+    "oid": "73f8a8a6c8ba3cb96d28bda91e9dc8c395133d35",
+    "copy_matches_index": true,
+    "sha256": "f12478f123f9bfe1bee68e4b70b8c7e6e2b69fd91abdde7c38330ff9889dcbd0"
+  },
+  {
+    "path": "src-tauri/tauri.quiescence.package.conf.json",
+    "method": "working-tree-copy",
+    "oid": "a48e7e1dc31e6e11a78868aaf30809ce330e2d26",
+    "copy_matches_index": true,
+    "sha256": "c72e884b6372653547c2c3694b701d4410b9870ba8646c783cd21f9b0494349c"
+  },
+  {
+    "path": "src-tauri/tauri.smoke.conf.json",
+    "method": "working-tree-copy",
+    "oid": "7f1d9ea789a8d5936ecfd8e14cd5f9c3eb487c04",
+    "copy_matches_index": true,
+    "sha256": "0aeebb9fb48fbdb1ff6329501a487612ccaecdf052c320d50f3cdda7d263339c"
+  },
+  {
+    "path": "src-tauri/tauri.v4acceptance.conf.json",
+    "method": "working-tree-copy",
+    "oid": "38450c709cde180c5dea8b99eb9f34e391105016",
+    "copy_matches_index": true,
+    "sha256": "6b9391880e7ee5d0938460e01713530536e1a4b295aa3039e36812251a5afa81"
+  },
+  {
+    "path": "src/application/debt-fact-service.ts",
+    "method": "working-tree-copy",
+    "oid": "b908ea179374091d5f469f00addcf76164899852",
+    "copy_matches_index": true,
+    "sha256": "c0f354b6570a5d6e9a98b3e4a1e42e15b4e89f6aa9035805a9b1e5dbaa392262"
+  },
+  {
+    "path": "src/application/financial-maintenance-service.ts",
+    "method": "working-tree-copy",
+    "oid": "07a9a8bcf36a2133881aac9e51dcecc0f6faa895",
+    "copy_matches_index": true,
+    "sha256": "916252868dd3bd988efccf71d98abda73defbfd85bacf3ddd07864199fb4f53a"
+  },
+  {
+    "path": "src/application/initialization-service.ts",
+    "method": "working-tree-copy",
+    "oid": "a94992d7798d186a1f239a3d6f3631a69adc1a44",
+    "copy_matches_index": true,
+    "sha256": "e8e536da2912ee9a533649721b2415b550ef9323b972f441540097ca673dafe6"
+  },
+  {
+    "path": "src/application/monthly-model-service.ts",
+    "method": "working-tree-copy",
+    "oid": "42898ee11c8df72b0177a9d60de3aeec1d3850da",
+    "copy_matches_index": true,
+    "sha256": "7cc5f40f3710824896040c3c6af28f3ee84edee9fe547fa9b5fe51a4aab80302"
+  },
+  {
+    "path": "src/application/product-service.ts",
+    "method": "working-tree-copy",
+    "oid": "221e921c49a2fb3bb013a7158e0dd8838fc4e12d",
+    "copy_matches_index": true,
+    "sha256": "252de1bc0e00f923ff1e70474f99c67fb2501bb4f3666a7e5bc49bf74658fde1"
+  },
+  {
+    "path": "src/application/ux-ledger-service.ts",
+    "method": "working-tree-copy",
+    "oid": "76c5c2673f6f68897433d3262c795b2fb7cf4afe",
+    "copy_matches_index": true,
+    "sha256": "9a474152c55ce840a729c5cc897fd25986b1810fb16b875cc3874c4269d64cc2"
+  },
+  {
+    "path": "src/application/v2-expense-service.ts",
+    "method": "working-tree-copy",
+    "oid": "8ea84094dfa8be782ba07ff90dd97c51e86924b9",
+    "copy_matches_index": true,
+    "sha256": "df9ab38f22d1f9814d45c23537b9bcb9a5cb136d1ea1a22342a8615e33f3b859"
+  },
+  {
+    "path": "src/application/v2-import-service.ts",
+    "method": "working-tree-copy",
+    "oid": "1545bcc9bba365a4b16c825a0a90eb5fe247b9b0",
+    "copy_matches_index": true,
+    "sha256": "d6b16fece58fe1eadce6a9f61bc8b27e68603f71fbe73f3668b31f123a5bed1d"
+  },
+  {
+    "path": "src/application/v4-acceptance-sandbox-service.ts",
+    "method": "working-tree-copy",
+    "oid": "e9eaa5f6cab6ca2e7f9d718cc2db175ff73ef0c2",
+    "copy_matches_index": true,
+    "sha256": "cc8e0a385b65ab8a7fbe4d6ff9aaad465c2eb8663354a50b2a5ae94fdf7cffb9"
+  },
+  {
+    "path": "src/application/v4-foundation-service.ts",
+    "method": "working-tree-copy",
+    "oid": "1bbcc41c41da0ced21a5093d710fd0e55363589f",
+    "copy_matches_index": true,
+    "sha256": "783225e66bfdb49af529055acd64feada3b467cb1f3a62edd580c9008b42082b"
+  },
+  {
+    "path": "src/application/value-equality.ts",
+    "method": "working-tree-copy",
+    "oid": "a4c1d1c3112410bd05ef63993064c7c805cc0560",
+    "copy_matches_index": true,
+    "sha256": "4f70f56a13d3ff54bd444ccd4802dc33244253ad07151948e6f6eb0728e01962"
+  },
+  {
+    "path": "src/lab/M0Lab.tsx",
+    "method": "working-tree-copy",
+    "oid": "1f64f0f321bbe43637cf1f23b5ab1a2243687393",
+    "copy_matches_index": true,
+    "sha256": "05e80287d3f14c86812dac1a4b107a9a40ad661ba7673840c2344d29f7ecdd4c"
+  },
+  {
+    "path": "src/main.tsx",
+    "method": "working-tree-copy",
+    "oid": "482471a1ce0eaa4115adc7abb1120a06f49a91f7",
+    "copy_matches_index": true,
+    "sha256": "66a80147daef2a9837f4c891c7e02e1c92f727ac6aab1da53e93f4759a4869f1"
+  },
+  {
+    "path": "src/model/debt.ts",
+    "method": "working-tree-copy",
+    "oid": "fd3f2ebb22762803241becfc87c297992eaac40c",
+    "copy_matches_index": true,
+    "sha256": "51d2cd1e819fd3e30c87538ceb9c5facf2a6ec17ae3a62989c43c6b4e16653b0"
+  },
+  {
+    "path": "src/model/errors.ts",
+    "method": "working-tree-copy",
+    "oid": "39098d17b267015c0a095a1db604dd0202d6adb5",
+    "copy_matches_index": true,
+    "sha256": "eb78b26745f7445623e53099a0fea14e7b204b0f272770c46f950c6993ef821b"
+  },
+  {
+    "path": "src/model/import-rules.ts",
+    "method": "working-tree-copy",
+    "oid": "106c072f84c9afd5ef72d06149d6ac782e87c2b6",
+    "copy_matches_index": true,
+    "sha256": "ebe6406afe5198430a8cb6dd8caab5b5e7f0f078a80e4788457dbb247a977e07"
+  },
+  {
+    "path": "src/model/index.ts",
+    "method": "working-tree-copy",
+    "oid": "d07028dd04d87168cacd2c2339804e3e1a279569",
+    "copy_matches_index": true,
+    "sha256": "e64717a2e48731909079ab0415637ffffd2db77939a31e70cae1eac880e30bae"
+  },
+  {
+    "path": "src/model/money.ts",
+    "method": "working-tree-copy",
+    "oid": "684ba836c303ec083c77e4d5b27d1b96404984e3",
+    "copy_matches_index": true,
+    "sha256": "4a80def0767c52d0d0ba65fa5225bab6baa0946465ad95e406c162c0edd6bbb2"
+  },
+  {
+    "path": "src/model/monthly-model.ts",
+    "method": "working-tree-copy",
+    "oid": "5a3e586e4f563c5b51019dbd8c6d97cbb4c2ef73",
+    "copy_matches_index": true,
+    "sha256": "2a9c07caf6893ea647def0e82e1705b1c0b7be1efe49b6bd57fd25ec03f7adde"
+  },
+  {
+    "path": "src/model/priority-action.ts",
+    "method": "working-tree-copy",
+    "oid": "bc919a1a57f6883dfc8465820fda4b86015c10ad",
+    "copy_matches_index": true,
+    "sha256": "f7356b0914753f9eb7eaea1a541693639cd90264e5262bde42aa200be31cc09a"
+  },
+  {
+    "path": "src/model/safety.ts",
+    "method": "working-tree-copy",
+    "oid": "ba51f18b10a8ab5a27367d2269054e9cb157574a",
+    "copy_matches_index": true,
+    "sha256": "fd71fb983839c549341b914d710e0b67d2893e9fef4960e42fd05bf3de7362bf"
+  },
+  {
+    "path": "src/model/spending.ts",
+    "method": "working-tree-copy",
+    "oid": "767c6b7499422350414fb2b7a998b6846d5d3ea4",
+    "copy_matches_index": true,
+    "sha256": "3e9093a8e6c474e8d6a41c1396a7189894cc4969eb8efd8296c540cbdea45a60"
+  },
+  {
+    "path": "src/model/trend.ts",
+    "method": "working-tree-copy",
+    "oid": "d244b8d12d3ed9e81d4eeafaf3f33564ed052c48",
+    "copy_matches_index": true,
+    "sha256": "43541ea1fa55c909bdf71bd08b108816581e9c318508bac32c80142be4ee4b51"
+  },
+  {
+    "path": "src/model/types.ts",
+    "method": "working-tree-copy",
+    "oid": "926e90296cc31a38371907c6daf47dbd6275804a",
+    "copy_matches_index": true,
+    "sha256": "a7d5c9730662b6f6a36ed2c06683d2cc2aacc22c9f0467a4386377bc82bd50b9"
+  },
+  {
+    "path": "src/model/v2-cashflow.ts",
+    "method": "working-tree-copy",
+    "oid": "bd436bc2983a577a69236fecea7d87a34b4a8423",
+    "copy_matches_index": true,
+    "sha256": "29430297708154a96bff19ec93eddb6e2c59dae1699d5f9c90544d345f1c4f62"
+  },
+  {
+    "path": "src/model/v2-expense.ts",
+    "method": "working-tree-copy",
+    "oid": "2173f9d993f4da8671d0203e34b891142314671e",
+    "copy_matches_index": true,
+    "sha256": "53fd4cfe5ba707dbce32a1e4d9b90f434b9644a73f124eb63fa271c1cca4f14e"
+  },
+  {
+    "path": "src/model/v2-import.ts",
+    "method": "working-tree-copy",
+    "oid": "95041c2d1c690d823fad7a41bbf81b7cfd3a33bd",
+    "copy_matches_index": true,
+    "sha256": "e105779af346c99ba65751cdf49a2b7c79968ff139c5a27dea4b14f3e098ad1b"
+  },
+  {
+    "path": "src/model/v2-quick-entry.ts",
+    "method": "working-tree-copy",
+    "oid": "d5343a177a84aa909232f972e7579a7dd27a0919",
+    "copy_matches_index": true,
+    "sha256": "b89fe662d2c75f1cc02f9941466db5a3f997ada61072dd8c2e13a57b903caea0"
+  },
+  {
+    "path": "src/model/v2-reconciliation.ts",
+    "method": "working-tree-copy",
+    "oid": "89a65a30230939f1786b308f772901c83300f04b",
+    "copy_matches_index": true,
+    "sha256": "e4623f1016dd1a32f969f6a079b75c5c5976c3773c9d83ad83878062852dc00b"
+  },
+  {
+    "path": "src/model/v2-savings-goal.ts",
+    "method": "working-tree-copy",
+    "oid": "804902046113733f14793a992ab4bab61e951b42",
+    "copy_matches_index": true,
+    "sha256": "3a123ffdb96729723e558b3fc4c29da0e9ef4fb48c792067592ef4fab68758f7"
+  },
+  {
+    "path": "src/model/v2-task-selector.ts",
+    "method": "working-tree-copy",
+    "oid": "9e855b22f5fa28be96beff4e37dde982d917a1e5",
+    "copy_matches_index": true,
+    "sha256": "28efb135fe42332a9f1b868531505bd31a5428e2e7c833ec5c399485f60154f4"
+  },
+  {
+    "path": "src/model/v2-trends.ts",
+    "method": "working-tree-copy",
+    "oid": "78e468daca51c014a1628fc1ebcbcc77fe857ff5",
+    "copy_matches_index": true,
+    "sha256": "c6b60feb67e064aca5f4d84c413dd3b327391579b736f7ee41c80a40b371d628"
+  },
+  {
+    "path": "src/model/v2-types.ts",
+    "method": "working-tree-copy",
+    "oid": "a567af020d52799367f659c309c001c676ecf4ce",
+    "copy_matches_index": true,
+    "sha256": "2fff1245f795581b63b10162abcf940ae7b64a59dca06ac767596639228f47b2"
+  },
+  {
+    "path": "src/model/validation.ts",
+    "method": "working-tree-copy",
+    "oid": "a0308f567149d947d3db6e1418db2b2bc0305d9b",
+    "copy_matches_index": true,
+    "sha256": "e9c8e91a54eca855b61c0425f0c1ba82ef39e40ec56e2851862fc9627ddf26d4"
+  },
+  {
+    "path": "src/persistence/database.ts",
+    "method": "working-tree-copy",
+    "oid": "886099b640b4dde591cb4e9bd034d5c06b1dc3cd",
+    "copy_matches_index": true,
+    "sha256": "c4a8d4938a0a76a5626da33c97ef3200fa60b8bbd040d24323300fc8d65af499"
+  },
+  {
+    "path": "src/persistence/export-file.ts",
+    "method": "working-tree-copy",
+    "oid": "ba1b303bfa8f383a6188d7c93d8790a5d9c12d8e",
+    "copy_matches_index": true,
+    "sha256": "f3e43462a088e68bb5246e2eeb81dcfa9b03e7ed88cc391ffbc49a059bf9a6f0"
+  },
+  {
+    "path": "src/persistence/migrations.ts",
+    "method": "working-tree-copy",
+    "oid": "07f73247838ef453d89b69ceccf72e3810a3cbe3",
+    "copy_matches_index": true,
+    "sha256": "e56abc05b5936c70bb6957486d5d179d45f5f5dce92b5f8332194876c940a0fe"
+  },
+  {
+    "path": "src/persistence/repositories.ts",
+    "method": "working-tree-copy",
+    "oid": "6800c97f496dab790b84a7b8de3d675cfa795e63",
+    "copy_matches_index": true,
+    "sha256": "7552f935ef9a1c0e5880ffb9a0ddd973c1a4dd70acdd72c97e609dac06ab32d7"
+  },
+  {
+    "path": "src/persistence/tauri-database.ts",
+    "method": "working-tree-copy",
+    "oid": "ec26d5b8b5e0a6d19ac0549aa45a28a550eb25ed",
+    "copy_matches_index": true,
+    "sha256": "a911ca4dae6f940d3d7bc068bdaeca0d54fe6f610e0194a7f91614c44bd42a85"
+  },
+  {
+    "path": "src/runtime/tauri-bootstrap.ts",
+    "method": "git-index-blob-cloud-placeholder",
+    "oid": "b6dd2cdf63bfa07b832043a2988bb439e5990caf",
+    "copy_matches_index": true,
+    "sha256": "65714df4b4f2824b8f1666403489588a93acfc6b7e115d5eb4d9a23d5d299754"
+  },
+  {
+    "path": "src/style.css",
+    "method": "working-tree-copy",
+    "oid": "1c3a6ba258924e57f991e40c9cc64a645f2e4620",
+    "copy_matches_index": true,
+    "sha256": "1d0775365dfd23f6b6deee8944d9a012087e419fa3996b33f58c8c0dfbed3296"
+  },
+  {
+    "path": "src/ui/App.tsx",
+    "method": "working-tree-copy",
+    "oid": "bf091cf8133843b55793795ab4565098752eb3c2",
+    "copy_matches_index": true,
+    "sha256": "d98fd4d46068ccc3e55db424290aa80f096e1e4750e78aa8177f42cd02777565"
+  },
+  {
+    "path": "src/ui/DateField.tsx",
+    "method": "working-tree-copy",
+    "oid": "93b3b43f43e68bbde499b1385f994d3a6743b17d",
+    "copy_matches_index": true,
+    "sha256": "5fe54c94a461aede6ee5bda08a7374c613bf9a3c5b42b0ad15df634da0cae6c4"
+  },
+  {
+    "path": "src/ui/DuoGuide.tsx",
+    "method": "working-tree-copy",
+    "oid": "162526781e482c5b9aaf1efb8a8a5cff4cca2863",
+    "copy_matches_index": true,
+    "sha256": "5d27411a5937f73f35bf99e03398beb3eecde4fcd739532274bd5eee03e13a84"
+  },
+  {
+    "path": "src/ui/FinanceIllustration.tsx",
+    "method": "working-tree-copy",
+    "oid": "c722662631c115250e46d7d3eb04fc7759b5e048",
+    "copy_matches_index": true,
+    "sha256": "35dc6a8490bf9afd0c1f1f6b62302b545bbd76a09ff65a23f300a6ef1c5543aa"
+  },
+  {
+    "path": "src/ui/FinancialMaintenanceDialog.tsx",
+    "method": "working-tree-copy",
+    "oid": "ae25503876dbac5d3695c26185d80f8852716f16",
+    "copy_matches_index": true,
+    "sha256": "a67f6b7c78377c0f4734a55468a0027d11057fb38cbbe2d42640f60e3a5ae349"
+  },
+  {
+    "path": "src/ui/FixedExpensesPage.tsx",
+    "method": "working-tree-copy",
+    "oid": "5a9fd20099bc603ccdd7a31e446afcc9a00014d2",
+    "copy_matches_index": true,
+    "sha256": "7bd97feae64841e0939576ccf5fc030860d910a61aa818a39bbd0e15989bd999"
+  },
+  {
+    "path": "src/ui/HomeScreen.tsx",
+    "method": "working-tree-copy",
+    "oid": "841490435e067010fcb2ea8ace6608b8a3826502",
+    "copy_matches_index": true,
+    "sha256": "ee5b9de11ec12f567a26fcf239c1073868b60739b7860637c5cdca2754713951"
+  },
+  {
+    "path": "src/ui/LedgerPage.tsx",
+    "method": "working-tree-copy",
+    "oid": "7d22cbafd9739e22db12ad544bbd6bf2db283986",
+    "copy_matches_index": true,
+    "sha256": "48a2e9b31ed1cdd3b93b55099fda0e5cbcb0f5b341dcb819f0ac444f9ef2e2db"
+  },
+  {
+    "path": "src/ui/MoneyAmount.tsx",
+    "method": "working-tree-copy",
+    "oid": "02a5a2659623c62ff794936cdf4e395a05676aae",
+    "copy_matches_index": true,
+    "sha256": "fd616cb642c962cb5b51c83ab3616b553765388c185a228494abd95fe3c5e551"
+  },
+  {
+    "path": "src/ui/MotionSurface.tsx",
+    "method": "working-tree-copy",
+    "oid": "0b197ee8a86a56a5275d9cf116af75f3d1627fb4",
+    "copy_matches_index": true,
+    "sha256": "b692017aed4cfb57096157bfb5f763b2076a19b8204f57860f0311ac10dd81f6"
+  },
+  {
+    "path": "src/ui/MyFinancePages.tsx",
+    "method": "git-index-blob-cloud-placeholder",
+    "oid": "433060b7ee3587ee10eb3d3e48bbdffa821cc3c5",
+    "copy_matches_index": true,
+    "sha256": "61bd863495b3b49debca10cfde7467f106e6383f7acf7f5e4df76b9187b4f216"
+  },
+  {
+    "path": "src/ui/Onboarding.tsx",
+    "method": "working-tree-copy",
+    "oid": "791837aaf9c9f4a53e8d73b76dda53be46589f35",
+    "copy_matches_index": true,
+    "sha256": "8b8dff45f21e38d77a0f035479350b83fe1f6e1cd0dc5d11761173ec3bb148a8"
+  },
+  {
+    "path": "src/ui/PixelWorld.tsx",
+    "method": "working-tree-copy",
+    "oid": "3c1f479f6b703431e7da2302d3f06cdd79a00f38",
+    "copy_matches_index": true,
+    "sha256": "a8275d3d870b65c31bf580d3977dd2e0bf0de969f0ca4cafab6eca1797219839"
+  },
+  {
+    "path": "src/ui/SaveFeedback.tsx",
+    "method": "working-tree-copy",
+    "oid": "802a15524be7516725b12bacf5bfd13998aac531",
+    "copy_matches_index": true,
+    "sha256": "620cf79994d4eb1fb3520f61ba6e2b8db9a1230c23c82d615aa186aa56f72a51"
+  },
+  {
+    "path": "src/ui/V2CalendarPicker.tsx",
+    "method": "working-tree-copy",
+    "oid": "c13125a32a2623158a786f6539eb0b6f10518748",
+    "copy_matches_index": true,
+    "sha256": "aefeb8e945d3e1d5add143cd55d91fbb6344fc0ba6a0bf3d146c51c8fcef0021"
+  },
+  {
+    "path": "src/ui/V2CashflowDetail.tsx",
+    "method": "working-tree-copy",
+    "oid": "cf17b9a329091624f2a92b6ed7241ddf8b759ced",
+    "copy_matches_index": true,
+    "sha256": "631914d5c9f035ce6afda360b2882bfc7cb6d122fa9911e2af3cf457b4b46746"
+  },
+  {
+    "path": "src/ui/V2DayComplete.tsx",
+    "method": "working-tree-copy",
+    "oid": "8514408dda789c9658793bed60d8816a80c915e0",
+    "copy_matches_index": true,
+    "sha256": "b6372f67a017cd4846749677eca3430797e4e227800d3d04e9c855b2d4c6c6ff"
+  },
+  {
+    "path": "src/ui/V2DetailHero.tsx",
+    "method": "working-tree-copy",
+    "oid": "24edcd1d7761dbdb6eb60dd2d647b5eb5e160971",
+    "copy_matches_index": true,
+    "sha256": "55a1aecde7ec8e773fe3ec1a8575e1e93f372cf83c40af6114684936bb5d479e"
+  },
+  {
+    "path": "src/ui/V2EmptyState.tsx",
+    "method": "working-tree-copy",
+    "oid": "0bbf08f66d74888aba8ddf6afe02fe08285b858c",
+    "copy_matches_index": true,
+    "sha256": "2b4bc2523e61e74d0611193ad4f09994e676f900c97fa212b9fd62762c58df39"
+  },
+  {
+    "path": "src/ui/V2FeedbackStage.tsx",
+    "method": "working-tree-copy",
+    "oid": "89b2ce6f81b1ffd395c91f221e8aa1ce02f09e80",
+    "copy_matches_index": true,
+    "sha256": "c5d0833e79b8248553ba044172ad886dea059579d7922ad7cb6e11f87d3ce4d6"
+  },
+  {
+    "path": "src/ui/V2HomeSurface.tsx",
+    "method": "working-tree-copy",
+    "oid": "5cd19e5a352fbda182c5161a63f8e073b3276d3d",
+    "copy_matches_index": true,
+    "sha256": "e75685d8a1e06616ee0fa418833481b039959c4ab9ccf6affdafad655186f051"
+  },
+  {
+    "path": "src/ui/V2MonthSummary.tsx",
+    "method": "working-tree-copy",
+    "oid": "11df6a9b0bcfb6ee722b8ad0c0f90dc9d25937a9",
+    "copy_matches_index": true,
+    "sha256": "0a298d08d051b392e0c895cb259cc320efc6a18c4ebe4c71fc2725e1e321258d"
+  },
+  {
+    "path": "src/ui/V2MonthlySpendCard.tsx",
+    "method": "working-tree-copy",
+    "oid": "ed7099a111cfc53404c893a6d0bf4a465926b384",
+    "copy_matches_index": true,
+    "sha256": "f931895ea77d05bbf905436799a524c7b09344b45435c73cd3e85de31eed37d2"
+  },
+  {
+    "path": "src/ui/V2PaidRing.tsx",
+    "method": "working-tree-copy",
+    "oid": "957e8419b3f9792753f0f1fe98f9a4be23b36681",
+    "copy_matches_index": true,
+    "sha256": "7523d0f4ef0d239766cf8951ad4b01ddc9a983c638193767b0b915d76804de63"
+  },
+  {
+    "path": "src/ui/V2ProgressBar.tsx",
+    "method": "working-tree-copy",
+    "oid": "6a93b9083c3cd227f67bf2f702e1d33e9f75d025",
+    "copy_matches_index": true,
+    "sha256": "22955b33e3c93d08ff5db5e45c8f5980ba0ed248574cfb7973800f695621f426"
+  },
+  {
+    "path": "src/ui/V2RepaymentDetail.tsx",
+    "method": "working-tree-copy",
+    "oid": "69f019b5d1148e2d72c8c674c76384ab217b2f84",
+    "copy_matches_index": true,
+    "sha256": "3efca943c6450973432b0700774bbafd7eff94ee50d5346c9968a2fcb17fda76"
+  },
+  {
+    "path": "src/ui/V2SafetyDetail.tsx",
+    "method": "working-tree-copy",
+    "oid": "243513fc7e01cbb947eedf1425e6c323a029414c",
+    "copy_matches_index": true,
+    "sha256": "d1621837ff1f9cb00526237ea376f52a97e10ad3af1e1d8532797968869cec78"
+  },
+  {
+    "path": "src/ui/V2SavingsRoomPage.tsx",
+    "method": "working-tree-copy",
+    "oid": "5fb0978aab4fd6954e578fd7385893f1c131c525",
+    "copy_matches_index": true,
+    "sha256": "4908be3f7c92096d7c6c4322428a0b0d2063064a6f707f57b99adbb22dc4dab0"
+  },
+  {
+    "path": "src/ui/V2StatusBadge.tsx",
+    "method": "working-tree-copy",
+    "oid": "78c92e249fbcd033cb6ec8f9fe78e43fbcf75aaa",
+    "copy_matches_index": true,
+    "sha256": "ae2b24fa59d24faa1a9a264fcdd9470fade7ead67ddc7c68049b68478ef16e38"
+  },
+  {
+    "path": "src/ui/V2StructureCard.tsx",
+    "method": "working-tree-copy",
+    "oid": "ca0d8e9e9238de82bad552a6d53f7fac35695fd6",
+    "copy_matches_index": true,
+    "sha256": "efaf8d1531e0e1138e904d2ce2c65e9c0958842df773ce50291d2bca5e74291f"
+  },
+  {
+    "path": "src/ui/V2StructureRings.tsx",
+    "method": "working-tree-copy",
+    "oid": "702bedac1359d307014b56490006fea2d939ec45",
+    "copy_matches_index": true,
+    "sha256": "a8ff5593f152c812a5ed806aad93777c7e5501c86d7f39fefca7b7a55b399bbd"
+  },
+  {
+    "path": "src/ui/V4AcceptanceApp.tsx",
+    "method": "working-tree-copy",
+    "oid": "00a6b8c27bb41650b33678be5285e2a832dbc669",
+    "copy_matches_index": true,
+    "sha256": "dcc8880a89105c3f52243309e6fa22a1e0012ef6db4bf84d69efc55a42450ef8"
+  },
+  {
+    "path": "src/ui/WP03PreviewDateControl.tsx",
+    "method": "working-tree-copy",
+    "oid": "aa56ce0667170c49aea1e6e0fbbf897ed4bdc701",
+    "copy_matches_index": true,
+    "sha256": "1ad1b3776cc7b29064a7b7caa10461b917cc8999643572f454710ad1b8333385"
+  },
+  {
+    "path": "src/ui/assets/finance/brand-wallet-sprout.svg",
+    "method": "working-tree-copy",
+    "oid": "56742bae484f6bb020568adff5570123785e80df",
+    "copy_matches_index": true,
+    "sha256": "40c65535256f96e50064edd2b6af07732d2ff9f3ac08e77652fba7c28a3a1c8c"
+  },
+  {
+    "path": "src/ui/assets/finance/brand-xiaoqianjia@2x.png",
+    "method": "working-tree-copy",
+    "oid": "490db5debd0716878ac045c869105345b9114fda",
+    "copy_matches_index": true,
+    "sha256": "149bb526627b023a7bca67b3a6b908c44bb77364a9d3989a25fdda805b5ef4c7"
+  },
+  {
+    "path": "src/ui/assets/finance/manifest.json",
+    "method": "working-tree-copy",
+    "oid": "c4dae1ac84a40d248ae31668bfbf9520ab70fb90",
+    "copy_matches_index": true,
+    "sha256": "753444d55b878518b6d78c7b9cdf9280784f02bccd0e76056545a15bbcce9460"
+  },
+  {
+    "path": "src/ui/card-status.ts",
+    "method": "working-tree-copy",
+    "oid": "8163efef4f026b17abde769cca864cee557b8c1e",
+    "copy_matches_index": true,
+    "sha256": "6f8cee10f10320d846b8f2a9ee3dcc978a336e8dbd836b275105f253023f93eb"
+  },
+  {
+    "path": "src/ui/contracts.ts",
+    "method": "working-tree-copy",
+    "oid": "17ba7819b99d7600bf1fa413a9b80cd89747e16f",
+    "copy_matches_index": true,
+    "sha256": "116303a38b5401fd2c3210c24664940672cdbb198c07d877ce12ff40f5ebe71f"
+  },
+  {
+    "path": "src/ui/date.ts",
+    "method": "working-tree-copy",
+    "oid": "ef67bc909603ad06e4a8e98e3fabfd7dfec8ad20",
+    "copy_matches_index": true,
+    "sha256": "b263290b74b312c85f67eb94acca6d8b0ea0a602d7c5d5a459e83385538ee7d4"
+  },
+  {
+    "path": "src/ui/duo-guide.css",
+    "method": "working-tree-copy",
+    "oid": "4d81e487145620cec2b9b4f5662a59e65d79c9e0",
+    "copy_matches_index": true,
+    "sha256": "5b2d10117fd1ac98617bfa59818f4c21f2537fbff3efc5edec34ce98b3297e09"
+  },
+  {
+    "path": "src/ui/fixed-expenses-model.ts",
+    "method": "working-tree-copy",
+    "oid": "2ab08ff975c898d0c2519c54dd5285333cab887a",
+    "copy_matches_index": true,
+    "sha256": "7762ec167a57045b30270ed5192b1c3034d586f781f7809441054b19e93e07bf"
+  },
+  {
+    "path": "src/ui/m0-lab.css",
+    "method": "working-tree-copy",
+    "oid": "513b82f26020b531ee97d9e2b16a555e94e35572",
+    "copy_matches_index": true,
+    "sha256": "43d17165ed3574bc757f6ce269c9f2225635d9435d78950206f2ff31eacb4633"
+  },
+  {
+    "path": "src/ui/money-format.ts",
+    "method": "working-tree-copy",
+    "oid": "d73fc476c577c032122e1e6ed91561e7830ca4cc",
+    "copy_matches_index": true,
+    "sha256": "4b3b7d0b4df963951631d8e73107f1e42e9cc9aeca3e6c0e7f235561cd6de7a7"
+  },
+  {
+    "path": "src/ui/pixel-world.css",
+    "method": "working-tree-copy",
+    "oid": "6b2ba5004654c805ca95560f85a5e7962ddd7757",
+    "copy_matches_index": true,
+    "sha256": "025cef653d30fdd2dd74e488cd66af311d6678155dd194f7b4c61ef8b97874ad"
+  },
+  {
+    "path": "src/ui/structure-ring.ts",
+    "method": "working-tree-copy",
+    "oid": "9c1eef9b7b36aaf349de50ad1855c595e21cc5d8",
+    "copy_matches_index": true,
+    "sha256": "04f7bcc99d522d7c12bb1fef80b7ddbe3722994f02900814e330c3aeab350c86"
+  },
+  {
+    "path": "src/ui/trial-experience.css",
+    "method": "working-tree-copy",
+    "oid": "158e5cb9a2b80704f42297ab30a201d6a383d829",
+    "copy_matches_index": true,
+    "sha256": "e4dd48d78a5cc27f9fd30c95fabce7591f06b93f8d01bf08964dd356a548c967"
+  },
+  {
+    "path": "src/ui/use-cards-refresh.ts",
+    "method": "working-tree-copy",
+    "oid": "e8207a72ce5f9ea96f45d1e22a9f484967d7788d",
+    "copy_matches_index": true,
+    "sha256": "935494c7d76e49477129a2eeba07e9bf00d0cec9d03e4c6403740380666782f3"
+  },
+  {
+    "path": "src/ui/use-reduced-motion.ts",
+    "method": "working-tree-copy",
+    "oid": "0b1e7fa41f7ff04c168f95a6d0ef5dffbbbe2785",
+    "copy_matches_index": true,
+    "sha256": "9a43f557f09ddead58fd620bdfce6940472d2796c61066fcbe5c04cdd7c2ac47"
+  },
+  {
+    "path": "src/ui/v2-calendar-picker.css",
+    "method": "working-tree-copy",
+    "oid": "0befc55699dfc00498a60d8c4428ecfdaa5f0937",
+    "copy_matches_index": true,
+    "sha256": "bc1efd285cedfcce17eeddb3bac69a225267e8bf51b49728786cf5faf0b32c2e"
+  },
+  {
+    "path": "src/ui/v2-card.css",
+    "method": "working-tree-copy",
+    "oid": "b7e1f7fb043ba829ac0a139f3077ed18f1992250",
+    "copy_matches_index": true,
+    "sha256": "58a443b73fe5ceabca50ac1764a1233254a3835d2c986fa9aa6478fb50770785"
+  },
+  {
+    "path": "src/ui/v2-dashboard.css",
+    "method": "working-tree-copy",
+    "oid": "01334c82496328114da316385a9c415a659c10ea",
+    "copy_matches_index": true,
+    "sha256": "bd6a6b0fbabb407b048312192c62f8fed7e7ff105c09a92a92ac7deeb42920c5"
+  },
+  {
+    "path": "src/ui/v2-dashboard.tsx",
+    "method": "working-tree-copy",
+    "oid": "c34290d048fb4963b243a39f76eedb1df0093b90",
+    "copy_matches_index": true,
+    "sha256": "da265fe1f36632399c803e78193edc6d4aa4f1ebf3f9725a50ed5e28299bae2f"
+  },
+  {
+    "path": "src/ui/v2-detail-visual.css",
+    "method": "working-tree-copy",
+    "oid": "583f79e8003254620f615d03f23918ee3c21963c",
+    "copy_matches_index": true,
+    "sha256": "9adf27fb813b9ca92acc49e9772ea95ff1d0875b11d0de30a33c86d3181328ba"
+  },
+  {
+    "path": "src/ui/v2-feedback.css",
+    "method": "working-tree-copy",
+    "oid": "80226b673d5e4e0a39d263ef8dbe562050fabcfe",
+    "copy_matches_index": true,
+    "sha256": "71372e520afefd0153e0e782ccd14f1cb2972c6fad4950cf4fa145259ca54b7e"
+  },
+  {
+    "path": "src/ui/v2-fixed-page.css",
+    "method": "working-tree-copy",
+    "oid": "9ea7e292f62138c968f65dfcc6c74e26823f5e10",
+    "copy_matches_index": true,
+    "sha256": "a259db480bd01f461f024ebf8c67b1e3a9c4ec545fc51c8d8d1048995ac7adec"
+  },
+  {
+    "path": "src/ui/v2-home-revamp.css",
+    "method": "working-tree-copy",
+    "oid": "11e44d401d42ecc54a3f4f9cd1bef38b2222e24f",
+    "copy_matches_index": true,
+    "sha256": "97abe3d79b80927be921fd10ff11887f92375850d02ca8b6d9c7bdfa72acf8d9"
+  },
+  {
+    "path": "src/ui/v2-import.css",
+    "method": "working-tree-copy",
+    "oid": "ade23cf977ee19b0567fa1ce14031109eae6a48c",
+    "copy_matches_index": true,
+    "sha256": "c95a0c6053914429579301d141129a1ad7f686ae5c0028c26de660963c73e8b8"
+  },
+  {
+    "path": "src/ui/v2-import.tsx",
+    "method": "working-tree-copy",
+    "oid": "6d18a191e33ed91eb9947284ec37b194fbee535b",
+    "copy_matches_index": true,
+    "sha256": "d00393f4db0741b11863748aef28124b14539ac39b94dc96730401e40da72293"
+  },
+  {
+    "path": "src/ui/v2-month-copy.ts",
+    "method": "working-tree-copy",
+    "oid": "1a13ac763fe80afc8af4b0778a7cc5b60b56ed7c",
+    "copy_matches_index": true,
+    "sha256": "e61860e1791619d82eb467bd5a74b450de7253bae0979caa5c3d7ba0bb9e938d"
+  },
+  {
+    "path": "src/ui/v2-progress.css",
+    "method": "working-tree-copy",
+    "oid": "56b62a3d6e27176e90279c58eeb671bb61ae1637",
+    "copy_matches_index": true,
+    "sha256": "939ddfbfc7ecdd29dfb7b2b8b77838daa29607d1b924aa9472837a7f24a4dac3"
+  },
+  {
+    "path": "src/ui/v2-progress.tsx",
+    "method": "working-tree-copy",
+    "oid": "f737ca6c88059a1787d9cdf2f6b3497d65126791",
+    "copy_matches_index": true,
+    "sha256": "d2b97046f8a39f4653068936aba1c714ad95bc68b071a6544d206d9e659aeece"
+  },
+  {
+    "path": "src/ui/v2-quick-entry.css",
+    "method": "working-tree-copy",
+    "oid": "687eb9d9c9f65eefb1c79a9211a62e5d735b014e",
+    "copy_matches_index": true,
+    "sha256": "f04bea37a993ec2d3455b16d61a4442b362ebcf1d1e18a1f3e75664a550d04f3"
+  },
+  {
+    "path": "src/ui/v2-quick-entry.tsx",
+    "method": "working-tree-copy",
+    "oid": "45bd579178e946ec8f24ff1524dc17b71ebf88a1",
+    "copy_matches_index": true,
+    "sha256": "8e2da1d92951db5734a31b1f4b10ed782e04c3048e0ea04883ad680e4b33db54"
+  },
+  {
+    "path": "src/ui/v2-savings-room.css",
+    "method": "working-tree-copy",
+    "oid": "651970af0b0792488573ebc17830383480235972",
+    "copy_matches_index": true,
+    "sha256": "477bdafb4ed82d637748c275d06d3bcd4fe90427616653b0edbd5362a5aa4929"
+  },
+  {
+    "path": "src/ui/v2-structure-ring.css",
+    "method": "working-tree-copy",
+    "oid": "d213543cef00dee13934ad2b5c7e7f7011984d13",
+    "copy_matches_index": true,
+    "sha256": "48b3242223e33e82a6b75af3fab0291882cd60732834ae808d33c8c12a2f18ca"
+  },
+  {
+    "path": "src/ui/v2-surface.css",
+    "method": "working-tree-copy",
+    "oid": "495667af0b83e00e729bd87fa913df228e77e232",
+    "copy_matches_index": true,
+    "sha256": "9d0cfa2da641d100e77a9baac1ac34f52fade65f10559ac0f03c7f87daa9c9d5"
+  },
+  {
+    "path": "src/ui/v2-surface.tsx",
+    "method": "working-tree-copy",
+    "oid": "29d7911c7da472e647b7b5373308fa1b24f51b1a",
+    "copy_matches_index": true,
+    "sha256": "d48a4c31a1f453785fc7b0ea7c45d4a93483f996983ea349f282e2f4706c1340"
+  },
+  {
+    "path": "src/ui/v2-today-task.css",
+    "method": "working-tree-copy",
+    "oid": "efe73d9a8f4dc9c63ddc83d2eeeb2bc379b8edd5",
+    "copy_matches_index": true,
+    "sha256": "b810c7b09e6a8e45e884daa040fad7388ce50a6f10182f88abe85fb79c331458"
+  },
+  {
+    "path": "src/ui/v2-today-task.tsx",
+    "method": "working-tree-copy",
+    "oid": "78aaac1e4defe55df492d9170c2179984669b8f2",
+    "copy_matches_index": true,
+    "sha256": "a8c29438cbcdab7e280222ac210b6273100ef8b31c38a14c449c808fa9770939"
+  },
+  {
+    "path": "src/ui/v2-today.css",
+    "method": "working-tree-copy",
+    "oid": "bed60bf1dcd30dbc1a72e2cbc5d2fc0b1224b3a1",
+    "copy_matches_index": true,
+    "sha256": "9cbcb8e4f695dbf04645039453f7115dfdad04a72639e3da70650ed9bb92bc3f"
+  },
+  {
+    "path": "src/ui/v2-today.tsx",
+    "method": "working-tree-copy",
+    "oid": "925dbd90adef1adc43dcde45e7a75cf057d928a7",
+    "copy_matches_index": true,
+    "sha256": "d20006815538ebf3c864efe58f3aad239b9a749c9e4f6015270d0fe78e2defae"
+  },
+  {
+    "path": "src/ui/v2-tokens.css",
+    "method": "working-tree-copy",
+    "oid": "b46d25b63702e58670a097bfcd789454bcc64744",
+    "copy_matches_index": true,
+    "sha256": "34041b4d0653071ea19a3914ce2d15cb5dbf6c9d2f58d176751eaafbc2f448d8"
+  },
+  {
+    "path": "src/ui/v2-trends.css",
+    "method": "working-tree-copy",
+    "oid": "c66ffe83619424a74c930d5457b163c5457d0e7c",
+    "copy_matches_index": true,
+    "sha256": "3e536cf43423c4392fa2feb8cfee301fc76f72fd0ce8a5130f412f8468a8da73"
+  },
+  {
+    "path": "src/ui/v2-trends.tsx",
+    "method": "working-tree-copy",
+    "oid": "d26e822ec7801d32e585fa422dabc0a49c3d6b10",
+    "copy_matches_index": true,
+    "sha256": "792fa073748896f49175e24733a71a45790e9e23479ac280b61a91fca1ed6005"
+  },
+  {
+    "path": "src/ui/v4-acceptance.css",
+    "method": "working-tree-copy",
+    "oid": "192856986c49edb2f7d992d16ff2374c9b2beebb",
+    "copy_matches_index": true,
+    "sha256": "5e54cfff49a0aee5564710d9ca269f9efdafba47cae2774e88eb4d8642414570"
+  },
+  {
+    "path": "src/v4-acceptance-main.tsx",
+    "method": "working-tree-copy",
+    "oid": "eb719c197a9939cd2519326e40376d351b553436",
+    "copy_matches_index": true,
+    "sha256": "de41383dec40e1983a4c753103d86109b224a928e3c6bd11e9017efb16efe999"
+  },
+  {
+    "path": "src/vite-env.d.ts",
+    "method": "working-tree-copy",
+    "oid": "70ffd197d1cb4a9a64f607ecdd6040e6836e9e1f",
+    "copy_matches_index": true,
+    "sha256": "b7d8d697f8cf4996f42a2807e7ff9d9fa519801dc51b78f757b870f7584d5c17"
+  },
+  {
+    "path": "vite.config.ts",
+    "method": "working-tree-copy",
+    "oid": "b0e8329fd04384318e18e3a48cf6ef7940994586",
+    "copy_matches_index": true,
+    "sha256": "39d37dc0b703ad7c3462f0bfd58773bc74cc3799dd571c4d53bc2f8d77f962c9"
+  },
+  {
+    "path": ".gitignore",
+    "method": "working-tree-copy",
+    "oid": "937c72a0a97fd3efb7b50cfc89d67979ded9dbe8",
+    "copy_matches_index": true,
+    "sha256": "b944b0b56e4d70dd09ff1252ed6b2d3ae4c8c8b1957cc1c5978d59e80d9282b2"
+  },
+  {
+    "path": "biome.json",
+    "method": "working-tree-copy",
+    "oid": "33252237b35daea0e0c59efbe7714f3ef54f39d1",
+    "copy_matches_index": true,
+    "sha256": "e19e145926febd78af0477d654d9245730f1ace038232585f7d5d88ca958e4c4"
+  },
+  {
+    "path": "pelican-bicycle-animation.html",
+    "method": "working-tree-copy",
+    "oid": "9d05266c07f2c0084206ed78e7d00568d625aaba",
+    "copy_matches_index": true,
+    "sha256": "3888a6d265e6c1c9d9c0cdae11d310bc96b9e83e4291e0b5d4a485fd2cce6881"
+  },
+  {
+    "path": "pelican-bicycle.html",
+    "method": "working-tree-copy",
+    "oid": "d47c4eb8c28970812128e44e3f5a64326180d4f9",
+    "copy_matches_index": true,
+    "sha256": "830abbd6fae0c128ad0824cfcf9bd45673cbb46836e1ec32992e1be0a439972a"
+  },
+  {
+    "path": "pelican-bike-ride.html",
+    "method": "git-index-blob-cloud-placeholder",
+    "oid": "f1ac8fddabb6d5757c7299fb86d663b529fa4d9a",
+    "copy_matches_index": true,
+    "sha256": "d12416ff3ce6d722e91aecf1a9d852f4e1cf6874232283a4aeb88f0de7857bf7"
+  },
+  {
+    "path": "pelican-bike.html",
+    "method": "working-tree-copy",
+    "oid": "d930525b3a521f3e140244b94978b10adfa97a33",
+    "copy_matches_index": true,
+    "sha256": "db6c423fbcc8f21e916112fb9faf15c7de2f535d4dfba225f0dcd088410b0702"
+  },
+  {
+    "path": "pelican-cycling.html",
+    "method": "working-tree-copy",
+    "oid": "47cc5ca6bb67cdb1fe81165189663a7f9fbde86d",
+    "copy_matches_index": true,
+    "sha256": "6da681ef2368743ac748c0d1dc091aa5cf08ebfc17f2bedc411319289ae7e2fa"
+  },
+  {
+    "path": "tsconfig.build.json",
+    "method": "working-tree-copy",
+    "oid": "e3d04c2f22c1a21a7eeb2d0ae5de2599d4eae695",
+    "copy_matches_index": true,
+    "sha256": "66ef047a8552e0db32c89dff7aa18121c7e8326c06f5a8c5771bf05a4463991e"
+  },
+  {
+    "path": "tsconfig.json",
+    "method": "working-tree-copy",
+    "oid": "3ce2b6a6591278e8b45270967f7f00ea70f8c09d",
+    "copy_matches_index": true,
+    "sha256": "039756c70f27fd67047398284adb32ddc6248ae18101a80823f372506615b447"
+  },
+  {
+    "path": "tsconfig.quiescence.json",
+    "method": "working-tree-copy",
+    "oid": "f89e5d02f80ff9d0b80091c6f2d75b592ab1cde3",
+    "copy_matches_index": true,
+    "sha256": "b7fa3844269030d0e1c4a9317e22b5c01f54b6fc730de06721408336ba746537"
+  },
+  {
+    "path": "vite.quiescence.config.ts",
+    "method": "working-tree-copy",
+    "oid": "15262f4f9fc63a575390b8f2c0466466fc2fe294",
+    "copy_matches_index": true,
+    "sha256": "3c39ab7bc9be898bd25c7241358e2eb867def91c3a8a283e1e4562ce30fbf9b9"
+  },
+  {
+    "path": "vite.v4acceptance.config.ts",
+    "method": "working-tree-copy",
+    "oid": "3f691cf7cca7cac7cec03bf59176481b8b3c4340",
+    "copy_matches_index": true,
+    "sha256": "b7b41721eab92746d7c37bf48b44432621e694c7b8ef6683785a7e605e8caa5f"
+  },
+  {
+    "path": "vitest.config.ts",
+    "method": "working-tree-copy",
+    "oid": "1dd84dd805904fa710c072022485503963e40083",
+    "copy_matches_index": true,
+    "sha256": "5929ce675b91540e52494859acac18c5e6bf52fab847450feb1d545bacbca9b8"
+  },
+  {
+    "path": "migrations/003-bootstrap.sql",
+    "method": "working-tree-copy",
+    "oid": "6bcfa92019a20c5914a2823e98a3980240d6af0d",
+    "copy_matches_index": true,
+    "sha256": "8eb9943186feddbe508a86f38ee3c10bb8ef052a72ea8906e69303d384940d56"
+  },
+  {
+    "path": "migrations/004.sql",
+    "method": "working-tree-copy",
+    "oid": "dfe49e84dce3414efa031c93fcf0329d29a46de0",
+    "copy_matches_index": true,
+    "sha256": "5e6bdb826475b7a066541937a232e6b903d9d94b2782fc0f09d6d1adf7a9b7c5"
+  },
+  {
+    "path": "migrations/005.sql",
+    "method": "working-tree-copy",
+    "oid": "96217935f17212b4a1f8c45369c5067e052ca4af",
+    "copy_matches_index": true,
+    "sha256": "14c833bbdba4e1e78f1f74d65364203d985278deb25c0cf8b2ed4a6f444d0885"
+  },
+  {
+    "path": "migrations/006.sql",
+    "method": "working-tree-copy",
+    "oid": "d39a34ce5a42d4510b06a062b2da1a6b0fe93966",
+    "copy_matches_index": true,
+    "sha256": "9d8d0bb4ba0e9ec861a6d7eb0671fd26204ad3bb956aa1404fc0ce5d28e7bf71"
+  },
+  {
+    "path": "migrations/007.sql",
+    "method": "working-tree-copy",
+    "oid": "21d9c36497846e69a958d4df87744386485f6cba",
+    "copy_matches_index": true,
+    "sha256": "887cd8b2ab5bddf4df071e034251220d6c7f4cafebc7350cc2f22f5779d4f687"
+  },
+  {
+    "path": "migrations/008.sql",
+    "method": "working-tree-copy",
+    "oid": "9dedcf262b27a40981084a3c84058f59756eba28",
+    "copy_matches_index": true,
+    "sha256": "8a085e2f6a6a1926429323e2362855d94357c3bfd75abd463d85ca2f00c33b6c"
+  },
+  {
+    "path": "migrations/v3-schema.json",
+    "method": "working-tree-copy",
+    "oid": "28ab7da5aeec3c3a20a5333bd6062ddd4efc878c",
+    "copy_matches_index": true,
+    "sha256": "38567bdeb44d720d2a858a571830b0eeb992789be78f66b4c987a0c0a74b881c"
+  },
+  {
+    "path": "migrations/v4-schema.json",
+    "method": "working-tree-copy",
+    "oid": "aa5b1a957219cc999be9fc55cba3ed6293036ad0",
+    "copy_matches_index": true,
+    "sha256": "d279076947e15b2de49d1222257cd90bd1f45ee725d1eb38eb5ec02a5c889601"
+  },
+  {
+    "path": "migrations/v5-schema.json",
+    "method": "working-tree-copy",
+    "oid": "0ba03e856bc7a4fd2e10d5b3b7ceff3984b7fc0e",
+    "copy_matches_index": true,
+    "sha256": "ed57ad048b790bbd94b945409fe21d1b0de96cf07182c9de15e70b44dce55f8d"
+  },
+  {
+    "path": "migrations/v6-schema.json",
+    "method": "git-index-blob-cloud-placeholder",
+    "oid": "1540aef713b9af3a98b9a54a7d617f6524613bc7",
+    "copy_matches_index": true,
+    "sha256": "f950a7efaed70260d9e53531c544e30ffb1ea05df3e85ed0a353034643ee4112"
+  },
+  {
+    "path": "migrations/v7-schema.json",
+    "method": "git-index-blob-cloud-placeholder",
+    "oid": "baa6d239d226f6ab5bfbdab30410736b96bc6696",
+    "copy_matches_index": true,
+    "sha256": "b14cbd6f4b810f05b47ac16c556564c1e4ed965ba2de00a06e205280687e7a50"
+  },
+  {
+    "path": "migrations/v8-schema.json",
+    "method": "git-index-blob-cloud-placeholder",
+    "oid": "79973a17e661d49463111e579825aa497129530d",
+    "copy_matches_index": true,
+    "sha256": "247ddca2dabd607426cd65e48be95e6853928152ca7b7b64e9d111c7d03a22d9"
+  }
+]

@@ -1,0 +1,48 @@
+$ cd ~/.gem/ruby/2.6.0/gems/nkf-0.3.0/ext/nkf
+$ ruby extconf.rb --with-ruby-include=/Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/include/ruby-2.6.0
+creating Makefile
+EXTCONF_EXIT=0
+
+$ grep -nE "^(topdir|hdrdir|arch_hdrdir)" Makefile
+15:topdir = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/include/ruby-2.6.0
+16:hdrdir = $(topdir)
+17:arch_hdrdir = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/include/ruby-2.6.0/universal-darwin25
+
+$ make
+make: *** No rule to make target `/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/include/ruby-2.6.0/universal-darwin25/ruby/config.h', needed by `nkf.o'.  Stop.
+MAKE_EXIT=2
+ls: nkf.so: No such file or directory
+$ cat /tmp/ruby_sdk_patch.rb
+require "rbconfig"
+clt = "/Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/include/ruby-2.6.0"
+RbConfig::CONFIG["rubyhdrdir"] = clt
+RbConfig::CONFIG["rubyarchhdrdir"] = "#{clt}/universal-darwin25"
+
+$ RUBYOPT=-r/tmp/ruby_sdk_patch.rb ruby extconf.rb
+creating Makefile
+EXTCONF_EXIT=0
+
+$ grep -nE "^(topdir|hdrdir|arch_hdrdir)" Makefile
+15:topdir = /Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/include/ruby-2.6.0
+16:hdrdir = $(topdir)
+17:arch_hdrdir = /Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/include/ruby-2.6.0/universal-darwin25
+
+$ make
+compiling nkf.c
+linking shared-object nkf.bundle
+ld: warning: search path '/AppleInternal/Library/BuildRoots/4~CVSEugD5ktN3nyXCcfzB0fqCX93ITcKCAbgDzFk/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.6.Internal.sdk/usr/local/lib' not found
+MAKE_EXIT=0
+ls: nkf.so: No such file or directory
+$ RUBYOPT=-r/tmp/ruby_sdk_patch.rb gem install --local ~/.gem/ruby/2.6.0/cache/nkf-0.3.0.gem --user-install --no-document
+WARNING:  You don't have /Users/linte/.gem/ruby/2.6.0/bin in your PATH,
+	  gem executables will not run.
+Building native extensions. This could take a while...
+Successfully installed nkf-0.3.0
+1 gem installed
+EXIT=0
+
+$ gem list nkf
+nkf (0.3.0)
+
+$ gem which nkf
+/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin25/nkf.bundle

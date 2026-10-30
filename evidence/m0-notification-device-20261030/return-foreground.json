@@ -1,0 +1,56 @@
+{
+  "info" : {
+    "arguments" : [
+      "devicectl",
+      "device",
+      "process",
+      "launch",
+      "--device",
+      "00008140-001C55E91A40801C",
+      "com.personalfinance.console.smoke",
+      "--json-output",
+      "evidence/m0-notification-device-20261030/return-foreground.json"
+    ],
+    "commandType" : "devicectl.device.process.launch",
+    "environment" : {
+      "TERM" : "dumb"
+    },
+    "jsonVersion" : 5,
+    "outcome" : "success",
+    "version" : "642.16"
+  },
+  "result" : {
+    "deviceIdentifier" : "2ACFC9A6-9BB5-5A45-B729-398BEF3A0483",
+    "launchOptions" : {
+      "activatedWhenStarted" : true,
+      "arguments" : [
+
+      ],
+      "environmentVariables" : {
+        "TERM" : "dumb"
+      },
+      "platformSpecificOptions" : {
+
+      },
+      "startStopped" : false,
+      "terminateExistingInstances" : false,
+      "user" : {
+        "active" : true
+      }
+    },
+    "process" : {
+      "auditToken" : [
+        4294967295,
+        501,
+        501,
+        501,
+        501,
+        1046,
+        0,
+        2795
+      ],
+      "executable" : "file:///private/var/containers/Bundle/Application/A986E7EA-8DC4-4114-AB10-85E776D73222/%E5%B0%8F%E9%92%B1%E5%AE%B6.app/%E5%B0%8F%E9%92%B1%E5%AE%B6",
+      "processIdentifier" : 1046
+    }
+  }
+}

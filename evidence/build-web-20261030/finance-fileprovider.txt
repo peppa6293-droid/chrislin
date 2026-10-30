@@ -1,0 +1,66 @@
+Evaluating actions against {
+    fileproviderItems =     (
+                {
+            capabilities = 805306431;
+            contentModificationDate = "2026-10-23 09:08:49 +0000";
+            contentType = "public.mpeg-2-transport-stream";
+            creationDate = "2026-10-23 09:08:49 +0000";
+            displayName = "tauri-bootstrap.ts";
+            documentSize = 29122;
+            filename = "tauri-bootstrap.ts";
+            hasUnresolvedConflicts = 0;
+            inheritedUserInfo =             {
+            };
+            isDownloadRequested = 1;
+            isDownloaded = 0;
+            isDownloading = 1;
+            isExcludedFromSync = 0;
+            isFolder = 0;
+            isKeepDownloaded = 0;
+            isMostRecentVersionDownloaded = 0;
+            isRecursivelyDownloaded = 0;
+            isShared = 0;
+            isSharedByCurrentUser = 0;
+            isSyncPaused = 0;
+            isTrashed = 0;
+            isUploaded = 1;
+            isUploading = 0;
+            itemIdentifier = f44a7e;
+            parentItemIdentifier = n33fed;
+            resolvedUserInfo =             {
+            };
+            typeIdentifier = "public.mpeg-2-transport-stream";
+            userInfo =             {
+                isz = 0;
+                pzid = 1;
+                s = 0;
+                zid = 1;
+            };
+            versionIdentifier = {length = 41, bytes = 0x0a046e79 706e1215 01820caf edcf3b0e ... 70383b31 20c2e301 };
+        }
+    );
+}
+
+Actions:
+
+Decorations:
+
+Capabilities: rwdpf-tTP---
+
+Content Policy: 0
+
+Inherited Content Policy: 502
+
+Effective Content Policy: 502
+
+Evicted with clone: no
+
+Sync is paused: no
+
+Provider supports upload with fail on conflict: yes
+
+Namespace Policy: 0
+
+Inherited Namespace Policy: 0
+
+Effective Namespace Policy: 1

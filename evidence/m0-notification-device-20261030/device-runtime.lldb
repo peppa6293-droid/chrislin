@@ -1,0 +1,6 @@
+device select 00008140-001C55E91A40801C
+device process attach -p 1036
+expression -l objc++ -O -- (id)[NSTimeZone localTimeZone]
+expression -l objc++ -- (long)[[UIApplication sharedApplication] applicationState]
+process detach
+quit

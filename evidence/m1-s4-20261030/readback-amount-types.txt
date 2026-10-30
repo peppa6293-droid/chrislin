@@ -1,0 +1,8 @@
+1|100.5|text
+2|20|text
+3|8.8|text
+1|100.5|text
+2|20|text
+3|8.8|text
+amount|TEXT
+amount|TEXT

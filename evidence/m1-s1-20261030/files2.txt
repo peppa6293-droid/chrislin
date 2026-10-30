@@ -1,0 +1,5 @@
+2 files:
+Name                                                                 URL Resources                   Size       Modification date
+------------------------------------------------------------------   -----------------------------   --------   -----------------
+com.personalfinance.console.smoke                                    Writable, Readable, Directory   96 bytes   2026/10/30, 03:27
+com.personalfinance.console.smoke/personal-finance-console.sqlite3   Writable, Readable              340 KB     2026/10/30, 03:27

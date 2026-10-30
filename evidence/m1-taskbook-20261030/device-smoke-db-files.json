@@ -1,0 +1,56 @@
+{
+  "info" : {
+    "arguments" : [
+      "devicectl",
+      "device",
+      "info",
+      "files",
+      "--device",
+      "00008140-001C55E91A40801C",
+      "--domain-type",
+      "appDataContainer",
+      "--domain-identifier",
+      "com.personalfinance.console.smoke",
+      "--subdirectory",
+      "Library/Application Support/com.personalfinance.console.smoke",
+      "--no-recurse",
+      "--json-output",
+      "/tmp/m1-smoke-db-location-20261030.json"
+    ],
+    "commandType" : "devicectl.device.info.files",
+    "environment" : {
+      "TERM" : "dumb"
+    },
+    "jsonVersion" : 5,
+    "outcome" : "success",
+    "version" : "642.16"
+  },
+  "result" : {
+    "deviceIdentifier" : "2ACFC9A6-9BB5-5A45-B729-398BEF3A0483",
+    "domain" : "appDataContainer",
+    "domainIdentifier" : "com.personalfinance.console.smoke",
+    "files" : [
+      {
+        "metadata" : {
+          "extendedAttributes" : {
+            "com.apple.dataprotection.policy.exception-applied-by" : "com.apple.containermanagerd"
+          },
+          "lastModDate" : "2026-10-29T17:34:55.000Z",
+          "ownerGid" : 501,
+          "ownerUid" : 501,
+          "permissions" : 420,
+          "size" : 12288
+        },
+        "name" : "personal-finance-console.sqlite3",
+        "relativePath" : "personal-finance-console.sqlite3",
+        "resources" : {
+          "isDirectory" : false,
+          "isHidden" : false,
+          "isReadable" : true,
+          "isSymbolicLink" : false,
+          "isWritable" : true
+        }
+      }
+    ]
+  }
+}

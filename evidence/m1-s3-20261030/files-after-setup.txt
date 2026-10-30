@@ -1,0 +1,4 @@
+1 file:
+Name                               URL Resources        Size     Modification date
+--------------------------------   ------------------   ------   -----------------
+personal-finance-console.sqlite3   Writable, Readable   340 KB   2026/10/30, 03:41

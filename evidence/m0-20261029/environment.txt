@@ -1,0 +1,52 @@
+$ xcodebuild -version
+Xcode 27.0
+Build version 27A266a
+
+$ xcode-select -p
+/Applications/Xcode.app/Contents/Developer
+
+$ rustup target list --installed
+aarch64-apple-darwin
+aarch64-apple-ios
+aarch64-apple-ios-sim
+
+$ rustc -V
+rustc 1.99.0 (b940084d7 2026-09-28)
+
+$ node -v
+v22.22.0
+
+$ npm -v
+10.9.4
+
+$ npx tauri --version
+tauri-cli 2.12.1
+
+$ xcrun simctl list devices available | grep iPhone | head -5
+    iPhone 18 Pro (0BF810EB-B85A-4C42-8000-63AE0BD40C97) (Shutdown) 
+    iPhone 18 Pro Max (F3AB97B6-FEED-4371-83F6-50577A8F4DE8) (Shutdown) 
+    iPhone 17e (E856B1D6-6341-4A3B-B4EA-E1A48CA03FDA) (Shutdown) 
+    iPhone Air (D2318A45-C28F-4F4D-BF8B-56D75F28E21D) (Shutdown) 
+    iPhone 17 (8E49FDE7-83C1-4F1C-8891-8BBDBB864C45) (Shutdown) 
+
+$ command -v brew xcodegen pod
+brew: MISSING
+xcodegen: MISSING
+pod: MISSING
+
+$ git branch --show-current
+feat/mobile
+$ git rev-parse HEAD
+9e1fc73ac25def55a9d55d37c5b4691004006701
+
+$ git diff --stat
+ WORKLOG.md | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+$ git status --short --branch
+## feat/mobile
+ M WORKLOG.md
+?? evidence/m0-20261029/
+?? evidence/wp-ui-visual-01/p1-p4/interaction-i01-batch-a-review-20261029/
+?? evidence/wp-ui-visual-01/p1-p4/r1-20261029/review-bprime-default-20261029/
+?? evidence/wp-ui-visual-01/p1-p4/r1-20261029/review-bprime-recheck-20261029/

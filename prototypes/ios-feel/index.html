@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<title>小钱家 · iOS 交互样片</title>
+<style>
+:root {
+  color-scheme: light dark;
+  --bg: #f2f2f7;
+  --card: #ffffff;
+  --text: #000000;
+  --secondary: rgba(60, 60, 67, 0.62);
+  --tertiary: rgba(60, 60, 67, 0.32);
+  --separator: rgba(60, 60, 67, 0.16);
+  --fill: rgba(118, 118, 128, 0.12);
+  --accent: #0a84ff;
+  --danger: #ff3b30;
+  --chrome: rgba(249, 249, 249, 0.78);
+  --chrome-line: rgba(0, 0, 0, 0.11);
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.05);
+  --spring: cubic-bezier(0.32, 0.72, 0, 1);
+  --phone-w: 390px;
+  --phone-h: 844px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #000000;
+    --card: #1c1c1e;
+    --text: #ffffff;
+    --secondary: rgba(235, 235, 245, 0.62);
+    --tertiary: rgba(235, 235, 245, 0.3);
+    --separator: rgba(84, 84, 88, 0.52);
+    --fill: rgba(118, 118, 128, 0.24);
+    --chrome: rgba(22, 22, 24, 0.74);
+    --chrome-line: rgba(255, 255, 255, 0.12);
+    --shadow: none;
+  }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; }
+html { -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%; }
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  background: #d8d8de;
+  color: var(--text);
+  font: 400 17px/1.29 -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro", "PingFang SC", sans-serif;
+  letter-spacing: -0.01em;
+  overscroll-behavior: none;
+}
+@media (prefers-color-scheme: dark) { body { background: #111114; } }
+::selection { background: color-mix(in srgb, var(--accent) 28%, transparent); }
+button { font: inherit; color: inherit; border: 0; background: none; padding: 0; touch-action: manipulation; -webkit-user-select: none; user-select: none; }
+button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+svg { display: block; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+.phone {
+  position: relative;
+  width: var(--phone-w);
+  height: var(--phone-h);
+  overflow: hidden;
+  border-radius: 44px;
+  background: var(--bg);
+  box-shadow: 0 0 0 10px #101012, 0 0 0 11px #2c2c30, 0 24px 60px rgba(0,0,0,0.22);
+  isolation: isolate;
+}
+@media (max-width: 430px) {
+  body { place-items: stretch; background: var(--bg); }
+  .phone { width: 100vw; height: 100dvh; border-radius: 0; box-shadow: none; }
+}
+.status {
+  position: absolute; inset: 0 0 auto; z-index: 40; height: 47px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 28px 0 34px; font-size: 15px; font-weight: 600; pointer-events: none;
+}
+.status svg { width: 18px; height: 12px; stroke-width: 2; }
+.status-right { display: flex; gap: 6px; align-items: center; }
+
+.screen { position: absolute; inset: 0; display: none; }
+.screen.is-active { display: block; }
+.scroller {
+  position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden;
+  overscroll-behavior: contain; -webkit-overflow-scrolling: touch;
+  padding: 108px 20px calc(96px + env(safe-area-inset-bottom));
+  scrollbar-width: none;
+}
+.scroller::-webkit-scrollbar { display: none; }
+
+.navbar {
+  position: absolute; inset: 0 0 auto; z-index: 20; height: 92px;
+  padding-top: 47px; display: grid; place-items: center;
+  border-bottom: 0.5px solid transparent;
+  transition: background-color 220ms var(--spring), border-color 220ms var(--spring);
+}
+.navbar.is-solid {
+  background: var(--chrome);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-bottom-color: var(--chrome-line);
+}
+.navbar-title { font-size: 17px; font-weight: 600; opacity: 0; transform: translateY(6px); transition: opacity 180ms var(--spring), transform 260ms var(--spring); }
+.navbar.is-solid .navbar-title { opacity: 1; transform: none; }
+.navbar-action {
+  position: absolute; right: 12px; bottom: 6px; width: 44px; height: 44px;
+  display: grid; place-items: center; color: var(--accent); border-radius: 22px;
+}
+.navbar-action svg { width: 23px; height: 23px; }
+.large-title {
+  margin: 0 0 8px; font-size: 34px; line-height: 41px; font-weight: 700; letter-spacing: -0.026em;
+  transform-origin: left bottom; will-change: transform, opacity;
+}
+.subtitle { margin: 0 0 24px; color: var(--secondary); font-size: 13px; line-height: 18px; }
+
+.card-stack { display: grid; gap: 16px; }
+.status-card {
+  position: relative; display: block; width: 100%; min-height: 168px; padding: 20px;
+  text-align: left; border-radius: 20px; background: var(--card); box-shadow: var(--shadow);
+  transform: scale(1); transition: transform 300ms var(--spring);
+}
+.press:active, .press.is-pressed { transform: scale(0.97); }
+.card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+.card-name { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--secondary); }
+.card-name svg { width: 18px; height: 18px; }
+.live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 14%, transparent); }
+.card-value { display: block; font-size: 34px; line-height: 41px; font-weight: 700; letter-spacing: -0.026em; font-variant-numeric: tabular-nums; }
+.card-meta { display: block; margin-top: 8px; color: var(--secondary); font-size: 13px; line-height: 18px; }
+.card-progress { display: block; width: 100%; height: 4px; margin-top: 16px; overflow: hidden; border-radius: 2px; background: var(--fill); }
+.card-progress span { display: block; height: 100%; border-radius: inherit; background: var(--accent); transform-origin: left; }
+.card-chevron { color: var(--tertiary); }
+.card-chevron svg { width: 18px; height: 18px; }
+
+.section-label { margin: 32px 4px 8px; color: var(--secondary); font-size: 13px; line-height: 18px; }
+.inset-group { overflow: hidden; border-radius: 20px; background: var(--card); box-shadow: var(--shadow); }
+.inset-row { min-height: 52px; display: flex; align-items: center; gap: 12px; padding: 0 16px; }
+.inset-row + .inset-row { border-top: 0.5px solid var(--separator); margin-left: 48px; padding-left: 0; }
+.inset-row svg { width: 20px; height: 20px; color: var(--accent); }
+.inset-row span:last-child { margin-left: auto; color: var(--secondary); font-size: 15px; }
+
+.tabbar {
+  position: absolute; z-index: 30; left: 0; right: 0; bottom: 0;
+  height: calc(83px + env(safe-area-inset-bottom)); padding: 7px 8px env(safe-area-inset-bottom);
+  display: grid; grid-template-columns: repeat(3, 1fr); align-items: start;
+  background: var(--chrome); -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%);
+  border-top: 0.5px solid var(--chrome-line);
+}
+.tab { min-height: 49px; display: grid; justify-items: center; gap: 2px; color: var(--secondary); font-size: 11px; font-weight: 500; }
+.tab svg { width: 26px; height: 26px; transition: transform 380ms var(--spring); }
+.tab.is-active { color: var(--accent); }
+.tab.is-bouncing svg { animation: tab-bounce 460ms var(--spring); }
+@keyframes tab-bounce { 0% { transform: scale(1); } 34% { transform: scale(0.82); } 68% { transform: scale(1.12); } 100% { transform: scale(1); } }
+
+.list-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; }
+.list-hint { color: var(--secondary); font-size: 13px; }
+.task-list { position: relative; overflow: hidden; border-radius: 20px; background: var(--card); box-shadow: var(--shadow); }
+.task { position: relative; height: 64px; overflow: hidden; touch-action: pan-y; }
+.task + .task::before { content: ""; position: absolute; top: 0; left: 52px; right: 0; height: 0.5px; background: var(--separator); z-index: 3; }
+.task-delete {
+  position: absolute; inset: 0 0 0 auto; width: 88px; display: grid; place-items: center;
+  visibility: hidden;
+  background: var(--danger); color: #fff; font-size: 15px; font-weight: 600;
+}
+.task-face {
+  position: absolute; inset: 0; z-index: 2; display: flex; align-items: center; gap: 12px;
+  padding: 0 16px; background: var(--card); will-change: transform;
+}
+.task-check { width: 24px; height: 24px; flex: none; border: 1.5px solid var(--tertiary); border-radius: 50%; }
+.task-copy { min-width: 0; flex: 1; }
+.task-title { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.task-sub { display: block; margin-top: 2px; color: var(--secondary); font-size: 13px; line-height: 18px; }
+.task-grip { width: 32px; height: 44px; display: grid; place-items: center; color: var(--tertiary); touch-action: none; }
+.task-grip svg { width: 18px; height: 18px; }
+.task.is-dragging { z-index: 10; overflow: visible; }
+.task.is-dragging .task-face { border-radius: 14px; box-shadow: 0 14px 28px rgba(0,0,0,0.16); transform: scale(1.02); }
+.task.is-placeholder .task-face { opacity: 0; }
+.task.is-removing { transition: height 360ms var(--spring), opacity 260ms var(--spring); height: 0; opacity: 0; }
+.list-empty { padding: 32px 20px; color: var(--secondary); text-align: center; }
+
+.detail {
+  position: absolute; z-index: 60; overflow: hidden; background: var(--bg);
+  border-radius: 20px; display: none; will-change: transform, border-radius;
+}
+.detail.is-open { display: block; }
+.detail-scroll { position: absolute; inset: 0; overflow-y: auto; padding: 47px 20px 40px; overscroll-behavior: contain; scrollbar-width: none; }
+.detail-handle { width: 36px; height: 5px; margin: 8px auto 16px; border-radius: 3px; background: var(--tertiary); }
+.detail-close { position: absolute; top: 55px; right: 16px; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 22px; color: var(--secondary); background: var(--fill); }
+.detail-close svg { width: 18px; height: 18px; }
+.detail-hero { padding: 20px; border-radius: 20px; background: var(--card); }
+.detail-hero .card-value { margin-top: 24px; }
+.detail-rows { margin-top: 16px; }
+.detail-copy { margin: 24px 4px 0; color: var(--secondary); font-size: 15px; line-height: 21px; }
+
+.scrim { position: absolute; inset: 0; z-index: 70; background: rgba(0,0,0,0.32); opacity: 0; pointer-events: none; transition: opacity 360ms var(--spring); }
+.scrim.is-open { opacity: 1; pointer-events: auto; }
+.sheet {
+  position: absolute; z-index: 80; left: 0; right: 0; bottom: 0; height: calc(100% - 54px);
+  border-radius: 20px 20px 0 0; background: var(--card);
+  transform: translate3d(0, 100%, 0); will-change: transform;
+  touch-action: none;
+}
+.sheet-grabber { height: 28px; display: grid; place-items: center; cursor: grab; }
+.sheet-grabber span { width: 36px; height: 5px; border-radius: 3px; background: var(--tertiary); }
+.sheet-head { display: flex; align-items: center; justify-content: space-between; padding: 0 20px 16px; }
+.sheet-title { font-size: 17px; font-weight: 600; }
+.sheet-done { min-width: 44px; min-height: 44px; color: var(--accent); font-weight: 600; }
+.sheet-body { height: calc(100% - 88px); overflow-y: auto; padding: 0 20px 40px; touch-action: pan-y; }
+.amount { margin: 8px 0 24px; text-align: center; }
+.amount strong { display: block; font-size: 34px; line-height: 41px; letter-spacing: -0.026em; font-variant-numeric: tabular-nums; }
+.amount span { color: var(--secondary); font-size: 13px; }
+.chip-row { display: flex; gap: 8px; overflow-x: auto; margin: 0 -20px 24px; padding: 0 20px; scrollbar-width: none; }
+.chip { flex: none; min-height: 44px; padding: 0 16px; border-radius: 22px; background: var(--fill); font-size: 15px; }
+.chip.is-selected { background: var(--accent); color: #fff; font-weight: 600; font-size: 17px; }
+.keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.key { height: 56px; border-radius: 16px; background: var(--fill); font-size: 24px; font-variant-numeric: tabular-nums; transition: transform 160ms var(--spring); }
+.key svg { width: 24px; height: 24px; margin: auto; }
+
+.toast {
+  position: absolute; z-index: 100; left: 50%; top: 56px; padding: 10px 16px; border-radius: 18px;
+  color: var(--text); background: var(--chrome); -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12); font-size: 13px; transform: translate(-50%, -16px); opacity: 0; pointer-events: none;
+  transition: transform 360ms var(--spring), opacity 220ms var(--spring);
+}
+.toast.is-visible { transform: translate(-50%, 0); opacity: 1; }
+.fps { position: absolute; z-index: 45; left: 50%; top: 14px; transform: translateX(-50%); padding: 4px 8px; border-radius: 10px; color: var(--secondary); background: var(--chrome); font-size: 11px; font-variant-numeric: tabular-nums; -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); pointer-events: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }
+}
+</style>
+</head>
+<body>
+<main class="phone" id="phone" aria-label="iOS 交互样片">
+  <div class="status" aria-hidden="true"><span>9:41</span><span class="status-right"><svg viewBox="0 0 18 12"><path d="M1 10h1M5 8v2M9 5v5M13 2v8"/></svg><svg viewBox="0 0 22 12"><rect x="1" y="1" width="18" height="10" rx="3"/><path d="M21 5v2M4 4h11v4H4z"/></svg></span></div>
+
+  <section class="screen is-active" id="today" aria-label="今日">
+    <header class="navbar" id="navbar"><div class="navbar-title">今日</div><button class="navbar-action press" id="openSheet" type="button" aria-label="记一笔"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></header>
+    <div class="scroller" id="todayScroll">
+      <h1 class="large-title" id="largeTitle">今日</h1>
+      <p class="subtitle">10 月 30 日 · 样片数据</p>
+      <div class="card-stack">
+        <button class="status-card press" type="button" data-detail="spend"><span class="card-top"><span class="card-name"><svg viewBox="0 0 24 24"><path d="M4 7h16v10H4z"/><path d="M8 11h3"/></svg>本月消费</span><span class="card-chevron"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></span></span><span class="card-value">¥134.30</span><span class="card-meta">建议上限 ¥2,000.00</span><span class="card-progress"><span style="transform:scaleX(.067)"></span></span></button>
+        <button class="status-card press" type="button" data-detail="cash"><span class="card-top"><span class="card-name"><span class="live-dot"></span>现金余地</span><span class="card-chevron"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></span></span><span class="card-value">7.5 个月</span><span class="card-meta">按必要支出 ¥4,000.00 计算</span></button>
+        <button class="status-card press" type="button" data-detail="next"><span class="card-top"><span class="card-name"><svg viewBox="0 0 24 24"><path d="M7 4v3M17 4v3M5 9h14M5 6h14v14H5z"/></svg>下一项固定支出</span><span class="card-chevron"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></span></span><span class="card-value">2 天后</span><span class="card-meta">房租 · ¥4,000.00</span></button>
+      </div>
+      <p class="section-label">最近</p>
+      <div class="inset-group">
+        <div class="inset-row"><svg viewBox="0 0 24 24"><path d="M6 4h12M8 4v16M16 4v16M6 20h12"/></svg><span>餐饮</span><span>¥5.00</span></div>
+        <div class="inset-row"><svg viewBox="0 0 24 24"><path d="M5 17h14M7 17V8l5-3 5 3v9"/></svg><span>交通</span><span>¥20.00</span></div>
+        <div class="inset-row"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><path d="M12 8v4l3 2"/></svg><span>午餐</span><span>¥100.50</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="screen" id="list" aria-label="清单">
+    <header class="navbar" data-collapse><div class="navbar-title">清单</div></header>
+    <div class="scroller">
+      <div class="list-header"><h1 class="large-title" data-large-title>清单</h1><span class="list-hint">左滑删除 · 长按右侧拖动</span></div>
+      <div class="task-list" id="taskList" role="list"></div>
+    </div>
+  </section>
+
+  <nav class="tabbar" aria-label="主导航">
+    <button class="tab is-active press" type="button" data-tab="today" aria-current="page"><svg viewBox="0 0 24 24"><path d="M4 11.5 12 5l8 6.5V20h-5v-6H9v6H4z"/></svg><span>今日</span></button>
+    <button class="tab press" type="button" data-tab="list"><svg viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></svg><span>清单</span></button>
+    <button class="tab press" type="button" data-sheet><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M8 12h8"/></svg><span>记一笔</span></button>
+  </nav>
+
+  <section class="detail" id="detail" role="dialog" aria-modal="true" aria-labelledby="detailTitle"><div class="detail-scroll" id="detailScroll"><div class="detail-handle"></div><button class="detail-close press" id="detailClose" type="button" aria-label="关闭"><svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg></button><h1 class="large-title" id="detailTitle"></h1><div class="detail-hero" id="detailHero"></div><div class="inset-group detail-rows" id="detailRows"></div><p class="detail-copy" id="detailCopy"></p></div></section>
+  <div class="scrim" id="scrim"></div>
+  <section class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+    <div class="sheet-grabber" id="sheetGrabber" aria-hidden="true"><span></span></div>
+    <div class="sheet-head"><button class="sheet-done press" id="sheetCancel" type="button">取消</button><div class="sheet-title" id="sheetTitle">记一笔</div><button class="sheet-done press" id="sheetDone" type="button">完成</button></div>
+    <div class="sheet-body">
+      <div class="amount"><strong id="amount">¥0</strong><span>今天 · 现金</span></div>
+      <div class="chip-row" role="listbox" aria-label="分类"><button class="chip press is-selected" type="button">餐饮</button><button class="chip press" type="button">交通</button><button class="chip press" type="button">购物</button><button class="chip press" type="button">日用</button><button class="chip press" type="button">其他</button></div>
+      <div class="keypad" id="keypad"></div>
+    </div>
+  </section>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="fps" id="fps" aria-hidden="true">— fps</div>
+</main>
+
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const phone = $('#phone');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const haptic = () => { if (navigator.vibrate) navigator.vibrate(10); };
+
+  // Spring integrator: critically damped by default, can inherit gesture velocity and be retargeted.
+  function spring(from, to, opts, onUpdate, onDone) {
+    const { stiffness = 260, damping = 32, mass = 1, velocity = 0 } = opts;
+    let x = from, v = velocity, last = performance.now(), id = 0, stopped = false;
+    if (reduce) { onUpdate(to); onDone && onDone(); return { stop() {}, get value() { return to; } }; }
+    const tick = now => {
+      if (stopped) return;
+      const dt = Math.min(0.032, (now - last) / 1000); last = now;
+      const a = (-stiffness * (x - to) - damping * v) / mass;
+      v += a * dt; x += v * dt; onUpdate(x);
+      if (Math.abs(v) < 0.02 && Math.abs(x - to) < 0.02) { onUpdate(to); onDone && onDone(); return; }
+      id = requestAnimationFrame(tick);
+    };
+    id = requestAnimationFrame(tick);
+    return { stop() { stopped = true; cancelAnimationFrame(id); }, get value() { return x; }, get velocity() { return v; } };
+  }
+  const project = (v, d = 0.998) => (v / 1000) * d / (1 - d);
+
+  // Press feedback starts on pointer-down, not click.
+  phone.addEventListener('pointerdown', e => {
+    const el = e.target.closest('.press');
+    if (!el) return;
+    el.classList.add('is-pressed'); haptic();
+    const up = () => { el.classList.remove('is-pressed'); removeEventListener('pointerup', up); removeEventListener('pointercancel', up); };
+    addEventListener('pointerup', up); addEventListener('pointercancel', up);
+  });
+
+  // Large title collapses into the translucent bar on every screen; pulling down stretches it slightly.
+  $$('.screen').forEach(screen => {
+    const bar = $('.navbar', screen), big = $('.large-title', screen), scroller = $('.scroller', screen);
+    scroller.addEventListener('scroll', () => {
+      const y = scroller.scrollTop, p = Math.max(0, Math.min(1, y / 44));
+      big.style.transform = y < 0 ? `scale(${1 + Math.min(0.08, -y / 600)})` : `scale(${1 - p * 0.18})`;
+      big.style.opacity = String(1 - p);
+      bar.classList.toggle('is-solid', y > 32);
+    }, { passive: true });
+  });
+
+  function toast(text) {
+    const el = $('#toast'); el.textContent = text; el.classList.add('is-visible');
+    clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('is-visible'), 1300);
+  }
+
+  // Tabs with a short spring bounce on the selected icon.
+  function showTab(name) {
+    $$('.screen').forEach(s => s.classList.toggle('is-active', s.id === name));
+    $$('.tab[data-tab]').forEach(t => {
+      const on = t.dataset.tab === name;
+      t.classList.toggle('is-active', on);
+      on ? t.setAttribute('aria-current', 'page') : t.removeAttribute('aria-current');
+      if (on) { t.classList.remove('is-bouncing'); void t.offsetWidth; t.classList.add('is-bouncing'); }
+    });
+  }
+  $$('.tab[data-tab]').forEach(t => t.addEventListener('click', () => showTab(t.dataset.tab)));
+
+  // Shared-element detail transition from the tapped card's real rectangle.
+  const details = {
+    spend: { title: '本月消费', value: '¥134.30', meta: '建议上限 ¥2,000.00 · 还可花 ¥1,865.70', rows: [['餐饮', '¥105.50'], ['交通', '¥20.00'], ['其他', '¥8.80']], copy: '建议额度只按样片里的收入、必要支出和安全目标计算。' },
+    cash: { title: '现金余地', value: '7.5 个月', meta: '现金 ¥30,000.00 · 必要支出 ¥4,000.00', rows: [['最低现金线', '1 个月'], ['安全目标', '6 个月'], ['状态', '已达成']], copy: '样片数据，仅用于评审转场和信息层级。' },
+    next: { title: '下一项固定支出', value: '2 天后', meta: '房租 · 11 月 1 日', rows: [['金额', '¥4,000.00'], ['账户', '现金'], ['提醒', '前一天 21:00']], copy: '样片数据。正式产品中的提醒规则仍需单独审批。' }
+  };
+  const detail = $('#detail'), detailScroll = $('#detailScroll');
+  let detailAnim = null, sourceCard = null, sourceRect = null, detailProgress = 0;
+  const phoneRect = () => phone.getBoundingClientRect();
+  function rectInPhone(el) { const r = el.getBoundingClientRect(), p = phoneRect(); return { x: r.left - p.left, y: r.top - p.top, w: r.width, h: r.height }; }
+  function paintDetail(t) {
+    const p = phoneRect(), s = sourceRect, k = Math.max(0, Math.min(1.08, t));
+    const x = s.x * (1 - k), y = s.y * (1 - k), w = s.w + (p.width - s.w) * k, h = s.h + (p.height - s.h) * k;
+    detail.style.left = x + 'px'; detail.style.top = y + 'px'; detail.style.width = w + 'px'; detail.style.height = h + 'px';
+    detail.style.borderRadius = `${20 + 24 * Math.min(1, k)}px`;
+    detailScroll.style.opacity = String(Math.max(0, Math.min(1, (k - 0.25) / 0.45)));
+    sourceCard.style.opacity = k > 0.02 ? '0' : '1';
+    detailProgress = t;
+  }
+  function openDetail(card) {
+    const d = details[card.dataset.detail]; if (!d) return;
+    detailAnim && detailAnim.stop();
+    sourceCard = card; sourceRect = rectInPhone(card);
+    $('#detailTitle').textContent = d.title;
+    $('#detailHero').innerHTML = `<span class="card-name">${d.title}</span><span class="card-value">${d.value}</span><span class="card-meta">${d.meta}</span>`;
+    $('#detailRows').innerHTML = d.rows.map(([a, b]) => `<div class="inset-row"><span>${a}</span><span>${b}</span></div>`).join('');
+    $('#detailCopy').textContent = d.copy;
+    detail.classList.add('is-open'); detailScroll.scrollTop = 0;
+    detailAnim = spring(detailProgress || 0, 1, { stiffness: 300, damping: 30 }, paintDetail);
+    $('#detailClose').focus({ preventScroll: true, focusVisible: false });
+  }
+  function closeDetail(velocity = 0) {
+    if (!sourceCard) return;
+    detailAnim && detailAnim.stop();
+    detailAnim = spring(detailProgress, 0, { stiffness: 300, damping: 30, velocity }, paintDetail, () => {
+      detail.classList.remove('is-open'); sourceCard.style.opacity = '1'; sourceCard.focus({ preventScroll: true }); sourceCard = null; detailProgress = 0;
+    });
+  }
+  $$('.status-card').forEach(c => c.addEventListener('click', () => openDetail(c)));
+  $('#detailClose').addEventListener('click', () => closeDetail());
+
+  // Pull-down-to-dismiss detail: 1:1 tracking, velocity decides close or return.
+  let dd = null;
+  detail.addEventListener('pointerdown', e => {
+    if (e.target.closest('button') || detailScroll.scrollTop > 0) return;
+    detailAnim && detailAnim.stop();
+    dd = { id: e.pointerId, y: e.clientY, last: e.clientY, t: performance.now(), v: 0, start: detailProgress };
+    detail.setPointerCapture(e.pointerId);
+  });
+  detail.addEventListener('pointermove', e => {
+    if (!dd || e.pointerId !== dd.id) return;
+    const now = performance.now(), dy = Math.max(0, e.clientY - dd.y);
+    dd.v = (e.clientY - dd.last) / Math.max(1, now - dd.t) * 1000; dd.last = e.clientY; dd.t = now;
+    paintDetail(Math.max(0, dd.start - dy / (phoneRect().height * 0.9)));
+  });
+  const endDetailDrag = e => {
+    if (!dd || e.pointerId !== dd.id) return;
+    const v = dd.v, pv = -v / (phoneRect().height * 0.9);
+    const projected = detailProgress + project(-v) / (phoneRect().height * 0.9);
+    dd = null;
+    projected < 0.72 || v > 700 ? closeDetail(pv) : (detailAnim = spring(detailProgress, 1, { stiffness: 300, damping: 30, velocity: pv }, paintDetail));
+  };
+  detail.addEventListener('pointerup', endDetailDrag); detail.addEventListener('pointercancel', endDetailDrag);
+
+  // Sheet with half and full detents, retargetable during motion.
+  const sheet = $('#sheet'), scrim = $('#scrim');
+  let sheetY = phone.clientHeight, sheetAnim = null, lastSheetTrigger = null;
+  const detents = () => { const h = sheet.offsetHeight; return { closed: h, half: h * 0.48, full: 0 }; };
+  const setSheet = y => { sheetY = y; sheet.style.transform = `translate3d(0,${y}px,0)`; const d = detents(); scrim.style.opacity = String(Math.max(0, Math.min(1, 1 - y / d.closed))); };
+  function animateSheet(to, velocity = 0, done) { sheetAnim && sheetAnim.stop(); sheetAnim = spring(sheetY, to, { stiffness: 320, damping: 34, velocity }, setSheet, done); }
+  function openSheet(trigger) {
+    lastSheetTrigger = trigger || document.activeElement;
+    sheet.hidden = false; scrim.classList.add('is-open'); setSheet(detents().closed); animateSheet(detents().half); $('#sheetDone').focus({ preventScroll: true, focusVisible: false });
+  }
+  function closeSheet(velocity = 0, saved = false) {
+    animateSheet(detents().closed, velocity, () => { scrim.classList.remove('is-open'); scrim.style.opacity = ''; lastSheetTrigger && lastSheetTrigger.focus({ preventScroll: true }); if (saved) toast('已记入 ' + $('#amount').textContent); });
+  }
+  $('#openSheet').addEventListener('click', e => openSheet(e.currentTarget));
+  $$('[data-sheet]').forEach(b => b.addEventListener('click', e => openSheet(e.currentTarget)));
+  $('#sheetCancel').addEventListener('click', () => closeSheet());
+  $('#sheetDone').addEventListener('click', () => closeSheet(0, true));
+  scrim.addEventListener('click', () => closeSheet());
+  let sd = null;
+  sheet.addEventListener('pointerdown', e => {
+    if (e.target.closest('button') || (e.target.closest('.sheet-body') && $('.sheet-body').scrollTop > 0)) return;
+    sheetAnim && sheetAnim.stop();
+    sd = { id: e.pointerId, y: e.clientY, start: sheetY, last: e.clientY, t: performance.now(), v: 0 };
+    sheet.setPointerCapture(e.pointerId);
+  });
+  sheet.addEventListener('pointermove', e => {
+    if (!sd || e.pointerId !== sd.id) return;
+    const now = performance.now(), d = detents();
+    let y = sd.start + e.clientY - sd.y;
+    if (y < 0) y = -Math.pow(-y, 0.7);
+    sd.v = (e.clientY - sd.last) / Math.max(1, now - sd.t) * 1000; sd.last = e.clientY; sd.t = now;
+    setSheet(Math.min(d.closed + 40, y));
+  });
+  const endSheetDrag = e => {
+    if (!sd || e.pointerId !== sd.id) return;
+    const d = detents(), v = sd.v, target = sheetY + project(v);
+    sd = null;
+    if (target > d.half + (d.closed - d.half) * 0.42) closeSheet(v);
+    else animateSheet(Math.abs(target - d.full) < Math.abs(target - d.half) ? d.full : d.half, v);
+  };
+  sheet.addEventListener('pointerup', endSheetDrag); sheet.addEventListener('pointercancel', endSheetDrag);
+  addEventListener('keydown', e => { if (e.key === 'Escape') { if (sheetY < detents().closed - 1) closeSheet(); else if (sourceCard) closeDetail(); } });
+
+  let amount = '';
+  const keys = ['1','2','3','4','5','6','7','8','9','.','0','del'];
+  $('#keypad').innerHTML = keys.map(k => `<button class="key press" type="button" data-key="${k}" aria-label="${k === 'del' ? '删除' : k}">${k === 'del' ? '<svg viewBox="0 0 24 24"><path d="M9 6h11v12H9l-5-6z"/><path d="m12 10 4 4M16 10l-4 4"/></svg>' : k}</button>`).join('');
+  $('#keypad').addEventListener('click', e => {
+    const k = e.target.closest('[data-key]')?.dataset.key; if (!k) return;
+    if (k === 'del') amount = amount.slice(0, -1);
+    else if (k === '.' && amount.includes('.')) return;
+    else if (amount.includes('.') && amount.split('.')[1].length >= 2) return;
+    else amount = (amount === '0' && k !== '.' ? '' : amount) + k;
+    $('#amount').textContent = '¥' + (amount || '0');
+  });
+  $$('.chip').forEach(c => c.addEventListener('click', () => { $$('.chip').forEach(x => x.classList.toggle('is-selected', x === c)); }));
+
+  // Things-like list: swipe-left reveal/delete and long-press drag reorder.
+  const tasks = ['复核本月房租', '补记昨天午餐', '检查现金余额', '确认信用卡账单', '整理固定支出'];
+  const list = $('#taskList');
+  function renderTasks() {
+    list.innerHTML = tasks.length ? tasks.map((t, i) => `<div class="task" role="listitem" data-index="${i}"><button class="task-delete" type="button">删除</button><div class="task-face"><span class="task-check"></span><span class="task-copy"><span class="task-title">${t}</span><span class="task-sub">样片任务</span></span><button class="task-grip" type="button" aria-label="拖动排序"><svg viewBox="0 0 24 24"><path d="M5 9h14M5 15h14"/></svg></button></div></div>`).join('') : '<div class="list-empty">清单已清空</div>';
+  }
+  renderTasks();
+  let swipe = null, openFace = null;
+  const setFace = (face, x) => {
+    face.style.transform = `translate3d(${x}px,0,0)`; face.dataset.x = x;
+    face.previousElementSibling.style.visibility = x < -0.5 ? 'visible' : 'hidden';
+  };
+  list.addEventListener('pointerdown', e => {
+    const face = e.target.closest('.task-face'); if (!face || e.target.closest('.task-grip')) return;
+    if (openFace && openFace !== face) animateFace(openFace, 0);
+    face._anim && face._anim.stop();
+    swipe = { face, id: e.pointerId, x0: e.clientX, y0: e.clientY, start: Number(face.dataset.x || 0), lx: e.clientX, t: performance.now(), v: 0, axis: null };
+  });
+  list.addEventListener('pointermove', e => {
+    if (!swipe || e.pointerId !== swipe.id) return;
+    const dx = e.clientX - swipe.x0, dy = e.clientY - swipe.y0;
+    if (!swipe.axis && Math.hypot(dx, dy) > 10) { swipe.axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y'; if (swipe.axis === 'x') swipe.face.setPointerCapture(e.pointerId); }
+    if (swipe.axis !== 'x') return;
+    const now = performance.now(); swipe.v = (e.clientX - swipe.lx) / Math.max(1, now - swipe.t) * 1000; swipe.lx = e.clientX; swipe.t = now;
+    let x = swipe.start + dx; if (x > 0) x = Math.pow(x, 0.65); if (x < -88) x = -88 - Math.pow(-88 - x, 0.65);
+    setFace(swipe.face, x);
+  });
+  function animateFace(face, to, velocity = 0, done) { face._anim && face._anim.stop(); face._anim = spring(Number(face.dataset.x || 0), to, { stiffness: 360, damping: 36, velocity }, x => setFace(face, x), done); openFace = to ? face : null; }
+  const endSwipe = e => {
+    if (!swipe || e.pointerId !== swipe.id) return;
+    const { face, v, axis } = swipe; swipe = null; if (axis !== 'x') return;
+    const x = Number(face.dataset.x || 0), target = x + project(v, 0.99);
+    if (target < -210) deleteTask(face.closest('.task'));
+    else animateFace(face, target < -44 ? -88 : 0, v);
+  };
+  list.addEventListener('pointerup', endSwipe); list.addEventListener('pointercancel', endSwipe);
+  list.addEventListener('click', e => { const del = e.target.closest('.task-delete'); if (del) deleteTask(del.closest('.task')); });
+  function deleteTask(row) {
+    const i = Number(row.dataset.index); haptic(); row.classList.add('is-removing');
+    setTimeout(() => { tasks.splice(i, 1); renderTasks(); toast('已删除'); }, reduce ? 1 : 360);
+  }
+
+  let drag = null, pressTimer = 0;
+  list.addEventListener('pointerdown', e => {
+    const grip = e.target.closest('.task-grip'); if (!grip) return;
+    const row = grip.closest('.task'); e.preventDefault();
+    pressTimer = setTimeout(() => {
+      const rows = $$('.task', list), r = row.getBoundingClientRect(), lr = list.getBoundingClientRect();
+      drag = { row, id: e.pointerId, from: Number(row.dataset.index), y0: e.clientY, rowH: r.height, top: r.top - lr.top, rows };
+      row.classList.add('is-dragging'); grip.setPointerCapture(e.pointerId); haptic();
+    }, 360);
+    const cancel = () => { clearTimeout(pressTimer); removeEventListener('pointerup', cancel); };
+    addEventListener('pointerup', cancel);
+  });
+  list.addEventListener('pointermove', e => {
+    if (!drag || e.pointerId !== drag.id) return;
+    const dy = e.clientY - drag.y0, max = (drag.rows.length - 1) * drag.rowH;
+    const y = Math.max(-drag.top, Math.min(max - drag.top, dy));
+    drag.row.querySelector('.task-face').style.transform = `translate3d(0,${y}px,0) scale(1.02)`;
+    const to = Math.max(0, Math.min(drag.rows.length - 1, Math.round((drag.top + y) / drag.rowH)));
+    drag.to = to;
+    drag.rows.forEach((r, i) => { if (r === drag.row) return; let s = 0; if (drag.from < to && i > drag.from && i <= to) s = -drag.rowH; if (drag.from > to && i >= to && i < drag.from) s = drag.rowH; r.querySelector('.task-face').style.transform = `translate3d(0,${s}px,0)`; r.querySelector('.task-face').style.transition = 'transform 300ms var(--spring)'; });
+  });
+  const endDrag = e => {
+    if (!drag || e.pointerId !== drag.id) return;
+    const { from, to = from } = drag; drag = null;
+    const item = tasks.splice(from, 1)[0]; tasks.splice(to, 0, item); renderTasks(); if (from !== to) { haptic(); toast('已调整顺序'); }
+  };
+  list.addEventListener('pointerup', endDrag); list.addEventListener('pointercancel', endDrag);
+
+  // Lightweight frame meter for review; it does not affect layout.
+  let frames = 0, start = performance.now();
+  const fps = $('#fps');
+  (function meter(now) { frames++; if (now - start >= 1000) { fps.textContent = `${Math.round(frames * 1000 / (now - start))} fps`; frames = 0; start = now; } requestAnimationFrame(meter); })(start);
+  setSheet(phone.clientHeight + 40);
+})();
+</script>
+</body>
+</html>

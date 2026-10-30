@@ -1,0 +1,108 @@
+$ npm run lint
+
+> personal-finance-console@0.1.0 lint
+> biome check src tests
+
+src/lab/M0Lab.tsx:1:1 assist/source/organizeImports  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Sort these imports.
+  
+   > 1 │ import { useCallback, useEffect, useState } from "react";
+       │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   > 2 │ import { vibrate } from "@tauri-apps/plugin-haptics";
+   > 3 │ import {
+   > 4 │   isPermissionGranted,
+   > 5 │   requestPermission,
+   > 6 │   Schedule,
+   > 7 │   sendNotification,
+   > 8 │ } from "@tauri-apps/plugin-notification";
+       │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     9 │ import { TauriSqlDatabase } from "../persistence/tauri-database.js";
+    10 │ 
+  
+  i Safe fix: Organize imports and exports (Biome)
+  
+      1     │ - import·{·useCallback,·useEffect,·useState·}·from·"react";
+      2     │ - import·{·vibrate·}·from·"@tauri-apps/plugin-haptics";
+      3     │ - import·{
+      4     │ - ··isPermissionGranted,
+      5     │ - ··requestPermission,
+      6     │ - ··Schedule,
+      7     │ - ··sendNotification,
+      8     │ - }·from·"@tauri-apps/plugin-notification";
+          1 │ + import·{·vibrate·}·from·"@tauri-apps/plugin-haptics";
+          2 │ + import·{
+          3 │ + ··isPermissionGranted,
+          4 │ + ··requestPermission,
+          5 │ + ··Schedule,
+          6 │ + ··sendNotification,
+          7 │ + }·from·"@tauri-apps/plugin-notification";
+          8 │ + import·{·useCallback,·useEffect,·useState·}·from·"react";
+      9   9 │   import { TauriSqlDatabase } from "../persistence/tauri-database.js";
+     10  10 │   
+  
+
+src/lab/M0Lab.tsx:204:39 lint/a11y/useSemanticElements ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × The elements with this role can be changed to the following elements:
+    <ol>
+    <ul>
+  
+    202 │           200 行滚动列表
+    203 │         </h2>
+  > 204 │         <div className="m0-lab__list" role="list">
+        │                                       ^^^^^^^^^^^
+    205 │           {LIST_ROWS.map((label) => (
+    206 │             <div className="m0-lab__row" role="listitem" key={label}>
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+  i Replace with one of these elements:
+  
+  - <ol>
+  - <ul>
+  
+
+src/lab/M0Lab.tsx:206:42 lint/a11y/useSemanticElements ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × The elements with this role can be changed to the following elements:
+    <li>
+  
+    204 │         <div className="m0-lab__list" role="list">
+    205 │           {LIST_ROWS.map((label) => (
+  > 206 │             <div className="m0-lab__row" role="listitem" key={label}>
+        │                                          ^^^^^^^^^^^^^^^
+    207 │               <span>{label}</span>
+    208 │               <span className="m0-lab__row-meta">scroll</span>
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+  i Replace with one of these elements:
+  
+  - <li>
+  
+
+src/lab/M0Lab.tsx format ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Formatter would have printed the following content:
+  
+    218 218 │           <p className="m0-lab__status" aria-live="polite">
+    219 219 │             通知权限：
+    220     │ - ··········{notificationPermission·===·null
+    221     │ - ············?·"未知"
+    222     │ - ············:·notificationPermission
+    223     │ - ··············?·"已授予"
+    224     │ - ··············:·"未授予"}{"·"}
+        220 │ + ··········{notificationPermission·===·null·?·"未知"·:·notificationPermission·?·"已授予"·:·"未授予"}{"·"}
+    225 221 │             · {notificationStatus}
+    226 222 │           </p>
+  
+
+Checked 176 files in 115ms. No fixes applied.
+Found 4 errors.
+check ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Some errors were emitted while running checks.
+  
+
+EXIT=1

@@ -1,3 +1,14 @@
+# 当前移动端状态｜M0 已收尾，M1 仅任务书待确认（2026-10-30）
+
+- **M0：COMPLETED / OWNER_ACCEPTED。** Owner 本轮明确确认通知、声音、定时、划掉后通知和震动全部通过。人工接受依据：`evidence/m0-notification-device-20261030/OWNER-ACCEPTANCE-20261030.md`；原技术记录保留，不把人工确认冒充新一轮 Agent 实机测试。
+- **M1：READY_FOR_REVIEW（仅任务书）。** `docs/M1-EXEC-TASKBOOK-20261030.md` 已编写；Owner 确认后才能写代码。范围仅首次设置（收入/必要支出/现金/安全目标）、消费记一笔（金額/分类/备注/日期）、首页本月消费对目标及最近记录、重启回读；其他均按任务书排除。Bundle ID 保持 `com.personalfinance.console.smoke`，不改签名，复用共享公式。
+- **本轮只读证据：** 已查当前 iPhone 的 smoke 数据容器与既有数据库位置；见 `evidence/m1-taskbook-20261030/device-smoke-container.json`、`device-smoke-db-files.json`。只读文件元数据，未读数据库内容。UUID 不得硬编码。
+- **待确认：** M1 独立文件方案、首页目标口径/输入来源、四组设置的确切共享参数映射。M1 新库未创建，S0–S7 未执行，无功能通过结论。
+- **边界：** 本轮仅文档和只读元数据取证；未修改业务代码、运行配置、数据库、签名，未构建安装，未归档聊天。既有工作区改动保留。
+- **下一责任人：** Owner 审核任务书；确认后执行员按限定步骤实施。本段只更新移动端线，不覆盖下方桌面/数据线历史状态。
+
+---
+
 # 最新：执行员｜批次 A 已提交 + 回报 1 四项答复（2026-10-29）
 
 - 本轮任务/结果：按 chris 回报 1 的四项核对意见处理——批次 A 提交、.gitignore、6 个 scripts 说明、当前 App 构建来源答复；全程不运行脚本、不打生产包、不读写活库。
@@ -561,3 +572,17 @@
 - **停止状态：** `AWAITING_OWNER_DECISIONS`（21 条待勾选）。
 - **待办：** 户主逐条勾选 → 审核侧据此生成 P1（规范层）/P2（固定支出）/P3（首页结构卡）/P4（债务页）执行任务书 → 执行方逐包落地 → 审核侧复核。责任人：户主 → 审核侧 → 执行方。
 - **收据：** 未改任何产品代码；未提交 git；未新增依赖；未触碰生产库、门闸与授权文件；首页与债务页设计稿尚未出图；P1–P4 均未开工。
+
+## 2026-10-29 M0 iOS 技术验证（READY FOR REVIEW）
+
+- **分支/HEAD：** `feat/mobile` @ `9e92b3c`；M0 commits `a2f65b0`（28 文件 WIP）、`b4784fd`（vendored runtime 补丁）、`8ee463c`（自动测试页+运行证据）、`a7d53ca`（上一版 BLOCKED 报告）、`469146d`（通知三态 + import-flow 修复）、`536996f`（notification 插件 UTC+8 修复）、`9e92b3c`（修复后报告）。
+- **状态：** M0 运行时验证通过，可交审核；不自动放行 M1。通知 UTC+8 定时 bug 已在 vendored 插件中修复；真机通知三态/震动手感待用户执行。
+- **已完成：** `ios build` HTTP/1.1 成功；`/lab/glass` 在 iOS 27 正常渲染；SQLite 自动写入 1 条→terminate→重启读回同一行；浅/深色玻璃；9.758s 录屏；rAF FPS 60/min54（最终 60/min51）；通知前台立即、前台定时、后台定时、终止后定时四张截图；`vibrate(400)` API 成功；全量测试 5/5 通过。
+- **通知修复：** `tauri-plugin-notification 2.8.0` vendored 到 `src-tauri/patches/tauri-plugin-notification`，Swift `DateFormatter` 显式 `timeZone = UTC`；恢复官方 `Schedule.at`，截图 `44/45/46/47` 验证三态；`PATCH.md` 写明移除条件。
+- **已知问题：** `pending()/active()` 诊断会触发 Swift assertion，最终页面已移除；crash 报告在 `evidence/m0-20261029/43-pending-active-crash.ips`。模拟器无物理震动，真机步骤见 `REAL-DEVICE-TEST.md`。
+- **证据/报告：** `evidence/m0-20261029/REPORT.md`（末行 `READY FOR REVIEW`）；通知截图 `44/45/46/47`；测试 `test-run-fixed-1..5.log`；真机说明 `REAL-DEVICE-TEST.md`。
+- **边界：** 未使用真实设备、生产库、`*:production`；未改 `src/model/**`、`migrations/**`；`idevicesyslog` 占位、XcodeGen 隔离、Ruby/CocoaPods 修补均为环境操作；`tauri-runtime-wry` 与 `tauri-plugin-notification` 补丁均已入库。
+- **下一步：** Owner/审核侧复核；按 `REAL-DEVICE-TEST.md` 在 iPhone 上确认通知三态与震动手感。
+
+
+

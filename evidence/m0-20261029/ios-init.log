@@ -1,0 +1,4 @@
+        Info package `xcodegen` not found
+        Info Installing `xcodegen` with brew...
+failed to run command pod install: Failed to install `xcodegen`: No such file or directory (os error 2)
+       Error failed to run command pod install: Failed to install `xcodegen`: No such file or directory (os error 2)

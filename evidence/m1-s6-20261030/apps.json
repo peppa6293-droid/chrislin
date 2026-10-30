@@ -1,0 +1,53 @@
+{
+  "info" : {
+    "arguments" : [
+      "devicectl",
+      "device",
+      "info",
+      "apps",
+      "--device",
+      "00008140-001C55E91A40801C",
+      "--include-container-paths",
+      "--require-container-access",
+      "--search",
+      "com.personalfinance.console.smoke",
+      "--json-output",
+      "evidence/m1-s6-20261030/apps.json"
+    ],
+    "commandType" : "devicectl.device.info.apps",
+    "environment" : {
+
+    },
+    "jsonVersion" : 5,
+    "outcome" : "success",
+    "version" : "642.16"
+  },
+  "result" : {
+    "apps" : [
+      {
+        "appClip" : false,
+        "builtByDeveloper" : true,
+        "bundleContainerPath" : "/private/var/containers/Bundle/Application/4A8AAE5F-3E63-4C34-BC08-03F20047F342",
+        "bundleIdentifier" : "com.personalfinance.console.smoke",
+        "bundleVersion" : "0.1.0",
+        "containerAccessible" : true,
+        "dataContainerPath" : "/private/var/mobile/Containers/Data/Application/CA51C648-417F-487B-BD99-6DBCBEB64E7E",
+        "defaultApp" : false,
+        "groupContainerPaths" : {
+
+        },
+        "hidden" : false,
+        "internalApp" : false,
+        "name" : "小钱家",
+        "removable" : true,
+        "url" : "file:///private/var/containers/Bundle/Application/4A8AAE5F-3E63-4C34-BC08-03F20047F342/%E5%B0%8F%E9%92%B1%E5%AE%B6.app/",
+        "version" : "0.1.0"
+      }
+    ],
+    "defaultAppsIncluded" : false,
+    "deviceIdentifier" : "2ACFC9A6-9BB5-5A45-B729-398BEF3A0483",
+    "hiddenAppsIncluded" : false,
+    "internalAppsIncluded" : false,
+    "removableAppsIncluded" : true
+  }
+}

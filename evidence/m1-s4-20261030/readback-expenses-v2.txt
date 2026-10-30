@@ -1,0 +1,5 @@
+rid  amount  occurred_on  category  description  kind        currency  created_at         
+---  ------  -----------  --------  -----------  ----------  --------  -------------------
+1    100.5   2026-10-30   其他      午餐         CASH_DEBIT  CNY       2026-10-29T19:53:41
+2    20      2026-10-30   交通                   CASH_DEBIT  CNY       2026-10-29T19:53:54
+3    8.8     2026-10-29   其他      补记         CASH_DEBIT  CNY       2026-10-29T19:54:12

@@ -1,0 +1,23 @@
+tests/m1-entry-no-lab.test.tsx format ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Formatter would have printed the following content:
+  
+    39 39 │       const renderSpy = vi.fn();
+    40 40 │       vi.doMock("react-dom/client", () => ({ createRoot: () => ({ render: renderSpy }) }));
+    41    │ - ····vi.doMock("../src/ui/App.js",·()·=>·({·App:·function·App()·{·return·null;·}·}));
+       41 │ + ····vi.doMock("../src/ui/App.js",·()·=>·({
+       42 │ + ······App:·function·App()·{
+       43 │ + ········return·null;
+       44 │ + ······},
+       45 │ + ····}));
+    42 46 │       await import("../src/main.tsx");
+    43 47 │       expect(renderSpy).toHaveBeenCalledTimes(1);
+  
+
+Checked 201 files in 149ms. No fixes applied.
+Found 1 error.
+check ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Some errors were emitted while running checks.
+  
+

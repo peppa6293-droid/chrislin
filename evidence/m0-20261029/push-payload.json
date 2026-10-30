@@ -1,0 +1,7 @@
+{
+  "Simulator Target Bundle": "com.personalfinance.console.smoke",
+  "aps": {
+    "alert": { "title": "M0 Push Test", "body": "push banner test" },
+    "sound": "default"
+  }
+}

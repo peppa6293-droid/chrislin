@@ -1,0 +1,39 @@
+{
+  "own_scope": "documentation and read-only device metadata; no implementation, database write, signing change, build or install by this agent",
+  "source_unchanged": false,
+  "source_change_origin": "unknown concurrent writer; not attributed or accepted",
+  "concurrent_changes": [
+    {
+      "path": "src/main.tsx",
+      "state": "changed",
+      "before_sha256": "66a80147daef2a9837f4c891c7e02e1c92f727ac6aab1da53e93f4759a4869f1",
+      "after_sha256": "ffd71dcb33996aa67ca7c6b4a000b0dab23a860fe61bb487780423d3a5e4e7c0"
+    },
+    {
+      "path": "src/ui/m0-lab.css",
+      "state": "missing",
+      "before_sha256": "43d17165ed3574bc757f6ce269c9f2225635d9435d78950206f2ff31eacb4633"
+    },
+    {
+      "path": "src/ui/v2-tokens.css",
+      "state": "changed",
+      "before_sha256": "34041b4d0653071ea19a3914ce2d15cb5dbf6c9d2f58d176751eaafbc2f448d8",
+      "after_sha256": "e6d327b7fd9c7cf481e2af783218235078f4ce8f98788c52bd15d08897ef95ca"
+    },
+    {
+      "path": "src/lab/M0Lab.tsx",
+      "state": "missing",
+      "before_sha256": "05e80287d3f14c86812dac1a4b107a9a40ad661ba7673840c2344d29f7ecdd4c"
+    },
+    {
+      "path": "src-tauri/tauri.m0lab.conf.json",
+      "state": "missing",
+      "before_sha256": "ab9a85a0116322b11a15f3a5e6318a0a574f92e1806d72808bd16761c17a5e7b"
+    }
+  ],
+  "identity_and_signing_config_unchanged": true,
+  "m0_status": "COMPLETED / OWNER_ACCEPTED",
+  "m1_status": "READY_FOR_REVIEW; baseline reconciliation required before execution",
+  "taskbook": "docs/M1-EXEC-TASKBOOK-20261030.md",
+  "taskbook_sha256": "50e423aab32c72dc00b0c617d3a862ddd995e13544f97ba23996a972c222fa2a"
+}

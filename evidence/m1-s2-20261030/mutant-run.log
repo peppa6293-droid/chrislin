@@ -1,0 +1,56 @@
+
+ RUN  v5.0.5 /Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2
+
+ ❯ tests/m1-entry-no-lab.test.tsx (2 tests | 2 failed) 28ms
+   ❯ M1 entry has no test-page path (2)
+     × no source file under src/ mentions the lab 9ms
+     × main.tsx renders the real App even with the lab path and env var set 19ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/m1-entry-no-lab.test.tsx > M1 entry has no test-page path > no source file under src/ mentions the lab
+AssertionError: expected [ Array(1) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2/src/main.tsx",
++ ]
+
+ ❯ tests/m1-entry-no-lab.test.tsx:32:18
+     30|       FORBIDDEN.test(readFileSync(f, "utf8")),
+     31|     );
+     32|     expect(hits).toEqual([]);
+       |                  ^
+     33|   });
+     34|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/m1-entry-no-lab.test.tsx > M1 entry has no test-page path > main.tsx renders the real App even with the lab path and env var set
+AssertionError: expected undefined to be 'App' // Object.is equality
+
+- Expected:
+"App"
+
++ Received:
+undefined
+
+ ❯ tests/m1-entry-no-lab.test.tsx:49:31
+     47|     expect(renderSpy).toHaveBeenCalledTimes(1);
+     48|     const element = renderSpy.mock.calls[0][0] as { type: { name: stri…
+     49|     expect(element.type.name).toBe("App");
+       |                               ^
+     50|   });
+     51| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  03:30:35
+   Duration  266ms (environment 76%, tests 13%, transform 7%, import 2%, worker 1%)
+

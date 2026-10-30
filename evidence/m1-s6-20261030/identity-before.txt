@@ -1,0 +1,2 @@
+container: /private/var/mobile/Containers/Data/Application/CA51C648-417F-487B-BD99-6DBCBEB64E7E
+bundle: file:///private/var/containers/Bundle/Application/4A8AAE5F-3E63-4C34-BC08-03F20047F342/%E5%B0%8F%E9%92%B1%E5%AE%B6.app/

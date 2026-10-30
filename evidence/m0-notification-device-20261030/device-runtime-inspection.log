@@ -1,0 +1,9 @@
+(lldb) device select 00008140-001C55E91A40801C
+(lldb) device process attach -p 1036
+(lldb) expression -l objc++ -O -- (id)[NSTimeZone localTimeZone]
+(lldb) expression -l objc++ -- (long)[[UIApplication sharedApplication] applicationState]
+(lldb) process detach
+(lldb) quit
+error: unable to evaluate expression while the process is connected: the process must be stopped because the expression might require allocating memory.
+error: unable to evaluate expression while the process is connected: the process must be stopped because the expression might require allocating memory.
+error: Process must be launched.
