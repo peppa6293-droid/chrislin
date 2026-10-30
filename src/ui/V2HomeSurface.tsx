@@ -1017,7 +1017,7 @@ function RecordPanel({
   );
 }
 
-function RecentExpenses({
+export function RecentExpenses({
   expenses,
   onOpenExpense,
   savedExpenseId,
@@ -1058,7 +1058,7 @@ function RecentExpenses({
   );
 }
 
-function ExpenseSheet({
+export function ExpenseSheet({
   busy,
   blocked,
   error,

@@ -42,6 +42,7 @@ name = "personal_finance_console_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]
+swift-rs = { version = "=1.0.9", features = ["build"] }
 tauri-build = { version = "2", features = [] }
 
 [dependencies]
@@ -58,6 +59,7 @@ tauri-plugin-notification = "2"
 tauri-plugin-haptics = "2"
 
 [patch.crates-io]
+swift-rs = { path = "patches/swift-rs" }
 tauri-runtime-wry = { path = "patches/tauri-runtime-wry" }
 tauri-plugin-notification = { path = "patches/tauri-plugin-notification" }
 

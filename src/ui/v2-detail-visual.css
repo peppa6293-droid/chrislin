@@ -473,8 +473,10 @@
   transition: background var(--v2-duration-ui) var(--v2-ease-standard);
 }
 
-.v2-ledger-monthbar .v2-icon-btn:hover:not(:disabled) {
-  background: var(--v2-teal-soft);
+@media (hover: hover) and (pointer: fine) {
+  .v2-ledger-monthbar .v2-icon-btn:hover:not(:disabled) {
+    background: var(--v2-teal-soft);
+  }
 }
 
 .v2-ledger-month-pill {

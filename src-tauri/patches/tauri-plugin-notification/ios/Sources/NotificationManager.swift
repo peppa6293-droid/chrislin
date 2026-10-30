@@ -5,6 +5,12 @@
 import Foundation
 import UserNotifications
 
+// Keep native notification diagnostics visible to devicectl's console stream.
+func notificationDiagnostic(_ message: String) {
+  NSLog("%@", message)
+  FileHandle.standardOutput.write(Data((message + "\n").utf8))
+}
+
 @objc public protocol NotificationHandlerProtocol {
   func willPresent(notification: UNNotification) -> UNNotificationPresentationOptions
   func didReceive(response: UNNotificationResponse)
@@ -15,6 +21,7 @@ import UserNotifications
 
   override init() {
     super.init()
+    notificationDiagnostic("[tauri_plugin_notification] init tz=\(TimeZone.current.identifier) now=\(Date())")
     let center = UNUserNotificationCenter.current()
     center.delegate = self
   }

@@ -31,8 +31,10 @@
   text-align: left;
 }
 
-.v2-calendar-trigger:hover:not(:disabled) {
-  border-color: var(--v2-teal);
+@media (hover: hover) and (pointer: fine) {
+  .v2-calendar-trigger:hover:not(:disabled) {
+    border-color: var(--v2-teal);
+  }
 }
 
 .v2-calendar-trigger:focus-visible,
@@ -125,8 +127,10 @@
   cursor: pointer;
 }
 
-.v2-calendar-grid > button:hover {
-  background: var(--v2-teal-soft);
+@media (hover: hover) and (pointer: fine) {
+  .v2-calendar-grid > button:hover {
+    background: var(--v2-teal-soft);
+  }
 }
 
 .v2-calendar-grid > button:focus-visible {

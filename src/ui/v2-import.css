@@ -130,8 +130,10 @@
   opacity: 0;
 }
 
-.v2-import__provider-option:hover {
-  border-color: var(--v2-teal);
+@media (hover: hover) and (pointer: fine) {
+  .v2-import__provider-option:hover {
+    border-color: var(--v2-teal);
+  }
 }
 
 .v2-import__provider-option:has(input:checked) {
@@ -175,9 +177,11 @@
   cursor: pointer;
 }
 
-.v2-import__file:hover {
-  background: var(--v2-teal-soft);
-  border-color: var(--v2-teal);
+@media (hover: hover) and (pointer: fine) {
+  .v2-import__file:hover {
+    background: var(--v2-teal-soft);
+    border-color: var(--v2-teal);
+  }
 }
 
 .v2-import__file:has(input:disabled) {

@@ -279,9 +279,11 @@
   background: var(--v2-teal-dark);
 }
 
-.v2-fixed-page .v2-btn--primary:hover {
-  border-color: #06685d;
-  background: #06685d;
+@media (hover: hover) and (pointer: fine) {
+  .v2-fixed-page .v2-btn--primary:hover {
+    border-color: #06685d;
+    background: #06685d;
+  }
 }
 
 .v2-fixed-page .v2-btn:focus-visible,

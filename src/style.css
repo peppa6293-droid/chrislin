@@ -31,7 +31,25 @@ html {
 body {
   margin: 0;
   min-width: 320px;
-  min-height: 100vh;
+  min-height: 100dvh;
+}
+html {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+}
+button,
+a,
+[role="button"],
+select,
+summary {
+  touch-action: manipulation;
+}
+button,
+[role="button"],
+summary {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
 }
 button,
 input,
@@ -68,18 +86,21 @@ textarea:focus-visible {
     background 180ms ease,
     color 180ms ease;
 }
-.icon-button:hover {
-  transform: rotate(10deg) scale(1.05);
-  background: #edf4ed;
-  color: #286453;
+@media (hover: hover) and (pointer: fine) {
+  .icon-button:hover {
+    transform: rotate(10deg) scale(1.05);
+    background: #edf4ed;
+    color: #286453;
+  }
 }
+
 ::selection {
   background: #dce9df;
 }
 
 .loading-screen,
 .error-screen {
-  min-height: 100vh;
+  min-height: 100dvh;
   display: grid;
   place-content: center;
   justify-items: center;
@@ -169,19 +190,25 @@ textarea:focus-visible {
   color: white;
   box-shadow: 0 5px 14px rgb(57 88 68 / 15%);
 }
-.button-primary:hover {
-  transform: translateY(-2px);
-  background: var(--green-dark);
-  box-shadow: 0 7px 17px rgb(57 88 68 / 20%);
+@media (hover: hover) and (pointer: fine) {
+  .button-primary:hover {
+    transform: translateY(-2px);
+    background: var(--green-dark);
+    box-shadow: 0 7px 17px rgb(57 88 68 / 20%);
+  }
 }
+
 .button-secondary {
   border-color: var(--line);
   background: var(--paper);
   color: var(--ink);
 }
-.button-secondary:hover {
-  background: #f5f7f2;
+@media (hover: hover) and (pointer: fine) {
+  .button-secondary:hover {
+    background: #f5f7f2;
+  }
 }
+
 .maintenance-entry {
   min-height: 38px;
   padding: 0 14px;
@@ -196,15 +223,17 @@ textarea:focus-visible {
   font-size: 13px;
   font-weight: 650;
 }
-.text-button:hover {
-  color: var(--green-dark);
+@media (hover: hover) and (pointer: fine) {
+  .text-button:hover {
+    color: var(--green-dark);
+  }
 }
 
 /* Onboarding */
 .onboarding-page {
   width: min(100%, 820px);
   margin: 0 auto;
-  padding: 30px clamp(20px, 5vw, 56px) 32px;
+  padding: calc(30px + env(safe-area-inset-top, 0px)) clamp(20px, 5vw, 56px) 32px;
 }
 .onboarding-page > .brand-row {
   margin-bottom: 38px;
@@ -282,10 +311,13 @@ textarea {
 input::placeholder {
   color: #aab2aa;
 }
-input:hover,
-select:hover {
-  border-color: #c4d1c5;
+@media (hover: hover) and (pointer: fine) {
+  input:hover,
+  select:hover {
+    border-color: #c4d1c5;
+  }
 }
+
 .form-stack small {
   margin-top: -2px;
   color: #8b958d;
@@ -362,11 +394,14 @@ select:hover {
   color: #8c968d;
   font-size: 21px;
 }
-.remove-button:hover,
-.close-button:hover {
-  background: #f1f4ef;
-  color: #59675c;
+@media (hover: hover) and (pointer: fine) {
+  .remove-button:hover,
+  .close-button:hover {
+    background: #f1f4ef;
+    color: #59675c;
+  }
 }
+
 .settings-fields fieldset {
   margin: 0;
   padding: 16px;
@@ -1030,7 +1065,7 @@ select:hover {
 }
 .expense-dialog {
   width: min(100%, 440px);
-  max-height: min(92vh, 720px);
+  max-height: min(92dvh, 720px);
   overflow-y: auto;
   padding: 25px;
   border: 1px solid #e7ebe5;
@@ -1040,7 +1075,7 @@ select:hover {
 }
 .maintenance-dialog {
   width: min(100%, 820px);
-  max-height: min(94vh, 820px);
+  max-height: min(94dvh, 820px);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -1301,7 +1336,7 @@ select:hover {
     padding: 21px 18px;
   }
   .maintenance-dialog {
-    max-height: 96vh;
+    max-height: 96dvh;
     padding: 19px 16px;
   }
   .maintenance-section {
@@ -1377,10 +1412,13 @@ select:hover {
   font-size: 19px;
   line-height: 0.8;
 }
-.module-detail-button:hover,
-.back-button:hover {
-  color: var(--green-dark);
+@media (hover: hover) and (pointer: fine) {
+  .module-detail-button:hover,
+  .back-button:hover {
+    color: var(--green-dark);
+  }
 }
+
 .module-label {
   display: block;
   color: #7e8a80;
@@ -1651,7 +1689,7 @@ select:hover {
 }
 .detail-page {
   max-width: 800px;
-  min-height: 100vh;
+  min-height: 100dvh;
 }
 .detail-header {
   display: flex;
@@ -1814,11 +1852,14 @@ select:hover {
     box-shadow var(--motion),
     border-color var(--motion);
 }
-.finance-category-card:hover {
-  transform: translateY(-2px);
-  border-color: #cbd9cd;
-  box-shadow: var(--shadow);
+@media (hover: hover) and (pointer: fine) {
+  .finance-category-card:hover {
+    transform: translateY(-2px);
+    border-color: #cbd9cd;
+    box-shadow: var(--shadow);
+  }
 }
+
 .finance-card-title {
   font-size: 18px;
   font-weight: 650;
@@ -2226,7 +2267,7 @@ select:hover {
   --green-dark: #286453;
 }
 #root:has(.home-page) {
-  min-height: 100vh;
+  min-height: 100dvh;
   background: radial-gradient(ellipse at 48% -20%, #fffefa 0%, #f6f6ef 72%);
 }
 .home-page {
@@ -2244,13 +2285,16 @@ select:hover {
     box-shadow 220ms ease,
     border-color 220ms ease;
 }
-.finance-category-card:hover,
-.finance-data-row:hover,
-.finance-list-card:hover {
-  transform: translateY(-3px);
-  border-color: #d4e3d5;
-  box-shadow: 0 14px 26px rgb(54 72 59 / 9%);
+@media (hover: hover) and (pointer: fine) {
+  .finance-category-card:hover,
+  .finance-data-row:hover,
+  .finance-list-card:hover {
+    transform: translateY(-3px);
+    border-color: #d4e3d5;
+    box-shadow: 0 14px 26px rgb(54 72 59 / 9%);
+  }
 }
+
 .finance-data-row:active,
 .finance-category-card:active {
   transform: scale(0.99);
@@ -2486,11 +2530,14 @@ select:hover {
     border-color 240ms ease;
   animation: home-enter 700ms var(--spring) both;
 }
-.home-module:hover {
-  transform: translateY(-4px) rotate(-0.25deg);
-  border-color: #d6e4d6;
-  box-shadow: 0 18px 30px rgb(54 72 59 / 10%);
+@media (hover: hover) and (pointer: fine) {
+  .home-module:hover {
+    transform: translateY(-4px) rotate(-0.25deg);
+    border-color: #d6e4d6;
+    box-shadow: 0 18px 30px rgb(54 72 59 / 10%);
+  }
 }
+
 .home-module.is-pulsing {
   animation: value-pulse 520ms var(--spring);
 }
@@ -3354,13 +3401,16 @@ select:hover {
     box-shadow 220ms ease,
     border-color 220ms ease;
 }
-.finance-category-card:hover,
-.finance-data-row:hover,
-.finance-list-card:hover {
-  transform: translateY(-3px);
-  border-color: #d4e3d5;
-  box-shadow: 0 14px 26px rgb(54 72 59 / 9%);
+@media (hover: hover) and (pointer: fine) {
+  .finance-category-card:hover,
+  .finance-data-row:hover,
+  .finance-list-card:hover {
+    transform: translateY(-3px);
+    border-color: #d4e3d5;
+    box-shadow: 0 14px 26px rgb(54 72 59 / 9%);
+  }
 }
+
 .finance-data-row:active,
 .finance-category-card:active {
   transform: scale(0.99);
@@ -3684,7 +3734,7 @@ select:hover {
 }
 .daily-edit-dialog {
   width: min(520px, calc(100vw - 32px));
-  max-height: min(88vh, 760px);
+  max-height: min(88dvh, 760px);
   overflow-y: auto;
   text-align: left;
 }
@@ -3837,8 +3887,10 @@ select:hover {
 .v2-record-ledger-link span {
   flex: 1;
 }
-.v2-record-ledger-link:hover {
-  border-color: var(--v2-teal);
+@media (hover: hover) and (pointer: fine) {
+  .v2-record-ledger-link:hover {
+    border-color: var(--v2-teal);
+  }
 }
 
 .v2-sheet-date {
@@ -3890,9 +3942,12 @@ select:hover {
   color: inherit;
   font-size: 13px;
 }
-.v2-date-grid button:hover:not(:disabled) {
-  background: #eef4f0;
+@media (hover: hover) and (pointer: fine) {
+  .v2-date-grid button:hover:not(:disabled) {
+    background: #eef4f0;
+  }
 }
+
 .v2-date-grid button.is-today {
   border-color: #cfe3d9;
 }
@@ -3974,9 +4029,12 @@ select:hover {
   font-weight: 600;
   cursor: pointer;
 }
-.finance-ledger-entry:hover {
-  border-color: var(--v2-teal);
+@media (hover: hover) and (pointer: fine) {
+  .finance-ledger-entry:hover {
+    border-color: var(--v2-teal);
+  }
 }
+
 .v2-finance-overview .v2-dashboard {
   margin-top: 4px;
 }
@@ -4054,5 +4112,16 @@ select:hover {
   }
   .finance-privacy-page .finance-list-card {
     padding: 20px;
+  }
+}
+
+/* iOS zooms the page when a focused field is under 16px; this must stay after every input font-size rule. */
+@media (pointer: coarse) {
+  input,
+  select,
+  textarea,
+  .maintenance-section input,
+  .maintenance-section select {
+    font-size: 16px;
   }
 }

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // SPDX-License-Identifier: MIT
 
+import Foundation
 import Tauri
 import UserNotifications
 
@@ -185,6 +186,7 @@ func handleScheduledNotification(_ schedule: NotificationSchedule) throws
     dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
 
     if let at = dateFormatter.date(from: date) {
+      notificationDiagnostic("[tauri_plugin_notification] at raw=\(date) parsed=\(at) tz=\(TimeZone.current.identifier)")
       let dateInfo = Calendar.current.dateComponents(in: TimeZone.current, from: at)
 
       if dateInfo.date! < Date() {

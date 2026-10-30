@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // SPDX-License-Identifier: MIT
 
+import Foundation
 import Tauri
 import UserNotifications
 
@@ -18,6 +19,7 @@ public class NotificationHandler: NSObject, NotificationHandlerProtocol {
   public func requestPermissions(with completion: ((Bool, Error?) -> Void)? = nil) {
     let center = UNUserNotificationCenter.current()
     center.requestAuthorization(options: [.badge, .alert, .sound]) { (granted, error) in
+      notificationDiagnostic("[tauri_plugin_notification] permission granted=\(granted) error=\(error?.localizedDescription ?? "none")")
       completion?(granted, error)
     }
   }
@@ -25,11 +27,13 @@ public class NotificationHandler: NSObject, NotificationHandlerProtocol {
   public func checkPermissions(with completion: ((UNAuthorizationStatus) -> Void)? = nil) {
     let center = UNUserNotificationCenter.current()
     center.getNotificationSettings { settings in
+      notificationDiagnostic("[tauri_plugin_notification] permission status=\(settings.authorizationStatus.rawValue)")
       completion?(settings.authorizationStatus)
     }
   }
 
   public func willPresent(notification: UNNotification) -> UNNotificationPresentationOptions {
+    notificationDiagnostic("[tauri_plugin_notification] willPresent id=\(notification.request.identifier) title=\(notification.request.content.title)")
     let notificationData = toActiveNotification(notification.request)
     try? self.plugin?.trigger("notification", data: notificationData)
 

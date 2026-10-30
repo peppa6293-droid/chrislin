@@ -87,6 +87,7 @@ struct RemoveActiveArgs: Decodable {
 func showNotification(invoke: Invoke, notification: Notification)
   throws -> UNNotificationRequest
 {
+  notificationDiagnostic("[tauri_plugin_notification] request id=\(notification.id) title=\(notification.title) scheduled=\(notification.schedule != nil) tz=\(TimeZone.current.identifier)")
   var content: UNNotificationContent
   do {
     content = try makeNotificationContent(notification)
@@ -111,6 +112,7 @@ func showNotification(invoke: Invoke, notification: Notification)
 
   let center = UNUserNotificationCenter.current()
   center.add(request) { (error: Error?) in
+    notificationDiagnostic("[tauri_plugin_notification] add id=\(request.identifier) error=\(error?.localizedDescription ?? "none")")
     if let theError = error {
       invoke.reject(theError.localizedDescription)
     }

@@ -15,7 +15,7 @@
 }
 
 #root:has(.v2-shell) {
-  min-height: 100vh;
+  min-height: 100dvh;
   background: var(--v2-paper);
 }
 
@@ -33,7 +33,7 @@
   grid-template-rows: auto minmax(0, 1fr);
   width: min(100%, 1320px);
   min-width: 0;
-  min-height: 100vh;
+  min-height: 100dvh;
   margin: 0 auto;
   overflow-x: clip;
   color: var(--v2-ink);
@@ -67,7 +67,7 @@
   align-items: center;
   justify-content: space-between;
   min-height: 74px;
-  padding: 14px 30px;
+  padding: calc(14px + env(safe-area-inset-top, 0px)) 30px 14px;
   border-bottom: 1px solid var(--v2-line);
   background: rgb(255 253 247 / 94%);
   backdrop-filter: blur(12px);
@@ -166,9 +166,11 @@ button.v2-brand:focus-visible {
   box-shadow: none;
 }
 
-.v2-top-record:hover {
-  background: #e9f6f1;
-  color: var(--v2-teal-dark);
+@media (hover: hover) and (pointer: fine) {
+  .v2-top-record:hover {
+    background: #e9f6f1;
+    color: var(--v2-teal-dark);
+  }
 }
 
 .v2-primary-nav {
@@ -179,7 +181,7 @@ button.v2-brand:focus-visible {
   align-self: start;
   display: grid;
   gap: 8px;
-  height: calc(100vh - 74px);
+  height: calc(100dvh - 74px);
   padding: 24px 10px;
   border-right: 1px solid var(--v2-line);
   background: #fffdf7;
@@ -199,10 +201,16 @@ button.v2-brand:focus-visible {
   font-weight: 650;
 }
 
-.v2-nav-button:hover,
 .v2-nav-button.is-active {
   background: #e9f6f1;
   color: var(--v2-teal-dark);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .v2-nav-button:hover {
+    background: #e9f6f1;
+    color: var(--v2-teal-dark);
+  }
 }
 
 .v2-nav-icon {
@@ -345,10 +353,13 @@ button.v2-brand:focus-visible {
   font-size: 12px;
   font-weight: 600;
 }
-.v2-snapshot-actions button:hover {
-  background: #fff;
-  border-color: var(--v2-teal);
+@media (hover: hover) and (pointer: fine) {
+  .v2-snapshot-actions button:hover {
+    background: #fff;
+    border-color: var(--v2-teal);
+  }
 }
+
 .v2-snapshot-cashflow-compat {
   display: none;
 }
@@ -391,10 +402,13 @@ button.v2-brand:focus-visible {
     border-color 180ms ease,
     background 180ms ease;
 }
-.v2-today-signal:hover {
-  border-color: #cbded7;
-  background: #fffefa;
+@media (hover: hover) and (pointer: fine) {
+  .v2-today-signal:hover {
+    border-color: #cbded7;
+    background: #fffefa;
+  }
 }
+
 .v2-today-signal:active {
   transform: scale(0.985);
 }
@@ -564,9 +578,11 @@ button.v2-brand:focus-visible {
   box-shadow: 0 8px 22px rgb(24 33 43 / 4%);
 }
 
-.v2-path-card:hover {
-  border-color: #cbded7;
-  background: #fffefa;
+@media (hover: hover) and (pointer: fine) {
+  .v2-path-card:hover {
+    border-color: #cbded7;
+    background: #fffefa;
+  }
 }
 
 .v2-path-card:focus-visible {
@@ -703,9 +719,11 @@ button.v2-brand:focus-visible {
   color: var(--v2-muted);
 }
 
-.v2-path-open:hover {
-  background: #f0f3f0;
-  color: var(--v2-teal-dark);
+@media (hover: hover) and (pointer: fine) {
+  .v2-path-open:hover {
+    background: #f0f3f0;
+    color: var(--v2-teal-dark);
+  }
 }
 
 .v2-path-value {
@@ -910,9 +928,12 @@ button.v2-brand:focus-visible {
 .v2-progress-row:last-child {
   border-bottom: 0;
 }
-.v2-progress-row:hover {
-  background: #f7faf8;
+@media (hover: hover) and (pointer: fine) {
+  .v2-progress-row:hover {
+    background: #f7faf8;
+  }
 }
+
 .v2-progress-number {
   display: grid;
   place-items: center;
@@ -956,10 +977,13 @@ button.v2-brand:focus-visible {
     transform 180ms ease,
     border-color 180ms ease;
 }
-.v2-insight-panel:hover {
-  transform: translateY(-2px);
-  border-color: #d4c29d;
+@media (hover: hover) and (pointer: fine) {
+  .v2-insight-panel:hover {
+    transform: translateY(-2px);
+    border-color: #d4c29d;
+  }
 }
+
 .v2-insight-panel:active {
   transform: translateY(0) scale(0.99);
 }
@@ -1110,10 +1134,15 @@ button.v2-brand:focus-visible {
   text-align: left;
   font-size: 12px;
 }
-.spending-pie-legend button:hover,
 .spending-pie-legend button.is-selected {
   background: #f2ebdf;
 }
+@media (hover: hover) and (pointer: fine) {
+  .spending-pie-legend button:hover {
+    background: #f2ebdf;
+  }
+}
+
 .spending-pie-legend i {
   width: 8px;
   height: 8px;
@@ -1178,9 +1207,12 @@ button.v2-brand:focus-visible {
   text-align: left;
 }
 
-.v2-record-hero:hover {
-  border-color: var(--v2-teal);
+@media (hover: hover) and (pointer: fine) {
+  .v2-record-hero:hover {
+    border-color: var(--v2-teal);
+  }
 }
+
 .v2-record-hero > span:nth-child(2) {
   display: grid;
   flex: 1;
@@ -1242,7 +1274,7 @@ button.v2-brand:focus-visible {
 
 .v2-expense-sheet {
   width: min(100%, 480px);
-  max-height: min(90vh, 700px);
+  max-height: min(90dvh, 700px);
   overflow: auto;
   padding: 23px;
   border: 1px solid var(--v2-line);
@@ -1372,7 +1404,7 @@ button.v2-brand:focus-visible {
   }
   .v2-topbar {
     min-height: 64px;
-    padding: 11px 15px;
+    padding: calc(11px + env(safe-area-inset-top, 0px)) 15px 11px;
   }
   .v2-brand-mark {
     width: 34px;
@@ -1403,7 +1435,7 @@ button.v2-brand:focus-visible {
   }
   .v2-primary-nav {
     position: fixed;
-    top: calc(100vh - 66px - env(safe-area-inset-bottom));
+    top: calc(100dvh - 66px - env(safe-area-inset-bottom));
     right: 0;
     bottom: auto;
     left: 0;
@@ -1588,7 +1620,7 @@ button.v2-brand:focus-visible {
 
 @media (min-width: 721px) {
   .v2-shell {
-    height: 100vh;
+    height: 100dvh;
     min-height: 0;
     overflow: hidden;
   }
@@ -1600,13 +1632,13 @@ button.v2-brand:focus-visible {
 
   .v2-primary-nav {
     top: 0;
-    height: calc(100vh - 74px);
+    height: calc(100dvh - 74px);
     min-height: 0;
     overflow: hidden;
   }
 
   .v2-content {
-    height: calc(100vh - 74px);
+    height: calc(100dvh - 74px);
     overflow-x: hidden;
     overflow-y: auto;
     overscroll-behavior: contain;
@@ -1663,9 +1695,11 @@ button.v2-brand:focus-visible {
     color 150ms ease;
 }
 
-.v2-surface-nav__tab:hover {
-  background: #e9f6f1;
-  color: var(--v2-teal-dark);
+@media (hover: hover) and (pointer: fine) {
+  .v2-surface-nav__tab:hover {
+    background: #e9f6f1;
+    color: var(--v2-teal-dark);
+  }
 }
 
 .v2-surface-nav__tab.is-active {
@@ -1685,8 +1719,10 @@ button.v2-brand:focus-visible {
   cursor: pointer;
 }
 
-.v2-surface-nav__record-btn:hover {
-  background: var(--v2-teal-dark);
+@media (hover: hover) and (pointer: fine) {
+  .v2-surface-nav__record-btn:hover {
+    background: var(--v2-teal-dark);
+  }
 }
 
 .v2-surface-content {

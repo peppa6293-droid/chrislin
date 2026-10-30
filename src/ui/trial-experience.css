@@ -128,10 +128,13 @@
     transform 200ms var(--spring),
     background 200ms;
 }
-.module-detail-button:hover {
-  transform: translateX(3px);
-  background: #dceee4;
+@media (hover: hover) and (pointer: fine) {
+  .module-detail-button:hover {
+    transform: translateX(3px);
+    background: #dceee4;
+  }
 }
+
 .home-page .module-label {
   font-size: 12px;
 }

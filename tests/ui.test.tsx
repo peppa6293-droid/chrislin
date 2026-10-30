@@ -635,7 +635,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
       bootstrap: vi.fn().mockResolvedValue({ status: "READY" }),
       getFinancialMaintenanceState: vi.fn().mockResolvedValue(stage3MaintenanceState),
     });
-    render(<App services={svc} />);
+    render(<App scope="FULL" services={svc} />);
     await screen.findByTestId("home-spending-status");
     await user.click(screen.getByRole("button", { name: "我的财务" }));
     const cards = await screen.findAllByRole("button", { name: /^(收入|现金|资产|债务)/ });
@@ -737,7 +737,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
       bootstrap: vi.fn().mockResolvedValue({ status: "READY" }),
       getFinancialMaintenanceState: getMaintenance,
     });
-    render(<App services={svc} />);
+    render(<App scope="FULL" services={svc} />);
     await screen.findByTestId("home-spending-status");
     await user.click(screen.getByRole("button", { name: "我的财务" }));
     expect((await screen.findByRole("alert")).textContent).toContain(
@@ -759,7 +759,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
       getFinancialMaintenanceState: vi.fn().mockResolvedValue(stage3MaintenanceState),
       updateFinancialDataAndRecalculate: vi.fn().mockRejectedValue(new Error("validation failed")),
     });
-    render(<App services={svc} />);
+    render(<App scope="FULL" services={svc} />);
     await screen.findByTestId("home-spending-status");
     await user.click(screen.getByRole("button", { name: "我的财务" }));
     await user.click(await screen.findByRole("button", { name: /^收入/ }));
@@ -811,7 +811,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
         .mockResolvedValue({ requiresSafetyRecoveryHorizon: true }),
       updateFinancialDataAndRecalculate: update,
     });
-    render(<App services={svc} />);
+    render(<App scope="FULL" services={svc} />);
     await screen.findByTestId("home-spending-status");
     const userButton = screen.getByRole("button", { name: "我的财务" });
     await user.click(userButton);
@@ -850,7 +850,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
       getFinancialMaintenanceState: vi.fn().mockResolvedValue(stage3MaintenanceState),
     });
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-    render(<App services={svc} />);
+    render(<App scope="FULL" services={svc} />);
     await screen.findByTestId("home-spending-status");
     await user.click(screen.getByRole("button", { name: "我的财务" }));
     await user.click(await screen.findByRole("button", { name: /^收入/ }));
@@ -1029,7 +1029,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
       ),
     });
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-    render(<App services={svc} />);
+    render(<App scope="FULL" services={svc} />);
     await screen.findByTestId("home-spending-status");
     await user.click(screen.getByRole("button", { name: "我的财务" }));
     await user.click(await screen.findByRole("button", { name: /^收入/ }));
@@ -1085,7 +1085,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
     const user = userEvent.setup();
     let septemberApp: ReturnType<typeof render> | undefined;
     try {
-      septemberApp = render(<App services={svc} />);
+      septemberApp = render(<App scope="FULL" services={svc} />);
       await screen.findByRole("button", { name: /记一笔/ });
       await user.click(screen.getByRole("button", { name: "更新财务数据" }));
       const septemberDialog = await screen.findByRole("dialog");
@@ -1106,7 +1106,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
 
       septemberApp.unmount();
       vi.setSystemTime(new Date(2026, 9, 1, 12));
-      render(<App services={svc} />);
+      render(<App scope="FULL" services={svc} />);
       await screen.findByRole("heading", { name: "暂时打不开账本" });
       await user.click(screen.getByRole("button", { name: "更新财务数据" }));
       const octoberDialog = await screen.findByRole("dialog");
@@ -1197,7 +1197,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
     });
     const user = userEvent.setup();
     try {
-      render(<App services={svc} />);
+      render(<App scope="FULL" services={svc} />);
       await screen.findByRole("heading", { name: "暂时打不开账本" });
       await user.click(screen.getByRole("button", { name: "更新财务数据" }));
       const dialog = await screen.findByRole("dialog");
@@ -1231,7 +1231,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
   });
 
   it("1. fresh database shows onboarding, not Home", async () => {
-    render(<App services={services()} />);
+    render(<App scope="FULL" services={services()} />);
     expect(await screen.findByRole("heading", { name: "先认识一下你的收入" })).toBeTruthy();
     expect(screen.queryByRole("heading", { name: /本月状态/ })).toBeNull();
   });
@@ -1239,7 +1239,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
   it("2. completed onboarding saves submitted facts and reaches Home", async () => {
     const user = userEvent.setup();
     const svc = services();
-    render(<App services={svc} />);
+    render(<App scope="FULL" services={svc} />);
     await screen.findByRole("heading", { name: "先认识一下你的收入" });
     await user.type(screen.getByLabelText("每月稳定收入（元）"), "10000");
     await user.click(screen.getByRole("button", { name: /继续/ }));
@@ -1275,7 +1275,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
     const svc = services({
       getOnboardingRequirement: vi.fn().mockReturnValue({ requiresSafetyRecoveryHorizon: true }),
     });
-    render(<App services={svc} />);
+    render(<App scope="FULL" services={svc} />);
     await screen.findByRole("heading", { name: "先认识一下你的收入" });
     await user.type(screen.getByLabelText("每月稳定收入（元）"), "1000");
     await user.click(screen.getByRole("button", { name: /继续/ }));
@@ -1303,7 +1303,10 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
 
   it("3. no comparison history presents the Model Core baseline state", async () => {
     render(
-      <App services={services({ bootstrap: vi.fn().mockResolvedValue({ status: "READY" }) })} />,
+      <App
+        scope="FULL"
+        services={services({ bootstrap: vi.fn().mockResolvedValue({ status: "READY" }) })}
+      />,
     );
     expect(await screen.findByText("财务基准建立中")).toBeTruthy();
   });
@@ -1318,6 +1321,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
     };
     render(
       <App
+        scope="FULL"
         services={services({
           bootstrap: vi.fn().mockResolvedValue({ status: "READY" }),
           getHomeApplicationState: vi.fn().mockResolvedValue(home),
@@ -1336,7 +1340,10 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
   it("5. Record expense opens the quick-entry dialog", async () => {
     const user = userEvent.setup();
     render(
-      <App services={services({ bootstrap: vi.fn().mockResolvedValue({ status: "READY" }) })} />,
+      <App
+        scope="FULL"
+        services={services({ bootstrap: vi.fn().mockResolvedValue({ status: "READY" }) })}
+      />,
     );
     await screen.findByText("财务基准建立中", { exact: true });
     await user.click(screen.getByRole("button", { name: /记一笔/ }));
@@ -1346,7 +1353,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
   it("6. valid amount saves and a successful submission closes the dialog", async () => {
     const user = userEvent.setup();
     const svc = services({ bootstrap: vi.fn().mockResolvedValue({ status: "READY" }) });
-    render(<App services={svc} />);
+    render(<App scope="FULL" services={svc} />);
     await screen.findByText("财务基准建立中", { exact: true });
     await user.click(screen.getByRole("button", { name: /记一笔/ }));
     await user.type(screen.getByLabelText(/消费金额/), "30.50");
@@ -1358,7 +1365,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
   it.skip("[A] preserves the local calendar date separately from the UTC instant", async () => {
     const user = userEvent.setup();
     const svc = services({ bootstrap: vi.fn().mockResolvedValue({ status: "READY" }) });
-    render(<App services={svc} />);
+    render(<App scope="FULL" services={svc} />);
     await screen.findByText("财务基准建立中", { exact: true });
     await user.click(screen.getByRole("button", { name: /记一笔/ }));
     await user.type(screen.getByLabelText(/消费金额/), "12.34");
@@ -1376,7 +1383,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
   it("7. invalid and zero amounts are blocked", async () => {
     const user = userEvent.setup();
     const svc = services({ bootstrap: vi.fn().mockResolvedValue({ status: "READY" }) });
-    render(<App services={svc} />);
+    render(<App scope="FULL" services={svc} />);
     await screen.findByText("财务基准建立中", { exact: true });
     await user.click(screen.getByRole("button", { name: /记一笔/ }));
     await user.type(screen.getByLabelText(/消费金额/), "0");
@@ -1388,7 +1395,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
   it("8. expense category is optional and stays absent when unselected", async () => {
     const user = userEvent.setup();
     const svc = services({ bootstrap: vi.fn().mockResolvedValue({ status: "READY" }) });
-    render(<App services={svc} />);
+    render(<App scope="FULL" services={svc} />);
     await screen.findByText("财务基准建立中", { exact: true });
     await user.click(screen.getByRole("button", { name: /记一笔/ }));
     await user.type(screen.getByLabelText(/消费金额/), "20");
@@ -1400,7 +1407,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
   it.skip("[A] 9. optional category and note are sent when provided", async () => {
     const user = userEvent.setup();
     const svc = services({ bootstrap: vi.fn().mockResolvedValue({ status: "READY" }) });
-    render(<App services={svc} />);
+    render(<App scope="FULL" services={svc} />);
     await screen.findByText("财务基准建立中", { exact: true });
     await user.click(screen.getByRole("button", { name: /记一笔/ }));
     await user.type(screen.getByLabelText(/消费金额/), "20");
@@ -1417,7 +1424,10 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
   it("10. Escape closes quick entry", async () => {
     const user = userEvent.setup();
     render(
-      <App services={services({ bootstrap: vi.fn().mockResolvedValue({ status: "READY" }) })} />,
+      <App
+        scope="FULL"
+        services={services({ bootstrap: vi.fn().mockResolvedValue({ status: "READY" }) })}
+      />,
     );
     await screen.findByText("财务基准建立中", { exact: true });
     await user.click(screen.getByRole("button", { name: /记一笔/ }));
@@ -1428,7 +1438,10 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
   it("quick entry keeps keyboard focus within the modal", async () => {
     const user = userEvent.setup();
     render(
-      <App services={services({ bootstrap: vi.fn().mockResolvedValue({ status: "READY" }) })} />,
+      <App
+        scope="FULL"
+        services={services({ bootstrap: vi.fn().mockResolvedValue({ status: "READY" }) })}
+      />,
     );
     await screen.findByText("财务基准建立中", { exact: true });
     await user.click(screen.getByRole("button", { name: /记一笔/ }));
@@ -1444,7 +1457,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
       bootstrap: vi.fn().mockResolvedValue({ status: "READY" }),
       recordV2CashExpense: vi.fn().mockRejectedValue(new Error("保存失败")),
     });
-    render(<App services={svc} />);
+    render(<App scope="FULL" services={svc} />);
     await screen.findByText("财务基准建立中", { exact: true });
     await user.click(screen.getByRole("button", { name: /记一笔/ }));
     await user.type(screen.getByLabelText(/消费金额/), "35");
@@ -1485,7 +1498,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
           : updated;
       }),
     });
-    render(<App services={svc} />);
+    render(<App scope="FULL" services={svc} />);
     await screen.findByText("财务基准建立中", { exact: true });
     await user.click(screen.getByRole("button", { name: /记一笔/ }));
     await user.type(screen.getByLabelText(/消费金额/), "30");
@@ -1511,7 +1524,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
       recordV2CashExpense: vi.fn().mockResolvedValue({ expenseId: "saved-expense" }),
       getExpenseRecordById: vi.fn().mockResolvedValue(null),
     });
-    render(<App services={svc} />);
+    render(<App scope="FULL" services={svc} />);
     await screen.findByText("财务基准建立中", { exact: true });
     await user.click(screen.getByRole("button", { name: /记一笔/ }));
     await user.type(screen.getByLabelText(/消费金额/), "17");
@@ -1535,6 +1548,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
     };
     render(
       <App
+        scope="FULL"
         services={services({
           bootstrap: vi.fn().mockResolvedValue({ status: "READY" }),
           getHomeApplicationState: vi.fn().mockResolvedValue(home),
@@ -1564,6 +1578,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
     };
     render(
       <App
+        scope="FULL"
         services={services({
           bootstrap: vi.fn().mockResolvedValue({ status: "READY" }),
           getHomeApplicationState: vi.fn().mockResolvedValue(home),
@@ -1600,6 +1615,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
     };
     render(
       <App
+        scope="FULL"
         services={services({
           bootstrap: vi.fn().mockResolvedValue({ status: "READY" }),
           getHomeApplicationState: vi.fn().mockResolvedValue(home),
@@ -1666,6 +1682,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
     const home = { ...baselineHome, desiredMonthlyDiscretionarySpending: null };
     render(
       <App
+        scope="FULL"
         services={services({
           bootstrap: vi.fn().mockResolvedValue({ status: "READY" }),
           getHomeApplicationState: vi.fn().mockResolvedValue(home),
@@ -1696,6 +1713,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
     };
     render(
       <App
+        scope="FULL"
         services={services({
           bootstrap: vi.fn().mockResolvedValue({ status: "READY" }),
           getHomeApplicationState: vi.fn().mockResolvedValue(home),
@@ -1720,6 +1738,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
     const home = { ...baselineHome, spendingStatus: "BALANCED_NO_SURPLUS" as const };
     render(
       <App
+        scope="FULL"
         services={services({
           bootstrap: vi.fn().mockResolvedValue({ status: "READY" }),
           getHomeApplicationState: vi.fn().mockResolvedValue(home),
@@ -1744,6 +1763,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
     };
     render(
       <App
+        scope="FULL"
         services={services({
           bootstrap: vi.fn().mockResolvedValue({ status: "READY" }),
           getHomeApplicationState: vi.fn().mockResolvedValue(home),
@@ -1768,6 +1788,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
     };
     render(
       <App
+        scope="FULL"
         services={services({
           bootstrap: vi.fn().mockResolvedValue({ status: "READY" }),
           getHomeApplicationState: vi.fn().mockResolvedValue(home),
@@ -1882,6 +1903,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
     };
     render(
       <App
+        scope="FULL"
         services={services({
           bootstrap: vi.fn().mockResolvedValue({ status: "READY" }),
           getHomeApplicationState: vi.fn().mockResolvedValue(home),
@@ -2035,7 +2057,10 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
 
   it("21. NO_ACTION does not render an invented recommendation", async () => {
     render(
-      <App services={services({ bootstrap: vi.fn().mockResolvedValue({ status: "READY" }) })} />,
+      <App
+        scope="FULL"
+        services={services({ bootstrap: vi.fn().mockResolvedValue({ status: "READY" }) })}
+      />,
     );
     await screen.findByText("财务基准建立中");
     expect(screen.queryByText("现在最值得留意")).toBeNull();
@@ -2051,16 +2076,16 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
       bootstrap: vi.fn().mockResolvedValue({ status: "READY" }),
       getHomeApplicationState: vi.fn().mockResolvedValue(persisted),
     });
-    const { unmount } = render(<App services={svc} />);
+    const { unmount } = render(<App scope="FULL" services={svc} />);
     expect(await screen.findByText("88", { exact: false })).toBeTruthy();
     unmount();
-    render(<App services={svc} />);
+    render(<App scope="FULL" services={svc} />);
     expect(await screen.findByText("88", { exact: false })).toBeTruthy();
     expect(svc.getHomeApplicationState).toHaveBeenCalledTimes(2);
   });
 
   it("24. onboarding has no prefilled Owner figures or implicit parameter defaults", async () => {
-    render(<App services={services()} />);
+    render(<App scope="FULL" services={services()} />);
     await screen.findByRole("heading", { name: "先认识一下你的收入" });
     expect((screen.getByLabelText("每月稳定收入（元）") as HTMLInputElement).value).toBe("");
     await userEvent.setup().type(screen.getByLabelText("每月稳定收入（元）"), "1");
@@ -2093,7 +2118,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
 
   it("loading does not flash Home before initialization resolves", async () => {
     const pending = vi.fn().mockReturnValue(new Promise(() => {}));
-    render(<App services={services({ bootstrap: pending })} />);
+    render(<App scope="FULL" services={services({ bootstrap: pending })} />);
     expect(screen.getByText("正在打开你的本地账本…")).toBeTruthy();
     expect(screen.queryByRole("heading", { name: /本月状态/ })).toBeNull();
   });
@@ -2101,6 +2126,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
   it("bootstrap errors show a recoverable message instead of a white screen", async () => {
     render(
       <App
+        scope="FULL"
         services={services({
           bootstrap: vi
             .fn()
@@ -2132,7 +2158,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
         home: { ...baselineHome, currentMonthSpending: "6200" },
       }),
     });
-    render(<App services={svc} />);
+    render(<App scope="FULL" services={svc} />);
     await screen.findByTestId("actual-variable-spending");
     await user.click(screen.getByRole("button", { name: "更新财务数据" }));
     const balance = await screen.findByLabelText("当前余额");
@@ -2153,7 +2179,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
       bootstrap: vi.fn().mockResolvedValue({ status: "READY" }),
       getFinancialMaintenanceState: vi.fn().mockResolvedValue(maintenanceState),
     });
-    render(<App services={svc} />);
+    render(<App scope="FULL" services={svc} />);
     await screen.findByTestId("actual-variable-spending");
     await user.click(screen.getByRole("button", { name: "更新财务数据" }));
     await user.click(await screen.findByRole("button", { name: "＋ 记录本月收入" }));
@@ -2173,7 +2199,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
       bootstrap: vi.fn().mockResolvedValue({ status: "READY" }),
       getFinancialMaintenanceState: vi.fn().mockResolvedValue(maintenanceState),
     });
-    render(<App services={svc} />);
+    render(<App scope="FULL" services={svc} />);
     await screen.findByTestId("actual-variable-spending");
     await user.click(screen.getByRole("button", { name: "更新财务数据" }));
     await user.click(await screen.findByRole("button", { name: "＋ 记录本月收入" }));
@@ -2193,7 +2219,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
       bootstrap: vi.fn().mockResolvedValue({ status: "READY" }),
       getFinancialMaintenanceState: vi.fn().mockResolvedValue(maintenanceState),
     });
-    render(<App services={svc} />);
+    render(<App scope="FULL" services={svc} />);
     await screen.findByTestId("actual-variable-spending");
     await user.click(screen.getByRole("button", { name: "更新财务数据" }));
     const addButton = await screen.findByRole("button", { name: "＋ 记录本月收入" });
@@ -2224,7 +2250,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
       bootstrap: vi.fn().mockResolvedValue({ status: "READY" }),
       getFinancialMaintenanceState: vi.fn().mockResolvedValue(maintenanceState),
     });
-    render(<App services={svc} />);
+    render(<App scope="FULL" services={svc} />);
     await screen.findByTestId("actual-variable-spending");
     await user.click(screen.getByRole("button", { name: "更新财务数据" }));
     await user.click(await screen.findByRole("button", { name: "＋ 记录本月收入" }));
@@ -2242,7 +2268,7 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
       getFinancialMaintenanceState: vi.fn().mockResolvedValue(maintenanceState),
       updateFinancialDataAndRecalculate: vi.fn().mockRejectedValue(new Error("write failed")),
     });
-    render(<App services={svc} />);
+    render(<App scope="FULL" services={svc} />);
     await screen.findByTestId("actual-variable-spending");
     await user.click(screen.getByRole("button", { name: "更新财务数据" }));
     const balance = await screen.findByLabelText("当前余额");

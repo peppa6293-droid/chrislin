@@ -35,8 +35,10 @@
   cursor: pointer;
 }
 
-.v2-today-task__action:hover:not(:disabled) {
-  background: var(--v2-teal-dark);
+@media (hover: hover) and (pointer: fine) {
+  .v2-today-task__action:hover:not(:disabled) {
+    background: var(--v2-teal-dark);
+  }
 }
 
 .v2-today-task__action:disabled {

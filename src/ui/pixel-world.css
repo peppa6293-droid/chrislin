@@ -101,9 +101,12 @@
   background: #527f72;
   content: "";
 }
-.pixel-place:hover {
-  transform: translateY(-6px);
+@media (hover: hover) and (pointer: fine) {
+  .pixel-place:hover {
+    transform: translateY(-6px);
+  }
 }
+
 .pixel-place:active {
   transform: translateY(2px);
 }
@@ -155,9 +158,12 @@
   transform: translateY(0);
   transition: transform 160ms steps(2, end);
 }
-.pixel-friend:hover {
-  transform: translateY(-6px);
+@media (hover: hover) and (pointer: fine) {
+  .pixel-friend:hover {
+    transform: translateY(-6px);
+  }
 }
+
 .pixel-friend.is-waving .pixel-friend-hand {
   transform-box: fill-box;
   transform-origin: center;

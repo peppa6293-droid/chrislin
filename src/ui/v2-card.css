@@ -17,8 +17,10 @@
     transform var(--v2-duration-ui) var(--v2-ease-standard);
 }
 
-.v2-card:hover {
-  box-shadow: var(--v2-shadow-card-hover);
+@media (hover: hover) and (pointer: fine) {
+  .v2-card:hover {
+    box-shadow: var(--v2-shadow-card-hover);
+  }
 }
 
 .v2-card--soft {
@@ -136,8 +138,10 @@
   box-shadow: var(--v2-shadow-button);
 }
 
-.v2-btn--primary:hover {
-  background: var(--v2-teal-dark);
+@media (hover: hover) and (pointer: fine) {
+  .v2-btn--primary:hover {
+    background: var(--v2-teal-dark);
+  }
 }
 
 .v2-btn--primary:active {
@@ -151,8 +155,10 @@
   border-color: var(--v2-teal);
 }
 
-.v2-btn--secondary:hover {
-  background: var(--v2-teal-soft);
+@media (hover: hover) and (pointer: fine) {
+  .v2-btn--secondary:hover {
+    background: var(--v2-teal-soft);
+  }
 }
 
 .v2-btn--danger {
@@ -184,9 +190,11 @@
   transition: background var(--v2-duration-fast) var(--v2-ease-standard);
 }
 
-.v2-icon-btn:hover {
-  color: var(--v2-teal-dark);
-  background: var(--v2-teal-soft);
+@media (hover: hover) and (pointer: fine) {
+  .v2-icon-btn:hover {
+    color: var(--v2-teal-dark);
+    background: var(--v2-teal-soft);
+  }
 }
 
 .v2-badge {

@@ -20,6 +20,7 @@ import type { ProductApplicationServices } from "./contracts.js";
 import { localDate } from "./date.js";
 import { FinancialMaintenanceDialog } from "./FinancialMaintenanceDialog.js";
 import { HomeScreen } from "./HomeScreen.js";
+import { M1Home } from "./M1Home.js";
 import { Onboarding } from "./Onboarding.js";
 import { useCardsRefresh } from "./use-cards-refresh.js";
 import { WP03PreviewDateControl } from "./WP03PreviewDateControl.js";
@@ -31,7 +32,14 @@ type AppState =
   | ApplicationStartupState
   | { status: "PRODUCT_ERROR"; message: string };
 
-export function App({ services = defaultServices }: { services?: ProductApplicationServices }) {
+export function App({
+  services = defaultServices,
+  scope = "M1",
+}: {
+  services?: ProductApplicationServices;
+  // shortcut: FULL keeps the pre-M1 home reachable for its regression tests only; main.tsx never sets it.
+  scope?: "M1" | "FULL";
+}) {
   const [sessionAsOfDate, setSessionAsOfDate] = useState(() => localDate(new Date()));
   const [wp03PreviewDateEnabled, setWp03PreviewDateEnabled] = useState(false);
   const [pendingDebtFactNames, setPendingDebtFactNames] = useState<string[]>([]);
@@ -369,6 +377,7 @@ export function App({ services = defaultServices }: { services?: ProductApplicat
       />
     );
   }
+  if (scope === "M1") return <M1Home home={home} onRecordExpense={recordExpense} />;
   return (
     <HomeScreen
       home={home}

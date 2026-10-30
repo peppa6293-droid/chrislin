@@ -23,26 +23,11 @@ type CashRow = {
   balance: string;
   includeInSafetyResources: "" | "yes" | "no";
 };
-type AssetRow = CashRow;
-type DebtRow = {
-  key: string;
-  name: string;
-  currentBalance: string;
-  currentMonthDue: string;
-  fixedMonthlyPayment: string;
-};
 const emptyCash = (): CashRow => ({
   key: newUiKey(),
   name: "",
   balance: "",
   includeInSafetyResources: "",
-});
-const emptyDebt = (): DebtRow => ({
-  key: newUiKey(),
-  name: "",
-  currentBalance: "",
-  currentMonthDue: "",
-  fixedMonthlyPayment: "",
 });
 const blankEssentials = Object.fromEntries(essentials.map(([key]) => [key, ""])) as Record<
   (typeof essentials)[number][0],
@@ -61,8 +46,6 @@ export function Onboarding({
   const [stableMonthlyIncome, setIncome] = useState("");
   const [essentialValues, setEssentialValues] = useState(blankEssentials);
   const [cashAccounts, setCash] = useState<CashRow[]>([emptyCash()]);
-  const [assets, setAssets] = useState<AssetRow[]>([]);
-  const [debts, setDebts] = useState<DebtRow[]>([]);
   const [target, setTarget] = useState("");
   const [floor, setFloor] = useState("");
   const [desired, setDesired] = useState("");
@@ -72,14 +55,9 @@ export function Onboarding({
   const [saving, setSaving] = useState(false);
 
   const submission = useMemo<OnboardingSubmission | undefined>(() => {
-    const submittedAssets = assets.filter((row) => row.name.trim() || row.balance.trim());
     // Keep the form's unselected state out of the strict Application Service
     // contract. A boolean `false` is emitted only for an explicit "no" choice.
-    if (
-      cashAccounts.some((row) => row.includeInSafetyResources === "") ||
-      submittedAssets.some((row) => row.includeInSafetyResources === "")
-    )
-      return undefined;
+    if (cashAccounts.some((row) => row.includeInSafetyResources === "")) return undefined;
 
     return {
       ...(displayName.trim() ? { displayName: displayName.trim() } : {}),
@@ -94,27 +72,9 @@ export function Onboarding({
         balance: row.balance.trim(),
         includeInSafetyResources: row.includeInSafetyResources === "yes",
       })),
-      assets: submittedAssets.map((row) => ({
-        name: row.name.trim(),
-        currentValue: row.balance.trim(),
-        includeInSafetyResources: row.includeInSafetyResources === "yes",
-      })),
-      debts: debts
-        .filter(
-          (row) =>
-            row.name.trim() ||
-            row.currentBalance.trim() ||
-            row.currentMonthDue.trim() ||
-            row.fixedMonthlyPayment.trim(),
-        )
-        .map((row) => ({
-          name: row.name.trim(),
-          currentBalance: row.currentBalance.trim(),
-          ...(row.currentMonthDue.trim() ? { currentMonthDue: row.currentMonthDue.trim() } : {}),
-          ...(row.fixedMonthlyPayment.trim()
-            ? { fixedMonthlyPayment: row.fixedMonthlyPayment.trim() }
-            : {}),
-        })),
+      // M1 scope: assets and debts are not collected; they stay empty facts, not "known zero".
+      assets: [],
+      debts: [],
       safetyCoverageTargetMonths: Number(target),
       minimumCashCoverageMonths: Number(floor),
       desiredMonthlyDiscretionarySpending: desired,
@@ -125,8 +85,6 @@ export function Onboarding({
     stableMonthlyIncome,
     essentialValues,
     cashAccounts,
-    assets,
-    debts,
     target,
     floor,
     desired,
@@ -154,31 +112,6 @@ export function Onboarding({
         )
       )
         return "请补全每个现金账户的名称、余额，并选择是否用于安全储备。";
-      if (
-        assets.some(
-          (row) =>
-            (row.name.trim() || row.balance.trim()) &&
-            (!row.name.trim() || !validMoney(row.balance) || row.includeInSafetyResources === ""),
-        )
-      )
-        return "请补全每项流动投资资产的名称、金额和安全储备选择。";
-      if (
-        debts.some((row) => {
-          const started =
-            row.name.trim() ||
-            row.currentBalance.trim() ||
-            row.currentMonthDue.trim() ||
-            row.fixedMonthlyPayment.trim();
-          return (
-            Boolean(started) &&
-            (!row.name.trim() ||
-              !validMoney(row.currentBalance) ||
-              (Boolean(row.currentMonthDue) && !validMoney(row.currentMonthDue)) ||
-              (Boolean(row.fixedMonthlyPayment) && !validMoney(row.fixedMonthlyPayment)))
-          );
-        })
-      )
-        return "请补全每项债务的名称和余额，并检查可选还款金额。";
     }
     if (step === 3) {
       if (!validNonnegative(target)) return "请选择或填写安全覆盖目标（月）。";
@@ -199,7 +132,7 @@ export function Onboarding({
       return;
     }
     if (step === 3 && !needsHorizon) {
-      if (!submission) return fail("请补全每个账户和资产的安全储备选择。");
+      if (!submission) return fail("请补全每个现金账户的安全储备选择。");
       try {
         const requirement = getRequirement(submission, localDate(new Date()));
         if (requirement.requiresSafetyRecoveryHorizon) {
@@ -217,7 +150,7 @@ export function Onboarding({
   async function save() {
     const issue = validateStep();
     if (issue) return fail(issue);
-    if (!submission) return fail("请补全每个账户和资产的安全储备选择。");
+    if (!submission) return fail("请补全每个现金账户的安全储备选择。");
     setSaving(true);
     setError("");
     try {
@@ -252,7 +185,7 @@ export function Onboarding({
             [
               "先认识一下你的收入",
               "必要支出大致是多少？",
-              "你现在有哪些储备？",
+              "你现在有多少现金？",
               "设定适合你的安全目标",
               "补充恢复周期",
             ][step]
@@ -263,7 +196,7 @@ export function Onboarding({
             [
               "填入你每月比较稳定的收入，其他复杂信息以后再慢慢补充。",
               "只填写你确实承担的项目，留空即可。",
-              "按现在的余额填写，并由你决定哪些可用于应急。",
+              "按现在的现金余额填写，并由你决定哪些可用于应急。",
               "目标由你决定；没有系统预设的标准答案。",
               "按照模型需要，补充你希望恢复安全储备的时间。",
             ][step]
@@ -382,157 +315,6 @@ export function Onboarding({
                       ×
                     </button>
                   )}
-                </div>
-              ))}
-            </section>
-            <section className="entry-group">
-              <div className="entry-heading">
-                <div>
-                  <h2>流动投资资产</h2>
-                  <p>例如可以较容易变现的投资；没有可跳过</p>
-                </div>
-                <button
-                  className="text-button"
-                  type="button"
-                  onClick={() => setAssets([...assets, emptyCash()])}
-                >
-                  ＋ 添加
-                </button>
-              </div>
-              {assets.map((row, i) => (
-                <div className="entry-row" key={row.key}>
-                  <label>
-                    资产名称
-                    <input
-                      value={row.name}
-                      onChange={(e) =>
-                        setAssets(updateRow(assets, setAssets, i, { ...row, name: e.target.value }))
-                      }
-                      placeholder="例如：基金"
-                    />
-                  </label>
-                  <label>
-                    当前金额
-                    <input
-                      inputMode="decimal"
-                      value={row.balance}
-                      onChange={(e) =>
-                        setAssets(
-                          updateRow(assets, setAssets, i, { ...row, balance: e.target.value }),
-                        )
-                      }
-                      placeholder="金额"
-                    />
-                  </label>
-                  <label>
-                    纳入安全储备
-                    <select
-                      value={row.includeInSafetyResources}
-                      onChange={(e) =>
-                        setAssets(
-                          updateRow(assets, setAssets, i, {
-                            ...row,
-                            includeInSafetyResources: e.target
-                              .value as AssetRow["includeInSafetyResources"],
-                          }),
-                        )
-                      }
-                    >
-                      <option value="">请选择</option>
-                      <option value="yes">纳入</option>
-                      <option value="no">不纳入</option>
-                    </select>
-                  </label>
-                  <button
-                    className="remove-button"
-                    type="button"
-                    aria-label="删除投资资产"
-                    onClick={() => setAssets(assets.filter((_, index) => index !== i))}
-                  >
-                    ×
-                  </button>
-                </div>
-              ))}
-            </section>
-            <section className="entry-group">
-              <div className="entry-heading">
-                <div>
-                  <h2>债务</h2>
-                  <p>本月有明确应还金额时，优先填写本月应还</p>
-                </div>
-                <button
-                  className="text-button"
-                  type="button"
-                  onClick={() => setDebts([...debts, emptyDebt()])}
-                >
-                  ＋ 添加
-                </button>
-              </div>
-              {debts.map((row, i) => (
-                <div className="debt-row" key={row.key}>
-                  <label>
-                    债务名称
-                    <input
-                      value={row.name}
-                      onChange={(e) =>
-                        setDebts(updateRow(debts, setDebts, i, { ...row, name: e.target.value }))
-                      }
-                      placeholder="例如：贷款"
-                    />
-                  </label>
-                  <label>
-                    当前余额
-                    <input
-                      inputMode="decimal"
-                      value={row.currentBalance}
-                      onChange={(e) =>
-                        setDebts(
-                          updateRow(debts, setDebts, i, { ...row, currentBalance: e.target.value }),
-                        )
-                      }
-                      placeholder="金额"
-                    />
-                  </label>
-                  <label>
-                    本月应还（选填）
-                    <input
-                      inputMode="decimal"
-                      value={row.currentMonthDue}
-                      onChange={(e) =>
-                        setDebts(
-                          updateRow(debts, setDebts, i, {
-                            ...row,
-                            currentMonthDue: e.target.value,
-                          }),
-                        )
-                      }
-                      placeholder="金额"
-                    />
-                  </label>
-                  <label>
-                    固定月供（选填）
-                    <input
-                      inputMode="decimal"
-                      value={row.fixedMonthlyPayment}
-                      onChange={(e) =>
-                        setDebts(
-                          updateRow(debts, setDebts, i, {
-                            ...row,
-                            fixedMonthlyPayment: e.target.value,
-                          }),
-                        )
-                      }
-                      placeholder="金额"
-                    />
-                  </label>
-                  <button
-                    className="remove-button"
-                    type="button"
-                    aria-label="删除债务"
-                    onClick={() => setDebts(debts.filter((_, index) => index !== i))}
-                  >
-                    ×
-                  </button>
                 </div>
               ))}
             </section>

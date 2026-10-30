@@ -148,8 +148,10 @@
   cursor: pointer;
 }
 
-.v2-ring-row:hover {
-  background: #f4faf7;
+@media (hover: hover) and (pointer: fine) {
+  .v2-ring-row:hover {
+    background: #f4faf7;
+  }
 }
 
 .v2-ring-row:focus-visible {

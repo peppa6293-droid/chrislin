@@ -490,7 +490,12 @@ async function homeFromDatabase(db: SqlDatabase, asOfDate: string): Promise<Home
     primaryImprovement: model.trend.result.primaryImprovement,
     primaryDrag: model.trend.result.primaryDrag,
     priorityAction: model.priorityAction,
-    recentExpenses: await recentExpensesForDisplay(repositories, built.input.profile.id, asOfDate),
+    recentExpenses: await recentExpensesForDisplay(
+      db,
+      repositories,
+      built.input.profile.id,
+      asOfDate,
+    ),
     spendingBreakdown: await buildSpendingBreakdownFromV2(
       repositories,
       built.input.profile.id,
@@ -513,6 +518,7 @@ type LegacyCategory = Extract<
  * category. The mirror is contract-frozen; the display reads V2 instead.
  */
 async function recentExpensesForDisplay(
+  db: SqlDatabase,
   repositories: Repositories,
   profileId: string,
   asOfDate: string,
@@ -525,10 +531,24 @@ async function recentExpensesForDisplay(
   const categories = hasCategories ? await repositories.listExpenseCategories(profileId) : [];
   const v2Expenses = hasV2Expenses ? await repositories.listV2Expenses(profileId, month) : [];
   const categoryById = new Map(categories.map((category) => [category.id, category]));
+  // Newest by business date, then by entry order; ids are random UUIDs so they cannot order entries.
+  const entryRank = new Map(
+    (hasV2Expenses
+      ? await db.select<{ id: string }>(
+          "SELECT id FROM expenses WHERE profile_id=? AND substr(occurred_on,1,7)=? ORDER BY created_at DESC, rowid DESC",
+          [profileId, month],
+        )
+      : []
+    ).map((row, rank) => [row.id, rank]),
+  );
   const v2Recent = v2Expenses
     .filter((expense) => expense.kind === "CASH_DEBIT")
-    .slice(-3)
-    .reverse();
+    .sort(
+      (a, b) =>
+        b.occurredOn.localeCompare(a.occurredOn) ||
+        (entryRank.get(a.id) ?? 0) - (entryRank.get(b.id) ?? 0),
+    )
+    .slice(0, 3);
   if (v2Recent.length > 0) {
     return v2Recent.map((expense) => {
       const category = categoryById.get(expense.categoryId);
