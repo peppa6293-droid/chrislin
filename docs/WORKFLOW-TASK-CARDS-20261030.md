@@ -88,10 +88,11 @@
 cd "/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2"
 git rev-parse --abbrev-ref HEAD
 git rev-parse HEAD
+git merge-base --is-ancestor 936118b HEAD && echo "baseline 936118b is an ancestor of HEAD"
 ```
-预期：分支 `feat/mobile`，HEAD 以 `936118b` 开头（2026-10-30 提交 3，M1 基线）。把两行输出原样存入 `evidence/m1-t07-20261030/git-head.txt`。
+预期：分支 `feat/mobile`；第三条命令输出 `baseline 936118b is an ancestor of HEAD`（`936118b` 是 2026-10-30 的 M1 基线提交，HEAD 可以是它或它之后的、只含文档的提交）。把三条输出原样存入 `evidence/m1-t07-20261030/git-head.txt`。
 不符：停止，写 `INCONCLUSIVE`。
-说明：本卡之后所有"你新增了什么"的判断，都以 `936118b` 为基线：`git diff --name-status 936118b` 里除了 `evidence/m1-t07-20261030/`、`WORKLOG.md`、`PROJECT-STATE.md` 之外不应出现别的文件。`git status` 里已有的 `evidence/m1-post-commit-gates-20261030/` 与 `evidence/wp-ui-visual-01/...` 三个目录不是本卡产生的，不要动。
+说明：本卡之后所有"你新增了什么"的判断，都以 `936118b` 为基线：`git diff --name-status 936118b -- src tests migrations` 必须没有任何输出；整体 `git diff --name-status 936118b` 里除了本会话新增的 `evidence/m1-t07-20261030/`、`WORKLOG.md`、`PROJECT-STATE.md` 之外不应出现别的文件。`git status` 里已有的 `evidence/m1-post-commit-gates-20261030/` 与 `evidence/wp-ui-visual-01/...` 三个目录不是本卡产生的，不要动。
 
 **步骤 2：一键门禁**
 ```bash
@@ -156,7 +157,7 @@ wc -l evidence/m1-t07-20261030/git-status.txt
 
 ## 验收标准（复核岗位逐条对照）
 
-1. `evidence/m1-t07-20261030/git-head.txt` 存在，分支为 `feat/mobile`、HEAD 以 `936118b` 开头。
+1. `evidence/m1-t07-20261030/git-head.txt` 存在，分支为 `feat/mobile`，且含 `baseline 936118b is an ancestor of HEAD`。
 2. `gates/exit-codes.txt` 末尾含 `gates rc=0`，且 lint、tsc、test 三个 exit 都是 0，测试数字为 61 个文件、629 通过、44 跳过。
 3. `gates/protected-now.sha256` 的值等于 `5eb32540f2bdbdaacfebccfd9ec7a94080c8ddf3948d5e4ce26a2da5dd2e2da3`。
 4. `gates/signing.txt` 只含上述两种设置，值如步骤 3。
