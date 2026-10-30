@@ -1,0 +1,24 @@
+=== PROJECT-STATE 删除行检查（应只有 diff 头 --- 行）===
+[end]
+=== PROJECT-STATE 新增行数 ===
+16
+=== evidence/m1-t07 下未被忽略的文件 ===
+?? evidence/m1-t07-20261030/baseline-diff.txt
+?? evidence/m1-t07-20261030/device-copy.log
+?? evidence/m1-t07-20261030/device-readback.txt
+?? evidence/m1-t07-20261030/devicectl-list.txt
+?? evidence/m1-t07-20261030/gates/exit-codes.txt
+?? evidence/m1-t07-20261030/gates/git-status.txt
+?? evidence/m1-t07-20261030/gates/lint.log
+?? evidence/m1-t07-20261030/gates/protected-now.sha256
+?? evidence/m1-t07-20261030/gates/signing.txt
+?? evidence/m1-t07-20261030/gates/test.log
+?? evidence/m1-t07-20261030/gates/tsc.log
+?? evidence/m1-t07-20261030/git-head.txt
+?? evidence/m1-t07-20261030/git-status.txt
+?? evidence/m1-t07-20261030/guards.txt
+?? evidence/m1-t07-20261030/post-baseline-commits.txt
+?? evidence/m1-t07-20261030/step4-scope-check.txt
+=== device.sqlite3 是否被忽略 ===
+.gitignore:21:/evidence/m1-*/*.sqlite3	evidence/m1-t07-20261030/device.sqlite3
+check-ignore rc=0

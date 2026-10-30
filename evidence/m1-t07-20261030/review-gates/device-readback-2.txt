@@ -1,0 +1,7 @@
+path=/tmp/m1-t07-review-ppw0urqi/device.sqlite3
+sha256=345ac2d2dcf9e7760a9cb98b3f68516b4caaad9ad1d4c5242c4c8479d72bbf73
+sqlite3 -readonly exit=0
+1
+4
+4
+ok

@@ -1,0 +1,20 @@
+diff --git a/PROJECT-STATE.md b/PROJECT-STATE.md
+index 35b7434..ac5da48 100644
+--- a/PROJECT-STATE.md
++++ b/PROJECT-STATE.md
+@@ -588,0 +589,15 @@
++
++---
++
++## 2026-10-30 M1 收尾核验
++
++本节由 M1-T07 执行岗位只追加记录，列出核验所得事实与来源文件；不构成验收结论。
++
++- **M1 步骤 0-6 的真机证据存在：** `evidence/m1-s0-20261030/S0-REPORT.md` 至 `evidence/m1-s6-20261030/S6-REPORT.md` 七份报告各自记录对应步骤的真机执行与读回结果（来源：`evidence/m1-s0-20261030/` … `evidence/m1-s6-20261030/` 各目录下的 `S*-REPORT.md`）。
++- **平台修复已装进包：** viewport-fit 与顶部安全区、`:hover` 门控、`vh`→`dvh`、点击高亮、触屏 16px 输入框等平台层修复的记录见 `docs/M1-PLATFORM-FIXES-20261030.md`（来源：该文件）。
++- **审查报告与待决问题：** 功能遗漏与财务模型误区见 `docs/M1-AUDIT-20261030.md`；Owner 真机反馈 5 条及其关闭/待答状态见 `docs/M1-OWNER-FEEDBACK-20261030.md`（来源：两个文件）。
++- **本次门禁结果：** 执行 `bash scripts/m1-gates.sh evidence/m1-t07-20261030/gates` 得到 lint exit=0、tsc exit=0、test exit=0、Test Files 61 passed (61)、Tests 629 passed | 44 skipped (673)、protected hash 与 S0 相同（`5eb32540f2bdbdaacfebccfd9ec7a94080c8ddf3948d5e4ce26a2da5dd2e2da3`）、gates rc=0（来源：`evidence/m1-t07-20261030/gates/exit-codes.txt`、`evidence/m1-t07-20261030/gates/protected-now.sha256`）。
++- **未提交改动数量：** `git status --short` 过滤项目目录名后共 6 行：`WORKLOG.md` 的 ` M`、本卡新增的 `?? evidence/m1-t07-20261030/`，以及 4 项非本卡产生的未跟踪目录（`evidence/m1-post-commit-gates-20261030/` 与 `evidence/wp-ui-visual-01/p1-p4/` 下 3 个）（来源：`evidence/m1-t07-20261030/git-status.txt`）。
++- **基线：** 分支 `feat/mobile`，HEAD `81c8cd7f6a8c41a15cff02f60c9765383864f1d9`，`936118b` 是其祖先；`git diff --name-status 936118b -- src tests migrations` 无输出（来源：`evidence/m1-t07-20261030/git-head.txt`、`evidence/m1-t07-20261030/baseline-diff.txt`）。
++- **状态表述：** M1 步骤 0 到 6 的证据已存在，步骤 7 的独立复核待做。
++

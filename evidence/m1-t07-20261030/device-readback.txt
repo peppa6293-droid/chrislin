@@ -1,0 +1,10 @@
+=== shasum -a 256 ===
+345ac2d2dcf9e7760a9cb98b3f68516b4caaad9ad1d4c5242c4c8479d72bbf73  evidence/m1-t07-20261030/device.sqlite3
+=== sqlite3 counts ===
+1
+4
+4
+=== integrity / user_version / tables ===
+ok
+8
+30

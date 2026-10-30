@@ -1,0 +1,4 @@
+command=['xcrun', 'devicectl', 'device', 'copy', 'from', '--device', '00008140-001C55E91A40801C', '--domain-type', 'appDataContainer', '--domain-identifier', 'com.personalfinance.console.smoke', '--source', 'Library/Application Support/com.personalfinance.console.smoke/personal-finance-console.sqlite3', '--destination', '/tmp/m1-t07-review-ppw0urqi/device.sqlite3']
+exit=0
+File received from Device
+/tmp/m1-t07-review-ppw0urqi/device.sqlite3

@@ -1,0 +1,16 @@
+=== git log --oneline 936118b..HEAD ===
+81c8cd7 docs(M1): agents act on this Mac directly - add git/phone write prohibitions and serial-only rule
+5807ca0 docs(M1): T07 baseline check uses ancestor test instead of exact HEAD
+04ca8b0 docs(M1): align T07 card to baseline 936118b and add copy-paste prompts
+=== files touched by those commits ===
+M	WORKLOG.md
+M	docs/WORKFLOW-OWNER-VIEW-20261030.md
+A	docs/WORKFLOW-T07-PROMPTS-20261030.md
+M	docs/WORKFLOW-TASK-CARDS-20261030.md
+=== working tree vs HEAD: git status --short ===
+ M WORKLOG.md
+?? evidence/m1-post-commit-gates-20261030/
+?? evidence/m1-t07-20261030/
+?? evidence/wp-ui-visual-01/p1-p4/interaction-i01-batch-a-review-20261029/
+?? evidence/wp-ui-visual-01/p1-p4/r1-20261029/review-bprime-default-20261029/
+?? evidence/wp-ui-visual-01/p1-p4/r1-20261029/review-bprime-recheck-20261029/

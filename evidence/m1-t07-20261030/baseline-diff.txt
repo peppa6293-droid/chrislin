@@ -1,0 +1,9 @@
+=== git diff --name-status 936118b -- src tests migrations ===
+[end of protected diff, empty means no output]
+=== git diff --name-status 936118b (all) ===
+M	WORKLOG.md
+M	docs/WORKFLOW-OWNER-VIEW-20261030.md
+A	docs/WORKFLOW-T07-PROMPTS-20261030.md
+M	docs/WORKFLOW-TASK-CARDS-20261030.md
+=== git status --short --untracked-files=all | wc -l ===
+       6

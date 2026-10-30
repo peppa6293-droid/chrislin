@@ -1,0 +1,4 @@
+20ea0ce docs(M1): T07 review steps for the post-execution state; keep the lead spot-check out of the executor's evidence folder
+
+M	docs/WORKFLOW-T07-PROMPTS-20261030.md
+M	docs/WORKFLOW-TASK-CARDS-20261030.md

@@ -1,0 +1,30 @@
+=== git status --short ===
+ M PROJECT-STATE.md
+ M WORKLOG.md
+?? evidence/m1-post-commit-gates-20261030/
+?? evidence/m1-t07-20261030/
+?? evidence/wp-ui-visual-01/p1-p4/interaction-i01-batch-a-review-20261029/
+?? evidence/wp-ui-visual-01/p1-p4/r1-20261029/review-bprime-default-20261029/
+?? evidence/wp-ui-visual-01/p1-p4/r1-20261029/review-bprime-recheck-20261029/
+=== git diff --name-status HEAD -- src tests migrations docs ===
+[end]
+=== WORKLOG 删除行检查 ===
+[end]
+=== WORKLOG 新增行数 ===
+19
+=== evidence 目录 ===
+RECEIPT.md
+baseline-diff.txt
+device-copy.log
+device-readback.txt
+device.sqlite3
+devicectl-list.txt
+final-guards.txt
+gates
+git-head.txt
+git-status.txt
+guards.txt
+post-baseline-commits.txt
+step4-scope-check.txt
+=== 末尾 8 行列数 ===
+7 7 7 7 7 7 7 7 

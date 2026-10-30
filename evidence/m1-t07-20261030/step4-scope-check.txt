@@ -1,0 +1,19 @@
+资产: 1
+债务: 1
+还款: 0
+进展: 0
+优先行动: 0
+导入: 0
+导出: 0
+周期: 0
+提醒: 0
+多账本: 0
+预测: 0
+固定支出: 0
+我的财务: 0
+--- scope in entry files ---
+src/ui/App.tsx:37:  scope = "M1",
+src/ui/App.tsx:41:  scope?: "M1" | "FULL";
+src/ui/App.tsx:380:  if (scope === "M1") return <M1Home home={home} onRecordExpense={recordExpense} />;
+=== M1Home 里 资产/债务 所在行 ===
+122:              建议额度只按收入、必要支出和安全目标计算，没有计入你没录入的资产和债务。

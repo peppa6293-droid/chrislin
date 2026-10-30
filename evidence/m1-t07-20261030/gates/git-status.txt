@@ -1,0 +1,6 @@
+ M WORKLOG.md
+?? evidence/m1-post-commit-gates-20261030/
+?? evidence/m1-t07-20261030/
+?? evidence/wp-ui-visual-01/p1-p4/interaction-i01-batch-a-review-20261029/
+?? evidence/wp-ui-visual-01/p1-p4/r1-20261029/review-bprime-default-20261029/
+?? evidence/wp-ui-visual-01/p1-p4/r1-20261029/review-bprime-recheck-20261029/

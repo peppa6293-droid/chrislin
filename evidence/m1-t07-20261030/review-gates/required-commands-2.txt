@@ -1,0 +1,26 @@
+$ git diff -U0 HEAD -- PROJECT-STATE.md | grep -E '^[+-]' | grep -v -E '^(\+\+\+|---)' | cut -c1 | sort | uniq -c
+  15 +
+exit=0
+$ git show HEAD:WORKLOG.md > /tmp/wl-head.txt; head -n "$(wc -l < /tmp/wl-head.txt)" WORKLOG.md | cmp - /tmp/wl-head.txt && echo 旧行逐字未变
+旧行逐字未变
+exit=0
+$ git diff -U0 HEAD -- WORKLOG.md | grep '^-' | grep -v '^---'
+exit=1
+$ for w in 资产 债务 还款 进展 优先行动 导入 导出 周期 提醒 多账本 预测 固定支出 我的财务; do printf '%s: ' "$w"; grep -c "$w" src/ui/M1Home.tsx; done
+资产: 1
+债务: 1
+还款: 0
+进展: 0
+优先行动: 0
+导入: 0
+导出: 0
+周期: 0
+提醒: 0
+多账本: 0
+预测: 0
+固定支出: 0
+我的财务: 0
+exit=1
+$ ls evidence/m1-s5-20261030/owner-device-home-screenshot.jpg
+evidence/m1-s5-20261030/owner-device-home-screenshot.jpg
+exit=0

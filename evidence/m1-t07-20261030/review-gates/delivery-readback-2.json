@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "criteria": 9,
+  "report_sha256": "ff5edb971df0af71d21cd6213bd8fd4a121881e80e5c98ac85ed976320344b28",
+  "attempt1_sha256": "5d2eb2b2f37a30189bdce9484e9787fcd19594e5afb3674e33bf1b91906e71c3",
+  "final_status_equals_initial": true,
+  "baseline_code_diff_empty": true,
+  "own_worklog_rows_7_columns": true
+}

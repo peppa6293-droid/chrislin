@@ -1,0 +1,76 @@
+
+ RUN  v5.0.5 /Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项目 2
+
+ ✓ tests/financial-maintenance-service.test.ts (17 tests) 494ms
+ ✓ tests/debt-fact-service.test.ts (29 tests) 486ms
+ ✓ tests/persistence.test.ts (40 tests) 764ms
+ ✓ tests/v2-ui/dashboard-route.test.tsx (3 tests) 464ms
+ ✓ tests/v2-ui/import-flow.test.tsx (8 tests) 491ms
+ ✓ tests/v4-acceptance-ui.test.tsx (6 tests) 381ms
+ ✓ tests/onboarding-safety-eligibility.test.tsx (9 tests) 763ms
+ ✓ tests/m1-expense-ui-real-db.test.tsx (7 tests) 806ms
+ ✓ tests/m1-home.test.tsx (9 tests) 887ms
+ ✓ tests/v4-four-p1-correction.test.ts (15 tests) 364ms
+ ✓ tests/product-service.test.ts (18 tests) 269ms
+ ✓ tests/m1-record-expense.test.ts (24 tests) 248ms
+ ✓ tests/p1p2-fixed-page.test.tsx (7 tests) 290ms
+ ✓ tests/v4-foundation.test.ts (8 tests) 215ms
+ ✓ tests/v2-ui/today-task.test.tsx (13 tests) 552ms
+ ✓ tests/v2-ui/v2-surface.test.tsx (6 tests) 159ms
+ ✓ tests/v2-ui/progress-page.test.tsx (7 tests) 171ms
+ ✓ tests/v2-ledger/import-write.test.ts (14 tests) 83ms
+ ✓ tests/r8-production-schema-authority.test.ts (19 tests) 90ms
+ ✓ tests/m1-entry-no-lab.test.tsx (2 tests) 57ms
+ ✓ tests/v2-ui/quick-entry-flow.test.tsx (13 tests) 2935ms
+   ✓ EXEC-U-01 isolated V2 quick entry flow (13)
+     ✓ clears amount and note, shows success, and calls onRecorded once 2068ms
+ ✓ tests/v2-ledger/v2-expense-service.test.ts (15 tests) 89ms
+ ✓ tests/v2-ledger/ux-ledger-dual-ledger.test.ts (5 tests) 270ms
+ ✓ tests/v2-ledger/ledger-sync.test.ts (5 tests) 95ms
+ ✓ tests/v2-ui/icon-unification.test.tsx (3 tests) 305ms
+ ✓ tests/v2-ui.test.tsx (40 tests) 2709ms
+ ✓ tests/v2-cards-loading.test.tsx (12 tests) 276ms
+ ✓ tests/v4-acceptance-sandbox.test.ts (3 tests) 161ms
+ ✓ tests/v2-ui/today-page.test.tsx (5 tests) 178ms
+ ✓ tests/v2-ui/dashboard.test.tsx (13 tests) 175ms
+ ✓ tests/application-services.test.ts (5 tests) 177ms
+ ✓ tests/m1-onboarding-four-groups.test.ts (11 tests) 84ms
+ ✓ tests/v2-ledger/landing-services.test.ts (4 tests) 117ms
+ ✓ tests/product-restart.test.ts (2 tests) 247ms
+ ✓ tests/v2-ledger/landing-import.test.ts (3 tests) 187ms
+ ✓ tests/future-schema-guard.test.ts (5 tests) 26ms
+ ✓ tests/v2-ledger/expense-persistence.test.ts (5 tests) 33ms
+ ✓ tests/r13-zero-amount-expenses.test.ts (2 tests) 48ms
+ ✓ tests/debt-fact-inactive.test.ts (1 test) 88ms
+ ✓ tests/v2-ledger/essential-payment-identity.test.ts (2 tests) 203ms
+ ✓ tests/v2-ledger/account-crud.test.ts (2 tests) 12ms
+ ✓ tests/m1-platform-baseline.test.ts (6 tests) 72ms
+ ✓ tests/r8-native-migration-sql-parity.test.ts (8 tests) 14ms
+ ✓ tests/model-core.test.ts (65 tests) 50ms
+ ✓ tests/v2-ledger/cashflow-projection.test.ts (7 tests) 8ms
+ ✓ tests/v2-ui/trends.test.tsx (3 tests) 18ms
+ ✓ tests/v2-ledger/category-crud.test.ts (2 tests) 18ms
+ ✓ tests/p1p2-models.test.ts (20 tests) 8ms
+ ✓ tests/v2-ledger/import-parse.test.ts (8 tests) 16ms
+ ✓ tests/structure-ring.test.ts (7 tests) 6ms
+ ✓ tests/v2-ledger/reconciliation.test.ts (6 tests) 7ms
+ ✓ tests/v2-ui/quick-entry.test.ts (4 tests) 2ms
+ ✓ tests/v2-ledger/savings-goal.test.ts (9 tests) 6ms
+ ✓ tests/v2-ledger/expense-types.test.ts (7 tests) 8ms
+ ✓ tests/v2-ledger/import-rules.test.ts (6 tests) 9ms
+ ✓ tests/quiescence-ipc-contract.test.ts (6 tests) 4ms
+ ✓ tests/smoke-identity.test.ts (2 tests) 2ms
+ ✓ tests/wp01-product-preview-identity.test.ts (2 tests) 3ms
+ ✓ tests/v2-ledger/task-selector.test.ts (5 tests) 4ms
+ ✓ tests/v2-progress-bar.test.tsx (3 tests) 17ms
+ ✓ tests/ui.test.tsx (80 tests | 44 skipped) 3977ms
+   ✓ Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例） (80)
+     ✓ Stage 3 App Home reflects an actual Planning service save 404ms
+     ✓ onboarding asks for a recovery horizon only when Model Core requires it 351ms
+     ✓ 6. valid amount saves and a successful submission closes the dialog 363ms
+
+ Test Files  61 passed (61)
+      Tests  629 passed | 44 skipped (673)
+   Start at  20:34:24
+   Duration  5.85s (tests 48%, transform 19%, import 18%, environment 14%, worker 1%)
+

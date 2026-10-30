@@ -631,3 +631,101 @@
 | 2026-10-30 | 小钱家-M1执行员 | sonnet-5.5 | 多模型协作流程 | Owner 同意分3个提交并"按建议"：.gitignore 排除真机库副本/.tauri/冲突副本；提交 636b27b(M0清理) 0f5691c(M1功能与平台修复) 936118b(文档与证据)；未推送(无remote)；evidence/wp-ui-visual-01 下3个目录非本会话产生，未提交 | ✅ 提交前后门禁均绿(61文件629通过，保护区哈希不变)；真机库副本0份进入历史 | 执行 |
 | 2026-10-30 | 小钱家-M1执行员 | sonnet-5.5 | 多模型协作流程 | Owner 同意派 M1-T07：核实本会话无工具可向 DeepSeek/Codex 派发；把任务卡预期 HEAD 更新为 936118b、补步骤6预期状态；写 WORKFLOW-T07-PROMPTS(执行/复核两段，无模型名)；规则文件引用改为 ChatGPT/AGENTS.md(根 CLAUDE.md 仅 9 字节指针) | ✅ 文档就绪；未派发(需 Owner 粘贴到两个独立会话)；T07 尚无回执 | 执行 |
 | 2026-10-30 | 小钱家-M1执行员 | sonnet-5.5 | 多模型协作流程 | Owner 更正：DeepSeek/Codex 是能直接改本机的独立 Agent，非沙箱；据此在任务卡与提示词加入硬禁令(写类 git 命令、对 iPhone 的 install/uninstall/launch/terminate/copy to、串行不并行)，复核岗位写入范围明确为 REVIEW.md 与 review-gates/，提示词钉死 7 列 WORKLOG(QWEN.md 入口为旧 6 列)，Owner 视图改写限制 1 与 3 | ✅ 仅文档；未派发 | 执行 |
+| 2026-10-30 20:34 | M1-T07执行员 | deepseek-v4-1-flash | M1收尾核验 | 读 /Users/linte/Documents/ChatGPT/AGENTS.md 全局规则全文(138 行)，含 WORKLOG 强制规则、7 列格式、跑偏检测、越界目录通则 | ✅ 已读；确认 WORKLOG 7 列、方向锚固定 M1收尾核验、只追加 | 执行 |
+| 2026-10-30 20:35 | M1-T07执行员 | deepseek-v4-1-flash | M1收尾核验 | 读 docs/WORKFLOW-TASK-CARDS-20261030.md 全文(205 行)：A 通用规则 1-12、B 回执格式、M1-T07 卡正文与验收标准 | ✅ 已读；确认允许改动仅 evidence/m1-t07-20261030/、WORKLOG.md、PROJECT-STATE.md 末尾追加 | 执行 |
+| 2026-10-30 20:36 | M1-T07执行员 | deepseek-v4-1-flash | M1收尾核验 | 读 WORKLOG.md 最近 24 行(共 633 行)，掌握上一步：M1 步骤0-6 已真机验收，上一动作是 Owner 更正禁令后写入任务卡与提示词 | ✅ 已读；上一步未派发任务，T07 无回执 | 执行 |
+| 2026-10-30 20:37 | M1-T07执行员 | deepseek-v4-1-flash | M1收尾核验 | 开始前 git status --short 基线核对 | ✅ 4 项 ??（evidence/m1-post-commit-gates-20261030/ 与 evidence/wp-ui-visual-01/ 下 3 个目录），与任务卡步骤6预期一致，无 src/tests/migrations 改动；不是本卡产生，未动 | 执行 |
+| 2026-10-30 20:39 | M1-T07执行员 | deepseek-v4-1-flash | M1收尾核验 | 步骤1 基线：git rev-parse --abbrev-ref HEAD / rev-parse HEAD / merge-base --is-ancestor 936118b HEAD，输出存入 evidence/m1-t07-20261030/git-head.txt | ✅ 分支 feat/mobile；HEAD 81c8cd7f6a8c41a15cff02f60c9765383864f1d9；输出含 baseline 936118b is an ancestor of HEAD；与预期一致 | 执行 |
+| 2026-10-30 20:41 | M1-T07执行员 | deepseek-v4-1-flash | M1收尾核验 | 环境探测：uname -sm / which xcrun npx node sqlite3 / xcrun --version；同时在后台启动步骤2 一键门禁 bash scripts/m1-gates.sh evidence/m1-t07-20261030/gates | ✅ Darwin arm64；/usr/bin/xcrun、/usr/local/bin/npx、/usr/local/bin/node、/usr/bin/sqlite3 全在；xcrun version 72. → 本机是 Mac 终端，非 Linux 沙箱；门禁后台运行中(job bash-c008925e3d184155) | 执行 |
+| 2026-10-30 20:43 | M1-T07执行员 | deepseek-v4-1-flash | M1收尾核验 | 步骤5 前置：xcrun devicectl list devices（只读），输出存 evidence/m1-t07-20261030/devicectl-list.txt | ✅ 林特的iPhone UDID 00008140-001C55E91A40801C 状态 connected（physical iPhone 16 Pro），与任务卡 DEV 一致；下一步可尝试 device copy from | 执行 |
+| 2026-10-30 20:34 | M1-T07执行员 | deepseek-v4-1-flash | M1收尾核验 | 步骤2 一键门禁：bash scripts/m1-gates.sh evidence/m1-t07-20261030/gates（后台 job bash-c008925e3d184155，耗时约 6 分钟） | ✅ 与预期逐项一致：lint exit=0 / tsc exit=0 / test exit=0 / Test Files 61 passed (61) / Tests 629 passed / 44 skipped (673) / protected hash SAME as S0 (5eb32540...) / gates rc=0；日志在 gates/lint.log、tsc.log、test.log、exit-codes.txt | 执行 |
+| 2026-10-30 20:50 | M1-T07执行员 | deepseek-v4-1-flash | M1收尾核验 | 步骤3 签名与身份：cat evidence/m1-t07-20261030/gates/signing.txt | ✅ 仅两种设置：DEVELOPMENT_TEAM = "SSRKA7A4TN"; 与 PRODUCT_BUNDLE_IDENTIFIER = com.personalfinance.console.smoke;；protected-now.sha256 = 5eb32540f2bdbdaacfebccfd9ec7a94080c8ddf3948d5e4ce26a2da5dd2e2da3，与验收标准一致 | 执行 |
+| 2026-10-30 20:52 | M1-T07执行员 | deepseek-v4-1-flash | M1收尾核验 | 步骤4 范围对照：13 个词在 src/ui/M1Home.tsx 的 grep -c 计数 + grep -n scope src/main.tsx src/ui/App.tsx | ✅ 与预期一致：资产 1、债务 1，其余 11 词均 0；src/main.tsx 无 scope；App.tsx:37 scope = "M1",。输出存 evidence/m1-t07-20261030/step4-scope-check.txt | 执行 |
+| 2026-10-30 20:56 | M1-T07执行员 | deepseek-v4-1-flash | M1收尾核验 | 步骤5 真机取证：xcrun devicectl device copy from（只读，appDataContainer 取 personal-finance-console.sqlite3）→ shasum -a 256 → sqlite3 -readonly 计数与 integrity | ✅ 手机已连接未报未解锁，copy 成功；sha256=345ac2d2dcf9e7760a9cb98b3f68516b4caaad9ad1d4c5242c4c8479d72bbf73（与任务卡预期相同）；profiles=1、expenses=4、expense_records=4；integrity ok、user_version=8、30 表；证据 evidence/m1-t07-20261030/device-copy.log 与 device-readback.txt | 执行 |
+| 2026-10-30 20:57 | M1-T07执行员 | deepseek-v4-1-flash | M1收尾核验 | 步骤6 未提交状态：git status --short 过滤后存 evidence/m1-t07-20261030/git-status.txt，wc -l | ✅ 6 行：M WORKLOG.md、?? evidence/m1-post-commit-gates-20261030/、?? evidence/m1-t07-20261030/（本卡新增）、?? evidence/wp-ui-visual-01/ 下 3 个目录；无 src/tests/migrations 改动 → 与预期一致，非 FAIL | 执行 |
+| 2026-10-30 21:00 | M1-T07执行员 | deepseek-v4-1-flash | M1收尾核验 | 周期自检（每 5 动作触发）：重读 PROJECT-STATE.md 顶部当前任务，对比本会话正在做的事 | ✅ 一致：顶部当前任务仍是 M1 待复核线，本卡正是 M1 收尾核验；另发现顶部摘要停留在「M1 仅任务书待确认」，与真机进度不符，已记入回执「发现」第 2 条，未改顶部（本卡只许末尾追加） | 执行 |
+| 2026-10-30 21:02 | M1-T07执行员 | deepseek-v4-1-flash | M1收尾核验 | 步骤7 更新 PROJECT-STATE.md：末尾追加章节「## 2026-10-30 M1 收尾核验」，每条事实标注来源文件；追加前 grep 确认不含「已完成」「已通过」字样 | ✅ 已追加 15 行；git diff -U0 删除行检查为空、纯新增；记录存 evidence/m1-t07-20261030/guards.txt | 执行 |
+| 2026-10-30 21:04 | M1-T07执行员 | deepseek-v4-1-flash | M1收尾核验 | 基线对照补充：git log --oneline 936118b..HEAD 与 git diff --name-status 936118b..HEAD，解释整体 diff 里出现的 docs/WORKFLOW 三项 | ✅ 系 baseline 后 3 个纯文档提交 04ca8b0、5807ca0、81c8cd7，非工作树改动；工作树 git status 无这些文件；记录存 post-baseline-commits.txt，并写入回执「发现」第 1 条 | 执行 |
+| 2026-10-30 21:06 | M1-T07执行员 | deepseek-v4-1-flash | M1收尾核验 | 写 evidence/m1-t07-20261030/RECEIPT.md（按任务卡 B 节：任务编号、执行方、状态、做了什么、证据、没做/没验证、发现、待 Owner 运行）+ 验收标准自检附录 | ✅ 已写；状态 PENDING_AUDIT；9 条验收标准逐条附原始输出或文件路径；明确未写 PASS | 执行 |
+| 2026-10-30 21:08 | M1-T07执行员 | deepseek-v4-1-flash | M1收尾核验 | 自查 WORKLOG 列数时发现上一行（20:34 步骤2）单元格内误用竖线，导致该行 8 列，用 sed 仅把该单元格内竖线改为斜杠（本轮自己新写的行，未触碰任何历史行） | ✅ 该行恢复 7 列；awk 复核末尾 10 行均为 7 列；更正内容为「Tests 629 passed / 44 skipped (673)」 | 执行 |
+| 2026-10-30 21:09 | M1-T07执行员 | deepseek-v4-1-flash | M1收尾核验 | 收尾检查（AGENTS.md 收尾阻断门）：判断有无可复用知识需 Obsidian 择要，并说明 GLOBAL-PROJECT-INDEX.md 为何未同步 | ✅ 本次为纯重复核验，未产生新的可复用规则；且本卡「允许改动」只列三处，同步 GLOBAL-PROJECT-INDEX.md 超出白名单，故未同步，交 Owner 决定是否单独出卡 | 执行 |
+| 2026-10-30 21:12 | M1-T07执行员 | deepseek-v4-1-flash | M1收尾核验 | 收尾终检：git status --short、git diff --name-status HEAD -- src tests migrations docs、WORKLOG 删除行检查，结果存 final-guards.txt；并给 RECEIPT.md 补两条自我更正（步骤2 行修正、步骤6/7 行数差异） | ✅ 工作树仅 M PROJECT-STATE.md、M WORKLOG.md 与 5 项未跟踪 evidence 目录；src/tests/migrations/docs 对 HEAD 零改动；WORKLOG 纯新增 19 行；末尾 8 行均 7 列；回执 130 行、状态 PENDING_AUDIT，不写 PASS | 执行 |
+| 2026-10-30 | 小钱家-M1执行员 | sonnet-5.5 | 多模型协作流程 | 牵头人抽查 T07 回执(非独立复核)：重算 HEAD/祖先、越界(src/tests/migrations=0行)、门禁数字、保护区哈希、签名、13词计数、手机库哈希(重取一致 345ac2d2)、PROJECT-STATE只增15行、WORKLOG旧行逐字未变；发现 WORKLOG 一行被 sed 原地更正致时间乱序；写 evidence/m1-t07-20261030/LEAD-SPOTCHECK.md | ✅ 回执事实全部成立，状态 PENDING_AUDIT 恰当；独立复核(PASS前提)待做 | 审核 |
+| 2026-10-30 20:43:12 | M1-T07独立复核 | GPT-6 | M1收尾复核 | 读取项目群 AGENTS.md | 已读取；仅遵守当前授权的写入白名单 | 审核 |
+| 2026-10-30 20:43:12 | M1-T07独立复核 | GPT-6 | M1收尾复核 | 读取任务卡 A、C 与 M1-T07 全卡 | 已读取；牵头人抽查尚未读取 | 审核 |
+| 2026-10-30 20:43:12 | M1-T07独立复核 | GPT-6 | M1收尾复核 | 读取执行方 RECEIPT.md | 仅作为待核对声明，不采信结论 | 审核 |
+| 2026-10-30 20:43:12 | M1-T07独立复核 | GPT-6 | M1收尾复核 | 读取近期日志、状态顶部并检查初始工作树 | 已取得现场；后续以原始证据独立核对 | 审核 |
+| 2026-10-30 20:43:12 | M1-T07独立复核 | GPT-6 | M1收尾复核 | 读取 ponytail 与 ponytail-review 复核规范 | 只读审查；不修改代码和既有文档 | 审核 |
+| 2026-10-30 20:43:12 | M1-T07独立复核 | GPT-6 | M1收尾复核 | 周期自检 | 当前用户指定 M1-T07 独立复核优先；方向与写入边界一致 | 审核 |
+| 2026-10-30 | 小钱家-M1执行员 | sonnet-5.5 | 多模型协作流程 | Owner 同意让 Codex 复核 T07：本会话无工具派发，故补复核卡——复核开始时工作树预期状态、独立性(LEAD-SPOTCHECK 移到 evidence/m1-t07-lead-20261030/，复核写完结论前不读)、6 步核对命令(已在当前工作树空跑通过)、手机库只取到 /tmp；提交 20ea0ce；有意不提交执行方产物与抽查，保持复核所见状态 | ✅ 文档就绪；未派发(需 Owner 粘贴到 Codex 全新会话) | 执行 |
+| 2026-10-30 20:44:37 | M1-T07独立复核 | GPT-6 | M1收尾复核 | 触发停止条件并保存初始状态 | 两份 docs 修改与一个额外证据目录非本会话产生；按 A-5b 停止，INCONCLUSIVE；未跑门禁 | 审核 |
+| 2026-10-30 20:44:37 | M1-T07独立复核 | GPT-6 | M1收尾复核 | 写独立 REVIEW 九条对照及停止收据 | INCONCLUSIVE；所有未独立核实项明确列出；不读取牵头人抽查、不修复现场 | 审核 |
+| 2026-10-30 20:44:56 | M1-T07独立复核 | GPT-6 | M1收尾复核 | 保存后回读复核报告与本会话日志 | REVIEW 存在且含九条原文对照；INCONCLUSIVE；本会话追加行均7列 | 审核 |
+| 2026-10-30 20:44:56 | M1-T07独立复核 | GPT-6 | M1收尾复核 | 仅检查交付后的写入边界 | 最终状态已保存；src/tests/migrations 无状态项；两份 docs 既有修改仍保留，未修复 | 审核 |
+| 2026-10-30 20:44:56 | M1-T07独立复核 | GPT-6 | M1收尾复核 | 收尾检查：无可复用知识，跳过择要 | 仅一次性停止收据；未更新 PROJECT-STATE、全局索引或知识库；剩余核验待 Owner 澄清现场 | 审核 |
+| 2026-10-30 20:44:56 | M1-T07独立复核 | GPT-6 | M1收尾复核 | 交付本次停止结论 | INCONCLUSIVE；标准1至8未完成独立核实，9现场不符且归属未知；下一责任人为 Owner/牵头人 | 审核 |
+| 2026-10-30 20:45:18 | M1-T07独立复核 | GPT-6 | M1收尾复核 | 更正最终状态表述并向 REVIEW 追加现场变化 | 最终 status 两份 docs 修改项已消失；非本会话所为、原因未知；两次原始快照已保留；仍 INCONCLUSIVE | 审核 |
+| 2026-10-30 20:45:18 | M1-T07独立复核 | GPT-6 | M1收尾复核 | 回读现场变化补记并交付 | REVIEW 补记已保存核对；状态 INCONCLUSIVE；待 Owner 澄清现场后恢复，未运行后续核验 | 审核 |
+| 2026-10-30 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 检查初始状态并读取全局规则 | 状态符合指定清单；已保存 initial-status-2.txt | 审核 |
+| 2026-10-30 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 读取任务卡 | 已读取通用规则与复核要求 | 审核 |
+| 2026-10-30 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 读取evidence/m1-t07-20261030/RECEIPT.md | 只作为待核实或历史记录 | 审核 |
+| 2026-10-30 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 读取evidence/m1-t07-20261030/REVIEW.md | 只作为待核实或历史记录 | 审核 |
+| 2026-10-30 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 读取上次复核状态文件 | 本次不沿用历史结论 | 审核 |
+| 2026-10-30 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 周期自检并读取当前项目状态 | 当前授权为 M1-T07 独立复核；不改状态文件 | 审核 |
+| 2026-10-30 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 读取允许范围内 WORKLOG | 排除第653行及之后牵头人记录 | 审核 |
+| 2026-10-30 20:52:05 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 读取 ponytail 与 ponytail-review | 应用最小范围只读复核 | 审核 |
+| 2026-10-30 20:52:05 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 留档第一次 REVIEW | REVIEW-attempt1.md 已逐字节核对 | 审核 |
+| 2026-10-30 20:52:05 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 读取执行原始证据 git-head.txt | 原文件已读取，结论另行复算 | 审核 |
+| 2026-10-30 20:52:05 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 读取执行原始证据 post-baseline-commits.txt | 原文件已读取，结论另行复算 | 审核 |
+| 2026-10-30 20:52:05 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 读取执行原始证据 gates/exit-codes.txt | 原文件已读取，结论另行复算 | 审核 |
+| 2026-10-30 20:52:05 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 读取执行原始证据 gates/lint.log | 原文件已读取，结论另行复算 | 审核 |
+| 2026-10-30 20:52:05 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 读取执行原始证据 gates/tsc.log | 原文件已读取，结论另行复算 | 审核 |
+| 2026-10-30 20:52:05 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 读取执行原始证据 gates/test.log | 原文件已读取，结论另行复算 | 审核 |
+| 2026-10-30 20:52:05 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 读取执行原始证据 gates/signing.txt | 原文件已读取，结论另行复算 | 审核 |
+| 2026-10-30 20:52:05 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 读取执行原始证据 gates/protected-now.sha256 | 原文件已读取，结论另行复算 | 审核 |
+| 2026-10-30 20:52:05 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 读取执行原始证据 step4-scope-check.txt | 原文件已读取，结论另行复算 | 审核 |
+| 2026-10-30 20:52:05 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 读取执行原始证据 devicectl-list.txt | 原文件已读取，结论另行复算 | 审核 |
+| 2026-10-30 20:52:05 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 读取执行原始证据 device-copy.log | 原文件已读取，结论另行复算 | 审核 |
+| 2026-10-30 20:52:05 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 读取执行原始证据 device-readback.txt | 原文件已读取，结论另行复算 | 审核 |
+| 2026-10-30 20:52:05 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 读取执行原始证据 guards.txt | 原文件已读取，结论另行复算 | 审核 |
+| 2026-10-30 20:52:05 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 读取执行原始证据 git-status.txt | 原文件已读取，结论另行复算 | 审核 |
+| 2026-10-30 20:52:05 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 读取执行原始证据 baseline-diff.txt | 原文件已读取，结论另行复算 | 审核 |
+| 2026-10-30 20:52:05 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 读取执行原始证据 final-guards.txt | 原文件已读取，结论另行复算 | 审核 |
+| 2026-10-30 20:52:05 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 读取门禁脚本 | 核查命令与写入目的地 | 审核 |
+| 2026-10-30 20:52:05 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 核对当前 Git 基线 | 分支与祖先关系输出已取得 | 审核 |
+| 2026-10-30 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 独立重跑一键门禁 | 实际退出码 0；原始输出位于 review-gates | 审核 |
+| 2026-10-30 20:52:51 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 核对 PROJECT-STATE 追加与周期自检 | 保存 diff；按本次独立复核授权继续 | 审核 |
+| 2026-10-30 20:52:51 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 核对 WORKLOG 旧行和新增列数 | 原始检查保存；不输出被排除牵头人内容 | 审核 |
+| 2026-10-30 20:52:51 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 重新统计13词及真实入口 | 计数及命中原文已保存 | 审核 |
+| 2026-10-30 20:52:51 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 核对新增提交与基线代码差异 | 提交仅文档；代码基线 diff 已保存 | 审核 |
+| 2026-10-30 20:52:51 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 抽查 S5 真机截图 | 文件存在且非空，元数据保存 | 审核 |
+| 2026-10-30 20:53:13 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 周期自检 | 当前用户的独立复核范围优先；未修改项目状态 | 审核 |
+| 2026-10-30 20:53:14 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 只读列出设备 | 原始设备状态已保存 | 审核 |
+| 2026-10-30 20:53:14 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 只读从手机取库到 /tmp | copy from 退出码 0 | 审核 |
+| 2026-10-30 20:53:14 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 重算手机库哈希并 readonly 查行数 | 哈希与计数保存；库仅在 /tmp | 审核 |
+| 2026-10-30 20:53:35 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 回读独立门禁并逐行比较 | 退出码文件逐字一致；签名与哈希重新核对 | 审核 |
+| 2026-10-30 20:53:35 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 核对来源 evidence/m1-s0-20261030/S0-REPORT.md | 原始来源已读 | 审核 |
+| 2026-10-30 20:53:35 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 核对来源 evidence/m1-s1-20261030/S1-REPORT.md | 原始来源已读 | 审核 |
+| 2026-10-30 20:53:35 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 核对来源 evidence/m1-s2-20261030/S2-REPORT.md | 原始来源已读 | 审核 |
+| 2026-10-30 20:53:35 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 核对来源 evidence/m1-s3-20261030/S3-REPORT.md | 原始来源已读 | 审核 |
+| 2026-10-30 20:53:35 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 核对来源 evidence/m1-s4-20261030/S4-REPORT.md | 原始来源已读 | 审核 |
+| 2026-10-30 20:53:35 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 核对来源 evidence/m1-s5-20261030/S5-REPORT.md | 原始来源已读 | 审核 |
+| 2026-10-30 20:53:35 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 核对来源 evidence/m1-s6-20261030/S6-REPORT.md | 原始来源已读 | 审核 |
+| 2026-10-30 20:53:35 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 核对来源 docs/M1-PLATFORM-FIXES-20261030.md | 原始来源已读 | 审核 |
+| 2026-10-30 20:53:35 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 核对来源 docs/M1-AUDIT-20261030.md | 原始来源已读 | 审核 |
+| 2026-10-30 20:53:35 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 核对来源 docs/M1-OWNER-FEEDBACK-20261030.md | 原始来源已读 | 审核 |
+| 2026-10-30 20:53:35 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 核对来源 evidence/m1-t07-20261030/gates/git-status.txt | 原始来源已读 | 审核 |
+| 2026-10-30 20:53:56 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 补读来源正文 evidence/m1-s5-20261030/S5-REPORT.md | 核对报告边界和截图引用 | 审核 |
+| 2026-10-30 20:53:56 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 补读来源正文 evidence/m1-s6-20261030/S6-REPORT.md | 核对报告边界和截图引用 | 审核 |
+| 2026-10-30 20:53:56 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 补读来源正文 docs/M1-PLATFORM-FIXES-20261030.md | 核对报告边界和截图引用 | 审核 |
+| 2026-10-30 20:53:56 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 按卡重跑原样比对命令 | 删除行筛选为空；退出1表示无匹配，非检查失败 | 审核 |
+| 2026-10-30 20:53:56 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 周期自检 | 九条证据已齐；准备独立结论，尚未读牵头人抽查 | 审核 |
+| 2026-10-30 20:55:03 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 独立结论前复查现场 | HEAD 与初始状态稳定；受禁目录零改动 | 审核 |
+| 2026-10-30 20:55:03 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 写入并回读独立 REVIEW | 九条PASS；结论先落盘，尚未读取牵头人抽查 | 审核 |
+| 2026-10-30 20:55:15 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 独立结论保存后读取牵头人抽查 | 只作后续差异比较，不作为前述结论依据 | 审核 |
+| 2026-10-30 20:55:45 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 追加与牵头人抽查的差异 | 独立结论不变，版本时点与证据范围单独说明 | 审核 |
+| 2026-10-30 20:55:45 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 收尾检查：无可复用知识，跳过择要 | 一次性复核；不写知识库、项目状态、全局索引或Skill | 审核 |
+| 2026-10-30 20:55:45 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 最终回读与边界检查 | 九条标准及差异节保存完整；最终状态稳定；基线代码diff为空 | 审核 |
+| 2026-10-30 20:55:45 | M1-T07独立复核第二次 | GPT-6 | M1收尾复核 | 交付独立复核结论 | PASS；九条均满足；无剩余复核事项，后续由Owner决定 | 审核 |
+| 2026-10-30 | 小钱家-M1执行员 | sonnet-5.5 | 多模型协作流程 | 验收 M1-T07：独立核实无越界(0行)、门禁两份逐字节相同、手机库第三次取哈希仍345ac2d2、项目内无第二份手机库；如实记录抽查文件访问时间早于复核结论的局限；第一次复核停止是我违反5b所致 | ✅ T07 验收通过(仅限该卡，M1 不因此通过)；证据 evidence/m1-t07-acceptance-20261030/ACCEPTANCE.md | 验收 |
+| 2026-10-30 | 小钱家-M1验收岗 | sonnet-5.5 | 多模型协作流程 | Owner 确认分工 V2(选C路线、保留PL不复核自己卡)：写 WORKFLOW-V2-ROLES(岗位/流转/C路线七条硬条件/现场规则) 与 HANDOFF-PLANNING(现状/缺陷/10个未决问题/红线/坑/PL第一步)；逐条核对交接包事实(基线、哈希、文件、冻结令行号)；提交T07三份证据+验收+两份新文件 | ✅ 提交后工作树除4个非本任务目录外干净；进入交接，我从此只做验收岗，不再改文档，直至 Codex 规划岗回执 | 验收 |

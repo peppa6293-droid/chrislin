@@ -1,0 +1,2 @@
+byte_equal=True
+逐行一致；无差异行
