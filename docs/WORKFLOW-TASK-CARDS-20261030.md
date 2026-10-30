@@ -172,9 +172,17 @@ wc -l evidence/m1-t07-20261030/git-status.txt
 
 ## 复核岗位的额外步骤
 
-- 自己重跑 `bash scripts/m1-gates.sh evidence/m1-t07-20261030/review-gates`，与执行方的 `gates/exit-codes.txt` 比较。
-- 用 `diff` 核对 `PROJECT-STATE.md` 只新增。
-- 抽查 `evidence/m1-s5-20261030/S5-REPORT.md` 里引用的截图文件确实存在。
+**复核开始时工作树的预期状态（执行已完成后）：** `git status --short` 应显示 ` M PROJECT-STATE.md`、` M WORKLOG.md`，以及这些未跟踪目录：`evidence/m1-t07-20261030/`（执行方的产物）、`evidence/m1-t07-lead-20261030/`（牵头人抽查，非执行方产物）、`evidence/m1-post-commit-gates-20261030/` 与 `evidence/wp-ui-visual-01/` 下 3 个目录（非本卡产生）。出现 `src/`、`tests/`、`migrations/` 的任何改动，写 `FAIL` 并停止。
+
+**独立性要求：** 牵头人的抽查放在**另一个目录** `evidence/m1-t07-lead-20261030/LEAD-SPOTCHECK.md`，**不是执行方产物**。**在你完成自己的全部核对并写完 `REVIEW.md` 的结论之前，不要读它。** 写完之后可以读，并在 `REVIEW.md` 末尾单独写一节"与牵头人抽查的差异"。这样你的结论不会被它影响。
+
+步骤：
+1. 自己重跑 `bash scripts/m1-gates.sh evidence/m1-t07-20261030/review-gates`，把 `review-gates/exit-codes.txt` 与执行方的 `gates/exit-codes.txt` 逐行比较，不一致的行写出来。
+2. 核对 `PROJECT-STATE.md` 只新增：执行 `git diff -U0 HEAD -- PROJECT-STATE.md | grep -E '^[+-]' | grep -v -E '^(\+\+\+|---)' | cut -c1 | sort | uniq -c`。预期只出现 `+`，没有 `-`。出现 `-` 就是 `FAIL`。
+3. 核对 `WORKLOG.md` 旧行没被改：执行 `git show HEAD:WORKLOG.md > /tmp/wl-head.txt; head -n "$(wc -l < /tmp/wl-head.txt)" WORKLOG.md | cmp - /tmp/wl-head.txt && echo 旧行逐字未变`。预期输出 `旧行逐字未变`。再数新增行的列数：每行应恰好 8 个竖线。
+4. 自己重算执行方回执里的三个关键数字：保护区哈希（门禁已含）、`rg`/`grep` 统计 `src/ui/M1Home.tsx` 里 13 个词的出现次数（见步骤 4 的命令）、手机库哈希。**手机库哈希**只允许用 `devicectl device copy from` 取到 `/tmp/` 下的临时目录，读完用 `sqlite3 -readonly`，结束后不要把库文件放进项目目录。
+5. 抽查 `evidence/m1-s5-20261030/S5-REPORT.md` 里引用的截图文件确实存在：`ls evidence/m1-s5-20261030/owner-device-home-screenshot.jpg`。
+6. 核对回执里的"自我更正"（WORKLOG 一行曾被原地修改）：用 `git diff -U0 HEAD -- WORKLOG.md` 确认没有任何 `-` 开头的行。把它如实记成"已核对旧行未变；这是一次原地编辑的先例"，**不要因此直接判 FAIL**，也不要无视它。
 
 ## 停止条件
 

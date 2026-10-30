@@ -48,13 +48,15 @@
 先做这三件事：
 1. 读 /Users/linte/Documents/ChatGPT/AGENTS.md（项目群的全局规则），按其中的 WORKLOG 规则工作。
 2. 读 docs/WORKFLOW-TASK-CARDS-20261030.md 的 A、C（复核岗位通用规则）和 M1-T07 整张卡，特别是"验收标准"和"复核岗位的额外步骤"。
-3. 读 evidence/m1-t07-20261030/RECEIPT.md 和它列出的所有证据文件。
+3. 读 evidence/m1-t07-20261030/RECEIPT.md 和它列出的所有证据文件。牵头人的抽查在另一个目录 evidence/m1-t07-lead-20261030/LEAD-SPOTCHECK.md，它不是执行方产物：在你写完自己的 REVIEW.md 结论之前不要读它，写完后可以读，并在 REVIEW.md 末尾写一节"与牵头人抽查的差异"。
 
 然后：
 - WORKLOG 一律用 7 列：时间 | 会话 | 模型 | 方向锚 | 动作 | 结果 | 层面，方向锚固定写"M1收尾复核"。只追加，不改已有行。你的入口文件如果写的是别的列数，以这里为准。
 - 不要改任何代码或文档。你只能新建 evidence/m1-t07-20261030/REVIEW.md 和 evidence/m1-t07-20261030/review-gates/ 目录下的文件，并追加 WORKLOG.md。不得执行 git commit、add、reset、checkout、restore、clean、stash。对 iPhone 只允许 devicectl 的 list、info、copy from；禁止 install、uninstall、launch、terminate、copy to。
 - 自己重跑：bash scripts/m1-gates.sh evidence/m1-t07-20261030/review-gates，与执行方的结果比较。如果你的环境跑不了，写 BLOCKED，并说明原因，不要猜测。
-- 用 git diff PROJECT-STATE.md 核对只新增了行，没有改旧内容。
+- 按任务卡"复核岗位的额外步骤"第 1 到 6 点逐条做，包括：重跑门禁并与执行方逐行比较、核对 PROJECT-STATE.md 只新增、核对 WORKLOG.md 旧行逐字未变、自己重算 13 个词的计数和手机库哈希。手机库只取到 /tmp 下的临时目录，用 sqlite3 -readonly 读，不要放进项目目录。
+- 复核开始前先看 git status --short，应看到的状态见任务卡该节第一段；出现 src、tests、migrations 的任何改动就停止并写 FAIL。
+- 你重跑门禁会在 evidence/m1-t07-20261030/review-gates/ 新增文件，这是允许的。除此之外不得新增或修改别处。
 - 用 git status 核对没有改 src/、tests/、migrations/。
 - 对"验收标准"的 9 条逐条写：标准原文 / 你看到的实际 / 通过或不通过 / 证据路径。
 - 回执状态五选一：PASS、FAIL、BLOCKED、PENDING_AUDIT、INCONCLUSIVE。找不到原始证据就写 INCONCLUSIVE，不要因为执行方说过就写 PASS。
