@@ -10,7 +10,9 @@
 2. **每完成一个动作，立刻追加一行 WORKLOG**，再做下一个动作。方向锚 ≤15 字，填任务卡里的"方向锚"。
 3. **只改任务卡"允许改动"列出的文件。** 其他一律不改。看到想改的别的东西，写进回执的"发现"一栏，不要自己改。
 4. **绝对不改：** `src/model/**`、`migrations/**`、`src-tauri/gen/apple/**` 里的签名与 bundle id（`DEVELOPMENT_TEAM`、`PRODUCT_BUNDLE_IDENTIFIER`）、任何 `.sqlite3` 数据库文件、`evidence/` 里别的任务已有的文件（只能新增，不能改旧的）。
-5. **不提交、不推送 git。** 不安装依赖。不删除任何文件。不使用 `rm -rf`。
+5. **不提交、不推送 git。** 不安装依赖。不删除任何文件。不使用 `rm -rf`。**同时禁止这些会改变工作树或历史的 git 命令：`commit`、`add`、`reset`、`checkout`、`restore`、`clean`、`stash`、`rebase`、`merge`、`branch -D`、`push`。** 只允许读：`status`、`diff`、`log`、`rev-parse`、`merge-base`、`show`。
+5a. **对 iPhone 只读。** 允许：`xcrun devicectl list devices`、`device info ...`、`device copy from ...`。**禁止：`device install`、`device uninstall`、`device process launch`、`device process terminate`、`device copy to`。** 卸载或重装会清掉手机上的 App 数据。需要对手机做任何写操作，停下来交给 Owner。
+5b. **同一时间只有一个 Agent 在工作树里写。** 执行与复核不得并行。看到 `git status` 里有不是你产生的新改动，立刻停止并写 `INCONCLUSIVE`。
 6. **不确定就写"待验证"。** 禁止写"应该没问题""看起来通过"。一个"通过"必须附**命令的原始输出**或**文件路径**。
 7. **工具退出码 0 不等于验收通过。** 任务卡写的验收标准要逐条对照。
 8. **执行方的回执状态只能写 `PENDING_AUDIT`**（已执行，待独立复核）。不得自己写 PASS。
@@ -35,7 +37,7 @@
 ## C. 复核岗位的通用规则
 
 1. 复核必须在**单独会话**进行，不能与执行方共用上下文。
-2. 不改任何代码或文档（除了写自己的 `REVIEW.md`）。不替执行方补证据。
+2. 不改任何代码或文档，只写自己的 `REVIEW.md` 与 `review-gates/` 目录。不替执行方补证据。复核结束时，用 `git diff --name-status 936118b -- src tests migrations` 确认你自己没有改动这三处。
 3. 读执行方的 `RECEIPT.md` 和它列出的证据文件，**不要相信回执里的结论**，自己重跑第 B 节要求的命令。
 4. 逐条对照任务卡的"验收标准"，每条写：标准原文 / 你看到的实际 / 通过或不通过 / 证据路径。
 5. 回执状态五选一：`PASS`（全部标准满足且证据独立核实）、`FAIL`（有可核实且未解决的缺陷，写明哪条）、`BLOCKED`（被权限、环境、手机等阻断，写明原因）、`PENDING_AUDIT`（还缺独立证据）、`INCONCLUSIVE`（证据缺失或矛盾）。
@@ -76,7 +78,8 @@
 禁止：
 - 改 `src/**`、`tests/**`、`migrations/**`、`docs/` 里的任何已有文件
 - 修复门禁里发现的任何问题（只记录，不修）
-- 提交 git
+- 提交 git，或执行通用规则 5 列出的任何写类 git 命令
+- 对 iPhone 做通用规则 5a 列出的任何写操作
 
 前置条件：
 - 你能在 Mac 终端执行命令。如果不能，停止，写 `BLOCKED`，把下面命令整理成清单交给 Owner。
