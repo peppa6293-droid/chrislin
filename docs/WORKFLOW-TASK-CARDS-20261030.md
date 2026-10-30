@@ -6,7 +6,7 @@
 
 ## A. 所有任务卡通用规则（先读完再动手）
 
-1. **先读** `WORKLOG.md` 最近 20 行、`PROJECT-STATE.md` 顶部、本任务卡。然后追加一行 WORKLOG（7 列格式，见项目 `CLAUDE.md`），再开始。
+1. **先读** `WORKLOG.md` 最近 20 行、`PROJECT-STATE.md` 顶部、本任务卡。然后追加一行 WORKLOG（7 列格式，见 `/Users/linte/Documents/ChatGPT/AGENTS.md`），再开始。
 2. **每完成一个动作，立刻追加一行 WORKLOG**，再做下一个动作。方向锚 ≤15 字，填任务卡里的"方向锚"。
 3. **只改任务卡"允许改动"列出的文件。** 其他一律不改。看到想改的别的东西，写进回执的"发现"一栏，不要自己改。
 4. **绝对不改：** `src/model/**`、`migrations/**`、`src-tauri/gen/apple/**` 里的签名与 bundle id（`DEVELOPMENT_TEAM`、`PRODUCT_BUNDLE_IDENTIFIER`）、任何 `.sqlite3` 数据库文件、`evidence/` 里别的任务已有的文件（只能新增，不能改旧的）。
@@ -89,8 +89,9 @@ cd "/Users/linte/Documents/ChatGPT/小钱家-新/个人财务模型app开发项�
 git rev-parse --abbrev-ref HEAD
 git rev-parse HEAD
 ```
-预期：分支 `feat/mobile`，HEAD 以 `9e92b3c` 开头。把两行输出原样存入 `evidence/m1-t07-20261030/git-head.txt`。
+预期：分支 `feat/mobile`，HEAD 以 `936118b` 开头（2026-10-30 提交 3，M1 基线）。把两行输出原样存入 `evidence/m1-t07-20261030/git-head.txt`。
 不符：停止，写 `INCONCLUSIVE`。
+说明：本卡之后所有"你新增了什么"的判断，都以 `936118b` 为基线：`git diff --name-status 936118b` 里除了 `evidence/m1-t07-20261030/`、`WORKLOG.md`、`PROJECT-STATE.md` 之外不应出现别的文件。`git status` 里已有的 `evidence/m1-post-commit-gates-20261030/` 与 `evidence/wp-ui-visual-01/...` 三个目录不是本卡产生的，不要动。
 
 **步骤 2：一键门禁**
 ```bash
@@ -142,7 +143,7 @@ sqlite3 -readonly evidence/m1-t07-20261030/device.sqlite3 "select count(*) from 
 git status --short | grep -v ' 2\.' > evidence/m1-t07-20261030/git-status.txt
 wc -l evidence/m1-t07-20261030/git-status.txt
 ```
-记录行数。只记录，不处理。
+记录行数。只记录，不处理。预期（本卡开始前）：4 项 `??`——`evidence/m1-post-commit-gates-20261030/` 和 `evidence/wp-ui-visual-01/` 下的 3 个目录——外加 `WORKLOG.md` 的 ` M`。如果出现 `src/`、`tests/`、`migrations/` 下的任何改动，写 `FAIL` 并停止。
 
 **步骤 7：更新 `PROJECT-STATE.md`（只追加）**
 在文件末尾追加一个章节，只含这些事实，**每条标注来源文件**：
@@ -155,7 +156,7 @@ wc -l evidence/m1-t07-20261030/git-status.txt
 
 ## 验收标准（复核岗位逐条对照）
 
-1. `evidence/m1-t07-20261030/git-head.txt` 存在，分支与 HEAD 如步骤 1 预期。
+1. `evidence/m1-t07-20261030/git-head.txt` 存在，分支为 `feat/mobile`、HEAD 以 `936118b` 开头。
 2. `gates/exit-codes.txt` 末尾含 `gates rc=0`，且 lint、tsc、test 三个 exit 都是 0，测试数字为 61 个文件、629 通过、44 跳过。
 3. `gates/protected-now.sha256` 的值等于 `5eb32540f2bdbdaacfebccfd9ec7a94080c8ddf3948d5e4ce26a2da5dd2e2da3`。
 4. `gates/signing.txt` 只含上述两种设置，值如步骤 3。
