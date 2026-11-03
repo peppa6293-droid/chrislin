@@ -31,6 +31,8 @@ const CATEGORY_LABELS: Record<string, string> = Object.fromEntries(
 );
 
 const CROSS_DAY_MESSAGE = "日期已变化，暂时不能添加。";
+const PAY_CROSS_DAY_MESSAGE = "日期已变化，暂时不能记录这笔付款。请完全退出应用后重新打开。";
+const FUTURE_DATE_MESSAGE = "不能填写未来的日期，请重新选择。";
 
 type EssentialItem = { id: string; name: string; category: string; monthlyAmount: string };
 type View = "LIST" | "ADD_FORM" | "ADD_CONFIRM" | "PAY_FORM";
@@ -227,6 +229,9 @@ export function M2FixedExpensesPage({
     if (blocking) return;
     const amountError = validatePaymentAmount(payDraft.amount);
     if (amountError) return setPayError(amountError);
+    // 先判跨日：午夜后会话日期仍是昨天，先判未来会把真实的今天误报为未来。
+    if (asOfDate !== localDate(new Date())) return setPayError(PAY_CROSS_DAY_MESSAGE);
+    if (payDraft.paidOn > asOfDate) return setPayError(FUTURE_DATE_MESSAGE);
     setPayError("");
     onConfirmPay({
       itemId: payDraft.itemId,
@@ -435,7 +440,8 @@ export function M2FixedExpensesPage({
           note: opPay?.note ?? "",
         }
       : payDraft;
-    const error = payDispatched ? (opPay?.message ?? "") : payError;
+    // R 拒绝与跨日提示发生在未派发阶段，也必须让用户看到。
+    const error = opPay && opPay.phase !== "CONFIRMED" ? opPay.message || payError : payError;
     return (
       <main className="v2-shell m2-shell">
         {payDispatched && (

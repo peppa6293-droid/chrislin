@@ -21,6 +21,7 @@ import {
 import { ModelValidationError } from "../src/model/errors.js";
 import { money } from "../src/model/money.js";
 import type { ExpenseCategory } from "../src/model/types.js";
+import { ApplicationDataError } from "../src/persistence/database.js";
 import { migrateDatabase } from "../src/persistence/migrations.js";
 import {
   ensureV2LedgerDefaults,
@@ -2069,7 +2070,7 @@ describe("REWORK-02 已批设计恢复：占位正文、短提示、跨日文案
     }
   }, 30_000);
 
-  it("跨日后付款仍按已有校验处理，不被新增跨日文案替代", async () => {
+  it("跨日后付款被付款跨日守卫拦下，且不套用新增文案", async () => {
     const db = await seed();
     try {
       const services = makeServices(db);
@@ -2079,9 +2080,13 @@ describe("REWORK-02 已批设计恢复：占位正文、短提示、跨日文案
       await user.type(screen.getByLabelText("付款金额"), "300.20");
       vi.setSystemTime(Date.parse(`${AS_OF}T04:00:00.000Z`) + DAY_MS);
       await user.click(screen.getByRole("button", { name: "保存" }));
-      expect(await screen.findByText("已保存")).toBeTruthy();
+      expect(
+        await screen.findByText("日期已变化，暂时不能记录这笔付款。请完全退出应用后重新打开。"),
+      ).toBeTruthy();
       expect(screen.queryByText("日期已变化，暂时不能添加。")).toBeNull();
-      expect(services.recordEssentialPayment).toHaveBeenCalledTimes(1);
+      expect(services.recordEssentialPayment).toHaveBeenCalledTimes(0);
+      expect((screen.getByLabelText("付款金额") as HTMLInputElement).value).toBe("300.20");
+      expect(screen.getByRole("button", { name: "保存" })).toBeTruthy();
     } finally {
       db.close();
     }
@@ -3178,7 +3183,7 @@ describe("E03/E15 单笔付款原始收据、读回与四字段显示一致", ()
 
 describe("E18-DATE 真实 Route 注入非法会话日期", () => {
   it.each(["2026-02-30", "2026-13-01"])(
-    "E18-DATE %s：新增被跨日守卫拒绝、付款被服务层日期校验拒绝，零写入",
+    "E18-DATE %s：新增与付款均被跨日守卫拒绝，零写入",
     async (bogusDate) => {
       const db = await seed();
       try {
@@ -3222,13 +3227,16 @@ describe("E18-DATE 真实 Route 注入非法会话日期", () => {
         );
         expect(revisionsAfterAdd).toHaveLength(0);
 
-        // 付款：页面无跨日守卫，必须由服务层日期校验拒绝。
+        // 付款：支付页同样有跨日守卫，非法会话日期在派发前被拒绝。
         await user.click(screen.getByRole("button", { name: "取消" }));
         await screen.findByRole("button", { name: "添加支出" });
         await openPayForm(user, db, "HOUSING");
         await user.type(await screen.findByLabelText("付款金额"), "300.20");
         await user.click(screen.getByRole("button", { name: "保存" }));
-        await waitFor(() => expect(services.recordEssentialPayment).toHaveBeenCalledTimes(1));
+        expect(
+          await screen.findByText("日期已变化，暂时不能记录这笔付款。请完全退出应用后重新打开。"),
+        ).toBeTruthy();
+        expect(services.recordEssentialPayment).toHaveBeenCalledTimes(0);
         expect(screen.queryByText("已保存")).toBeNull();
         const payments = await db.select("SELECT id FROM expense_records WHERE kind='ESSENTIAL'");
         expect(payments).toHaveLength(0);
@@ -3243,10 +3251,10 @@ describe("E18-DATE 真实 Route 注入非法会话日期", () => {
           addSaveCalls: 0,
           itemsAfterAdd: itemsAfterAdd.length,
           revisionsAfterAdd: revisionsAfterAdd.length,
-          payServiceCalls: 1,
+          payServiceCalls: 0,
           payRowsWritten: payments.length,
           paySuccessBanner: 0,
-          assertion: "非法日期：新增被跨日守卫拒绝、付款被服务层 validDate 拒绝，两侧均零写入",
+          assertion: "非法日期：新增与付款均被跨日守卫在派发前拒绝，两侧均零写入",
         });
       } finally {
         db.close();
@@ -3871,4 +3879,221 @@ describe("EC03 V22 两语义：已包含与不确定各自完整返回序列", (
     },
     40_000,
   );
+});
+
+describe("S0 attempt-03 付款事前拒绝与日期守卫", () => {
+  const rejectedMessage = {
+    ESSENTIAL_ITEM_NOT_FOUND:
+      "没有保存。这个固定支出项目不存在或已停用，请返回固定支出列表确认后再试。",
+  };
+
+  async function essentialRows(db: NodeSqliteDatabase) {
+    return db.select("SELECT id FROM expense_records WHERE kind='ESSENTIAL'");
+  }
+
+  async function monthTotal(db: NodeSqliteDatabase, month = MONTH) {
+    return (await listEssentialPayments(db, month))
+      .reduce((sum, row) => sum.plus(money(row.amount)), money("0"))
+      .toString();
+  }
+
+  async function rejectWith(db: NodeSqliteDatabase, code: string) {
+    const services = makeServices(db, {
+      recordEssentialPayment: vi.fn(async () => {
+        throw new ApplicationDataError(code, "rejected");
+      }),
+    });
+    const user = await mount(services);
+    await openFixedExpenses(user);
+    await openPayForm(user, db, "HOUSING");
+    await user.type(screen.getByLabelText("付款金额"), "300.20");
+    await user.type(screen.getByLabelText("备注（选填）"), "保留");
+    await user.click(screen.getByRole("button", { name: "保存" }));
+    return { services, user };
+  }
+
+  it.each([
+    ["INVALID_PAYMENT_AMOUNT", "没有保存。付款金额不正确，请检查后再试。"],
+    ["INVALID_DATE", "没有保存。付款日期不正确，请重新选择日期。"],
+    ["INVALID_ESSENTIAL_CATEGORY", "没有保存。这个项目的类别不能记为固定支出，请返回列表确认。"],
+  ])(
+    "R-1 %s 明确拒绝：零写入、保留草稿、未锁定",
+    async (code, message) => {
+      const db = await seed();
+      try {
+        const { services } = await rejectWith(db, code);
+        expect(await screen.findByText(message)).toBeTruthy();
+        expect(screen.queryByText("暂时无法确认是否保存，请先不要重复操作")).toBeNull();
+        expect(services.recordEssentialPayment).toHaveBeenCalledTimes(1);
+        expect(await essentialRows(db)).toHaveLength(0);
+        expect((screen.getByLabelText("付款金额") as HTMLInputElement).value).toBe("300.20");
+        expect((screen.getByLabelText("付款金额") as HTMLInputElement).readOnly).toBe(false);
+        expect((screen.getByLabelText("备注（选填）") as HTMLInputElement).value).toBe("保留");
+        expect(screen.getByLabelText("日期 2026-11-01")).toBeTruthy();
+        expect(screen.getByRole("button", { name: "保存" })).toBeTruthy();
+      } finally {
+        db.close();
+      }
+    },
+    30_000,
+  );
+
+  it("R-1 ESSENTIAL_ITEM_NOT_FOUND（真实服务停用后）：明确拒绝、零写入、未锁定", async () => {
+    const db = await seed();
+    try {
+      const services = makeServices(db);
+      const user = await mount(services);
+      await openFixedExpenses(user);
+      const item = await openPayForm(user, db, "HOUSING");
+      await user.type(screen.getByLabelText("付款金额"), "300.20");
+      await saveEssentialItems(db, [{ ...item, active: false }], AS_OF);
+      await user.click(screen.getByRole("button", { name: "保存" }));
+      expect(await screen.findByText(rejectedMessage.ESSENTIAL_ITEM_NOT_FOUND)).toBeTruthy();
+      expect(screen.queryByText("暂时无法确认是否保存，请先不要重复操作")).toBeNull();
+      expect(services.recordEssentialPayment).toHaveBeenCalledTimes(1);
+      expect(await essentialRows(db)).toHaveLength(0);
+      expect((screen.getByLabelText("付款金额") as HTMLInputElement).value).toBe("300.20");
+      expect(screen.getByRole("button", { name: "保存" })).toBeTruthy();
+    } finally {
+      db.close();
+    }
+  }, 30_000);
+
+  it("R-2 真实服务拒绝后改正重提：全程恰 +1、合计 +a、第二次成功", async () => {
+    const db = await seed();
+    try {
+      const services = makeServices(db);
+      const user = await mount(services);
+      await openFixedExpenses(user);
+      const item = await openPayForm(user, db, "HOUSING");
+      await user.type(screen.getByLabelText("付款金额"), "300.20");
+      const before = await monthTotal(db);
+      await saveEssentialItems(db, [{ ...item, active: false }], AS_OF);
+      await user.click(screen.getByRole("button", { name: "保存" }));
+      expect(await screen.findByText(rejectedMessage.ESSENTIAL_ITEM_NOT_FOUND)).toBeTruthy();
+      expect(services.recordEssentialPayment).toHaveBeenCalledTimes(1);
+      expect(await essentialRows(db)).toHaveLength(0);
+
+      // 测试夹具直接恢复项目（saveEssentialItems 只支持停用，不支持反向激活）。
+      await db.execute("UPDATE essential_expense_items SET active=1 WHERE id=?", [item.id]);
+      await user.click(screen.getByRole("button", { name: "保存" }));
+      expect(await screen.findByText("已保存")).toBeTruthy();
+      expect(services.recordEssentialPayment).toHaveBeenCalledTimes(2);
+      expect(await essentialRows(db)).toHaveLength(1);
+      expect(await monthTotal(db)).toBe(money(before).plus(money("300.20")).toString());
+    } finally {
+      db.close();
+    }
+  }, 30_000);
+
+  it.each([
+    [
+      "INITIALIZATION_REQUIRED",
+      () => new ApplicationDataError("INITIALIZATION_REQUIRED", "no profile"),
+    ],
+    ["普通 Error", () => new Error("db failed")],
+  ])(
+    "R-3 %s 拒绝仍 UNKNOWN 锁定，不显示没有保存",
+    async (_label, makeError) => {
+      const db = await seed();
+      try {
+        const services = makeServices(db, {
+          recordEssentialPayment: vi.fn(async () => {
+            throw makeError();
+          }),
+        });
+        const user = await mount(services);
+        await openFixedExpenses(user);
+        await openPayForm(user, db, "HOUSING");
+        await user.type(screen.getByLabelText("付款金额"), "300.20");
+        await user.click(screen.getByRole("button", { name: "保存" }));
+        expect(await screen.findByText("暂时无法确认是否保存，请先不要重复操作")).toBeTruthy();
+        expect(screen.queryByText(/没有保存/)).toBeNull();
+        expect(screen.queryAllByRole("button", { name: "保存" })).toHaveLength(0);
+        expect((screen.getByLabelText("付款金额") as HTMLInputElement).readOnly).toBe(true);
+      } finally {
+        db.close();
+      }
+    },
+    30_000,
+  );
+
+  it("R-6 未来日期：0 写入、未锁定；改回今天与上月均可提交", async () => {
+    const db = await seed();
+    try {
+      const services = makeServices(db);
+      const user = await mount(services);
+      await openFixedExpenses(user);
+      await openPayForm(user, db, "HOUSING");
+      await user.type(screen.getByLabelText("付款金额"), "300.20");
+      await user.click(screen.getByLabelText("日期 2026-11-01"));
+      await user.click(await screen.findByRole("gridcell", { name: "2026-11-02" }));
+      await user.click(screen.getByRole("button", { name: "确定" }));
+      await screen.findByLabelText("日期 2026-11-02");
+
+      await user.click(screen.getByRole("button", { name: "保存" }));
+      expect(await screen.findByText("不能填写未来的日期，请重新选择。")).toBeTruthy();
+      expect(services.recordEssentialPayment).toHaveBeenCalledTimes(0);
+      expect(await essentialRows(db)).toHaveLength(0);
+      expect(screen.getByRole("button", { name: "保存" })).toBeTruthy();
+
+      // 改回今天：正常写入一笔。
+      await user.click(screen.getByLabelText("日期 2026-11-02"));
+      // 今天那格的无障碍名带「今天」后缀。
+      await user.click(await screen.findByRole("gridcell", { name: /2026-11-01/ }));
+      await user.click(screen.getByRole("button", { name: "确定" }));
+      await screen.findByLabelText("日期 2026-11-01");
+      await user.click(screen.getByRole("button", { name: "保存" }));
+      expect(await screen.findByText("已保存")).toBeTruthy();
+      expect(services.recordEssentialPayment).toHaveBeenCalledTimes(1);
+
+      // 上月仍允许：第二笔。
+      await openPayForm(user, db, "UTILITIES_COMMUNICATIONS");
+      await user.type(screen.getByLabelText("付款金额"), "50.00");
+      await user.click(screen.getByLabelText("日期 2026-11-01"));
+      await user.click(await screen.findByRole("button", { name: "上个月" }));
+      await user.click(await screen.findByRole("gridcell", { name: "2026-10-31" }));
+      await user.click(screen.getByRole("button", { name: "确定" }));
+      await screen.findByLabelText("日期 2026-10-31");
+      await user.click(screen.getByRole("button", { name: "保存" }));
+      expect(await screen.findByText("已保存")).toBeTruthy();
+      expect(services.recordEssentialPayment).toHaveBeenCalledTimes(2);
+      expect(await essentialRows(db)).toHaveLength(2);
+    } finally {
+      db.close();
+    }
+  }, 30_000);
+
+  it("R-5 付款跨日：0 写入、跨日提示、未锁定；重启后新日期可提交", async () => {
+    const db = await seed();
+    try {
+      const services = makeServices(db);
+      const user = await mount(services);
+      await openFixedExpenses(user);
+      await openPayForm(user, db, "HOUSING");
+      await user.type(screen.getByLabelText("付款金额"), "300.20");
+      vi.setSystemTime(new Date(Date.parse(`${AS_OF}T04:00:00.000Z`) + DAY_MS));
+      await user.click(screen.getByRole("button", { name: "保存" }));
+      expect(
+        await screen.findByText("日期已变化，暂时不能记录这笔付款。请完全退出应用后重新打开。"),
+      ).toBeTruthy();
+      expect(services.recordEssentialPayment).toHaveBeenCalledTimes(0);
+      expect(await essentialRows(db)).toHaveLength(0);
+      expect(screen.getByRole("button", { name: "保存" })).toBeTruthy();
+
+      // 模拟重启：新会话日期 2026-11-02 下重新提交。
+      const nextUser = await remountLater(services, 1);
+      await openPayForm(nextUser, db, "HOUSING");
+      await nextUser.type(screen.getByLabelText("付款金额"), "300.20");
+      await nextUser.click(screen.getByRole("button", { name: "保存" }));
+      expect(await screen.findByText("已保存")).toBeTruthy();
+      expect(services.recordEssentialPayment).toHaveBeenCalledTimes(1);
+      expect(await essentialRows(db)).toHaveLength(1);
+      const november = await listEssentialPayments(db, MONTH);
+      expect(november).toHaveLength(1);
+      expect(november[0]?.paidOn).toBe("2026-11-02");
+    } finally {
+      db.close();
+    }
+  }, 30_000);
 });

@@ -3,6 +3,7 @@ import { useCallback, useRef, useState } from "react";
 import type { ExpenseSubmission, HomeApplicationState } from "../application/product-service.js";
 import type { EssentialPaymentRecord } from "../application/ux-ledger-service.js";
 import { money } from "../model/money.js";
+import type { ApplicationDataError } from "../persistence/database.js";
 import type { ProductApplicationServices } from "./contracts.js";
 import { localDate } from "./date.js";
 import { M1Home } from "./M1Home.js";
@@ -73,7 +74,23 @@ export type FixedExpenseOperation = AddOperation | PayOperation;
 
 const UNKNOWN_MESSAGE = "暂时无法确认是否保存，请先不要重复操作";
 const CROSS_DAY_MESSAGE = "日期已变化，暂时不能添加。";
+const PAY_CROSS_DAY_MESSAGE = "日期已变化，暂时不能记录这笔付款。请完全退出应用后重新打开。";
 const ADD_MISMATCH_MESSAGE = "已找到这项支出，但金额核对还没完成，请先不要重复添加";
+/** 事务前即可证明零写入的四个码；其余异常仍按 UNKNOWN 锁定。 */
+const PAY_REJECTION_MESSAGES: Record<string, string> = {
+  INVALID_PAYMENT_AMOUNT: "没有保存。付款金额不正确，请检查后再试。",
+  INVALID_DATE: "没有保存。付款日期不正确，请重新选择日期。",
+  ESSENTIAL_ITEM_NOT_FOUND:
+    "没有保存。这个固定支出项目不存在或已停用，请返回固定支出列表确认后再试。",
+  INVALID_ESSENTIAL_CATEGORY: "没有保存。这个项目的类别不能记为固定支出，请返回列表确认。",
+};
+
+function payRejectionMessage(error: unknown): string | null {
+  if (typeof error !== "object" || error === null) return null;
+  const candidate = error as Partial<ApplicationDataError>;
+  if (candidate.name !== "ApplicationDataError" || typeof candidate.code !== "string") return null;
+  return PAY_REJECTION_MESSAGES[candidate.code] ?? null;
+}
 
 function sumAmounts(values: string[]): string {
   return values.reduce((total, value) => total.plus(money(value)), money("0")).toString();
@@ -323,8 +340,23 @@ export function M2FinanceRoute({
           ...(base.note ? { note: base.note } : {}),
         });
         receipt = result.payment;
-      } catch {
+      } catch (error) {
         writeGuard.current = null;
+        const rejection = payRejectionMessage(error);
+        if (rejection !== null) {
+          const now = live();
+          if (now) {
+            // 事务前拒绝可证明未写入：解锁回草稿，保留输入，允许修正后重新发起。
+            commit({
+              ...now,
+              phase: "DRAFT",
+              dispatched: false,
+              locked: false,
+              message: rejection,
+            });
+          }
+          return;
+        }
         // 没有可靠 payment.id：按原 V08 只读核查目标月，但不认领、不解锁、不重写。
         try {
           await services.listEssentialPayments(base.targetMonth);
@@ -410,6 +442,11 @@ export function M2FinanceRoute({
         locked: false,
         message: "",
       };
+      // 页面已挡一次；宿主再挡一次，避免跨日后仍拿旧会话日期派发。
+      if (asOfDate !== localDate(new Date())) {
+        commit({ ...next, message: PAY_CROSS_DAY_MESSAGE });
+        return;
+      }
       writeGuard.current = token;
       commit(next);
       void runPay(next);
