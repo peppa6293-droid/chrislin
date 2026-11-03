@@ -947,6 +947,33 @@ describe("E16 新增后立即支付与生效前拒付", () => {
   }, 30_000);
 });
 
+describe("E16-C 已停用项目仍拒绝支付", () => {
+  it("停用后的项目补记 10-31 支付：ESSENTIAL_ITEM_NOT_FOUND、0 写入", async () => {
+    const db = await seedA();
+    try {
+      const item = (await listEssentialPaymentItems(db, AS_OF))[0];
+      if (!item) throw new Error("缺少项目");
+      await saveEssentialItems(db, [{ ...item, active: false }], AS_OF);
+      const before = await rowsOf(db, "SELECT id FROM expense_records WHERE kind='ESSENTIAL'");
+      let raised: unknown = null;
+      try {
+        await recordEssentialPayment(db, {
+          itemId: item.id,
+          amount: "60.50",
+          paidOn: "2026-10-31",
+        });
+      } catch (error) {
+        raised = error;
+      }
+      expect((raised as Error | null)?.message).toBe("Item does not exist.");
+      const after = await rowsOf(db, "SELECT id FROM expense_records WHERE kind='ESSENTIAL'");
+      expect(after.length).toBe(before.length);
+    } finally {
+      db.close();
+    }
+  }, 30_000);
+});
+
 describe("E17 新增账表隔离与旧行逐行保护", () => {
   it("E17-A 旧项目逐行不变、新项目与修订各 +1、非目标表逐行不变、sqlite_sequence 单列前后", async () => {
     const db = await seedA();

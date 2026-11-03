@@ -20,7 +20,7 @@ import type { ProductApplicationServices } from "./contracts.js";
 import { localDate } from "./date.js";
 import { FinancialMaintenanceDialog } from "./FinancialMaintenanceDialog.js";
 import { HomeScreen } from "./HomeScreen.js";
-import { M1Home } from "./M1Home.js";
+import { M2FinanceRoute } from "./M2FinanceRoute.js";
 import { Onboarding } from "./Onboarding.js";
 import { useCardsRefresh } from "./use-cards-refresh.js";
 import { WP03PreviewDateControl } from "./WP03PreviewDateControl.js";
@@ -377,7 +377,16 @@ export function App({
       />
     );
   }
-  if (scope === "M1") return <M1Home home={home} onRecordExpense={recordExpense} />;
+  if (scope === "M1")
+    return (
+      <M2FinanceRoute
+        services={services}
+        asOfDate={sessionAsOfDate}
+        home={home}
+        onHome={setHome}
+        onRecordExpense={recordExpense}
+      />
+    );
   return (
     <HomeScreen
       home={home}

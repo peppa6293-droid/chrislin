@@ -1,14 +1,18 @@
 import { Plus } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { ExpenseSubmission, HomeApplicationState } from "../application/product-service.js";
-import { money } from "../model/money.js";
 import brandLogo from "./assets/finance/brand-wallet-sprout.svg";
 import { MoneyAmount } from "./MoneyAmount.js";
 import { formatCurrency } from "./money-format.js";
 import { type ExpenseSaveReceipt, ExpenseSheet, RecentExpenses } from "./V2HomeSurface.js";
-import { V2ProgressBar } from "./V2ProgressBar.js";
 
-/** M1 home: this month's spending against the model's recommended amount, and the latest records. */
+/**
+ * M1 home: this month's actual spending and the latest records.
+ *
+ * The debt list has never been confirmed in this build, so the model's
+ * recommendation and everything derived from it (remaining, overspend,
+ * progress) is hidden here; only facts the user can trust stay on screen.
+ */
 export function M1Home({
   home,
   onRecordExpense,
@@ -21,13 +25,29 @@ export function M1Home({
   const [error, setError] = useState("");
   const [blocked, setBlocked] = useState(false);
   const [savedId, setSavedId] = useState<string | null>(null);
+  const homeRef = useRef<HTMLElement>(null);
 
-  const spent = money(home.currentMonthSpending);
-  const recommended = money(home.recommendedMonthlySpending);
-  const above = money(home.amountAboveRecommendation);
-  const hasRecommendation = recommended.gt(0);
-  const ratio = hasRecommendation ? spent.dividedBy(recommended).times(100).toNumber() : 0;
   const desired = home.desiredMonthlyDiscretionarySpending;
+
+  // Topbar B: the handoff follows the real scroll position (24→80px), with no
+  // timer. Reduced motion switches statically at 80px instead of fading.
+  useEffect(() => {
+    const node = homeRef.current;
+    if (!node) return;
+    const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)");
+    const paint = () => {
+      const y = window.scrollY || document.documentElement.scrollTop || 0;
+      const p = reduced?.matches ? (y >= 80 ? 1 : 0) : Math.min(1, Math.max(0, (y - 24) / 56));
+      node.style.setProperty("--m2-p", String(p));
+    };
+    paint();
+    window.addEventListener("scroll", paint, { passive: true });
+    reduced?.addEventListener?.("change", paint);
+    return () => {
+      window.removeEventListener("scroll", paint);
+      reduced?.removeEventListener?.("change", paint);
+    };
+  }, []);
 
   function openSheet() {
     setError("");
@@ -55,33 +75,29 @@ export function M1Home({
   }
 
   return (
-    <main className="v2-shell" data-testid="m1-home">
-      <header className="v2-topbar">
-        <div className="v2-brand">
-          <span className="v2-brand-mark" aria-hidden="true">
+    <main className="v2-shell m2-home" data-testid="m1-home" ref={homeRef}>
+      <header className="m2-topbar">
+        <span className="m2-topbar__brand" aria-hidden="true">
+          <span className="v2-brand-mark">
             <img src={brandLogo} alt="" aria-hidden="true" draggable="false" />
           </span>
-          <div>
-            <strong>小钱家</strong>
-            <span>本地账本</span>
-          </div>
-        </div>
-        <div className="v2-topbar-actions">
-          <span className="v2-period">
-            {home.asOfDate.slice(0, 4)} 年 {Number(home.asOfDate.slice(5, 7))} 月
-          </span>
-          <button
-            className="button button-secondary v2-top-record"
-            type="button"
-            onClick={openSheet}
-          >
-            <Plus size={17} aria-hidden="true" />
-            <span>记一笔</span>
-          </button>
-        </div>
+        </span>
+        <span className="m2-topbar__compact" aria-hidden="true">
+          小钱家
+        </span>
+        <button className="m2-topbar__record" type="button" onClick={openSheet}>
+          <Plus size={20} aria-hidden="true" />
+          <span>记一笔</span>
+        </button>
       </header>
       <section className="v2-content">
         <div className="v2-page">
+          <div className="m2-hero">
+            <h1 className="m2-large-title">小钱家</h1>
+            <p className="m2-period">
+              {home.asOfDate.slice(0, 4)} 年 {Number(home.asOfDate.slice(5, 7))} 月
+            </p>
+          </div>
           <section className="v2-card v2-month-card" aria-labelledby="m1-month-title">
             <div className="v2-card__head">
               <span className="v2-card__kicker" id="m1-month-title">
@@ -90,28 +106,7 @@ export function M1Home({
             </div>
             <div className="v2-card__value">
               <MoneyAmount value={home.currentMonthSpending} size="summary" />
-              <small>
-                {hasRecommendation
-                  ? `本月已花 · 建议上限 ${formatCurrency(home.recommendedMonthlySpending)}`
-                  : "本月已花"}
-              </small>
-            </div>
-            {hasRecommendation && (
-              <V2ProgressBar
-                value={ratio}
-                max={ratio > 100 ? 120 : 100}
-                tone={above.gt(0) ? "over" : "normal"}
-                label="本月消费占建议上限比例"
-              />
-            )}
-            <div className="v2-card__actions">
-              <span className="v2-card__line" data-testid="m1-remaining-line">
-                {!hasRecommendation
-                  ? "本月建议额度 ¥0.00"
-                  : above.gt(0)
-                    ? `已超出建议 ${formatCurrency(home.amountAboveRecommendation)}`
-                    : `还可花 ${formatCurrency(home.remainingSpendingCapacity)}`}
-              </span>
+              <small>本月已花</small>
             </div>
             {desired != null && (
               <p className="v2-card__line" data-testid="m1-desired-line">
@@ -119,7 +114,7 @@ export function M1Home({
               </p>
             )}
             <p className="v2-card__line" data-testid="m1-scope-note">
-              建议额度只按收入、必要支出和安全目标计算，没有计入你没录入的资产和债务。
+              债务情况尚未确认，暂不显示建议金额。
             </p>
           </section>
           <div className="v2-section-heading v2-recent-heading">

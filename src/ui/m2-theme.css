@@ -1,0 +1,740 @@
+/*
+ * M2 靛蓝夜航主题（B0）。只作用于 .m2-theme 内的 M2 宿主，不污染桌面旧页面。
+ * 颜色/字阶依据 docs/M2-DESIGN-03-FOUNDATION-20261031.md；
+ * 首页顶部 B 依据 docs/M2-DESIGN-01-TOPBAR-20261031.md。
+ * 约束（tests/m1-platform-baseline.test.ts）：:hover 只出现在
+ * @media (hover: hover) and (pointer: fine) 内；不得出现裸 vh 单位。
+ */
+
+/* 回弹或超出一屏时露出的是 html 画布，不止 .m2-theme 的 100dvh。 */
+html:has(.m2-theme) {
+  background: #edf0f8;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:has(.m2-theme) {
+    background: #10131e;
+  }
+}
+
+.m2-theme {
+  --m2-bg: #edf0f8;
+  --m2-card: #ffffff;
+  --m2-line: #dce1ef;
+  --m2-ink: #1a2540;
+  --m2-sub: #59657d;
+  --m2-weak: #606c83;
+  --m2-accent: #5146cb;
+  --m2-accent-pressed: #4034ac;
+  --m2-on-accent: #ffffff;
+  --m2-accent-soft: #e9e5fb;
+  --m2-spend: #85613a;
+  --m2-spend-end: #967348;
+  --m2-paid: #6353c7;
+  --m2-paid-end: #7968d5;
+  --m2-days: #176b9f;
+  --m2-days-end: #277cae;
+  --m2-spend-track: #f2ede6;
+  --m2-paid-track: #efebfa;
+  --m2-days-track: #e5eff6;
+  --m2-pending: #dce2ed;
+  --m2-pending-ink: #606c83;
+  --m2-remind: #79552e;
+  --m2-complete: #226a50;
+  --m2-error: #b12c43;
+  --m2-category-other: #697184;
+  --m2-chrome: rgb(239 242 251 / 90%);
+  --m2-shadow-card: 0 8px 24px rgb(26 37 64 / 7%), 0 2px 6px rgb(26 37 64 / 4%);
+
+  /* Shared v2 tokens: inherited cards, lists, buttons and sheets follow M2. */
+  --v2-bg: var(--m2-bg);
+  --v2-paper: var(--m2-bg);
+  --v2-surface: var(--m2-card);
+  --v2-surface-soft: var(--m2-card);
+  --v2-surface-warm: var(--m2-card);
+  --v2-ink: var(--m2-ink);
+  --v2-ink-strong: var(--m2-ink);
+  --v2-muted: var(--m2-sub);
+  --v2-muted-light: var(--m2-weak);
+  --v2-line: var(--m2-line);
+  --v2-line-strong: var(--m2-line);
+  --v2-teal: var(--m2-accent);
+  --v2-teal-dark: var(--m2-accent);
+  --v2-teal-soft: var(--m2-accent-soft);
+  --v2-danger: var(--m2-error);
+  --v2-focus: var(--m2-accent);
+  --v2-overlay: rgb(5 13 28 / 45%);
+  --v2-shadow-button: 0 4px 0 var(--m2-accent-pressed);
+  --v2-shadow-button-pressed: 0 1px 0 var(--m2-accent-pressed);
+
+  min-height: 100dvh;
+  background: var(--m2-bg);
+  color: var(--m2-ink);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  .m2-theme {
+    --m2-bg: #10131e;
+    --m2-card: #1e2334;
+    --m2-line: #333a53;
+    --m2-ink: #f2f2ff;
+    --m2-sub: #aeb5ce;
+    --m2-weak: #a1abc4;
+    --m2-accent: #b6a9ff;
+    --m2-accent-pressed: #9d8ce9;
+    --m2-on-accent: #19162b;
+    --m2-accent-soft: #34304e;
+    --m2-spend: #c5a079;
+    --m2-spend-end: #e2c29c;
+    --m2-paid: #a18bf2;
+    --m2-paid-end: #cdbaff;
+    --m2-days: #75b8de;
+    --m2-days-end: #a0dbec;
+    --m2-spend-track: #39312b;
+    --m2-paid-track: #37314f;
+    --m2-days-track: #263b4b;
+    --m2-pending: #3e485d;
+    --m2-pending-ink: #a1abc4;
+    --m2-remind: #e0bb8f;
+    --m2-complete: #80ccac;
+    --m2-error: #ff9aa8;
+    --m2-category-other: #a4acc0;
+    --m2-chrome: rgb(19 23 37 / 88%);
+    --v2-overlay: rgb(0 0 0 / 55%);
+    color-scheme: dark;
+  }
+}
+
+.m2-theme .v2-shell {
+  display: block;
+  min-height: 100dvh;
+  padding-bottom: 0;
+  background: var(--m2-bg);
+  color: var(--m2-ink);
+}
+
+.m2-theme .v2-content {
+  padding: calc(20px + env(safe-area-inset-top, 0px)) 20px
+    calc(112px + env(safe-area-inset-bottom, 0px));
+}
+
+.m2-theme .m2-home .v2-content {
+  padding-top: 0;
+}
+
+.m2-theme button:focus-visible,
+.m2-theme a:focus-visible,
+.m2-theme [role="button"]:focus-visible {
+  outline-color: var(--m2-accent);
+}
+
+/* ---------- 首页顶部 B：34px 大标题 → 17px 居中小标题 ---------- */
+
+.m2-theme .m2-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  height: calc(44px + env(safe-area-inset-top, 0px));
+  padding: env(safe-area-inset-top, 0px) 14px 0;
+  isolation: isolate;
+}
+
+.m2-theme .m2-topbar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--m2-chrome);
+  border-bottom: 1px solid var(--m2-line);
+  opacity: var(--m2-p, 0);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.m2-topbar__brand {
+  display: grid;
+  grid-column: 1;
+  justify-self: start;
+  place-items: center;
+}
+
+.m2-theme .m2-topbar__brand .v2-brand-mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: var(--m2-accent-soft);
+  opacity: calc(1 - var(--m2-p, 0));
+}
+
+.m2-theme .m2-topbar__brand img {
+  width: 38px;
+  height: 38px;
+}
+
+.m2-topbar__compact {
+  grid-column: 2;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 22px;
+  white-space: nowrap;
+  opacity: var(--m2-p, 0);
+}
+
+.m2-theme .m2-topbar__record {
+  display: inline-flex;
+  grid-column: 3;
+  align-items: center;
+  justify-content: center;
+  justify-self: end;
+  gap: 5px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--m2-accent);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.m2-theme .m2-hero {
+  padding: 20px 0 24px;
+}
+
+.m2-theme .m2-large-title {
+  margin: 0;
+  color: var(--m2-ink);
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 41px;
+  letter-spacing: -0.8px;
+  opacity: calc(1 - var(--m2-p, 0));
+}
+
+.m2-theme .m2-period {
+  margin: 8px 0 0;
+  color: var(--m2-sub);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 19px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- 卡片、金额与最近记录 ---------- */
+
+.m2-theme .v2-card {
+  border-color: var(--m2-line);
+  border-radius: 26px;
+  background: var(--m2-card);
+  box-shadow: var(--m2-shadow-card);
+}
+
+.m2-theme .v2-month-card {
+  padding: 20px;
+}
+
+.m2-theme .v2-card__kicker {
+  color: var(--m2-accent);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 18px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.m2-theme .v2-card__value {
+  min-height: 112px;
+  color: var(--m2-ink);
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 40px;
+  letter-spacing: -0.8px;
+}
+
+.m2-theme .v2-card__value .money-amount {
+  white-space: nowrap;
+}
+
+.m2-theme .v2-month-card .v2-card__value:has(.money-amount--long) {
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 32px;
+  letter-spacing: -0.4px;
+}
+
+.m2-theme .v2-card__value small {
+  color: var(--m2-sub);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 17px;
+  letter-spacing: 0;
+}
+
+.m2-theme .v2-card__line {
+  color: var(--m2-sub);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 19px;
+}
+
+.m2-theme [data-testid="m1-scope-note"] {
+  color: var(--m2-weak);
+  font-size: 12px;
+  line-height: 17px;
+}
+
+.m2-theme .v2-recent-heading {
+  margin-top: 26px;
+  margin-bottom: 12px;
+}
+
+.m2-theme .v2-section-heading h2 {
+  color: var(--m2-ink);
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 26px;
+  letter-spacing: -0.4px;
+}
+
+.m2-theme .v2-kicker {
+  color: var(--m2-sub);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 19px;
+}
+
+.m2-theme .v2-recent-list {
+  border-color: var(--m2-line);
+  border-radius: 20px;
+  background: var(--m2-card);
+}
+
+.m2-theme .v2-recent-row {
+  min-height: 62px;
+  padding: 10px 14px;
+  border-color: var(--m2-line);
+}
+
+.m2-theme .v2-recent-icon {
+  background: var(--m2-accent-soft);
+  color: var(--m2-accent);
+}
+
+.m2-theme .v2-recent-copy strong {
+  color: var(--m2-ink);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.m2-theme .v2-recent-copy small {
+  color: var(--m2-sub);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 19px;
+}
+
+.m2-theme .v2-recent-row > .money-amount {
+  color: var(--m2-ink);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+.m2-theme .v2-empty-state {
+  border-color: var(--m2-line);
+  background: var(--m2-card);
+  color: var(--m2-sub);
+  font-size: 13px;
+}
+
+.m2-theme .v2-empty-state strong {
+  color: var(--m2-ink);
+  font-size: 17px;
+}
+
+/* ---------- 浮动四标签 ---------- */
+
+.m2-theme .m2-nav {
+  position: fixed;
+  top: auto;
+  right: auto;
+  bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 4px;
+  width: min(calc(100% - 24px), 430px);
+  height: auto;
+  margin: 0;
+  padding: 6px;
+  border: 1px solid var(--m2-line);
+  border-radius: 999px;
+  background: var(--m2-chrome);
+  box-shadow: 0 8px 24px rgb(16 19 30 / 18%);
+  transform: translateX(-50%);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+
+.m2-theme .m2-nav__button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-height: 44px;
+  padding: 4px 2px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--m2-sub);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 14px;
+}
+
+.m2-theme .m2-nav__button[aria-current="page"] {
+  background: var(--m2-accent-soft);
+  color: var(--m2-accent);
+  box-shadow: none;
+}
+
+.m2-theme .v2-nav-icon {
+  width: auto;
+  height: auto;
+}
+
+/* ---------- 我的财务 / 固定支出 / 表单 / 状态 ---------- */
+
+.m2-theme .m2-title {
+  color: var(--m2-ink);
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 41px;
+  letter-spacing: -0.8px;
+}
+
+.m2-theme .m2-subtitle {
+  margin: 26px 0 12px;
+  color: var(--m2-ink);
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 26px;
+  letter-spacing: -0.4px;
+}
+
+.m2-theme .m2-menu__row {
+  min-height: 44px;
+  border-color: var(--m2-line);
+  border-radius: 20px;
+  background: var(--m2-card);
+}
+
+.m2-theme .m2-menu__row strong {
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.m2-theme .m2-menu__row small {
+  color: var(--m2-sub);
+  font-size: 13px;
+}
+
+.m2-theme .m2-summary {
+  border-radius: 26px;
+}
+
+.m2-theme .m2-summary__cell span,
+.m2-theme .m2-summary__row span {
+  color: var(--m2-sub);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 19px;
+}
+
+.m2-theme .m2-summary__cell strong,
+.m2-theme .m2-summary__row strong {
+  color: var(--m2-ink);
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 32px;
+  letter-spacing: -0.4px;
+  font-variant-numeric: tabular-nums;
+}
+
+.m2-theme .m2-row,
+.m2-theme .m2-record {
+  border-color: var(--m2-line);
+  border-radius: 20px;
+  background: var(--m2-card);
+}
+
+.m2-theme .m2-row__main strong {
+  color: var(--m2-ink);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.m2-theme .m2-row__meta,
+.m2-theme .m2-row__paid {
+  color: var(--m2-sub);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 19px;
+}
+
+.m2-theme .m2-empty,
+.m2-theme .m2-status,
+.m2-theme .m2-note {
+  color: var(--m2-sub);
+  font-size: 13px;
+  line-height: 19px;
+}
+
+.m2-theme .m2-banner {
+  background: var(--m2-accent-soft);
+  color: var(--m2-accent);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.m2-theme .m2-error {
+  background: color-mix(in srgb, var(--m2-error) 12%, var(--m2-card));
+  color: var(--m2-error);
+  font-size: 13px;
+  line-height: 19px;
+}
+
+.m2-theme .m2-add {
+  border-color: var(--m2-line);
+  color: var(--m2-accent);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.m2-theme .m2-field > span {
+  color: var(--m2-sub);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 19px;
+}
+
+.m2-theme .m2-field input,
+.m2-theme .m2-field select {
+  min-height: 48px;
+  border-color: var(--m2-line);
+  border-radius: 14px;
+  background: var(--m2-card);
+  color: var(--m2-ink);
+  font-size: 16px;
+}
+
+.m2-theme .m2-field input[inputmode="decimal"] {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 40px;
+  letter-spacing: -0.8px;
+  font-variant-numeric: tabular-nums;
+}
+
+.m2-theme input::placeholder {
+  color: var(--m2-weak);
+  opacity: 1;
+}
+
+.m2-theme .v2-topbar {
+  border-color: var(--m2-line);
+  background: var(--m2-chrome);
+}
+
+.m2-theme .v2-brand strong {
+  color: var(--m2-ink);
+  font-size: 17px;
+  font-weight: 600;
+}
+
+/* ---------- 按钮 ---------- */
+
+.m2-theme .button {
+  min-height: 44px;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.m2-theme .button-primary {
+  background: var(--m2-accent);
+  color: var(--m2-on-accent);
+  box-shadow: none;
+}
+
+.m2-theme .button-primary:active {
+  background: var(--m2-accent-pressed);
+}
+
+.m2-theme .button-secondary {
+  border-color: var(--m2-line);
+  background: var(--m2-card);
+  color: var(--m2-ink);
+}
+
+.m2-theme .button-secondary:active {
+  background: var(--m2-accent-soft);
+}
+
+.m2-theme .icon-button {
+  width: 44px;
+  height: 44px;
+  border-color: var(--m2-line);
+  background: var(--m2-card);
+  color: var(--m2-sub);
+}
+
+/* ---------- 消费弹层与日期选择 ---------- */
+
+.m2-theme .v2-sheet-backdrop {
+  background: var(--v2-overlay);
+}
+
+.m2-theme .v2-expense-sheet {
+  border-color: var(--m2-line);
+  border-radius: 26px;
+  background: var(--m2-bg);
+  box-shadow: 0 24px 60px rgb(5 13 28 / 35%);
+}
+
+.m2-theme .v2-sheet-header h2 {
+  color: var(--m2-ink);
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 26px;
+}
+
+.m2-theme .v2-expense-sheet label,
+.m2-theme .v2-category-picker {
+  color: var(--m2-sub);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.m2-theme .v2-expense-sheet input {
+  border-color: var(--m2-line);
+  background: var(--m2-card);
+  color: var(--m2-ink);
+  font-size: 16px;
+}
+
+.m2-theme .v2-amount-input input {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 40px;
+  letter-spacing: -0.8px;
+  font-variant-numeric: tabular-nums;
+}
+
+.m2-theme .v2-amount-input > span {
+  color: var(--m2-sub);
+  font-size: 13px;
+}
+
+.m2-theme .v2-category-picker button {
+  min-height: 44px;
+  border-color: var(--m2-line);
+  background: var(--m2-card);
+  color: var(--m2-sub);
+  font-size: 13px;
+}
+
+.m2-theme .v2-category-picker button.is-selected {
+  border-color: var(--m2-accent);
+  background: var(--m2-accent-soft);
+  color: var(--m2-accent);
+}
+
+.m2-theme .v2-calendar-trigger {
+  border-color: var(--m2-line);
+  border-radius: 14px;
+  background: var(--m2-card);
+  color: var(--m2-ink);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.m2-theme .v2-calendar-trigger:focus-visible,
+.m2-theme .v2-calendar-trigger[aria-expanded="true"] {
+  border-color: var(--m2-accent);
+  box-shadow: 0 0 0 3px var(--m2-accent-soft);
+}
+
+.m2-theme .v2-calendar-popover {
+  border-color: var(--m2-line);
+  border-radius: 20px;
+  background: var(--m2-card);
+  color: var(--m2-ink);
+}
+
+.m2-theme .v2-calendar-popover button:focus-visible {
+  box-shadow: 0 0 0 3px var(--m2-accent-soft);
+}
+
+.m2-theme .v2-calendar-grid > button.is-selected {
+  color: var(--m2-on-accent);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .m2-theme .m2-nav__button:hover {
+    background: var(--m2-accent-soft);
+    color: var(--m2-accent);
+  }
+
+  .m2-theme .m2-menu__row:hover,
+  .m2-theme .m2-row:hover,
+  .m2-theme .m2-record:hover {
+    border-color: var(--m2-accent);
+  }
+
+  .m2-theme .m2-add:hover {
+    border-color: var(--m2-accent);
+    color: var(--m2-accent);
+  }
+
+  .m2-theme .button-primary:hover {
+    background: var(--m2-accent-pressed);
+    box-shadow: none;
+    transform: none;
+  }
+
+  .m2-theme .button-secondary:hover {
+    background: var(--m2-accent-soft);
+  }
+
+  .m2-theme .v2-calendar-grid > button:hover {
+    background: var(--m2-accent-soft);
+  }
+
+  .m2-theme .v2-category-picker button:hover {
+    border-color: var(--m2-accent);
+  }
+}
+
+@media (max-width: 360px) {
+  .m2-theme .v2-content {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+
+  .m2-theme .m2-topbar {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+}

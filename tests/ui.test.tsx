@@ -1152,6 +1152,11 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
   });
 
   it("confirms an unchanged missing-month debt through the real UI and application services", async () => {
+    // P-R1 特批：本用例断言写死在 2026-10，只有把系统时钟钉在 2026-10-01，
+    // 提交日期与断言才落在同一月份；否则会随真实日历漂移到运行当月。
+    // 仅冻结 Date（不冻结 setTimeout），业务断言与 afterEach 的 useRealTimers 均不变。
+    vi.useFakeTimers({ toFake: ["Date"] });
+    vi.setSystemTime(new Date(2026, 9, 1, 12));
     const db = new NodeSqliteDatabase();
     await migrateDatabase(db);
     await completeOnboarding(
@@ -1207,6 +1212,8 @@ describe("Phase 3 product UI（V2 兼容 36 例 · 待迁移 44 例）", () => {
       expect((within(dialog).getByLabelText("本月应还") as HTMLInputElement).value).toBe("");
       await user.click(screen.getByRole("button", { name: "保存并更新" }));
       await waitFor(() => expect(saveService).toHaveBeenCalledTimes(1));
+      // 补断言：实际传给保存服务的业务日期必须是 2026-10-01，锁定月份契约。
+      expect(saveService.mock.calls[0]?.[1]).toBe("2026-10-01");
       expect(screen.getByRole("dialog")).toBeTruthy();
       expect(
         await db.select("SELECT period_month FROM debt_revisions WHERE period_month='2026-10'"),
