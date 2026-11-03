@@ -498,7 +498,10 @@ export async function recordEssentialPayment(
   const repositories = new Repositories(db);
   const profile = await repositories.getProfile();
   if (!profile) throw new ApplicationDataError("INITIALIZATION_REQUIRED", "Profile is required.");
-  const items = await repositories.listEssentialExpensesAt(input.paidOn);
+  // Payment is a historical fact recorded against the item's *current* standing,
+  // not its standing as of paidOn — paidOn may legitimately predate the item's
+  // own effective date (backfilling a real past expense).
+  const items = await repositories.listEssentialExpenses();
   const item = items.find((row) => row.id === input.itemId);
   if (!item) throw new ApplicationDataError("ESSENTIAL_ITEM_NOT_FOUND", "Item does not exist.");
   if (!ESSENTIAL_CATEGORIES.has(item.category)) {
