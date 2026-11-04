@@ -188,6 +188,10 @@ function validateNewIncomeDrafts(
   return null;
 }
 
+export type MaintenanceDeactivation =
+  | { kind: "ESSENTIAL"; id: string; name: string; category: string; monthlyAmount: string }
+  | { kind: "CASH" | "ASSET" | "DEBT"; id: string };
+
 export function FinancialMaintenanceDialog({
   initial,
   loading,
@@ -196,6 +200,7 @@ export function FinancialMaintenanceDialog({
   onLoad,
   onSave,
   getRequirement,
+  onDeactivate,
 }: {
   initial: FinancialMaintenanceState | null;
   loading: boolean;
@@ -206,11 +211,15 @@ export function FinancialMaintenanceDialog({
   getRequirement: (
     patch: FinancialMaintenancePatch,
   ) => Promise<{ requiresSafetyRecoveryHorizon: boolean }>;
+  onDeactivate?: ((target: MaintenanceDeactivation) => Promise<void>) | undefined;
 }) {
   const [form, setForm] = useState<MaintenanceForm | null>(initial ? fromState(initial) : null);
   const [showRecoveryHorizon, setShowRecoveryHorizon] = useState(false);
   const [saving, setSaving] = useState(false);
   const [prevalidationError, setPrevalidationError] = useState("");
+  const [pendingDeactivate, setPendingDeactivate] = useState<string | null>(null);
+  const [deactivating, setDeactivating] = useState(false);
+  const [deactivateError, setDeactivateError] = useState("");
   const titleRef = useRef<HTMLHeadingElement>(null);
   const dialogRef = useRef<HTMLElement>(null);
   const history = initial?.history ?? [];
@@ -252,6 +261,88 @@ export function FinancialMaintenanceDialog({
   function update<K extends keyof MaintenanceForm>(key: K, value: MaintenanceForm[K]) {
     setPrevalidationError("");
     setForm((current) => (current ? { ...current, [key]: value } : current));
+  }
+
+  /** 停用成功后把该行移出编辑面；其余未保存修改保留。服务写入不混进 buildPatch。 */
+  async function confirmDeactivate(target: MaintenanceDeactivation) {
+    if (!onDeactivate || deactivating) return;
+    setDeactivating(true);
+    setDeactivateError("");
+    try {
+      await onDeactivate(target);
+      const strip = <T extends { id?: string }>(rows: T[]) =>
+        rows.filter((row) => row.id !== target.id);
+      setForm((current) =>
+        !current
+          ? current
+          : target.kind === "ESSENTIAL"
+            ? { ...current, essentialExpenses: strip(current.essentialExpenses) }
+            : target.kind === "CASH"
+              ? { ...current, cashAccounts: strip(current.cashAccounts) }
+              : target.kind === "ASSET"
+                ? { ...current, assets: strip(current.assets) }
+                : { ...current, debts: strip(current.debts) },
+      );
+      setPendingDeactivate(null);
+    } catch {
+      setDeactivateError("停用未完成，请返回列表核对结果。");
+    } finally {
+      setDeactivating(false);
+    }
+  }
+
+  /** 停用写入用打开弹窗时的原值（initial），不把未保存编辑冻结进历史留痕。 */
+  function essentialDeactivateTarget(id: string): MaintenanceDeactivation | null {
+    const original = initial?.essentialExpenses.find((row) => row.id === id);
+    return original
+      ? {
+          kind: "ESSENTIAL",
+          id,
+          name: original.name,
+          category: original.category,
+          monthlyAmount: original.monthlyAmount,
+        }
+      : null;
+  }
+
+  function deactivateControl(target: MaintenanceDeactivation | null) {
+    if (!onDeactivate || !target) return null;
+    const key = `${target.kind}:${target.id}`;
+    if (pendingDeactivate === key)
+      return (
+        <span>
+          <span className="field-hint">历史记录会保留；停用后，该项目将不再参与后续计算。</span>
+          <button
+            className="text-button"
+            type="button"
+            disabled={deactivating}
+            onClick={() => void confirmDeactivate(target)}
+          >
+            确认停用
+          </button>
+          <button
+            className="text-button"
+            type="button"
+            disabled={deactivating}
+            onClick={() => setPendingDeactivate(null)}
+          >
+            取消
+          </button>
+        </span>
+      );
+    return (
+      <button
+        className="text-button"
+        type="button"
+        disabled={deactivating}
+        onClick={() => {
+          setDeactivateError("");
+          setPendingDeactivate(key);
+        }}
+      >
+        停用
+      </button>
+    );
   }
 
   async function submit(event: FormEvent<HTMLFormElement>) {
@@ -468,6 +559,7 @@ export function FinancialMaintenanceDialog({
                       }
                     />
                   </label>
+                  {item.id && deactivateControl(essentialDeactivateTarget(item.id))}
                 </div>
               ))}
               <button
@@ -534,6 +626,7 @@ export function FinancialMaintenanceDialog({
                     />
                     计入安全储备
                   </label>
+                  {item.id && deactivateControl({ kind: "CASH", id: item.id })}
                 </div>
               ))}
               <button
@@ -600,6 +693,7 @@ export function FinancialMaintenanceDialog({
                     />
                     计入安全储备
                   </label>
+                  {item.id && deactivateControl({ kind: "ASSET", id: item.id })}
                 </div>
               ))}
               <button
@@ -701,6 +795,7 @@ export function FinancialMaintenanceDialog({
                     />
                     此卡用于日常消费
                   </label>
+                  {item.id && deactivateControl({ kind: "DEBT", id: item.id })}
                 </div>
               ))}
               <button
@@ -823,9 +918,9 @@ export function FinancialMaintenanceDialog({
                 })
               )}
             </section>
-            {(prevalidationError || error) && (
+            {(prevalidationError || error || deactivateError) && (
               <p className="form-error" role="alert">
-                {prevalidationError || error}
+                {prevalidationError || error || deactivateError}
               </p>
             )}
             <div className="dialog-actions">

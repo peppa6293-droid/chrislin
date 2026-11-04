@@ -1032,7 +1032,8 @@ export class Repositories {
       )
       SELECT i.id,COALESCE(m.category,i.category) AS category,COALESCE(m.name,i.name) AS name,l.monthly_amount
       FROM essential_expense_items i JOIN latest l ON l.item_id=i.id JOIN latest_meta m ON m.item_id=i.id
-      WHERE i.active=1 AND m.active=1 ORDER BY i.id`,
+      -- 有修订历史时活跃状态只认 as-of 修订；无修订的旧数据回退到基表 active。
+      WHERE (i.active=1 OR EXISTS(SELECT 1 FROM essential_expense_revisions r WHERE r.item_id=i.id)) AND m.active=1 ORDER BY i.id`,
       [asOfDate, asOfDate, asOfDate, asOfDate],
     );
     return rows.map((row) => ({
@@ -1723,20 +1724,20 @@ export class Repositories {
   ): Promise<{ id: string; name: string; fixedMonthlyPayment: string | null } | null> {
     const rows = await this.db.select(
       `WITH payment_versions AS (
-        SELECT d.id AS debt_id,'0000-00' AS effective_month,d.created_at AS as_of_date,d.name,d.fixed_monthly_payment,0 AS revision_id
+        SELECT d.id AS debt_id,'0000-00' AS effective_month,d.created_at AS as_of_date,d.name,d.fixed_monthly_payment,d.active,0 AS revision_id
         FROM debts d
         UNION ALL
-        SELECT debt_id,period_month,as_of_date,name,fixed_monthly_payment,revision_id
+        SELECT debt_id,period_month,as_of_date,name,fixed_monthly_payment,active,revision_id
         FROM debt_revisions WHERE period_month<=? AND as_of_date<=?
       ), latest_payment AS (
-        SELECT debt_id,name,fixed_monthly_payment FROM (
+        SELECT debt_id,name,fixed_monthly_payment,active FROM (
           SELECT *,ROW_NUMBER() OVER(PARTITION BY debt_id ORDER BY effective_month DESC,as_of_date DESC,revision_id DESC) AS row_num
           FROM payment_versions
         ) WHERE row_num=1
       )
       SELECT d.id,COALESCE(p.name,d.name) AS name,p.fixed_monthly_payment
       FROM debts d LEFT JOIN latest_payment p ON p.debt_id=d.id
-      WHERE d.id=? AND d.active=1`,
+      WHERE d.id=? AND d.active=1 AND COALESCE(p.active,d.active)=1`,
       [targetMonth, asOfDate, debtId],
     );
     const row = rows[0];

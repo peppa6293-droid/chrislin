@@ -96,6 +96,7 @@ export function M2FixedExpensesPage({
   onConfirmPay,
   onStartOperation,
   onCloseOperation,
+  onDeactivateItem,
   onBack,
 }: {
   services: ProductApplicationServices;
@@ -107,6 +108,7 @@ export function M2FixedExpensesPage({
   onConfirmPay: (draft: PayDraft) => void;
   onStartOperation: () => void;
   onCloseOperation: () => void;
+  onDeactivateItem: (item: EssentialItem) => Promise<void>;
   onBack: () => void;
 }) {
   const month = asOfDate.slice(0, 7);
@@ -133,6 +135,9 @@ export function M2FixedExpensesPage({
   // 冻结屏只允许「返回查看」一次本屏展示；重新进入页面时回到冻结屏本身。
   const [addBack, setAddBack] = useState(false);
   const [payBack, setPayBack] = useState(false);
+  const [confirmingDeactivate, setConfirmingDeactivate] = useState<string | null>(null);
+  const [deactivateBusy, setDeactivateBusy] = useState(false);
+  const [deactivateError, setDeactivateError] = useState("");
 
   const load = useCallback(async () => {
     setPhase("LOADING");
@@ -249,6 +254,21 @@ export function M2FixedExpensesPage({
     setPayDuplicatePending(false);
     setPayNotice("");
     setPayError("");
+  }
+
+  /** 停用走独立回调（不进 buildPatch）；成功后宿主 bump dataVersion 让本页重读清单。 */
+  async function runDeactivate(item: EssentialItem) {
+    if (deactivateBusy) return;
+    setDeactivateBusy(true);
+    setDeactivateError("");
+    try {
+      await onDeactivateItem(item);
+      setConfirmingDeactivate(null);
+    } catch {
+      setDeactivateError("停用未完成，请返回列表核对结果。");
+    } finally {
+      setDeactivateBusy(false);
+    }
   }
 
   async function submitPayForm() {
@@ -647,6 +667,11 @@ export function M2FixedExpensesPage({
               {operation.message}
             </p>
           )}
+          {deactivateError && (
+            <p className="m2-error" role="alert">
+              {deactivateError}
+            </p>
+          )}
           <section className="v2-card m2-summary" aria-label="本月合计">
             <div className="m2-summary__cell">
               <span>本月预计</span>
@@ -675,15 +700,51 @@ export function M2FixedExpensesPage({
                         该项{viewLabel}已记录支付 {formatCurrency(paidForItem(item.id))}
                       </span>
                     </div>
-                    {!blocking && (
-                      <button
-                        className="button button-secondary m2-row__action"
-                        type="button"
-                        aria-label={`记一笔 ${item.name}`}
-                        onClick={() => openPayForm(item)}
-                      >
-                        记一笔
-                      </button>
+                    {!blocking && confirmingDeactivate !== item.id && (
+                      <div>
+                        <button
+                          className="button button-secondary m2-row__action"
+                          type="button"
+                          aria-label={`记一笔 ${item.name}`}
+                          onClick={() => openPayForm(item)}
+                        >
+                          记一笔
+                        </button>
+                        <button
+                          className="button button-secondary m2-row__action"
+                          type="button"
+                          aria-label={`停用 ${item.name}`}
+                          onClick={() => {
+                            setDeactivateError("");
+                            setConfirmingDeactivate(item.id);
+                          }}
+                        >
+                          停用
+                        </button>
+                      </div>
+                    )}
+                    {!blocking && confirmingDeactivate === item.id && (
+                      <div>
+                        <p className="m2-note">
+                          历史记录会保留；停用后，该项目将不再参与后续计算。
+                        </p>
+                        <button
+                          className="button button-secondary"
+                          type="button"
+                          disabled={deactivateBusy}
+                          onClick={() => setConfirmingDeactivate(null)}
+                        >
+                          取消
+                        </button>
+                        <button
+                          className="button button-primary"
+                          type="button"
+                          disabled={deactivateBusy}
+                          onClick={() => void runDeactivate(item)}
+                        >
+                          确认停用
+                        </button>
+                      </div>
                     )}
                   </li>
                 ))}

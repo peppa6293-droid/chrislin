@@ -1,11 +1,20 @@
 import { BarChart3, ChevronRight, Home as HomeIcon, ListChecks, Wallet } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import type {
+  FinancialMaintenancePatch,
+  FinancialMaintenanceState,
+} from "../application/financial-maintenance-service.js";
 import type { ExpenseSubmission, HomeApplicationState } from "../application/product-service.js";
 import type { EssentialPaymentRecord } from "../application/ux-ledger-service.js";
 import { money } from "../model/money.js";
+import type { ExpenseCategory } from "../model/types.js";
 import type { ApplicationDataError } from "../persistence/database.js";
 import type { ProductApplicationServices } from "./contracts.js";
 import { localDate } from "./date.js";
+import {
+  FinancialMaintenanceDialog,
+  type MaintenanceDeactivation,
+} from "./FinancialMaintenanceDialog.js";
 import { M1Home } from "./M1Home.js";
 import { M2FixedExpensesPage } from "./M2FixedExpensesPage.js";
 import type { DeductionAccountOption, ExpenseSaveReceipt } from "./V2HomeSurface.js";
@@ -132,7 +141,13 @@ export function M2FinanceRoute({
   const [operation, setOperation] = useState<FixedExpenseOperation | null>(null);
   const [dataVersion, setDataVersion] = useState(0);
   const [deductionAccounts, setDeductionAccounts] = useState<DeductionAccountOption[]>([]);
+  const [maintenanceOpen, setMaintenanceOpen] = useState(false);
+  const [maintenanceData, setMaintenanceData] = useState<FinancialMaintenanceState | null>(null);
+  const [maintenanceLoading, setMaintenanceLoading] = useState(false);
+  const [maintenanceError, setMaintenanceError] = useState("");
   // 扣减下拉走 S1 维护状态（现金账户 + 记账卡），不碰 V2 accounts 表。
+  // dataVersion 变化=停用/保存后重读，已停用账户不再出现在下拉里。
+  // biome-ignore lint/correctness/useExhaustiveDependencies: dataVersion 是重读触发器，不是推导值
   useEffect(() => {
     let cancelled = false;
     services
@@ -152,7 +167,68 @@ export function M2FinanceRoute({
     return () => {
       cancelled = true;
     };
+  }, [services, asOfDate, dataVersion]);
+
+  const loadMaintenance = useCallback(async () => {
+    setMaintenanceLoading(true);
+    try {
+      setMaintenanceData(await services.getFinancialMaintenanceState(asOfDate));
+      setMaintenanceError("");
+    } catch {
+      setMaintenanceError("无法读取当前财务数据，请稍后重试。");
+    } finally {
+      setMaintenanceLoading(false);
+    }
   }, [services, asOfDate]);
+
+  /** 停用/软删除后：先读回首页，再让固定支出清单与扣减下拉重读。 */
+  const afterDeactivate = useCallback(async () => {
+    try {
+      onHome(await services.getHomeApplicationState(asOfDate));
+    } catch {
+      // 停用已落库；首页读回失败不改变结果，下次进入再刷新。
+    } finally {
+      setDataVersion((value) => value + 1);
+    }
+  }, [asOfDate, onHome, services]);
+
+  const deactivateEssential = useCallback(
+    async (item: { id: string; name: string; category: string; monthlyAmount: string }) => {
+      const result = await services.saveEssentialItems(
+        [
+          {
+            id: item.id,
+            name: item.name,
+            category: item.category as ExpenseCategory,
+            monthlyAmount: item.monthlyAmount,
+            active: false,
+          },
+        ],
+        asOfDate,
+      );
+      onHome(result.home);
+      setDataVersion((value) => value + 1);
+    },
+    [asOfDate, onHome, services],
+  );
+
+  const deactivateMaintenance = useCallback(
+    async (target: MaintenanceDeactivation) => {
+      if (target.kind === "ESSENTIAL") {
+        await deactivateEssential(target);
+        return;
+      }
+      const result =
+        target.kind === "CASH"
+          ? await services.deactivateCashAccount(target.id, asOfDate)
+          : target.kind === "ASSET"
+            ? await services.deactivateAsset(target.id, asOfDate)
+            : await services.deactivateDebt(target.id, asOfDate.slice(0, 7), asOfDate);
+      if (result.status !== "SAVED" && result.status !== "NO_CHANGE") throw new Error("停用未完成");
+      await afterDeactivate();
+    },
+    [afterDeactivate, asOfDate, deactivateEssential, services],
+  );
   // 异步链必须读到最新操作，不能依赖下一轮渲染的 state。
   const opRef = useRef<FixedExpenseOperation | null>(null);
   const seqRef = useRef(0);
@@ -517,6 +593,7 @@ export function M2FinanceRoute({
       onConfirmPay={confirmPay}
       onStartOperation={startOperation}
       onCloseOperation={closeOperation}
+      onDeactivateItem={deactivateEssential}
       onBack={() => setFixedExpensesOpen(false)}
     />
   );
@@ -542,6 +619,19 @@ export function M2FinanceRoute({
               >
                 <span>
                   <strong>固定支出</strong>
+                </span>
+                <ChevronRight size={17} aria-hidden="true" />
+              </button>
+              <button
+                className="m2-menu__row"
+                type="button"
+                onClick={() => {
+                  setMaintenanceOpen(true);
+                  void loadMaintenance();
+                }}
+              >
+                <span>
+                  <strong>资料维护</strong>
                 </span>
                 <ChevronRight size={17} aria-hidden="true" />
               </button>
@@ -583,6 +673,29 @@ export function M2FinanceRoute({
         })}
       </nav>
       {content}
+      {maintenanceOpen && (
+        <FinancialMaintenanceDialog
+          initial={maintenanceData}
+          loading={maintenanceLoading}
+          error={maintenanceError}
+          onClose={() => {
+            setMaintenanceOpen(false);
+            setMaintenanceData(null);
+          }}
+          onLoad={loadMaintenance}
+          getRequirement={(patch: FinancialMaintenancePatch) =>
+            services.getFinancialMaintenanceRequirement(patch, asOfDate)
+          }
+          onSave={async (patch: FinancialMaintenancePatch) => {
+            const result = await services.updateFinancialDataAndRecalculate(patch, asOfDate);
+            onHome(result.home);
+            setDataVersion((value) => value + 1);
+            setMaintenanceOpen(false);
+            setMaintenanceData(null);
+          }}
+          onDeactivate={deactivateMaintenance}
+        />
+      )}
     </div>
   );
 }
