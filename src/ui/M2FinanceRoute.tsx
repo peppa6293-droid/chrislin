@@ -1,5 +1,5 @@
 import { BarChart3, ChevronRight, Home as HomeIcon, ListChecks, Wallet } from "lucide-react";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { ExpenseSubmission, HomeApplicationState } from "../application/product-service.js";
 import type { EssentialPaymentRecord } from "../application/ux-ledger-service.js";
 import { money } from "../model/money.js";
@@ -8,7 +8,7 @@ import type { ProductApplicationServices } from "./contracts.js";
 import { localDate } from "./date.js";
 import { M1Home } from "./M1Home.js";
 import { M2FixedExpensesPage } from "./M2FixedExpensesPage.js";
-import type { ExpenseSaveReceipt } from "./V2HomeSurface.js";
+import type { DeductionAccountOption, ExpenseSaveReceipt } from "./V2HomeSurface.js";
 import "./m2-fixed-expenses.css";
 import "./m2-theme.css";
 
@@ -131,6 +131,28 @@ export function M2FinanceRoute({
   const [fixedExpensesOpen, setFixedExpensesOpen] = useState(false);
   const [operation, setOperation] = useState<FixedExpenseOperation | null>(null);
   const [dataVersion, setDataVersion] = useState(0);
+  const [deductionAccounts, setDeductionAccounts] = useState<DeductionAccountOption[]>([]);
+  // 扣减下拉走 S1 维护状态（现金账户 + 记账卡），不碰 V2 accounts 表。
+  useEffect(() => {
+    let cancelled = false;
+    services
+      .getFinancialMaintenanceState(asOfDate)
+      .then((state) => {
+        if (cancelled) return;
+        setDeductionAccounts([
+          ...state.cashAccounts.map((account) => ({ id: account.id, label: account.name })),
+          ...state.debts
+            .filter((debt) => debt.dailySpendingMode)
+            .map((debt) => ({ id: debt.id, label: `${debt.name}（记账卡）` })),
+        ]);
+      })
+      .catch(() => {
+        if (!cancelled) setDeductionAccounts([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [services, asOfDate]);
   // 异步链必须读到最新操作，不能依赖下一轮渲染的 state。
   const opRef = useRef<FixedExpenseOperation | null>(null);
   const seqRef = useRef(0);
@@ -501,7 +523,9 @@ export function M2FinanceRoute({
 
   let content: React.ReactNode;
   if (tab === "TODAY") {
-    content = <M1Home home={home} onRecordExpense={onRecordExpense} />;
+    content = (
+      <M1Home home={home} deductionAccounts={deductionAccounts} onRecordExpense={onRecordExpense} />
+    );
   } else if (tab === "MONEY") {
     content = fixedExpensesOpen ? (
       fixedExpenses

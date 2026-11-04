@@ -106,7 +106,7 @@ describe("Production composition root never applies TypeScript DDL", () => {
 
   it("bootstrap accepts an already-V8 Production database without any write", async () => {
     const db = fixture();
-    await migrateDatabase(db);
+    await migrateDatabase(db, "2026-10-22T00:00:00.000Z", 8);
     const before = snapshotDatabase(db);
 
     const result = await bootstrapTauriApplication({
@@ -146,9 +146,9 @@ describe("Production composition root never applies TypeScript DDL", () => {
   });
 });
 
-describe("isolated runtimes still own the TypeScript V1..V8 chain", () => {
+describe("isolated runtimes still own the TypeScript V1..V9 chain", () => {
   it.each(["com.personalfinance.console.smoke", "com.personalfinance.console.v4acceptance"])(
-    "bootstrap migrates an isolated V3 fixture to V8 for %s",
+    "bootstrap migrates an isolated V3 fixture to V9 for %s",
     async (identifier) => {
       const db = fixture();
       await migrateDatabase(db, "2026-10-22T00:00:00.000Z", 3);
@@ -159,9 +159,9 @@ describe("isolated runtimes still own the TypeScript V1..V8 chain", () => {
       });
 
       expect(result.status).toBe("INITIALIZATION_REQUIRED");
-      expect(await versionState(db)).toEqual({ userVersion: 8, migrationVersion: 8 });
+      expect(await versionState(db)).toEqual({ userVersion: 9, migrationVersion: 9 });
       expect(await db.select("SELECT version FROM schema_migrations ORDER BY version")).toEqual(
-        [1, 2, 3, 4, 5, 6, 7, 8].map((version) => ({ version })),
+        [1, 2, 3, 4, 5, 6, 7, 8, 9].map((version) => ({ version })),
       );
     },
   );
@@ -176,7 +176,7 @@ describe("isolated runtimes still own the TypeScript V1..V8 chain", () => {
     });
 
     expect(services.initialization.status).toBe("INITIALIZATION_REQUIRED");
-    expect(await versionState(db)).toEqual({ userVersion: 8, migrationVersion: 8 });
+    expect(await versionState(db)).toEqual({ userVersion: 9, migrationVersion: 9 });
   });
 });
 
@@ -194,9 +194,9 @@ describe("targetVersion is authoritative for the entire migration chain", () => 
     );
   });
 
-  it("defaults to the full V8 chain unchanged", async () => {
+  it("defaults to the full V9 chain unchanged", async () => {
     const db = fixture();
     await migrateDatabase(db);
-    expect(await versionState(db)).toEqual({ userVersion: 8, migrationVersion: 8 });
+    expect(await versionState(db)).toEqual({ userVersion: 9, migrationVersion: 9 });
   });
 });

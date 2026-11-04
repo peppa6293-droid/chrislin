@@ -284,15 +284,13 @@ export async function ensureV2LedgerDefaults(db: SqlDatabase): Promise<V2LedgerD
 /**
  * Quick-entry write through the D-01 dual-write service. The V1 mirror keeps the
  * fixed mapping kind=VARIABLE / category=OTHER_VARIABLE for every V2 category.
+ * asOfDate is the session business date and doubles as the deduction operation date.
  */
 export async function recordV2CashExpenseForDatabase(
   db: SqlDatabase,
   submission: ExpenseSubmission,
   asOfDate: string,
 ): Promise<{ expenseId: string }> {
-  // The V2 draft dates the expense by businessDate; asOfDate is accepted for a
-  // stable services signature but is not needed to build the ledger row.
-  void asOfDate;
   const defaults = await ensureV2LedgerDefaults(db);
   const expenseId = submission.id ?? globalThis.crypto.randomUUID();
   await new V2ExpenseService(new Repositories(db)).recordCashDebitExpense({
@@ -304,6 +302,9 @@ export async function recordV2CashExpenseForDatabase(
     categoryId: defaults.categoryIds[submission.category ?? "OTHER_VARIABLE"],
     description: submission.note ?? "",
     accountId: defaults.cashAccountId,
+    ...(submission.deductionAccountId
+      ? { deductionAccountId: submission.deductionAccountId, operationDate: asOfDate }
+      : {}),
   });
   return { expenseId };
 }

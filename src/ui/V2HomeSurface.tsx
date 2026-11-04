@@ -1058,16 +1058,21 @@ export function RecentExpenses({
   );
 }
 
+export type DeductionAccountOption = { id: string; label: string };
+
 export function ExpenseSheet({
   busy,
   blocked,
   error,
+  deductionAccounts,
   onClose,
   onSubmit,
 }: {
   busy: boolean;
   blocked: boolean;
   error: string;
+  /** S1 cash accounts plus spending-mode debt cards; omitted = deduction UI hidden. */
+  deductionAccounts?: readonly DeductionAccountOption[] | undefined;
   onClose: () => void;
   onSubmit: (expense: ExpenseSubmission) => Promise<void>;
 }) {
@@ -1075,6 +1080,8 @@ export function ExpenseSheet({
   const [businessDate, setBusinessDate] = useState(localIsoDate(new Date()));
   const [category, setCategory] = useState("");
   const [note, setNote] = useState("");
+  const [deducting, setDeducting] = useState(false);
+  const [deductionAccountId, setDeductionAccountId] = useState("");
   const [validationError, setValidationError] = useState("");
   const amountRef = useRef<HTMLInputElement>(null);
   const dialogRef = useRef<HTMLElement>(null);
@@ -1127,6 +1134,10 @@ export function ExpenseSheet({
       setValidationError("请选择有效的日期。");
       return;
     }
+    if (deducting && !deductionAccountId) {
+      setValidationError("请选择扣减账户。");
+      return;
+    }
     setValidationError("");
     const expense: ExpenseSubmission = {
       id: globalThis.crypto.randomUUID(),
@@ -1135,6 +1146,7 @@ export function ExpenseSheet({
       businessDate,
       ...(category ? { category: category as NonNullable<ExpenseSubmission["category"]> } : {}),
       ...(note.trim() ? { note: note.trim() } : {}),
+      ...(deducting && deductionAccountId ? { deductionAccountId } : {}),
     };
     void onSubmit(expense);
   }
@@ -1199,6 +1211,36 @@ export function ExpenseSheet({
               disabled={busy}
             />
           </div>
+          {deductionAccounts && deductionAccounts.length > 0 && (
+            <>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={deducting}
+                  onChange={(event) => setDeducting(event.target.checked)}
+                  disabled={busy}
+                />
+                从账户扣减
+              </label>
+              {deducting && (
+                <label>
+                  扣减账户
+                  <select
+                    value={deductionAccountId}
+                    onChange={(event) => setDeductionAccountId(event.target.value)}
+                    disabled={busy}
+                  >
+                    <option value="">请选择</option>
+                    {deductionAccounts.map((account) => (
+                      <option key={account.id} value={account.id}>
+                        {account.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              )}
+            </>
+          )}
           <label>
             备注（选填）
             <input

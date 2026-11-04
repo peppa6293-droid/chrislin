@@ -141,6 +141,8 @@ export interface ExpenseSubmission {
     "FOOD" | "TRANSPORT" | "SHOPPING" | "ENTERTAINMENT" | "HOUSEHOLD" | "OTHER_VARIABLE"
   >;
   note?: string;
+  /** S1 cash account or spending-mode debt card to deduct from; omit for no deduction. */
+  deductionAccountId?: string;
 }
 
 export async function getExpenseRecordById(

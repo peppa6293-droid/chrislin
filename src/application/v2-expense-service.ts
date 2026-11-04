@@ -31,6 +31,10 @@ export interface CashDebitExpenseDraft {
   categoryId: string;
   description: string;
   accountId: string;
+  /** S1 cash account or spending-mode debt card to deduct from; omit for no deduction. */
+  deductionAccountId?: string;
+  /** Session business date used as the operation date for the deduction. */
+  operationDate?: string;
 }
 
 export interface CreditInstallmentDraft {
@@ -156,6 +160,19 @@ export class V2ExpenseService {
     assertRequiredText(draft.profileId, "INVALID_PROFILE", "Profile id is required.");
     assertRequiredText(draft.accountId, "INVALID_EXPENSE_ACCOUNT", "Account id is required.");
     assertRequiredText(draft.currency, "INVALID_CURRENCY", "Currency is required.");
+    if (draft.deductionAccountId) {
+      assertRequiredText(
+        draft.deductionAccountId,
+        "INVALID_EXPENSE_ACCOUNT",
+        "Deduction account id is required.",
+      );
+      if (!draft.operationDate)
+        throw new ApplicationDataError(
+          "INVALID_EXPENSE_DATE",
+          "operationDate is required when deducting from an account.",
+        );
+      assertCalendarDate(draft.operationDate, "operationDate");
+    }
     await this.assertCategoryExists(draft.profileId, draft.categoryId);
 
     const expense = createCashDebitExpense({
@@ -170,13 +187,24 @@ export class V2ExpenseService {
     });
     const reconciliation = reconcileCashDebitExpense(expense);
     const createdAt = new Date().toISOString();
-    await this.repositories.createV2ExpenseWithLegacyMirror(expense, {
-      amount: expense.amount,
-      occurredAt: `${expense.occurredOn}T00:00:00.000Z`,
-      businessDate: expense.occurredOn,
-      note: expense.description === "" ? null : expense.description,
-      createdAt,
-    });
+    await this.repositories.createV2ExpenseWithLegacyMirror(
+      expense,
+      {
+        amount: expense.amount,
+        occurredAt: `${expense.occurredOn}T00:00:00.000Z`,
+        businessDate: expense.occurredOn,
+        note: expense.description === "" ? null : expense.description,
+        createdAt,
+      },
+      draft.deductionAccountId && draft.operationDate
+        ? {
+            accountId: draft.deductionAccountId,
+            amount: expense.amount,
+            paymentDate: expense.occurredOn,
+            operationDate: draft.operationDate,
+          }
+        : undefined,
+    );
     const stored = await this.repositories.getV2ExpenseById(expense.id);
     if (stored?.kind !== "CASH_DEBIT") {
       throw new ApplicationDataError(

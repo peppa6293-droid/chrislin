@@ -1,6 +1,6 @@
 import type { SchemaMigrationBoundary, SqlDatabase } from "./database.js";
 
-export const CURRENT_SCHEMA_VERSION = 8;
+export const CURRENT_SCHEMA_VERSION = 9;
 
 interface SchemaVersionState {
   userVersion: number;
@@ -364,6 +364,13 @@ CREATE INDEX IF NOT EXISTS fixed_expense_plans_profile_lookup
 PRAGMA user_version = 8;
 `;
 
+const migrationV9 = `
+ALTER TABLE cash_account_revisions ADD COLUMN source_payment_id TEXT;
+ALTER TABLE debt_revisions ADD COLUMN source_payment_id TEXT;
+ALTER TABLE debts ADD COLUMN daily_spending_mode INTEGER NOT NULL DEFAULT 0 CHECK(daily_spending_mode IN (0,1));
+PRAGMA user_version = 9;
+`;
+
 export const MIGRATION_SQL: Readonly<Record<number, string>> = Object.freeze({
   3: migrationV3,
   4: migrationV4,
@@ -371,6 +378,7 @@ export const MIGRATION_SQL: Readonly<Record<number, string>> = Object.freeze({
   6: migrationV6,
   7: migrationV7,
   8: migrationV8,
+  9: migrationV9,
 });
 
 export async function migrateDatabase(
@@ -531,6 +539,20 @@ export async function migrateDatabase(
         }
         await transactionDb.execute(
           "INSERT INTO schema_migrations(version, applied_at) VALUES(8, ?)",
+          [now],
+        );
+      });
+    }
+    if (applied < 9 && targetVersion >= 9) {
+      await db.transaction(async (transactionDb) => {
+        for (const statement of migrationV9
+          .split(";")
+          .map((part) => part.trim())
+          .filter(Boolean)) {
+          await transactionDb.execute(statement);
+        }
+        await transactionDb.execute(
+          "INSERT INTO schema_migrations(version, applied_at) VALUES(9, ?)",
           [now],
         );
       });

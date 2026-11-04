@@ -103,6 +103,15 @@ export interface MaintenanceDebt {
   currentBalance: string;
   currentMonthDue: string | null;
   fixedMonthlyPayment: string | null;
+  dailySpendingMode?: boolean;
+}
+
+/** Deduction target resolved from the S1 cash accounts or a spending-mode debt card. */
+export interface PaymentDeductionInput {
+  accountId: string;
+  amount: string;
+  paymentDate: string;
+  operationDate: string;
 }
 
 export type PlanningIncomeMonthDecision =
@@ -900,6 +909,7 @@ export class Repositories {
     asOfDate: string,
     now: string,
     createId: () => string,
+    sourcePaymentId?: string,
   ): Promise<string> {
     const id = item.id ?? createId();
     const balance = requireStoredUserInputMoney(item.balance);
@@ -910,8 +920,16 @@ export class Repositories {
         now,
       );
     await this.db.execute(
-      "INSERT INTO cash_account_revisions(account_id,as_of_date,name,include_in_safety_resources,balance,created_at) VALUES(?,?,?,?,?,?)",
-      [id, asOfDate, item.name, Number(item.includeInSafetyResources), balance, now],
+      "INSERT INTO cash_account_revisions(account_id,as_of_date,name,include_in_safety_resources,balance,created_at,source_payment_id) VALUES(?,?,?,?,?,?,?)",
+      [
+        id,
+        asOfDate,
+        item.name,
+        Number(item.includeInSafetyResources),
+        balance,
+        now,
+        sourcePaymentId ?? null,
+      ],
     );
     return id;
   }
@@ -950,17 +968,26 @@ export class Repositories {
     asOfDate: string,
     now: string,
     createId: () => string,
+    sourcePaymentId?: string,
   ): Promise<string> {
     const id = item.id ?? createId();
     const balance = requireStoredUserInputMoney(item.currentBalance);
     if (!(await this.exists("debts", id)))
       await this.createDebt(
-        { id, name: item.name, fixedMonthlyPayment: item.fixedMonthlyPayment },
+        {
+          id,
+          name: item.name,
+          fixedMonthlyPayment: item.fixedMonthlyPayment,
+          // Leave the column untouched on V8 databases until a mode is actually set.
+          ...(item.dailySpendingMode === undefined
+            ? {}
+            : { dailySpendingMode: item.dailySpendingMode }),
+        },
         profileId,
         now,
       );
     await this.db.execute(
-      `INSERT INTO debt_revisions(debt_id,period_month,as_of_date,name,current_balance,current_month_due,fixed_monthly_payment,active,created_at) VALUES(?,?,?,?,?,?,?,1,?)`,
+      `INSERT INTO debt_revisions(debt_id,period_month,as_of_date,name,current_balance,current_month_due,fixed_monthly_payment,active,created_at,source_payment_id) VALUES(?,?,?,?,?,?,?,1,?,?)`,
       [
         id,
         periodMonth,
@@ -972,6 +999,7 @@ export class Repositories {
           ? null
           : requireStoredUserInputMoney(item.fixedMonthlyPayment),
         now,
+        sourcePaymentId ?? null,
       ],
     );
     return id;
@@ -1606,23 +1634,61 @@ export class Repositories {
   }
 
   async createDebt(
-    input: { id: string; name: string; fixedMonthlyPayment: string | null; active?: boolean },
+    input: {
+      id: string;
+      name: string;
+      fixedMonthlyPayment: string | null;
+      active?: boolean;
+      dailySpendingMode?: boolean;
+    },
     profileId: string,
     createdAt = new Date().toISOString(),
   ): Promise<void> {
+    const base = [
+      input.id,
+      profileId,
+      input.name,
+      input.fixedMonthlyPayment === null
+        ? null
+        : requireStoredUserInputMoney(input.fixedMonthlyPayment),
+      Number(input.active ?? true),
+      createdAt,
+    ];
+    if (input.dailySpendingMode === undefined) {
+      await this.db.execute(
+        "INSERT INTO debts(id,profile_id,name,fixed_monthly_payment,active,created_at) VALUES(?,?,?,?,?,?)",
+        base,
+      );
+      return;
+    }
     await this.db.execute(
-      "INSERT INTO debts(id,profile_id,name,fixed_monthly_payment,active,created_at) VALUES(?,?,?,?,?,?)",
-      [
-        input.id,
-        profileId,
-        input.name,
-        input.fixedMonthlyPayment === null
-          ? null
-          : requireStoredUserInputMoney(input.fixedMonthlyPayment),
-        Number(input.active ?? true),
-        createdAt,
-      ],
+      "INSERT INTO debts(id,profile_id,name,fixed_monthly_payment,active,created_at,daily_spending_mode) VALUES(?,?,?,?,?,?,?)",
+      [...base, Number(input.dailySpendingMode)],
     );
+  }
+
+  async setDebtDailySpendingMode(
+    profileId: string,
+    debtId: string,
+    enabled: boolean,
+  ): Promise<void> {
+    const result = await this.db.execute(
+      "UPDATE debts SET daily_spending_mode=? WHERE id=? AND profile_id=?",
+      [Number(enabled), debtId, profileId],
+    );
+    if (result.rowsAffected === 0)
+      throw new ApplicationDataError("RECORD_NOT_FOUND", `Debt ${debtId} does not exist.`);
+  }
+
+  async listDebtDailySpendingModes(profileId: string): Promise<Map<string, boolean>> {
+    const columns = await this.db.select<{ name: string }>("PRAGMA table_info(debts)");
+    // Pre-V9 databases have no mode column; report the default until they migrate.
+    if (!columns.some((column) => column.name === "daily_spending_mode")) return new Map();
+    const rows = await this.db.select(
+      "SELECT id,daily_spending_mode FROM debts WHERE profile_id=?",
+      [profileId],
+    );
+    return new Map(rows.map((row) => [text(row, "id"), bool(row, "daily_spending_mode")]));
   }
 
   async saveDebtPeriodFact(
@@ -2112,9 +2178,11 @@ export class Repositories {
       note: string | null;
       createdAt: string;
     },
+    deduction?: PaymentDeductionInput,
   ): Promise<void> {
     await this.db.transaction(async (transactionDb) => {
-      await new Repositories(transactionDb).createV2Expense(expense, legacy.createdAt);
+      const transactionRepositories = new Repositories(transactionDb);
+      await transactionRepositories.createV2Expense(expense, legacy.createdAt);
       await transactionDb.execute(
         `INSERT INTO expense_records(id,profile_id,amount,occurred_at,kind,category,note,created_at,business_date)
          VALUES(?,?,?,?,?,?,?,?,?)`,
@@ -2130,7 +2198,189 @@ export class Repositories {
           legacy.businessDate,
         ],
       );
+      if (deduction)
+        await transactionRepositories.applyPaymentDeduction(
+          expense.profileId,
+          expense.id,
+          deduction,
+        );
     });
+  }
+
+  /**
+   * Writes the deduction revision(s) for one payment inside the caller's transaction.
+   * Backdated payments leave the historical trail at the payment date and adjust the
+   * current value on the operation date; snapshot/fact write-through only happens on
+   * the operation side. A future-dated payment gets only its dated revision.
+   */
+  private async applyPaymentDeduction(
+    profileId: string,
+    paymentId: string,
+    input: PaymentDeductionInput,
+  ): Promise<void> {
+    const amount = money(requireStoredUserInputMoney(input.amount));
+    const now = `${input.operationDate}T00:00:00.000Z`;
+    const cash = (
+      await this.db.select(
+        "SELECT id FROM cash_accounts WHERE id=? AND profile_id=? AND active=1",
+        [input.accountId, profileId],
+      )
+    )[0];
+    if (cash) {
+      const atPayment = (await this.cashAccountsAt(input.paymentDate, profileId)).find(
+        (account) => account.id === input.accountId,
+      );
+      const atOperation = (await this.cashAccountsAt(input.operationDate, profileId)).find(
+        (account) => account.id === input.accountId,
+      );
+      if (!atPayment || !atOperation)
+        throw new ApplicationDataError(
+          "DEDUCTION_ACCOUNT_NOT_FOUND",
+          `Cash account ${input.accountId} has no balance at the payment date.`,
+        );
+      const latest = (
+        await this.db.select<{ as_of_date: string }>(
+          `WITH versions AS (
+             SELECT as_of_date,0 AS revision_id FROM cash_balance_snapshots WHERE account_id=? AND as_of_date<=?
+             UNION ALL SELECT as_of_date,revision_id FROM cash_account_revisions WHERE account_id=? AND as_of_date<=?
+           ) SELECT as_of_date FROM versions ORDER BY as_of_date DESC,revision_id DESC LIMIT 1`,
+          [input.accountId, input.operationDate, input.accountId, input.operationDate],
+        )
+      )[0];
+      const backdated = latest !== undefined && input.paymentDate < latest.as_of_date;
+      const currentValue = money(atOperation.balance).minus(amount).toString();
+      if (backdated)
+        await this.appendCashRevision(
+          profileId,
+          {
+            id: input.accountId,
+            name: atPayment.name,
+            includeInSafetyResources: atPayment.includeInSafetyResources,
+            balance: money(atPayment.balance).minus(amount).toString(),
+          },
+          input.paymentDate,
+          now,
+          () => input.accountId,
+          paymentId,
+        );
+      await this.appendCashRevision(
+        profileId,
+        {
+          id: input.accountId,
+          name: atOperation.name,
+          includeInSafetyResources: atOperation.includeInSafetyResources,
+          balance: currentValue,
+        },
+        input.operationDate,
+        now,
+        () => input.accountId,
+        paymentId,
+      );
+      if (input.paymentDate <= input.operationDate)
+        await this.saveCashSnapshot(
+          {
+            id: globalThis.crypto.randomUUID(),
+            accountId: input.accountId,
+            asOfDate: input.operationDate,
+            balance: currentValue,
+          },
+          now,
+        );
+      return;
+    }
+
+    const debt = (
+      await this.db.select(
+        "SELECT id,daily_spending_mode FROM debts WHERE id=? AND profile_id=? AND active=1",
+        [input.accountId, profileId],
+      )
+    )[0];
+    if (!debt)
+      throw new ApplicationDataError(
+        "DEDUCTION_ACCOUNT_NOT_FOUND",
+        `Deduction account ${input.accountId} does not exist.`,
+      );
+    if (!bool(debt, "daily_spending_mode"))
+      throw new ApplicationDataError(
+        "DEDUCTION_ACCOUNT_NOT_ENABLED",
+        `Debt ${input.accountId} is not in daily-spending mode.`,
+      );
+    const operationMonth = input.operationDate.slice(0, 7);
+    const atPayment = (
+      await this.debtsAt(input.paymentDate.slice(0, 7), input.paymentDate, true, profileId)
+    ).find((item) => item.id === input.accountId);
+    const atOperation = (
+      await this.debtsAt(operationMonth, input.operationDate, true, profileId)
+    ).find((item) => item.id === input.accountId);
+    if (!atPayment || !atOperation)
+      throw new ApplicationDataError(
+        "MISSING_DEBT_SNAPSHOT",
+        `Debt ${input.accountId} has no balance fact for the payment or operation month.`,
+      );
+    const latest = (
+      await this.db.select<{ as_of_date: string }>(
+        `WITH versions AS (
+           SELECT as_of_date,0 AS revision_id FROM debt_period_facts WHERE debt_id=? AND period_month<=? AND as_of_date<=?
+           UNION ALL SELECT as_of_date,revision_id FROM debt_revisions WHERE debt_id=? AND period_month<=? AND as_of_date<=?
+         ) SELECT as_of_date FROM versions ORDER BY as_of_date DESC,revision_id DESC LIMIT 1`,
+        [
+          input.accountId,
+          operationMonth,
+          input.operationDate,
+          input.accountId,
+          operationMonth,
+          input.operationDate,
+        ],
+      )
+    )[0];
+    const backdated = latest !== undefined && input.paymentDate < latest.as_of_date;
+    const currentBalance = money(atOperation.currentBalance).plus(amount).toString();
+    // debtsAt hands back stored strings, but Debt types them as MoneyInput.
+    const dueOf = (value: DebtRecord["currentMonthDue"]): string | null =>
+      value == null ? null : requireStoredUserInputMoney(String(value));
+    if (backdated)
+      await this.appendDebtRevision(
+        profileId,
+        {
+          id: input.accountId,
+          name: atPayment.name,
+          currentBalance: money(atPayment.currentBalance).plus(amount).toString(),
+          currentMonthDue: dueOf(atPayment.currentMonthDue),
+          fixedMonthlyPayment: dueOf(atPayment.fixedMonthlyPayment),
+        },
+        input.paymentDate.slice(0, 7),
+        input.paymentDate,
+        now,
+        () => input.accountId,
+        paymentId,
+      );
+    await this.appendDebtRevision(
+      profileId,
+      {
+        id: input.accountId,
+        name: atOperation.name,
+        currentBalance,
+        currentMonthDue: dueOf(atOperation.currentMonthDue),
+        fixedMonthlyPayment: dueOf(atOperation.fixedMonthlyPayment),
+      },
+      operationMonth,
+      input.operationDate,
+      now,
+      () => input.accountId,
+      paymentId,
+    );
+    if (input.paymentDate <= input.operationDate)
+      await this.saveDebtPeriodFact(
+        {
+          id: globalThis.crypto.randomUUID(),
+          debtId: input.accountId,
+          periodMonth: operationMonth,
+          asOfDate: input.operationDate,
+          currentBalance,
+          currentMonthDue: dueOf(atOperation.currentMonthDue),
+        },
+        now,
+      );
   }
 
   private mapV2Expense(

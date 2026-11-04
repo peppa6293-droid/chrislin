@@ -39,8 +39,8 @@ afterEach(() => {
 });
 
 describe("forward schema guard", () => {
-  it("rejects user_version 9 and migration version 9 before any database write", async () => {
-    const db = fixture(9, 9);
+  it("rejects user_version 10 and migration version 10 before any database write", async () => {
+    const db = fixture(10, 10);
     const before = fileHash(db);
 
     await expect(migrateDatabase(db)).rejects.toThrow(/newer than this runtime/);
@@ -50,23 +50,23 @@ describe("forward schema guard", () => {
     });
   });
 
-  it("rejects user_version 9 when schema_migrations only reports 8 without writing", async () => {
-    const db = fixture(9, 8);
+  it("rejects user_version 10 when schema_migrations only reports 9 without writing", async () => {
+    const db = fixture(10, 9);
     const before = fileHash(db);
 
     await expect(migrateDatabase(db)).rejects.toThrow(/newer than this runtime/);
     expect(fileHash(db)).toBe(before);
   });
 
-  it("rejects schema_migrations version 9 when user_version reports 8 without writing", async () => {
-    const db = fixture(8, 9);
+  it("rejects schema_migrations version 10 when user_version reports 9 without writing", async () => {
+    const db = fixture(9, 10);
     const before = fileHash(db);
 
     await expect(migrateDatabase(db)).rejects.toThrow(/newer than this runtime/);
     expect(fileHash(db)).toBe(before);
   });
 
-  it("accepts an already-valid V8 database without migration writes", async () => {
+  it("accepts an already-valid V9 database without migration writes", async () => {
     const db = new NodeSqliteDatabase();
     databases.push(db);
     await migrateDatabase(db, "2026-10-08T00:00:00.000Z");
@@ -74,11 +74,11 @@ describe("forward schema guard", () => {
 
     await migrateDatabase(db, "2026-10-09T00:00:00.000Z");
 
-    expect(CURRENT_SCHEMA_VERSION).toBe(8);
+    expect(CURRENT_SCHEMA_VERSION).toBe(9);
     expect(Buffer.compare(snapshotDatabase(db), before)).toBe(0);
   });
 
-  it("allows an isolated valid V3 database to migrate to V8", async () => {
+  it("allows an isolated valid V3 database to migrate to V9", async () => {
     const db = new NodeSqliteDatabase();
     databases.push(db);
     await migrateDatabase(db, "2026-10-08T00:00:00.000Z", 3);
@@ -86,7 +86,7 @@ describe("forward schema guard", () => {
 
     await migrateDatabase(db, "2026-10-09T00:00:00.000Z");
 
-    expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 8 }]);
+    expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 9 }]);
     expect(await db.select("SELECT version FROM schema_migrations ORDER BY version")).toEqual([
       { version: 1 },
       { version: 2 },
@@ -96,6 +96,7 @@ describe("forward schema guard", () => {
       { version: 6 },
       { version: 7 },
       { version: 8 },
+      { version: 9 },
     ]);
   });
 });

@@ -57,8 +57,8 @@ function confirmedAlipayCandidates(batchId: string): ImportedExpenseCandidate[] 
 }
 
 describe("EXEC-I-04 official CSV import write, readback, and feedback", () => {
-  it("migrates fresh V0 to V8 and supports V6 to V8 incrementally", async () => {
-    expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 8 }]);
+  it("migrates fresh V0 to V9 and supports V6 to V9 incrementally", async () => {
+    expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 9 }]);
     expect(await db.select("SELECT version FROM schema_migrations ORDER BY version")).toEqual([
       { version: 1 },
       { version: 2 },
@@ -68,6 +68,7 @@ describe("EXEC-I-04 official CSV import write, readback, and feedback", () => {
       { version: 6 },
       { version: 7 },
       { version: 8 },
+      { version: 9 },
     ]);
     const expenseColumns = await db.select<{ name: string }>("PRAGMA table_info(expenses)");
     expect(expenseColumns.map((column) => column.name)).toContain("dedupe_key");
@@ -81,14 +82,17 @@ describe("EXEC-I-04 official CSV import write, readback, and feedback", () => {
     await db.connection.exec("DROP INDEX expenses_dedupe_unique");
     await db.connection.exec("ALTER TABLE expenses DROP COLUMN dedupe_key");
     await db.connection.exec("ALTER TABLE cash_accounts DROP COLUMN reserved_amount");
+    await db.connection.exec("ALTER TABLE cash_account_revisions DROP COLUMN source_payment_id");
+    await db.connection.exec("ALTER TABLE debt_revisions DROP COLUMN source_payment_id");
+    await db.connection.exec("ALTER TABLE debts DROP COLUMN daily_spending_mode");
     await db.connection.exec("DROP TABLE IF EXISTS income_entries");
     await db.connection.exec("DROP TABLE IF EXISTS fixed_expense_plans");
-    await db.connection.exec("DELETE FROM schema_migrations WHERE version IN (7,8)");
+    await db.connection.exec("DELETE FROM schema_migrations WHERE version IN (7,8,9)");
     await migrateDatabase(db, "2026-10-19T01:00:00.000Z");
-    expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 8 }]);
+    expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 9 }]);
     expect(
-      await db.select("SELECT COUNT(*) AS count FROM schema_migrations WHERE version IN (6,7,8)"),
-    ).toEqual([{ count: 3 }]);
+      await db.select("SELECT COUNT(*) AS count FROM schema_migrations WHERE version IN (6,7,8,9)"),
+    ).toEqual([{ count: 4 }]);
   });
 
   it("writes a fully successful batch and verifies every row and counter", async () => {

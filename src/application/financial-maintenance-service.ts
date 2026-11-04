@@ -132,6 +132,8 @@ export interface FinancialMaintenanceState {
     currentMonthDue: string | null;
     fixedMonthlyPayment: string | null;
     needsCurrentMonthFact: boolean;
+    /** Always returned by the real service; optional keeps older state literals compiling. */
+    dailySpendingMode?: boolean;
   }>;
   settings: {
     safetyCoverageTargetMonths: number;
@@ -172,6 +174,7 @@ type DebtPatch =
       currentBalance?: string;
       currentMonthDue?: string | null;
       fixedMonthlyPayment?: string | null;
+      dailySpendingMode?: boolean;
     }
   | {
       id?: never;
@@ -179,6 +182,7 @@ type DebtPatch =
       currentBalance: string;
       currentMonthDue?: string | null;
       fixedMonthlyPayment?: string | null;
+      dailySpendingMode?: boolean;
     };
 
 type MaintenanceSettingsPatch = Omit<Partial<FinancialSettings>, "safetyRecoveryHorizonMonths"> & {
@@ -321,15 +325,25 @@ export async function getFinancialMaintenanceState(
   const built = await buildMaintenanceModelInput(db, asOfDate);
   const repositories = new Repositories(db);
   const profile = await repositories.getProfile();
-  const [essentials, cash, assets, stablePlanningIncome, stableIncomeRevisions, historyRevisions] =
-    await Promise.all([
-      repositories.listEssentialExpensesAt(asOfDate),
-      repositories.cashAccountsAt(asOfDate),
-      repositories.assetsAt(asOfDate),
-      repositories.stablePlanningIncomeAt(asOfDate.slice(0, 7), asOfDate),
-      profile ? repositories.listStablePlanningIncomeRevisions(profile.id) : Promise.resolve([]),
-      profile ? repositories.listMaintenanceRevisionValues(profile.id) : Promise.resolve([]),
-    ]);
+  const [
+    essentials,
+    cash,
+    assets,
+    stablePlanningIncome,
+    stableIncomeRevisions,
+    historyRevisions,
+    debtSpendingModes,
+  ] = await Promise.all([
+    repositories.listEssentialExpensesAt(asOfDate),
+    repositories.cashAccountsAt(asOfDate),
+    repositories.assetsAt(asOfDate),
+    repositories.stablePlanningIncomeAt(asOfDate.slice(0, 7), asOfDate),
+    profile ? repositories.listStablePlanningIncomeRevisions(profile.id) : Promise.resolve([]),
+    profile ? repositories.listMaintenanceRevisionValues(profile.id) : Promise.resolve([]),
+    profile
+      ? repositories.listDebtDailySpendingModes(profile.id)
+      : Promise.resolve(new Map<string, boolean>()),
+  ]);
   const currentDebtFacts = await repositories.debtsAt(asOfDate.slice(0, 7), asOfDate, true);
   const currentDebtIds = new Set(currentDebtFacts.map((item) => item.id));
   const requirement = horizonRequirement(built);
@@ -356,6 +370,7 @@ export async function getFinancialMaintenanceState(
       fixedMonthlyPayment:
         item.fixedMonthlyPayment == null ? null : money(item.fixedMonthlyPayment).toString(),
       needsCurrentMonthFact: !currentDebtIds.has(item.id),
+      dailySpendingMode: debtSpendingModes.get(item.id) ?? false,
     })),
     settings: {
       safetyCoverageTargetMonths: built.settings.safetyCoverageTargetMonths,
@@ -440,8 +455,19 @@ export async function updateFinancialDataAndRecalculate(
       await repositories.appendCashRevision(profile.id, item, asOfDate, now, newId);
     for (const item of resolvePatchedRows(currentState.assets, patch.assets ?? [], newId))
       await repositories.appendAssetRevision(profile.id, item, asOfDate, now, newId);
-    for (const item of resolvePatchedRows(currentState.debts, patch.debts ?? [], newId))
-      await repositories.appendDebtRevision(profile.id, item, targetMonth, asOfDate, now, newId);
+    for (const item of resolvePatchedRows(currentState.debts, patch.debts ?? [], newId)) {
+      const debtId = await repositories.appendDebtRevision(
+        profile.id,
+        item,
+        targetMonth,
+        asOfDate,
+        now,
+        newId,
+      );
+      const priorMode = currentState.debts.find((row) => row.id === item.id)?.dailySpendingMode;
+      if (item.dailySpendingMode !== undefined && item.dailySpendingMode !== priorMode)
+        await repositories.setDebtDailySpendingMode(profile.id, debtId, item.dailySpendingMode);
+    }
     if (patch.settings !== undefined) {
       const settings = mergeSettings(prior.settings, patch.settings);
       if (!sameSettings(prior.settings, settings))

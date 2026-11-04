@@ -138,7 +138,8 @@ function buildPatch(
           original.name !== item.name ||
           original.currentBalance !== item.currentBalance ||
           original.currentMonthDue !== item.currentMonthDue ||
-          original.fixedMonthlyPayment !== item.fixedMonthlyPayment
+          original.fixedMonthlyPayment !== item.fixedMonthlyPayment ||
+          (original.dailySpendingMode ?? false) !== (item.dailySpendingMode ?? false)
       : Boolean(item.name.trim() && item.currentBalance.trim());
   });
   if (changedDebts.length)
@@ -148,6 +149,7 @@ function buildPatch(
       currentBalance: item.currentBalance,
       currentMonthDue: item.currentMonthDue,
       fixedMonthlyPayment: item.fixedMonthlyPayment,
+      dailySpendingMode: item.dailySpendingMode ?? false,
     }));
   const settingsPatch: NonNullable<FinancialMaintenancePatch["settings"]> = {};
   for (const key of [
@@ -684,6 +686,21 @@ export function FinancialMaintenanceDialog({
                       }
                     />
                   </label>
+                  <label className="maintenance-check">
+                    <input
+                      type="checkbox"
+                      checked={item.dailySpendingMode ?? false}
+                      onChange={(e) =>
+                        update(
+                          "debts",
+                          form.debts.map((row, i) =>
+                            i === index ? { ...row, dailySpendingMode: e.target.checked } : row,
+                          ),
+                        )
+                      }
+                    />
+                    此卡用于日常消费
+                  </label>
                 </div>
               ))}
               <button
@@ -698,6 +715,7 @@ export function FinancialMaintenanceDialog({
                       currentMonthDue: null,
                       fixedMonthlyPayment: null,
                       needsCurrentMonthFact: false,
+                      dailySpendingMode: false,
                     },
                   ])
                 }

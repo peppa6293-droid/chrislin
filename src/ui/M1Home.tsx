@@ -4,7 +4,12 @@ import type { ExpenseSubmission, HomeApplicationState } from "../application/pro
 import brandLogo from "./assets/finance/brand-wallet-sprout.svg";
 import { MoneyAmount } from "./MoneyAmount.js";
 import { formatCurrency } from "./money-format.js";
-import { type ExpenseSaveReceipt, ExpenseSheet, RecentExpenses } from "./V2HomeSurface.js";
+import {
+  type DeductionAccountOption,
+  type ExpenseSaveReceipt,
+  ExpenseSheet,
+  RecentExpenses,
+} from "./V2HomeSurface.js";
 
 /**
  * M1 home: this month's actual spending and the latest records.
@@ -15,9 +20,11 @@ import { type ExpenseSaveReceipt, ExpenseSheet, RecentExpenses } from "./V2HomeS
  */
 export function M1Home({
   home,
+  deductionAccounts,
   onRecordExpense,
 }: {
   home: HomeApplicationState;
+  deductionAccounts?: readonly DeductionAccountOption[] | undefined;
   onRecordExpense: (expense: ExpenseSubmission, asOfDate: string) => Promise<ExpenseSaveReceipt>;
 }) {
   const [open, setOpen] = useState(false);
@@ -135,6 +142,7 @@ export function M1Home({
           busy={busy}
           blocked={blocked}
           error={error}
+          deductionAccounts={deductionAccounts}
           onClose={() => setOpen(false)}
           onSubmit={save}
         />
