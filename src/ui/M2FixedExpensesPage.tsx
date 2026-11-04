@@ -1,8 +1,9 @@
 import { ChevronLeft, Plus } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { EssentialPaymentRecord } from "../application/ux-ledger-service.js";
 import { isValidUserInputMoney, MAX_SUPPORTED_MONEY, money } from "../model/money.js";
 import type { ProductApplicationServices } from "./contracts.js";
+import { shiftMonth } from "./DateField.js";
 import { localDate } from "./date.js";
 import type { FixedExpenseOperation } from "./M2FinanceRoute.js";
 import { formatCurrency } from "./money-format.js";
@@ -33,6 +34,9 @@ const CATEGORY_LABELS: Record<string, string> = Object.fromEntries(
 const CROSS_DAY_MESSAGE = "日期已变化，暂时不能添加。";
 const PAY_CROSS_DAY_MESSAGE = "日期已变化，暂时不能记录这笔付款。请完全退出应用后重新打开。";
 const FUTURE_DATE_MESSAGE = "不能填写未来的日期，请重新选择。";
+const DUPLICATE_PAYMENT_MESSAGE =
+  "这天已有一笔同额记录。请到该月记录核对；确认是另一笔后再点一次保存。";
+const DUPLICATE_CHECK_ERROR = "暂时无法核对已有记录，请稍后再试。";
 
 type EssentialItem = { id: string; name: string; category: string; monthlyAmount: string };
 type View = "LIST" | "ADD_FORM" | "ADD_CONFIRM" | "PAY_FORM";
@@ -106,6 +110,7 @@ export function M2FixedExpensesPage({
   onBack: () => void;
 }) {
   const month = asOfDate.slice(0, 7);
+  const [viewMonth, setViewMonth] = useState(month);
   const [phase, setPhase] = useState<"LOADING" | "READY" | "ERROR">("LOADING");
   const [items, setItems] = useState<EssentialItem[]>([]);
   const [payments, setPayments] = useState<EssentialPaymentRecord[]>([]);
@@ -120,6 +125,11 @@ export function M2FixedExpensesPage({
     note: "",
   });
   const [payError, setPayError] = useState("");
+  const [payNotice, setPayNotice] = useState("");
+  const [payChecking, setPayChecking] = useState(false);
+  const [payDuplicatePending, setPayDuplicatePending] = useState(false);
+  // 付款提交的本地防重入：检查完成前不派发，也不依赖宿主写锁兜底。
+  const payCheckBusy = useRef(false);
   // 冻结屏只允许「返回查看」一次本屏展示；重新进入页面时回到冻结屏本身。
   const [addBack, setAddBack] = useState(false);
   const [payBack, setPayBack] = useState(false);
@@ -129,7 +139,7 @@ export function M2FixedExpensesPage({
     try {
       const [nextItems, nextPayments] = await Promise.all([
         services.listEssentialPaymentItems(asOfDate),
-        services.listEssentialPayments(month),
+        services.listEssentialPayments(viewMonth),
       ]);
       setItems(nextItems);
       setPayments(nextPayments);
@@ -137,7 +147,12 @@ export function M2FixedExpensesPage({
     } catch {
       setPhase("ERROR");
     }
-  }, [services, asOfDate, month]);
+  }, [services, asOfDate, viewMonth]);
+
+  // 会话月变化时回到新的会话月；用户手动翻月不受影响。
+  useEffect(() => {
+    setViewMonth(month);
+  }, [month]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: dataVersion 是宿主派发的重载触发器，变化即需重读，不是推导值
   useEffect(() => {
@@ -166,6 +181,8 @@ export function M2FixedExpensesPage({
     setAddDraft(EMPTY_ADD);
     setAddError("");
     setPayError("");
+    setPayNotice("");
+    setPayDuplicatePending(false);
     setPayDraft({ itemId: "", itemName: "", amount: "", paidOn: asOfDate, note: "" });
   }, [operation?.phase, operation?.token, asOfDate]);
 
@@ -173,10 +190,11 @@ export function M2FixedExpensesPage({
   // 已完整核对的那张凭据只属于它自己的显示月份：与「已保存」同帧并入，
   // 不等重载回来才显示，避免成功提示和本月合计短暂互相矛盾；
   // 但跨月付款不得计入本月（F01），否则上月 300.20 会污染本月统计。
+  const viewLabel = viewMonth === month ? "本月" : viewMonth;
   const confirmedReceipt =
     operation?.phase === "CONFIRMED" &&
     operation.kind === "PAY" &&
-    operation.receipt?.paidOn.slice(0, 7) === month
+    operation.receipt?.paidOn.slice(0, 7) === viewMonth
       ? operation.receipt
       : null;
   const ledger = (() => {
@@ -221,25 +239,62 @@ export function M2FixedExpensesPage({
   function openPayForm(item: EssentialItem) {
     if (blocking) return;
     setPayError("");
+    setPayNotice("");
+    setPayDuplicatePending(false);
     setPayDraft({ itemId: item.id, itemName: item.name, amount: "", paidOn: asOfDate, note: "" });
     setView("PAY_FORM");
   }
 
-  function submitPayForm() {
-    if (blocking) return;
+  function resetDuplicateCheck() {
+    setPayDuplicatePending(false);
+    setPayNotice("");
+    setPayError("");
+  }
+
+  async function submitPayForm() {
+    if (blocking || payCheckBusy.current) return;
     const amountError = validatePaymentAmount(payDraft.amount);
     if (amountError) return setPayError(amountError);
     // 先判跨日：午夜后会话日期仍是昨天，先判未来会把真实的今天误报为未来。
     if (asOfDate !== localDate(new Date())) return setPayError(PAY_CROSS_DAY_MESSAGE);
     if (payDraft.paidOn > asOfDate) return setPayError(FUTURE_DATE_MESSAGE);
     setPayError("");
-    onConfirmPay({
+    const draft = {
       itemId: payDraft.itemId,
       itemName: payDraft.itemName,
       amount: payDraft.amount.trim(),
       paidOn: payDraft.paidOn,
       note: payDraft.note.trim(),
-    });
+    };
+    if (payDuplicatePending) {
+      setPayDuplicatePending(false);
+      setPayNotice("");
+      onConfirmPay(draft);
+      return;
+    }
+    payCheckBusy.current = true;
+    setPayChecking(true);
+    try {
+      const existing = await services.listEssentialPayments(payDraft.paidOn.slice(0, 7));
+      const amount = money(draft.amount);
+      const duplicate = existing.some(
+        (row) =>
+          row.itemId === draft.itemId &&
+          row.paidOn === draft.paidOn &&
+          money(row.amount).eq(amount),
+      );
+      if (duplicate) {
+        setPayDuplicatePending(true);
+        setPayNotice(DUPLICATE_PAYMENT_MESSAGE);
+        return;
+      }
+      onConfirmPay(draft);
+    } catch {
+      setPayError(DUPLICATE_CHECK_ERROR);
+    } finally {
+      payCheckBusy.current = false;
+      setPayChecking(false);
+    }
   }
 
   // 已派发的付款操作是宿主持有的冻结真相：清单/记录读不出来也不能把它藏起来（§5.2）。
@@ -467,7 +522,7 @@ export function M2FixedExpensesPage({
               className="m2-form"
               onSubmit={(event) => {
                 event.preventDefault();
-                if (!payDispatched) submitPayForm();
+                if (!payDispatched) void submitPayForm();
               }}
             >
               <label className="m2-field">
@@ -476,9 +531,10 @@ export function M2FixedExpensesPage({
                   type="text"
                   inputMode="decimal"
                   value={shown.amount}
-                  readOnly={payDispatched}
+                  readOnly={payDispatched || payChecking}
                   onChange={(event) => {
                     if (payDispatched) return;
+                    resetDuplicateCheck();
                     setPayDraft((current) => ({ ...current, amount: event.target.value }));
                   }}
                 />
@@ -488,9 +544,10 @@ export function M2FixedExpensesPage({
                 <V2CalendarPicker
                   label="日期"
                   value={shown.paidOn}
-                  disabled={payDispatched}
+                  disabled={payDispatched || payChecking}
                   onChange={(value) => {
                     if (payDispatched) return;
+                    resetDuplicateCheck();
                     setPayDraft((current) => ({ ...current, paidOn: value }));
                   }}
                 />
@@ -501,16 +558,22 @@ export function M2FixedExpensesPage({
                   type="text"
                   value={shown.note}
                   autoComplete="off"
-                  readOnly={payDispatched}
+                  readOnly={payDispatched || payChecking}
                   onChange={(event) => {
                     if (payDispatched) return;
+                    resetDuplicateCheck();
                     setPayDraft((current) => ({ ...current, note: event.target.value }));
                   }}
                 />
               </label>
-              {error && (
+              {(error || payNotice) && (
                 <p className="m2-error" role="alert">
-                  {error}
+                  {error || payNotice}
+                </p>
+              )}
+              {payChecking && (
+                <p className="m2-status" role="status">
+                  正在核对记录…
                 </p>
               )}
               {writeBusy && (
@@ -544,7 +607,7 @@ export function M2FixedExpensesPage({
                   </button>
                 )}
                 {!payDispatched && (
-                  <button className="button button-primary" type="submit">
+                  <button className="button button-primary" type="submit" disabled={payChecking}>
                     保存
                   </button>
                 )}
@@ -590,7 +653,7 @@ export function M2FixedExpensesPage({
               <strong>{formatCurrency(projection)}</strong>
             </div>
             <div className="m2-summary__cell">
-              <span>本月已付</span>
+              <span>{viewLabel}已付</span>
               <strong>{formatCurrency(paid)}</strong>
             </div>
           </section>
@@ -609,7 +672,7 @@ export function M2FixedExpensesPage({
                         {formatCurrency(item.monthlyAmount)}
                       </span>
                       <span className="m2-row__paid">
-                        该项本月已记录支付 {formatCurrency(paidForItem(item.id))}
+                        该项{viewLabel}已记录支付 {formatCurrency(paidForItem(item.id))}
                       </span>
                     </div>
                     {!blocking && (
@@ -635,10 +698,33 @@ export function M2FixedExpensesPage({
             </button>
           )}
 
-          <section aria-label="本月记录">
-            <h2 className="m2-subtitle">本月记录</h2>
+          {!blocking && (
+            <div className="m2-month-nav">
+              <button
+                className="m2-month-nav__button"
+                type="button"
+                aria-label="上个月"
+                onClick={() => setViewMonth((current) => shiftMonth(current, -1))}
+              >
+                ‹ 上个月
+              </button>
+              <span className="m2-month-nav__label">{viewMonth}</span>
+              <button
+                className="m2-month-nav__button"
+                type="button"
+                aria-label="下个月"
+                disabled={viewMonth === month}
+                onClick={() => setViewMonth((current) => shiftMonth(current, 1))}
+              >
+                下个月 ›
+              </button>
+            </div>
+          )}
+
+          <section aria-label={`${viewLabel}记录`}>
+            <h2 className="m2-subtitle">{viewLabel}记录</h2>
             {ledger.length === 0 ? (
-              <p className="m2-empty">本月还没有记录</p>
+              <p className="m2-empty">{viewLabel}还没有记录</p>
             ) : (
               <ul className="m2-list">
                 {ledger.map((payment) => (

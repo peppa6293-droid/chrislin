@@ -200,6 +200,38 @@
   cursor: pointer;
 }
 
+.m2-month-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 18px 0 4px;
+}
+
+.m2-month-nav__button {
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid var(--v2-line);
+  border-radius: 12px;
+  background: var(--v2-surface);
+  color: var(--v2-ink);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.m2-month-nav__button:disabled {
+  color: var(--v2-muted);
+  cursor: default;
+  opacity: 0.55;
+}
+
+.m2-month-nav__label {
+  color: var(--v2-muted);
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+
 .m2-form {
   display: grid;
   gap: 14px;

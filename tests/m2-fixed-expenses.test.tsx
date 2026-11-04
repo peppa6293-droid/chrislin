@@ -1804,6 +1804,13 @@ describe("REWORK-02 宿主身份、跨导航存活与未知结果（R1-a/R1-b/R2
       const readsBefore = order.count("list-payments");
       await user.type(screen.getByLabelText("付款金额"), "300.20");
       await user.click(screen.getByRole("button", { name: "保存" }));
+      expect(
+        await screen.findByText(
+          "这天已有一笔同额记录。请到该月记录核对；确认是另一笔后再点一次保存。",
+        ),
+      ).toBeTruthy();
+      expect(services.recordEssentialPayment).toHaveBeenCalledTimes(0);
+      await user.click(screen.getByRole("button", { name: "保存" }));
 
       expect(await screen.findByText("暂时无法确认是否保存，请先不要重复操作")).toBeTruthy();
       expect(order.count("list-payments")).toBeGreaterThan(readsBefore);
@@ -1982,6 +1989,13 @@ describe("REWORK-02 C1 阶段时序与晚回调，C2 合法第二笔", () => {
 
       await openPayForm(user, db, "HOUSING");
       await user.type(screen.getByLabelText("付款金额"), "300.20");
+      await user.click(screen.getByRole("button", { name: "保存" }));
+      expect(
+        await screen.findByText(
+          "这天已有一笔同额记录。请到该月记录核对；确认是另一笔后再点一次保存。",
+        ),
+      ).toBeTruthy();
+      expect(services.recordEssentialPayment).toHaveBeenCalledTimes(1);
       await user.click(screen.getByRole("button", { name: "保存" }));
       await screen.findByText("已保存");
 
@@ -4092,6 +4106,217 @@ describe("S0 attempt-03 付款事前拒绝与日期守卫", () => {
       const november = await listEssentialPayments(db, MONTH);
       expect(november).toHaveLength(1);
       expect(november[0]?.paidOn).toBe("2026-11-02");
+    } finally {
+      db.close();
+    }
+  }, 30_000);
+});
+
+describe("S0 attempt-04 付款月查看与重复提示", () => {
+  it("M-1 补记上月一笔后：默认本月空，切上月恰一笔，重开仍可见", async () => {
+    const db = await seed();
+    try {
+      const housing = await itemByCategory(db, "HOUSING");
+      await recordEssentialPayment(db, {
+        itemId: housing.id,
+        amount: "300.20",
+        paidOn: "2026-10-31",
+      });
+      const services = makeServices(db);
+      const user = await mount(services);
+      await openFixedExpenses(user);
+
+      const summary = screen.getByRole("region", { name: "本月合计" });
+      expect(summary.textContent).toContain("本月已付");
+      expect(summary.textContent).toContain("¥0.00");
+      expect(screen.getByText("本月还没有记录")).toBeTruthy();
+
+      await user.click(screen.getByRole("button", { name: "上个月" }));
+      expect(await screen.findByText("2026-10记录")).toBeTruthy();
+      const octoberSummary = screen.getByRole("region", { name: "本月合计" });
+      expect(octoberSummary.textContent).toContain("2026-10已付");
+      expect(octoberSummary.textContent).toContain("¥300.20");
+      const records = screen.getByRole("region", { name: "2026-10记录" });
+      expect(within(records).getAllByRole("listitem")).toHaveLength(1);
+      const itemRow = within(screen.getByRole("region", { name: "固定支出项目" }))
+        .getByText(housing.name)
+        .closest("li");
+      expect(itemRow?.textContent).toContain("该项2026-10已记录支付 ¥300.20");
+
+      cleanup();
+      const reopened = await mount(services);
+      await openFixedExpenses(reopened);
+      expect(screen.getByText("本月还没有记录")).toBeTruthy();
+      await reopened.click(screen.getByRole("button", { name: "上个月" }));
+      expect(await screen.findByText("2026-10记录")).toBeTruthy();
+      expect(
+        within(screen.getByRole("region", { name: "2026-10记录" })).getAllByRole("listitem"),
+      ).toHaveLength(1);
+    } finally {
+      db.close();
+    }
+  }, 30_000);
+
+  it("M-2 会话月下下个月禁用；连点上个月两次查询到上上月", async () => {
+    const db = await seed();
+    try {
+      const services = makeServices(db);
+      const user = await mount(services);
+      await openFixedExpenses(user);
+
+      const next = screen.getByRole("button", { name: "下个月" }) as HTMLButtonElement;
+      expect(next.disabled).toBe(true);
+
+      await user.click(screen.getByRole("button", { name: "上个月" }));
+      await waitFor(() =>
+        expect(services.listEssentialPayments).toHaveBeenLastCalledWith("2026-10"),
+      );
+      expect((screen.getByRole("button", { name: "下个月" }) as HTMLButtonElement).disabled).toBe(
+        false,
+      );
+
+      await user.click(screen.getByRole("button", { name: "上个月" }));
+      await waitFor(() =>
+        expect(services.listEssentialPayments).toHaveBeenLastCalledWith("2026-09"),
+      );
+      expect(screen.getByText("2026-09")).toBeTruthy();
+    } finally {
+      db.close();
+    }
+  }, 30_000);
+
+  it("D-1 同项目/日期/金额已有记录：首次保存只提示，0 派发且输入保留", async () => {
+    const db = await seed();
+    try {
+      const housing = await itemByCategory(db, "HOUSING");
+      await recordEssentialPayment(db, {
+        itemId: housing.id,
+        amount: "300.20",
+        paidOn: AS_OF,
+      });
+      const services = makeServices(db);
+      const user = await mount(services);
+      await openFixedExpenses(user);
+      await openPayForm(user, db, "HOUSING");
+      await user.type(screen.getByLabelText("付款金额"), "300.20");
+      await user.click(screen.getByRole("button", { name: "保存" }));
+
+      expect(
+        await screen.findByText(
+          "这天已有一笔同额记录。请到该月记录核对；确认是另一笔后再点一次保存。",
+        ),
+      ).toBeTruthy();
+      expect(services.recordEssentialPayment).toHaveBeenCalledTimes(0);
+      expect((screen.getByLabelText("付款金额") as HTMLInputElement).value).toBe("300.20");
+      expect((screen.getByLabelText("付款金额") as HTMLInputElement).readOnly).toBe(false);
+      expect(screen.getByRole("button", { name: "保存" })).toBeTruthy();
+    } finally {
+      db.close();
+    }
+  }, 30_000);
+
+  it("D-2 接 D-1 再点保存：放行并写入合法第二笔", async () => {
+    const db = await seed();
+    try {
+      const housing = await itemByCategory(db, "HOUSING");
+      await recordEssentialPayment(db, {
+        itemId: housing.id,
+        amount: "300.20",
+        paidOn: AS_OF,
+      });
+      const services = makeServices(db);
+      const user = await mount(services);
+      await openFixedExpenses(user);
+      await openPayForm(user, db, "HOUSING");
+      await user.type(screen.getByLabelText("付款金额"), "300.20");
+      await user.click(screen.getByRole("button", { name: "保存" }));
+      await screen.findByText(
+        "这天已有一笔同额记录。请到该月记录核对；确认是另一笔后再点一次保存。",
+      );
+      expect(services.recordEssentialPayment).toHaveBeenCalledTimes(0);
+
+      await user.click(screen.getByRole("button", { name: "保存" }));
+      expect(await screen.findByText("已保存")).toBeTruthy();
+      expect(services.recordEssentialPayment).toHaveBeenCalledTimes(1);
+      expect(await listEssentialPayments(db, MONTH)).toHaveLength(2);
+    } finally {
+      db.close();
+    }
+  }, 30_000);
+
+  it("D-3 金额不同：无重复提示，直接保存一次", async () => {
+    const db = await seed();
+    try {
+      const housing = await itemByCategory(db, "HOUSING");
+      await recordEssentialPayment(db, {
+        itemId: housing.id,
+        amount: "300.20",
+        paidOn: AS_OF,
+      });
+      const services = makeServices(db);
+      const user = await mount(services);
+      await openFixedExpenses(user);
+      await openPayForm(user, db, "HOUSING");
+      await user.type(screen.getByLabelText("付款金额"), "300.21");
+      await user.click(screen.getByRole("button", { name: "保存" }));
+
+      expect(await screen.findByText("已保存")).toBeTruthy();
+      expect(
+        screen.queryByText("这天已有一笔同额记录。请到该月记录核对；确认是另一笔后再点一次保存。"),
+      ).toBeNull();
+      expect(services.recordEssentialPayment).toHaveBeenCalledTimes(1);
+    } finally {
+      db.close();
+    }
+  }, 30_000);
+
+  it("D-4 查重等待窗口内金额/日期/备注锁定，不能改写已捕获快照", async () => {
+    const db = await seed();
+    try {
+      const housing = await itemByCategory(db, "HOUSING");
+      await recordEssentialPayment(db, {
+        itemId: housing.id,
+        amount: "300.20",
+        paidOn: AS_OF,
+      });
+      const existingRows = await listEssentialPayments(db, MONTH);
+      const gate: { release?: () => void } = {};
+      let hang = false;
+      const services = makeServices(db, {
+        listEssentialPayments: vi.fn((month?: string) => {
+          if (!hang) return listEssentialPayments(db, month);
+          return new Promise<typeof existingRows>((resolve) => {
+            gate.release = () => resolve(existingRows);
+          });
+        }),
+      });
+      const user = await mount(services);
+      await openFixedExpenses(user);
+      await openPayForm(user, db, "HOUSING");
+      await user.type(screen.getByLabelText("付款金额"), "300.20");
+      await user.type(screen.getByLabelText("备注（选填）"), "等待窗口");
+      hang = true;
+      await user.click(screen.getByRole("button", { name: "保存" }));
+
+      expect(await screen.findByText("正在核对记录…")).toBeTruthy();
+      const amount = screen.getByLabelText("付款金额") as HTMLInputElement;
+      const note = screen.getByLabelText("备注（选填）") as HTMLInputElement;
+      const date = screen.getByLabelText("日期 2026-11-01") as HTMLButtonElement;
+      expect(amount.readOnly).toBe(true);
+      expect(note.readOnly).toBe(true);
+      expect(date.disabled).toBe(true);
+      expect(services.recordEssentialPayment).toHaveBeenCalledTimes(0);
+
+      gate.release?.();
+      expect(
+        await screen.findByText(
+          "这天已有一笔同额记录。请到该月记录核对；确认是另一笔后再点一次保存。",
+        ),
+      ).toBeTruthy();
+      expect(services.recordEssentialPayment).toHaveBeenCalledTimes(0);
+      expect(amount.readOnly).toBe(false);
+      expect(note.readOnly).toBe(false);
+      expect(date.disabled).toBe(false);
     } finally {
       db.close();
     }
