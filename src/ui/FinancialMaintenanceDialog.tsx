@@ -15,6 +15,38 @@ const essentialCategories = [
   ["OTHER_ESSENTIAL", "其他必要支出"],
 ] as const;
 const essentialNames = Object.fromEntries(essentialCategories) as Record<string, string>;
+const historyCategories = [
+  ["INCOME", "收入"],
+  ["ESSENTIAL", "固定支出"],
+  ["CASH", "现金账户"],
+  ["ASSET", "资产"],
+  ["DEBT", "债务"],
+  ["SETTINGS", "安全设置"],
+] as const;
+const historyFieldLabels: Record<string, string> = {
+  stableMonthlyIncome: "稳定月收入",
+  name: "名称",
+  category: "分类",
+  monthlyAmount: "月金额",
+  balance: "当前余额",
+  includeInSafetyResources: "计入安全储备",
+  kind: "类型",
+  currentValue: "当前价值",
+  currentBalance: "当前余额",
+  currentMonthDue: "本月应还",
+  fixedMonthlyPayment: "固定月还款",
+  safetyCoverageTargetMonths: "安全储备目标（月）",
+  minimumCashCoverageMonths: "现金安全底线（月）",
+  safetyRecoveryHorizonMonths: "安全储备恢复期限（月）",
+  desiredMonthlyDiscretionarySpending: "期望每月可选消费",
+};
+
+function historyValue(field: string, value: string): string {
+  if (field === "category") return essentialNames[value] ?? value;
+  if (field === "kind") return value === "LIQUID_INVESTMENT" ? "流动资产" : "其他";
+  if (field === "includeInSafetyResources") return value === "1" ? "是" : "否";
+  return value;
+}
 
 function displayEssentialName(item: { name: string; category: string }) {
   return item.name === item.category ? (essentialNames[item.category] ?? item.name) : item.name;
@@ -179,6 +211,7 @@ export function FinancialMaintenanceDialog({
   const [prevalidationError, setPrevalidationError] = useState("");
   const titleRef = useRef<HTMLHeadingElement>(null);
   const dialogRef = useRef<HTMLElement>(null);
+  const history = initial?.history ?? [];
 
   useEffect(() => {
     if (!initial) return;
@@ -729,6 +762,47 @@ export function FinancialMaintenanceDialog({
                     }
                   />
                 </label>
+              )}
+            </section>
+            <section className="maintenance-section" aria-labelledby="maintenance-history-heading">
+              <h3 id="maintenance-history-heading">变更历史</h3>
+              {history.length === 0 ? (
+                <p className="maintenance-readonly">还没有变更记录。</p>
+              ) : (
+                historyCategories.map(([category, label]) => {
+                  const entries = history.filter((entry) => entry.category === category);
+                  if (!entries.length) return null;
+                  return (
+                    <div key={category}>
+                      <h4>{label}</h4>
+                      <ul>
+                        {entries.map((entry) => (
+                          <li key={`${entry.category}-${entry.objectId}-${entry.revisionId}`}>
+                            <p className="maintenance-readonly">
+                              {entry.createdAt.slice(0, 16).replace("T", " ")} · {entry.objectName}
+                            </p>
+                            {entry.changes.length === 0 ? (
+                              <p className="maintenance-readonly">无字段变化</p>
+                            ) : (
+                              entry.changes.map((change) => (
+                                <p className="maintenance-readonly" key={change.field}>
+                                  {historyFieldLabels[change.field] ?? change.field}：
+                                  {change.before === null
+                                    ? "无先前记录"
+                                    : historyValue(change.field, change.before)}
+                                  {" → "}
+                                  {change.after === null
+                                    ? "无"
+                                    : historyValue(change.field, change.after)}
+                                </p>
+                              ))
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  );
+                })
               )}
             </section>
             {(prevalidationError || error) && (

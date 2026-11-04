@@ -127,6 +127,24 @@ export interface StablePlanningIncomeRevision {
   createdAt: string;
 }
 
+export type MaintenanceHistoryCategory =
+  | "INCOME"
+  | "ESSENTIAL"
+  | "CASH"
+  | "ASSET"
+  | "DEBT"
+  | "SETTINGS";
+
+/** One stored revision snapshot; revisionId 0 carries the pre-revision baseline. */
+export interface MaintenanceRevisionValue {
+  category: MaintenanceHistoryCategory;
+  objectId: string;
+  revisionId: number;
+  asOfDate: string;
+  createdAt: string;
+  values: Record<string, string | null>;
+}
+
 export interface ActualIncomeRevisionState extends IncomeRecord {
   periodMonth: string;
   active: boolean;
@@ -152,6 +170,27 @@ function bool(row: Row, key: string): boolean {
   if (value === 0 || value === 1) return value === 1;
   if (value === false || value === true) return value;
   throw invalidColumn(key);
+}
+
+function numberText(row: Row, key: string): string {
+  const value = row[key];
+  if (typeof value !== "number") throw invalidColumn(key);
+  return String(value);
+}
+
+function nullableNumberText(row: Row, key: string): string | null {
+  const value = row[key];
+  if (value === null || value === undefined) return null;
+  if (typeof value !== "number") throw invalidColumn(key);
+  return String(value);
+}
+
+function revisionIdOf(row: Row): number {
+  const raw = row.revision_id;
+  const value = typeof raw === "bigint" ? Number(raw) : raw;
+  if (typeof value !== "number" || !Number.isSafeInteger(value) || value <= 0)
+    throw invalidColumn("revision_id");
+  return value;
 }
 
 function invalidColumn(column: string): ApplicationDataError {
@@ -333,6 +372,241 @@ export class Repositories {
         createdAt,
       };
     });
+  }
+
+  /** Read-only revision trail for the six maintenance groups, including baselines. */
+  async listMaintenanceRevisionValues(profileId: string): Promise<MaintenanceRevisionValue[]> {
+    const result: MaintenanceRevisionValue[] = [];
+    const optionalMoney = (row: Row, key: string): string | null => {
+      const value = nullableText(row, key);
+      return value === null ? null : requireStoredUserInputMoney(value);
+    };
+    const settingsValues = (row: Row): Record<string, string | null> => ({
+      safetyCoverageTargetMonths: numberText(row, "safety_coverage_target_months"),
+      minimumCashCoverageMonths: numberText(row, "minimum_cash_coverage_months"),
+      safetyRecoveryHorizonMonths: nullableNumberText(row, "safety_recovery_horizon_months"),
+      desiredMonthlyDiscretionarySpending: requireStoredUserInputMoney(
+        text(row, "desired_monthly_discretionary_spending"),
+      ),
+    });
+
+    const initialIncome = (
+      await this.db.select(
+        `SELECT amount FROM income_records WHERE profile_id=? AND kind='PLANNING'
+         ORDER BY date ASC,created_at ASC,id ASC LIMIT 1`,
+        [profileId],
+      )
+    )[0];
+    if (initialIncome)
+      result.push({
+        category: "INCOME",
+        objectId: profileId,
+        revisionId: 0,
+        asOfDate: "",
+        createdAt: "",
+        values: { stableMonthlyIncome: requireStoredUserInputMoney(text(initialIncome, "amount")) },
+      });
+    for (const row of await this.db.select(
+      `SELECT revision_id,as_of_date,amount,created_at FROM planning_income_revisions
+       WHERE profile_id=? ORDER BY revision_id ASC`,
+      [profileId],
+    ))
+      result.push({
+        category: "INCOME",
+        objectId: profileId,
+        revisionId: revisionIdOf(row),
+        asOfDate: text(row, "as_of_date"),
+        createdAt: text(row, "created_at"),
+        values: { stableMonthlyIncome: requireStoredUserInputMoney(text(row, "amount")) },
+      });
+
+    const initialSettings = (
+      await this.db.select(
+        `SELECT safety_coverage_target_months,minimum_cash_coverage_months,
+         safety_recovery_horizon_months,desired_monthly_discretionary_spending
+         FROM financial_settings WHERE profile_id=?`,
+        [profileId],
+      )
+    )[0];
+    if (initialSettings)
+      result.push({
+        category: "SETTINGS",
+        objectId: profileId,
+        revisionId: 0,
+        asOfDate: "",
+        createdAt: "",
+        values: settingsValues(initialSettings),
+      });
+    for (const row of await this.db.select(
+      `SELECT revision_id,as_of_date,safety_coverage_target_months,minimum_cash_coverage_months,
+       safety_recovery_horizon_months,desired_monthly_discretionary_spending,created_at
+       FROM settings_revisions WHERE profile_id=? ORDER BY revision_id ASC`,
+      [profileId],
+    ))
+      result.push({
+        category: "SETTINGS",
+        objectId: profileId,
+        revisionId: revisionIdOf(row),
+        asOfDate: text(row, "as_of_date"),
+        createdAt: text(row, "created_at"),
+        values: settingsValues(row),
+      });
+
+    for (const row of await this.db.select(
+      "SELECT id,name,category,monthly_amount FROM essential_expense_items WHERE profile_id=?",
+      [profileId],
+    ))
+      result.push({
+        category: "ESSENTIAL",
+        objectId: text(row, "id"),
+        revisionId: 0,
+        asOfDate: "",
+        createdAt: "",
+        values: {
+          name: text(row, "name"),
+          category: text(row, "category"),
+          monthlyAmount: requireStoredUserInputMoney(text(row, "monthly_amount")),
+        },
+      });
+    for (const row of await this.db.select(
+      `SELECT r.revision_id,r.item_id,r.as_of_date,r.name,r.category,r.monthly_amount,r.created_at
+       FROM essential_expense_revisions r JOIN essential_expense_items i ON i.id=r.item_id
+       WHERE i.profile_id=? ORDER BY r.revision_id ASC`,
+      [profileId],
+    ))
+      result.push({
+        category: "ESSENTIAL",
+        objectId: text(row, "item_id"),
+        revisionId: revisionIdOf(row),
+        asOfDate: text(row, "as_of_date"),
+        createdAt: text(row, "created_at"),
+        values: {
+          name: text(row, "name"),
+          category: text(row, "category"),
+          monthlyAmount: requireStoredUserInputMoney(text(row, "monthly_amount")),
+        },
+      });
+
+    for (const row of await this.db.select(
+      `SELECT a.id,a.name,a.include_in_safety_resources,
+       (SELECT s.balance FROM cash_balance_snapshots s WHERE s.account_id=a.id
+        ORDER BY s.as_of_date ASC,s.created_at ASC,s.id ASC LIMIT 1) AS balance
+       FROM cash_accounts a WHERE a.profile_id=?`,
+      [profileId],
+    ))
+      result.push({
+        category: "CASH",
+        objectId: text(row, "id"),
+        revisionId: 0,
+        asOfDate: "",
+        createdAt: "",
+        values: {
+          name: text(row, "name"),
+          balance: optionalMoney(row, "balance"),
+          includeInSafetyResources: String(Number(bool(row, "include_in_safety_resources"))),
+        },
+      });
+    for (const row of await this.db.select(
+      `SELECT r.revision_id,r.account_id,r.as_of_date,r.name,r.include_in_safety_resources,
+       r.balance,r.created_at FROM cash_account_revisions r
+       JOIN cash_accounts a ON a.id=r.account_id WHERE a.profile_id=? ORDER BY r.revision_id ASC`,
+      [profileId],
+    ))
+      result.push({
+        category: "CASH",
+        objectId: text(row, "account_id"),
+        revisionId: revisionIdOf(row),
+        asOfDate: text(row, "as_of_date"),
+        createdAt: text(row, "created_at"),
+        values: {
+          name: text(row, "name"),
+          balance: requireStoredUserInputMoney(text(row, "balance")),
+          includeInSafetyResources: String(Number(bool(row, "include_in_safety_resources"))),
+        },
+      });
+
+    for (const row of await this.db.select(
+      `SELECT a.id,a.name,a.kind,a.include_in_safety_resources,
+       (SELECT s.value FROM asset_value_snapshots s WHERE s.asset_id=a.id
+        ORDER BY s.as_of_date ASC,s.created_at ASC,s.id ASC LIMIT 1) AS current_value
+       FROM assets a WHERE a.profile_id=?`,
+      [profileId],
+    ))
+      result.push({
+        category: "ASSET",
+        objectId: text(row, "id"),
+        revisionId: 0,
+        asOfDate: "",
+        createdAt: "",
+        values: {
+          name: text(row, "name"),
+          kind: text(row, "kind"),
+          currentValue: optionalMoney(row, "current_value"),
+          includeInSafetyResources: String(Number(bool(row, "include_in_safety_resources"))),
+        },
+      });
+    for (const row of await this.db.select(
+      `SELECT r.revision_id,r.asset_id,r.as_of_date,r.name,r.kind,r.include_in_safety_resources,
+       r.current_value,r.created_at FROM asset_revisions r
+       JOIN assets a ON a.id=r.asset_id WHERE a.profile_id=? ORDER BY r.revision_id ASC`,
+      [profileId],
+    ))
+      result.push({
+        category: "ASSET",
+        objectId: text(row, "asset_id"),
+        revisionId: revisionIdOf(row),
+        asOfDate: text(row, "as_of_date"),
+        createdAt: text(row, "created_at"),
+        values: {
+          name: text(row, "name"),
+          kind: text(row, "kind"),
+          currentValue: requireStoredUserInputMoney(text(row, "current_value")),
+          includeInSafetyResources: String(Number(bool(row, "include_in_safety_resources"))),
+        },
+      });
+
+    for (const row of await this.db.select(
+      `SELECT d.id,d.name,d.fixed_monthly_payment,f.current_balance,f.current_month_due
+       FROM debts d LEFT JOIN debt_period_facts f ON f.id=(
+         SELECT id FROM debt_period_facts WHERE debt_id=d.id
+         ORDER BY as_of_date ASC,created_at ASC,id ASC LIMIT 1
+       ) WHERE d.profile_id=?`,
+      [profileId],
+    ))
+      result.push({
+        category: "DEBT",
+        objectId: text(row, "id"),
+        revisionId: 0,
+        asOfDate: "",
+        createdAt: "",
+        values: {
+          name: text(row, "name"),
+          currentBalance: optionalMoney(row, "current_balance"),
+          currentMonthDue: optionalMoney(row, "current_month_due"),
+          fixedMonthlyPayment: optionalMoney(row, "fixed_monthly_payment"),
+        },
+      });
+    for (const row of await this.db.select(
+      `SELECT r.revision_id,r.debt_id,r.as_of_date,r.name,r.current_balance,
+       r.current_month_due,r.fixed_monthly_payment,r.created_at FROM debt_revisions r
+       JOIN debts d ON d.id=r.debt_id WHERE d.profile_id=? ORDER BY r.revision_id ASC`,
+      [profileId],
+    ))
+      result.push({
+        category: "DEBT",
+        objectId: text(row, "debt_id"),
+        revisionId: revisionIdOf(row),
+        asOfDate: text(row, "as_of_date"),
+        createdAt: text(row, "created_at"),
+        values: {
+          name: text(row, "name"),
+          currentBalance: requireStoredUserInputMoney(text(row, "current_balance")),
+          currentMonthDue: optionalMoney(row, "current_month_due"),
+          fixedMonthlyPayment: optionalMoney(row, "fixed_monthly_payment"),
+        },
+      });
+
+    return result;
   }
 
   async appendPlanningIncomeMonthDecision(

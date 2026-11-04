@@ -7,9 +7,95 @@ import type {
   ModelInput,
 } from "../model/types.js";
 import { ApplicationDataError, type SqlDatabase } from "../persistence/database.js";
-import { Repositories, type StablePlanningIncomeRevision } from "../persistence/repositories.js";
+import {
+  type MaintenanceHistoryCategory,
+  type MaintenanceRevisionValue,
+  Repositories,
+  type StablePlanningIncomeRevision,
+} from "../persistence/repositories.js";
 import { ApplicationModelError, buildMonthlyModelInput } from "./monthly-model-service.js";
 import { getHomeApplicationState, type HomeApplicationState } from "./product-service.js";
+
+export interface MaintenanceHistoryChange {
+  field: string;
+  before: string | null;
+  after: string | null;
+}
+
+export interface MaintenanceHistoryEntry {
+  category: MaintenanceHistoryCategory;
+  objectId: string;
+  objectName: string;
+  revisionId: number;
+  createdAt: string;
+  asOfDate: string;
+  isFirst: boolean;
+  changes: MaintenanceHistoryChange[];
+}
+
+const HISTORY_FIELDS: Record<MaintenanceHistoryCategory, string[]> = {
+  INCOME: ["stableMonthlyIncome"],
+  ESSENTIAL: ["name", "category", "monthlyAmount"],
+  CASH: ["name", "balance", "includeInSafetyResources"],
+  ASSET: ["name", "kind", "currentValue", "includeInSafetyResources"],
+  DEBT: ["name", "currentBalance", "currentMonthDue", "fixedMonthlyPayment"],
+  SETTINGS: [
+    "safetyCoverageTargetMonths",
+    "minimumCashCoverageMonths",
+    "safetyRecoveryHorizonMonths",
+    "desiredMonthlyDiscretionarySpending",
+  ],
+};
+const HISTORY_CATEGORY_ORDER: MaintenanceHistoryCategory[] = [
+  "INCOME",
+  "ESSENTIAL",
+  "CASH",
+  "ASSET",
+  "DEBT",
+  "SETTINGS",
+];
+
+function buildMaintenanceHistory(revisions: MaintenanceRevisionValue[]): MaintenanceHistoryEntry[] {
+  const groups = new Map<string, MaintenanceRevisionValue[]>();
+  for (const revision of revisions) {
+    const key = `${revision.category}:${revision.objectId}`;
+    const group = groups.get(key);
+    if (group) group.push(revision);
+    else groups.set(key, [revision]);
+  }
+  const entries: MaintenanceHistoryEntry[] = [];
+  for (const group of groups.values()) {
+    group.sort((left, right) => left.revisionId - right.revisionId);
+    for (const [index, revision] of group.entries()) {
+      if (revision.revisionId === 0) continue;
+      const previous = group[index - 1];
+      const changes: MaintenanceHistoryChange[] = [];
+      for (const field of HISTORY_FIELDS[revision.category]) {
+        const after = revision.values[field] ?? null;
+        const before = previous?.values[field] ?? null;
+        if (after !== before) changes.push({ field, before, after });
+      }
+      entries.push({
+        category: revision.category,
+        objectId: revision.objectId,
+        objectName:
+          revision.values.name ?? (revision.category === "INCOME" ? "稳定月收入" : "本月计划"),
+        revisionId: revision.revisionId,
+        createdAt: revision.createdAt,
+        asOfDate: revision.asOfDate,
+        isFirst: !previous || previous.revisionId === 0,
+        changes,
+      });
+    }
+  }
+  return entries.sort(
+    (left, right) =>
+      HISTORY_CATEGORY_ORDER.indexOf(left.category) -
+        HISTORY_CATEGORY_ORDER.indexOf(right.category) ||
+      right.createdAt.localeCompare(left.createdAt) ||
+      right.revisionId - left.revisionId,
+  );
+}
 
 export interface FinancialMaintenanceState {
   stableMonthlyIncome: string;
@@ -55,6 +141,7 @@ export interface FinancialMaintenanceState {
   };
   requiresSafetyRecoveryHorizon: boolean;
   asOfDate: string;
+  history?: MaintenanceHistoryEntry[];
 }
 
 type EssentialExpensePatch =
@@ -234,15 +321,15 @@ export async function getFinancialMaintenanceState(
   const built = await buildMaintenanceModelInput(db, asOfDate);
   const repositories = new Repositories(db);
   const profile = await repositories.getProfile();
-  const [essentials, cash, assets, stablePlanningIncome, stableIncomeRevisions] = await Promise.all(
-    [
+  const [essentials, cash, assets, stablePlanningIncome, stableIncomeRevisions, historyRevisions] =
+    await Promise.all([
       repositories.listEssentialExpensesAt(asOfDate),
       repositories.cashAccountsAt(asOfDate),
       repositories.assetsAt(asOfDate),
       repositories.stablePlanningIncomeAt(asOfDate.slice(0, 7), asOfDate),
       profile ? repositories.listStablePlanningIncomeRevisions(profile.id) : Promise.resolve([]),
-    ],
-  );
+      profile ? repositories.listMaintenanceRevisionValues(profile.id) : Promise.resolve([]),
+    ]);
   const currentDebtFacts = await repositories.debtsAt(asOfDate.slice(0, 7), asOfDate, true);
   const currentDebtIds = new Set(currentDebtFacts.map((item) => item.id));
   const requirement = horizonRequirement(built);
@@ -282,6 +369,7 @@ export async function getFinancialMaintenanceState(
     },
     requiresSafetyRecoveryHorizon: requirement.requiresSafetyRecoveryHorizon,
     asOfDate,
+    history: buildMaintenanceHistory(historyRevisions),
   };
 }
 
