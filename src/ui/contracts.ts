@@ -154,4 +154,5 @@ export interface ProductApplicationServices {
     csvPath: string;
     tableCounts: Record<string, number>;
   }>;
+  exportDatabaseBackup?(): Promise<{ path: string; sha256: string }>;
 }

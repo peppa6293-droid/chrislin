@@ -2,7 +2,7 @@ use rusqlite::{hooks::{AuthAction, AuthContext, Authorization}, params, params_f
 use serde::{Deserialize, Serialize};
 use serde_json::{Map, Number, Value as JsonValue};
 use sha2::{Digest, Sha256};
-use std::{io::{Read, Write}, os::unix::fs::{MetadataExt, OpenOptionsExt}, path::{Path, PathBuf}, sync::{atomic::{AtomicBool, Ordering}, Arc, Mutex}, time::Duration};
+use std::{io::{Read, Write}, os::unix::fs::{MetadataExt, OpenOptionsExt}, path::{Path, PathBuf}, sync::{atomic::{AtomicBool, Ordering}, Arc, Mutex}, time::{Duration, SystemTime, UNIX_EPOCH}};
 use tauri::{Manager, State};
 
 mod cutover_startup;
@@ -1853,6 +1853,117 @@ fn save_export_file(app: tauri::AppHandle, file_name: String, contents: String) 
     Ok(path.display().to_string())
 }
 
+const DATABASE_BACKUP_PREFIX: &str = "xiaoqianjia-db-";
+
+#[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct DatabaseBackupReceipt {
+    path: String,
+    sha256: String,
+}
+
+fn database_backup_directory(app: &tauri::AppHandle) -> Result<PathBuf, String> {
+    #[cfg(target_os = "ios")]
+    {
+        return app.path().document_dir().map_err(|error| error.to_string());
+    }
+    #[cfg(not(target_os = "ios"))]
+    {
+        match app.path().download_dir() {
+            Ok(path) => Ok(path),
+            Err(_) => app.path().home_dir().map_err(|error| error.to_string()).map(|home| home.join("Downloads")),
+        }
+    }
+}
+
+fn validate_database_backup_file_name(file_name: &str) -> Result<(), String> {
+    if file_name.len() > 160
+        || !file_name.starts_with(DATABASE_BACKUP_PREFIX)
+        || !file_name.ends_with(".sqlite3")
+        || !file_name.chars().all(|c| c.is_ascii_alphanumeric() || matches!(c, '.' | '-' | '_'))
+    {
+        return Err("Database backup file name is invalid.".into());
+    }
+    Ok(())
+}
+
+/// Creates a single-file SQLite backup without writing to the source database.
+/// VACUUM INTO reads a consistent snapshot, including committed WAL frames.
+fn create_database_backup(
+    connection: &Connection,
+    directory: &Path,
+) -> Result<DatabaseBackupReceipt, String> {
+    std::fs::create_dir_all(directory).map_err(|error| error.to_string())?;
+    let date: String = connection
+        .query_row("SELECT strftime('%Y%m%d','now','localtime')", [], |row| row.get(0))
+        .map_err(|error| format!("Database backup date failed: {error}"))?;
+    let nonce = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .map_err(|error| error.to_string())?
+        .as_nanos();
+    let temporary = directory.join(format!(".xiaoqianjia-db-{}-{nonce}.tmp", std::process::id()));
+    let result = (|| {
+        connection
+            .execute("VACUUM INTO ?1", params![temporary.to_string_lossy().to_string()])
+            .map_err(|error| format!("Database backup failed: {error}"))?;
+        let sha256 = sha256_file(&temporary)?;
+        let hash_prefix = sha256.get(..16).ok_or("Database backup hash is invalid.")?;
+        let file_name = format!("{DATABASE_BACKUP_PREFIX}{date}-{hash_prefix}.sqlite3");
+        validate_database_backup_file_name(&file_name)?;
+        let path = directory.join(&file_name);
+        std::fs::rename(&temporary, &path).map_err(|error| error.to_string())?;
+        Ok(DatabaseBackupReceipt { path: path.display().to_string(), sha256 })
+    })();
+    if result.is_err() {
+        let _ = std::fs::remove_file(&temporary);
+    }
+    result
+}
+
+/// Saves a complete SQLite backup of the running application database.
+///
+/// The destination is fixed (Downloads on desktop, Documents on iOS); the
+/// frontend cannot choose a path, and the backup name carries the content hash.
+#[tauri::command]
+fn save_database_backup(
+    app: tauri::AppHandle,
+    state: State<'_, DatabaseState>,
+) -> Result<DatabaseBackupReceipt, String> {
+    let directory = database_backup_directory(&app)?;
+    let connection = state
+        .connection
+        .lock()
+        .map_err(|_| "Database connection is unavailable.".to_string())?;
+    create_database_backup(&connection, &directory)
+}
+
+#[cfg(test)]
+mod database_backup_tests {
+    use super::*;
+    use std::fs;
+
+    #[test]
+    fn creates_single_file_backup_with_matching_hash() {
+        let nonce = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_nanos();
+        let directory = std::env::temp_dir().join(format!("pfc-db-backup-{}-{nonce}", std::process::id()));
+        fs::create_dir(&directory).unwrap();
+        let connection = Connection::open_in_memory().unwrap();
+        connection.execute_batch("CREATE TABLE sample(id INTEGER PRIMARY KEY, value TEXT); INSERT INTO sample(value) VALUES('ok');").unwrap();
+        let receipt = create_database_backup(&connection, &directory).unwrap();
+        let backup = PathBuf::from(&receipt.path);
+        assert!(backup.exists());
+        assert!(backup.file_name().unwrap().to_string_lossy().starts_with(DATABASE_BACKUP_PREFIX));
+        assert_eq!(sha256_file(&backup).unwrap(), receipt.sha256);
+        let check = Connection::open(&backup).unwrap();
+        let integrity: String = check.query_row("PRAGMA integrity_check", [], |row| row.get(0)).unwrap();
+        assert_eq!(integrity, "ok");
+        let value: String = check.query_row("SELECT value FROM sample WHERE id=1", [], |row| row.get(0)).unwrap();
+        assert_eq!(value, "ok");
+        drop(check);
+        fs::remove_dir_all(&directory).unwrap();
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -2335,6 +2446,7 @@ pub fn run() {
         database_schema_migration_begin,
         database_schema_migration_end,
         save_export_file,
+        save_database_backup,
         acceptance_runtime_info,
         acceptance_reset,
         wp03_preview_test_date::wp03_preview_get_test_date,
@@ -2351,6 +2463,7 @@ pub fn run() {
         database_schema_migration_begin,
         database_schema_migration_end,
         save_export_file,
+        save_database_backup,
         acceptance_runtime_info,
         acceptance_reset,
     ]);

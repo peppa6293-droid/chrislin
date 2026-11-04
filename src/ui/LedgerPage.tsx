@@ -189,6 +189,20 @@ export function LedgerPage({
     }
   }
 
+  async function exportDatabase() {
+    if (!services.exportDatabaseBackup) return;
+    setBusy(true);
+    setError("");
+    try {
+      const result = await services.exportDatabaseBackup();
+      setFeedback(`数据库备份已保存：${result.path}（SHA-256 ${result.sha256.slice(0, 16)}…）`);
+    } catch (backupError) {
+      setError(backupError instanceof Error ? backupError.message : "数据库备份失败。");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   return (
     <section className="home-page detail-page v2-detail-page v2-ledger-page">
       <header className="detail-header">
@@ -236,6 +250,16 @@ export function LedgerPage({
         >
           <Download size={16} aria-hidden="true" /> 导出备份
         </button>
+        {services.exportDatabaseBackup && (
+          <button
+            type="button"
+            className="button button-secondary"
+            disabled={busy}
+            onClick={() => void exportDatabase()}
+          >
+            <Download size={16} aria-hidden="true" /> 导出数据库备份
+          </button>
+        )}
       </div>
 
       {suggestionNote && (

@@ -36,7 +36,7 @@ import {
   type V4MutationResult,
 } from "../application/v4-foundation-service.js";
 import { ApplicationDataError, type SqlDatabase } from "../persistence/database.js";
-import { saveExportFile } from "../persistence/export-file.js";
+import { saveDatabaseBackup, saveExportFile } from "../persistence/export-file.js";
 import { migrateDatabase } from "../persistence/migrations.js";
 import { type PlanningIncomeMonthDecision, Repositories } from "../persistence/repositories.js";
 import { TauriSqlDatabase } from "../persistence/tauri-database.js";
@@ -485,6 +485,7 @@ export interface TauriApplicationServices {
     csvPath: string;
     tableCounts: Record<string, number>;
   }>;
+  exportDatabaseBackup(): Promise<{ path: string; sha256: string }>;
 }
 
 export interface TauriProductServices
@@ -504,6 +505,7 @@ export interface TauriProductServices
     | "recategorizeLedgerExpenses"
     | "readAuditLog"
     | "exportLedger"
+    | "exportDatabaseBackup"
   > {
   bootstrap(): Promise<ApplicationStartupState>;
   getOnboardingRequirement: typeof getOnboardingRequirement;
@@ -627,6 +629,7 @@ export async function createTauriApplicationServices(
       const csvPath = await saveExportFile(`xiaoqianjia-expenses-${stamp}.csv`, bundle.csv);
       return { jsonPath, csvPath, tableCounts: bundle.tableCounts };
     },
+    exportDatabaseBackup: () => saveDatabaseBackup(),
   };
 }
 
@@ -702,5 +705,6 @@ export function getTauriProductServices(): TauriProductServices {
       (await open()).recategorizeLedgerExpenses(assignments, asOfDate),
     readAuditLog: async () => (await open()).readAuditLog(),
     exportLedger: async (asOfDate) => (await open()).exportLedger(asOfDate),
+    exportDatabaseBackup: async () => (await open()).exportDatabaseBackup(),
   };
 }
