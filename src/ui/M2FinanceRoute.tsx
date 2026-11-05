@@ -105,6 +105,10 @@ function sumAmounts(values: string[]): string {
   return values.reduce((total, value) => total.plus(money(value)), money("0")).toString();
 }
 
+function fileNameOf(path: string): string {
+  return path.split("/").pop() ?? path;
+}
+
 function inFlight(operation: FixedExpenseOperation | null): boolean {
   if (!operation) return false;
   return (
@@ -145,6 +149,9 @@ export function M2FinanceRoute({
   const [maintenanceData, setMaintenanceData] = useState<FinancialMaintenanceState | null>(null);
   const [maintenanceLoading, setMaintenanceLoading] = useState(false);
   const [maintenanceError, setMaintenanceError] = useState("");
+  const [exporting, setExporting] = useState(false);
+  const [exportNote, setExportNote] = useState("");
+  const [exportError, setExportError] = useState("");
   // 扣减下拉走 S1 维护状态（现金账户 + 记账卡），不碰 V2 accounts 表。
   // dataVersion 变化=停用/保存后重读，已停用账户不再出现在下拉里。
   // biome-ignore lint/correctness/useExhaustiveDependencies: dataVersion 是重读触发器，不是推导值
@@ -180,6 +187,33 @@ export function M2FinanceRoute({
       setMaintenanceLoading(false);
     }
   }, [services, asOfDate]);
+
+  /** 导出走既有备份服务（B1），M2 壳此前没有入口；只报文件名，路径不进界面。 */
+  const runExport = useCallback(
+    async (kind: "LEDGER" | "DATABASE") => {
+      const backup = services.exportDatabaseBackup;
+      if (kind === "DATABASE" && !backup) return;
+      setExporting(true);
+      setExportError("");
+      setExportNote("");
+      try {
+        if (kind === "DATABASE" && backup) {
+          const result = await backup();
+          setExportNote(`数据库备份已保存：${fileNameOf(result.path)}`);
+        } else {
+          const result = await services.exportLedger(asOfDate);
+          setExportNote(
+            `备份已保存：${fileNameOf(result.jsonPath)}、${fileNameOf(result.csvPath)}`,
+          );
+        }
+      } catch {
+        setExportError("导出未完成，请稍后再试。");
+      } finally {
+        setExporting(false);
+      }
+    },
+    [asOfDate, services],
+  );
 
   /** 停用/软删除后：先读回首页，再让固定支出清单与扣减下拉重读。 */
   const afterDeactivate = useCallback(async () => {
@@ -635,7 +669,33 @@ export function M2FinanceRoute({
                 </span>
                 <ChevronRight size={17} aria-hidden="true" />
               </button>
+              <button
+                className="m2-menu__row"
+                type="button"
+                disabled={exporting}
+                onClick={() => void runExport("LEDGER")}
+              >
+                <span>
+                  <strong>{exporting ? "正在导出…" : "导出备份"}</strong>
+                </span>
+                <ChevronRight size={17} aria-hidden="true" />
+              </button>
+              {services.exportDatabaseBackup && (
+                <button
+                  className="m2-menu__row"
+                  type="button"
+                  disabled={exporting}
+                  onClick={() => void runExport("DATABASE")}
+                >
+                  <span>
+                    <strong>导出数据库备份</strong>
+                  </span>
+                  <ChevronRight size={17} aria-hidden="true" />
+                </button>
+              )}
             </nav>
+            {exportNote && <p className="m2-note">{exportNote}</p>}
+            {exportError && <p className="m2-note">{exportError}</p>}
           </div>
         </section>
       </main>

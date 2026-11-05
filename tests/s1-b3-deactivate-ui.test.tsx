@@ -289,3 +289,35 @@ describe("S1 B3 T4 maintenance entry and inline deactivation", () => {
     expect(original?.name).not.toBe("改名后的住房");
   });
 });
+
+describe("S1 D-2 export entry in 我的财务", () => {
+  it("exports the ledger bundle from the menu and reports the saved file names", async () => {
+    const exportLedger = vi.fn().mockResolvedValue({
+      jsonPath: "/tmp/xiaoqianjia-backup-2026-09-10.json",
+      csvPath: "/tmp/xiaoqianjia-expenses-2026-09-10.csv",
+      tableCounts: {},
+    });
+    const { user } = await mount({ exportLedger });
+    await openMoneyTab(user);
+
+    await user.click(screen.getByRole("button", { name: /导出备份/ }));
+
+    await waitFor(() => expect(exportLedger).toHaveBeenCalledWith(AS_OF));
+    expect(
+      await screen.findByText(
+        "备份已保存：xiaoqianjia-backup-2026-09-10.json、xiaoqianjia-expenses-2026-09-10.csv",
+      ),
+    ).toBeTruthy();
+  });
+
+  it("reports a failure without claiming anything was saved", async () => {
+    const exportLedger = vi.fn().mockRejectedValue(new Error("disk full"));
+    const { user } = await mount({ exportLedger });
+    await openMoneyTab(user);
+
+    await user.click(screen.getByRole("button", { name: /导出备份/ }));
+
+    expect(await screen.findByText("导出未完成，请稍后再试。")).toBeTruthy();
+    expect(screen.queryByText(/备份已保存/)).toBeNull();
+  });
+});
