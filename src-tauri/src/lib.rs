@@ -283,7 +283,8 @@ where
 fn sha256_file(path: &Path) -> Result<String, String> {
     let mut file = std::fs::File::open(path).map_err(|error| error.to_string())?;
     let mut hasher = Sha256::new();
-    let mut buffer = [0_u8; 1024 * 1024];
+    // 64 KiB: a 1 MB array here overflowed the ~1 MB iOS main-thread stack (crash 2026-11-05).
+    let mut buffer = [0_u8; 64 * 1024];
     loop {
         let count = file.read(&mut buffer).map_err(|error| error.to_string())?;
         if count == 0 { break; }
@@ -1830,7 +1831,7 @@ fn database_rollback(state: State<'_, DatabaseState>, transaction_id: String) ->
     state.rollback(&transaction_id)
 }
 
-/// Writes a user-triggered local export into the Downloads folder.
+/// Writes a user-triggered local export into the fixed export directory.
 ///
 /// The destination directory is fixed and the name is restricted to a plain
 /// ASCII file name, so the frontend can never choose an arbitrary path.
@@ -1843,10 +1844,7 @@ fn save_export_file(app: tauri::AppHandle, file_name: String, contents: String) 
     {
         return Err("Export file name is invalid.".into());
     }
-    let directory = match app.path().download_dir() {
-        Ok(path) => path,
-        Err(_) => app.path().home_dir().map_err(|error| error.to_string())?.join("Downloads"),
-    };
+    let directory = export_directory(&app)?;
     std::fs::create_dir_all(&directory).map_err(|error| error.to_string())?;
     let path = directory.join(&file_name);
     std::fs::write(&path, contents.as_bytes()).map_err(|error| error.to_string())?;
@@ -1862,7 +1860,9 @@ struct DatabaseBackupReceipt {
     sha256: String,
 }
 
-fn database_backup_directory(app: &tauri::AppHandle) -> Result<PathBuf, String> {
+/// Fixed export directory: Documents on iOS (visible in Files), Downloads on desktop.
+/// iOS has no download directory, so the old download_dir lookup failed there.
+fn export_directory(app: &tauri::AppHandle) -> Result<PathBuf, String> {
     #[cfg(target_os = "ios")]
     {
         return app.path().document_dir().map_err(|error| error.to_string());
@@ -1929,7 +1929,7 @@ fn save_database_backup(
     app: tauri::AppHandle,
     state: State<'_, DatabaseState>,
 ) -> Result<DatabaseBackupReceipt, String> {
-    let directory = database_backup_directory(&app)?;
+    let directory = export_directory(&app)?;
     let connection = state
         .connection
         .lock()
@@ -1961,6 +1961,16 @@ mod database_backup_tests {
         assert_eq!(value, "ok");
         drop(check);
         fs::remove_dir_all(&directory).unwrap();
+    }
+
+    #[test]
+    fn sha256_file_reads_files_larger_than_one_chunk() {
+        let nonce = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_nanos();
+        let path = std::env::temp_dir().join(format!("pfc-sha256-{}-{nonce}.bin", std::process::id()));
+        let payload = vec![7_u8; 200 * 1024];
+        fs::write(&path, &payload).unwrap();
+        assert_eq!(sha256_file(&path).unwrap(), format!("{:x}", Sha256::digest(&payload)));
+        fs::remove_file(&path).unwrap();
     }
 }
 
