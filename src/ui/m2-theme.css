@@ -384,6 +384,11 @@ html:has(.m2-theme) {
   backdrop-filter: blur(16px);
 }
 
+/* 弹窗必须盖住悬浮导航（上面 z-index:20），否则底部取消/保存操作栏被导航拦截点击 */
+.m2-theme .dialog-backdrop {
+  z-index: 30;
+}
+
 .m2-theme .m2-nav__button {
   display: flex;
   flex-direction: column;
