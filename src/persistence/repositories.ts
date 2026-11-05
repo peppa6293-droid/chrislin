@@ -114,6 +114,12 @@ export interface PaymentDeductionInput {
   operationDate: string;
 }
 
+export interface DeductionEffectResult {
+  accountId: string | null;
+  /** Date of the manual statement that kept this leg from moving, or null when it moved. */
+  suppressedOn: string | null;
+}
+
 export type PlanningIncomeMonthDecision =
   | { decision: "OVERRIDE"; amount: string }
   | { decision: "INHERIT"; amount: null };
@@ -207,6 +213,14 @@ function invalidColumn(column: string): ApplicationDataError {
     "INVALID_STORED_DATA",
     `Database column ${column} has an invalid value.`,
   );
+}
+
+/** Signed balance delta of one expense deduction: cash accounts pay out, spending debts add up. */
+function deductionDelta(kind: "CASH" | "DEBT", amount: string, reverse: boolean): string {
+  const direction = kind === "CASH" ? -1 : 1;
+  return money(amount)
+    .times(reverse ? -direction : direction)
+    .toString();
 }
 
 function validCalendarDate(value: string): boolean {
@@ -969,6 +983,7 @@ export class Repositories {
     now: string,
     createId: () => string,
     sourcePaymentId?: string,
+    active = 1,
   ): Promise<string> {
     const id = item.id ?? createId();
     const balance = requireStoredUserInputMoney(item.currentBalance);
@@ -987,7 +1002,7 @@ export class Repositories {
         now,
       );
     await this.db.execute(
-      `INSERT INTO debt_revisions(debt_id,period_month,as_of_date,name,current_balance,current_month_due,fixed_monthly_payment,active,created_at,source_payment_id) VALUES(?,?,?,?,?,?,?,1,?,?)`,
+      `INSERT INTO debt_revisions(debt_id,period_month,as_of_date,name,current_balance,current_month_due,fixed_monthly_payment,active,created_at,source_payment_id) VALUES(?,?,?,?,?,?,?,?,?,?)`,
       [
         id,
         periodMonth,
@@ -998,6 +1013,7 @@ export class Repositories {
         item.fixedMonthlyPayment === null
           ? null
           : requireStoredUserInputMoney(item.fixedMonthlyPayment),
+        active,
         now,
         sourcePaymentId ?? null,
       ],
@@ -1230,7 +1246,7 @@ export class Repositories {
   async listExpenses(fromDateTime: string, throughDateTime: string): Promise<ExpenseRecord[]> {
     const nextDate = addCalendarDays(throughDateTime, 1);
     const rows = await this.db.select(
-      "SELECT id,amount,occurred_at,kind,category,note,business_date FROM expense_records WHERE business_date>=? AND business_date<? ORDER BY business_date,occurred_at,id",
+      "SELECT id,amount,occurred_at,kind,category,note,business_date FROM expense_records WHERE deleted_at IS NULL AND business_date>=? AND business_date<? ORDER BY business_date,occurred_at,id",
       [fromDateTime, nextDate],
     );
     return rows.map((row) => {
@@ -1287,8 +1303,8 @@ export class Repositories {
       }
     }
     const sql = month
-      ? "SELECT id,amount,occurred_at,kind,category,note,business_date FROM expense_records WHERE business_date>=? AND business_date<? ORDER BY business_date DESC,occurred_at DESC,id DESC LIMIT ?"
-      : "SELECT id,amount,occurred_at,kind,category,note,business_date FROM expense_records ORDER BY business_date DESC,occurred_at DESC,id DESC LIMIT ?";
+      ? "SELECT id,amount,occurred_at,kind,category,note,business_date FROM expense_records WHERE deleted_at IS NULL AND business_date>=? AND business_date<? ORDER BY business_date DESC,occurred_at DESC,id DESC LIMIT ?"
+      : "SELECT id,amount,occurred_at,kind,category,note,business_date FROM expense_records WHERE deleted_at IS NULL ORDER BY business_date DESC,occurred_at DESC,id DESC LIMIT ?";
     const rows = await this.db.select(
       sql,
       month && nextMonthStart ? [`${month}-01`, nextMonthStart, limit] : [limit],
@@ -2199,12 +2215,17 @@ export class Repositories {
           legacy.businessDate,
         ],
       );
-      if (deduction)
+      if (deduction) {
         await transactionRepositories.applyPaymentDeduction(
           expense.profileId,
           expense.id,
           deduction,
         );
+        await transactionDb.execute(
+          "UPDATE expenses SET deduction_account_id=?,deduction_applied_on=? WHERE id=?",
+          [deduction.accountId, deduction.operationDate, expense.id],
+        );
+      }
     });
   }
 
@@ -2384,6 +2405,400 @@ export class Repositories {
       );
   }
 
+  /**
+   * Reverses the record's persisted deduction leg at `operationDate`.
+   * A manual absolute statement dated after the leg was applied wins: nothing moves and the
+   * statement's date is returned, so the UI can say the balance was left alone.
+   */
+  async reverseExpenseDeduction(
+    profileId: string,
+    expenseId: string,
+    operationDate: string,
+    now: string,
+  ): Promise<DeductionEffectResult> {
+    const state = await this.expenseDeductionState(profileId, expenseId);
+    if (state.accountId === null) return { accountId: null, suppressedOn: null };
+    const blocked = await this.manualBarrierDate(
+      state.accountKind,
+      state.accountId,
+      state.appliedOn,
+    );
+    if (blocked !== null) return { accountId: state.accountId, suppressedOn: blocked };
+    const expense = await this.expenseEffectRow(profileId, expenseId);
+    await this.writeDeductionLeg(
+      profileId,
+      state.accountId,
+      state.accountKind,
+      deductionDelta(state.accountKind, expense.amount, true),
+      operationDate,
+      `expense:${expenseId}:reverse`,
+      now,
+    );
+    return { accountId: state.accountId, suppressedOn: null };
+  }
+
+  /** Re-applies the record's persisted leg (restore) at its business date; the entity need not be active. */
+  async reapplyExpenseDeduction(
+    profileId: string,
+    expenseId: string,
+    operationDate: string,
+    now: string,
+  ): Promise<DeductionEffectResult> {
+    const state = await this.expenseDeductionState(profileId, expenseId);
+    if (state.accountId === null) return { accountId: null, suppressedOn: null };
+    const blocked = await this.manualBarrierDate(
+      state.accountKind,
+      state.accountId,
+      state.appliedOn,
+    );
+    if (blocked !== null) return { accountId: state.accountId, suppressedOn: blocked };
+    const row = await this.expenseEffectRow(profileId, expenseId);
+    await this.writeDeductionLeg(
+      profileId,
+      state.accountId,
+      state.accountKind,
+      deductionDelta(state.accountKind, row.amount, false),
+      operationDate,
+      `expense:${expenseId}:deduct`,
+      now,
+    );
+    return { accountId: state.accountId, suppressedOn: null };
+  }
+
+  /**
+   * Moves one expense's deduction to `nextAccountId` (undefined keeps it, null turns it off).
+   * Only the legs that actually change are written; a barred entity stays untouched.
+   */
+  async changeExpenseDeduction(
+    profileId: string,
+    expenseId: string,
+    nextAccountId: string | null | undefined,
+    amount: string,
+    businessDate: string,
+    operationDate: string,
+    now: string,
+  ): Promise<DeductionEffectResult[]> {
+    const state = await this.expenseDeductionState(profileId, expenseId);
+    const expense = await this.expenseEffectRow(profileId, expenseId);
+    const next = nextAccountId === undefined ? state.accountId : nextAccountId;
+    const empty = { accountId: null, suppressedOn: null };
+    if (
+      next === state.accountId &&
+      (state.accountId === null ||
+        (expense.amount === amount && expense.occurredOn === businessDate))
+    )
+      return [empty];
+    const results: DeductionEffectResult[] = [];
+    if (state.accountId !== null) {
+      const blocked = await this.manualBarrierDate(
+        state.accountKind,
+        state.accountId,
+        state.appliedOn,
+      );
+      if (blocked !== null) results.push({ accountId: state.accountId, suppressedOn: blocked });
+      else {
+        await this.writeDeductionLeg(
+          profileId,
+          state.accountId,
+          state.accountKind,
+          deductionDelta(state.accountKind, expense.amount, true),
+          operationDate,
+          `expense:${expenseId}:reverse`,
+          now,
+        );
+        results.push({ accountId: state.accountId, suppressedOn: null });
+      }
+    }
+    if (next !== null && next === state.accountId) {
+      // Same entity: the reversal above already decided whether it may move.
+      if (results[0]?.suppressedOn === null) {
+        await this.writeDeductionLeg(
+          profileId,
+          next,
+          state.accountKind,
+          deductionDelta(state.accountKind, amount, false),
+          operationDate,
+          `expense:${expenseId}:deduct`,
+          now,
+        );
+      }
+    } else if (next !== null) {
+      const nextKind = await this.deductionEntityKind(profileId, next);
+      if (nextKind === null)
+        throw new ApplicationDataError(
+          "DEDUCTION_ACCOUNT_NOT_FOUND",
+          `Deduction account ${next} does not exist.`,
+        );
+      await this.assertSelectableEntity(nextKind, next);
+      const blocked = await this.manualBarrierDate(nextKind, next, state.appliedOn);
+      if (blocked !== null) results.push({ accountId: next, suppressedOn: blocked });
+      else {
+        await this.writeDeductionLeg(
+          profileId,
+          next,
+          nextKind,
+          deductionDelta(nextKind, amount, false),
+          operationDate,
+          `expense:${expenseId}:deduct`,
+          now,
+        );
+        results.push({ accountId: next, suppressedOn: null });
+      }
+    }
+    const suppressed = results.some((result) => result.suppressedOn !== null);
+    await this.db.execute(
+      "UPDATE expenses SET deduction_account_id=?,deduction_applied_on=? WHERE id=?",
+      [next, suppressed ? state.appliedOn : operationDate, expenseId],
+    );
+    return results;
+  }
+
+  private async expenseEffectRow(
+    profileId: string,
+    expenseId: string,
+  ): Promise<{ amount: string; occurredOn: string }> {
+    const row = (
+      await this.db.select("SELECT amount,occurred_on FROM expenses WHERE id=? AND profile_id=?", [
+        expenseId,
+        profileId,
+      ])
+    )[0];
+    if (!row) throw new ApplicationDataError("EXPENSE_NOT_FOUND", "Expense does not exist.");
+    return { amount: text(row, "amount"), occurredOn: text(row, "occurred_on") };
+  }
+
+  private async expenseDeductionState(
+    profileId: string,
+    expenseId: string,
+  ): Promise<{ accountId: string | null; accountKind: "CASH" | "DEBT"; appliedOn: string | null }> {
+    const row = (
+      await this.db.select(
+        "SELECT deduction_account_id,deduction_applied_on FROM expenses WHERE id=? AND profile_id=?",
+        [expenseId, profileId],
+      )
+    )[0];
+    if (!row) throw new ApplicationDataError("EXPENSE_NOT_FOUND", "Expense does not exist.");
+    const accountId = nullableText(row, "deduction_account_id");
+    return {
+      accountId,
+      accountKind:
+        accountId === null
+          ? "CASH"
+          : ((await this.deductionEntityKind(profileId, accountId)) ?? "CASH"),
+      appliedOn: nullableText(row, "deduction_applied_on"),
+    };
+  }
+
+  private async deductionEntityKind(
+    profileId: string,
+    accountId: string,
+  ): Promise<"CASH" | "DEBT" | null> {
+    const cash = (
+      await this.db.select("SELECT 1 AS found FROM cash_accounts WHERE id=? AND profile_id=?", [
+        accountId,
+        profileId,
+      ])
+    )[0];
+    if (cash) return "CASH";
+    const debt = (
+      await this.db.select("SELECT 1 AS found FROM debts WHERE id=? AND profile_id=?", [
+        accountId,
+        profileId,
+      ])
+    )[0];
+    return debt ? "DEBT" : null;
+  }
+
+  /** A newly chosen account must be selectable by the user (an existing leg may sit on an inactive one). */
+  private async assertSelectableEntity(kind: "CASH" | "DEBT", accountId: string): Promise<void> {
+    const row =
+      kind === "CASH"
+        ? (await this.db.select("SELECT active FROM cash_accounts WHERE id=?", [accountId]))[0]
+        : (await this.db.select("SELECT active FROM debts WHERE id=?", [accountId]))[0];
+    if (!row || !bool(row, "active"))
+      throw new ApplicationDataError(
+        "DEDUCTION_ACCOUNT_NOT_FOUND",
+        `Deduction account ${accountId} is not active.`,
+      );
+  }
+
+  private async manualBarrierDate(
+    kind: "CASH" | "DEBT",
+    accountId: string,
+    appliedOn: string | null,
+  ): Promise<string | null> {
+    if (appliedOn === null) return null;
+    // Snapshots and period facts are written by this same deduction path, so only revisions
+    // without a source payment are the user's own statements.
+    const rows =
+      kind === "CASH"
+        ? await this.db.select<{ date: string | null }>(
+            `SELECT MAX(as_of_date) AS date FROM cash_account_revisions
+             WHERE account_id=? AND source_payment_id IS NULL AND as_of_date>?`,
+            [accountId, appliedOn],
+          )
+        : await this.db.select<{ date: string | null }>(
+            `SELECT MAX(r.as_of_date) AS date FROM debt_revisions r
+             WHERE r.debt_id=? AND r.source_payment_id IS NULL AND r.active=1 AND r.as_of_date>?
+               AND NOT EXISTS(SELECT 1 FROM debt_period_facts f
+                              WHERE f.debt_id=r.debt_id AND f.as_of_date=r.as_of_date)`,
+            [accountId, appliedOn],
+          );
+    return rows[0] ? nullableText(rows[0], "date") : null;
+  }
+
+  /**
+   * Writes one signed leg at the operation date. Reversals and re-applications are current-value
+   * operations: the balance history before that date stays as it was recorded.
+   */
+  private async writeDeductionLeg(
+    profileId: string,
+    accountId: string,
+    kind: "CASH" | "DEBT",
+    delta: string,
+    operationDate: string,
+    token: string,
+    now: string,
+  ): Promise<void> {
+    if (kind === "CASH") {
+      const account = (
+        await this.db.select(
+          "SELECT name,include_in_safety_resources FROM cash_accounts WHERE id=? AND profile_id=?",
+          [accountId, profileId],
+        )
+      )[0];
+      if (!account)
+        throw new ApplicationDataError(
+          "DEDUCTION_ACCOUNT_NOT_FOUND",
+          `Cash account ${accountId} does not exist.`,
+        );
+      const current = await this.cashBalanceForEffect(accountId, operationDate);
+      if (current === null)
+        throw new ApplicationDataError(
+          "BALANCE_FACT_MISSING",
+          `Cash account ${accountId} has no balance at ${operationDate}.`,
+        );
+      await this.appendCashRevision(
+        profileId,
+        {
+          id: accountId,
+          name: text(account, "name"),
+          includeInSafetyResources: bool(account, "include_in_safety_resources"),
+          balance: money(current).plus(delta).toString(),
+        },
+        operationDate,
+        now,
+        () => accountId,
+        token,
+      );
+      return;
+    }
+
+    const operationMonth = operationDate.slice(0, 7);
+    const current = await this.debtFactForEffect(accountId, operationMonth, operationDate);
+    if (!current)
+      throw new ApplicationDataError(
+        "BALANCE_FACT_MISSING",
+        `Debt ${accountId} has no balance at ${operationDate}.`,
+      );
+    const meta = await this.debtWriteMeta(accountId);
+    const active = await this.effectiveDebtActive(accountId);
+    const currentBalance = money(current.balance).plus(delta).toString();
+    await this.appendDebtRevision(
+      profileId,
+      {
+        id: accountId,
+        ...meta,
+        currentBalance,
+        currentMonthDue: current.due,
+      },
+      operationMonth,
+      operationDate,
+      now,
+      () => accountId,
+      token,
+      active,
+    );
+    await this.saveDebtPeriodFact(
+      {
+        id: globalThis.crypto.randomUUID(),
+        debtId: accountId,
+        periodMonth: operationMonth,
+        asOfDate: operationDate,
+        currentBalance,
+        currentMonthDue: current.due,
+      },
+      now,
+    );
+  }
+
+  private async cashBalanceForEffect(accountId: string, asOfDate: string): Promise<string | null> {
+    const rows = await this.db.select<{ balance: string }>(
+      `SELECT balance FROM (
+         SELECT as_of_date,0 AS revision_id,balance FROM cash_balance_snapshots WHERE account_id=? AND as_of_date<=?
+         UNION ALL SELECT as_of_date,revision_id,balance FROM cash_account_revisions WHERE account_id=? AND as_of_date<=?
+       ) ORDER BY as_of_date DESC,revision_id DESC LIMIT 1`,
+      [accountId, asOfDate, accountId, asOfDate],
+    );
+    return rows[0] ? text(rows[0], "balance") : null;
+  }
+
+  private async debtFactForEffect(
+    debtId: string,
+    periodMonth: string,
+    asOfDate: string,
+  ): Promise<{ balance: string; due: string | null } | null> {
+    const rows = await this.db.select(
+      `SELECT current_balance,current_month_due FROM (
+         SELECT as_of_date,0 AS revision_id,current_balance,current_month_due FROM debt_period_facts WHERE debt_id=? AND period_month<=? AND as_of_date<=?
+         UNION ALL SELECT as_of_date,revision_id,current_balance,current_month_due FROM debt_revisions WHERE debt_id=? AND period_month<=? AND as_of_date<=?
+       ) ORDER BY as_of_date DESC,revision_id DESC LIMIT 1`,
+      [debtId, periodMonth, asOfDate, debtId, periodMonth, asOfDate],
+    );
+    const row = rows[0];
+    return row
+      ? { balance: text(row, "current_balance"), due: nullableText(row, "current_month_due") }
+      : null;
+  }
+
+  private async debtWriteMeta(
+    debtId: string,
+  ): Promise<{ name: string; fixedMonthlyPayment: string | null }> {
+    const row = (
+      await this.db.select(
+        `SELECT COALESCE(
+           (SELECT r.name FROM debt_revisions r WHERE r.debt_id=d.id ORDER BY r.period_month DESC,r.as_of_date DESC,r.revision_id DESC LIMIT 1),
+           d.name) AS name,
+         COALESCE(
+           (SELECT r.fixed_monthly_payment FROM debt_revisions r WHERE r.debt_id=d.id ORDER BY r.period_month DESC,r.as_of_date DESC,r.revision_id DESC LIMIT 1),
+           d.fixed_monthly_payment) AS fixed
+         FROM debts d WHERE d.id=?`,
+        [debtId],
+      )
+    )[0];
+    if (!row)
+      throw new ApplicationDataError(
+        "DEDUCTION_ACCOUNT_NOT_FOUND",
+        `Debt ${debtId} does not exist.`,
+      );
+    return { name: text(row, "name"), fixedMonthlyPayment: nullableText(row, "fixed") };
+  }
+
+  private async effectiveDebtActive(debtId: string): Promise<number> {
+    const row = (
+      await this.db.select(
+        `SELECT d.active AS base,
+           (SELECT r.active FROM debt_revisions r WHERE r.debt_id=d.id
+              ORDER BY r.period_month DESC,r.as_of_date DESC,r.revision_id DESC LIMIT 1) AS latest
+         FROM debts d WHERE d.id=?`,
+        [debtId],
+      )
+    )[0];
+    if (!row) return 0;
+    const latest = row.latest;
+    return latest === null || latest === undefined ? (bool(row, "base") ? 1 : 0) : Number(latest);
+  }
+
   private mapV2Expense(
     row: Row,
   ): CashDebitExpense | CreditOneTimeExpense | CreditInstallmentExpense {
@@ -2467,24 +2882,35 @@ export class Repositories {
   async listV2Expenses(
     profileId: string,
     month?: string,
+    includeDeleted = false,
   ): Promise<Array<CashDebitExpense | CreditOneTimeExpense | CreditInstallmentExpense>> {
     if (month !== undefined && !/^\d{4}-(0[1-9]|1[0-2])$/.test(month))
       throw new ApplicationDataError("INVALID_MONTH", "month must use YYYY-MM format.");
+    const live = includeDeleted ? "" : "deleted_at IS NULL AND ";
     const rows = month
       ? await this.db.select(
-          `SELECT * FROM expenses WHERE profile_id=? AND substr(occurred_on,1,7)=? ORDER BY occurred_on,id`,
+          `SELECT * FROM expenses WHERE profile_id=? AND ${live}substr(occurred_on,1,7)=? ORDER BY occurred_on,id`,
           [profileId, month],
         )
-      : await this.db.select("SELECT * FROM expenses WHERE profile_id=? ORDER BY occurred_on,id", [
-          profileId,
-        ]);
+      : await this.db.select(
+          `SELECT * FROM expenses WHERE profile_id=? AND ${live}1=1 ORDER BY occurred_on,id`,
+          [profileId],
+        );
     return rows.map((row) => this.mapV2Expense(row));
   }
 
-  async deleteV2Expense(id: string): Promise<void> {
-    const result = await this.db.execute("DELETE FROM expenses WHERE id=?", [id]);
-    if (!result.rowsAffected)
-      throw new ApplicationDataError("EXPENSE_NOT_FOUND", "Expense does not exist.");
+  async deleteV2Expense(id: string, deletedAt = new Date().toISOString()): Promise<void> {
+    const result = await this.db.execute(
+      "UPDATE expenses SET deleted_at=? WHERE id=? AND deleted_at IS NULL",
+      [deletedAt, id],
+    );
+    if (!result.rowsAffected) {
+      const row = (await this.db.select("SELECT deleted_at FROM expenses WHERE id=?", [id]))[0];
+      throw new ApplicationDataError(
+        row ? "EXPENSE_DELETED" : "EXPENSE_NOT_FOUND",
+        row ? "Expense is already deleted." : "Expense does not exist.",
+      );
+    }
   }
 
   async listImportedDedupeKeys(profileId: string): Promise<string[]> {
@@ -2729,7 +3155,7 @@ export class Repositories {
   async variableSpending(fromDate: string, throughDate: string): Promise<string> {
     const nextDate = addCalendarDays(throughDate, 1);
     const rows = await this.db.select(
-      "SELECT amount FROM expense_records WHERE kind='VARIABLE' AND business_date>=? AND business_date<? ORDER BY business_date,occurred_at,id",
+      "SELECT amount FROM expense_records WHERE kind='VARIABLE' AND deleted_at IS NULL AND business_date>=? AND business_date<? ORDER BY business_date,occurred_at,id",
       [fromDate, nextDate],
     );
     return rows

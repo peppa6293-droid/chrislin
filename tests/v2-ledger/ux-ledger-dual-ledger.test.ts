@@ -146,10 +146,17 @@ describe("UX ledger mutations keep V2/V1 in step", () => {
     await recordExpense("expense-delete");
     const deleted = await deleteLedgerExpense(seed.db, "expense-delete", seed.asOfDate);
     expect(deleted.snapshot.mirror?.amount).toBe("35.00");
-    expect(await v1Row("expense-delete")).toBeUndefined();
+    // Soft delete: both rows stay, hidden from lists but readable for reconciliation.
+    expect(await v1Row("expense-delete")).toMatchObject({ amount: "35.00", kind: "VARIABLE" });
+    expect(
+      await seed.db.select("SELECT deleted_at FROM expenses WHERE id='expense-delete'"),
+    ).not.toEqual([{ deleted_at: null }]);
+    expect(
+      await seed.db.select("SELECT deleted_at FROM expense_records WHERE id='expense-delete'"),
+    ).not.toEqual([{ deleted_at: null }]);
     expect(await readLedgerReconciliation(seed.db, "expense-delete")).toMatchObject({
-      v2Amount: null,
-      v1Amount: null,
+      v2Amount: "35.00",
+      v1Amount: "35.00",
       balanced: true,
     });
     expect((await readAuditLog(seed.db)).at(-1)).toMatchObject({

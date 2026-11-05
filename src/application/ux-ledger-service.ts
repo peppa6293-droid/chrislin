@@ -1,7 +1,7 @@
 import { assertUserInputMoney, money } from "../model/money.js";
 import type { ExpenseCategory } from "../model/types.js";
 import { ApplicationDataError, type SqlDatabase } from "../persistence/database.js";
-import { Repositories } from "../persistence/repositories.js";
+import { type DeductionEffectResult, Repositories } from "../persistence/repositories.js";
 import { getHomeApplicationState, type HomeApplicationState } from "./product-service.js";
 
 /**
@@ -62,6 +62,8 @@ export interface LedgerReconciliation {
 export interface LedgerMutationResult {
   home: HomeApplicationState;
   reconciliation: LedgerReconciliation;
+  /** Legs left alone because the account was manually restated after the record was applied. */
+  suppressed?: DeductionEffectResult[];
 }
 
 export interface DeletedExpenseSnapshot {
@@ -92,6 +94,8 @@ export interface ExpenseEditInput {
   categoryId: string;
   description: string;
   asOfDate: string;
+  /** Omit to keep the current deduction account; null turns the deduction off. */
+  deductionAccountId?: string | null;
 }
 
 export interface EssentialPaymentRecord {
@@ -274,13 +278,14 @@ export async function readLedgerReconciliation(
   const v1 = (await db.select("SELECT amount FROM expense_records WHERE id=?", [expenseId]))[0];
   const v2Amount = v2 ? text(v2, "amount") : null;
   const v1Amount = v1 ? text(v1, "amount") : null;
-  const kind = v2 ? text(v2, "kind") : "CASH_DEBIT";
+  const kind = v2 ? text(v2, "kind") : null;
   const mirrored = kind === "CASH_DEBIT";
+  // A row that only ever lived in the V1 ledger (fixed-expense payments, legacy entries) is balanced.
   const balanced = mirrored
     ? v2Amount === null
       ? v1Amount === null
       : v1Amount !== null && money(v2Amount).eq(money(v1Amount))
-    : v2Amount !== null || v1Amount === null;
+    : v2Amount !== null || v1Amount === null || (kind === null && v1Amount !== null);
   return { expenseId, v2Amount, v1Amount, mirrored, balanced };
 }
 
@@ -295,29 +300,165 @@ async function assertBalanced(db: SqlDatabase, expenseId: string): Promise<Ledge
   return reconciliation;
 }
 
+type ExpenseStorage = "V2_ONLY" | "V1_ONLY" | "BOTH" | "NONE";
+
+async function readExpenseRows(
+  db: SqlDatabase,
+  id: string,
+): Promise<{
+  v2: Record<string, unknown> | undefined;
+  v1: Record<string, unknown> | undefined;
+}> {
+  return {
+    v2: (await db.select("SELECT * FROM expenses WHERE id=?", [id]))[0],
+    v1: (await db.select("SELECT * FROM expense_records WHERE id=?", [id]))[0],
+  };
+}
+
+function storageOf(
+  v2: Record<string, unknown> | undefined,
+  v1: Record<string, unknown> | undefined,
+): ExpenseStorage {
+  if (v2 && v1) return "BOTH";
+  if (v2) return "V2_ONLY";
+  if (v1) return "V1_ONLY";
+  return "NONE";
+}
+
+function deletedAtOf(row: Record<string, unknown> | undefined): string | null {
+  return row ? nullableText(row, "deleted_at") : null;
+}
+
+function snapshotOf(
+  v2: Record<string, unknown> | undefined,
+  v1: Record<string, unknown> | undefined,
+): DeletedExpenseSnapshot {
+  const mirror = v1
+    ? {
+        amount: text(v1, "amount"),
+        occurredAt: text(v1, "occurred_at"),
+        businessDate: text(v1, "business_date"),
+        note: nullableText(v1, "note"),
+        createdAt: text(v1, "created_at"),
+      }
+    : null;
+  if (v2)
+    return {
+      id: text(v2, "id"),
+      profileId: text(v2, "profile_id"),
+      kind: text(v2, "kind"),
+      amount: text(v2, "amount"),
+      currency: text(v2, "currency"),
+      occurredOn: text(v2, "occurred_on"),
+      categoryId: text(v2, "category_id"),
+      description: text(v2, "description"),
+      accountId: nullableText(v2, "account_id"),
+      creditCardId: nullableText(v2, "credit_card_id"),
+      createdAt: text(v2, "created_at"),
+      mirror,
+    };
+  if (!v1) throw new ApplicationDataError("EXPENSE_NOT_FOUND", "Expense does not exist.");
+  // Fixed-expense payments exist only in the V1 ledger; restore re-reads the row by id.
+  return {
+    id: text(v1, "id"),
+    profileId: text(v1, "profile_id"),
+    kind: "ESSENTIAL",
+    amount: text(v1, "amount"),
+    currency: "CNY",
+    occurredOn: text(v1, "business_date"),
+    categoryId: text(v1, "category"),
+    description: nullableText(v1, "note") ?? "",
+    accountId: null,
+    creditCardId: null,
+    createdAt: text(v1, "created_at"),
+    mirror,
+  };
+}
+
+/** V1-only row: amount/date/note move; the category stays bound to the fixed-expense item. */
+async function editEssentialRow(
+  tx: SqlDatabase,
+  id: string,
+  amount: string,
+  input: ExpenseEditInput,
+  now: string,
+): Promise<LedgerReconciliation> {
+  await tx.execute(
+    "UPDATE expense_records SET amount=?,occurred_at=?,business_date=?,note=? WHERE id=? AND deleted_at IS NULL",
+    [
+      money(amount).toString(),
+      `${input.businessDate}T00:00:00.000Z`,
+      input.businessDate,
+      input.description,
+      id,
+    ],
+  );
+  const entries = await readMetadataEntries(tx, ESSENTIAL_PAYMENT_KEY);
+  const index = entries.findIndex((entry) => String(entry.id) === id);
+  if (index >= 0) {
+    entries[index] = {
+      ...entries[index],
+      amount: money(amount).toString(),
+      paidOn: input.businessDate,
+      note: input.description.trim() === "" ? null : input.description.trim(),
+    };
+    await new Repositories(tx).setMeta(ESSENTIAL_PAYMENT_KEY, JSON.stringify(entries));
+  }
+  await appendMetadataEntry(tx, AUDIT_KEY, {
+    at: now,
+    action: "EDIT_ESSENTIAL_PAYMENT",
+    expenseId: id,
+    amount,
+    businessDate: input.businessDate,
+    description: input.description,
+  });
+  return readLedgerReconciliation(tx, id);
+}
+
 export async function editLedgerExpense(
   db: SqlDatabase,
   input: ExpenseEditInput,
 ): Promise<LedgerMutationResult> {
   const amount = positiveAmount(input.amount, "INVALID_EXPENSE_AMOUNT");
   validDate(input.businessDate, "businessDate");
+  validDate(input.asOfDate, "asOfDate");
   const profile = await new Repositories(db).getProfile();
   if (!profile) throw new ApplicationDataError("INITIALIZATION_REQUIRED", "Profile is required.");
-  const category = await new Repositories(db).getExpenseCategoryById(input.categoryId);
-  if (!category || category.profileId !== profile.id || !category.active) {
-    throw new ApplicationDataError("INVALID_CATEGORY", "Category does not exist.");
-  }
   const now = new Date().toISOString();
+  let suppressed: DeductionEffectResult[] = [];
   const reconciliation = await db.transaction(async (tx) => {
-    const existing = (await tx.select("SELECT * FROM expenses WHERE id=?", [input.id]))[0];
-    if (!existing) throw new ApplicationDataError("EXPENSE_NOT_FOUND", "Expense does not exist.");
-    const kind = text(existing, "kind");
+    const { v2, v1 } = await readExpenseRows(tx, input.id);
+    const storage = storageOf(v2, v1);
+    if (storage === "NONE")
+      throw new ApplicationDataError("EXPENSE_NOT_FOUND", "Expense does not exist.");
+    if (deletedAtOf(v2) !== null || deletedAtOf(v1) !== null)
+      throw new ApplicationDataError("EXPENSE_DELETED", "Expense is deleted; restore it first.");
+    if (storage === "V1_ONLY") {
+      return editEssentialRow(tx, input.id, amount, input, now);
+    }
+    const category = await new Repositories(tx).getExpenseCategoryById(input.categoryId);
+    if (!category || category.profileId !== profile.id || !category.active) {
+      throw new ApplicationDataError("INVALID_CATEGORY", "Category does not exist.");
+    }
+    suppressed = (
+      await new Repositories(tx).changeExpenseDeduction(
+        profile.id,
+        input.id,
+        input.deductionAccountId,
+        money(amount).toString(),
+        input.businessDate,
+        input.asOfDate,
+        now,
+      )
+    ).filter((effect) => effect.suppressedOn !== null);
+    if (!v2) throw new ApplicationDataError("EXPENSE_NOT_FOUND", "Expense does not exist.");
+    const kind = text(v2, "kind");
     await tx.execute(
       "UPDATE expenses SET amount=?,occurred_on=?,category_id=?,description=? WHERE id=?",
       [amount, input.businessDate, input.categoryId, input.description, input.id],
     );
     if (kind === "CASH_DEBIT") {
-      const mirror = (await tx.select("SELECT * FROM expense_records WHERE id=?", [input.id]))[0];
+      const mirror = v1;
       if (mirror) {
         // D-01: the mirror category stays `OTHER_VARIABLE`; only mirrored facts move.
         await tx.execute(
@@ -352,13 +493,13 @@ export async function editLedgerExpense(
       at: now,
       action: "EDIT_EXPENSE",
       expenseId: input.id,
-      amountBefore: text(existing, "amount"),
+      amountBefore: text(v2, "amount"),
       amountAfter: amount,
-      businessDateBefore: text(existing, "occurred_on"),
+      businessDateBefore: text(v2, "occurred_on"),
       businessDateAfter: input.businessDate,
-      categoryIdBefore: text(existing, "category_id"),
+      categoryIdBefore: text(v2, "category_id"),
       categoryIdAfter: input.categoryId,
-      descriptionBefore: text(existing, "description"),
+      descriptionBefore: text(v2, "description"),
       descriptionAfter: input.description,
     });
     return assertBalanced(tx, input.id);
@@ -366,6 +507,7 @@ export async function editLedgerExpense(
   return {
     home: await getHomeApplicationState(db, input.asOfDate),
     reconciliation,
+    ...(suppressed.length === 0 ? {} : { suppressed }),
   };
 }
 
@@ -376,34 +518,34 @@ export async function deleteLedgerExpense(
 ): Promise<LedgerMutationResult & { snapshot: DeletedExpenseSnapshot }> {
   validDate(asOfDate, "asOfDate");
   const now = new Date().toISOString();
+  let suppressed: DeductionEffectResult[] = [];
   const snapshot = await db.transaction(async (tx) => {
-    const existing = (await tx.select("SELECT * FROM expenses WHERE id=?", [expenseId]))[0];
-    if (!existing) throw new ApplicationDataError("EXPENSE_NOT_FOUND", "Expense does not exist.");
-    const mirror = (await tx.select("SELECT * FROM expense_records WHERE id=?", [expenseId]))[0];
-    const captured: DeletedExpenseSnapshot = {
-      id: text(existing, "id"),
-      profileId: text(existing, "profile_id"),
-      kind: text(existing, "kind"),
-      amount: text(existing, "amount"),
-      currency: text(existing, "currency"),
-      occurredOn: text(existing, "occurred_on"),
-      categoryId: text(existing, "category_id"),
-      description: text(existing, "description"),
-      accountId: nullableText(existing, "account_id"),
-      creditCardId: nullableText(existing, "credit_card_id"),
-      createdAt: text(existing, "created_at"),
-      mirror: mirror
-        ? {
-            amount: text(mirror, "amount"),
-            occurredAt: text(mirror, "occurred_at"),
-            businessDate: text(mirror, "business_date"),
-            note: nullableText(mirror, "note"),
-            createdAt: text(mirror, "created_at"),
-          }
-        : null,
-    };
-    await tx.execute("DELETE FROM expenses WHERE id=?", [expenseId]);
-    await tx.execute("DELETE FROM expense_records WHERE id=?", [expenseId]);
+    const { v2, v1 } = await readExpenseRows(tx, expenseId);
+    const storage = storageOf(v2, v1);
+    if (storage === "NONE")
+      throw new ApplicationDataError("EXPENSE_NOT_FOUND", "Expense does not exist.");
+    if (deletedAtOf(v2) !== null || deletedAtOf(v1) !== null)
+      throw new ApplicationDataError("EXPENSE_DELETED", "Expense is already deleted.");
+    const captured = snapshotOf(v2, v1);
+    if (storage !== "V1_ONLY") {
+      const effect = await new Repositories(tx).reverseExpenseDeduction(
+        captured.profileId,
+        expenseId,
+        asOfDate,
+        now,
+      );
+      if (effect.suppressedOn !== null) suppressed = [effect];
+    }
+    if (v2)
+      await tx.execute("UPDATE expenses SET deleted_at=? WHERE id=? AND deleted_at IS NULL", [
+        now,
+        expenseId,
+      ]);
+    if (v1)
+      await tx.execute(
+        "UPDATE expense_records SET deleted_at=? WHERE id=? AND deleted_at IS NULL",
+        [now, expenseId],
+      );
     await appendMetadataEntry(tx, AUDIT_KEY, {
       at: now,
       action: "DELETE_EXPENSE",
@@ -420,6 +562,7 @@ export async function deleteLedgerExpense(
     home: await getHomeApplicationState(db, asOfDate),
     reconciliation: await readLedgerReconciliation(db, expenseId),
     snapshot,
+    ...(suppressed.length === 0 ? {} : { suppressed }),
   };
 }
 
@@ -430,45 +573,26 @@ export async function restoreLedgerExpense(
 ): Promise<LedgerMutationResult> {
   validDate(asOfDate, "asOfDate");
   const now = new Date().toISOString();
+  let suppressed: DeductionEffectResult[] = [];
   const reconciliation = await db.transaction(async (tx) => {
-    const existing = (await tx.select("SELECT id FROM expenses WHERE id=?", [snapshot.id]))[0];
-    if (existing) {
-      throw new ApplicationDataError("EXPENSE_ALREADY_EXISTS", "Expense already exists.");
-    }
-    await tx.execute(
-      `INSERT INTO expenses(id,profile_id,kind,amount,currency,occurred_on,category_id,description,account_id,credit_card_id,created_at)
-       VALUES(?,?,?,?,?,?,?,?,?,?,?)`,
-      [
+    const { v2, v1 } = await readExpenseRows(tx, snapshot.id);
+    const storage = storageOf(v2, v1);
+    if (storage === "NONE")
+      throw new ApplicationDataError("EXPENSE_NOT_FOUND", "Expense does not exist.");
+    if (deletedAtOf(v2) === null && deletedAtOf(v1) === null)
+      throw new ApplicationDataError("EXPENSE_NOT_DELETED", "Expense is not deleted.");
+    if (v2) {
+      await tx.execute("UPDATE expenses SET deleted_at=NULL WHERE id=?", [snapshot.id]);
+      const effect = await new Repositories(tx).reapplyExpenseDeduction(
+        text(v2, "profile_id"),
         snapshot.id,
-        snapshot.profileId,
-        snapshot.kind,
-        snapshot.amount,
-        snapshot.currency,
-        snapshot.occurredOn,
-        snapshot.categoryId,
-        snapshot.description,
-        snapshot.accountId,
-        snapshot.creditCardId,
-        snapshot.createdAt,
-      ],
-    );
-    if (snapshot.mirror) {
-      await tx.execute(
-        `INSERT INTO expense_records(id,profile_id,amount,occurred_at,kind,category,note,created_at,business_date)
-         VALUES(?,?,?,?,?,?,?,?,?)`,
-        [
-          snapshot.id,
-          snapshot.profileId,
-          snapshot.mirror.amount,
-          snapshot.mirror.occurredAt,
-          "VARIABLE",
-          "OTHER_VARIABLE",
-          snapshot.mirror.note,
-          snapshot.mirror.createdAt,
-          snapshot.mirror.businessDate,
-        ],
+        asOfDate,
+        now,
       );
+      if (effect.suppressedOn !== null) suppressed = [effect];
     }
+    if (v1)
+      await tx.execute("UPDATE expense_records SET deleted_at=NULL WHERE id=?", [snapshot.id]);
     await appendMetadataEntry(tx, AUDIT_KEY, {
       at: now,
       action: "RESTORE_EXPENSE",
@@ -478,7 +602,11 @@ export async function restoreLedgerExpense(
     });
     return assertBalanced(tx, snapshot.id);
   });
-  return { home: await getHomeApplicationState(db, asOfDate), reconciliation };
+  return {
+    home: await getHomeApplicationState(db, asOfDate),
+    reconciliation,
+    ...(suppressed.length === 0 ? {} : { suppressed }),
+  };
 }
 
 export async function listEssentialPaymentItems(
@@ -540,7 +668,7 @@ export async function recordEssentialPayment(
     await appendMetadataEntry(tx, ESSENTIAL_PAYMENT_KEY, { ...payment });
   });
   const monthRows = await db.select<{ total: number | null }>(
-    "SELECT SUM(CAST(amount AS REAL)) AS total FROM expense_records WHERE kind='ESSENTIAL' AND business_date LIKE ?",
+    "SELECT SUM(CAST(amount AS REAL)) AS total FROM expense_records WHERE kind='ESSENTIAL' AND deleted_at IS NULL AND business_date LIKE ?",
     [`${input.paidOn.slice(0, 7)}%`],
   );
   const monthTotal = String(monthRows[0]?.total ?? 0);
@@ -554,10 +682,11 @@ export async function recordEssentialPayment(
 export async function listEssentialPayments(
   db: SqlDatabase,
   month?: string,
+  includeDeleted = false,
 ): Promise<EssentialPaymentRecord[]> {
   const rows = await db.select(
     `SELECT id,amount,occurred_at,category,note,created_at FROM expense_records
-     WHERE kind='ESSENTIAL'${month ? " AND business_date LIKE ?" : ""} ORDER BY business_date DESC,created_at DESC`,
+     WHERE kind='ESSENTIAL'${includeDeleted ? "" : " AND deleted_at IS NULL"}${month ? " AND business_date LIKE ?" : ""} ORDER BY business_date DESC,created_at DESC`,
     month === undefined ? [] : [`${month}%`],
   );
   if (rows.length === 0) return [];
@@ -713,7 +842,7 @@ export async function recategorizeLedgerExpenses(
   const categories = await repositories.listExpenseCategories(profile.id);
   const known = new Set(categories.map((category) => category.id));
   const beforeRows = await db.select<{ total: number; count: number }>(
-    "SELECT COALESCE(SUM(CAST(amount AS REAL)),0) AS total, COUNT(*) AS count FROM expenses",
+    "SELECT COALESCE(SUM(CAST(amount AS REAL)),0) AS total, COUNT(*) AS count FROM expenses WHERE deleted_at IS NULL",
   );
   let updated = 0;
   let skipped = 0;
@@ -724,7 +853,7 @@ export async function recategorizeLedgerExpenses(
         continue;
       }
       const result = await tx.execute(
-        "UPDATE expenses SET category_id=? WHERE id=? AND category_id<>?",
+        "UPDATE expenses SET category_id=? WHERE id=? AND category_id<>? AND deleted_at IS NULL",
         [assignment.categoryId, assignment.expenseId, assignment.categoryId],
       );
       if (result.rowsAffected > 0) updated += 1;
@@ -740,7 +869,7 @@ export async function recategorizeLedgerExpenses(
   // D-01 keeps the V1 mirror category pinned to OTHER_VARIABLE, so the mirror
   // ledger is untouched by design. Only the display layer changes.
   const afterRows = await db.select<{ total: number; count: number }>(
-    "SELECT COALESCE(SUM(CAST(amount AS REAL)),0) AS total, COUNT(*) AS count FROM expenses",
+    "SELECT COALESCE(SUM(CAST(amount AS REAL)),0) AS total, COUNT(*) AS count FROM expenses WHERE deleted_at IS NULL",
   );
   const totalBefore = String(beforeRows[0]?.total ?? 0);
   const totalAfter = String(afterRows[0]?.total ?? 0);
@@ -855,7 +984,7 @@ export async function getRecordingStreak(
   validDate(asOfDate, "asOfDate");
   const rows = await db.select<{ business_date: string }>(
     `SELECT DISTINCT business_date FROM expense_records
-     WHERE kind='VARIABLE' AND business_date IS NOT NULL AND business_date<=?
+     WHERE kind='VARIABLE' AND deleted_at IS NULL AND business_date IS NOT NULL AND business_date<=?
      ORDER BY business_date DESC LIMIT 120`,
     [asOfDate],
   );

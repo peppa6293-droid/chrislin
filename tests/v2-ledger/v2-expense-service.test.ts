@@ -574,8 +574,8 @@ describe("EXEC-L-07 V2 expense application service", () => {
     expect(await service.getMonthlyCoreObligations("profile-v2", "2026-10")).toBe("5076.31");
   });
 
-  it("migrates a fresh database to V9 and keeps income, reserved cash, and fixed plans writable", async () => {
-    expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 9 }]);
+  it("migrates a fresh database to V10 and keeps income, reserved cash, and fixed plans writable", async () => {
+    expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 10 }]);
     const cashColumns = await db.select<{ name: string }>("PRAGMA table_info(cash_accounts)");
     expect(cashColumns.map((column) => column.name)).toContain("reserved_amount");
     const tables = await db.select<{ name: string }>(
@@ -631,7 +631,7 @@ describe("EXEC-L-07 V2 expense application service", () => {
     expect(await repositories.listFixedExpensePlans("profile-v2", "2026-09")).toEqual([]);
   });
 
-  it("upgrades a V7 database to V9 without losing existing rows", async () => {
+  it("upgrades a V7 database to V10 without losing existing rows", async () => {
     const local = new NodeSqliteDatabase();
     try {
       await migrateDatabase(local, "2026-09-01T00:00:00.000Z", 7);
@@ -648,7 +648,7 @@ describe("EXEC-L-07 V2 expense application service", () => {
 
       await migrateDatabase(local, "2026-09-02T00:00:00.000Z");
 
-      expect(await local.select("PRAGMA user_version")).toEqual([{ user_version: 9 }]);
+      expect(await local.select("PRAGMA user_version")).toEqual([{ user_version: 10 }]);
       expect(await local.select("SELECT version FROM schema_migrations ORDER BY version")).toEqual([
         { version: 1 },
         { version: 2 },
@@ -659,6 +659,7 @@ describe("EXEC-L-07 V2 expense application service", () => {
         { version: 7 },
         { version: 8 },
         { version: 9 },
+        { version: 10 },
       ]);
       expect(await local.select("SELECT id,reserved_amount FROM cash_accounts")).toEqual([
         { id: "cash-v7", reserved_amount: "0.00" },
@@ -691,7 +692,7 @@ describe("EXEC-L-07 V2 expense application service", () => {
     }
   });
 
-  it("upgrades a V3 database to V9", async () => {
+  it("upgrades a V3 database to V10", async () => {
     const local = new NodeSqliteDatabase();
     try {
       await migrateDatabase(local, "2026-09-01T00:00:00.000Z", 3);
@@ -699,7 +700,7 @@ describe("EXEC-L-07 V2 expense application service", () => {
 
       await migrateDatabase(local, "2026-09-02T00:00:00.000Z");
 
-      expect(await local.select("PRAGMA user_version")).toEqual([{ user_version: 9 }]);
+      expect(await local.select("PRAGMA user_version")).toEqual([{ user_version: 10 }]);
       expect(
         await local.select(
           "SELECT COUNT(*) AS count FROM schema_migrations WHERE version BETWEEN 1 AND 9",

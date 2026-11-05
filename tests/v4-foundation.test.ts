@@ -67,8 +67,8 @@ describe("V4 additive schema and resolvers", () => {
     const db = fresh();
     await migrateDatabase(db, "2026-10-01T00:00:00.000Z");
     await migrateDatabase(db, "2026-10-02T00:00:00.000Z");
-    expect(CURRENT_SCHEMA_VERSION).toBe(9);
-    expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 9 }]);
+    expect(CURRENT_SCHEMA_VERSION).toBe(10);
+    expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 10 }]);
     expect(await db.select("SELECT version FROM schema_migrations ORDER BY version")).toEqual([
       { version: 1 },
       { version: 2 },
@@ -79,6 +79,7 @@ describe("V4 additive schema and resolvers", () => {
       { version: 7 },
       { version: 8 },
       { version: 9 },
+      { version: 10 },
     ]);
     for (const table of [
       "planning_income_month_revisions",
@@ -282,9 +283,9 @@ describe("V4 additive schema and resolvers", () => {
     expect((await service.read("2026-10", "2026-10-02")).debtHistory.at(-1)?.active).toBe(false);
   });
 
-  it("preserves populated V3 Home/model output and all V3 rows across migration", async () => {
+  it("preserves populated Home/model output and all rows across an idempotent migration", async () => {
     const db = fresh();
-    await migrateDatabase(db, "2026-10-01T00:00:00.000Z", 3);
+    await migrateDatabase(db, "2026-10-01T00:00:00.000Z");
     const beforeOnboarding = await completeOnboarding(db, candidate, "2026-10-01");
     const repos = new Repositories(db);
     const profile = await repos.getProfile();

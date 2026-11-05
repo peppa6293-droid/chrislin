@@ -1,6 +1,6 @@
 import type { SchemaMigrationBoundary, SqlDatabase } from "./database.js";
 
-export const CURRENT_SCHEMA_VERSION = 9;
+export const CURRENT_SCHEMA_VERSION = 10;
 
 interface SchemaVersionState {
   userVersion: number;
@@ -371,6 +371,25 @@ ALTER TABLE debts ADD COLUMN daily_spending_mode INTEGER NOT NULL DEFAULT 0 CHEC
 PRAGMA user_version = 9;
 `;
 
+// V10: persisted balance-effect legs. The backfill is deterministic — applyPaymentDeduction
+// returns before the debt branch when a cash account matched, so one expense has at most one source table.
+const migrationV10 = `
+ALTER TABLE expenses ADD COLUMN deleted_at TEXT;
+ALTER TABLE expenses ADD COLUMN deduction_account_id TEXT;
+ALTER TABLE expenses ADD COLUMN deduction_applied_on TEXT;
+ALTER TABLE expense_records ADD COLUMN deleted_at TEXT;
+UPDATE expenses SET deduction_account_id = COALESCE(
+  (SELECT account_id FROM cash_account_revisions r WHERE r.source_payment_id=expenses.id
+     ORDER BY r.as_of_date DESC, r.revision_id DESC LIMIT 1),
+  (SELECT debt_id FROM debt_revisions r WHERE r.source_payment_id=expenses.id
+     ORDER BY r.as_of_date DESC, r.revision_id DESC LIMIT 1));
+UPDATE expenses SET deduction_applied_on = COALESCE(
+  (SELECT MAX(as_of_date) FROM cash_account_revisions WHERE source_payment_id=expenses.id),
+  (SELECT MAX(as_of_date) FROM debt_revisions WHERE source_payment_id=expenses.id))
+WHERE deduction_account_id IS NOT NULL;
+PRAGMA user_version = 10;
+`;
+
 export const MIGRATION_SQL: Readonly<Record<number, string>> = Object.freeze({
   3: migrationV3,
   4: migrationV4,
@@ -379,6 +398,7 @@ export const MIGRATION_SQL: Readonly<Record<number, string>> = Object.freeze({
   7: migrationV7,
   8: migrationV8,
   9: migrationV9,
+  10: migrationV10,
 });
 
 export async function migrateDatabase(
@@ -553,6 +573,20 @@ export async function migrateDatabase(
         }
         await transactionDb.execute(
           "INSERT INTO schema_migrations(version, applied_at) VALUES(9, ?)",
+          [now],
+        );
+      });
+    }
+    if (applied < 10 && targetVersion >= 10) {
+      await db.transaction(async (transactionDb) => {
+        for (const statement of migrationV10
+          .split(";")
+          .map((part) => part.trim())
+          .filter(Boolean)) {
+          await transactionDb.execute(statement);
+        }
+        await transactionDb.execute(
+          "INSERT INTO schema_migrations(version, applied_at) VALUES(10, ?)",
           [now],
         );
       });

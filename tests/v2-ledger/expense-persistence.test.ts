@@ -42,8 +42,8 @@ beforeEach(async () => {
 afterEach(() => db.close());
 
 describe("EXEC-P-01 V2 expense persistence", () => {
-  it("migrates a fresh database to V9 and records all three expense kinds", async () => {
-    expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 9 }]);
+  it("migrates a fresh database to V10 and records all three expense kinds", async () => {
+    expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 10 }]);
     expect(await db.select("SELECT version FROM schema_migrations ORDER BY version")).toEqual([
       { version: 1 },
       { version: 2 },
@@ -54,6 +54,7 @@ describe("EXEC-P-01 V2 expense persistence", () => {
       { version: 7 },
       { version: 8 },
       { version: 9 },
+      { version: 10 },
     ]);
 
     await repositories.createV2Expense({
@@ -121,26 +122,37 @@ describe("EXEC-P-01 V2 expense persistence", () => {
     expect(await repositories.listV2Expenses("profile-v2")).toHaveLength(3);
   });
 
-  it("migrates an existing V5 database incrementally to V9", async () => {
+  it("migrates an existing V5 database incrementally to V10", async () => {
     await db.connection.exec("DELETE FROM expense_categories");
     await db.connection.exec("DELETE FROM accounts");
-    await db.connection.exec("DELETE FROM schema_migrations WHERE version IN (6,7,8,9)");
+    await db.connection.exec("DELETE FROM schema_migrations WHERE version IN (6,7,8,9,10)");
     await db.connection.exec("DROP INDEX expenses_dedupe_unique");
     await db.connection.exec("ALTER TABLE expenses DROP COLUMN dedupe_key");
     await db.connection.exec("ALTER TABLE cash_accounts DROP COLUMN reserved_amount");
     await db.connection.exec("ALTER TABLE cash_account_revisions DROP COLUMN source_payment_id");
     await db.connection.exec("ALTER TABLE debt_revisions DROP COLUMN source_payment_id");
     await db.connection.exec("ALTER TABLE debts DROP COLUMN daily_spending_mode");
+    await db.connection.exec("ALTER TABLE expenses DROP COLUMN deleted_at");
+    await db.connection.exec("ALTER TABLE expenses DROP COLUMN deduction_account_id");
+    await db.connection.exec("ALTER TABLE expenses DROP COLUMN deduction_applied_on");
+    await db.connection.exec("ALTER TABLE expense_records DROP COLUMN deleted_at");
     await db.connection.exec("DROP TABLE IF EXISTS income_entries");
     await db.connection.exec("DROP TABLE IF EXISTS fixed_expense_plans");
     await db.connection.exec("PRAGMA user_version = 5");
 
     await migrateDatabase(db, "2026-10-19T01:00:00.000Z");
 
-    expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 9 }]);
+    expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 10 }]);
     expect(
-      await db.select("SELECT version FROM schema_migrations WHERE version IN (5,6,7,8,9)"),
-    ).toEqual([{ version: 5 }, { version: 6 }, { version: 7 }, { version: 8 }, { version: 9 }]);
+      await db.select("SELECT version FROM schema_migrations WHERE version IN (5,6,7,8,9,10)"),
+    ).toEqual([
+      { version: 5 },
+      { version: 6 },
+      { version: 7 },
+      { version: 8 },
+      { version: 9 },
+      { version: 10 },
+    ]);
     expect(await db.select("SELECT COUNT(*) AS count FROM expenses")).toEqual([{ count: 0 }]);
     expect(await db.select("SELECT COUNT(*) AS count FROM import_batches")).toEqual([{ count: 0 }]);
   });
@@ -173,9 +185,15 @@ describe("EXEC-P-01 V2 expense persistence", () => {
     ]);
     expect(await repositories.listV2Expenses("other-profile")).toEqual([]);
     await repositories.deleteV2Expense("expense-october");
-    expect(await repositories.getV2ExpenseById("expense-october")).toBeNull();
+    expect(await repositories.listV2Expenses("profile-v2", "2026-10")).toEqual([]);
+    expect(
+      (await repositories.listV2Expenses("profile-v2", "2026-10", true)).map((e) => e.id),
+    ).toEqual(["expense-october"]);
+    expect(
+      await db.select("SELECT deleted_at FROM expenses WHERE id='expense-october'"),
+    ).not.toEqual([{ deleted_at: null }]);
     await expect(repositories.deleteV2Expense("expense-october")).rejects.toMatchObject({
-      code: "EXPENSE_NOT_FOUND",
+      code: "EXPENSE_DELETED",
     });
   });
 

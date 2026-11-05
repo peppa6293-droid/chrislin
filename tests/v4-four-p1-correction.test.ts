@@ -155,9 +155,9 @@ async function runMutation(
 }
 
 describe("four V4 foundation P1 corrections", () => {
-  it("preserves real V3 stable-income history across migration for complete Home outputs", async () => {
+  it("preserves stable-income history across an idempotent migration for complete Home outputs", async () => {
     const db = fresh();
-    await migrateDatabase(db, "2026-09-01T00:00:00.000Z", 3);
+    await migrateDatabase(db, "2026-09-01T00:00:00.000Z");
     await completeOnboarding(
       db,
       { ...onboarding, stableMonthlyIncome: "1800", debts: [] },
@@ -174,7 +174,7 @@ describe("four V4 foundation P1 corrections", () => {
 
     const dates = ["2026-10-07", "2026-11-07", "2026-12-07", "2027-01-07"];
     const before = await Promise.all(dates.map((date) => getHomeApplicationState(db, date)));
-    await migrateDatabase(db, "2026-10-07T00:00:00.000Z", 4);
+    await migrateDatabase(db, "2026-10-07T00:00:00.000Z");
     const after = await Promise.all(dates.map((date) => getHomeApplicationState(db, date)));
     expect(after).toEqual(before);
     expect(after.map((home) => home.planningIncome)).toEqual(["15500", "15500", "15500", "15500"]);
@@ -234,7 +234,8 @@ describe("four V4 foundation P1 corrections", () => {
 
   it("retains only the approved compatibility bridge for legacy month-scoped Planning facts", async () => {
     const db = fresh();
-    await migrateDatabase(db, "2026-08-01T00:00:00.000Z", 3);
+    // The bridge is gated on the month V4 was applied, so this fixture is migrated at the scenario month.
+    await migrateDatabase(db, "2026-10-07T00:00:00.000Z");
     await completeOnboarding(db, { ...onboarding, debts: [] }, "2026-08-01");
     const repo = new Repositories(db);
     const profile = await repo.getProfile();
@@ -263,7 +264,7 @@ describe("four V4 foundation P1 corrections", () => {
       "2026-11",
       "2026-11-01T00:00:00.000Z",
     );
-    await migrateDatabase(db, "2026-10-07T00:00:00.000Z", 4);
+    await migrateDatabase(db, "2026-10-07T00:00:00.000Z");
     const v4 = new V4FoundationService(db);
     expect((await v4.read("2026-10", "2026-10-07")).planningIncome).toMatchObject({
       amount: "14000",
@@ -334,13 +335,13 @@ describe("four V4 foundation P1 corrections", () => {
     expect((await v4.read("2026-10", "2026-10-07")).actualIncome).toEqual([]);
   });
 
-  it("preserves a legitimate V3 Actual backfill across migration and never lets base reassert after a V4 revision", async () => {
+  it("preserves a legitimate Actual backfill across an idempotent migration and never lets base reassert after a V4 revision", async () => {
     const directory = mkdtempSync(join(tmpdir(), "pf-v4-actual02-backfill-"));
     directories.push(directory);
     const dbPath = join(directory, "actual-backfill.sqlite3");
     let db = new NodeSqliteDatabase(new DatabaseSync(dbPath));
     const dbIndex = opened.push(db) - 1;
-    await migrateDatabase(db, "2026-10-01T00:00:00.000Z", 3);
+    await migrateDatabase(db, "2026-10-01T00:00:00.000Z");
     await completeOnboarding(db, onboarding, "2026-10-01");
 
     // The real V3 maintenance path creates this row on Oct 7 for Oct 2.
@@ -369,7 +370,7 @@ describe("four V4 foundation P1 corrections", () => {
     const oldV3Home = await getHomeApplicationState(db, "2026-10-03");
     expect(oldV3Home.actualIncomeRecordCount).toBe(1);
 
-    await migrateDatabase(db, "2026-10-07T00:00:00.000Z", 4);
+    await migrateDatabase(db, "2026-10-07T00:00:00.000Z");
     const migratedHome = await getHomeApplicationState(db, "2026-10-03");
     expect(migratedHome).toEqual(oldV3Home);
     expect(migratedHome.actualIncomeRecordCount).toBe(1);
@@ -400,7 +401,7 @@ describe("four V4 foundation P1 corrections", () => {
     db.close();
     db = new NodeSqliteDatabase(new DatabaseSync(dbPath));
     opened[dbIndex] = db;
-    await migrateDatabase(db, "2026-10-26T00:00:00.000Z", 4);
+    await migrateDatabase(db, "2026-10-26T00:00:00.000Z");
     const reopenedService = new V4FoundationService(db);
     expect((await reopenedService.read("2026-10", "2026-10-03")).actualIncome).toMatchObject([
       { amount: "800", status: "RECEIVED" },
@@ -416,6 +417,12 @@ describe("four V4 foundation P1 corrections", () => {
       { version: 2 },
       { version: 3 },
       { version: 4 },
+      { version: 5 },
+      { version: 6 },
+      { version: 7 },
+      { version: 8 },
+      { version: 9 },
+      { version: 10 },
     ]);
     expect(await db.select("SELECT COUNT(*) AS count FROM actual_income_revisions")).toEqual([
       { count: 1 },
@@ -500,10 +507,10 @@ describe("four V4 foundation P1 corrections", () => {
     const path = join(directory, "history.sqlite3");
     const first = new NodeSqliteDatabase(new DatabaseSync(path));
     const index = opened.push(first) - 1;
-    await migrateDatabase(first, "2026-09-01T00:00:00.000Z", 3);
+    await migrateDatabase(first, "2026-09-01T00:00:00.000Z");
     await completeOnboarding(first, { ...onboarding, debts: [] }, "2026-09-01");
     await updateFinancialDataAndRecalculate(first, { stableMonthlyIncome: "14000" }, "2026-09-05");
-    await migrateDatabase(first, "2026-10-07T00:00:00.000Z", 4);
+    await migrateDatabase(first, "2026-10-07T00:00:00.000Z");
     const repos = new Repositories(first);
     const profile = await repos.getProfile();
     const cash = await repos.cashAccountsAt("2026-10-07");
@@ -547,7 +554,7 @@ describe("four V4 foundation P1 corrections", () => {
     first.close();
     const reopened = new NodeSqliteDatabase(new DatabaseSync(path));
     opened[index] = reopened;
-    await migrateDatabase(reopened, "2026-10-12T00:00:00.000Z", 4);
+    await migrateDatabase(reopened, "2026-10-12T00:00:00.000Z");
     const again = new V4FoundationService(reopened);
     expect({
       planningPrior: (await again.read("2026-10", "2026-10-09")).planningIncome,
@@ -560,7 +567,18 @@ describe("four V4 foundation P1 corrections", () => {
       cashInactive: (await again.read("2026-10", "2026-10-11")).cashAccounts,
     }).toEqual(before);
     expect(await reopened.select("SELECT version FROM schema_migrations ORDER BY version")).toEqual(
-      [{ version: 1 }, { version: 2 }, { version: 3 }, { version: 4 }],
+      [
+        { version: 1 },
+        { version: 2 },
+        { version: 3 },
+        { version: 4 },
+        { version: 5 },
+        { version: 6 },
+        { version: 7 },
+        { version: 8 },
+        { version: 9 },
+        { version: 10 },
+      ],
     );
     expect(
       await reopened.select("SELECT COUNT(*) AS count FROM planning_income_month_revisions"),

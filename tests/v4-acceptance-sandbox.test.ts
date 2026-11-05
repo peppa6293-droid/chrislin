@@ -26,7 +26,7 @@ describe("V4 owner acceptance sandbox service", () => {
         async () => runtime,
       );
       await service.initialize();
-      expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 9 }]);
+      expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 10 }]);
       expect(await db.select("SELECT version FROM schema_migrations ORDER BY version")).toEqual([
         { version: 1 },
         { version: 2 },
@@ -37,6 +37,7 @@ describe("V4 owner acceptance sandbox service", () => {
         { version: 7 },
         { version: 8 },
         { version: 9 },
+        { version: 10 },
       ]);
       expect((await service.read(ACCEPTANCE_MONTH, ACCEPTANCE_AS_OF)).planningIncome).toMatchObject(
         {

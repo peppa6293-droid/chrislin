@@ -69,7 +69,11 @@ async function unwrapToV8(db: NodeSqliteDatabase): Promise<void> {
   await db.connection.exec("ALTER TABLE cash_account_revisions DROP COLUMN source_payment_id");
   await db.connection.exec("ALTER TABLE debt_revisions DROP COLUMN source_payment_id");
   await db.connection.exec("ALTER TABLE debts DROP COLUMN daily_spending_mode");
-  await db.connection.exec("DELETE FROM schema_migrations WHERE version=9");
+  await db.connection.exec("ALTER TABLE expenses DROP COLUMN deleted_at");
+  await db.connection.exec("ALTER TABLE expenses DROP COLUMN deduction_account_id");
+  await db.connection.exec("ALTER TABLE expenses DROP COLUMN deduction_applied_on");
+  await db.connection.exec("ALTER TABLE expense_records DROP COLUMN deleted_at");
+  await db.connection.exec("DELETE FROM schema_migrations WHERE version IN (9,10)");
   await db.connection.exec("PRAGMA user_version=8");
 }
 
@@ -80,15 +84,15 @@ async function columnNames(db: NodeSqliteDatabase, table: string): Promise<strin
 }
 
 describe("S1 B2b T1 V9 migration structure and atomicity", () => {
-  it("migrates a fresh database to V9 with both version authorities and a clean schema", async () => {
+  it("migrates a fresh database to V10 with both version authorities and a clean schema", async () => {
     const db = memory();
     await migrateDatabase(db);
-    expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 9 }]);
+    expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 10 }]);
     expect(await db.select("SELECT MAX(version) AS version FROM schema_migrations")).toEqual([
-      { version: 9 },
+      { version: 10 },
     ]);
     expect(await db.select("SELECT version FROM schema_migrations ORDER BY version")).toEqual(
-      [1, 2, 3, 4, 5, 6, 7, 8, 9].map((version) => ({ version })),
+      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((version) => ({ version })),
     );
     expect(await db.select("PRAGMA integrity_check")).toEqual([{ integrity_check: "ok" }]);
     expect(await db.select("PRAGMA foreign_key_check")).toEqual([]);
@@ -100,7 +104,7 @@ describe("S1 B2b T1 V9 migration structure and atomicity", () => {
     await unwrapToV8(db);
     const before = await oldColumnDump(db);
 
-    await migrateDatabase(db, "2026-09-02T00:00:00.000Z");
+    await migrateDatabase(db, "2026-09-02T00:00:00.000Z", 9);
 
     const cashRevision = (
       await db.select<Record<string, unknown>>("PRAGMA table_info(cash_account_revisions)")
@@ -182,7 +186,7 @@ describe("S1 B2b T1 V9 migration structure and atomicity", () => {
   });
 });
 
-describe("S1 B2b T2 old data keeps its behavior across V8→V9", () => {
+describe("S1 B2b T2 old data keeps its behavior across V8→V10", () => {
   it("keeps maintenance and home output identical before and after the migration", async () => {
     const db = memory();
     await onboard(db, "2026-09-01");
@@ -212,8 +216,6 @@ describe("S1 B2b T2 old data keeps its behavior across V8→V9", () => {
     const homeBefore = await getHomeApplicationState(db, "2026-09-05");
 
     await unwrapToV8(db);
-    expect(await getFinancialMaintenanceState(db, "2026-09-05")).toEqual(stateBefore);
-    expect(await getHomeApplicationState(db, "2026-09-05")).toEqual(homeBefore);
 
     await migrateDatabase(db, "2026-09-06T00:00:00.000Z");
 

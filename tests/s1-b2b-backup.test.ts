@@ -28,7 +28,13 @@ afterEach(() => {
   for (const directory of dirs.splice(0)) rmSync(directory, { recursive: true, force: true });
 });
 
-const NEW_COLUMNS = ["source_payment_id", "daily_spending_mode"];
+const NEW_COLUMNS = [
+  "source_payment_id",
+  "daily_spending_mode",
+  "deduction_account_id",
+  "deduction_applied_on",
+  "deleted_at",
+];
 
 async function dump(
   db: NodeSqliteDatabase,
@@ -78,7 +84,11 @@ async function unwrapToV8(db: NodeSqliteDatabase): Promise<void> {
   await db.connection.exec("ALTER TABLE cash_account_revisions DROP COLUMN source_payment_id");
   await db.connection.exec("ALTER TABLE debt_revisions DROP COLUMN source_payment_id");
   await db.connection.exec("ALTER TABLE debts DROP COLUMN daily_spending_mode");
-  await db.connection.exec("DELETE FROM schema_migrations WHERE version=9");
+  await db.connection.exec("ALTER TABLE expenses DROP COLUMN deleted_at");
+  await db.connection.exec("ALTER TABLE expenses DROP COLUMN deduction_account_id");
+  await db.connection.exec("ALTER TABLE expenses DROP COLUMN deduction_applied_on");
+  await db.connection.exec("ALTER TABLE expense_records DROP COLUMN deleted_at");
+  await db.connection.exec("DELETE FROM schema_migrations WHERE version IN (9,10)");
   await db.connection.exec("PRAGMA user_version=8");
 }
 
@@ -95,7 +105,7 @@ function validate(backupPath: string): number {
     const version = Number(
       (connection.prepare("PRAGMA user_version").get() as { user_version: number }).user_version,
     );
-    expect(version).toBe(9);
+    expect(version).toBe(10);
     expect(
       (
         connection
@@ -111,8 +121,8 @@ function validate(backupPath: string): number {
   }
 }
 
-describe("S1 B2b T4 backup and restore with V9", () => {
-  it("backs up a V9 database, restores an isolated copy, and keeps every table identical", async () => {
+describe("S1 B2b T4 backup and restore with V10", () => {
+  it("backs up a V10 database, restores an isolated copy, and keeps every table identical", async () => {
     const directory = tempDir();
     const sourcePath = join(directory, "source.sqlite3");
     const source = fileDatabase(sourcePath);
@@ -121,23 +131,23 @@ describe("S1 B2b T4 backup and restore with V9", () => {
     const before = await dump(source, false);
 
     const backupPath = backup(source, directory, "backup.sqlite3");
-    expect(validate(backupPath)).toBe(9);
+    expect(validate(backupPath)).toBe(10);
 
     const restoredPath = join(directory, "restored.sqlite3");
     copyFileSync(backupPath, restoredPath);
     const restored = fileDatabase(restoredPath);
-    expect(await restored.select("PRAGMA user_version")).toEqual([{ user_version: 9 }]);
+    expect(await restored.select("PRAGMA user_version")).toEqual([{ user_version: 10 }]);
     expect(await dump(restored, false)).toEqual(before);
     await migrateDatabase(restored, "2026-09-06T00:00:00.000Z");
     expect(await getFinancialMaintenanceState(restored, "2026-09-05")).toEqual(state);
   });
 
-  it("opens a V8 backup outside production and migrates it to V9 without data loss", async () => {
+  it("opens a V8 backup outside production and migrates it to V10 without data loss", async () => {
     const directory = tempDir();
     const source = fileDatabase(join(directory, "source.sqlite3"));
     await onboard(source);
+    const stateV10 = await getFinancialMaintenanceState(source, "2026-09-05");
     await unwrapToV8(source);
-    const stateV8 = await getFinancialMaintenanceState(source, "2026-09-05");
     const before = await dump(source, true);
 
     const backupPath = backup(source, directory, "v8-backup.sqlite3");
@@ -148,8 +158,8 @@ describe("S1 B2b T4 backup and restore with V9", () => {
 
     await migrateDatabase(target, "2026-09-06T00:00:00.000Z");
 
-    expect(await target.select("PRAGMA user_version")).toEqual([{ user_version: 9 }]);
+    expect(await target.select("PRAGMA user_version")).toEqual([{ user_version: 10 }]);
     expect(await dump(target, true)).toEqual(before);
-    expect(await getFinancialMaintenanceState(target, "2026-09-05")).toEqual(stateV8);
+    expect(await getFinancialMaintenanceState(target, "2026-09-05")).toEqual(stateV10);
   });
 });

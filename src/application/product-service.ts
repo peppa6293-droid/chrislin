@@ -537,7 +537,7 @@ async function recentExpensesForDisplay(
   const entryRank = new Map(
     (hasV2Expenses
       ? await db.select<{ id: string }>(
-          "SELECT id FROM expenses WHERE profile_id=? AND substr(occurred_on,1,7)=? ORDER BY created_at DESC, rowid DESC",
+          "SELECT id FROM expenses WHERE profile_id=? AND deleted_at IS NULL AND substr(occurred_on,1,7)=? ORDER BY created_at DESC, rowid DESC",
           [profileId, month],
         )
       : []
