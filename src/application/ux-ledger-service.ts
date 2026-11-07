@@ -1,8 +1,11 @@
 import { assertUserInputMoney, money } from "../model/money.js";
 import type { ExpenseCategory } from "../model/types.js";
 import { ApplicationDataError, type SqlDatabase } from "../persistence/database.js";
+import type { RecoveryJournal } from "../persistence/recovery-journal.js";
 import { type DeductionEffectResult, Repositories } from "../persistence/repositories.js";
+import { outcomeOf, TransactionError } from "../persistence/transaction-errors.js";
 import { getHomeApplicationState, type HomeApplicationState } from "./product-service.js";
+import { assertRecoveryComplete } from "./recovery-service.js";
 
 /**
  * UX-revamp ledger operations.
@@ -607,6 +610,387 @@ export async function restoreLedgerExpense(
     reconciliation,
     ...(suppressed.length === 0 ? {} : { suppressed }),
   };
+}
+
+export interface TransferCreateInput {
+  /** Optional caller-supplied id; a fresh UUID is generated when omitted (C6-5: outside the transaction). */
+  id?: string;
+  fromAccountId: string;
+  toAccountId: string;
+  amount: string;
+  occurredOn: string;
+  note?: string | null;
+}
+
+export interface TransferEditInput {
+  id: string;
+  amount?: string;
+  occurredOn?: string;
+  note?: string | null;
+  fromAccountId?: string;
+  toAccountId?: string;
+}
+
+export interface TransferMutationResult {
+  home: HomeApplicationState;
+  transferId: string;
+}
+
+const TRANSFER_AUDIT_ACTION = {
+  CREATE: "CREATE_TRANSFER",
+  EDIT: "EDIT_TRANSFER",
+  DELETE: "DELETE_TRANSFER",
+  RESTORE: "RESTORE_TRANSFER",
+} as const;
+
+/** Root cause of a service failure, so a lock verdict never depends on wrapper text. */
+function rootCauseOf(error: unknown): unknown {
+  let current: unknown = error;
+  for (let depth = 0; depth < 5; depth += 1) {
+    const cause = current instanceof Error ? (current as { cause?: unknown }).cause : undefined;
+    if (cause === undefined || cause === null) return current;
+    current = cause;
+  }
+  return current;
+}
+
+function isRecoveryJournalError(error: unknown): boolean {
+  return error instanceof ApplicationDataError && error.code.startsWith("RECOVERY_JOURNAL_");
+}
+
+/** A locked or pending-review transfer refuses every write, on the row and on the journal. */
+async function assertTransferWritable(
+  db: SqlDatabase,
+  journal: RecoveryJournal,
+  profileId: string,
+  transferId: string,
+  ownJournalId: string,
+): Promise<void> {
+  if (await new Repositories(db).isOutcomeLocked(transferId))
+    throw new ApplicationDataError(
+      "TRANSFER_LOCKED",
+      `Transfer ${transferId} is locked pending reconciliation.`,
+    );
+  const entry = await journal.findByTransferId(profileId, transferId);
+  // Any other unresolved entry for this id means the previous attempt never settled its
+  // outcome, so this write must wait for recovery - even while the entry is still PENDING.
+  if (entry !== null && entry.journalId !== ownJournalId)
+    throw new ApplicationDataError(
+      "TRANSFER_LOCKED",
+      `Transfer ${transferId} is locked pending reconciliation.`,
+    );
+}
+
+/**
+ * The single classify-and-settle step for one transfer. The verdict comes from the driver's
+ * structured phase evidence only (C6); the journal is settled to the more conservative side
+ * and never loosened (§5.1.4.4 3a/3b/3c).
+ */
+async function settleTransferFailure(
+  db: SqlDatabase,
+  journal: RecoveryJournal,
+  profileId: string,
+  transferId: string,
+  journalId: string,
+  error: unknown,
+): Promise<never> {
+  if (outcomeOf(error) === "UNKNOWN") {
+    // The detail records which phase lost its reply, so a human reviewer can see whether the
+    // commit itself threw (`commit/…`) or the post-commit readback did (`post_commit/…`).
+    const phase = error instanceof TransactionError ? error.phase : null;
+    const detail =
+      phase === null
+        ? "UNKNOWN"
+        : `${phase}/${error instanceof Error ? error.message : String(error)}`;
+    const locked = await new Repositories(db).lockTransferOutcomeSafely(
+      transferId,
+      profileId,
+      detail,
+    );
+    // A failed journal rewrite leaves the entry PENDING: more conservative, never looser.
+    try {
+      await journal.setState(profileId, journalId, locked ? "LOCKED" : "PENDING");
+    } catch {
+      // ignored on purpose
+    }
+    throw new ApplicationDataError(
+      "TRANSFER_OUTCOME_UNKNOWN",
+      "The transfer outcome is unknown; it is locked pending reconciliation.",
+      { cause: error },
+    );
+  }
+  const cause = rootCauseOf(error);
+  // C9: a missing leg is deterministic for this attempt but still needs a persistent lock.
+  const legMissing = await new Repositories(db).lockIfLegMissingSafely(
+    transferId,
+    profileId,
+    cause,
+  );
+  if (legMissing) {
+    try {
+      await journal.setState(profileId, journalId, "MANUAL_REVIEW");
+    } catch {
+      // ignored on purpose
+    }
+  } else {
+    // 3a: a deterministic failure with a successful rollback is the only path that drops a
+    // PENDING entry without archiving it.
+    try {
+      await journal.remove(profileId, journalId);
+    } catch {
+      // ignored on purpose
+    }
+  }
+  // The driver's phase evidence (phase / rollbackFailed / connectionState) is the primary
+  // artifact for a deterministic verdict, so a TransactionError is rethrown as-is instead of
+  // being unwrapped to its cause.
+  if (error instanceof TransactionError) throw error;
+  if (error instanceof ApplicationDataError) throw error;
+  if (cause instanceof TransactionError) throw cause;
+  if (cause instanceof ApplicationDataError) throw cause;
+  throw error instanceof Error
+    ? new ApplicationDataError("TRANSFER_COMMIT_FAILED", error.message, { cause: error })
+    : new ApplicationDataError("TRANSFER_COMMIT_FAILED", "The transfer did not complete.");
+}
+
+/**
+ * Step 3c of every mutation, called only after verifyTransferCommitted has passed. The
+ * transaction has already COMMITTED here, so a journal finalization failure may never be
+ * reported as a deterministic failure: the business rows are live, the journal entry must
+ * stay (PENDING or LOCKED), and the next recovery performs the full read-only check before
+ * archiving it.
+ */
+async function finalizeCommittedJournal(
+  db: SqlDatabase,
+  journal: RecoveryJournal,
+  profileId: string,
+  transferId: string,
+  journalId: string,
+): Promise<void> {
+  try {
+    await journal.remove(profileId, journalId);
+  } catch (error) {
+    await settleTransferFailure(
+      db,
+      journal,
+      profileId,
+      transferId,
+      journalId,
+      new TransactionError("post_commit", error, false, "Post-commit journal finalization failed", {
+        connectionState: "unmodified",
+      }),
+    );
+  }
+}
+
+/**
+ * Post-commit readback. It runs BEFORE journal finalization: a mismatch means the outcome is
+ * unknown, never "failed", and only a complete readback may drop the journal entry.
+ */
+async function verifyTransferCommitted(
+  db: SqlDatabase,
+  journal: RecoveryJournal,
+  profileId: string,
+  transferId: string,
+  journalId: string,
+): Promise<void> {
+  try {
+    await new Repositories(db).assertCommitted(transferId, profileId);
+  } catch (error) {
+    await settleTransferFailure(
+      db,
+      journal,
+      profileId,
+      transferId,
+      journalId,
+      new TransactionError("post_commit", error, false, "Post-commit readback failed", {
+        connectionState: "unmodified",
+      }),
+    );
+  }
+}
+
+/**
+ * Records one transfer. The journal entry is durable BEFORE the transaction opens, and the
+ * service is the only transaction owner (C5-1).
+ */
+export async function createLedgerTransfer(
+  db: SqlDatabase,
+  journal: RecoveryJournal,
+  input: TransferCreateInput,
+  asOfDate: string,
+): Promise<TransferMutationResult> {
+  const amount = positiveAmount(input.amount, "INVALID_TRANSFER_AMOUNT");
+  validDate(input.occurredOn, "occurredOn");
+  validDate(asOfDate, "asOfDate");
+  if (input.fromAccountId === input.toAccountId)
+    throw new ApplicationDataError(
+      "TRANSFER_ACCOUNT_SAME",
+      "A transfer needs two different accounts.",
+    );
+  const profile = await new Repositories(db).getProfile();
+  if (!profile) throw new ApplicationDataError("INITIALIZATION_REQUIRED", "Profile is required.");
+  const transferId = input.id ?? crypto.randomUUID();
+  const now = new Date().toISOString();
+  const note = input.note ?? null;
+  let journalId: string;
+  try {
+    // Step 1: a journal that cannot be made durable closes the write entry point entirely, and
+    // the transaction below is never called (§5.1.4.6).
+    journalId = (await journal.append(profile.id, { transferId, operation: "CREATE" })).journalId;
+  } catch (error) {
+    if (isRecoveryJournalError(error)) throw error;
+    throw new ApplicationDataError(
+      "RECOVERY_JOURNAL_UNAVAILABLE",
+      "The transfer was not attempted.",
+      { cause: error },
+    );
+  }
+  try {
+    await db.transaction(async (tx) => {
+      const repositories = new Repositories(tx);
+      await assertTransferWritable(tx, journal, profile.id, transferId, journalId);
+      await repositories.recordTransferInTransaction(
+        {
+          id: transferId,
+          fromAccountId: input.fromAccountId,
+          toAccountId: input.toAccountId,
+          amount,
+          occurredOn: input.occurredOn,
+          note,
+        },
+        profile.id,
+        asOfDate,
+        now,
+      );
+      await appendMetadataEntry(tx, AUDIT_KEY, {
+        at: now,
+        action: TRANSFER_AUDIT_ACTION.CREATE,
+        transferId,
+        amount,
+        occurredOn: input.occurredOn,
+      });
+    });
+    // Step 3c: only a readback that matches the committed facts may drop the entry.
+  } catch (error) {
+    await settleTransferFailure(db, journal, profile.id, transferId, journalId, error);
+  }
+  await verifyTransferCommitted(db, journal, profile.id, transferId, journalId);
+  await finalizeCommittedJournal(db, journal, profile.id, transferId, journalId);
+  return { home: await getHomeApplicationState(db, asOfDate), transferId };
+}
+
+export async function editLedgerTransfer(
+  db: SqlDatabase,
+  journal: RecoveryJournal,
+  input: TransferEditInput,
+  asOfDate: string,
+): Promise<TransferMutationResult> {
+  validDate(asOfDate, "asOfDate");
+  const profile = await new Repositories(db).getProfile();
+  if (!profile) throw new ApplicationDataError("INITIALIZATION_REQUIRED", "Profile is required.");
+  assertRecoveryComplete(profile.id);
+  const amount =
+    input.amount === undefined
+      ? undefined
+      : positiveAmount(input.amount, "INVALID_TRANSFER_AMOUNT");
+  if (input.occurredOn !== undefined) validDate(input.occurredOn, "occurredOn");
+  const now = new Date().toISOString();
+  const journalId = (await journal.append(profile.id, { transferId: input.id, operation: "EDIT" }))
+    .journalId;
+  try {
+    await db.transaction(async (tx) => {
+      const repositories = new Repositories(tx);
+      await assertTransferWritable(tx, journal, profile.id, input.id, journalId);
+      await repositories.changeTransferInTransaction(
+        input.id,
+        {
+          ...(amount === undefined ? {} : { amount }),
+          ...(input.occurredOn === undefined ? {} : { occurredOn: input.occurredOn }),
+          ...(input.note === undefined ? {} : { note: input.note }),
+          ...(input.fromAccountId === undefined ? {} : { fromAccountId: input.fromAccountId }),
+          ...(input.toAccountId === undefined ? {} : { toAccountId: input.toAccountId }),
+        },
+        profile.id,
+        asOfDate,
+        now,
+      );
+      await appendMetadataEntry(tx, AUDIT_KEY, {
+        at: now,
+        action: TRANSFER_AUDIT_ACTION.EDIT,
+        transferId: input.id,
+      });
+    });
+  } catch (error) {
+    await settleTransferFailure(db, journal, profile.id, input.id, journalId, error);
+  }
+  await verifyTransferCommitted(db, journal, profile.id, input.id, journalId);
+  await finalizeCommittedJournal(db, journal, profile.id, input.id, journalId);
+  return { home: await getHomeApplicationState(db, asOfDate), transferId: input.id };
+}
+
+export async function deleteLedgerTransfer(
+  db: SqlDatabase,
+  journal: RecoveryJournal,
+  transferId: string,
+  asOfDate: string,
+): Promise<TransferMutationResult> {
+  validDate(asOfDate, "asOfDate");
+  const profile = await new Repositories(db).getProfile();
+  if (!profile) throw new ApplicationDataError("INITIALIZATION_REQUIRED", "Profile is required.");
+  assertRecoveryComplete(profile.id);
+  const now = new Date().toISOString();
+  const journalId = (await journal.append(profile.id, { transferId, operation: "DELETE" }))
+    .journalId;
+  try {
+    await db.transaction(async (tx) => {
+      const repositories = new Repositories(tx);
+      await assertTransferWritable(tx, journal, profile.id, transferId, journalId);
+      await repositories.deleteTransferInTransaction(transferId, profile.id, asOfDate, now);
+      await appendMetadataEntry(tx, AUDIT_KEY, {
+        at: now,
+        action: TRANSFER_AUDIT_ACTION.DELETE,
+        transferId,
+      });
+    });
+  } catch (error) {
+    await settleTransferFailure(db, journal, profile.id, transferId, journalId, error);
+  }
+  await verifyTransferCommitted(db, journal, profile.id, transferId, journalId);
+  await finalizeCommittedJournal(db, journal, profile.id, transferId, journalId);
+  return { home: await getHomeApplicationState(db, asOfDate), transferId };
+}
+
+export async function restoreLedgerTransfer(
+  db: SqlDatabase,
+  journal: RecoveryJournal,
+  transferId: string,
+  asOfDate: string,
+): Promise<TransferMutationResult> {
+  validDate(asOfDate, "asOfDate");
+  const profile = await new Repositories(db).getProfile();
+  if (!profile) throw new ApplicationDataError("INITIALIZATION_REQUIRED", "Profile is required.");
+  assertRecoveryComplete(profile.id);
+  const now = new Date().toISOString();
+  const journalId = (await journal.append(profile.id, { transferId, operation: "RESTORE" }))
+    .journalId;
+  try {
+    await db.transaction(async (tx) => {
+      const repositories = new Repositories(tx);
+      await assertTransferWritable(tx, journal, profile.id, transferId, journalId);
+      await repositories.restoreTransferInTransaction(transferId, profile.id, asOfDate, now);
+      await appendMetadataEntry(tx, AUDIT_KEY, {
+        at: now,
+        action: TRANSFER_AUDIT_ACTION.RESTORE,
+        transferId,
+      });
+    });
+  } catch (error) {
+    await settleTransferFailure(db, journal, profile.id, transferId, journalId, error);
+  }
+  await verifyTransferCommitted(db, journal, profile.id, transferId, journalId);
+  await finalizeCommittedJournal(db, journal, profile.id, transferId, journalId);
+  return { home: await getHomeApplicationState(db, asOfDate), transferId };
 }
 
 export async function listEssentialPaymentItems(

@@ -146,9 +146,9 @@ describe("Production composition root never applies TypeScript DDL", () => {
   });
 });
 
-describe("isolated runtimes still own the TypeScript V1..V10 chain", () => {
+describe("isolated runtimes still own the TypeScript V1..V11 chain", () => {
   it.each(["com.personalfinance.console.smoke", "com.personalfinance.console.v4acceptance"])(
-    "bootstrap migrates an isolated V3 fixture to V10 for %s",
+    "bootstrap migrates an isolated V3 fixture to V11 for %s",
     async (identifier) => {
       const db = fixture();
       await migrateDatabase(db, "2026-10-22T00:00:00.000Z", 3);
@@ -159,9 +159,9 @@ describe("isolated runtimes still own the TypeScript V1..V10 chain", () => {
       });
 
       expect(result.status).toBe("INITIALIZATION_REQUIRED");
-      expect(await versionState(db)).toEqual({ userVersion: 10, migrationVersion: 10 });
+      expect(await versionState(db)).toEqual({ userVersion: 11, migrationVersion: 11 });
       expect(await db.select("SELECT version FROM schema_migrations ORDER BY version")).toEqual(
-        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((version) => ({ version })),
+        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((version) => ({ version })),
       );
     },
   );
@@ -176,7 +176,7 @@ describe("isolated runtimes still own the TypeScript V1..V10 chain", () => {
     });
 
     expect(services.initialization.status).toBe("INITIALIZATION_REQUIRED");
-    expect(await versionState(db)).toEqual({ userVersion: 10, migrationVersion: 10 });
+    expect(await versionState(db)).toEqual({ userVersion: 11, migrationVersion: 11 });
   });
 });
 
@@ -194,9 +194,9 @@ describe("targetVersion is authoritative for the entire migration chain", () => 
     );
   });
 
-  it("defaults to the full V10 chain unchanged", async () => {
+  it("defaults to the full V11 chain unchanged", async () => {
     const db = fixture();
     await migrateDatabase(db);
-    expect(await versionState(db)).toEqual({ userVersion: 10, migrationVersion: 10 });
+    expect(await versionState(db)).toEqual({ userVersion: 11, migrationVersion: 11 });
   });
 });

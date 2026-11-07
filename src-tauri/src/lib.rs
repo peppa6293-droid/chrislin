@@ -425,6 +425,252 @@ fn persist_consumed_authorization(ledger_path: &Path, consumed: ConsumedAuthoriz
     result
 }
 
+// ---------------------------------------------------------------------------
+// C12 recovery journal (file channel)
+//
+// The journal is the only durable memory of a transfer whose outcome was
+// UNKNOWN. It is deliberately NOT stored in SQLite: when the connection is
+// faulted the lock row cannot be written, and a restart must still remember
+// that a transfer may have landed. See design section 5.1.4.
+//
+// Contract (enforced here, not by convention):
+//   root    = Tauri app_data_dir()   (bundle-id scoped)
+//   dir     = <app_data>/transfer-recovery/   0700
+//   file    = <app_data>/transfer-recovery/<profileId>.json   0600
+//   profile = profiles.id, strictly a UUID; anything else is rejected before
+//             it can become a path component.
+// ---------------------------------------------------------------------------
+
+const RECOVERY_JOURNAL_FORMAT_VERSION: u32 = 1;
+const RECOVERY_JOURNAL_DIRECTORY: &str = "transfer-recovery";
+const RECOVERY_JOURNAL_BUSY: &str = "RECOVERY_JOURNAL_BUSY";
+const RECOVERY_JOURNAL_UNAVAILABLE: &str = "RECOVERY_JOURNAL_UNAVAILABLE";
+const RECOVERY_JOURNAL_UNREADABLE: &str = "RECOVERY_JOURNAL_UNREADABLE";
+
+/// Exactly the six fields of design section 5.1.4.2. deny_unknown_fields is
+/// what turns "we promise not to record amounts" into a runtime refusal.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct RecoveryJournalEntry {
+    journal_id: String,
+    profile_id: String,
+    transfer_id: String,
+    operation: String,
+    created_at: String,
+    state: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct RecoveryJournalArchiveEntry {
+    journal_id: String,
+    profile_id: String,
+    transfer_id: String,
+    operation: String,
+    created_at: String,
+    state: String,
+    resolved_at: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct RecoveryJournalDocument {
+    journal_format_version: u32,
+    profile_id: String,
+    entries: Vec<RecoveryJournalEntry>,
+    archive: Vec<RecoveryJournalArchiveEntry>,
+}
+
+fn recovery_journal_uuid(value: &str) -> bool {
+    let bytes = value.as_bytes();
+    if bytes.len() != 36 {
+        return false;
+    }
+    for (index, byte) in bytes.iter().enumerate() {
+        if matches!(index, 8 | 13 | 18 | 23) {
+            if *byte != b'-' {
+                return false;
+            }
+        } else if !byte.is_ascii_hexdigit() {
+            return false;
+        }
+    }
+    true
+}
+
+/// The single gate between a profile id and a file name. Rejects every path
+/// component and every user-visible string (email, account name, display name).
+fn validate_recovery_profile_id(profile_id: &str) -> Result<(), String> {
+    if recovery_journal_uuid(profile_id) {
+        Ok(())
+    } else {
+        Err(RECOVERY_JOURNAL_UNREADABLE.to_string())
+    }
+}
+
+fn recovery_journal_operation(value: &str) -> bool {
+    matches!(value, "CREATE" | "EDIT" | "DELETE" | "RESTORE")
+}
+
+fn recovery_journal_state(value: &str) -> bool {
+    matches!(value, "PENDING" | "LOCKED" | "RESOLVED" | "MANUAL_REVIEW")
+}
+
+fn recovery_journal_directory(app_data: &Path) -> Result<PathBuf, String> {
+    let directory = app_data.join(RECOVERY_JOURNAL_DIRECTORY);
+    std::fs::create_dir_all(&directory).map_err(|_| RECOVERY_JOURNAL_UNAVAILABLE.to_string())?;
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::PermissionsExt;
+        // create_dir_all inherits the umask; the directory must be owner-only
+        // regardless of the launching shell.
+        std::fs::set_permissions(&directory, std::fs::Permissions::from_mode(0o700))
+            .map_err(|_| RECOVERY_JOURNAL_UNAVAILABLE.to_string())?;
+        let mode = std::fs::metadata(&directory)
+            .map_err(|_| RECOVERY_JOURNAL_UNAVAILABLE.to_string())?
+            .permissions()
+            .mode();
+        if mode & 0o077 != 0 {
+            return Err(RECOVERY_JOURNAL_UNAVAILABLE.to_string());
+        }
+    }
+    Ok(directory)
+}
+
+fn recovery_journal_path(app_data: &Path, profile_id: &str) -> Result<PathBuf, String> {
+    validate_recovery_profile_id(profile_id)?;
+    Ok(recovery_journal_directory(app_data)?.join(format!("{profile_id}.json")))
+}
+
+fn validate_recovery_journal_document(
+    document: &RecoveryJournalDocument,
+    expected_profile: &str,
+) -> Result<(), String> {
+    if document.journal_format_version != RECOVERY_JOURNAL_FORMAT_VERSION {
+        return Err(RECOVERY_JOURNAL_UNREADABLE.to_string());
+    }
+    if document.profile_id != expected_profile || !recovery_journal_uuid(&document.profile_id) {
+        // A profile mismatch is treated as corruption: never merge, never guess.
+        return Err(RECOVERY_JOURNAL_UNREADABLE.to_string());
+    }
+    for entry in &document.entries {
+        if entry.profile_id != expected_profile
+            || !recovery_journal_uuid(&entry.journal_id)
+            || !recovery_journal_uuid(&entry.transfer_id)
+            || !recovery_journal_operation(&entry.operation)
+            || !recovery_journal_state(&entry.state)
+        {
+            return Err(RECOVERY_JOURNAL_UNREADABLE.to_string());
+        }
+    }
+    for entry in &document.archive {
+        if entry.profile_id != expected_profile
+            || !recovery_journal_uuid(&entry.journal_id)
+            || !recovery_journal_uuid(&entry.transfer_id)
+            || !recovery_journal_operation(&entry.operation)
+            || !recovery_journal_state(&entry.state)
+        {
+            return Err(RECOVERY_JOURNAL_UNREADABLE.to_string());
+        }
+    }
+    Ok(())
+}
+
+fn read_recovery_journal(
+    app_data: &Path,
+    profile_id: &str,
+) -> Result<Option<RecoveryJournalDocument>, String> {
+    let path = recovery_journal_path(app_data, profile_id)?;
+    if !path.exists() {
+        return Ok(None);
+    }
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::PermissionsExt;
+        let metadata =
+            std::fs::metadata(&path).map_err(|_| RECOVERY_JOURNAL_UNREADABLE.to_string())?;
+        if metadata.permissions().mode() & 0o077 != 0 {
+            return Err(RECOVERY_JOURNAL_UNREADABLE.to_string());
+        }
+    }
+    let bytes = std::fs::read(&path).map_err(|_| RECOVERY_JOURNAL_UNREADABLE.to_string())?;
+    let document: RecoveryJournalDocument = serde_json::from_slice(&bytes)
+        .map_err(|_| RECOVERY_JOURNAL_UNREADABLE.to_string())?;
+    validate_recovery_journal_document(&document, profile_id)?;
+    Ok(Some(document))
+}
+
+/// Whole-file atomic rewrite, same shape as persist_consumed_authorization
+/// above: lock file -> read the previous file (a corrupt one is never
+/// overwritten) -> create_new temporary copy -> fsync -> rename -> fsync dir.
+fn write_recovery_journal(
+    app_data: &Path,
+    document: &RecoveryJournalDocument,
+) -> Result<(), String> {
+    validate_recovery_profile_id(&document.profile_id)?;
+    validate_recovery_journal_document(document, &document.profile_id)?;
+    let directory = recovery_journal_directory(app_data)?;
+    let path = directory.join(format!("{}.json", document.profile_id));
+    let lock_path = directory.join(format!("{}.json.lock", document.profile_id));
+
+    let mut lock_options = std::fs::OpenOptions::new();
+    lock_options.write(true).create_new(true);
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::OpenOptionsExt;
+        lock_options.mode(0o600);
+    }
+    let lock = lock_options.open(&lock_path).map_err(|error| {
+        if error.kind() == std::io::ErrorKind::AlreadyExists {
+            RECOVERY_JOURNAL_BUSY.to_string()
+        } else {
+            RECOVERY_JOURNAL_UNAVAILABLE.to_string()
+        }
+    })?;
+
+    let result = (|| {
+        // Read before overwrite: a file we cannot understand must not be
+        // replaced, because replacing it would erase the fact that a transfer
+        // is still pending review.
+        if path.exists() && read_recovery_journal(app_data, &document.profile_id)?.is_none() {
+            return Err(RECOVERY_JOURNAL_UNREADABLE.to_string());
+        }
+        let temporary_path = directory.join(format!(
+            "{}.json.tmp-{}",
+            document.profile_id,
+            std::process::id()
+        ));
+        let mut options = std::fs::OpenOptions::new();
+        options.write(true).create_new(true);
+        #[cfg(unix)]
+        {
+            use std::os::unix::fs::OpenOptionsExt;
+            options.mode(0o600);
+        }
+        let mut temporary = options
+            .open(&temporary_path)
+            .map_err(|_| RECOVERY_JOURNAL_UNAVAILABLE.to_string())?;
+        serde_json::to_writer_pretty(&mut temporary, document)
+            .map_err(|_| RECOVERY_JOURNAL_UNAVAILABLE.to_string())?;
+        temporary
+            .write_all(b"\n")
+            .map_err(|_| RECOVERY_JOURNAL_UNAVAILABLE.to_string())?;
+        temporary
+            .sync_all()
+            .map_err(|_| RECOVERY_JOURNAL_UNAVAILABLE.to_string())?;
+        std::fs::rename(&temporary_path, &path)
+            .map_err(|_| RECOVERY_JOURNAL_UNAVAILABLE.to_string())?;
+        std::fs::File::open(&directory)
+            .and_then(|handle| handle.sync_all())
+            .map_err(|_| RECOVERY_JOURNAL_UNAVAILABLE.to_string())?;
+        Ok(())
+    })();
+
+    drop(lock);
+    let _ = std::fs::remove_file(&lock_path);
+    result
+}
+
 fn consume_production_migration_authorization_at(
     app_data: &Path,
     database_path: &Path,
@@ -1479,6 +1725,32 @@ pub struct DatabaseState {
     integrity_key: Mutex<Option<String>>,
     integrity_write: Arc<AtomicBool>,
     transaction_dirty: Mutex<bool>,
+    /// Latched only when a failed COMMIT/ROLLBACK left the connection inside a
+    /// transaction we could neither commit nor roll back. Process-scoped: a
+    /// restart rebuilds this state and clears the latch.
+    connection_faulted: Arc<AtomicBool>,
+}
+
+/// Structured failure reported by `database_commit` / `database_rollback`.
+///
+/// It carries observable facts only — which step failed, whether the connection
+/// is still usable, and whether the compensating ROLLBACK failed. There is
+/// deliberately no `committed` field: the caller derives the conclusion from
+/// `phase` with the table in the design (§5.3.3), never from a boolean we guess.
+#[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct TransactionFailure {
+    phase: String,
+    connection_state: String,
+    rollback_failed: bool,
+    error: String,
+}
+
+impl TransactionFailure {
+    /// The transaction control command never reached SQLite: nothing changed.
+    fn rejected(error: impl Into<String>) -> Self {
+        Self { phase: "rejected".into(), connection_state: "unmodified".into(), rollback_failed: false, error: error.into() }
+    }
 }
 
 impl DatabaseState {
@@ -1544,6 +1816,7 @@ impl DatabaseState {
             connection: Mutex::new(connection), transaction_id: Mutex::new(None), path, acceptance_runtime,
             production_runtime, migration_permitted, migration_active, schema_ready,
             integrity_key: Mutex::new(None), integrity_write, transaction_dirty: Mutex::new(false),
+            connection_faulted: Arc::new(AtomicBool::new(false)),
         })
     }
 
@@ -1600,6 +1873,19 @@ impl DatabaseState {
         Err("Production schema migration did not reach the approved V8 version.".into())
     }
 
+    /// A connection that could not be returned to autocommit refuses everything
+    /// until the process restarts. This gate sits *before* the existing checks
+    /// and does not rewrite any of them.
+    fn ensure_not_faulted(&self) -> Result<(), String> {
+        if self.connection_faulted.load(Ordering::SeqCst) {
+            return Err("DATABASE_CONNECTION_FAULTED: the database connection is in an unknown transaction and must not be used again until the application restarts.".into());
+        }
+        Ok(())
+    }
+
+    #[cfg(test)]
+    fn is_faulted(&self) -> bool { self.connection_faulted.load(Ordering::SeqCst) }
+
     fn check_transaction(&self, requested: &Option<String>) -> Result<(), String> {
         let active = self.transaction_id.lock().map_err(|_| "Database transaction state is unavailable.".to_string())?;
         match (active.as_ref(), requested.as_ref()) {
@@ -1611,6 +1897,7 @@ impl DatabaseState {
     }
 
     fn execute(&self, sql: &str, bind_values: Vec<JsonValue>, transaction_id: Option<String>) -> Result<ExecuteResult, String> {
+        self.ensure_not_faulted()?;
         if self.production_runtime && !self.schema_ready.load(Ordering::SeqCst) && !self.migration_active.load(Ordering::SeqCst) {
             return Err("Production database is not at the supported schema version.".into());
         }
@@ -1660,6 +1947,7 @@ impl DatabaseState {
     }
 
     fn select(&self, sql: &str, bind_values: Vec<JsonValue>, transaction_id: Option<String>) -> Result<Vec<Map<String, JsonValue>>, String> {
+        self.ensure_not_faulted()?;
         if self.production_runtime && !self.schema_ready.load(Ordering::SeqCst) && !self.migration_active.load(Ordering::SeqCst) && !is_schema_preflight_select(sql) {
             return Err("Production business reads are blocked until the schema migration is authorized and complete.".into());
         }
@@ -1686,6 +1974,7 @@ impl DatabaseState {
     }
 
     fn begin(&self, transaction_id: String) -> Result<(), String> {
+        self.ensure_not_faulted()?;
         if self.production_runtime && !self.schema_ready.load(Ordering::SeqCst) && !self.migration_active.load(Ordering::SeqCst) {
             return Err("Production database is not at the supported schema version.".into());
         }
@@ -1697,32 +1986,64 @@ impl DatabaseState {
         Ok(())
     }
 
-    fn commit(&self, transaction_id: &str) -> Result<(), String> { self.finish_transaction(transaction_id, "COMMIT") }
+    fn commit(&self, transaction_id: &str) -> Result<(), TransactionFailure> { self.finish_transaction(transaction_id, "COMMIT") }
 
-    fn rollback(&self, transaction_id: &str) -> Result<(), String> { self.finish_transaction(transaction_id, "ROLLBACK") }
+    fn rollback(&self, transaction_id: &str) -> Result<(), TransactionFailure> { self.finish_transaction(transaction_id, "ROLLBACK") }
 
-    fn finish_transaction(&self, transaction_id: &str, command: &str) -> Result<(), String> {
-        let connection = self.connection.lock().map_err(|_| "Database connection is unavailable.".to_string())?;
-        let mut active = self.transaction_id.lock().map_err(|_| "Database transaction state is unavailable.".to_string())?;
-        if active.as_deref() != Some(transaction_id) { return Err("Database transaction token does not match.".into()); }
-        let integrity_key = self.integrity_key.lock().map_err(|_| "Database integrity state is unavailable.".to_string())?.clone();
-        let mut dirty = self.transaction_dirty.lock().map_err(|_| "Database transaction state is unavailable.".to_string())?;
+    /// Commits or rolls back the active transaction and **always** clears the
+    /// token and the dirty flag, whether the command succeeded or not (R1/R2).
+    ///
+    /// A failure reports what we can observe — the step that failed, whether the
+    /// compensating ROLLBACK failed, and whether the connection is still in
+    /// autocommit — and never whether the data was committed (R3, §5.1.2).
+    fn finish_transaction(&self, transaction_id: &str, command: &str) -> Result<(), TransactionFailure> {
+        let connection = self.connection.lock().map_err(|_| TransactionFailure::rejected("Database connection is unavailable."))?;
+        let mut active = self.transaction_id.lock().map_err(|_| TransactionFailure::rejected("Database transaction state is unavailable."))?;
+        if active.as_deref() != Some(transaction_id) {
+            return Err(TransactionFailure::rejected("Database transaction token does not match."));
+        }
+        self.ensure_not_faulted().map_err(TransactionFailure::rejected)?;
+        let integrity_key = self.integrity_key.lock().map_err(|_| TransactionFailure::rejected("Database integrity state is unavailable."))?.clone();
+        let mut dirty = self.transaction_dirty.lock().map_err(|_| TransactionFailure::rejected("Database transaction state is unavailable."))?;
+
+        let mut failure: Option<String> = None;
         if command == "COMMIT" {
             if let (Some(key), true) = (integrity_key.as_deref(), *dirty) {
                 // The head advance participates in the same transaction as the
                 // business writes. A failure before COMMIT rolls all of them back.
                 if let Err(error) = self.with_integrity_write(|| advance_production_integrity_state(&connection, key)) {
-                    let _ = connection.execute_batch("ROLLBACK");
-                    *active = None;
-                    *dirty = false;
-                    return Err(error);
+                    failure = Some(error); // R1: record it, do not return early.
                 }
             }
         }
-        connection.execute_batch(command).map_err(|error| error.to_string())?;
-        *active = None;
+        if failure.is_none() {
+            if let Err(error) = connection.execute_batch(command) {
+                failure = Some(error.to_string());
+            }
+        }
+        *active = None; // R2: the token must never dangle.
         *dirty = false;
-        Ok(())
+        drop(dirty);
+        drop(active);
+
+        let Some(error) = failure else { return Ok(()) };
+        // R3: always attempt the rollback, then ask SQLite whether it owns a
+        // transaction. "cannot rollback - no transaction is active" means
+        // SQLite already ended it (statement-level rollback, or COMMIT landed);
+        // that is a recoverable connection, not a fault.
+        let rollback_failed = connection.execute_batch("ROLLBACK").is_err();
+        let connection_state = if connection.is_autocommit() {
+            if rollback_failed { "recovered" } else { "clean" }
+        } else {
+            self.connection_faulted.store(true, Ordering::SeqCst);
+            "faulted"
+        };
+        Err(TransactionFailure {
+            phase: if command == "COMMIT" { "commit" } else { "rollback" }.into(),
+            connection_state: connection_state.into(),
+            rollback_failed,
+            error,
+        })
     }
 
     fn reset_acceptance_data(&self, identifier: &str, home_dir: &Path) -> Result<(), String> {
@@ -1802,6 +2123,33 @@ fn acceptance_reset(state: State<'_, DatabaseState>, app: tauri::AppHandle) -> R
     state.reset_acceptance_data(&app.config().identifier, &home)
 }
 
+/// C12: read the recovery journal for one profile. Returns null when the
+/// profile has never had an UNKNOWN transfer (no file), and refuses to guess
+/// when the file exists but does not match the contract.
+#[tauri::command]
+fn recovery_journal_read(app: tauri::AppHandle, profileId: String) -> Result<Option<JsonValue>, String> {
+    let data_dir = app.path().app_data_dir().map_err(|error| error.to_string())?;
+    let document = read_recovery_journal(&data_dir, &profileId)?;
+    match document {
+        None => Ok(None),
+        Some(document) => serde_json::to_value(document)
+            .map(Some)
+            .map_err(|_| RECOVERY_JOURNAL_UNAVAILABLE.to_string()),
+    }
+}
+
+/// C12: whole-file rewrite of the recovery journal. The payload is validated
+/// against the six-field contract before anything touches the disk, so an
+/// accidental extra field (amount, note, token) can never be persisted.
+#[tauri::command]
+fn recovery_journal_write(app: tauri::AppHandle, document: JsonValue) -> Result<(), String> {
+    let data_dir = app.path().app_data_dir().map_err(|error| error.to_string())?;
+    let document: RecoveryJournalDocument = serde_json::from_value(document)
+        .map_err(|_| RECOVERY_JOURNAL_UNREADABLE.to_string())?;
+    write_recovery_journal(&data_dir, &document)
+}
+
+
 #[tauri::command]
 fn database_execute(
     state: State<'_, DatabaseState>, sql: String, bind_values: Vec<JsonValue>, transaction_id: Option<String>,
@@ -1822,12 +2170,12 @@ fn database_begin(state: State<'_, DatabaseState>, transaction_id: String) -> Re
 }
 
 #[tauri::command]
-fn database_commit(state: State<'_, DatabaseState>, transaction_id: String) -> Result<(), String> {
+fn database_commit(state: State<'_, DatabaseState>, transaction_id: String) -> Result<(), TransactionFailure> {
     state.commit(&transaction_id)
 }
 
 #[tauri::command]
-fn database_rollback(state: State<'_, DatabaseState>, transaction_id: String) -> Result<(), String> {
+fn database_rollback(state: State<'_, DatabaseState>, transaction_id: String) -> Result<(), TransactionFailure> {
     state.rollback(&transaction_id)
 }
 
@@ -1988,6 +2336,144 @@ mod tests {
         std::env::temp_dir().join(format!("personal-finance-transaction-{}-{nonce}.sqlite3", std::process::id()))
     }
 
+    // --- C12 recovery journal: the Rust boundary is the only place where
+    // --- profileId -> file name, key-set strictness and file modes can be
+    // --- proven. The TypeScript tests (T-39..T-46) exercise the same
+    // --- functions through IPC.
+
+    fn temp_journal_root(tag: &str) -> PathBuf {
+        let nonce = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_nanos();
+        let root = std::env::temp_dir().join(format!("pfc-journal-{tag}-{}-{nonce}", std::process::id()));
+        let _ = fs::remove_dir_all(&root);
+        fs::create_dir_all(&root).unwrap();
+        root
+    }
+
+    fn journal_uuid(n: u8) -> String {
+        let hex = format!("{n:02x}");
+        let nibble = format!("{:x}", n & 0x0f);
+        let out = [
+            hex.clone(), hex.clone(), hex.clone(), hex.clone(), "-".to_string(),
+            hex.clone(), hex.clone(), "-4".to_string(), nibble.clone(), hex.clone(), "-8".to_string(),
+            nibble.clone(), hex.clone(), "-".to_string(),
+            hex.clone(), hex.clone(), hex.clone(), hex.clone(), hex.clone(), hex.clone(),
+        ].concat();
+        assert_eq!(out.len(), 36, "uuid helper produced {out}");
+        out
+    }
+
+    fn journal_entry(profile: &str, transfer: &str, state: &str) -> RecoveryJournalEntry {
+        RecoveryJournalEntry {
+            journal_id: journal_uuid(1),
+            profile_id: profile.to_string(),
+            transfer_id: transfer.to_string(),
+            operation: "CREATE".into(),
+            created_at: "2026-11-06T09:00:00.000Z".into(),
+            state: state.into(),
+        }
+    }
+
+    fn journal_document(profile: &str, entries: Vec<RecoveryJournalEntry>) -> RecoveryJournalDocument {
+        RecoveryJournalDocument {
+            journal_format_version: RECOVERY_JOURNAL_FORMAT_VERSION,
+            profile_id: profile.to_string(),
+            entries,
+            archive: vec![],
+        }
+    }
+
+    #[test]
+    fn c12_profile_id_is_validated_before_it_becomes_a_path() {
+        for bad in ["", "..", "../evil", "a/b", "张三", "a1b2c3d4", "a1b2c3d4-0000-4000-8000-00000000000g"] {
+            assert_eq!(validate_recovery_profile_id(bad).unwrap_err(), RECOVERY_JOURNAL_UNREADABLE, "accepted {bad}");
+            assert_eq!(recovery_journal_path(Path::new("/tmp"), bad).unwrap_err(), RECOVERY_JOURNAL_UNREADABLE, "path accepted {bad}");
+        }
+        assert!(validate_recovery_profile_id(&journal_uuid(2)).is_ok());
+    }
+
+    #[test]
+    fn c12_journal_round_trip_is_owner_only() {
+        use std::os::unix::fs::PermissionsExt;
+        let root = temp_journal_root("roundtrip");
+        let profile = journal_uuid(2);
+        let document = journal_document(&profile, vec![journal_entry(&profile, &journal_uuid(3), "PENDING")]);
+        write_recovery_journal(&root, &document).unwrap();
+        let path = recovery_journal_path(&root, &profile).unwrap();
+        let directory_mode = fs::metadata(path.parent().unwrap()).unwrap().permissions().mode() & 0o777;
+        let file_mode = fs::metadata(&path).unwrap().permissions().mode() & 0o777;
+        assert_eq!(directory_mode, 0o700, "dir mode {directory_mode:o}");
+        assert_eq!(file_mode, 0o600, "file mode {file_mode:o}");
+        assert_eq!(read_recovery_journal(&root, &profile).unwrap().unwrap(), document);
+        let _ = fs::remove_dir_all(&root);
+    }
+
+    #[test]
+    fn c12_unknown_field_and_corrupt_file_are_rejected_and_never_rebuilt() {
+        let root = temp_journal_root("corrupt");
+        let profile = journal_uuid(4);
+        let document = journal_document(&profile, vec![journal_entry(&profile, &journal_uuid(5), "PENDING")]);
+        write_recovery_journal(&root, &document).unwrap();
+        let path = recovery_journal_path(&root, &profile).unwrap();
+        // A seventh field (the amount we promised never to store) must be refused.
+        let mut json: JsonValue = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+        json["entries"][0]["amount"] = serde_json::json!("100.00");
+        fs::write(&path, serde_json::to_vec(&json).unwrap()).unwrap();
+        assert_eq!(read_recovery_journal(&root, &profile).unwrap_err(), RECOVERY_JOURNAL_UNREADABLE);
+        // A corrupt file must not be overwritten: that would erase the fact that
+        // a transfer is still pending review.
+        fs::write(&path, b"{not json").unwrap();
+        assert_eq!(read_recovery_journal(&root, &profile).unwrap_err(), RECOVERY_JOURNAL_UNREADABLE);
+        assert_eq!(write_recovery_journal(&root, &document).unwrap_err(), RECOVERY_JOURNAL_UNREADABLE);
+        assert_eq!(fs::read(&path).unwrap(), b"{not json");
+        let _ = fs::remove_dir_all(&root);
+    }
+
+    #[test]
+    fn c12_foreign_profile_file_is_not_merged() {
+        let root = temp_journal_root("foreign");
+        let profile = journal_uuid(7);
+        let other = journal_uuid(8);
+        let document = journal_document(&other, vec![journal_entry(&other, &journal_uuid(9), "PENDING")]);
+        let directory = root.join(RECOVERY_JOURNAL_DIRECTORY);
+        fs::create_dir_all(&directory).unwrap();
+        fs::write(directory.join(format!("{profile}.json")), serde_json::to_vec(&document).unwrap()).unwrap();
+        assert_eq!(read_recovery_journal(&root, &profile).unwrap_err(), RECOVERY_JOURNAL_UNREADABLE);
+        let _ = fs::remove_dir_all(&root);
+    }
+
+    #[test]
+    fn c12_residual_lock_blocks_writes_until_removed() {
+        use std::os::unix::fs::PermissionsExt;
+        let root = temp_journal_root("lock");
+        let profile = journal_uuid(10);
+        let document = journal_document(&profile, vec![]);
+        write_recovery_journal(&root, &document).unwrap();
+        let lock = root.join(RECOVERY_JOURNAL_DIRECTORY).join(format!("{profile}.json.lock"));
+        fs::write(&lock, b"").unwrap();
+        fs::set_permissions(&lock, fs::Permissions::from_mode(0o600)).unwrap();
+        assert_eq!(write_recovery_journal(&root, &document).unwrap_err(), RECOVERY_JOURNAL_BUSY);
+        fs::remove_file(&lock).unwrap();
+        write_recovery_journal(&root, &document).unwrap();
+        let _ = fs::remove_dir_all(&root);
+    }
+
+    #[test]
+    fn c12_read_only_app_data_fails_closed() {
+        use std::os::unix::fs::PermissionsExt;
+        let root = temp_journal_root("readonly");
+        let profile = journal_uuid(11);
+        let document = journal_document(&profile, vec![]);
+        // The injection point must be the app_data parent: journal_directory
+        // chmods transfer-recovery back to 0700, so chmod-ing the child would
+        // silently succeed and produce a false green.
+        fs::set_permissions(&root, fs::Permissions::from_mode(0o500)).unwrap();
+        let result = write_recovery_journal(&root, &document);
+        fs::set_permissions(&root, fs::Permissions::from_mode(0o700)).unwrap();
+        assert_eq!(result.unwrap_err(), RECOVERY_JOURNAL_UNAVAILABLE);
+        let _ = fs::remove_dir_all(&root);
+    }
+
+
     #[test]
     fn cutover_outcome_blocks_startup_before_any_database_access() {
         let root = temp_db_path().with_extension("cutover-startup-test");
@@ -2104,8 +2590,13 @@ mod tests {
         db.execute("CREATE TABLE entries (value TEXT NOT NULL)", vec![], None).unwrap();
         db.begin("owner-token".into()).unwrap();
         db.execute("INSERT INTO entries VALUES (?1)", vec![JsonValue::String("inside".into())], Some("owner-token".into())).unwrap();
-        assert!(db.commit("other-token").unwrap_err().contains("token does not match"));
-        assert!(db.rollback("other-token").unwrap_err().contains("token does not match"));
+        let commit_failure = db.commit("other-token").unwrap_err();
+        assert_eq!(commit_failure.phase, "rejected");
+        assert_eq!(commit_failure.connection_state, "unmodified");
+        assert!(commit_failure.error.contains("token does not match"), "{}", commit_failure.error);
+        let rollback_failure = db.rollback("other-token").unwrap_err();
+        assert_eq!(rollback_failure.phase, "rejected");
+        assert!(rollback_failure.error.contains("token does not match"), "{}", rollback_failure.error);
         let still_active = db.select("SELECT COUNT(*) AS count FROM entries", vec![], Some("owner-token".into())).unwrap();
         assert_eq!(still_active[0]["count"].as_i64(), Some(1));
         db.commit("owner-token").unwrap();
@@ -2136,6 +2627,136 @@ mod tests {
         db.rollback("fk-token").unwrap();
         assert_eq!(count(&db, "parents"), 0);
         assert_eq!(count(&db, "children"), 0);
+    }
+
+    // ---- C10 / T-34..T-37：失败清理合同（§5.1.2 R1..R4）----
+    // 注入手法都是 SQLite 自身的确定性行为，不 mock、不改业务代码：
+    // 延迟外键 → COMMIT 才报错且事务未终结；INSERT OR ROLLBACK → 语句级自动回滚；
+    // authorizer 拒绝 Transaction → 补的 ROLLBACK 也失败。生产 authorizer 的
+    // `_ => false` 兜底不会拦 BEGIN/COMMIT/ROLLBACK，第三种只存在于测试。
+
+    fn create_deferred_child_tables(db: &DatabaseState) {
+        db.execute("CREATE TABLE parents (id INTEGER PRIMARY KEY)", vec![], None).unwrap();
+        db.execute(
+            "CREATE TABLE children (parent_id INTEGER NOT NULL REFERENCES parents(id) DEFERRABLE INITIALLY DEFERRED)",
+            vec![],
+            None,
+        ).unwrap();
+    }
+
+    /// T-34｜COMMIT 失败但事务未终结：令牌被清空、连接回到 autocommit，
+    /// 事务外的锁写与下一笔事务立刻可用，前一笔业务行 0 行。
+    #[test]
+    fn t34_commit_failure_clears_token_and_keeps_connection_usable() {
+        let db = memory_db();
+        create_deferred_child_tables(&db);
+        db.execute("CREATE TABLE transfer_outcome_locks (transfer_id TEXT PRIMARY KEY)", vec![], None).unwrap();
+        db.begin("t34".into()).unwrap();
+        db.execute("INSERT INTO children VALUES (99)", vec![], Some("t34".into())).unwrap();
+        let failure = db.commit("t34").unwrap_err();
+        assert_eq!(failure.phase, "commit");
+        assert_eq!(failure.connection_state, "clean");
+        assert!(!failure.rollback_failed);
+        assert!(failure.error.contains("FOREIGN KEY"), "{}", failure.error);
+        assert!(db.connection.lock().unwrap().is_autocommit());
+        // 事务外的锁写：这正是 lockTransferOutcomeSafely 在失败路径上要做的事。
+        db.execute("INSERT INTO transfer_outcome_locks VALUES ('t34')", vec![], None).unwrap();
+        db.begin("t34-next".into()).unwrap();
+        db.execute("INSERT INTO parents VALUES (1)", vec![], Some("t34-next".into())).unwrap();
+        db.commit("t34-next").unwrap();
+        assert_eq!(count(&db, "children"), 0);
+        assert_eq!(count(&db, "parents"), 1);
+        assert_eq!(count(&db, "transfer_outcome_locks"), 1);
+        assert!(!db.is_faulted());
+    }
+
+    /// T-35｜COMMIT 报错但连接已回 autocommit（recovered）：不得封印。
+    /// 反例口径：把 "cannot rollback - no transaction is active" 当故障判 faulted，本条必红。
+    #[test]
+    fn t35_statement_level_rollback_is_recovered_not_faulted() {
+        let db = memory_db();
+        db.execute("CREATE TABLE entries (value TEXT NOT NULL UNIQUE)", vec![], None).unwrap();
+        db.begin("t35".into()).unwrap();
+        db.execute("INSERT INTO entries VALUES ('a')", vec![], Some("t35".into())).unwrap();
+        assert!(db.execute("INSERT OR ROLLBACK INTO entries VALUES ('a')", vec![], Some("t35".into())).is_err());
+        assert!(db.connection.lock().unwrap().is_autocommit());
+        let failure = db.commit("t35").unwrap_err();
+        assert_eq!(failure.phase, "commit");
+        assert_eq!(failure.connection_state, "recovered");
+        assert!(failure.rollback_failed);
+        assert!(!db.is_faulted());
+        db.execute("INSERT INTO entries VALUES ('b')", vec![], None).unwrap();
+        assert_eq!(db.select("SELECT COUNT(*) AS count FROM entries", vec![], None).unwrap()[0]["count"].as_i64(), Some(1));
+        db.begin("t35-next".into()).unwrap();
+        db.commit("t35-next").unwrap();
+    }
+
+    /// T-36｜COMMIT 失败且补 ROLLBACK 也失败：封印连接，但令牌与脏位照样清空。
+    #[test]
+    fn t36_unrollbackable_failure_latches_the_connection() {
+        // 文件库：封印后要用**另一条连接**证明这一笔确实没有提交。
+        let path = temp_db_path();
+        let db = DatabaseState::open(&path).unwrap();
+        create_deferred_child_tables(&db);
+        db.begin("t36".into()).unwrap();
+        db.execute("INSERT INTO children VALUES (99)", vec![], Some("t36".into())).unwrap();
+        let deny = Arc::new(AtomicBool::new(false));
+        {
+            let deny_for_hook = Arc::clone(&deny);
+            db.connection.lock().unwrap().authorizer(Some(move |context: AuthContext<'_>| {
+                match context.action {
+                    AuthAction::Transaction { .. } if deny_for_hook.load(Ordering::SeqCst) => Authorization::Deny,
+                    _ => Authorization::Allow,
+                }
+            }));
+        }
+        deny.store(true, Ordering::SeqCst);
+        let failure = db.commit("t36").unwrap_err();
+        assert!(failure.rollback_failed);
+        assert_eq!(failure.connection_state, "faulted");
+        assert!(db.is_faulted());
+        assert!(db.transaction_id.lock().unwrap().is_none());
+        assert!(!*db.transaction_dirty.lock().unwrap());
+        deny.store(false, Ordering::SeqCst);
+        let errors = [
+            db.execute("INSERT INTO parents VALUES (1)", vec![], None).unwrap_err(),
+            db.select("SELECT 1", vec![], None).unwrap_err(),
+            db.begin("t36-next".into()).unwrap_err(),
+        ];
+        for error in errors {
+            assert!(error.contains("DATABASE_CONNECTION_FAULTED"), "{error}");
+        }
+        // 本连接仍看得见自己未提交的那一行——这正是必须封印它的原因。
+        let inside: i64 = db.connection.lock().unwrap()
+            .query_row("SELECT COUNT(*) FROM children", [], |row| row.get(0)).unwrap();
+        assert_eq!(inside, 1);
+        drop(db);
+        let outside = Connection::open(&path).unwrap();
+        let committed: i64 = outside.query_row("SELECT COUNT(*) FROM children", [], |row| row.get(0)).unwrap();
+        assert_eq!(committed, 0);
+        drop(outside);
+        fs::remove_file(path).unwrap();
+    }
+
+    /// T-37｜令牌不匹配是 rejected/unmodified，什么都不动；随后正常提交仍成功。
+    #[test]
+    fn t37_rejected_control_command_leaves_state_untouched_and_success_path_clean() {
+        let db = memory_db();
+        db.execute("CREATE TABLE entries (value TEXT NOT NULL)", vec![], None).unwrap();
+        db.begin("t37".into()).unwrap();
+        db.execute("INSERT INTO entries VALUES ('kept')", vec![], Some("t37".into())).unwrap();
+        let failure = db.commit("wrong").unwrap_err();
+        assert_eq!(failure.phase, "rejected");
+        assert_eq!(failure.connection_state, "unmodified");
+        assert!(!failure.rollback_failed);
+        assert_eq!(db.transaction_id.lock().unwrap().as_deref(), Some("t37"));
+        assert!(!*db.transaction_dirty.lock().unwrap());
+        db.commit("t37").unwrap();
+        assert!(db.transaction_id.lock().unwrap().is_none());
+        assert!(!*db.transaction_dirty.lock().unwrap());
+        assert!(db.connection.lock().unwrap().is_autocommit());
+        assert_eq!(count(&db, "entries"), 1);
+        assert!(!db.is_faulted());
     }
 
     #[test]
@@ -2331,8 +2952,14 @@ pub fn run() {
             .expect("Production durable cutover terminal check failed before Builder");
         Some(guard)
     } else { None };
-    let builder = tauri::Builder::default()
-        .plugin(tauri_plugin_haptics::init())
+    // tauri-plugin-haptics is declared for ios/android only in Cargo.toml, so it must not be
+    // referenced on host targets. The cfg branch covers the plugin list only; notification and
+    // setup stay outside it so both targets build the same builder chain.
+    #[cfg(any(target_os = "ios", target_os = "android"))]
+    let builder = tauri::Builder::default().plugin(tauri_plugin_haptics::init());
+    #[cfg(not(any(target_os = "ios", target_os = "android")))]
+    let builder = tauri::Builder::default();
+    let builder = builder
         .plugin(tauri_plugin_notification::init())
         .setup(|app| {
             let app_data = app.path().app_data_dir()?;
@@ -2459,6 +3086,8 @@ pub fn run() {
         save_database_backup,
         acceptance_runtime_info,
         acceptance_reset,
+        recovery_journal_read,
+        recovery_journal_write,
         wp03_preview_test_date::wp03_preview_get_test_date,
         wp03_preview_test_date::wp03_preview_set_test_date,
     ]);
@@ -2476,6 +3105,8 @@ pub fn run() {
         save_database_backup,
         acceptance_runtime_info,
         acceptance_reset,
+        recovery_journal_read,
+        recovery_journal_write,
     ]);
     builder
         .run(context)

@@ -423,6 +423,7 @@ describe("four V4 foundation P1 corrections", () => {
       { version: 8 },
       { version: 9 },
       { version: 10 },
+      { version: 11 },
     ]);
     expect(await db.select("SELECT COUNT(*) AS count FROM actual_income_revisions")).toEqual([
       { count: 1 },
@@ -578,6 +579,7 @@ describe("four V4 foundation P1 corrections", () => {
         { version: 8 },
         { version: 9 },
         { version: 10 },
+        { version: 11 },
       ],
     );
     expect(

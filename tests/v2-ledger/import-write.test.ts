@@ -58,7 +58,7 @@ function confirmedAlipayCandidates(batchId: string): ImportedExpenseCandidate[] 
 
 describe("EXEC-I-04 official CSV import write, readback, and feedback", () => {
   it("migrates fresh V0 to V10 and supports V6 to V10 incrementally", async () => {
-    expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 10 }]);
+    expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 11 }]);
     expect(await db.select("SELECT version FROM schema_migrations ORDER BY version")).toEqual([
       { version: 1 },
       { version: 2 },
@@ -70,6 +70,7 @@ describe("EXEC-I-04 official CSV import write, readback, and feedback", () => {
       { version: 8 },
       { version: 9 },
       { version: 10 },
+      { version: 11 },
     ]);
     const expenseColumns = await db.select<{ name: string }>("PRAGMA table_info(expenses)");
     expect(expenseColumns.map((column) => column.name)).toContain("dedupe_key");
@@ -92,14 +93,14 @@ describe("EXEC-I-04 official CSV import write, readback, and feedback", () => {
     await db.connection.exec("ALTER TABLE expense_records DROP COLUMN deleted_at");
     await db.connection.exec("DROP TABLE IF EXISTS income_entries");
     await db.connection.exec("DROP TABLE IF EXISTS fixed_expense_plans");
-    await db.connection.exec("DELETE FROM schema_migrations WHERE version IN (7,8,9,10)");
+    await db.connection.exec("DELETE FROM schema_migrations WHERE version IN (7,8,9,10,11)");
     await migrateDatabase(db, "2026-10-19T01:00:00.000Z");
-    expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 10 }]);
+    expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 11 }]);
     expect(
       await db.select(
-        "SELECT COUNT(*) AS count FROM schema_migrations WHERE version IN (6,7,8,9,10)",
+        "SELECT COUNT(*) AS count FROM schema_migrations WHERE version IN (6,7,8,9,10,11)",
       ),
-    ).toEqual([{ count: 5 }]);
+    ).toEqual([{ count: 6 }]);
   });
 
   it("writes a fully successful batch and verifies every row and counter", async () => {

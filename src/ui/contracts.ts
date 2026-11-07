@@ -13,6 +13,7 @@ import type {
   OnboardingRequirement,
   OnboardingSubmission,
 } from "../application/product-service.js";
+import type { TransferListItem } from "../application/transfer-read-model.js";
 import type {
   DebtPaymentRecord,
   DeletedExpenseSnapshot,
@@ -24,6 +25,9 @@ import type {
   RecategorizationAssignment,
   RecategorizationResult,
   RecordingStreak,
+  TransferCreateInput,
+  TransferEditInput,
+  TransferMutationResult,
 } from "../application/ux-ledger-service.js";
 import type { ConfirmedImportInput, ImportBatchResult } from "../application/v2-import-service.js";
 import type {
@@ -113,6 +117,15 @@ export interface ProductApplicationServices {
     snapshot: DeletedExpenseSnapshot,
     asOfDate: string,
   ): Promise<LedgerMutationResult>;
+  // B-xfer: transfers between two accounts (design §6.4). Deleted transfers stay restorable.
+  listLedgerTransfers(month: string, includeDeleted?: boolean): Promise<TransferListItem[]>;
+  createLedgerTransfer(
+    input: TransferCreateInput,
+    asOfDate: string,
+  ): Promise<TransferMutationResult>;
+  editLedgerTransfer(input: TransferEditInput, asOfDate: string): Promise<TransferMutationResult>;
+  deleteLedgerTransfer(transferId: string, asOfDate: string): Promise<TransferMutationResult>;
+  restoreLedgerTransfer(transferId: string, asOfDate: string): Promise<TransferMutationResult>;
   getRecordingStreak(asOfDate: string): Promise<RecordingStreak>;
   listEssentialPaymentItems(
     asOfDate: string,

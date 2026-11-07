@@ -73,7 +73,7 @@ async function unwrapToV8(db: NodeSqliteDatabase): Promise<void> {
   await db.connection.exec("ALTER TABLE expenses DROP COLUMN deduction_account_id");
   await db.connection.exec("ALTER TABLE expenses DROP COLUMN deduction_applied_on");
   await db.connection.exec("ALTER TABLE expense_records DROP COLUMN deleted_at");
-  await db.connection.exec("DELETE FROM schema_migrations WHERE version IN (9,10)");
+  await db.connection.exec("DELETE FROM schema_migrations WHERE version IN (9,10,11)");
   await db.connection.exec("PRAGMA user_version=8");
 }
 
@@ -87,12 +87,12 @@ describe("S1 B2b T1 V9 migration structure and atomicity", () => {
   it("migrates a fresh database to V10 with both version authorities and a clean schema", async () => {
     const db = memory();
     await migrateDatabase(db);
-    expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 10 }]);
+    expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 11 }]);
     expect(await db.select("SELECT MAX(version) AS version FROM schema_migrations")).toEqual([
-      { version: 10 },
+      { version: 11 },
     ]);
     expect(await db.select("SELECT version FROM schema_migrations ORDER BY version")).toEqual(
-      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((version) => ({ version })),
+      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((version) => ({ version })),
     );
     expect(await db.select("PRAGMA integrity_check")).toEqual([{ integrity_check: "ok" }]);
     expect(await db.select("PRAGMA foreign_key_check")).toEqual([]);

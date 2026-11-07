@@ -27,6 +27,15 @@ import {
   type OnboardingSubmission,
   recordExpenseAndRecalculate,
 } from "../application/product-service.js";
+import {
+  type RecoveryEntryReport,
+  type RecoveryReport,
+  recoverFromJournal,
+} from "../application/recovery-service.js";
+import {
+  listTransfersWithIntegrity,
+  type TransferListItem,
+} from "../application/transfer-read-model.js";
 import * as uxLedger from "../application/ux-ledger-service.js";
 import { V2ExpenseService } from "../application/v2-expense-service.js";
 import { V2ImportService } from "../application/v2-import-service.js";
@@ -38,6 +47,11 @@ import {
 import { ApplicationDataError, type SqlDatabase } from "../persistence/database.js";
 import { saveDatabaseBackup, saveExportFile } from "../persistence/export-file.js";
 import { migrateDatabase } from "../persistence/migrations.js";
+import {
+  RecoveryJournal,
+  type RecoveryJournalChannel,
+  type RecoveryJournalDocument,
+} from "../persistence/recovery-journal.js";
 import { type PlanningIncomeMonthDecision, Repositories } from "../persistence/repositories.js";
 import { TauriSqlDatabase } from "../persistence/tauri-database.js";
 import type { V2ImportContext, V2ImportWriteInput, V2ImportWriteResult } from "../ui/contracts.js";
@@ -369,11 +383,66 @@ export type ApplicationStartupState =
   | ApplicationInitializationState
   | { status: "ERROR"; message: string };
 
+/**
+ * The journal lives in Rust (§5.1.4.1/§5.1.4.3): it must stay writable when the SQLite
+ * connection is faulted, so it never goes through `SqlDatabase`.
+ */
+class TauriRecoveryJournalChannel implements RecoveryJournalChannel {
+  async read(profileId: string): Promise<RecoveryJournalDocument | null> {
+    return await invoke<RecoveryJournalDocument | null>("recovery_journal_read", { profileId });
+  }
+
+  async write(document: RecoveryJournalDocument): Promise<void> {
+    await invoke("recovery_journal_write", { document });
+  }
+}
+
+export function createRecoveryJournal(): RecoveryJournal {
+  return new RecoveryJournal(new TauriRecoveryJournalChannel());
+}
+
+/** Diagnostics only: what the last startup scan saw. Never used to decide a write. */
+let lastRecoveryReport: RecoveryReport | null = null;
+let lastRecoveryError: { code: string; message: string } | null = null;
+
+export function getLastTransferRecoveryState(): {
+  report: RecoveryReport | null;
+  error: { code: string; message: string } | null;
+} {
+  return { report: lastRecoveryReport, error: lastRecoveryError };
+}
+
+/** Exposed for the receipt: every scanned entry, in journal order. */
+export function lastRecoveryEntries(): RecoveryEntryReport[] {
+  return lastRecoveryReport?.entries ?? [];
+}
+
+/**
+ * Startup scan (§5.1.4 恢复侧). A journal that cannot be read leaves the profile closed for
+ * edit/delete/restore but never prevents the app from opening; a first launch has no profile
+ * and therefore nothing to recover.
+ */
+async function runStartupRecovery(db: SqlDatabase, journal: RecoveryJournal): Promise<void> {
+  const profile = await new Repositories(db).getProfile();
+  if (!profile) return;
+  try {
+    lastRecoveryReport = await recoverFromJournal(db, journal, profile.id);
+    lastRecoveryError = null;
+  } catch (error) {
+    lastRecoveryReport = null;
+    lastRecoveryError =
+      error instanceof ApplicationDataError
+        ? { code: error.code, message: error.message }
+        : { code: "RECOVERY_JOURNAL_UNREADABLE", message: String(error) };
+  }
+}
+
 export async function bootstrapTauriApplication(
   dependencies: TauriCompositionDependencies = {},
 ): Promise<ApplicationStartupState> {
   try {
     const db = await openRuntimeDatabase(dependencies);
+    await runStartupRecovery(db, createRecoveryJournal());
     return await getApplicationInitializationState(db);
   } catch (error) {
     return {
@@ -441,6 +510,23 @@ export interface TauriApplicationServices {
     snapshot: uxLedger.DeletedExpenseSnapshot,
     asOfDate: string,
   ): Promise<uxLedger.LedgerMutationResult>;
+  listLedgerTransfers(month: string, includeDeleted?: boolean): Promise<TransferListItem[]>;
+  createLedgerTransfer(
+    input: uxLedger.TransferCreateInput,
+    asOfDate: string,
+  ): Promise<uxLedger.TransferMutationResult>;
+  editLedgerTransfer(
+    input: uxLedger.TransferEditInput,
+    asOfDate: string,
+  ): Promise<uxLedger.TransferMutationResult>;
+  deleteLedgerTransfer(
+    transferId: string,
+    asOfDate: string,
+  ): Promise<uxLedger.TransferMutationResult>;
+  restoreLedgerTransfer(
+    transferId: string,
+    asOfDate: string,
+  ): Promise<uxLedger.TransferMutationResult>;
   getRecordingStreak(asOfDate: string): Promise<uxLedger.RecordingStreak>;
   listEssentialPaymentItems(
     asOfDate: string,
@@ -496,6 +582,11 @@ export interface TauriProductServices
     | "editLedgerExpense"
     | "deleteLedgerExpense"
     | "restoreLedgerExpense"
+    | "listLedgerTransfers"
+    | "createLedgerTransfer"
+    | "editLedgerTransfer"
+    | "deleteLedgerTransfer"
+    | "restoreLedgerTransfer"
     | "getRecordingStreak"
     | "listEssentialPaymentItems"
     | "listEssentialPayments"
@@ -564,6 +655,8 @@ export async function createTauriApplicationServices(
   dependencies: TauriCompositionDependencies = {},
 ): Promise<TauriApplicationServices> {
   const db = await openRuntimeDatabase(dependencies);
+  const journal = createRecoveryJournal();
+  await runStartupRecovery(db, journal);
   const initialization = await getApplicationInitializationState(db);
   if (initialization.status === "READY") await ensureV2LedgerDefaults(db);
   const foundation = new V4FoundationService(db);
@@ -572,6 +665,8 @@ export async function createTauriApplicationServices(
     completeOnboarding: async (submission, asOfDate) => {
       const home = await completeOnboarding(db, submission, asOfDate);
       await ensureV2LedgerDefaults(db);
+      // A fresh profile has no journal yet; the scan is what opens the write gate.
+      await runStartupRecovery(db, journal);
       return home;
     },
     getHome: (asOfDate) => getHomeApplicationState(db, asOfDate),
@@ -613,6 +708,24 @@ export async function createTauriApplicationServices(
       uxLedger.deleteLedgerExpense(db, expenseId, asOfDate),
     restoreLedgerExpense: (snapshot, asOfDate) =>
       uxLedger.restoreLedgerExpense(db, snapshot, asOfDate),
+    listLedgerTransfers: async (month, includeDeleted) => {
+      const profile = await new Repositories(db).getProfile();
+      if (!profile) {
+        throw new ApplicationDataError(
+          "PROFILE_NOT_FOUND",
+          "Transfers require a completed onboarding profile.",
+        );
+      }
+      return listTransfersWithIntegrity(db, profile.id, month, includeDeleted ?? false);
+    },
+    createLedgerTransfer: (input, asOfDate) =>
+      uxLedger.createLedgerTransfer(db, journal, input, asOfDate),
+    editLedgerTransfer: (input, asOfDate) =>
+      uxLedger.editLedgerTransfer(db, journal, input, asOfDate),
+    deleteLedgerTransfer: (transferId, asOfDate) =>
+      uxLedger.deleteLedgerTransfer(db, journal, transferId, asOfDate),
+    restoreLedgerTransfer: (transferId, asOfDate) =>
+      uxLedger.restoreLedgerTransfer(db, journal, transferId, asOfDate),
     getRecordingStreak: (asOfDate) => uxLedger.getRecordingStreak(db, asOfDate),
     listEssentialPaymentItems: (asOfDate) => uxLedger.listEssentialPaymentItems(db, asOfDate),
     listEssentialPayments: (month) => uxLedger.listEssentialPayments(db, month),
@@ -693,6 +806,16 @@ export function getTauriProductServices(): TauriProductServices {
       (await open()).deleteLedgerExpense(expenseId, asOfDate),
     restoreLedgerExpense: async (snapshot, asOfDate) =>
       (await open()).restoreLedgerExpense(snapshot, asOfDate),
+    listLedgerTransfers: async (month, includeDeleted) =>
+      (await open()).listLedgerTransfers(month, includeDeleted),
+    createLedgerTransfer: async (input, asOfDate) =>
+      (await open()).createLedgerTransfer(input, asOfDate),
+    editLedgerTransfer: async (input, asOfDate) =>
+      (await open()).editLedgerTransfer(input, asOfDate),
+    deleteLedgerTransfer: async (transferId, asOfDate) =>
+      (await open()).deleteLedgerTransfer(transferId, asOfDate),
+    restoreLedgerTransfer: async (transferId, asOfDate) =>
+      (await open()).restoreLedgerTransfer(transferId, asOfDate),
     getRecordingStreak: async (asOfDate) => (await open()).getRecordingStreak(asOfDate),
     listEssentialPaymentItems: async (asOfDate) =>
       (await open()).listEssentialPaymentItems(asOfDate),

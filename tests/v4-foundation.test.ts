@@ -67,8 +67,8 @@ describe("V4 additive schema and resolvers", () => {
     const db = fresh();
     await migrateDatabase(db, "2026-10-01T00:00:00.000Z");
     await migrateDatabase(db, "2026-10-02T00:00:00.000Z");
-    expect(CURRENT_SCHEMA_VERSION).toBe(10);
-    expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 10 }]);
+    expect(CURRENT_SCHEMA_VERSION).toBe(11);
+    expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 11 }]);
     expect(await db.select("SELECT version FROM schema_migrations ORDER BY version")).toEqual([
       { version: 1 },
       { version: 2 },
@@ -80,6 +80,7 @@ describe("V4 additive schema and resolvers", () => {
       { version: 8 },
       { version: 9 },
       { version: 10 },
+      { version: 11 },
     ]);
     for (const table of [
       "planning_income_month_revisions",

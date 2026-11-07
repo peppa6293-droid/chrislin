@@ -18,8 +18,8 @@ import { NodeSqliteDatabase } from "./helpers/node-sqlite.js";
 
 const { DatabaseSync } = process.getBuiltinModule("node:sqlite") as typeof import("node:sqlite");
 
-const EXPECTED_SCHEMA_VERSION = 10;
-const EXPECTED_TABLE_COUNT = 29;
+const EXPECTED_SCHEMA_VERSION = 11;
+const EXPECTED_TABLE_COUNT = 32;
 
 const openDatabases: NodeSqliteDatabase[] = [];
 const tempDirs: string[] = [];

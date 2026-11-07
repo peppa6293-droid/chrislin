@@ -66,9 +66,11 @@ describe("S2 B-core V10 migration", () => {
       debt: await db.select("SELECT COUNT(*) AS count FROM debt_revisions"),
     };
 
-    await migrateDatabase(db, NOW);
+    // Target V10 explicitly: this test owns the V10 backfill contract, and the runtime's
+    // CURRENT_SCHEMA_VERSION moves with every later migration (V11 adds transfer tables).
+    await migrateDatabase(db, NOW, 10);
 
-    expect(CURRENT_SCHEMA_VERSION).toBe(10);
+    expect(CURRENT_SCHEMA_VERSION).toBeGreaterThanOrEqual(10);
     expect(await db.select("PRAGMA user_version")).toEqual([{ user_version: 10 }]);
     expect(await db.select("SELECT MAX(version) AS version FROM schema_migrations")).toEqual([
       { version: 10 },

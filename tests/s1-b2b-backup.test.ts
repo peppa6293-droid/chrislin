@@ -88,7 +88,7 @@ async function unwrapToV8(db: NodeSqliteDatabase): Promise<void> {
   await db.connection.exec("ALTER TABLE expenses DROP COLUMN deduction_account_id");
   await db.connection.exec("ALTER TABLE expenses DROP COLUMN deduction_applied_on");
   await db.connection.exec("ALTER TABLE expense_records DROP COLUMN deleted_at");
-  await db.connection.exec("DELETE FROM schema_migrations WHERE version IN (9,10)");
+  await db.connection.exec("DELETE FROM schema_migrations WHERE version IN (9,10,11)");
   await db.connection.exec("PRAGMA user_version=8");
 }
 
@@ -105,7 +105,7 @@ function validate(backupPath: string): number {
     const version = Number(
       (connection.prepare("PRAGMA user_version").get() as { user_version: number }).user_version,
     );
-    expect(version).toBe(10);
+    expect(version).toBe(11);
     expect(
       (
         connection
@@ -114,7 +114,7 @@ function validate(backupPath: string): number {
           )
           .get() as { count: number }
       ).count,
-    ).toBe(29);
+    ).toBe(32);
     return version;
   } finally {
     connection.close();
@@ -131,12 +131,12 @@ describe("S1 B2b T4 backup and restore with V10", () => {
     const before = await dump(source, false);
 
     const backupPath = backup(source, directory, "backup.sqlite3");
-    expect(validate(backupPath)).toBe(10);
+    expect(validate(backupPath)).toBe(11);
 
     const restoredPath = join(directory, "restored.sqlite3");
     copyFileSync(backupPath, restoredPath);
     const restored = fileDatabase(restoredPath);
-    expect(await restored.select("PRAGMA user_version")).toEqual([{ user_version: 10 }]);
+    expect(await restored.select("PRAGMA user_version")).toEqual([{ user_version: 11 }]);
     expect(await dump(restored, false)).toEqual(before);
     await migrateDatabase(restored, "2026-09-06T00:00:00.000Z");
     expect(await getFinancialMaintenanceState(restored, "2026-09-05")).toEqual(state);
@@ -158,7 +158,7 @@ describe("S1 B2b T4 backup and restore with V10", () => {
 
     await migrateDatabase(target, "2026-09-06T00:00:00.000Z");
 
-    expect(await target.select("PRAGMA user_version")).toEqual([{ user_version: 10 }]);
+    expect(await target.select("PRAGMA user_version")).toEqual([{ user_version: 11 }]);
     expect(await dump(target, true)).toEqual(before);
     expect(await getFinancialMaintenanceState(target, "2026-09-05")).toEqual(stateV10);
   });

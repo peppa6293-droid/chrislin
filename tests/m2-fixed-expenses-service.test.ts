@@ -51,6 +51,10 @@ const BUSINESS_TABLES = [
   "fixed_expense_plans",
   "import_batches",
   "app_metadata",
+  // V11 转账三表：本夹具不产生转账行，纳入集合后前后仍必须逐表为空。
+  "transfer_records",
+  "transfer_legs",
+  "transfer_outcome_locks",
 ] as const;
 
 async function tableContents(db: NodeSqliteDatabase): Promise<Record<string, unknown[]>> {

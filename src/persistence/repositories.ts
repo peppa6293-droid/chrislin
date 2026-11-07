@@ -246,6 +246,167 @@ function requireStoredUserInputMoney(value: string): string {
   }
 }
 
+export type TransferLegSide = "OUT" | "IN";
+export type TransferLegState = "APPLIED" | "SUPPRESSED" | "REVERSED";
+export type TransferLegEndReason = "REVERSED" | "DETACHED";
+export type TransferOperation = "CREATE" | "EDIT" | "DELETE" | "RESTORE";
+
+export interface TransferRecordRow {
+  id: string;
+  fromAccountId: string;
+  toAccountId: string;
+  amount: string;
+  occurredOn: string;
+  note: string | null;
+  createdAt: string;
+  deletedAt: string | null;
+}
+
+export interface TransferPatch {
+  fromAccountId?: string;
+  toAccountId?: string;
+  amount?: string;
+  occurredOn?: string;
+  note?: string | null;
+}
+
+export interface TransferLegRow {
+  id: string;
+  profileId: string;
+  transferId: string;
+  side: TransferLegSide;
+  accountId: string;
+  state: TransferLegState;
+  appliedOn: string | null;
+  appliedAmount: string;
+  endedOn: string | null;
+  endReason: TransferLegEndReason | null;
+}
+
+export interface CashEffectRow {
+  accountId: string;
+  asOfDate: string;
+  balance: string;
+  revisionId: number;
+}
+
+/** Signed direction of one leg: the OUT side leaves the account, the IN side enters it. */
+export function legSign(side: TransferLegSide): 1 | -1 {
+  return side === "OUT" ? -1 : 1;
+}
+
+export function transferToken(
+  transferId: string,
+  side: TransferLegSide,
+  step: "deduct" | "reverse",
+): string {
+  return `transfer:${transferId}:${side}:${step}`;
+}
+
+/** Current (not ended) legs of one transfer, ascending by side. */
+export async function readCurrentTransferLegs(
+  db: SqlDatabase,
+  profileId: string,
+  transferId: string,
+): Promise<TransferLegRow[]> {
+  const rows = await db.select(
+    `SELECT id,profile_id,transfer_id,side,account_id,state,applied_on,applied_amount,ended_on,end_reason
+       FROM transfer_legs WHERE profile_id=? AND transfer_id=? AND ended_on IS NULL ORDER BY side`,
+    [profileId, transferId],
+  );
+  return rows.map((row) => ({
+    id: text(row, "id"),
+    profileId: text(row, "profile_id"),
+    transferId: text(row, "transfer_id"),
+    side: text(row, "side") as TransferLegSide,
+    accountId: text(row, "account_id"),
+    state: text(row, "state") as TransferLegState,
+    appliedOn: nullableText(row, "applied_on"),
+    appliedAmount: text(row, "applied_amount"),
+    endedOn: nullableText(row, "ended_on"),
+    endReason: nullableText(row, "end_reason") as TransferLegEndReason | null,
+  }));
+}
+
+/** S9: the latest cash effect written under one leg token. */
+export async function readCashEffect(
+  db: SqlDatabase,
+  accountId: string,
+  token: string,
+): Promise<CashEffectRow | null> {
+  const row = (
+    await db.select(
+      `SELECT account_id,as_of_date,balance,revision_id FROM cash_account_revisions
+         WHERE account_id=? AND source_payment_id=?
+         ORDER BY as_of_date DESC, revision_id DESC LIMIT 1`,
+      [accountId, token],
+    )
+  )[0];
+  return row
+    ? {
+        accountId: text(row, "account_id"),
+        asOfDate: text(row, "as_of_date"),
+        balance: text(row, "balance"),
+        revisionId: revisionIdOf(row),
+      }
+    : null;
+}
+
+/** Balance that was in force immediately before the given cash revision. */
+async function balanceBeforeEffect(
+  db: SqlDatabase,
+  accountId: string,
+  asOfDate: string,
+  revisionId: number,
+): Promise<string | null> {
+  const row = (
+    await db.select(
+      `SELECT balance FROM (
+         SELECT as_of_date,0 AS revision_id,balance FROM cash_balance_snapshots
+          WHERE account_id=? AND (as_of_date<? OR (as_of_date=? AND 0<?))
+         UNION ALL
+         SELECT as_of_date,revision_id,balance FROM cash_account_revisions
+          WHERE account_id=? AND (as_of_date<? OR (as_of_date=? AND revision_id<?))
+       ) ORDER BY as_of_date DESC, revision_id DESC LIMIT 1`,
+      [accountId, asOfDate, asOfDate, revisionId, accountId, asOfDate, asOfDate, revisionId],
+    )
+  )[0];
+  return row ? text(row, "balance") : null;
+}
+
+function readbackFailure(
+  leg: TransferLegRow,
+  reason: "missing" | "account" | "date" | "amount",
+): never {
+  throw new ApplicationDataError(
+    "TRANSFER_READBACK_FAILED",
+    `transfer/${leg.transferId}/${leg.side}:${reason}`,
+  );
+}
+
+/**
+ * S9 readback for one leg: the token row must exist, sit on the leg account, carry the expected
+ * date and equal the balance that was in force before it plus this leg's signed amount.
+ */
+export async function verifyTransferLegEffect(
+  db: SqlDatabase,
+  leg: TransferLegRow,
+  token: string,
+  expectedDate: string | null,
+  direction: 1 | -1 = 1,
+): Promise<void> {
+  const effect = await readCashEffect(db, leg.accountId, token);
+  if (!effect) readbackFailure(leg, "missing");
+  if (effect.accountId !== leg.accountId) readbackFailure(leg, "account");
+  if (expectedDate !== null && effect.asOfDate !== expectedDate) readbackFailure(leg, "date");
+  const previous = await balanceBeforeEffect(db, leg.accountId, effect.asOfDate, effect.revisionId);
+  if (previous === null) readbackFailure(leg, "amount");
+  const expected = money(previous).plus(
+    money(leg.appliedAmount).times(legSign(leg.side) * direction),
+  );
+  if (!money(effect.balance).equals(expected)) readbackFailure(leg, "amount");
+}
+
 export class Repositories {
   constructor(private readonly db: SqlDatabase) {}
 
@@ -2661,36 +2822,7 @@ export class Repositories {
     now: string,
   ): Promise<void> {
     if (kind === "CASH") {
-      const account = (
-        await this.db.select(
-          "SELECT name,include_in_safety_resources FROM cash_accounts WHERE id=? AND profile_id=?",
-          [accountId, profileId],
-        )
-      )[0];
-      if (!account)
-        throw new ApplicationDataError(
-          "DEDUCTION_ACCOUNT_NOT_FOUND",
-          `Cash account ${accountId} does not exist.`,
-        );
-      const current = await this.cashBalanceForEffect(accountId, operationDate);
-      if (current === null)
-        throw new ApplicationDataError(
-          "BALANCE_FACT_MISSING",
-          `Cash account ${accountId} has no balance at ${operationDate}.`,
-        );
-      await this.appendCashRevision(
-        profileId,
-        {
-          id: accountId,
-          name: text(account, "name"),
-          includeInSafetyResources: bool(account, "include_in_safety_resources"),
-          balance: money(current).plus(delta).toString(),
-        },
-        operationDate,
-        now,
-        () => accountId,
-        token,
-      );
+      await this.writeCashLeg(profileId, accountId, delta, operationDate, token, now);
       return;
     }
 
@@ -2730,6 +2862,641 @@ export class Repositories {
       },
       now,
     );
+  }
+
+  // ---- B-xfer: transfer legs -------------------------------------------------------------
+  // The application service owns the only transaction (C5-1); every *InTransaction method
+  // below runs on the transaction database it is handed and never opens one itself.
+
+  /** Writes one signed cash leg. The balance history before the operation date is untouched. */
+  private async writeCashLeg(
+    profileId: string,
+    accountId: string,
+    delta: string,
+    operationDate: string,
+    token: string,
+    now: string,
+  ): Promise<void> {
+    const account = (
+      await this.db.select(
+        "SELECT name,include_in_safety_resources FROM cash_accounts WHERE id=? AND profile_id=?",
+        [accountId, profileId],
+      )
+    )[0];
+    if (!account)
+      throw new ApplicationDataError(
+        "DEDUCTION_ACCOUNT_NOT_FOUND",
+        `Cash account ${accountId} does not exist.`,
+      );
+    const current = await this.cashBalanceForEffect(accountId, operationDate);
+    if (current === null)
+      throw new ApplicationDataError(
+        "BALANCE_FACT_MISSING",
+        `Cash account ${accountId} has no balance at ${operationDate}.`,
+      );
+    await this.appendCashRevision(
+      profileId,
+      {
+        id: accountId,
+        name: text(account, "name"),
+        includeInSafetyResources: bool(account, "include_in_safety_resources"),
+        balance: money(current).plus(delta).toString(),
+      },
+      operationDate,
+      now,
+      () => accountId,
+      token,
+    );
+  }
+
+  /** A newly chosen transfer account must be usable; an existing leg may sit on an inactive one. */
+  private async assertSelectable(profileId: string, accountId: string): Promise<void> {
+    const row = (
+      await this.db.select("SELECT active FROM cash_accounts WHERE id=? AND profile_id=?", [
+        accountId,
+        profileId,
+      ])
+    )[0];
+    if (!row)
+      throw new ApplicationDataError(
+        "TRANSFER_ACCOUNT_NOT_FOUND",
+        `Cash account ${accountId} does not exist.`,
+      );
+    if (!bool(row, "active"))
+      throw new ApplicationDataError(
+        "TRANSFER_ACCOUNT_INACTIVE",
+        `Cash account ${accountId} is inactive.`,
+      );
+  }
+
+  private async loadTransferForWrite(
+    transferId: string,
+    profileId: string,
+  ): Promise<TransferRecordRow> {
+    const row = (
+      await this.db.select(
+        `SELECT id,from_account_id,to_account_id,amount,occurred_on,note,created_at,deleted_at
+           FROM transfer_records WHERE id=? AND profile_id=?`,
+        [transferId, profileId],
+      )
+    )[0];
+    if (!row)
+      throw new ApplicationDataError(
+        "TRANSFER_NOT_FOUND",
+        `Transfer ${transferId} does not exist.`,
+      );
+    return {
+      id: text(row, "id"),
+      fromAccountId: text(row, "from_account_id"),
+      toAccountId: text(row, "to_account_id"),
+      amount: text(row, "amount"),
+      occurredOn: text(row, "occurred_on"),
+      note: nullableText(row, "note"),
+      createdAt: text(row, "created_at"),
+      deletedAt: nullableText(row, "deleted_at"),
+    };
+  }
+
+  /** A transfer id is never reused: an open lock blocks, a retired id stays retired forever. */
+  private async assertTransferIdUnused(transferId: string): Promise<void> {
+    const lock = (
+      await this.db.select("SELECT closed_at FROM transfer_outcome_locks WHERE transfer_id=?", [
+        transferId,
+      ])
+    )[0];
+    if (lock) {
+      if (nullableText(lock, "closed_at") !== null)
+        throw new ApplicationDataError(
+          "TRANSFER_ID_RETIRED",
+          `Transfer id ${transferId} is retired and cannot be reused.`,
+        );
+      throw new ApplicationDataError(
+        "TRANSFER_LOCKED",
+        `Transfer ${transferId} is locked pending reconciliation.`,
+      );
+    }
+    const existing = await this.db.select(
+      "SELECT 1 AS found FROM transfer_records WHERE id=? LIMIT 1",
+      [transferId],
+    );
+    if (existing.length > 0)
+      throw new ApplicationDataError(
+        "TRANSFER_ID_RETIRED",
+        `Transfer id ${transferId} is already used.`,
+      );
+  }
+
+  private async assertLegsIntact(transferId: string, profileId: string): Promise<TransferLegRow[]> {
+    const legs = await readCurrentTransferLegs(this.db, profileId, transferId);
+    if (legs.length !== 2)
+      throw new ApplicationDataError(
+        "TRANSFER_LEG_MISSING",
+        `Transfer ${transferId} has ${legs.length} current legs.`,
+      );
+    return legs;
+  }
+
+  private async setLegState(
+    leg: TransferLegRow,
+    state: TransferLegState,
+    appliedOn: string | null,
+    appliedAmount: string,
+    endedOn: string | null,
+    endReason: TransferLegEndReason | null,
+  ): Promise<void> {
+    const result = await this.db.execute(
+      `UPDATE transfer_legs SET state=?,applied_on=?,applied_amount=?,ended_on=?,end_reason=?
+         WHERE id=? AND profile_id=?`,
+      [state, appliedOn, appliedAmount, endedOn, endReason, leg.id, leg.profileId],
+    );
+    if (result.rowsAffected !== 1)
+      throw new ApplicationDataError(
+        "TRANSFER_READBACK_FAILED",
+        `Transfer leg ${leg.id} update did not take effect.`,
+      );
+  }
+
+  private async endTransferLeg(
+    leg: TransferLegRow,
+    reason: TransferLegEndReason,
+    operationDate: string,
+  ): Promise<void> {
+    await this.setLegState(leg, leg.state, leg.appliedOn, leg.appliedAmount, operationDate, reason);
+  }
+
+  private async writeTransferLeg(
+    profileId: string,
+    transferId: string,
+    side: TransferLegSide,
+    accountId: string,
+    amount: string,
+    operationDate: string,
+    now: string,
+  ): Promise<void> {
+    const sign = legSign(side);
+    await this.writeCashLeg(
+      profileId,
+      accountId,
+      money(amount).times(sign).toString(),
+      operationDate,
+      transferToken(transferId, side, "deduct"),
+      now,
+    );
+    await this.db.execute(
+      `INSERT INTO transfer_legs(id,profile_id,transfer_id,side,account_id,state,applied_on,applied_amount,created_at)
+       VALUES(?,?,?,?,?,'APPLIED',?,?,?)`,
+      [
+        globalThis.crypto.randomUUID(),
+        profileId,
+        transferId,
+        side,
+        accountId,
+        operationDate,
+        amount,
+        now,
+      ],
+    );
+  }
+
+  /** Records both legs of a brand new transfer. */
+  async recordTransferInTransaction(
+    draft: {
+      id: string;
+      fromAccountId: string;
+      toAccountId: string;
+      amount: string;
+      occurredOn: string;
+      note: string | null;
+    },
+    profileId: string,
+    // Legs and cash revisions take their date from draft.occurredOn (backdated transfers).
+    _operationDate: string,
+    now: string,
+  ): Promise<void> {
+    if (draft.fromAccountId === draft.toAccountId)
+      throw new ApplicationDataError(
+        "TRANSFER_ACCOUNT_SAME",
+        "A transfer needs two different accounts.",
+      );
+    const amount = requireStoredUserInputMoney(draft.amount);
+    await this.assertTransferIdUnused(draft.id);
+    await this.assertSelectable(profileId, draft.fromAccountId);
+    await this.assertSelectable(profileId, draft.toAccountId);
+    await this.db.execute(
+      `INSERT INTO transfer_records(id,profile_id,from_account_id,to_account_id,amount,occurred_on,note,created_at)
+       VALUES(?,?,?,?,?,?,?,?)`,
+      [
+        draft.id,
+        profileId,
+        draft.fromAccountId,
+        draft.toAccountId,
+        amount,
+        draft.occurredOn,
+        draft.note,
+        now,
+      ],
+    );
+    await this.writeTransferLeg(
+      profileId,
+      draft.id,
+      "OUT",
+      draft.fromAccountId,
+      amount,
+      draft.occurredOn,
+      now,
+    );
+    await this.writeTransferLeg(
+      profileId,
+      draft.id,
+      "IN",
+      draft.toAccountId,
+      amount,
+      draft.occurredOn,
+      now,
+    );
+    await this.readbackLegs(draft.id, profileId, "write", draft.occurredOn);
+  }
+
+  /**
+   * One leg of an edited transfer. Three rules: only an APPLIED leg is reversed, the manual
+   * barrier is always evaluated against that leg's own applied_on, and a suppressed leg on the
+   * same account is left completely untouched.
+   */
+  private async moveTransferLeg(
+    profileId: string,
+    transferId: string,
+    leg: TransferLegRow,
+    nextAccountId: string,
+    nextAmount: string,
+    recordedAmount: string,
+    operationDate: string,
+    now: string,
+  ): Promise<void> {
+    const sameAccount = nextAccountId === leg.accountId;
+    if (sameAccount && nextAmount === recordedAmount) return;
+    const barrier = await this.manualBarrierDate("CASH", leg.accountId, leg.appliedOn);
+    if (barrier !== null) {
+      await this.setLegState(leg, "SUPPRESSED", leg.appliedOn, leg.appliedAmount, null, null);
+      if (!sameAccount) await this.endTransferLeg(leg, "DETACHED", operationDate);
+      return;
+    }
+    const sign = legSign(leg.side);
+    const reversedNow = leg.state === "APPLIED";
+    if (reversedNow)
+      await this.writeCashLeg(
+        profileId,
+        leg.accountId,
+        money(leg.appliedAmount).times(-sign).toString(),
+        operationDate,
+        transferToken(transferId, leg.side, "reverse"),
+        now,
+      );
+    if (!sameAccount) {
+      await this.endTransferLeg(leg, reversedNow ? "REVERSED" : "DETACHED", operationDate);
+      await this.writeCashLeg(
+        profileId,
+        nextAccountId,
+        money(nextAmount).times(sign).toString(),
+        operationDate,
+        transferToken(transferId, leg.side, "deduct"),
+        now,
+      );
+      await this.db.execute(
+        `INSERT INTO transfer_legs(id,profile_id,transfer_id,side,account_id,state,applied_on,applied_amount,created_at)
+         VALUES(?,?,?,?,?,'APPLIED',?,?,?)`,
+        [
+          globalThis.crypto.randomUUID(),
+          profileId,
+          transferId,
+          leg.side,
+          nextAccountId,
+          operationDate,
+          nextAmount,
+          now,
+        ],
+      );
+      return;
+    }
+    await this.writeCashLeg(
+      profileId,
+      leg.accountId,
+      money(nextAmount).times(sign).toString(),
+      operationDate,
+      transferToken(transferId, leg.side, "deduct"),
+      now,
+    );
+    await this.setLegState(leg, "APPLIED", operationDate, nextAmount, null, null);
+  }
+
+  async changeTransferInTransaction(
+    transferId: string,
+    patch: TransferPatch,
+    profileId: string,
+    operationDate: string,
+    now: string,
+  ): Promise<void> {
+    const record = await this.loadTransferForWrite(transferId, profileId);
+    if (record.deletedAt !== null)
+      throw new ApplicationDataError("TRANSFER_DELETED", `Transfer ${transferId} is deleted.`);
+    const legs = await this.assertLegsIntact(transferId, profileId);
+    const fromAccountId = patch.fromAccountId ?? record.fromAccountId;
+    const toAccountId = patch.toAccountId ?? record.toAccountId;
+    const amount = requireStoredUserInputMoney(patch.amount ?? record.amount);
+    const occurredOn = patch.occurredOn ?? record.occurredOn;
+    const note = patch.note === undefined ? record.note : patch.note;
+    if (fromAccountId === toAccountId)
+      throw new ApplicationDataError(
+        "TRANSFER_ACCOUNT_SAME",
+        "A transfer needs two different accounts.",
+      );
+    if (fromAccountId !== record.fromAccountId)
+      await this.assertSelectable(profileId, fromAccountId);
+    if (toAccountId !== record.toAccountId) await this.assertSelectable(profileId, toAccountId);
+    for (const leg of legs) {
+      const nextAccountId = leg.side === "OUT" ? fromAccountId : toAccountId;
+      await this.moveTransferLeg(
+        profileId,
+        transferId,
+        leg,
+        nextAccountId,
+        amount,
+        record.amount,
+        operationDate,
+        now,
+      );
+    }
+    const updated = await this.db.execute(
+      `UPDATE transfer_records SET amount=?,occurred_on=?,note=?
+         WHERE id=? AND profile_id=? AND deleted_at IS NULL`,
+      [amount, occurredOn, note, transferId, profileId],
+    );
+    if (updated.rowsAffected !== 1)
+      throw new ApplicationDataError(
+        "TRANSFER_READBACK_FAILED",
+        `Transfer ${transferId} update did not take effect.`,
+      );
+    await this.readbackLegs(transferId, profileId, "write", operationDate);
+  }
+
+  async deleteTransferInTransaction(
+    transferId: string,
+    profileId: string,
+    operationDate: string,
+    now: string,
+  ): Promise<void> {
+    const record = await this.loadTransferForWrite(transferId, profileId);
+    if (record.deletedAt !== null)
+      throw new ApplicationDataError("TRANSFER_DELETED", `Transfer ${transferId} is deleted.`);
+    const legs = await this.assertLegsIntact(transferId, profileId);
+    for (const leg of legs) {
+      // A suppressed leg never reached the balance, so there is nothing to give back.
+      if (leg.state === "SUPPRESSED") continue;
+      const barrier = await this.manualBarrierDate("CASH", leg.accountId, leg.appliedOn);
+      if (barrier !== null) {
+        await this.setLegState(leg, "SUPPRESSED", leg.appliedOn, leg.appliedAmount, null, null);
+        continue;
+      }
+      if (leg.state === "APPLIED")
+        await this.writeCashLeg(
+          profileId,
+          leg.accountId,
+          money(leg.appliedAmount).times(-legSign(leg.side)).toString(),
+          operationDate,
+          transferToken(transferId, leg.side, "reverse"),
+          now,
+        );
+      await this.setLegState(leg, "REVERSED", leg.appliedOn, leg.appliedAmount, null, null);
+    }
+    const updated = await this.db.execute(
+      `UPDATE transfer_records SET deleted_at=?
+         WHERE id=? AND profile_id=? AND deleted_at IS NULL`,
+      [now, transferId, profileId],
+    );
+    if (updated.rowsAffected !== 1)
+      throw new ApplicationDataError(
+        "TRANSFER_READBACK_FAILED",
+        `Transfer ${transferId} delete did not take effect.`,
+      );
+    await this.readbackLegs(transferId, profileId, "delete", operationDate);
+  }
+
+  async restoreTransferInTransaction(
+    transferId: string,
+    profileId: string,
+    operationDate: string,
+    now: string,
+  ): Promise<void> {
+    const record = await this.loadTransferForWrite(transferId, profileId);
+    if (record.deletedAt === null)
+      throw new ApplicationDataError(
+        "TRANSFER_NOT_DELETED",
+        `Transfer ${transferId} is not deleted.`,
+      );
+    const legs = await this.assertLegsIntact(transferId, profileId);
+    for (const leg of legs) {
+      // A suppressed leg was never applied, so restoring it must not create money either.
+      if (leg.state === "SUPPRESSED") continue;
+      if (leg.state !== "REVERSED")
+        throw new ApplicationDataError(
+          "TRANSFER_READBACK_FAILED",
+          `Transfer leg ${leg.id} cannot be restored from state ${leg.state}.`,
+        );
+      const barrier = await this.manualBarrierDate("CASH", leg.accountId, leg.appliedOn);
+      if (barrier !== null) {
+        await this.setLegState(leg, "SUPPRESSED", leg.appliedOn, leg.appliedAmount, null, null);
+        continue;
+      }
+      await this.writeCashLeg(
+        profileId,
+        leg.accountId,
+        money(leg.appliedAmount).times(legSign(leg.side)).toString(),
+        operationDate,
+        transferToken(transferId, leg.side, "deduct"),
+        now,
+      );
+      await this.setLegState(leg, "APPLIED", operationDate, leg.appliedAmount, null, null);
+    }
+    const updated = await this.db.execute(
+      `UPDATE transfer_records SET deleted_at=NULL
+         WHERE id=? AND profile_id=? AND deleted_at IS NOT NULL`,
+      [transferId, profileId],
+    );
+    if (updated.rowsAffected !== 1)
+      throw new ApplicationDataError(
+        "TRANSFER_READBACK_FAILED",
+        `Transfer ${transferId} restore did not take effect.`,
+      );
+    await this.readbackLegs(transferId, profileId, "write", operationDate);
+  }
+
+  /** In-transaction readback: any mismatch means the transaction must roll back. */
+  private async readbackLegs(
+    transferId: string,
+    profileId: string,
+    mode: "write" | "delete",
+    operationDate: string,
+  ): Promise<void> {
+    const legs = await this.assertLegsIntact(transferId, profileId);
+    for (const leg of legs) {
+      const allowed: TransferLegState[] =
+        mode === "write" ? ["APPLIED", "SUPPRESSED"] : ["REVERSED", "SUPPRESSED"];
+      if (!allowed.includes(leg.state))
+        throw new ApplicationDataError(
+          "TRANSFER_READBACK_FAILED",
+          `Transfer leg ${leg.id} is in state ${leg.state}.`,
+        );
+      if (leg.state === "SUPPRESSED") continue;
+      await verifyTransferLegEffect(
+        this.db,
+        leg,
+        transferToken(transferId, leg.side, mode === "write" ? "deduct" : "reverse"),
+        mode === "write" ? leg.appliedOn : operationDate,
+        mode === "write" ? 1 : -1,
+      );
+    }
+  }
+
+  /**
+   * Post-commit readback on a fresh connection. Public only because the transfer service — the
+   * single transaction owner — must call it after COMMIT; it is not part of the UI surface.
+   */
+  async assertCommitted(transferId: string, profileId: string): Promise<void> {
+    const record = await this.loadTransferForWrite(transferId, profileId);
+    const legs = await this.assertLegsIntact(transferId, profileId);
+    for (const leg of legs) {
+      if (leg.state === "APPLIED")
+        await verifyTransferLegEffect(
+          this.db,
+          leg,
+          transferToken(transferId, leg.side, "deduct"),
+          leg.appliedOn,
+        );
+      else if (leg.state === "REVERSED")
+        await verifyTransferLegEffect(
+          this.db,
+          leg,
+          transferToken(transferId, leg.side, "reverse"),
+          null,
+          -1,
+        );
+    }
+    if (record.deletedAt !== null && legs.some((leg) => leg.state === "APPLIED"))
+      throw new ApplicationDataError(
+        "TRANSFER_READBACK_FAILED",
+        `Transfer ${transferId} is deleted but still applied.`,
+      );
+  }
+
+  private async lockTransferOutcome(
+    transferId: string,
+    profileId: string,
+    reason: "TRANSFER_OUTCOME_UNKNOWN" | "TRANSFER_LEG_MISSING",
+    detail: string | null,
+    now: string,
+  ): Promise<void> {
+    // Idempotent by contract: an existing lock row is never overwritten.
+    await this.db.execute(
+      `INSERT INTO transfer_outcome_locks(transfer_id,profile_id,locked_at,reason,detail)
+       VALUES(?,?,?,?,?) ON CONFLICT(transfer_id) DO NOTHING`,
+      [transferId, profileId, now, reason, detail],
+    );
+  }
+
+  /** True while an open (not closed) outcome lock exists for this transfer. */
+  async isOutcomeLocked(transferId: string): Promise<boolean> {
+    const row = (
+      await this.db.select("SELECT closed_at FROM transfer_outcome_locks WHERE transfer_id=?", [
+        transferId,
+      ])
+    )[0];
+    return row !== undefined && nullableText(row, "closed_at") === null;
+  }
+
+  /**
+   * Locking is best effort: a failed lock must never change the verdict of the operation.
+   * Internal to the transfer service; not part of the UI surface.
+   */
+  async lockTransferOutcomeSafely(
+    transferId: string,
+    profileId: string,
+    detail: string | null,
+  ): Promise<boolean> {
+    try {
+      await this.lockTransferOutcome(
+        transferId,
+        profileId,
+        "TRANSFER_OUTCOME_UNKNOWN",
+        detail,
+        new Date().toISOString(),
+      );
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  /** Only a missing leg is worth a persistent lock; every other verdict stays deterministic. */
+  async lockIfLegMissingSafely(
+    transferId: string,
+    profileId: string,
+    error: unknown,
+  ): Promise<boolean> {
+    if (!(error instanceof ApplicationDataError) || error.code !== "TRANSFER_LEG_MISSING")
+      return false;
+    try {
+      const legs = await readCurrentTransferLegs(this.db, profileId, transferId);
+      await this.lockTransferOutcome(
+        transferId,
+        profileId,
+        "TRANSFER_LEG_MISSING",
+        `legs/${legs.length}`,
+        new Date().toISOString(),
+      );
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  /**
+   * Read-only completeness check used by recovery step 5. Returns true and releases the outcome
+   * lock only when the committed facts are complete; it never repairs a leg.
+   */
+  async resolveTransferOutcome(
+    transferId: string,
+    profileId: string,
+    operation: TransferOperation,
+  ): Promise<boolean> {
+    const row = (
+      await this.db.select("SELECT deleted_at FROM transfer_records WHERE id=? AND profile_id=?", [
+        transferId,
+        profileId,
+      ])
+    )[0];
+    if (!row) return false;
+    const expectsDeleted = operation === "DELETE";
+    if ((nullableText(row, "deleted_at") !== null) !== expectsDeleted) return false;
+    const legs = await readCurrentTransferLegs(this.db, profileId, transferId);
+    if (legs.length !== 2) return false;
+    const allowed: TransferLegState[] = expectsDeleted
+      ? ["REVERSED", "SUPPRESSED"]
+      : ["APPLIED", "SUPPRESSED"];
+    for (const leg of legs) {
+      if (!allowed.includes(leg.state)) return false;
+      if (leg.state === "SUPPRESSED") continue;
+      try {
+        await verifyTransferLegEffect(
+          this.db,
+          leg,
+          transferToken(transferId, leg.side, expectsDeleted ? "reverse" : "deduct"),
+          expectsDeleted ? null : leg.appliedOn,
+        );
+      } catch {
+        return false;
+      }
+    }
+    await this.db.execute("DELETE FROM transfer_outcome_locks WHERE transfer_id=?", [transferId]);
+    return true;
   }
 
   private async cashBalanceForEffect(accountId: string, asOfDate: string): Promise<string | null> {

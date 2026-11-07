@@ -1,6 +1,6 @@
 import type { SchemaMigrationBoundary, SqlDatabase } from "./database.js";
 
-export const CURRENT_SCHEMA_VERSION = 10;
+export const CURRENT_SCHEMA_VERSION = 11;
 
 interface SchemaVersionState {
   userVersion: number;
@@ -390,6 +390,61 @@ WHERE deduction_account_id IS NOT NULL;
 PRAGMA user_version = 10;
 `;
 
+// V11: B-xfer transfers. Pure additive DDL — no backfill, no data rewrite.
+// transfer_records holds the business fact only; the barrier baseline lives per leg
+// (transfer_legs.applied_on) because a single record-level column cannot express
+// "each leg was written on its own day" (design §2.1, C4).
+const migrationV11 = `
+CREATE TABLE IF NOT EXISTS transfer_records (
+  id TEXT PRIMARY KEY,
+  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,
+  from_account_id TEXT NOT NULL REFERENCES cash_accounts(id) ON DELETE RESTRICT,
+  to_account_id   TEXT NOT NULL REFERENCES cash_accounts(id) ON DELETE RESTRICT,
+  amount TEXT NOT NULL
+    CHECK (amount GLOB '[0-9]*' AND amount NOT GLOB '*[^0-9.]*' AND amount <> '0'),
+  occurred_on TEXT NOT NULL,
+  note TEXT,
+  created_at TEXT NOT NULL,
+  deleted_at TEXT,
+  CHECK (from_account_id <> to_account_id)
+);
+CREATE INDEX IF NOT EXISTS transfer_records_month ON transfer_records(profile_id, occurred_on);
+CREATE INDEX IF NOT EXISTS transfer_records_ledger ON transfer_records(profile_id, deleted_at, occurred_on);
+CREATE TABLE IF NOT EXISTS transfer_legs (
+  id TEXT PRIMARY KEY,
+  profile_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,
+  transfer_id TEXT NOT NULL REFERENCES transfer_records(id) ON DELETE RESTRICT,
+  side TEXT NOT NULL CHECK (side IN ('OUT','IN')),
+  account_id TEXT NOT NULL REFERENCES cash_accounts(id) ON DELETE RESTRICT,
+  state TEXT NOT NULL CHECK (state IN ('APPLIED','SUPPRESSED','REVERSED')),
+  applied_on TEXT,
+  applied_amount TEXT NOT NULL,
+  ended_on TEXT,
+  end_reason TEXT CHECK (end_reason IS NULL OR end_reason IN ('REVERSED','DETACHED')),
+  created_at TEXT NOT NULL,
+  CHECK ((ended_on IS NULL AND end_reason IS NULL) OR (ended_on IS NOT NULL AND end_reason IS NOT NULL)),
+  CHECK (state <> 'APPLIED' OR applied_on IS NOT NULL)
+);
+CREATE UNIQUE INDEX IF NOT EXISTS transfer_legs_current ON transfer_legs(transfer_id, side) WHERE ended_on IS NULL;
+CREATE INDEX IF NOT EXISTS transfer_legs_transfer ON transfer_legs(profile_id, transfer_id, ended_on);
+CREATE INDEX IF NOT EXISTS transfer_legs_account ON transfer_legs(profile_id, account_id, ended_on);
+CREATE TABLE IF NOT EXISTS transfer_outcome_locks (
+  transfer_id   TEXT PRIMARY KEY,
+  profile_id    TEXT NOT NULL REFERENCES profiles(id) ON DELETE RESTRICT,
+  locked_at     TEXT NOT NULL,
+  reason        TEXT NOT NULL CHECK (reason IN ('TRANSFER_OUTCOME_UNKNOWN','TRANSFER_LEG_MISSING')),
+  detail        TEXT,
+  closed_at     TEXT,
+  closed_reason TEXT,
+  closed_by     TEXT,
+  CHECK (transfer_id <> ''),
+  CHECK ((closed_at IS NULL AND closed_reason IS NULL AND closed_by IS NULL)
+      OR (closed_at IS NOT NULL AND closed_reason IS NOT NULL AND closed_by IS NOT NULL))
+);
+CREATE INDEX IF NOT EXISTS transfer_outcome_locks_profile ON transfer_outcome_locks(profile_id, locked_at);
+PRAGMA user_version = 11;
+`;
+
 export const MIGRATION_SQL: Readonly<Record<number, string>> = Object.freeze({
   3: migrationV3,
   4: migrationV4,
@@ -399,6 +454,7 @@ export const MIGRATION_SQL: Readonly<Record<number, string>> = Object.freeze({
   8: migrationV8,
   9: migrationV9,
   10: migrationV10,
+  11: migrationV11,
 });
 
 export async function migrateDatabase(
@@ -587,6 +643,20 @@ export async function migrateDatabase(
         }
         await transactionDb.execute(
           "INSERT INTO schema_migrations(version, applied_at) VALUES(10, ?)",
+          [now],
+        );
+      });
+    }
+    if (applied < 11 && targetVersion >= 11) {
+      await db.transaction(async (transactionDb) => {
+        for (const statement of migrationV11
+          .split(";")
+          .map((part) => part.trim())
+          .filter(Boolean)) {
+          await transactionDb.execute(statement);
+        }
+        await transactionDb.execute(
+          "INSERT INTO schema_migrations(version, applied_at) VALUES(11, ?)",
           [now],
         );
       });
