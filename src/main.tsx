@@ -17,4 +17,13 @@ import "./ui/v2-savings-room.css";
 
 const root = document.getElementById("root");
 if (!root) throw new Error("Application root is missing.");
-createRoot(root).render(<App />);
+
+const illustrativePreview =
+  import.meta.env.DEV && new URLSearchParams(window.location.search).get("illustrative") === "1";
+
+if (illustrativePreview) {
+  const { createIllustrativeServices } = await import("./ui/themes/illustrative-services.js");
+  createRoot(root).render(<App services={createIllustrativeServices()} />);
+} else {
+  createRoot(root).render(<App />);
+}

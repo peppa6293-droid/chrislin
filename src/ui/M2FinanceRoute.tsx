@@ -17,9 +17,17 @@ import {
 } from "./FinancialMaintenanceDialog.js";
 import { M1Home } from "./M1Home.js";
 import { M2FixedExpensesPage } from "./M2FixedExpensesPage.js";
+import { ThemeSkinsPage } from "./themes/ThemeSkinsPage.js";
+import { MEMBER_THEME_SKINS_ENABLED, skinGlance } from "./themes/theme-preference.js";
+import { useMemberTheme } from "./themes/use-member-theme.js";
 import type { DeductionAccountOption, ExpenseSaveReceipt } from "./V2HomeSurface.js";
 import "./m2-fixed-expenses.css";
 import "./m2-theme.css";
+import "./themes/default.css";
+import "./themes/cute-cat.css";
+import "./themes/cute-dog.css";
+import "./themes/pixel.css";
+import "./themes/theme-page.css";
 
 type Tab = "TODAY" | "RECORDS" | "PROGRESS" | "MONEY";
 
@@ -142,6 +150,9 @@ export function M2FinanceRoute({
 }) {
   const [tab, setTab] = useState<Tab>("TODAY");
   const [fixedExpensesOpen, setFixedExpensesOpen] = useState(false);
+  const [themeOpen, setThemeOpen] = useState(false);
+  const { themeId, demoMember, setDemoMember, applyTheme } = useMemberTheme();
+  const glance = skinGlance(themeId, demoMember);
   const [operation, setOperation] = useState<FixedExpenseOperation | null>(null);
   const [dataVersion, setDataVersion] = useState(0);
   const [deductionAccounts, setDeductionAccounts] = useState<DeductionAccountOption[]>([]);
@@ -594,6 +605,7 @@ export function M2FinanceRoute({
   const goTab = useCallback((id: Tab) => {
     setTab(id);
     setFixedExpensesOpen(false);
+    setThemeOpen(false);
   }, []);
 
   const startOperation = useCallback(() => {
@@ -635,21 +647,42 @@ export function M2FinanceRoute({
   let content: React.ReactNode;
   if (tab === "TODAY") {
     content = (
-      <M1Home home={home} deductionAccounts={deductionAccounts} onRecordExpense={onRecordExpense} />
+      <M1Home
+        home={home}
+        deductionAccounts={deductionAccounts}
+        onRecordExpense={onRecordExpense}
+        {...(MEMBER_THEME_SKINS_ENABLED ? { skinLabel: glance } : {})}
+      />
     );
   } else if (tab === "MONEY") {
     content = fixedExpensesOpen ? (
       fixedExpenses
+    ) : themeOpen && MEMBER_THEME_SKINS_ENABLED ? (
+      <ThemeSkinsPage
+        themeId={themeId}
+        demoMember={demoMember}
+        onDemoMember={setDemoMember}
+        onApply={applyTheme}
+        onBack={() => setThemeOpen(false)}
+      />
     ) : (
       <main className="v2-shell m2-shell">
         <section className="v2-content">
           <div className="v2-page">
             <h1 className="m2-title">我的财务</h1>
+            {MEMBER_THEME_SKINS_ENABLED && (
+              <p className="m2-skin-mark m2-page-skin" data-testid="m2-finance-skin">
+                {glance}
+              </p>
+            )}
             <nav className="m2-menu" aria-label="我的财务">
               <button
                 className="m2-menu__row"
                 type="button"
-                onClick={() => setFixedExpensesOpen(true)}
+                onClick={() => {
+                  setThemeOpen(false);
+                  setFixedExpensesOpen(true);
+                }}
               >
                 <span>
                   <strong>固定支出</strong>
@@ -669,6 +702,22 @@ export function M2FinanceRoute({
                 </span>
                 <ChevronRight size={17} aria-hidden="true" />
               </button>
+              {MEMBER_THEME_SKINS_ENABLED && (
+                <button
+                  className="m2-menu__row"
+                  type="button"
+                  onClick={() => {
+                    setFixedExpensesOpen(false);
+                    setThemeOpen(true);
+                  }}
+                >
+                  <span>
+                    <strong>主题皮肤</strong>
+                    <small>{glance}</small>
+                  </span>
+                  <ChevronRight size={17} aria-hidden="true" />
+                </button>
+              )}
               <button
                 className="m2-menu__row"
                 type="button"
@@ -714,7 +763,7 @@ export function M2FinanceRoute({
   }
 
   return (
-    <div className="m2-theme">
+    <div className="m2-theme" {...(MEMBER_THEME_SKINS_ENABLED ? { "data-theme": themeId } : {})}>
       <nav className="v2-primary-nav m2-nav" aria-label="主导航">
         {tabs.map((entry) => {
           const Icon = entry.icon;

@@ -22,10 +22,13 @@ export function M1Home({
   home,
   deductionAccounts,
   onRecordExpense,
+  skinLabel,
 }: {
   home: HomeApplicationState;
   deductionAccounts?: readonly DeductionAccountOption[] | undefined;
   onRecordExpense: (expense: ExpenseSubmission, asOfDate: string) => Promise<ExpenseSaveReceipt>;
+  /** Current illustrative skin, shown on the home so the version is obvious. */
+  skinLabel?: string;
 }) {
   const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -104,6 +107,11 @@ export function M1Home({
             <p className="m2-period">
               {home.asOfDate.slice(0, 4)} 年 {Number(home.asOfDate.slice(5, 7))} 月
             </p>
+            {skinLabel ? (
+              <p className="m2-skin-mark" data-testid="m2-skin-mark">
+                {skinLabel}
+              </p>
+            ) : null}
           </div>
           <section className="v2-card v2-month-card" aria-labelledby="m1-month-title">
             <div className="v2-card__head">

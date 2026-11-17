@@ -1,0 +1,84 @@
+/*
+ * 像素风. Sky paper, navy pixel stroke, and the sun from pixel-world.css.
+ * Decorative only: same cards, radii, and type. Not a second app.
+ * Sun colors match .pixel-sun in src/ui/pixel-world.css (#ffe39a / #35465e).
+ */
+
+[data-theme="pixel"] {
+  --m2-bg: #e7f6fb;
+  --m2-card: #fffaf1;
+  --m2-line: #35465e;
+  --m2-ink: #243044;
+  --m2-sub: #526b87;
+  --m2-weak: #6d82b0;
+  --m2-accent: #1f6b56;
+  --m2-accent-pressed: #154a3b;
+  --m2-on-accent: #ffffff;
+  --m2-accent-soft: #d7f3ea;
+  --m2-spend: #8a5a2b;
+  --m2-spend-end: #c4844e;
+  --m2-paid: #1f6b56;
+  --m2-paid-end: #3d9a7c;
+  --m2-days: #2d5f8a;
+  --m2-days-end: #4e88b8;
+  --m2-spend-track: #f3e6d2;
+  --m2-paid-track: #d7f3ea;
+  --m2-days-track: #d9ebf6;
+  --m2-pending: #d5e2ea;
+  --m2-pending-ink: #526b87;
+  --m2-remind: #8a5a2b;
+  --m2-complete: #1f6b56;
+  --m2-error: #b4234a;
+  --m2-category-other: #526b87;
+  --m2-chrome: rgb(231 246 251 / 92%);
+  --m2-shadow-card: 4px 4px 0 #35465e;
+  --v2-overlay: rgb(36 48 68 / 32%);
+  --v2-shadow-button: 0 4px 0 #154a3b;
+  --v2-shadow-button-pressed: 0 1px 0 #154a3b;
+  --v2-theme-pattern: none;
+  --v2-theme-spot: none;
+  color-scheme: light;
+}
+
+html:has(.m2-theme[data-theme="pixel"]) {
+  background: #e7f6fb;
+}
+
+.m2-theme[data-theme="pixel"],
+.m2-theme[data-theme="pixel"] .v2-shell,
+.m2-theme-preview[data-theme="pixel"] {
+  background-color: #e7f6fb;
+  background-image: none;
+}
+
+.m2-theme[data-theme="pixel"] .v2-page {
+  position: relative;
+}
+
+.m2-theme[data-theme="pixel"] .v2-page::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  right: 4px;
+  z-index: 1;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+  background: #ffe39a;
+  box-shadow:
+    0 -7px 0 #ffe39a,
+    0 7px 0 #ffe39a,
+    -7px 0 0 #ffe39a,
+    7px 0 0 #ffe39a;
+}
+
+.m2-theme[data-theme="pixel"] .v2-card,
+.m2-theme[data-theme="pixel"] .m2-menu__row,
+.m2-theme[data-theme="pixel"] .m2-theme-card,
+.m2-theme[data-theme="pixel"] .v2-recent-row,
+.m2-theme[data-theme="pixel"] .m2-nav,
+.m2-theme-preview[data-theme="pixel"],
+.m2-theme-preview[data-theme="pixel"] .v2-card {
+  border: 3px solid #35465e;
+  box-shadow: 4px 4px 0 #35465e;
+}

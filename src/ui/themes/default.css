@@ -1,0 +1,48 @@
+/*
+ * Default skin: the warm v2 tokens (bg #fff9f2, ink #173b3a, teal #24b89a).
+ * Loaded after m2-theme.css so it wins over the indigo shell, including dark mode.
+ */
+
+[data-theme="default"] {
+  --m2-bg: #fff9f2;
+  --m2-card: #ffffff;
+  --m2-line: #dce9e5;
+  --m2-ink: #173b3a;
+  --m2-sub: #6b7f7d;
+  --m2-weak: #9aa9a6;
+  --m2-accent: #24b89a;
+  --m2-accent-pressed: #087c6e;
+  --m2-on-accent: #ffffff;
+  --m2-accent-soft: #ddf7ef;
+  --m2-spend: #85613a;
+  --m2-spend-end: #967348;
+  --m2-paid: #087c6e;
+  --m2-paid-end: #24b89a;
+  --m2-days: #176b9f;
+  --m2-days-end: #277cae;
+  --m2-spend-track: #f6efe4;
+  --m2-paid-track: #e5f7f2;
+  --m2-days-track: #e7f1f8;
+  --m2-pending: #e4ece9;
+  --m2-pending-ink: #6b7f7d;
+  --m2-remind: #8a6233;
+  --m2-complete: #087c6e;
+  --m2-error: #c94747;
+  --m2-category-other: #6b7f7d;
+  --m2-chrome: rgb(255 249 242 / 90%);
+  --m2-shadow-card: 0 8px 24px rgb(23 59 58 / 7%), 0 2px 6px rgb(23 59 58 / 4%);
+  --v2-overlay: rgb(23 59 58 / 28%);
+  --v2-theme-pattern: none;
+  --v2-theme-spot: none;
+  color-scheme: light;
+}
+
+html:has(.m2-theme[data-theme="default"]) {
+  background: #fff9f2;
+}
+
+.m2-theme[data-theme="default"],
+.m2-theme[data-theme="default"] .v2-shell {
+  background-color: #fff9f2;
+  background-image: none;
+}
