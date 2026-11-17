@@ -1,0 +1,166 @@
+/* Theme picker chrome. Uses the same menu radius, type, and card language. */
+
+.m2-theme .m2-skin-mark {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  margin: 10px 0 0;
+  padding: 3px 10px;
+  border-radius: var(--v2-radius-pill);
+  background: var(--m2-accent-soft);
+  color: var(--m2-accent);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 18px;
+}
+
+.m2-theme .m2-page-skin {
+  margin: -4px 0 16px;
+}
+
+.m2-theme .m2-theme-demo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  margin: 4px 0 0;
+  color: var(--m2-ink);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.m2-theme .m2-theme-demo input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--m2-accent);
+}
+
+.m2-theme .m2-theme-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.m2-theme .m2-theme-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 72px;
+  padding: 14px 16px;
+  border: 1px solid var(--m2-line);
+  border-radius: var(--v2-radius);
+  background: var(--m2-card);
+  color: var(--m2-ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.m2-theme .m2-theme-card.is-current {
+  border-color: var(--m2-accent);
+  box-shadow: inset 0 0 0 1px var(--m2-accent);
+}
+
+.m2-theme .m2-theme-card__copy {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.m2-theme .m2-theme-card__name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.m2-theme .m2-theme-card strong {
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+.m2-theme .m2-theme-card small {
+  color: var(--m2-sub);
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.m2-theme .m2-theme-card em {
+  flex: none;
+  color: var(--m2-accent);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.m2-theme .m2-theme-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: var(--v2-radius-pill);
+  background: var(--m2-accent-soft);
+  color: var(--m2-accent);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 18px;
+}
+
+.m2-theme .m2-theme-preview {
+  position: relative;
+  scroll-margin-top: 16px;
+  scroll-margin-bottom: 140px;
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+  padding: 16px;
+  overflow: hidden;
+  border: 1px solid var(--m2-line);
+  border-radius: var(--v2-radius);
+  color: var(--m2-ink);
+}
+
+.m2-theme .m2-theme-preview__card {
+  padding: 16px;
+}
+
+.m2-theme .m2-theme-preview .v2-card__value {
+  min-height: 0;
+  font-size: 28px;
+  line-height: 34px;
+}
+
+.m2-theme .m2-theme-preview__nav {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding: 8px;
+  border-radius: var(--v2-radius-pill);
+  background: var(--m2-chrome);
+  color: var(--m2-sub);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+  text-align: center;
+}
+
+.m2-theme .m2-theme-preview__nav span:first-child {
+  color: var(--m2-accent);
+}
+
+.m2-theme .m2-theme-lock {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: var(--v2-radius-sm);
+  background: var(--m2-accent-soft);
+  color: var(--m2-ink);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .m2-theme .m2-theme-card:hover {
+    border-color: var(--m2-accent);
+  }
+}

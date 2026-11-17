@@ -1,0 +1,95 @@
+/*
+ * 可爱小狗. Honey field, amber accent, paw spot and floppy ears.
+ * Radii and type stay on the shared v2 scale.
+ */
+
+[data-theme="cute-dog"] {
+  --m2-bg: #fff6e8;
+  --m2-card: #fffdf8;
+  --m2-line: #f0d7b4;
+  --m2-ink: #3b2a1a;
+  --m2-sub: #7d6248;
+  --m2-weak: #a88b70;
+  --m2-accent: #b86a12;
+  --m2-accent-pressed: #8d4e0a;
+  --m2-on-accent: #ffffff;
+  --m2-accent-soft: #ffe6c2;
+  --m2-spend: #8d5a32;
+  --m2-spend-end: #c4844e;
+  --m2-paid: #b86a12;
+  --m2-paid-end: #e09a3e;
+  --m2-days: #8a5a2b;
+  --m2-days-end: #d29a55;
+  --m2-spend-track: #f8ead8;
+  --m2-paid-track: #ffefd6;
+  --m2-days-track: #f6ead8;
+  --m2-pending: #f3e6d4;
+  --m2-pending-ink: #7d6248;
+  --m2-remind: #8d4e0a;
+  --m2-complete: #8d4e0a;
+  --m2-error: #b4234a;
+  --m2-category-other: #7d6248;
+  --m2-chrome: rgb(255 246 232 / 92%);
+  --m2-shadow-card: 0 8px 24px rgb(184 106 18 / 12%), 0 2px 6px rgb(59 42 26 / 5%);
+  --v2-overlay: rgb(59 42 26 / 28%);
+  --v2-theme-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg fill='%23e7b16a' opacity='0.5'%3E%3Cellipse cx='32' cy='42' rx='14' ry='12'/%3E%3Ccircle cx='14' cy='24' r='6'/%3E%3Ccircle cx='26' cy='14' r='6.5'/%3E%3Ccircle cx='40' cy='14' r='6.5'/%3E%3Ccircle cx='52' cy='26' r='5.5'/%3E%3C/g%3E%3C/svg%3E");
+  --v2-theme-spot: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg fill='%23c47a2a'%3E%3Cellipse cx='32' cy='42' rx='14' ry='12'/%3E%3Ccircle cx='14' cy='24' r='6'/%3E%3Ccircle cx='26' cy='14' r='6.5'/%3E%3Ccircle cx='40' cy='14' r='6.5'/%3E%3Ccircle cx='52' cy='26' r='5.5'/%3E%3C/g%3E%3C/svg%3E");
+  color-scheme: light;
+}
+
+html:has(.m2-theme[data-theme="cute-dog"]) {
+  background: #fff6e8;
+}
+
+.m2-theme[data-theme="cute-dog"],
+.m2-theme[data-theme="cute-dog"] .v2-shell,
+.m2-theme-preview[data-theme="cute-dog"] {
+  background-color: #fff6e8;
+  background-image: var(--v2-theme-pattern);
+  background-size: 136px 116px;
+}
+
+.m2-theme[data-theme="cute-dog"] .v2-page,
+.m2-theme-preview[data-theme="cute-dog"] {
+  position: relative;
+}
+
+.m2-theme[data-theme="cute-dog"] .v2-page::before,
+.m2-theme-preview[data-theme="cute-dog"]::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  right: 0;
+  z-index: 1;
+  width: 52px;
+  height: 52px;
+  pointer-events: none;
+  background: var(--v2-theme-spot) center / contain no-repeat;
+}
+
+.m2-theme[data-theme="cute-dog"] .m2-topbar__brand .v2-brand-mark {
+  position: relative;
+  overflow: visible;
+}
+
+.m2-theme[data-theme="cute-dog"] .m2-topbar__brand .v2-brand-mark::before,
+.m2-theme[data-theme="cute-dog"] .m2-topbar__brand .v2-brand-mark::after {
+  content: "";
+  position: absolute;
+  top: -6px;
+  width: 14px;
+  height: 18px;
+  background: #e7b16a;
+  border-radius: 12px 12px 6px 6px;
+  pointer-events: none;
+}
+
+.m2-theme[data-theme="cute-dog"] .m2-topbar__brand .v2-brand-mark::before {
+  left: -2px;
+  transform: rotate(-24deg);
+}
+
+.m2-theme[data-theme="cute-dog"] .m2-topbar__brand .v2-brand-mark::after {
+  right: -2px;
+  transform: rotate(24deg);
+}

@@ -1,0 +1,95 @@
+/*
+ * 可爱猫咪. Cream pink field, rose accent, paw spot and ears.
+ * Radii and type stay on the shared v2 scale.
+ */
+
+[data-theme="cute-cat"] {
+  --m2-bg: #fff1f6;
+  --m2-card: #fffafc;
+  --m2-line: #f3d0dc;
+  --m2-ink: #4a2433;
+  --m2-sub: #8d5b6c;
+  --m2-weak: #b18493;
+  --m2-accent: #b83b6b;
+  --m2-accent-pressed: #8e234f;
+  --m2-on-accent: #ffffff;
+  --m2-accent-soft: #ffd9e6;
+  --m2-spend: #a35b3a;
+  --m2-spend-end: #c47b58;
+  --m2-paid: #b83b6b;
+  --m2-paid-end: #e07aa0;
+  --m2-days: #8d4d73;
+  --m2-days-end: #c478a4;
+  --m2-spend-track: #ffe8df;
+  --m2-paid-track: #ffe3ee;
+  --m2-days-track: #f8e4ef;
+  --m2-pending: #f6e4ea;
+  --m2-pending-ink: #8d5b6c;
+  --m2-remind: #9a4e3a;
+  --m2-complete: #8e234f;
+  --m2-error: #b4234a;
+  --m2-category-other: #8d5b6c;
+  --m2-chrome: rgb(255 241 246 / 92%);
+  --m2-shadow-card: 0 8px 24px rgb(184 59 107 / 10%), 0 2px 6px rgb(74 36 51 / 5%);
+  --v2-overlay: rgb(74 36 51 / 28%);
+  --v2-theme-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg fill='%23e89ab6' opacity='0.45'%3E%3Cellipse cx='32' cy='42' rx='14' ry='12'/%3E%3Ccircle cx='14' cy='24' r='6'/%3E%3Ccircle cx='26' cy='14' r='6.5'/%3E%3Ccircle cx='40' cy='14' r='6.5'/%3E%3Ccircle cx='52' cy='26' r='5.5'/%3E%3C/g%3E%3C/svg%3E");
+  --v2-theme-spot: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg fill='%23c4537a'%3E%3Cellipse cx='32' cy='42' rx='14' ry='12'/%3E%3Ccircle cx='14' cy='24' r='6'/%3E%3Ccircle cx='26' cy='14' r='6.5'/%3E%3Ccircle cx='40' cy='14' r='6.5'/%3E%3Ccircle cx='52' cy='26' r='5.5'/%3E%3C/g%3E%3C/svg%3E");
+  color-scheme: light;
+}
+
+html:has(.m2-theme[data-theme="cute-cat"]) {
+  background: #fff1f6;
+}
+
+.m2-theme[data-theme="cute-cat"],
+.m2-theme[data-theme="cute-cat"] .v2-shell,
+.m2-theme-preview[data-theme="cute-cat"] {
+  background-color: #fff1f6;
+  background-image: var(--v2-theme-pattern);
+  background-size: 136px 116px;
+}
+
+.m2-theme[data-theme="cute-cat"] .v2-page,
+.m2-theme-preview[data-theme="cute-cat"] {
+  position: relative;
+}
+
+.m2-theme[data-theme="cute-cat"] .v2-page::before,
+.m2-theme-preview[data-theme="cute-cat"]::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  right: 0;
+  z-index: 1;
+  width: 52px;
+  height: 52px;
+  pointer-events: none;
+  background: var(--v2-theme-spot) center / contain no-repeat;
+}
+
+.m2-theme[data-theme="cute-cat"] .m2-topbar__brand .v2-brand-mark {
+  position: relative;
+  overflow: visible;
+}
+
+.m2-theme[data-theme="cute-cat"] .m2-topbar__brand .v2-brand-mark::before,
+.m2-theme[data-theme="cute-cat"] .m2-topbar__brand .v2-brand-mark::after {
+  content: "";
+  position: absolute;
+  top: -7px;
+  width: 12px;
+  height: 12px;
+  background: #e07aa0;
+  border-radius: 10px 10px 2px 2px;
+  pointer-events: none;
+}
+
+.m2-theme[data-theme="cute-cat"] .m2-topbar__brand .v2-brand-mark::before {
+  left: 1px;
+  transform: rotate(-16deg);
+}
+
+.m2-theme[data-theme="cute-cat"] .m2-topbar__brand .v2-brand-mark::after {
+  right: 1px;
+  transform: rotate(16deg);
+}

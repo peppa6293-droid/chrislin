@@ -33,6 +33,9 @@
   --v2-overlay: rgb(23 59 58 / 28%);
   --v2-paper: var(--v2-bg);
   --v2-lavender: var(--v2-purple);
+  /* Member skins repaint the shell on [data-theme]. Default stays this warm set. */
+  --v2-theme-pattern: none;
+  --v2-theme-spot: none;
 
   --v2-radius-xs: 8px;
   --v2-radius-sm: 12px;
